@@ -1,12 +1,12 @@
 <template>
   <v-layout row>
     <v-btn outline @click="setToday()">Today</v-btn>
-    <v-btn icon @click="changeMonth('sub', '1')">
+    <v-btn icon @click="changeDate('sub', '1')">
       <v-icon>
         keyboard_arrow_left
       </v-icon>
     </v-btn>
-    <v-btn icon @click="changeMonth('add', '1')">
+    <v-btn icon @click="changeDate('add', '1')">
       <v-icon>
         keyboard_arrow_right
       </v-icon>
@@ -84,7 +84,7 @@ export default {
     setToday() {
       this.$store.dispatch("setCalendarDate", new Date());
     },
-    changeMonth(operator, amount) {
+    changeDate(operator, amount) {
       const date = this.$store.state.calendar.date;
       const type = this.$store.state.calendar.type;
       const operation = `${operator}${type.charAt(0).toUpperCase()}${type.slice(
