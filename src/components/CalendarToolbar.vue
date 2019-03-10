@@ -3,36 +3,23 @@
     <v-btn outline @click="setToday()">Today</v-btn>
     <calendar-toolbar-navigation-buttons />
     <calendar-toolbar-date-picker />
-    <v-select v-model="type" :items="types"></v-select>
+    <v-flex xs5>
+      <calendar-toolbar-type-select />
+    </v-flex>
   </v-layout>
 </template>
 
 <script>
 import CalendarToolbarDatePicker from "@/components/CalendarToolbarDatePicker";
 import CalendarToolbarNavigationButtons from "@/components/CalendarToolbarNavigationButtons";
+import CalendarToolbarTypeSelect from "@/components/CalendarToolbarTypeSelect";
 
 export default {
   name: "CalendarToolbar",
-  components: { CalendarToolbarNavigationButtons, CalendarToolbarDatePicker },
-  data: () => ({
-    drawer: null,
-    types: [
-      { text: "Day", value: "day" },
-      { text: "Week", value: "week" },
-      { text: "Month", value: "month" }
-    ]
-  }),
-  computed: {
-    type: {
-      get() {
-        return this.types.filter(
-          type => type.value == this.$store.state.calendar.type
-        )[0];
-      },
-      set(type) {
-        this.$store.dispatch("setCalendarType", type);
-      }
-    }
+  components: {
+    CalendarToolbarNavigationButtons,
+    CalendarToolbarDatePicker,
+    CalendarToolbarTypeSelect
   },
   methods: {
     setToday() {
