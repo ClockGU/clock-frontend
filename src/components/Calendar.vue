@@ -23,6 +23,8 @@
 <script>
 import { mapGetters } from "vuex";
 
+import { getRouterProps } from "@/utils/date";
+
 export default {
   name: "Calendar",
   data: () => ({
@@ -44,7 +46,14 @@ export default {
   },
   methods: {
     changeDate(payload) {
-      this.$store.dispatch("setCalendarDate", new Date(payload.date));
+      const date = new Date(payload.date);
+      const props = getRouterProps("day", date);
+      this.$router.push({
+        name: "calendar",
+        params: props
+      });
+
+      this.$store.dispatch("setCalendarDate", date);
       this.$store.dispatch("setCalendarType", "day");
     }
   }
