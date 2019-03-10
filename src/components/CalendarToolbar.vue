@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-layout row>
     <v-btn outline @click="setToday()">Today</v-btn>
     <v-btn icon @click="changeMonth('-1')">
       <v-icon>
@@ -31,7 +31,8 @@
         @input="menu = false"
       ></v-date-picker>
     </v-menu>
-  </div>
+    <v-select v-model="type" :items="types" height="20px"> </v-select>
+  </v-layout>
 </template>
 
 <script>
@@ -42,7 +43,12 @@ export default {
   name: "CalendarToolbar",
   data: () => ({
     drawer: null,
-    menu: false
+    menu: false,
+    types: [
+      { text: "Month", value: "month" },
+      { text: "Week", value: "week" },
+      { text: "Day", value: "day" }
+    ]
   }),
   computed: {
     datePicker: {
@@ -51,6 +57,16 @@ export default {
       },
       set(date) {
         this.$store.dispatch("setCalendarDate", new Date(date));
+      }
+    },
+    type: {
+      get() {
+        return this.types.filter(
+          type => type.value == this.$store.state.calendar.type
+        )[0];
+      },
+      set(type) {
+        this.$store.dispatch("setCalendarType", type);
       }
     },
     currentMonth() {

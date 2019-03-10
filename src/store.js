@@ -28,11 +28,17 @@ export default new Vuex.Store({
     setCalendarDate(state, date) {
       Vue.set(state.calendar, "date", date);
     },
+    setCalendarType(state, type) {
+      Vue.set(state.calendar, "type", type);
+    },
     updateField
   },
   actions: {
     setCalendarDate({ commit }, date) {
       commit("setCalendarDate", date);
+    },
+    setCalendarType({ commit }, type) {
+      commit("setCalendarType", type);
     }
   }
 });
