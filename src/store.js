@@ -2,10 +2,13 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { getField, updateField } from "vuex-map-fields";
 
+import uuid from "uuid/v4";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    shifts: [],
     calendar: {
       date: new Date(),
       type: "month",
@@ -25,6 +28,10 @@ export default new Vuex.Store({
     getField
   },
   mutations: {
+    addShift(state, shift) {
+      shift.uuid = uuid();
+      state.shifts.push(shift);
+    },
     setCalendarDate(state, date) {
       Vue.set(state.calendar, "date", date);
     },
@@ -34,6 +41,9 @@ export default new Vuex.Store({
     updateField
   },
   actions: {
+    addShift({ commit }, shift) {
+      commit("addShift", shift);
+    },
     setCalendarDate({ commit }, date) {
       commit("setCalendarDate", date);
     },
