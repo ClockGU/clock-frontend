@@ -6,6 +6,7 @@
           <v-calendar
             ref="calendar"
             color="primary"
+            @click:date="changeDate"
             :show-month-on-first="false"
             :locale="locale"
             :type="type"
@@ -36,6 +37,12 @@ export default {
   }),
   computed: {
     ...mapGetters(["start", "type", "locale"])
+  },
+  methods: {
+    changeDate(payload) {
+      this.$store.dispatch("setCalendarDate", new Date(payload.date));
+      this.$store.dispatch("setCalendarType", "day");
+    }
   }
 };
 </script>
