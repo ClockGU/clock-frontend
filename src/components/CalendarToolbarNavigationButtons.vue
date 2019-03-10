@@ -1,5 +1,5 @@
 <template>
-  <v-container row>
+  <v-layout row>
     <v-tooltip v-for="button in buttons" :key="button.icon" bottom>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="changeDate(button.operation, '1')" v-on="on">
@@ -10,7 +10,7 @@
       </template>
       <span>{{ tooltip(button.operation) }}</span>
     </v-tooltip>
-  </v-container>
+  </v-layout>
 </template>
 
 <script>

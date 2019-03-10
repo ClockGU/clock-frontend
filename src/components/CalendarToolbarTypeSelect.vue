@@ -1,5 +1,7 @@
 <template>
-  <v-select v-model="type" :items="types"></v-select>
+  <v-flex xs2>
+    <v-select v-model="type" :items="types" width="50px"></v-select>
+  </v-flex>
 </template>
 
 <script>
