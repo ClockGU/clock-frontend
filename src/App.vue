@@ -14,17 +14,16 @@
       <calendar-toolbar></calendar-toolbar>
     </v-toolbar>
     <v-content>
-      <calendar></calendar>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Calendar from "@/components/Calendar";
 import CalendarToolbar from "@/components/CalendarToolbar";
 
 export default {
-  components: { Calendar, CalendarToolbar },
+  components: { CalendarToolbar },
   data: () => ({
     drawer: null
   })
