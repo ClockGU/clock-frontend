@@ -12,6 +12,7 @@
             :type="type"
             :start="start"
             :end="end"
+            :weekdays="weekdays"
           ></v-calendar>
         </v-sheet>
       </v-flex>
@@ -25,7 +26,8 @@ import { mapGetters } from "vuex";
 export default {
   name: "Calendar",
   data: () => ({
-    end: "2019-01-06"
+    end: "2019-01-06",
+    weekdays: [1, 2, 3, 4, 5, 6, 0]
   }),
   computed: {
     ...mapGetters(["start", "type", "locale"])
