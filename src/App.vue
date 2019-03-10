@@ -15,6 +15,16 @@
         >Google&nbsp;<span class="font-weight-light">Keep</span></span
       >
       <v-btn outline @click="setToday()">Today</v-btn>
+      <v-btn icon @click="changeMonth('-1')">
+        <v-icon>
+          keyboard_arrow_left
+        </v-icon>
+      </v-btn>
+      <v-btn icon @click="changeMonth('+1')">
+        <v-icon>
+          keyboard_arrow_right
+        </v-icon>
+      </v-btn>
     </v-toolbar>
     <v-content>
       <calendar></calendar>
@@ -24,6 +34,7 @@
 
 <script>
 import { getToday } from "@/utils/date";
+import { mapFields } from "vuex-map-fields";
 
 import Calendar from "@/components/Calendar";
 
@@ -32,9 +43,19 @@ export default {
   data: () => ({
     drawer: null
   }),
+  computed: {
+    ...mapFields({ date: "calendar.date" })
+  },
   methods: {
     setToday() {
-      this.$store.dispatch("setCalendarStart", getToday());
+      this.$store.dispatch("setCalendarDate", new Date());
+    },
+    changeMonth(operator) {
+      const date = this.$store.state.calendar.date;
+      const newMonth = eval(`${date.getMonth()} ${operator}`);
+      date.setMonth(newMonth);
+
+      this.$store.dispatch("setCalendarDate", new Date(date));
     }
   }
 };

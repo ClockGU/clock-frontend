@@ -2,29 +2,34 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { getField, updateField } from "vuex-map-fields";
 
-import { getToday } from "@/utils/date";
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     calendar: {
+      date: new Date(),
       type: "month",
-      start: getToday()
+      locale: "en-us"
     }
   },
   getters: {
+    start: state => {
+      return state.calendar.date.toISOString().slice(0, 10);
+    },
+    type: state => {
+      return state.calendar.type;
+    },
     getField
   },
   mutations: {
-    setCalendarStart(state, data) {
-      state.calendar.start = data;
+    setCalendarDate(state, date) {
+      Vue.set(state.calendar, "date", date);
     },
     updateField
   },
   actions: {
-    setCalendarStart({ commit }, data) {
-      commit("setCalendarStart", data);
+    setCalendarDate({ commit }, date) {
+      commit("setCalendarDate", date);
     }
   }
 });

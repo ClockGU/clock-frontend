@@ -4,33 +4,22 @@
       <v-flex xs12>
         <v-sheet height="100vw">
           <v-calendar
-            :show-month-on-first="false"
             ref="calendar"
             color="primary"
+            :show-month-on-first="false"
             :locale="locale"
             :type="type"
-            v-model="start"
+            :start="start"
             :end="end"
           ></v-calendar>
         </v-sheet>
-      </v-flex>
-
-      <v-flex sm4 xs12 row wrap>
-        <v-btn icon @click="$refs.calendar.prev()">
-          <v-icon dark left>keyboard_arrow_left</v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-        <span>{{ start }}</span>
-        <v-btn icon @click="$refs.calendar.next()">
-          <v-icon dark left>keyboard_arrow_right</v-icon>
-        </v-btn>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import { mapFields } from "vuex-map-fields";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Calendar",
@@ -47,7 +36,7 @@ export default {
     locale: "en-us"
   }),
   computed: {
-    ...mapFields({ type: "calendar.type", start: "calendar.start" })
+    ...mapGetters(["start", "type"])
   }
 };
 </script>
