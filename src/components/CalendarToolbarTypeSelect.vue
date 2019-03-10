@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { getRouterProps } from "@/utils/date";
+
 export default {
   name: "CalendarToolbarTypeSelect",
   data: () => ({
@@ -22,19 +24,7 @@ export default {
         )[0];
       },
       set(type) {
-        const date = new Date();
-        const [year, month, day] = [
-          String(date.getUTCFullYear()),
-          String(date.getUTCMonth() + 1),
-          String(date.getUTCDate())
-        ];
-
-        const props = {
-          type: type,
-          year: year,
-          month: month,
-          day: day
-        };
+        const props = getRouterProps(type);
         this.$router.push({
           name: "calendar",
           params: props

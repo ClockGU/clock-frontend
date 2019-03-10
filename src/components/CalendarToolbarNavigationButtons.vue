@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { dateOperations } from "@/utils/date";
+import { getRouterProps, dateOperations } from "@/utils/date";
 import { mapGetters } from "vuex";
 
 export default {
@@ -37,13 +37,7 @@ export default {
       const operation = `${operator}${this.upperCaseType}s`;
       const newDate = dateOperations[operation](date, amount);
 
-      const [year, month, day] = [
-        String(newDate.getUTCFullYear()),
-        String(newDate.getUTCMonth() + 1),
-        String(newDate.getUTCDate())
-      ];
-
-      const props = { type: this.type, year: year, month: month, day: day };
+      const props = getRouterProps(this.type, newDate);
       this.$router.push({
         name: "calendar",
         params: props
