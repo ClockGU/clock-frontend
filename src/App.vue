@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { getToday } from "@/utils/date";
 import { mapFields } from "vuex-map-fields";
 
 import Calendar from "@/components/Calendar";
