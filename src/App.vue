@@ -14,6 +14,7 @@
       <span class="title ml-3 mr-5"
         >Google&nbsp;<span class="font-weight-light">Keep</span></span
       >
+      <v-btn outline @click="setToday()">Today</v-btn>
     </v-toolbar>
     <v-content>
       <calendar></calendar>
@@ -22,12 +23,19 @@
 </template>
 
 <script>
+import { getToday } from "@/utils/date";
+
 import Calendar from "@/components/Calendar";
 
 export default {
   components: { Calendar },
   data: () => ({
     drawer: null
-  })
+  }),
+  methods: {
+    setToday() {
+      this.$store.dispatch("setCalendarStart", getToday());
+    }
+  }
 };
 </script>
