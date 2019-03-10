@@ -2,7 +2,7 @@
   <v-container fluid pa-0>
     <v-layout row wrap justify-center>
       <v-flex xs12>
-        <v-sheet height="100vh">
+        <v-sheet height="91vh">
           <v-calendar
             ref="calendar"
             color="primary"
