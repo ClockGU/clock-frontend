@@ -24,6 +24,8 @@
 <script>
 import { mapGetters } from "vuex";
 
+import { getRouterProps } from "@/utils/date";
+
 export default {
   name: "CalendarToolbarDatePicker",
   data: () => ({
@@ -34,8 +36,15 @@ export default {
       get() {
         return this.start;
       },
-      set(date) {
-        this.$store.dispatch("setCalendarDate", new Date(date));
+      set(payload) {
+        const date = new Date(payload);
+        const props = getRouterProps(this.type, date);
+        this.$router.push({
+          name: "calendar",
+          params: props
+        });
+
+        this.$store.dispatch("setCalendarDate", date);
       }
     },
     currentMonth() {
@@ -45,7 +54,7 @@ export default {
         options
       );
     },
-    ...mapGetters(["locale", "start"])
+    ...mapGetters(["locale", "start", "type"])
   }
 };
 </script>
