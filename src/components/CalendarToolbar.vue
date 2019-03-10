@@ -1,12 +1,12 @@
 <template>
   <v-layout row>
     <v-btn outline @click="setToday()">Today</v-btn>
-    <v-btn icon @click="changeMonth('-1')">
+    <v-btn icon @click="changeMonth('sub', '1')">
       <v-icon>
         keyboard_arrow_left
       </v-icon>
     </v-btn>
-    <v-btn icon @click="changeMonth('+1')">
+    <v-btn icon @click="changeMonth('add', '1')">
       <v-icon>
         keyboard_arrow_right
       </v-icon>
@@ -38,6 +38,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
+import { dateOperations } from "@/utils/date";
 
 export default {
   name: "CalendarToolbar",
@@ -45,9 +46,9 @@ export default {
     drawer: null,
     menu: false,
     types: [
-      { text: "Month", value: "month" },
+      { text: "Day", value: "day" },
       { text: "Week", value: "week" },
-      { text: "Day", value: "day" }
+      { text: "Month", value: "month" }
     ]
   }),
   computed: {
@@ -83,12 +84,15 @@ export default {
     setToday() {
       this.$store.dispatch("setCalendarDate", new Date());
     },
-    changeMonth(operator) {
+    changeMonth(operator, amount) {
       const date = this.$store.state.calendar.date;
-      const newMonth = eval(`${date.getMonth()} ${operator}`);
-      date.setMonth(newMonth);
+      const type = this.$store.state.calendar.type;
+      const operation = `${operator}${type.charAt(0).toUpperCase()}${type.slice(
+        1
+      )}s`;
+      const newDate = dateOperations[operation](date, amount);
 
-      this.$store.dispatch("setCalendarDate", new Date(date));
+      this.$store.dispatch("setCalendarDate", newDate);
     }
   }
 };
