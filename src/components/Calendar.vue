@@ -32,11 +32,10 @@ export default {
       { text: "Month", value: "month" },
       { text: "Custom Daily", value: "custom-daily" },
       { text: "Custom Weekly", value: "custom-weekly" }
-    ],
-    locale: "en-us"
+    ]
   }),
   computed: {
-    ...mapGetters(["start", "type"])
+    ...mapGetters(["start", "type", "locale"])
   }
 };
 </script>

@@ -25,6 +25,25 @@
           keyboard_arrow_right
         </v-icon>
       </v-btn>
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        offset-y
+        full-width
+        :close-on-content-click="false"
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn flat small v-on="on">
+            {{ currentMonth }}
+            <v-icon right dark>arrow_drop_down</v-icon>
+          </v-btn>
+        </template>
+        <v-date-picker
+          no-title
+          scrollable
+          @input="menu = false"
+        ></v-date-picker>
+      </v-menu>
     </v-toolbar>
     <v-content>
       <calendar></calendar>
@@ -33,6 +52,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
 
 import Calendar from "@/components/Calendar";
@@ -40,9 +60,18 @@ import Calendar from "@/components/Calendar";
 export default {
   components: { Calendar },
   data: () => ({
-    drawer: null
+    drawer: null,
+    menu: false
   }),
   computed: {
+    currentMonth() {
+      const options = { month: "long", year: "numeric" };
+      return this.$store.state.calendar.date.toLocaleDateString(
+        this.locale,
+        options
+      );
+    },
+    ...mapGetters(["locale"]),
     ...mapFields({ date: "calendar.date" })
   },
   methods: {

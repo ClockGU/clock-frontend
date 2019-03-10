@@ -19,6 +19,9 @@ export default new Vuex.Store({
     type: state => {
       return state.calendar.type;
     },
+    locale: state => {
+      return state.calendar.locale;
+    },
     getField
   },
   mutations: {
