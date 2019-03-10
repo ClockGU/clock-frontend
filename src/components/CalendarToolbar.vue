@@ -1,5 +1,5 @@
 <template>
-  <v-layout row>
+  <v-layout align-center row>
     <v-btn outline @click="setToday()">Today</v-btn>
     <calendar-toolbar-navigation-buttons />
     <v-menu
@@ -22,7 +22,7 @@
         @input="menu = false"
       ></v-date-picker>
     </v-menu>
-    <v-select v-model="type" :items="types" height="20px"> </v-select>
+    <v-select v-model="type" :items="types"> </v-select>
   </v-layout>
 </template>
 
