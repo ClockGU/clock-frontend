@@ -10,8 +10,14 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "calendar",
+      name: "c",
       component: Calendar
+    },
+    {
+      path: "/:type/:year/:month/:day",
+      name: "calendar",
+      component: Calendar,
+      props: true
     }
   ]
 });

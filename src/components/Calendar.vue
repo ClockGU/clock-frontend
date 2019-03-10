@@ -29,8 +29,18 @@ export default {
     end: "2019-01-06",
     weekdays: [1, 2, 3, 4, 5, 6, 0]
   }),
+  props: {
+    start: {
+      type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
-    ...mapGetters(["start", "type", "locale"])
+    ...mapGetters(["locale"])
   },
   methods: {
     changeDate(payload) {

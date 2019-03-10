@@ -37,6 +37,17 @@ export default {
       const operation = `${operator}${this.upperCaseType}s`;
       const newDate = dateOperations[operation](date, amount);
 
+      const [year, month, day] = [
+        String(newDate.getUTCFullYear()),
+        String(newDate.getUTCMonth() + 1),
+        String(newDate.getUTCDate())
+      ];
+
+      const props = { type: this.type, year: year, month: month, day: day };
+      this.$router.push({
+        name: "calendar",
+        params: props
+      });
       this.$store.dispatch("setCalendarDate", newDate);
     },
     tooltip(operation) {
