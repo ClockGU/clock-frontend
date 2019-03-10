@@ -3,9 +3,9 @@
     <v-btn outline @click="setToday()">Today</v-btn>
     <calendar-toolbar-navigation-buttons />
     <calendar-toolbar-date-picker />
-    <v-flex xs5>
-      <calendar-toolbar-type-select />
-    </v-flex>
+    <calendar-toolbar-week-label />
+    <v-spacer></v-spacer>
+    <calendar-toolbar-type-select />
   </v-layout>
 </template>
 
@@ -13,13 +13,15 @@
 import CalendarToolbarDatePicker from "@/components/CalendarToolbarDatePicker";
 import CalendarToolbarNavigationButtons from "@/components/CalendarToolbarNavigationButtons";
 import CalendarToolbarTypeSelect from "@/components/CalendarToolbarTypeSelect";
+import CalendarToolbarWeekLabel from "@/components/CalendarToolbarWeekLabel";
 
 export default {
   name: "CalendarToolbar",
   components: {
     CalendarToolbarNavigationButtons,
     CalendarToolbarDatePicker,
-    CalendarToolbarTypeSelect
+    CalendarToolbarTypeSelect,
+    CalendarToolbarWeekLabel
   },
   methods: {
     setToday() {
