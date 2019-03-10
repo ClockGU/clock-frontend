@@ -30,11 +30,11 @@
 </template>
 
 <script>
+import { mapFields } from "vuex-map-fields";
+
 export default {
   name: "Calendar",
   data: () => ({
-    type: "month",
-    start: "2019-01-01",
     end: "2019-01-06",
     typeOptions: [
       { text: "Day", value: "day" },
@@ -45,6 +45,9 @@ export default {
       { text: "Custom Weekly", value: "custom-weekly" }
     ],
     locale: "en-us"
-  })
+  }),
+  computed: {
+    ...mapFields({ type: "calendar.type", start: "calendar.start" })
+  }
 };
 </script>
