@@ -24,7 +24,7 @@ export default {
         )[0];
       },
       set(type) {
-        const props = getRouterProps(type);
+        const props = getRouterProps(type, this.$store.state.calendar.date);
         this.$router.push({
           name: "calendar",
           params: props
