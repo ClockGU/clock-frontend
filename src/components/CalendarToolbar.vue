@@ -1,16 +1,7 @@
 <template>
   <v-layout row>
     <v-btn outline @click="setToday()">Today</v-btn>
-    <v-btn icon @click="changeDate('sub', '1')">
-      <v-icon>
-        keyboard_arrow_left
-      </v-icon>
-    </v-btn>
-    <v-btn icon @click="changeDate('add', '1')">
-      <v-icon>
-        keyboard_arrow_right
-      </v-icon>
-    </v-btn>
+    <calendar-toolbar-navigation-buttons />
     <v-menu
       ref="menu"
       v-model="menu"
@@ -38,10 +29,12 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
-import { dateOperations } from "@/utils/date";
+
+import CalendarToolbarNavigationButtons from "@/components/CalendarToolbarNavigationButtons";
 
 export default {
   name: "CalendarToolbar",
+  components: { CalendarToolbarNavigationButtons },
   data: () => ({
     drawer: null,
     menu: false,
@@ -83,16 +76,6 @@ export default {
   methods: {
     setToday() {
       this.$store.dispatch("setCalendarDate", new Date());
-    },
-    changeDate(operator, amount) {
-      const date = this.$store.state.calendar.date;
-      const type = this.$store.state.calendar.type;
-      const operation = `${operator}${type.charAt(0).toUpperCase()}${type.slice(
-        1
-      )}s`;
-      const newDate = dateOperations[operation](date, amount);
-
-      this.$store.dispatch("setCalendarDate", newDate);
     }
   }
 };
