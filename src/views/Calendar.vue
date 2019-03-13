@@ -20,7 +20,7 @@ export default {
     },
     month: {
       type: String,
-      default: String(new Date().getUTCMonth())
+      default: String(new Date().getUTCMonth() + 1)
     },
     day: {
       type: String,
