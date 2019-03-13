@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { getRouterProps } from "@/utils/date";
+
 import CalendarToolbarDatePicker from "@/components/CalendarToolbarDatePicker";
 import CalendarToolbarNavigationButtons from "@/components/CalendarToolbarNavigationButtons";
 import CalendarToolbarTypeSelect from "@/components/CalendarToolbarTypeSelect";
@@ -25,7 +27,13 @@ export default {
   },
   methods: {
     setToday() {
-      this.$store.dispatch("setCalendarDate", new Date());
+      const date = new Date();
+      const props = getRouterProps(this.$store.state.calendar.type, date);
+      this.$router.push({
+        name: "calendar",
+        params: props
+      });
+      this.$store.dispatch("setCalendarDate", date);
     }
   }
 };
