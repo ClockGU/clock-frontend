@@ -29,7 +29,7 @@ export default {
           name: "calendar",
           params: props
         });
-        this.$store.dispatch("setCalendarType", type);
+        this.$store.dispatch("calendar/setType", type);
       }
     }
   }

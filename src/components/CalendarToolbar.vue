@@ -33,7 +33,7 @@ export default {
         name: "calendar",
         params: props
       });
-      this.$store.dispatch("setCalendarDate", date);
+      this.$store.dispatch("calendar/setDate", date);
     }
   }
 };

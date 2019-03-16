@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 import { getRouterProps } from "@/utils/date";
 
@@ -44,7 +44,7 @@ export default {
           params: props
         });
 
-        this.$store.dispatch("setCalendarDate", date);
+        this.$store.dispatch("calendar/setDate", date);
       }
     },
     currentMonth() {
@@ -54,7 +54,11 @@ export default {
         options
       );
     },
-    ...mapGetters(["locale", "start", "type"])
+    ...mapState("calendar", {
+      locale: state => state.locale,
+      start: state => state.start,
+      type: state => state.type
+    })
   }
 };
 </script>

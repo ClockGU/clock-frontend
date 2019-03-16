@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 import { getRouterProps } from "@/utils/date";
 
@@ -141,7 +141,7 @@ export default {
       this.events.forEach(e => (map[e.date] = map[e.date] || []).push(e));
       return map;
     },
-    ...mapGetters(["locale"])
+    ...mapState({ locale: state => state.calendar.locale })
   },
   methods: {
     changeDate(payload) {
@@ -152,8 +152,8 @@ export default {
         params: props
       });
 
-      this.$store.dispatch("setCalendarDate", date);
-      this.$store.dispatch("setCalendarType", "day");
+      this.$store.dispatch("calendar/setDate", date);
+      this.$store.dispatch("calendar/setType", "day");
     }
   }
 };

@@ -28,8 +28,8 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("setCalendarDate", this.date);
-    this.$store.dispatch("setCalendarType", this.type);
+    this.$store.dispatch("calendar/setDate", this.date);
+    this.$store.dispatch("calendar/setType", this.type);
   },
   computed: {
     date() {

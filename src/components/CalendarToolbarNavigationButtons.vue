@@ -15,7 +15,7 @@
 
 <script>
 import { getRouterProps, dateOperations } from "@/utils/date";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "CalendarToolbarNavigationButtons",
@@ -29,7 +29,9 @@ export default {
     upperCaseType() {
       return `${this.type.charAt(0).toUpperCase()}${this.type.slice(1)}`;
     },
-    ...mapGetters(["type"])
+    ...mapState({
+      type: state => state.calendar.type
+    })
   },
   methods: {
     changeDate(operator, amount) {
@@ -42,7 +44,7 @@ export default {
         name: "calendar",
         params: props
       });
-      this.$store.dispatch("setCalendarDate", newDate);
+      this.$store.dispatch("calendar/setDate", newDate);
     },
     tooltip(operation) {
       const text = operation == "sub" ? "Previous" : "Next";
