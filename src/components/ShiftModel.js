@@ -1,4 +1,3 @@
-import { format, parse } from "date-fns";
 import { Shift } from "@/models/Shifts";
 import { createHelpers } from "vuex-map-fields";
 
@@ -19,20 +18,8 @@ export default {
     shift: null
   }),
   created() {
-    const shift =
+    this.shift =
       this.shifts.find(shift => shift.uuid === this.uuid) || new Shift();
-
-    this.shift = {
-      started: {
-        date: format(shift._start, "YYYY-MM-DD"),
-        time: format(shift._start, "HH:mm")
-      },
-      finished: {
-        date: format(shift._end, "YYYY-MM-DD"),
-        time: format(shift._end, "HH:mm")
-      },
-      ...shift
-    };
   },
   computed: {
     ...mapFields(["shifts"]),
@@ -41,22 +28,6 @@ export default {
     },
     remainingShifts() {
       return this.shifts.filter(shift => shift.uuid !== this.uuid);
-    },
-    payload() {
-      const shift = this.shift;
-      shift._start = parse(
-        `${shift.started.time} ${shift.started.date}`,
-        "HH:mm YYYY-MM-DD"
-      );
-      shift._end = parse(
-        `${shift.finished.time} ${shift.finished.date}`,
-        "HH:mm YYYY-MM-DD"
-      );
-
-      delete shift.started;
-      delete shift.finished;
-
-      return shift;
     }
   },
   methods: {
@@ -65,11 +36,10 @@ export default {
     },
     create() {
       console.log("Adding new shift.");
-      this.shifts = [this.payload, ...this.shifts];
-      // this.$store.dispatch("shift/addShift", this.shift);
+      this.shifts = [this.shift, ...this.shifts];
     },
     update() {
-      this.shifts[this.index] = this.payload;
+      this.shifts[this.index] = this.shift;
     },
     destroy() {
       this.shifts = this.remainingShifts;
