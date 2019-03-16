@@ -1,6 +1,8 @@
 import { Shift } from "@/models/Shifts";
 import { createHelpers } from "vuex-map-fields";
 
+import uuid from "uuid/v4";
+
 const { mapFields } = createHelpers({
   getterType: "shift/getField",
   mutationType: "shift/updateField"
@@ -33,6 +35,8 @@ export default {
   methods: {
     create() {
       console.log("Adding new shift.");
+      this.shift.uuid = uuid();
+      // TODO: Using vuex-map-fields will actually put "this.shifts" as payload into the mutation. This might be a performance problem at some point. Also hitting a real API with this will probably not work..?
       this.shifts = [this.shift, ...this.shifts];
       this.shift = new Shift();
     },
