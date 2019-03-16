@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import ShiftFormTimeInput from "@/components/ShiftFormTimeInput";
-import ShiftFormDateInput from "@/components/ShiftFormDateInput";
+import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
+import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 
 export default {
   name: "ShiftFormDateTimeInput",

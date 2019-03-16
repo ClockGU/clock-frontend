@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ShiftForm from "@/components/ShiftForm";
+import ShiftForm from "@/components/shifts/ShiftForm";
 
 export default {
   name: "CreateShift",

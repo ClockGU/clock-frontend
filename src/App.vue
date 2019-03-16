@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import CalendarToolbar from "@/components/CalendarToolbar";
+import CalendarToolbar from "@/components/calendar/CalendarToolbar";
 
 export default {
   components: { CalendarToolbar },

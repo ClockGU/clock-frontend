@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import ShiftModel from "@/components/ShiftModel";
-import ShiftFormDateTimeInput from "@/components/ShiftFormDateTimeInput";
+import ShiftModel from "@/components/shifts/ShiftModel";
+import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
 
 export default {
   name: "ShiftForm",
