@@ -27,9 +27,6 @@ import ShiftFormDateTimeInput from "@/components/ShiftFormDateTimeInput";
 export default {
   name: "ShiftForm",
   components: { ShiftModel, ShiftFormDateTimeInput },
-  data: () => ({
-    date: new Date().toISOString().substr(0, 10)
-  }),
   props: {
     uuid: {
       type: String,
