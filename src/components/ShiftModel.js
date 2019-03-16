@@ -31,12 +31,10 @@ export default {
     }
   },
   methods: {
-    initialize() {
-      return new Shift();
-    },
     create() {
       console.log("Adding new shift.");
       this.shifts = [this.shift, ...this.shifts];
+      this.shift = new Shift();
     },
     update() {
       this.shifts[this.index] = this.shift;
