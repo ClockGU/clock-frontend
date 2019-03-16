@@ -5,13 +5,12 @@ import { getField, updateField } from "vuex-map-fields";
 import uuid from "uuid/v4";
 
 import calendar from "@/store/modules/calendar";
+import shift from "@/store/modules/shift";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    shifts: []
-  },
+  state: {},
   getters: {
     getField
   },
@@ -28,6 +27,7 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    calendar
+    calendar,
+    shift
   }
 });
