@@ -11,7 +11,7 @@
     </v-navigation-drawer>
     <v-toolbar color="amber" app absolute flat clipped-left>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <calendar-toolbar></calendar-toolbar>
+      <portal-target name="toolbar"></portal-target>
     </v-toolbar>
     <v-content>
       <router-view></router-view>
@@ -20,10 +20,7 @@
 </template>
 
 <script>
-import CalendarToolbar from "@/components/calendar/CalendarToolbar";
-
 export default {
-  components: { CalendarToolbar },
   data: () => ({
     drawer: null
   })

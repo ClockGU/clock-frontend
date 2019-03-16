@@ -1,13 +1,21 @@
 <template>
-  <Calendar :start="start" :type="type" />
+  <div>
+    <calendar :start="start" :type="type"> </calendar>
+    <portal to="toolbar">
+      <calendar-toolbar />
+    </portal>
+  </div>
 </template>
 
 <script>
 import Calendar from "@/components/calendar/Calendar";
 
+import CalendarToolbar from "@/components/calendar/CalendarToolbar";
+
 export default {
   components: {
-    Calendar
+    Calendar,
+    CalendarToolbar
   },
   props: {
     type: {
