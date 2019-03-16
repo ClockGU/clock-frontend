@@ -18,6 +18,7 @@
       ></v-text-field>
     </template>
     <v-time-picker
+      v-if="menu"
       no-title
       v-model="time"
       format="24hr"
