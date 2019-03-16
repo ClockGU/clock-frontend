@@ -1,4 +1,11 @@
-import { mapFields } from "vuex-map-fields";
+import { format, parse } from "date-fns";
+import { Shift } from "@/models/Shifts";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "shift/getField",
+  mutationType: "shift/updateField"
+});
 
 export default {
   name: "ShiftModel",
@@ -12,8 +19,20 @@ export default {
     shift: null
   }),
   created() {
-    this.shift =
-      this.shifts.find(shift => shift.uuid === this.uuid) || this.initialize();
+    const shift =
+      this.shifts.find(shift => shift.uuid === this.uuid) || new Shift();
+
+    this.shift = {
+      started: {
+        date: format(shift._start, "YYYY-MM-DD"),
+        time: format(shift._start, "HH:mm")
+      },
+      finished: {
+        date: format(shift._end, "YYYY-MM-DD"),
+        time: format(shift._end, "HH:mm")
+      },
+      ...shift
+    };
   },
   computed: {
     ...mapFields(["shifts"]),
@@ -22,24 +41,35 @@ export default {
     },
     remainingShifts() {
       return this.shifts.filter(shift => shift.uuid !== this.uuid);
+    },
+    payload() {
+      const shift = this.shift;
+      shift._start = parse(
+        `${shift.started.time} ${shift.started.date}`,
+        "HH:mm YYYY-MM-DD"
+      );
+      shift._end = parse(
+        `${shift.finished.time} ${shift.finished.date}`,
+        "HH:mm YYYY-MM-DD"
+      );
+
+      delete shift.started;
+      delete shift.finished;
+
+      return shift;
     }
   },
   methods: {
     initialize() {
-      return {
-        started: new Date().toISOString().substr(0, 10),
-        time: "10:00",
-        started2: new Date().toISOString().substr(0, 10),
-        time2: "10:30",
-        contract: null
-      };
+      return new Shift();
     },
     create() {
-      console.log("ASD");
-      this.$store.dispatch("addShift", this.shift);
+      console.log("Adding new shift.");
+      this.shifts = [this.payload, ...this.shifts];
+      // this.$store.dispatch("shift/addShift", this.shift);
     },
     update() {
-      this.shifts[this.index] = this.shift;
+      this.shifts[this.index] = this.payload;
     },
     destroy() {
       this.shifts = this.remainingShifts;

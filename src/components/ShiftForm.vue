@@ -15,14 +15,14 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="shift.started"
+                  v-model="shift.started.date"
                   v-on="on"
                   max-width="100px"
                 ></v-text-field>
               </template>
               <v-date-picker
                 no-title
-                v-model="shift.started"
+                v-model="shift.started.date"
                 @click:date="menu = false"
               ></v-date-picker>
             </v-menu>
@@ -39,13 +39,14 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="shift.time"
+                  v-model="shift.started.time"
                   v-on="on"
                   max-width="100px"
                 ></v-text-field>
               </template>
               <v-time-picker
-                v-model="shift.time"
+                no-title
+                v-model="shift.started.time"
                 format="24hr"
                 @click:time="menu = false"
               ></v-time-picker>
@@ -64,14 +65,14 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="shift.started2"
+                  v-model="shift.finished.date"
                   v-on="on"
                   max-width="100px"
                 ></v-text-field>
               </template>
               <v-date-picker
                 no-title
-                v-model="shift.started2"
+                v-model="shift.finished.date"
                 @click:date="menu = false"
               ></v-date-picker>
             </v-menu>
@@ -88,13 +89,14 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="shift.time2"
+                  v-model="shift.finished.time"
                   v-on="on"
                   max-width="100px"
                 ></v-text-field>
               </template>
               <v-time-picker
-                v-model="shift.time2"
+                no-title
+                v-model="shift.finished.time"
                 format="24hr"
                 @click:time="menu = false"
               ></v-time-picker>
