@@ -3,7 +3,6 @@
     ref="menu"
     v-model="menu"
     :close-on-content-click="false"
-    :return-value.sync="date"
     lazy
     transition="scale-transition"
     offset-y
