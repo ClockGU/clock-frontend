@@ -1,6 +1,6 @@
 <template>
   <v-select
-    v-model="select"
+    :value="value"
     :items="items"
     item-text="text"
     item-value="value"
@@ -20,7 +20,6 @@ export default {
     }
   },
   data: () => ({
-    select: { text: "Shift", value: "st" },
     items: [
       { text: "Shift", value: "st" },
       { text: "Sick", value: "sk" },
