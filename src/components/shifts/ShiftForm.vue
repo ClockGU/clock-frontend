@@ -2,13 +2,16 @@
   <shift-model :uuid="uuid">
     <v-card min-width="90vw" slot-scope="{ data: shift, create, update }">
       <v-card-text>
-        <v-layout row align-center>
+        <v-layout row wrap align-center>
           <v-flex xs5>
             <shift-form-date-time-input :shift="shift" type="_start" />
           </v-flex>
           <v-flex xs1>to</v-flex>
           <v-flex xs5>
             <shift-form-date-time-input :shift="shift" type="_end" />
+          </v-flex>
+          <v-flex xs12>
+            <shift-form-select :shift="shift" />
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -25,10 +28,11 @@
 <script>
 import ShiftModel from "@/components/shifts/ShiftModel";
 import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
+import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 
 export default {
   name: "ShiftForm",
-  components: { ShiftModel, ShiftFormDateTimeInput },
+  components: { ShiftModel, ShiftFormDateTimeInput, ShiftFormSelect },
   props: {
     uuid: {
       type: String,

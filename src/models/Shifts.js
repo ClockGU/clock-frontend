@@ -18,7 +18,7 @@ export class Shift {
       : defaultValueTime("start");
     this._end = is(Date, shift.end) ? shift.end : defaultValueTime("end");
     this.contract = is(String, shift.contract) ? shift.contract : null;
-    this.type = is(String, shift.type) ? shift.type : "";
+    this.type = is(String, shift.type) ? shift.type : {};
     this.note = is(String, shift.note) ? shift.note : "";
     this.tags = is(Array, shift.tags) ? shift.tags : [];
   }
