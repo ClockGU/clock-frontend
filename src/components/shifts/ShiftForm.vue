@@ -3,11 +3,13 @@
     <v-card min-width="90vw" slot-scope="{ data: shift, create, update }">
       <v-card-text>
         <v-layout row align-center>
-          <v-flex xs6>
+          <v-flex xs5>
             <shift-form-date-time-input :shift="shift" type="_start" />
           </v-flex>
-          <v-flex offset-xs1 xs1>to</v-flex>
-          <shift-form-date-time-input :shift="shift" type="_end" />
+          <v-flex xs1>to</v-flex>
+          <v-flex xs5>
+            <shift-form-date-time-input :shift="shift" type="_end" />
+          </v-flex>
         </v-layout>
       </v-card-text>
       <v-card-actions>
