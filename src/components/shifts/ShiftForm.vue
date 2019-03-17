@@ -11,7 +11,10 @@
             <shift-form-date-time-input :shift="shift" type="_end" />
           </v-flex>
           <v-flex xs12>
-            <shift-form-select :shift="shift" />
+            <shift-form-select v-model="shift.type" />
+          </v-flex>
+          <v-flex xs12>
+            <shift-form-input v-model="shift.note" />
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -29,10 +32,16 @@
 import ShiftModel from "@/components/shifts/ShiftModel";
 import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
+import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 
 export default {
   name: "ShiftForm",
-  components: { ShiftModel, ShiftFormDateTimeInput, ShiftFormSelect },
+  components: {
+    ShiftModel,
+    ShiftFormDateTimeInput,
+    ShiftFormInput,
+    ShiftFormSelect
+  },
   props: {
     uuid: {
       type: String,

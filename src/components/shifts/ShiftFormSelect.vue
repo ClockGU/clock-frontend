@@ -1,5 +1,12 @@
 <template>
-  <v-select v-model="select" :items="items" item-text="text" item-value="value">
+  <v-select
+    v-model="select"
+    :items="items"
+    item-text="text"
+    item-value="value"
+    @input="$emit('input', $event)"
+    return-object
+  >
   </v-select>
 </template>
 
@@ -7,8 +14,9 @@
 export default {
   name: "ShiftFormSelect",
   props: {
-    shift: {
-      type: Object
+    value: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({
@@ -18,11 +26,6 @@ export default {
       { text: "Sick", value: "sk" },
       { text: "Vacation", value: "vn" }
     ]
-  }),
-  watch: {
-    select: function(value) {
-      this.shift.type = value;
-    }
-  }
+  })
 };
 </script>
