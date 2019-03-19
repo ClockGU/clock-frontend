@@ -20,6 +20,8 @@
       no-title
       v-model="date"
       @click:date="menu = false"
+      :min="min"
+      :max="max"
     ></v-date-picker>
   </v-menu>
 </template>
@@ -30,10 +32,13 @@ import { format } from "date-fns";
 export default {
   name: "ShiftFormDateInput",
   data: () => ({
-    menu: false,
-    date: format(new Date(), "YYYY-MM-DD")
+    menu: false
   }),
   props: {
+    value: {
+      type: Date,
+      required: true
+    },
     shift: {
       type: Object,
       required: true
@@ -43,11 +48,26 @@ export default {
       required: true
     }
   },
-  watch: {
-    date: function(newDate, oldDate) {
-      const [year, month, day] = newDate.split("-");
-      const [hours, minutes] = format(oldDate, "HH:mm").split(":");
-      this.shift[this.type] = new Date(year, month, day, hours, minutes);
+  computed: {
+    date: {
+      get() {
+        return format(this.value, "YYYY-MM-DD");
+      },
+      set(val) {
+        const [year, month, day] = val.split("-");
+        const [hours, minutes] = format(this.value, "HH:mm").split(":");
+        this.$emit("input", new Date(year, month - 1, day, hours, minutes));
+      }
+    },
+    min() {
+      if (this.type === "start") return undefined;
+
+      return format(this.shift.date.start, "YYYY-MM-DD");
+    },
+    max() {
+      if (this.type === "end") return undefined;
+
+      return format(this.shift.date.end, "YYYY-MM-DD");
     }
   }
 };

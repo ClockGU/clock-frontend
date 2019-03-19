@@ -4,11 +4,19 @@
       <v-card-text>
         <v-layout row wrap align-center>
           <v-flex xs5>
-            <shift-form-date-time-input :shift="shift" type="_start" />
+              <shift-form-date-time-input
+                v-model="shift.date"
+                :shift="shift"
+                type="start"
+              />
           </v-flex>
           <v-flex xs1>to</v-flex>
           <v-flex xs5>
-            <shift-form-date-time-input :shift="shift" type="_end" />
+              <shift-form-date-time-input
+                v-model="shift.date"
+                :shift="shift"
+                type="end"
+              />
           </v-flex>
           <v-flex xs12>
             <shift-form-select v-model="shift.type" />
@@ -28,12 +36,14 @@
         >
       </v-card-actions>
     </v-card>
+    </template>
   </shift-model>
 </template>
 
 <script>
 import ShiftModel from "@/components/shifts/ShiftModel";
 import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
+import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
@@ -42,6 +52,7 @@ export default {
   name: "ShiftForm",
   components: {
     ShiftModel,
+    ShiftFormDateInput,
     ShiftFormDateTimeInput,
     ShiftFormInput,
     ShiftFormSelect,

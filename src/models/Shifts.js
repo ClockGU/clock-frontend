@@ -13,10 +13,10 @@ export class Shift {
   constructor(shift = {}) {
     this.uuid = is(String, shift.uuid) ? shift.uuid : null;
     this.user = is(String, shift.user) ? shift.user : null;
-    this._start = is(Date, shift.start)
-      ? shift.start
-      : defaultValueTime("start");
-    this._end = is(Date, shift.end) ? shift.end : defaultValueTime("end");
+    this.date = {
+      start: is(Date, shift.start) ? shift.start : defaultValueTime("start"),
+      end: is(Date, shift.end) ? shift.end : defaultValueTime("end")
+    };
     this.contract = is(String, shift.contract) ? shift.contract : null;
     this.type = is(String, shift.type)
       ? shift.type
