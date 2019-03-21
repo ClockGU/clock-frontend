@@ -12,8 +12,8 @@
       <v-text-field
         v-model="date"
         v-on="on"
-        max-width="100px"
         readonly
+        prepend-inner-icon="calendar_today"
       ></v-text-field>
     </template>
     <v-date-picker

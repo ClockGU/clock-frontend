@@ -1,9 +1,9 @@
 <template>
   <v-layout row>
-    <v-flex xs4 md5>
+    <v-flex xs5 md6>
       <shift-form-date-input v-model="date" :shift="shift" :type="type" />
     </v-flex>
-    <v-flex xs2 offset-xs4 md3 offset-md1>
+    <v-flex xs3 offset-xs2 md4 offset-md1>
       <shift-form-time-input v-model="date" :shift="shift" :type="type" />
     </v-flex>
   </v-layout>

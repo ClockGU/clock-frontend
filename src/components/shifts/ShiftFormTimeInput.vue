@@ -14,7 +14,7 @@
         v-model="time"
         v-on="on"
         readonly
-        max-width="100px"
+        prepend-inner-icon="access_time"
       ></v-text-field>
     </template>
     <v-time-picker
