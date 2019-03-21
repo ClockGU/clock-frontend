@@ -32,9 +32,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="submit({ create: create, update: update })"
-            >Submit</v-btn
-          >
+          <v-btn flat @click="submit({ create: create, update: update })">{{
+            saveLabel
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -63,9 +63,16 @@ export default {
       default: null
     }
   },
+  computed: {
+    saveLabel() {
+      return this.uuid === null ? "Save" : "Update";
+    }
+  },
   methods: {
     submit(callback) {
       this.uuid === null ? callback.create() : callback.update();
+
+      this.$router.push({ name: "shiftList" });
     }
   }
 };
