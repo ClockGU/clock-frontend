@@ -44,7 +44,6 @@
 <script>
 import ShiftModel from "@/components/shifts/ShiftModel";
 import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
-import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
@@ -53,7 +52,6 @@ export default {
   name: "ShiftForm",
   components: {
     ShiftModel,
-    ShiftFormDateInput,
     ShiftFormDateTimeInput,
     ShiftFormInput,
     ShiftFormSelect,
