@@ -1,6 +1,10 @@
 <template>
   <ul>
-    <li v-for="shift in shifts" :key="shift.id">{{ shift.uuid }}</li>
+    <li v-for="shift in shifts" :key="shift.uuid">
+      <v-btn :to="{ name: 'editShift', params: { uuid: shift.uuid } }">
+        {{ shift.uuid }}
+      </v-btn>
+    </li>
   </ul>
 </template>
 
