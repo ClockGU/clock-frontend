@@ -27,6 +27,12 @@ export default new Router({
       component: ShiftList
     },
     {
+      path: "shifts/:uuid/edit",
+      name: "editShift",
+      component: CreateShift,
+      props: true
+    },
+    {
       path: "/shifts/create",
       name: "createShift",
       component: CreateShift
