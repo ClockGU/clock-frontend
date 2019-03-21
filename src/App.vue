@@ -7,7 +7,17 @@
       class="grey lighten-4"
       app
     >
-      <p>Test</p>
+      <v-list>
+        <v-list-tile exact v-for="link in links" :to="link.to" :key="link.text">
+          <v-list-tile-action>
+            <v-icon>{{ link.icon }}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            {{ link.text }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
     <v-toolbar color="amber" app absolute flat clipped-left>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
@@ -22,7 +32,24 @@
 <script>
 export default {
   data: () => ({
-    drawer: null
+    drawer: null,
+    links: [
+      {
+        text: "Calendar",
+        to: { name: "c" },
+        icon: "home"
+      },
+      {
+        text: "Shifts",
+        to: { name: "shiftList" },
+        icon: "list"
+      },
+      {
+        text: "Add Shift",
+        to: { name: "createShift" },
+        icon: "add"
+      }
+    ]
   })
 };
 </script>
