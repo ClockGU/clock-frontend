@@ -4,7 +4,7 @@
       <v-card>
         <v-card-text>
           <v-layout row wrap align-center>
-            <v-flex xs5>
+            <v-flex xs12 md5>
               <shift-form-date-time-input
                 v-model="shift.date"
                 :shift="shift"
@@ -12,21 +12,21 @@
               />
             </v-flex>
             <v-flex xs1>to</v-flex>
-            <v-flex xs5>
+            <v-flex xs12 md5>
               <shift-form-date-time-input
                 v-model="shift.date"
                 :shift="shift"
                 type="end"
               />
             </v-flex>
-            <v-flex xs12>
+            <v-flex xs12 md7>
               <shift-form-select v-model="shift.type" />
             </v-flex>
-            <v-flex xs12>
-              <shift-form-input v-model="shift.note" />
-            </v-flex>
-            <v-flex xs12>
+            <v-flex xs12 md7>
               <shift-form-tags v-model="shift.tags" />
+            </v-flex>
+            <v-flex xs12 md7>
+              <shift-form-input v-model="shift.note" />
             </v-flex>
           </v-layout>
         </v-card-text>
