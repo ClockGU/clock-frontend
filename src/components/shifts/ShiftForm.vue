@@ -1,41 +1,42 @@
 <template>
   <shift-model :uuid="uuid">
-    <v-card min-width="90vw" slot-scope="{ data: shift, create, update }">
-      <v-card-text>
-        <v-layout row wrap align-center>
-          <v-flex xs5>
+    <template v-slot="{ data: shift, create, update }">
+      <v-card>
+        <v-card-text>
+          <v-layout row wrap align-center>
+            <v-flex xs5>
               <shift-form-date-time-input
                 v-model="shift.date"
                 :shift="shift"
                 type="start"
               />
-          </v-flex>
-          <v-flex xs1>to</v-flex>
-          <v-flex xs5>
+            </v-flex>
+            <v-flex xs1>to</v-flex>
+            <v-flex xs5>
               <shift-form-date-time-input
                 v-model="shift.date"
                 :shift="shift"
                 type="end"
               />
-          </v-flex>
-          <v-flex xs12>
-            <shift-form-select v-model="shift.type" />
-          </v-flex>
-          <v-flex xs12>
-            <shift-form-input v-model="shift.note" />
-          </v-flex>
-          <v-flex xs12>
-            <shift-form-tags v-model="shift.tags" />
-          </v-flex>
-        </v-layout>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn flat @click="submit({ create: create, update: update })"
-          >Submit</v-btn
-        >
-      </v-card-actions>
-    </v-card>
+            </v-flex>
+            <v-flex xs12>
+              <shift-form-select v-model="shift.type" />
+            </v-flex>
+            <v-flex xs12>
+              <shift-form-input v-model="shift.note" />
+            </v-flex>
+            <v-flex xs12>
+              <shift-form-tags v-model="shift.tags" />
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="submit({ create: create, update: update })"
+            >Submit</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </template>
   </shift-model>
 </template>
