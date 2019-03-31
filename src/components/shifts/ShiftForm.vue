@@ -1,6 +1,6 @@
 <template>
   <shift-model :uuid="uuid">
-    <template v-slot="{ data: shift, create, update }">
+    <template v-slot="{ data: shift, create, update, destroy }">
       <v-card>
         <v-card-text>
           <v-layout row wrap align-center>
@@ -31,6 +31,7 @@
           </v-layout>
         </v-card-text>
         <v-card-actions>
+          <v-btn flat @click="destroy(destroy)">Delete</v-btn>
           <v-spacer></v-spacer>
           <v-btn flat @click="submit({ create: create, update: update })">{{
             saveLabel
@@ -71,6 +72,11 @@ export default {
   methods: {
     submit(callback) {
       this.uuid === null ? callback.create() : callback.update();
+
+      this.$router.push({ name: "shiftList" });
+    },
+    destroy(callback) {
+      callback();
 
       this.$router.push({ name: "shiftList" });
     }
