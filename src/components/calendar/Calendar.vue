@@ -45,7 +45,6 @@
                           >
                             <v-icon>edit</v-icon>
                           </v-btn>
-                          <!-- <v-toolbar-title v-html="event.uuid"></v-toolbar-title> -->
                           <v-spacer></v-spacer>
                           <v-btn icon @click.native="destroy()">
                             <v-icon>delete</v-icon>
