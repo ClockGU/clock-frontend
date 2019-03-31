@@ -3,10 +3,16 @@ import { differenceInSeconds } from "date-fns";
 export default {
   name: "Clock",
   data: () => ({
+    duration: null,
     interval: null,
-    started: null,
-    duration: null
+    started: null
   }),
+  props: {
+    startDate: {
+      type: Date,
+      default: null
+    }
+  },
   computed: {
     clockData() {
       return {
@@ -15,26 +21,32 @@ export default {
       };
     }
   },
+  mounted() {
+    // Do nothing if no initialStart value was provided.
+    if (!this.startDate) return;
+
+    this.start(this.startDate);
+  },
   methods: {
     initialize() {
       this.interval = null;
       this.started = null;
       this.duration = null;
     },
-    tick() {
-      this.duration = differenceInSeconds(new Date(), this.started);
-    },
-    start() {
-      this.started = new Date();
-      this.duration = 0;
+    start(date) {
+      this.started = date;
+      this.tick();
       this.interval = setInterval(() => this.tick(), 1000);
     },
     stop() {
       clearInterval(this.interval);
       this.initialize();
     },
+    tick() {
+      this.duration = differenceInSeconds(new Date(), this.started);
+    },
     toggle() {
-      this.started ? this.stop() : this.start();
+      this.started ? this.stop() : this.start(new Date());
     }
   },
   render() {
