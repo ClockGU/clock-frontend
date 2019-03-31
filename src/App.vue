@@ -48,6 +48,11 @@ export default {
         text: "Add Shift",
         to: { name: "createShift" },
         icon: "add"
+      },
+      {
+        text: "Clock in",
+        to: { name: "clockInOut" },
+        icon: "lock"
       }
     ]
   })
