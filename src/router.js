@@ -3,6 +3,7 @@ import Router from "vue-router";
 import CalendarView from "./views/CalendarView.vue";
 import CreateShift from "./views/CreateShift";
 import ShiftList from "./views/ShiftList";
+import ClockInOut from "./views/ClockInOut";
 
 Vue.use(Router);
 
@@ -36,6 +37,11 @@ export default new Router({
       path: "/shifts/create",
       name: "createShift",
       component: CreateShift
+    },
+    {
+      path: "/clock",
+      name: "clockInOu",
+      component: ClockInOut
     }
   ]
 });
