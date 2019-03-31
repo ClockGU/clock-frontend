@@ -19,7 +19,6 @@
                   block
                   large
                   depressed
-                  text
                   @click="toggle()"
                 >
                   <span v-if="!hover && !data.started">No shift!</span>
@@ -31,7 +30,7 @@
             </v-flex>
             <v-expand-transition>
               <v-flex xs12 v-if="data.started">
-                <v-btn class="mt-0" depressed disabled large text block>
+                <v-btn class="mt-0" depressed disabled large block>
                   {{ data.duration | toTime }}
                 </v-btn>
               </v-flex>
