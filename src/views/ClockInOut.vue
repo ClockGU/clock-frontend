@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex xs12 md4>
-      <clock-model>
+      <clock-model :startDate="startDate">
         <template v-slot="{ toggle, data }">
           <v-layout row wrap>
             <v-flex xs12>
@@ -49,6 +49,12 @@ import { addSeconds, format } from "date-fns";
 
 export default {
   name: "ClockInOut",
+  props: {
+    startDate: {
+      type: Date,
+      default: null
+    }
+  },
   components: {
     ClockModel
   },
