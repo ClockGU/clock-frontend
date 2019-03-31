@@ -3,46 +3,52 @@ import { differenceInMinutes } from "date-fns";
 
 function defaultValueTime(type) {
   const today = new Date();
-  const [hour, minute] = type === "start" ? [10, 0] : [10, 30];
-  today.setHours(hour, minute);
+  const [hour, minute, second] = type === "start" ? [10, 0, 0] : [10, 30, 0];
+  today.setHours(hour, minute, second);
 
   return today;
 }
 
 export class Shift {
-  constructor(shift = {}) {
-    this.uuid = is(String, shift.uuid) ? shift.uuid : null;
-    this.user = is(String, shift.user) ? shift.user : null;
+  constructor({
+    uuid = null,
+    user = null,
+    date = { start: null, end: null },
+    contract = null,
+    type = null,
+    note = null,
+    tags = null
+  } = {}) {
+    this.uuid = is(String, uuid) ? uuid : null;
+    this.user = is(String, user) ? user : null;
     this.date = {
-      start: is(Date, shift.start) ? shift.start : defaultValueTime("start"),
-      end: is(Date, shift.end) ? shift.end : defaultValueTime("end")
+      start: is(Date, date.start) ? date.start : defaultValueTime("start"),
+      end: is(Date, date.end) ? date.end : defaultValueTime("end")
     };
-    this.contract = is(String, shift.contract) ? shift.contract : null;
-    this.type = is(String, shift.type)
-      ? shift.type
-      : { text: "Shift", value: "st" };
-    this.note = is(String, shift.note) ? shift.note : "";
-    this.tags = is(Array, shift.tags) ? shift.tags : [];
+    this.contract = is(String, contract) ? contract : null;
+    this.type = is(String, type) ? type : { text: "Shift", value: "st" };
+    this.note = is(String, note) ? note : "";
+    this.tags = is(Array, tags) ? tags : [];
   }
 
   get start() {
-    return this._start;
+    return this.date.start;
   }
 
   set start(value) {
-    this._start = value;
+    this.date.start = value;
   }
 
   get end() {
-    return this._end;
+    return this.date.end;
   }
 
   set end(value) {
-    this._end = value;
+    this.date.end = value;
   }
 
   get duration() {
-    return differenceInMinutes(this._end, this._start);
+    return differenceInMinutes(this.date.end, this.date.start);
   }
 
   toPayload() {
@@ -50,8 +56,8 @@ export class Shift {
       uuid: this.uuid,
       user: this.user,
       contract: this.contract,
-      start: this._start,
-      end: this._end,
+      start: this.date.start,
+      end: this.date.end,
       duration: this.duration
     };
   }
