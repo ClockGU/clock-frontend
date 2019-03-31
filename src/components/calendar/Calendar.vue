@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { format } from "date-fns";
 import { mapState } from "vuex";
 
 import { getRouterProps } from "@/utils/date";
@@ -102,19 +103,19 @@ export default {
       {
         title: "30th Birthday",
         details: "Celebrate responsibly",
-        date: "2019-01-03",
+        date: "2019-03-03",
         open: false
       },
       {
         title: "New Year",
         details: "Eat chocolate until you pass out",
-        date: "2019-01-01",
+        date: "2019-03-01",
         open: false
       },
       {
         title: "Conference",
         details: "Mute myself the whole time and wonder why I am on this call",
-        date: "2019-01-21",
+        date: "2019-03-21",
         open: false
       },
       {
@@ -138,10 +139,16 @@ export default {
   computed: {
     eventsMap() {
       const map = {};
-      this.events.forEach(e => (map[e.date] = map[e.date] || []).push(e));
+      this.shifts.forEach(e =>
+        (map[format(e.date.start, "YYYY-MM-DD")] =
+          map[format(e.date.start, "YYYY-MM-DD")] || []).push(e)
+      );
       return map;
     },
-    ...mapState({ locale: state => state.calendar.locale })
+    ...mapState({
+      locale: state => state.calendar.locale,
+      shifts: state => state.shift.shifts
+    })
   },
   methods: {
     changeDate(payload) {

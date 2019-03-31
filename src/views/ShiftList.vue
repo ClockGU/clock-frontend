@@ -2,7 +2,7 @@
   <ul>
     <li v-for="shift in shifts" :key="shift.uuid">
       <v-btn :to="{ name: 'editShift', params: { uuid: shift.uuid } }">
-        {{ shift.uuid }}
+        {{ shift.date.start }}
       </v-btn>
     </li>
   </ul>
