@@ -1,4 +1,13 @@
 import { differenceInSeconds } from "date-fns";
+import uuid from "uuid/v4";
+import { createHelpers } from "vuex-map-fields";
+
+import { Shift } from "@/models/Shifts";
+
+const { mapFields } = createHelpers({
+  getterType: "shift/getField",
+  mutationType: "shift/updateField"
+});
 
 export default {
   name: "Clock",
@@ -14,6 +23,7 @@ export default {
     }
   },
   computed: {
+    ...mapFields(["shifts"]),
     clockData() {
       return {
         started: this.started,
@@ -40,6 +50,18 @@ export default {
     },
     stop() {
       clearInterval(this.interval);
+
+      const data = {
+        date: {
+          start: this.started,
+          end: new Date()
+        },
+        uuid: uuid()
+      };
+      const shift = new Shift(data);
+
+      this.shifts = [...this.shifts, shift];
+
       this.initialize();
     },
     tick() {
