@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Calendar from "./views/Calendar.vue";
+import CalendarView from "./views/CalendarView.vue";
 import CreateShift from "./views/CreateShift";
 import ShiftList from "./views/ShiftList";
 
@@ -13,12 +13,12 @@ export default new Router({
     {
       path: "/",
       name: "c",
-      component: Calendar
+      component: CalendarView
     },
     {
       path: "/:type/:year/:month/:day",
       name: "calendar",
-      component: Calendar,
+      component: CalendarView,
       props: true
     },
     {
