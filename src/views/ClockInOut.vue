@@ -48,7 +48,7 @@ import ClockModel from "@/components/ClockModel";
 import { addSeconds, format } from "date-fns";
 
 export default {
-  name: "ClockView",
+  name: "ClockInOut",
   components: {
     ClockModel
   },
