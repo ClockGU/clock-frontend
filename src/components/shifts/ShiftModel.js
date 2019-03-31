@@ -41,9 +41,11 @@ export default {
       this.shift = new Shift();
     },
     update() {
+      console.log("Updating shift.");
       this.shifts[this.index] = this.shift;
     },
     destroy() {
+      console.log("Deleting shift.");
       this.shifts = this.remainingShifts;
     }
   },
