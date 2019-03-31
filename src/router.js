@@ -28,7 +28,7 @@ export default new Router({
       component: ShiftList
     },
     {
-      path: "shifts/:uuid/edit",
+      path: "/shifts/:uuid/edit",
       name: "editShift",
       component: CreateShift,
       props: true
@@ -40,7 +40,7 @@ export default new Router({
     },
     {
       path: "/clock",
-      name: "clockInOu",
+      name: "clockInOut",
       component: ClockInOut
     }
   ]
