@@ -2,7 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 import CalendarView from "./views/CalendarView.vue";
 import CreateShift from "./views/CreateShift";
+import ContractFormView from "./views/ContractFormView";
 import ShiftList from "./views/ShiftList";
+import ContractList from "./views/ContractList";
 import ClockInOut from "./views/ClockInOut";
 
 Vue.use(Router);
@@ -37,6 +39,22 @@ export default new Router({
       path: "/shifts/create",
       name: "createShift",
       component: CreateShift
+    },
+    {
+      path: "/contracts/",
+      name: "contractList",
+      component: ContractList
+    },
+    {
+      path: "/contracts/create",
+      name: "createContract",
+      component: ContractFormView
+    },
+    {
+      path: "/contracts/:uuid/edit",
+      name: "editContract",
+      component: ContractFormView,
+      props: true
     },
     {
       path: "/clock",

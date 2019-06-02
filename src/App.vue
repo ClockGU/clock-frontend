@@ -50,6 +50,11 @@ export default {
         icon: "add"
       },
       {
+        text: "Add Contract",
+        to: { name: "createContract" },
+        icon: "description"
+      },
+      {
         text: "Clock in",
         to: { name: "clockInOut" },
         icon: "lock"
