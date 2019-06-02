@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { getField, updateField } from "vuex-map-fields";
 
+import auth from "@/store/modules/auth";
 import calendar from "@/store/modules/calendar";
 import shift from "@/store/modules/shift";
 import contract from "@/store/modules/contract";
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     updateField
   },
   modules: {
+    auth,
     calendar,
     shift,
     contract

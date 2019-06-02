@@ -6,13 +6,34 @@ import ContractFormView from "./views/ContractFormView";
 import ShiftList from "./views/ShiftList";
 import ContractList from "./views/ContractList";
 import ClockInOut from "./views/ClockInOut";
+import TokenService from "@/services/storage.service";
+import LoginView from "@/views/LoginView";
+import LogoutView from "@/views/LogoutView";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: "/login",
+      name: "login",
+      component: LoginView,
+      meta: {
+        public: true,
+        onlyWhenLoggedOut: true
+      }
+    },
+    {
+      path: "/logout",
+      name: "logout",
+      component: LogoutView,
+      meta: {
+        public: false,
+        onlyWhenLoggedOut: false
+      }
+    },
     {
       path: "/",
       name: "c",
@@ -63,3 +84,27 @@ export default new Router({
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const isPublic = to.matched.some(record => record.meta.public);
+  const onlyWhenLoggedOut = to.matched.some(
+    record => record.meta.onlyWhenLoggedOut
+  );
+  const loggedIn = !!TokenService.getToken();
+
+  if (!isPublic && !loggedIn) {
+    return next({
+      path: "/login",
+      query: { redirect: to.fullPath } // Store the full path to redirect the user to after login
+    });
+  }
+
+  // Do not allow user to visit login page or register page if they are logged in
+  if (loggedIn && onlyWhenLoggedOut) {
+    return next("/");
+  }
+
+  next();
+});
+
+export default router;
