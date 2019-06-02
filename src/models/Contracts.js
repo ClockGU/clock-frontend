@@ -53,8 +53,12 @@ export class Contract {
     this.date.end = value;
   }
 
-  get remainingDuration() {
+  get duration() {
     return differenceInDays(this.date.end, this.date.start);
+  }
+
+  get remainingContractDuration() {
+    return differenceInDays(this.date.end, new Date());
   }
 
   toPayload() {
