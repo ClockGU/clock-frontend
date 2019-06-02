@@ -4,8 +4,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
+import Vuelidate from "vuelidate";
 
 Vue.use(PortalVue);
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 
