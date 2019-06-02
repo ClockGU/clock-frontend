@@ -4,6 +4,7 @@ import { getField, updateField } from "vuex-map-fields";
 
 import calendar from "@/store/modules/calendar";
 import shift from "@/store/modules/shift";
+import contract from "@/store/modules/contract";
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   },
   modules: {
     calendar,
-    shift
+    shift,
+    contract
   }
 });
