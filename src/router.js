@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
-  const loggedIn = !!TokenService.getToken();
+  const loggedIn = true; // !!TokenService.getToken();
 
   if (!isPublic && !loggedIn) {
     return next({
