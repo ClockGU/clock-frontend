@@ -104,7 +104,7 @@ export default {
     submit(callback) {
       this.uuid === null ? callback.create() : callback.update();
 
-      // this.$router.push({ name: "contractList" });
+      this.$router.push({ name: "contractList" });
     },
     destroy(callback) {
       callback();
