@@ -59,7 +59,7 @@ export class Shift {
   toPayload() {
     return {
       uuid: this.uuid,
-      // user: this.user,
+      user: this.user,
       contract: this.contract,
       tags: this.tags.join(","),
       start: this.date.start,
