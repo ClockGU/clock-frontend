@@ -14,7 +14,10 @@ export default {
   data: () => ({
     duration: null,
     interval: null,
-    started: null
+    shift: {
+      start: null,
+      contract: null
+    }
   }),
   props: {
     startDate: {
@@ -26,7 +29,7 @@ export default {
     ...mapFields(["shifts"]),
     clockData() {
       return {
-        started: this.started,
+        started: this.shift.start,
         duration: this.duration
       };
     }
@@ -40,35 +43,38 @@ export default {
   methods: {
     initialize() {
       this.interval = null;
-      this.started = null;
+      this.shift = { start: null, contract: null };
       this.duration = null;
     },
     start(date) {
-      this.started = date;
+      this.shift.start = date;
       this.tick();
       this.interval = setInterval(() => this.tick(), 1000);
     },
     stop() {
       clearInterval(this.interval);
+      console.log(this.contract);
 
       const data = {
         date: {
-          start: this.started,
+          start: this.shift.start,
           end: new Date()
         },
-        uuid: uuid()
+        uuid: uuid(),
+        contract: this.shift.contract
       };
       const shift = new Shift(data);
+      console.log(shift);
 
       this.shifts = [...this.shifts, shift];
 
       this.initialize();
     },
     tick() {
-      this.duration = differenceInSeconds(new Date(), this.started);
+      this.duration = differenceInSeconds(new Date(), this.shift.start);
     },
     toggle() {
-      this.started ? this.stop() : this.start(new Date());
+      this.shift.start ? this.stop() : this.start(new Date());
     }
   },
   render() {
@@ -76,7 +82,8 @@ export default {
       start: this.start,
       stop: this.stop,
       toggle: this.toggle,
-      data: this.clockData
+      data: this.shift,
+      duration: this.duration
     });
   }
 };
