@@ -1,6 +1,6 @@
 import { Shift } from "@/models/Shifts";
 import { createHelpers } from "vuex-map-fields";
-import ShiftService from "@/services/shift.service";
+// import ShiftService from "@/services/shift.service";
 
 import uuid from "uuid/v4";
 
@@ -30,13 +30,13 @@ export default {
       return this.shifts.findIndex(shift => shift.uuid === this.uuid);
     },
     remainingShifts() {
-      return this.shifts.filter(shift => shift.uuid !== this.uuid);
+      return this.shifts.filter(shift => shift.uuid != this.uuid);
     }
   },
   methods: {
     async create() {
-      const payload = this.shift.toPayload();
-      await ShiftService.create(payload);
+      // const payload = this.shift.toPayload();
+      // await ShiftService.create(payload);
 
       console.log("Adding new shift.");
       this.shift.uuid = uuid();
