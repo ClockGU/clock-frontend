@@ -2,7 +2,7 @@ import { Contract } from "@/models/Contracts";
 import { createHelpers } from "vuex-map-fields";
 
 import uuid from "uuid/v4";
-import ContractService from "@/services/contract.service";
+// import ContractService from "@/services/contract.service";
 
 const { mapFields } = createHelpers({
   getterType: "contract/getField",
