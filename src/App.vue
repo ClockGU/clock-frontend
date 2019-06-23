@@ -13,9 +13,7 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-tile-action>
 
-          <v-list-tile-content>
-            {{ link.text }}
-          </v-list-tile-content>
+          <v-list-tile-content>{{ link.text }}</v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -50,8 +48,8 @@ export default {
         icon: "add"
       },
       {
-        text: "Add Contract",
-        to: { name: "createContract" },
+        text: "Contracts",
+        to: { name: "contractList" },
         icon: "description"
       },
       {
