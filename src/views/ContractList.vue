@@ -2,10 +2,21 @@
   <v-layout>
     <ul>
       <li v-for="contract in contracts" :key="contract.uuid">
-        <v-btn :to="{ name: 'editContract', params: { uuid: contract.uuid } }">{{ contract.name }}</v-btn>
+        <v-btn
+          :to="{ name: 'editContract', params: { uuid: contract.uuid } }"
+          >{{ contract.name }}</v-btn
+        >
       </li>
     </ul>
-    <v-btn absolute dark fab top right color="pink" :to="{ name: 'createContract' }">
+    <v-btn
+      absolute
+      dark
+      fab
+      top
+      right
+      color="pink"
+      :to="{ name: 'createContract' }"
+    >
       <v-icon>add</v-icon>
     </v-btn>
   </v-layout>
