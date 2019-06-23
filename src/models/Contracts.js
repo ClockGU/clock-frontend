@@ -1,23 +1,6 @@
 import { is } from "ramda";
-import { differenceInDays } from "date-fns";
-
-export function defaultDate({ type = "start", date = new Date() } = {}) {
-  let startYear, stopYear;
-  startYear = stopYear = date.getFullYear();
-  let [startMonth, stopMonth] = [9, 2];
-
-  if (date.getMonth() <= 2) {
-    startYear = stopYear - 1;
-  } else if (date.getMonth() >= 9) {
-    stopYear = stopYear + 1;
-  } else {
-    [startMonth, stopMonth] = [3, 8];
-  }
-
-  return type === "start"
-    ? new Date(startYear, startMonth, 1)
-    : new Date(stopYear, stopMonth, stopMonth === 2 ? 31 : 30);
-}
+import { differenceInDays, format } from "date-fns";
+import { defaultContractDate } from "@/utils/date";
 
 export class Contract {
   constructor({
@@ -32,8 +15,10 @@ export class Contract {
     this.name = is(String, name) ? name : null;
     this.hours = is(Number, hours) ? hours : null;
     this.date = {
-      start: is(Date, date.start) ? date.start : defaultDate("start"),
-      end: is(Date, date.end) ? date.end : defaultDate("end")
+      start: is(Date, date.start)
+        ? date.start
+        : defaultContractDate({ type: "start" }),
+      end: is(Date, date.end) ? date.end : defaultContractDate({ type: "end" })
     };
   }
 
@@ -61,14 +46,18 @@ export class Contract {
     return differenceInDays(this.date.end, new Date());
   }
 
+  get hoursInMinutes() {
+    const [hours, minutes] = this.hours.split(":");
+
+    return hours * 60 + minutes;
+  }
+
   toPayload() {
     return {
-      uuid: this.uuid,
-      user: this.user,
       name: this.name,
-      hours: this.hours,
-      start_date: this.date.start,
-      end_date: this.date.end
+      hours: this.hoursInMinutes,
+      start_date: format(this.date.start, "YYYY-MM-DD"),
+      end_date: format(this.date.end, "YYYY-MM-DD")
     };
   }
 }
