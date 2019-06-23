@@ -17,7 +17,7 @@
             <template v-slot:day="{ date }">
               <template v-for="event in eventsMap[date]">
                 <v-menu
-                  :key="event.title"
+                  :key="event.uuid"
                   v-model="event.open"
                   full-width
                   offset-x
@@ -28,11 +28,11 @@
                       v-ripple
                       class="my-event"
                       v-on="on"
-                      v-html="event.uuid"
+                      v-html="event.duration"
                     ></div>
                   </template>
                   <shift-model :uuid="event.uuid">
-                    <template v-slot="{ destroy }">
+                    <template v-slot="{ duration, destroy }">
                       <v-card color="grey lighten-4" min-width="350px" flat>
                         <v-toolbar color="primary" dark flat>
                           <v-btn
@@ -45,19 +45,18 @@
                           >
                             <v-icon>edit</v-icon>
                           </v-btn>
+                          <span>{{ event.contract.name }}</span>
                           <v-spacer></v-spacer>
                           <v-btn icon @click.native="destroy()">
                             <v-icon>delete</v-icon>
                           </v-btn>
                         </v-toolbar>
                         <v-card-title primary-title>
-                          <span v-html="event.details"></span>
+                          <calendar-event :event="event"></calendar-event>
                         </v-card-title>
-                        <v-card-actions>
-                          <v-btn flat color="secondary">
-                            Cancel
-                          </v-btn>
-                        </v-card-actions>
+                        <!-- <v-card-actions>
+                          <v-btn flat color="secondary">Cancel</v-btn>
+                        </v-card-actions>-->
                       </v-card>
                     </template>
                   </shift-model>
@@ -77,16 +76,18 @@ import { mapState } from "vuex";
 
 import { getRouterProps } from "@/utils/date";
 
+import { Shift } from "@/models/Shifts";
 import ShiftModel from "@/components/shifts/ShiftModel";
+import CalendarEvent from "@/components/calendar/CalendarEvent";
 
 export default {
   name: "Calendar",
   data: () => ({
     end: "2019-01-06",
-    weekdays: [1, 2, 3, 4, 5, 6, 0],
-    events: []
+    weekdays: [1, 2, 3, 4, 5, 6, 0]
   }),
   components: {
+    CalendarEvent,
     ShiftModel
   },
   props: {
@@ -102,13 +103,33 @@ export default {
   computed: {
     eventsMap() {
       const map = {};
-      this.shifts.forEach(e =>
-        (map[format(e.date.start, "YYYY-MM-DD")] =
-          map[format(e.date.start, "YYYY-MM-DD")] || []).push(e)
+      this.events.forEach(e =>
+        (map[format(e.date, "YYYY-MM-DD")] =
+          map[format(e.date, "YYYY-MM-DD")] || []).push(e)
       );
       return map;
     },
+    events() {
+      return this.shifts.map(item => {
+        const shift = new Shift(item);
+        const contract = this.contracts.find(
+          contract => contract.uuid === shift.contract
+        );
+
+        return {
+          title: "ABC",
+          details: "dsa",
+          uuid: shift.uuid,
+          dates: shift.date,
+          date: format(shift.date.start, "YYYY-MM-DD"),
+          open: false,
+          duration: shift.representationalDuration,
+          contract: contract
+        };
+      });
+    },
     ...mapState({
+      contracts: state => state.contract.contracts,
       locale: state => state.calendar.locale,
       shifts: state => state.shift.shifts
     })
