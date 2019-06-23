@@ -1,5 +1,6 @@
 import { is } from "ramda";
 import { differenceInMinutes } from "date-fns";
+import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
   const today = new Date();
@@ -51,14 +52,19 @@ export class Shift {
     return differenceInMinutes(this.date.end, this.date.start);
   }
 
+  get representationalDuration() {
+    return minutesToHHMM(this.duration);
+  }
+
   toPayload() {
     return {
       uuid: this.uuid,
-      user: this.user,
+      // user: this.user,
       contract: this.contract,
+      tags: this.tags.join(","),
       start: this.date.start,
       end: this.date.end,
-      duration: this.duration
+      duration: this.representationalDuration
     };
   }
 }
