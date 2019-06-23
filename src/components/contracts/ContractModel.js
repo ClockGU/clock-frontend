@@ -2,6 +2,7 @@ import { Contract } from "@/models/Contracts";
 import { createHelpers } from "vuex-map-fields";
 
 import uuid from "uuid/v4";
+import ContractService from "@/services/contract.service";
 
 const { mapFields } = createHelpers({
   getterType: "contract/getField",
@@ -33,28 +34,33 @@ export default {
       return this.contracts.filter(contract => contract.uuid !== this.uuid);
     }
   },
-  // watch: {
-  //   contract: {
-  //     handler(val) {
-  //       if (!val.hours) return;
+  watch: {
+    contract: {
+      handler(val) {
+        if (!val.hours) return;
 
-  //       let [hours, minutes] = val.hours.split(":");
+        let [hours, minutes] = val.hours.split(":");
 
-  //       if (minutes > 59) {
-  //         minutes = 59;
-  //       }
+        if (minutes > 59) {
+          minutes = 59;
+        }
 
-  //       val.hours = `${hours}:${minutes}`;
-  //     },
-  //     deep: true
-  //   }
-  // },
+        val.hours = `${hours}:${minutes}`;
+      },
+      deep: true
+    }
+  },
   methods: {
-    create() {
+    async create() {
+      const id = uuid();
       console.log("Adding new contract.");
-      this.contract.uuid = uuid();
+      this.contract.uuid = id;
+
       // TODO: Using vuex-map-fields will actually put "this.contracts" as payload into the mutation. This might be a performance problem at some point. Also hitting a real API with this will probably not work..?
       this.contracts = [this.contract, ...this.contracts];
+
+      // const data = this.contract.toPayload();
+      // await ContractService.create(data, uuid);
       this.contract = new Contract();
     },
     update() {
