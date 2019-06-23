@@ -1,5 +1,6 @@
 import { Shift } from "@/models/Shifts";
 import { createHelpers } from "vuex-map-fields";
+import { parse } from "date-fns";
 // import ShiftService from "@/services/shift.service";
 
 import uuid from "uuid/v4";
@@ -23,6 +24,9 @@ export default {
   created() {
     this.shift =
       this.shifts.find(shift => shift.uuid === this.uuid) || new Shift();
+    // Parse JSON representation of date from vuex into Date() object
+    this.shift.date.start = parse(this.shift.date.start);
+    this.shift.date.end = parse(this.shift.date.end);
   },
   computed: {
     ...mapFields(["shifts"]),

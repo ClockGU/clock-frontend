@@ -1,5 +1,5 @@
 import { is } from "ramda";
-import { differenceInMinutes } from "date-fns";
+import { differenceInMinutes, parse } from "date-fns";
 import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
@@ -33,7 +33,7 @@ export class Shift {
   }
 
   get start() {
-    return this.date.start;
+    return parse(this.date.start);
   }
 
   set start(value) {
@@ -41,7 +41,7 @@ export class Shift {
   }
 
   get end() {
-    return this.date.end;
+    return parse(this.date.end);
   }
 
   set end(value) {
@@ -49,7 +49,7 @@ export class Shift {
   }
 
   get duration() {
-    return differenceInMinutes(this.date.end, this.date.start);
+    return differenceInMinutes(this.end, this.start);
   }
 
   get representationalDuration() {
@@ -62,8 +62,8 @@ export class Shift {
       user: this.user,
       contract: this.contract,
       tags: this.tags.join(","),
-      start: this.date.start,
-      end: this.date.end,
+      start: this.start,
+      end: this.end,
       duration: this.representationalDuration
     };
   }
