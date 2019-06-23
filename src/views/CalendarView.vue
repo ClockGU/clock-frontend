@@ -1,8 +1,21 @@
 <template>
   <div>
-    <calendar :start="start" :type="type"> </calendar>
+    <calendar :start="start" :type="type"></calendar>
     <portal to="toolbar">
       <calendar-toolbar />
+    </portal>
+    <portal to="fab">
+      <v-btn
+        absolute
+        dark
+        fab
+        top
+        right
+        color="pink"
+        :to="{ name: 'createContract' }"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
     </portal>
   </div>
 </template>

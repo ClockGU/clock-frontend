@@ -23,6 +23,8 @@
     </v-toolbar>
     <v-content>
       <router-view></router-view>
+
+      <portal-target name="fab"></portal-target>
     </v-content>
   </v-app>
 </template>
@@ -37,16 +39,16 @@ export default {
         to: { name: "c" },
         icon: "home"
       },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: "list"
-      },
-      {
-        text: "Add Shift",
-        to: { name: "createShift" },
-        icon: "add"
-      },
+      // {
+      //   text: "Shifts",
+      //   to: { name: "shiftList" },
+      //   icon: "list"
+      // },
+      // {
+      //   text: "Add Shift",
+      //   to: { name: "createShift" },
+      //   icon: "add"
+      // },
       {
         text: "Contracts",
         to: { name: "contractList" },
