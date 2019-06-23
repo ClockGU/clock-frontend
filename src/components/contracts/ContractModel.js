@@ -1,5 +1,6 @@
 import { Contract } from "@/models/Contracts";
 import { createHelpers } from "vuex-map-fields";
+import { parse } from "date-fns";
 
 import uuid from "uuid/v4";
 // import ContractService from "@/services/contract.service";
@@ -24,6 +25,9 @@ export default {
     this.contract =
       this.contracts.find(contract => contract.uuid === this.uuid) ||
       new Contract();
+    // Parse JSON representation of date from vuex into Date() object
+    this.contract.date.start = parse(this.contract.date.start);
+    this.contract.date.end = parse(this.contract.date.end);
   },
   computed: {
     ...mapFields(["contracts"]),

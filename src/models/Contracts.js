@@ -1,5 +1,5 @@
 import { is } from "ramda";
-import { differenceInDays, format } from "date-fns";
+import { differenceInDays, format, parse } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
 export class Contract {
@@ -23,7 +23,7 @@ export class Contract {
   }
 
   get start() {
-    return this.date.start;
+    return parse(this.date.start);
   }
 
   set start(value) {
@@ -31,7 +31,7 @@ export class Contract {
   }
 
   get end() {
-    return this.date.end;
+    return parse(this.date.end);
   }
 
   set end(value) {
@@ -39,11 +39,11 @@ export class Contract {
   }
 
   get duration() {
-    return differenceInDays(this.date.end, this.date.start);
+    return differenceInDays(this.end, this.start);
   }
 
   get remainingContractDuration() {
-    return differenceInDays(this.date.end, new Date());
+    return differenceInDays(this.end, new Date());
   }
 
   get hoursInMinutes() {
@@ -56,8 +56,8 @@ export class Contract {
     return {
       name: this.name,
       hours: this.hoursInMinutes,
-      start_date: format(this.date.start, "YYYY-MM-DD"),
-      end_date: format(this.date.end, "YYYY-MM-DD")
+      start_date: format(this.start, "YYYY-MM-DD"),
+      end_date: format(this.end, "YYYY-MM-DD")
     };
   }
 }
