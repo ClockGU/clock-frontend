@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { getField, updateField } from "vuex-map-fields";
+import createPersistedState from "vuex-persistedstate";
 
 import auth from "@/store/modules/auth";
 import calendar from "@/store/modules/calendar";
@@ -22,5 +23,6 @@ export default new Vuex.Store({
     calendar,
     shift,
     contract
-  }
+  },
+  plugins: [createPersistedState()]
 });
