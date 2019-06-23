@@ -3,6 +3,9 @@
     <contract-model :uuid="uuid">
       <template v-slot="{ data, create, update, destroy }">
         <v-card>
+          <v-card-title>
+            <h3 class="headline mb-0">{{ title }}</h3>
+          </v-card-title>
           <v-card-text>
             <v-layout>
               <v-flex xs4>
@@ -92,6 +95,9 @@ export default {
 
     //   return errors;
     // },
+    title() {
+      return this.uuid === null ? "Add contract" : "Update contract";
+    },
     saveLabel() {
       return this.uuid === null ? "Save" : "Update";
     }

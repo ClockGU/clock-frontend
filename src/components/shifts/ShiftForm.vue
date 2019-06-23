@@ -2,6 +2,9 @@
   <shift-model :uuid="uuid">
     <template v-slot="{ data: shift, create, update, destroy }">
       <v-card>
+        <v-card-title>
+          <h3 class="headline mb-0">{{ title }}</h3>
+        </v-card-title>
         <v-card-text>
           <v-layout row wrap align-center>
             <v-flex xs12>
@@ -42,9 +45,9 @@
         <v-card-actions>
           <v-btn flat @click="destroy(destroy)">Delete</v-btn>
           <v-spacer></v-spacer>
-          <v-btn flat @click="submit({ create: create, update: update })">{{
-            saveLabel
-          }}</v-btn>
+          <v-btn flat @click="submit({ create: create, update: update })">
+            {{ saveLabel }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -82,6 +85,9 @@ export default {
     ...mapState("contract", {
       contracts: state => state.contracts
     }),
+    title() {
+      return this.uuid === null ? "Add shift" : "Update shift";
+    },
     saveLabel() {
       return this.uuid === null ? "Save" : "Update";
     }
