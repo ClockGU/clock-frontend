@@ -1,5 +1,6 @@
 import Vue from "vue";
 import { getField, updateField } from "vuex-map-fields";
+import { parse } from "date-fns";
 
 const state = {
   date: new Date(),
@@ -9,7 +10,9 @@ const state = {
 
 const getters = {
   start: state => {
-    return state.date.toISOString().slice(0, 10);
+    return parse(state.date)
+      .toISOString()
+      .slice(0, 10);
   },
   locale: state => {
     return state.locale;
