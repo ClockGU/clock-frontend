@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-container>
     <ul>
       <li v-for="contract in contracts" :key="contract.uuid">
         <v-btn
@@ -8,18 +8,20 @@
         >
       </li>
     </ul>
-    <v-btn
-      absolute
-      dark
-      fab
-      top
-      right
-      color="pink"
-      :to="{ name: 'createContract' }"
-    >
-      <v-icon>add</v-icon>
-    </v-btn>
-  </v-layout>
+    <portal to="fab">
+      <v-btn
+        absolute
+        dark
+        fab
+        top
+        right
+        color="pink"
+        :to="{ name: 'createContract' }"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
+    </portal>
+  </v-container>
 </template>
 
 <script>

@@ -12,7 +12,7 @@
         top
         right
         color="pink"
-        :to="{ name: 'createContract' }"
+        :to="{ name: 'createShift' }"
       >
         <v-icon>add</v-icon>
       </v-btn>
