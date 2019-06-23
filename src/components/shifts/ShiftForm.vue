@@ -43,11 +43,11 @@
           </v-layout>
         </v-card-text>
         <v-card-actions>
-          <v-btn flat @click="remove(destroy)">Delete</v-btn>
+          <v-btn v-if="uuid" flat @click="remove(destroy)">Delete</v-btn>
           <v-spacer></v-spacer>
-          <v-btn flat @click="submit({ create: create, update: update })">{{
-            saveLabel
-          }}</v-btn>
+          <v-btn flat @click="submit({ create: create, update: update })">
+            {{ saveLabel }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </template>
