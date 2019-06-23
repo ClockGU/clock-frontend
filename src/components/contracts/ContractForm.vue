@@ -4,16 +4,30 @@
       <template v-slot="{ data, create, update, destroy }">
         <v-card>
           <v-card-text>
-            <v-layout row wrap align-center>
+            <v-layout>
+              <v-flex xs4>
+                <contract-form-date-input
+                  v-model="data.start"
+                  :contract="data"
+                  label="Start date"
+                  type="start"
+                ></contract-form-date-input>
+              </v-flex>
+              <v-flex xs4 offset-xs2>
+                <contract-form-date-input
+                  v-model="data.end"
+                  :contract="data"
+                  label="End date"
+                  type="end"
+                ></contract-form-date-input>
+              </v-flex>
+            </v-layout>
+            <v-layout align-center>
               <v-flex xs12 md5>
                 <v-text-field
                   v-model="data.name"
-                  :error-messages="nameErrors"
-                  :counter="5"
                   label="Contract name"
                   required
-                  @input="$v.name.$touch()"
-                  @blur="$v.name.$touch()"
                 />
                 <v-text-field
                   v-model="data.hours"
@@ -28,7 +42,7 @@
             </v-layout>
           </v-card-text>
           <v-card-actions>
-            <v-btn flat @click="destroy(destroy)">Delete</v-btn>
+            <v-btn v-if="uuid" flat @click="destroy(destroy)">Delete</v-btn>
             <v-spacer></v-spacer>
             <v-btn flat @click="submit({ create: create, update: update })">{{
               saveLabel
@@ -41,13 +55,14 @@
 </template>
 
 <script>
+import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 import ContractModel from "@/components/contracts/ContractModel";
 
-import { required, maxLength } from "vuelidate/lib/validators";
+// import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   name: "ContractForm",
-  components: { ContractModel },
+  components: { ContractModel, ContractFormDateInput },
   data: () => ({
     valid: false
   }),
@@ -58,37 +73,47 @@ export default {
     }
   },
   computed: {
-    nameErrors() {
-      const errors = [];
+    // nameErrors() {
+    //   const errors = [];
 
-      if (!this.$v.name.$dirty) return errors;
+    //   if (!this.$v.name.$dirty) return errors;
 
-      !this.$v.name.maxLength &&
-        errors.push("Name must be at most 5 characters long");
+    //   !this.$v.name.maxLength &&
+    //     errors.push("Name must be at most 5 characters long");
 
-      return errors;
-    },
+    //   return errors;
+    // },
+    // hourErrors() {
+    //   const errors = [];
+    //   console.log(this.$v.hours);
+
+    //   if (!this.$v.hours.$dirty) return errors;
+    //   !this.$v.hours.required && errors.push("Hours is required");
+
+    //   return errors;
+    // },
     saveLabel() {
       return this.uuid === null ? "Save" : "Update";
     }
   },
-  validations: {
-    name: { required, maxLength: maxLength(5) }
-  },
+  // validations: {
+  //   name: { required, maxLength: minLength(2) },
+  //   hours: { required }
+  // },
   methods: {
     submit(callback) {
       this.uuid === null ? callback.create() : callback.update();
 
-      this.$router.push({ name: "contractList" });
+      // this.$router.push({ name: "contractList" });
     },
     destroy(callback) {
       callback();
 
       this.$router.push({ name: "contractList" });
-    },
-    validateHours(data) {
-      data.hours = "11:11";
     }
+    // validateHours(data) {
+    //   data.hours = "11:11";
+    // }
   }
 };
 </script>
