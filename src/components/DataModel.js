@@ -26,8 +26,8 @@ export default {
     if (this.id && !this.data) this.find();
   },
   methods: {
-    create() {
-      return this.query("post", `${this.endpoint}/`, this.data);
+    create(payload) {
+      return this.query("post", `${this.endpoint}/`, payload);
     },
     destroy() {
       return this.query("delete", `${this.endpoint}/${this.id}`);
@@ -35,8 +35,8 @@ export default {
     find() {
       return this.query("get", `${this.endpoint}/${this.id}`);
     },
-    update() {
-      return this.query("patch", `${this.endpoint}/${this.id}/`, this.data);
+    update(payload) {
+      return this.query("patch", `${this.endpoint}/${this.id}/`, payload);
     }
   },
   render() {

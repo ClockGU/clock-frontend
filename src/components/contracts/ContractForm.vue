@@ -33,7 +33,7 @@
             <v-layout>
               <v-flex xs4>
                 <ContractFormDateInput
-                  v-model="contract.start_date"
+                  v-model="contract.start"
                   :contract="contract"
                   label="Start date"
                   type="start"
@@ -41,7 +41,7 @@
               </v-flex>
               <v-flex xs4 offset-xs2>
                 <ContractFormDateInput
-                  v-model="contract.end_date"
+                  v-model="contract.end"
                   :contract="contract"
                   label="End date"
                   type="end"
@@ -70,9 +70,11 @@
           <v-card-actions>
             <v-btn v-if="uuid" text @click="remove(destroy)">Delete</v-btn>
             <v-spacer></v-spacer>
-            <v-btn text @click="submit({ create: create, update: update })">{{
-              saveLabel
-            }}</v-btn>
+            <v-btn
+              text
+              @click="submit({ create: create, update: update }, contract)"
+              >{{ saveLabel }}</v-btn
+            >
           </v-card-actions>
         </v-card>
       </template>
@@ -85,7 +87,7 @@ import ContractFormDateInput from "@/components/contracts/ContractFormDateInput"
 // import ContractModel from "@/components/contracts/ContractModel";
 import DataModel from "@/components/DataModel";
 
-import { format } from "date-fns";
+import { Contract } from "@/models/Contracts";
 
 // import { required, minLength } from "vuelidate/lib/validators";
 
@@ -105,11 +107,12 @@ export default {
     initialData() {
       return this.uuid
         ? null
-        : {
-            start_date: format(new Date(), "YYYY-MM-DD"),
-            end_date: format(new Date(), "YYYY-MM-DD"),
-            name: ""
-          };
+        : new Contract({
+            // uuid: this.data.id,
+            name: null,
+            date: { start: new Date(), end: new Date() },
+            hours: null
+          });
     },
     // nameErrors() {
     //   const errors = [];
@@ -142,16 +145,15 @@ export default {
   //   hours: { required }
   // },
   methods: {
-    submit(callback) {
-      this.uuid === null ? callback.create() : callback.update();
+    submit(callback, contract) {
+      const payload = contract.toPayload();
+      this.uuid === null ? callback.create(payload) : callback.update(payload);
     },
     redirect() {
       this.$router.push({ name: "contractList" });
     },
     remove(callback) {
       callback();
-
-      this.$router.push({ name: "contractList" });
     }
     // validateHours(data) {
     //   data.hours = "11:11";

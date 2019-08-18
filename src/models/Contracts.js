@@ -15,10 +15,12 @@ export class Contract {
     this.name = is(String, name) ? name : null;
     this.hours = is(Number, hours) ? hours : null;
     this.date = {
-      start: is(Date, date.start)
+      start: is(Date, new Date(date.start))
         ? date.start
         : defaultContractDate({ type: "start" }),
-      end: is(Date, date.end) ? date.end : defaultContractDate({ type: "end" })
+      end: is(Date, new Date(date.end))
+        ? date.end
+        : defaultContractDate({ type: "end" })
     };
   }
 
@@ -55,7 +57,7 @@ export class Contract {
   toPayload() {
     return {
       name: this.name,
-      hours: this.hoursInMinutes,
+      hours: this.hours,
       start_date: format(this.start, "YYYY-MM-DD"),
       end_date: format(this.end, "YYYY-MM-DD")
     };

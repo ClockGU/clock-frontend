@@ -14,9 +14,9 @@
                   </v-card-title>
                   <v-card-text>
                     <p>
-                      Start: {{ contract.start_date | toDate }}
+                      Start: {{ contract.start | toDate }}
                       <br />
-                      End: {{ contract.end_date | toDate }}
+                      End: {{ contract.end | toDate }}
                       <br />
                       Hours: {{ contract.hours }}
                     </p>
@@ -28,7 +28,7 @@
                       dark
                       :to="{
                         name: 'editContract',
-                        params: { uuid: contract.id }
+                        params: { uuid: contract.uuid }
                       }"
                       >Edit</v-btn
                     >

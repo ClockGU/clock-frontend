@@ -6,9 +6,9 @@ Number.prototype.pad = function(size) {
   return s;
 };
 
-export function minutesToHHMM(min) {
+export function minutesToHHMM(min, format) {
   const hours = Math.floor(min / 60).pad(2);
   const minutes = (min % 60).pad(2);
 
-  return `${hours}h${minutes}m`;
+  return format === "hm" ? `${hours}h${minutes}m` : `${hours}:${minutes}`;
 }
