@@ -23,7 +23,7 @@
       </v-list-item>
     </template>
     <template v-slot:selection="data">
-      <v-chip :selected="data.selected" close @input="remove(data.item)">
+      <v-chip :input-value="data.selected" close @input="remove(data.item)">
         <strong>{{ data.item }}</strong>
       </v-chip>
     </template>
