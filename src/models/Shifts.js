@@ -61,10 +61,12 @@ export class Shift {
       uuid: this.uuid,
       user: this.user,
       contract: this.contract,
-      tags: this.tags.join(","),
-      start: this.start,
-      end: this.end,
-      duration: this.representationalDuration
+      tags: this.tags,
+      type: this.type.value,
+      started: this.start,
+      stopped: this.end,
+      duration: this.representationalDuration,
+      was_reviewed: true
     };
   }
 }

@@ -1,14 +1,13 @@
 import ApiService from "@/services/api.service";
 
-// import { Contract } from "@/models/Contracts";
 import { createHelpers } from "vuex-map-fields";
 
 const { mapFields } = createHelpers({
-  getterType: "contract/getField",
-  mutationType: "contract/updateField"
+  getterType: "shift/getField",
+  mutationType: "shift/updateField"
 });
 
-import { mapContracts, mapItemsAndListsToModel } from "@/utils/modelQueries";
+import { mapShifts, mapItemsAndListsToModel } from "@/utils/modelQueries";
 
 export default {
   props: {
@@ -18,7 +17,7 @@ export default {
     }
   },
   computed: {
-    ...mapFields(["contracts"])
+    ...mapFields(["shifts"])
   },
   data() {
     return {
@@ -40,14 +39,15 @@ export default {
         const response = await ApiService[type](...params);
         this.data = response.data;
 
-        this.data = await mapItemsAndListsToModel(this.data, mapContracts);
-        this.contracts = this.data;
+        this.data = await mapItemsAndListsToModel(this.data, mapShifts);
+        this.shifts = this.data;
 
         this.error = null;
         const emitName = type === "get" ? "get-success" : "success";
         this.$emit(emitName, response);
       } catch (error) {
         this.data = null;
+        console.log(error);
         this.error = error.response;
         this.$emit(`error`, error);
       }

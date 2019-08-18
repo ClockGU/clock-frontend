@@ -6,7 +6,7 @@
           <v-container>
             <span v-if="loading">Loading...</span>
             <span v-else-if="error">Error while fetching data!</span>
-            <template v-for="contract in contracts">
+            <template v-for="contract in contracts" v-else>
               <v-flex :key="contract.uuid" xs6>
                 <v-card color="blue darken-2" class="white--text">
                   <v-card-title primary-title>
