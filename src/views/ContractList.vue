@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-lg>
-    <v-layout row wrap>
+    <v-layout wrap>
       <template v-for="contract in contracts">
         <v-flex xs6 :key="contract.uuid">
           <v-card color="blue-grey darken-2" class="white--text">
@@ -19,7 +19,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                flat
+                text
                 dark
                 :to="{ name: 'editContract', params: { uuid: contract.uuid } }"
                 >Edit</v-btn

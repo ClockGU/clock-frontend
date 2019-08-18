@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap>
+  <v-layout wrap>
     <v-flex xs12>Start: {{ start }}</v-flex>
     <v-flex xs12>End: {{ end }}</v-flex>
     <v-flex xs12>Duration: {{ event.duration }}</v-flex>

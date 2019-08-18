@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap justify-center>
+    <v-layout wrap justify-center>
       <v-flex xs12 md8 lg10>
         <contract-form :uuid="uuid" />
       </v-flex>

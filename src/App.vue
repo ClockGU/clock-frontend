@@ -1,26 +1,20 @@
 <template>
-  <v-app id="keep">
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      clipped
-      class="grey lighten-4"
-      app
-    >
+  <v-app>
+    <v-navigation-drawer v-model="drawer" app fixed class="grey lighten-4">
       <v-list>
-        <v-list-tile exact v-for="link in links" :to="link.to" :key="link.text">
-          <v-list-tile-action>
+        <v-list-item exact v-for="link in links" :to="link.to" :key="link.text">
+          <v-list-item-action>
             <v-icon>{{ link.icon }}</v-icon>
-          </v-list-tile-action>
+          </v-list-item-action>
 
-          <v-list-tile-content>{{ link.text }}</v-list-tile-content>
-        </v-list-tile>
+          <v-list-item-content>{{ link.text }}</v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="amber" app absolute flat clipped-left>
-      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+    <v-app-bar color="amber" absolute text>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <portal-target name="toolbar"></portal-target>
-    </v-toolbar>
+    </v-app-bar>
     <v-content>
       <router-view></router-view>
 

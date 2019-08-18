@@ -6,7 +6,7 @@
           <h3 class="headline mb-0">{{ title }}</h3>
         </v-card-title>
         <v-card-text>
-          <v-layout row wrap align-center>
+          <v-layout wrap align-center>
             <v-flex xs12>
               <v-select
                 v-model="shift.contract"
@@ -43,11 +43,11 @@
           </v-layout>
         </v-card-text>
         <v-card-actions>
-          <v-btn v-if="uuid" flat @click="remove(destroy)">Delete</v-btn>
+          <v-btn v-if="uuid" text @click="remove(destroy)">Delete</v-btn>
           <v-spacer></v-spacer>
-          <v-btn flat @click="submit({ create: create, update: update })">
-            {{ saveLabel }}
-          </v-btn>
+          <v-btn text @click="submit({ create: create, update: update })">{{
+            saveLabel
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </template>

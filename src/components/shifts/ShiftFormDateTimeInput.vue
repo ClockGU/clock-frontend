@@ -1,5 +1,5 @@
 <template>
-  <v-layout row>
+  <v-layout>
     <v-flex xs5 md6>
       <shift-form-date-input v-model="date" :shift="shift" :type="type" />
     </v-flex>

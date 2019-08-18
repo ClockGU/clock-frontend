@@ -1,6 +1,6 @@
 <template>
   <v-container fluid pa-0>
-    <v-layout row wrap justify-center>
+    <v-layout wrap justify-center>
       <v-flex xs12>
         <v-sheet height="91vh">
           <v-calendar
@@ -33,8 +33,8 @@
                   </template>
                   <shift-model :uuid="event.uuid">
                     <template v-slot="{ duration, destroy }">
-                      <v-card color="grey lighten-4" min-width="350px" flat>
-                        <v-toolbar color="primary" dark flat>
+                      <v-card color="grey lighten-4" min-width="350px" text>
+                        <v-toolbar color="primary" dark text>
                           <v-btn
                             icon
                             :to="{
@@ -55,7 +55,7 @@
                           <calendar-event :event="event"></calendar-event>
                         </v-card-title>
                         <!-- <v-card-actions>
-                          <v-btn flat color="secondary">Cancel</v-btn>
+                          <v-btn text color="secondary">Cancel</v-btn>
                         </v-card-actions>-->
                       </v-card>
                     </template>

@@ -3,7 +3,6 @@
     ref="menu"
     v-model="menu"
     :close-on-content-click="false"
-    lazy
     transition="scale-transition"
     offset-y
     full-width
@@ -17,7 +16,12 @@
         prepend-inner-icon="calendar_today"
       ></v-text-field>
     </template>
-    <v-date-picker v-model="date" @click:date="menu = false" :min="min" :max="max"></v-date-picker>
+    <v-date-picker
+      v-model="date"
+      @click:date="menu = false"
+      :min="min"
+      :max="max"
+    ></v-date-picker>
   </v-menu>
 </template>
 

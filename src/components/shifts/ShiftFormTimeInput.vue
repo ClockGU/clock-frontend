@@ -4,7 +4,6 @@
     v-model="menu"
     :close-on-content-click="false"
     :return-value.sync="time"
-    lazy
     transition="scale-transition"
     offset-y
     full-width

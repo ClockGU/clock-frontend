@@ -1,6 +1,6 @@
 <template>
-  <v-layout align-center row>
-    <v-btn outline @click="setToday()">Today</v-btn>
+  <v-layout align-center>
+    <v-btn outlined @click="setToday()">Today</v-btn>
     <calendar-toolbar-navigation-buttons />
     <calendar-toolbar-date-picker />
     <calendar-toolbar-week-label />

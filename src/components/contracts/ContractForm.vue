@@ -27,7 +27,11 @@
             </v-layout>
             <v-layout align-center>
               <v-flex xs12 md5>
-                <v-text-field v-model="data.name" label="Contract name" required/>
+                <v-text-field
+                  v-model="data.name"
+                  label="Contract name"
+                  required
+                />
                 <v-text-field
                   v-model="data.hours"
                   label="Working hours"
@@ -41,9 +45,11 @@
             </v-layout>
           </v-card-text>
           <v-card-actions>
-            <v-btn v-if="uuid" flat @click="remove(destroy)">Delete</v-btn>
+            <v-btn v-if="uuid" text @click="remove(destroy)">Delete</v-btn>
             <v-spacer></v-spacer>
-            <v-btn flat @click="submit({ create: create, update: update })">{{ saveLabel }}</v-btn>
+            <v-btn text @click="submit({ create: create, update: update })">{{
+              saveLabel
+            }}</v-btn>
           </v-card-actions>
         </v-card>
       </template>

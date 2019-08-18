@@ -1,11 +1,9 @@
 <template>
-  <v-layout row>
+  <v-layout>
     <v-tooltip v-for="button in buttons" :key="button.icon" bottom>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="changeDate(button.operation, '1')" v-on="on">
-          <v-icon>
-            {{ button.icon }}
-          </v-icon>
+          <v-icon>{{ button.icon }}</v-icon>
         </v-btn>
       </template>
       <span>{{ tooltip(button.operation) }}</span>

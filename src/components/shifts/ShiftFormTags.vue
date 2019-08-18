@@ -13,14 +13,14 @@
     @input="$emit('input', $event)"
   >
     <template v-slot:no-data>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>
             No results matching "<strong>{{ search }}</strong
             >". Press <kbd>enter</kbd> to create a new tag.
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </template>
     <template v-slot:selection="data">
       <v-chip :selected="data.selected" close @input="remove(data.item)">

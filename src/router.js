@@ -6,7 +6,7 @@ import ContractFormView from "./views/ContractFormView";
 import ShiftList from "./views/ShiftList";
 import ContractList from "./views/ContractList";
 import ClockInOut from "./views/ClockInOut";
-import TokenService from "@/services/storage.service";
+// import TokenService from "@/services/storage.service";
 import LoginView from "@/views/LoginView";
 import LogoutView from "@/views/LogoutView";
 

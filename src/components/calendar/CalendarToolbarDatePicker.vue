@@ -7,7 +7,7 @@
     :close-on-content-click="false"
   >
     <template v-slot:activator="{ on }">
-      <v-btn flat small v-on="on">
+      <v-btn text small v-on="on">
         {{ currentMonth }}
         <v-icon right dark>arrow_drop_down</v-icon>
       </v-btn>
