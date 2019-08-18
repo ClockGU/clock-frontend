@@ -15,7 +15,7 @@
           loading
         }"
       >
-        <v-card v-if="!loading">
+        <v-card>
           <v-card-title>
             <h3 class="headline mb-0">{{ title }}</h3>
           </v-card-title>
