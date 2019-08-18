@@ -1,25 +1,48 @@
 <template>
   <v-form>
-    <ContractModel :uuid="uuid">
-      <template v-slot="{ data, create, update, destroy }">
-        <v-card>
+    <DataModel
+      :id="uuid"
+      :entity="initialData"
+      endpoint="api/contracts"
+      @success="redirect"
+    >
+      <template
+        v-slot="{
+          data: contract,
+          create,
+          update,
+          destroy,
+          loading
+        }"
+      >
+        <v-card v-if="!loading">
           <v-card-title>
             <h3 class="headline mb-0">{{ title }}</h3>
           </v-card-title>
-          <v-card-text>
+
+          <v-fade-transition v-if="loading">
+            <v-overlay absolute color="#036358">
+              <v-progress-circular
+                indeterminate
+                size="32"
+              ></v-progress-circular>
+            </v-overlay>
+          </v-fade-transition>
+
+          <v-card-text v-if="!loading">
             <v-layout>
               <v-flex xs4>
                 <ContractFormDateInput
-                  v-model="data.date.start"
-                  :contract="data"
+                  v-model="contract.start_date"
+                  :contract="contract"
                   label="Start date"
                   type="start"
                 ></ContractFormDateInput>
               </v-flex>
               <v-flex xs4 offset-xs2>
                 <ContractFormDateInput
-                  v-model="data.date.end"
-                  :contract="data"
+                  v-model="contract.end_date"
+                  :contract="contract"
                   label="End date"
                   type="end"
                 ></ContractFormDateInput>
@@ -28,12 +51,12 @@
             <v-layout align-center>
               <v-flex xs12 md5>
                 <v-text-field
-                  v-model="data.name"
+                  v-model="contract.name"
                   label="Contract name"
                   required
                 />
                 <v-text-field
-                  v-model="data.hours"
+                  v-model="contract.hours"
                   label="Working hours"
                   hint="HH:mm"
                   mask="time"
@@ -53,19 +76,22 @@
           </v-card-actions>
         </v-card>
       </template>
-    </ContractModel>
+    </DataModel>
   </v-form>
 </template>
 
 <script>
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
-import ContractModel from "@/components/contracts/ContractModel";
+// import ContractModel from "@/components/contracts/ContractModel";
+import DataModel from "@/components/DataModel";
+
+import { format } from "date-fns";
 
 // import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   name: "ContractForm",
-  components: { ContractModel, ContractFormDateInput },
+  components: { DataModel, ContractFormDateInput },
   props: {
     uuid: {
       type: String,
@@ -76,6 +102,15 @@ export default {
     valid: false
   }),
   computed: {
+    initialData() {
+      return this.uuid
+        ? null
+        : {
+            start_date: format(new Date(), "YYYY-MM-DD"),
+            end_date: format(new Date(), "YYYY-MM-DD"),
+            name: ""
+          };
+    },
     // nameErrors() {
     //   const errors = [];
 
@@ -109,7 +144,8 @@ export default {
   methods: {
     submit(callback) {
       this.uuid === null ? callback.create() : callback.update();
-
+    },
+    redirect() {
       this.$router.push({ name: "contractList" });
     },
     remove(callback) {

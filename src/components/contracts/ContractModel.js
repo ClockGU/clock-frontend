@@ -43,7 +43,11 @@ export default {
       handler(val) {
         if (!val.hours) return;
 
+        console.log(val);
+
         let [hours, minutes] = val.hours.split(":");
+
+        console.log(hours, minutes);
 
         if (minutes > 59) {
           minutes = 59;

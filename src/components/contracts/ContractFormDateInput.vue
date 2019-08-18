@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { format, isDate } from "date-fns";
 
 export default {
   name: "ContractFormDateInput",
   props: {
     value: {
-      type: Date,
+      type: String,
       required: true
     },
     label: {
@@ -54,23 +54,26 @@ export default {
   computed: {
     date: {
       get() {
-        return format(this.value, "YYYY-MM-DD");
+        return isDate(this.value)
+          ? format(this.value, "YYYY-MM-DD")
+          : this.value;
       },
       set(val) {
-        const [year, month, day] = val.split("-");
-        const [hours, minutes] = format(this.value, "HH:mm").split(":");
-        this.$emit("input", new Date(year, month - 1, day, hours, minutes));
+        // const [year, month, day] = val.split("-");
+        // const [hours, minutes] = format(this.value, "HH:mm").split(":");
+        // this.$emit("input", new Date(year, month - 1, day, hours, minutes));
+        this.$emit("input", val);
       }
     },
     min() {
       if (this.type === "start") return undefined;
 
-      return format(this.contract.date.start, "YYYY-MM-DD");
+      return format(this.contract.start_date, "YYYY-MM-DD");
     },
     max() {
       if (this.type === "end") return undefined;
 
-      return format(this.contract.date.end, "YYYY-MM-DD");
+      return format(this.contract.end_date, "YYYY-MM-DD");
     }
   }
 };
