@@ -1,10 +1,10 @@
 <template>
   <v-layout>
     <v-flex xs5 md6>
-      <shift-form-date-input v-model="date" :shift="shift" :type="type" />
+      <ShiftFormDateInput v-model="date" :shift="shift" :type="type" />
     </v-flex>
     <v-flex xs3 offset-xs2 md4 offset-md1>
-      <shift-form-time-input v-model="date" :shift="shift" :type="type" />
+      <ShiftFormTimeInput v-model="date" :shift="shift" :type="type" />
     </v-flex>
   </v-layout>
 </template>

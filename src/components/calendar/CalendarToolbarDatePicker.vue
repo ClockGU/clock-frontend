@@ -13,9 +13,9 @@
       </v-btn>
     </template>
     <v-date-picker
+      v-model="date"
       no-title
       scrollable
-      v-model="date"
       @input="menu = false"
     ></v-date-picker>
   </v-menu>

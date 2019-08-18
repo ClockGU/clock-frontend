@@ -10,17 +10,17 @@
     <template v-slot:activator="{ on }">
       <v-text-field
         v-model="date"
-        v-on="on"
         :label="label"
         readonly
         prepend-inner-icon="calendar_today"
+        v-on="on"
       ></v-text-field>
     </template>
     <v-date-picker
       v-model="date"
-      @click:date="menu = false"
       :min="min"
       :max="max"
+      @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
 </template>
@@ -30,9 +30,6 @@ import { format } from "date-fns";
 
 export default {
   name: "ContractFormDateInput",
-  data: () => ({
-    menu: false
-  }),
   props: {
     value: {
       type: Date,
@@ -51,6 +48,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    menu: false
+  }),
   computed: {
     date: {
       get() {

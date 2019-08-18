@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <contract-model :uuid="uuid">
+    <ContractModel :uuid="uuid">
       <template v-slot="{ data, create, update, destroy }">
         <v-card>
           <v-card-title>
@@ -9,20 +9,20 @@
           <v-card-text>
             <v-layout>
               <v-flex xs4>
-                <contract-form-date-input
+                <ContractFormDateInput
                   v-model="data.date.start"
                   :contract="data"
                   label="Start date"
                   type="start"
-                ></contract-form-date-input>
+                ></ContractFormDateInput>
               </v-flex>
               <v-flex xs4 offset-xs2>
-                <contract-form-date-input
+                <ContractFormDateInput
                   v-model="data.date.end"
                   :contract="data"
                   label="End date"
                   type="end"
-                ></contract-form-date-input>
+                ></ContractFormDateInput>
               </v-flex>
             </v-layout>
             <v-layout align-center>
@@ -53,7 +53,7 @@
           </v-card-actions>
         </v-card>
       </template>
-    </contract-model>
+    </ContractModel>
   </v-form>
 </template>
 
@@ -66,15 +66,15 @@ import ContractModel from "@/components/contracts/ContractModel";
 export default {
   name: "ContractForm",
   components: { ContractModel, ContractFormDateInput },
-  data: () => ({
-    valid: false
-  }),
   props: {
     uuid: {
       type: String,
       default: null
     }
   },
+  data: () => ({
+    valid: false
+  }),
   computed: {
     // nameErrors() {
     //   const errors = [];

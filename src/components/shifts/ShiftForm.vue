@@ -1,5 +1,5 @@
 <template>
-  <shift-model :uuid="uuid">
+  <ShiftModel :uuid="uuid">
     <template v-slot="{ data: shift, create, update, destroy }">
       <v-card>
         <v-card-title>
@@ -17,7 +17,7 @@
               ></v-select>
             </v-flex>
             <v-flex xs12 md5>
-              <shift-form-date-time-input
+              <ShiftFormDateTimeInput
                 v-model="shift.date"
                 :shift="shift"
                 type="start"
@@ -25,20 +25,20 @@
             </v-flex>
             <v-flex xs1>to</v-flex>
             <v-flex xs12 md5>
-              <shift-form-date-time-input
+              <ShiftFormDateTimeInput
                 v-model="shift.date"
                 :shift="shift"
                 type="end"
               />
             </v-flex>
             <v-flex xs12 md7>
-              <shift-form-select v-model="shift.type" />
+              <ShiftFormSelect v-model="shift.type" />
             </v-flex>
             <v-flex xs12 md7>
-              <shift-form-tags v-model="shift.tags" />
+              <ShiftFormTags v-model="shift.tags" />
             </v-flex>
             <v-flex xs12 md7>
-              <shift-form-input v-model="shift.note" />
+              <ShiftFormInput v-model="shift.note" />
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -51,7 +51,7 @@
         </v-card-actions>
       </v-card>
     </template>
-  </shift-model>
+  </ShiftModel>
 </template>
 
 <script>
@@ -72,15 +72,15 @@ export default {
     ShiftFormSelect,
     ShiftFormTags
   },
-  data: () => ({
-    select: null
-  }),
   props: {
     uuid: {
       type: String,
       default: null
     }
   },
+  data: () => ({
+    select: null
+  }),
   computed: {
     ...mapState("contract", {
       contracts: state => state.contracts

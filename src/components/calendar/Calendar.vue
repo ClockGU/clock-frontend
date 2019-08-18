@@ -1,73 +1,58 @@
 <template>
-  <v-container fluid pa-0>
-    <v-layout wrap justify-center>
-      <v-flex xs12>
-        <v-sheet height="91vh">
-          <v-calendar
-            ref="calendar"
-            color="primary"
-            @click:date="changeDate"
-            :show-month-on-first="false"
-            :locale="locale"
-            :type="type"
-            :start="start"
-            :end="end"
-            :weekdays="weekdays"
-          >
-            <template v-slot:day="{ date }">
-              <template v-for="event in eventsMap[date]">
-                <v-menu
-                  :key="event.uuid"
-                  v-model="event.open"
-                  full-width
-                  offset-x
-                >
-                  <template v-slot:activator="{ on }">
-                    <div
-                      v-if="!event.time"
-                      v-ripple
-                      class="my-event"
-                      v-on="on"
-                      v-html="event.duration"
-                    ></div>
-                  </template>
-                  <shift-model :uuid="event.uuid">
-                    <template v-slot="{ duration, destroy }">
-                      <v-card color="grey lighten-4" min-width="350px" text>
-                        <v-toolbar color="primary" dark text>
-                          <v-btn
-                            icon
-                            :to="{
-                              name: 'editShift',
-                              params: { uuid: event.uuid }
-                            }"
-                            @click.native="event.open != event.open"
-                          >
-                            <v-icon>edit</v-icon>
-                          </v-btn>
-                          <span>{{ event.contract.name }}</span>
-                          <v-spacer></v-spacer>
-                          <v-btn icon @click.native="destroy()">
-                            <v-icon>delete</v-icon>
-                          </v-btn>
-                        </v-toolbar>
-                        <v-card-title primary-title>
-                          <calendar-event :event="event"></calendar-event>
-                        </v-card-title>
-                        <!-- <v-card-actions>
-                          <v-btn text color="secondary">Cancel</v-btn>
-                        </v-card-actions>-->
-                      </v-card>
-                    </template>
-                  </shift-model>
-                </v-menu>
-              </template>
+  <v-sheet height="88vh" width="100vw">
+    <v-calendar
+      ref="calendar"
+      color="primary"
+      :show-month-on-first="false"
+      :locale="locale"
+      :type="type"
+      :start="start"
+      :end="end"
+      :weekdays="weekdays"
+      @click:date="changeDate"
+    >
+      <template v-slot:day="{ date }">
+        <template v-for="event in eventsMap[date]">
+          <v-menu :key="event.uuid" v-model="event.open" full-width offset-x>
+            <template v-slot:activator="{ on }">
+              <div v-if="!event.time" v-ripple class="my-event" v-on="on">
+                {{ event.duration }}
+              </div>
             </template>
-          </v-calendar>
-        </v-sheet>
-      </v-flex>
-    </v-layout>
-  </v-container>
+            <ShiftModel :uuid="event.uuid">
+              <template v-slot="{ duration, destroy }">
+                <v-card color="grey lighten-4" min-width="350px" text>
+                  <v-toolbar color="primary" dark text>
+                    <v-btn
+                      icon
+                      :to="{
+                        name: 'editShift',
+                        params: { uuid: event.uuid }
+                      }"
+                      @click.native="event.open != event.open"
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <span>{{ event.contract.name }}</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click.native="destroy()">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </v-toolbar>
+                  <v-card-title primary-title>
+                    <CalendarEvent :event="event"></CalendarEvent>
+                  </v-card-title>
+                  <!-- <v-card-actions>
+                          <v-btn text color="secondary">Cancel</v-btn>
+                  </v-card-actions>-->
+                </v-card>
+              </template>
+            </ShiftModel>
+          </v-menu>
+        </template>
+      </template>
+    </v-calendar>
+  </v-sheet>
 </template>
 
 <script>
@@ -82,10 +67,6 @@ import CalendarEvent from "@/components/calendar/CalendarEvent";
 
 export default {
   name: "Calendar",
-  data: () => ({
-    end: "2019-01-06",
-    weekdays: [1, 2, 3, 4, 5, 6, 0]
-  }),
   components: {
     CalendarEvent,
     ShiftModel
@@ -100,6 +81,10 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    end: "2019-01-06",
+    weekdays: [1, 2, 3, 4, 5, 6, 0]
+  }),
   computed: {
     eventsMap() {
       const map = {};

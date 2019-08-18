@@ -4,8 +4,8 @@
     :items="items"
     item-text="text"
     item-value="value"
-    @input="$emit('input', $event)"
     return-object
+    @input="$emit('input', $event)"
   >
   </v-select>
 </template>

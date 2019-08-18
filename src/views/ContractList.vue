@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid grid-list-lg>
+  <v-content>
     <v-layout wrap>
       <template v-for="contract in contracts">
-        <v-flex xs6 :key="contract.uuid">
+        <v-flex :key="contract.uuid" xs6>
           <v-card color="blue-grey darken-2" class="white--text">
             <v-card-title primary-title>
               <div class="headline">{{ contract.name }}</div>
@@ -43,7 +43,7 @@
         <v-icon>add</v-icon>
       </v-btn>
     </portal>
-  </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -52,15 +52,15 @@ import { format } from "date-fns";
 
 export default {
   name: "ContractList",
-  computed: {
-    ...mapState({
-      contracts: state => state.contract.contracts
-    })
-  },
   filters: {
     toDate(date) {
       return format(date, "YYYY-MM-DD");
     }
+  },
+  computed: {
+    ...mapState({
+      contracts: state => state.contract.contracts
+    })
   }
 };
 </script>

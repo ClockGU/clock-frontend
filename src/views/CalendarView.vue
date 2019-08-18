@@ -1,8 +1,8 @@
 <template>
   <div>
-    <calendar :start="start" :type="type"></calendar>
+    <Calendar :start="start" :type="type"></Calendar>
     <portal to="toolbar">
-      <calendar-toolbar />
+      <CalendarToolbar />
     </portal>
     <portal to="fab">
       <v-btn
@@ -48,10 +48,6 @@ export default {
       default: String(new Date().getUTCDate())
     }
   },
-  created() {
-    this.$store.dispatch("calendar/setDate", this.date);
-    this.$store.dispatch("calendar/setType", this.type);
-  },
   computed: {
     date() {
       return new Date(Date.UTC(this.year, this.month - 1, this.day));
@@ -59,6 +55,10 @@ export default {
     start() {
       return this.date.toISOString().slice(0, 10);
     }
+  },
+  created() {
+    this.$store.dispatch("calendar/setDate", this.date);
+    this.$store.dispatch("calendar/setType", this.type);
   }
 };
 </script>

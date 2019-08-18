@@ -10,17 +10,17 @@
     <template v-slot:activator="{ on }">
       <v-text-field
         v-model="date"
-        v-on="on"
         readonly
         prepend-inner-icon="calendar_today"
+        v-on="on"
       ></v-text-field>
     </template>
     <v-date-picker
-      no-title
       v-model="date"
-      @click:date="menu = false"
+      no-title
       :min="min"
       :max="max"
+      @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
 </template>
@@ -30,9 +30,6 @@ import { format } from "date-fns";
 
 export default {
   name: "ShiftFormDateInput",
-  data: () => ({
-    menu: false
-  }),
   props: {
     value: {
       type: Date,
@@ -47,6 +44,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    menu: false
+  }),
   computed: {
     date: {
       get() {

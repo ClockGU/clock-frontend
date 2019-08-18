@@ -2,7 +2,7 @@
   <v-container>
     <v-layout wrap justify-center>
       <v-flex xs12 md8 lg10>
-        <shift-form :uuid="uuid" />
+        <ShiftForm :uuid="uuid" />
       </v-flex>
     </v-layout>
   </v-container>

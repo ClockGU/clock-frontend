@@ -11,19 +11,19 @@
     <template v-slot:activator="{ on }">
       <v-text-field
         v-model="time"
-        v-on="on"
         readonly
         prepend-inner-icon="access_time"
+        v-on="on"
       ></v-text-field>
     </template>
     <v-time-picker
       v-if="menu"
-      no-title
       v-model="time"
+      no-title
       format="24hr"
-      @click:minute="$refs.menu.save(time)"
       :min="min"
       :max="max"
+      @click:minute="$refs.menu.save(time)"
     ></v-time-picker>
   </v-menu>
 </template>
@@ -33,9 +33,6 @@ import { format } from "date-fns";
 
 export default {
   name: "ShiftFormTimeInput",
-  data: () => ({
-    menu: false
-  }),
   props: {
     value: {
       type: Date,
@@ -50,6 +47,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    menu: false
+  }),
   computed: {
     time: {
       get() {

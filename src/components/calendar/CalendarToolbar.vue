@@ -1,11 +1,11 @@
 <template>
   <v-layout align-center>
     <v-btn outlined @click="setToday()">Today</v-btn>
-    <calendar-toolbar-navigation-buttons />
-    <calendar-toolbar-date-picker />
-    <calendar-toolbar-week-label />
+    <CalendarToolbarNavigationButtons />
+    <CalendarToolbarDatePicker />
+    <CalendarToolbarWeekLabel />
     <v-spacer></v-spacer>
-    <calendar-toolbar-type-select />
+    <CalendarToolbarTypeSelect />
   </v-layout>
 </template>
 

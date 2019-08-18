@@ -35,7 +35,8 @@ export default {
   name: "ShiftFormInput",
   props: {
     value: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
@@ -43,12 +44,6 @@ export default {
     items: [],
     search: null
   }),
-  methods: {
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
-    }
-  },
   watch: {
     value(val, prev) {
       if (val.length === prev.length) return;
@@ -60,6 +55,12 @@ export default {
 
         return v;
       });
+    }
+  },
+  methods: {
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1);
+      this.chips = [...this.chips];
     }
   }
 };

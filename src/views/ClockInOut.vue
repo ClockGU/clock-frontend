@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center>
     <v-flex xs8 md4>
-      <clock-model :startDate="startDate">
+      <ClockModel :start-date="startDate">
         <template v-slot="{ toggle, data, duration }">
           <v-layout wrap>
             <v-flex xs12>
@@ -16,8 +16,8 @@
             <v-flex xs12>
               <v-hover>
                 <v-btn
-                  class="mb-0"
                   slot-scope="{ hover }"
+                  class="mb-0"
                   :class="
                     hover && !data.start
                       ? 'success'
@@ -38,7 +38,7 @@
               </v-hover>
             </v-flex>
             <v-expand-transition>
-              <v-flex xs12 v-if="data.start">
+              <v-flex v-if="data.start" xs12>
                 <v-btn class="mt-0" depressed disabled large block>{{
                   duration | toTime
                 }}</v-btn>
@@ -46,7 +46,7 @@
             </v-expand-transition>
           </v-layout>
         </template>
-      </clock-model>
+      </ClockModel>
     </v-flex>
   </v-layout>
 </template>
@@ -59,28 +59,28 @@ import { addSeconds, format } from "date-fns";
 
 export default {
   name: "ClockInOut",
-  data: () => ({
-    select: null
-  }),
-  props: {
-    startDate: {
-      type: Date,
-      default: null
-    }
-  },
   components: {
     ClockModel
-  },
-  computed: {
-    ...mapState({
-      contracts: state => state.contract.contracts
-    })
   },
   filters: {
     toTime(seconds) {
       const date = addSeconds(new Date(1970, 1, 1), seconds);
       return format(date, "HH[h]mm[m]ss[s]");
     }
+  },
+  props: {
+    startDate: {
+      type: Date,
+      default: null
+    }
+  },
+  data: () => ({
+    select: null
+  }),
+  computed: {
+    ...mapState({
+      contracts: state => state.contract.contracts
+    })
   }
 };
 </script>
