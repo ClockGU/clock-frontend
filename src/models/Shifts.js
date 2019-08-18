@@ -23,8 +23,12 @@ export class Shift {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
     this.date = {
-      start: is(Date, date.start) ? date.start : defaultValueTime("start"),
-      end: is(Date, date.end) ? date.end : defaultValueTime("end")
+      start: is(Date, new Date(date.start))
+        ? new Date(date.start)
+        : defaultValueTime("start"),
+      end: is(Date, new Date(date.end))
+        ? new Date(date.end)
+        : defaultValueTime("end")
     };
     this.contract = is(String, contract) ? contract : null;
     this.type = is(String, type) ? type : { text: "Shift", value: "st" };
