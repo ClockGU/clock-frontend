@@ -8,7 +8,7 @@
             <span v-else-if="error">Error while fetching data!</span>
             <template v-for="contract in contracts">
               <v-flex :key="contract.uuid" xs6>
-                <v-card color="blue-grey darken-2" class="white--text">
+                <v-card color="blue darken-2" class="white--text">
                   <v-card-title primary-title>
                     <div class="headline">{{ contract.name }}</div>
                   </v-card-title>
