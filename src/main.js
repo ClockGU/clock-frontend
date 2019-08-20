@@ -8,7 +8,7 @@ import Vuelidate from "vuelidate";
 import ApiService from "@/services/api.service";
 import TokenService from "@/services/storage.service";
 
-ApiService.init(`http://localhost:8000`);
+ApiService.init(process.env.VUE_APP_API_URL);
 
 // If token exists set header
 if (TokenService.getToken()) {
