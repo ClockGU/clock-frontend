@@ -2,11 +2,16 @@
   <v-container>
     <v-layout wrap justify-center>
       <v-flex xs12 md8 lg10>
-        <v-text-field v-model="username" label="Username"></v-text-field>
+        <v-text-field
+          v-model="username"
+          label="Username"
+          @keyup.enter="submit"
+        ></v-text-field>
         <v-text-field
           v-model="password"
           label="Password"
           type="password"
+          @keyup.enter="submit"
         ></v-text-field>
         <v-btn @click="submit">Login</v-btn>
       </v-flex>
