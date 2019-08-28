@@ -1,0 +1,24 @@
+<template>
+  <FrameApi :endpoint="listEndpoint">
+    <template
+      slot-scope="{ data: shifts, methods: { query: fetchList }, status }"
+    >
+      <slot :methods="{ fetchList }" :shifts="shifts" :status="status" />
+    </template>
+  </FrameApi>
+</template>
+
+<script>
+import FrameApi from "./FrameApi";
+import ShiftService from "@/services/shift.service";
+
+export default {
+  name: `ShiftListFrame`,
+  components: {
+    FrameApi
+  },
+  created() {
+    this.listEndpoint = () => ShiftService.list();
+  }
+};
+</script>

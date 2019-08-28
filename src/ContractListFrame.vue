@@ -1,0 +1,24 @@
+<template>
+  <FrameApi :endpoint="listEndpoint">
+    <template
+      slot-scope="{ data: contracts, methods: { query: fetchList }, status }"
+    >
+      <slot :methods="{ fetchList }" :contracts="contracts" :status="status" />
+    </template>
+  </FrameApi>
+</template>
+
+<script>
+import FrameApi from "./FrameApi";
+import ContractService from "@/services/contract.service";
+
+export default {
+  name: `ContractListFrame`,
+  components: {
+    FrameApi
+  },
+  created() {
+    this.listEndpoint = () => ContractService.list();
+  }
+};
+</script>

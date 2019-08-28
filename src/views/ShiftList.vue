@@ -1,6 +1,13 @@
 <template>
-  <ShiftModelList endpoint="api/shifts">
-    <template v-slot:default="{ data: shifts, error, loading }">
+  <ShiftListFrame>
+    <FrameHooks
+      slot-scope="{
+        shifts,
+        methods: { fetchList },
+        status: { loading, error }
+      }"
+      @created="fetchList()"
+    >
       <span v-if="loading">Loading...</span>
       <span v-else-if="error">Error while fetching data!</span>
       <ul v-else>
@@ -10,22 +17,16 @@
           </v-btn>
         </li>
       </ul>
-    </template>
-  </ShiftModelList>
+    </FrameHooks>
+  </ShiftListFrame>
 </template>
 
 <script>
-import { mapState } from "vuex";
-
-import ShiftModelList from "@/components/ShiftModelList";
+import ShiftListFrame from "@/ShiftListFrame";
+import FrameHooks from "@/FrameHooks";
 
 export default {
   name: "ShiftList",
-  components: { ShiftModelList },
-  computed: {
-    ...mapState({
-      shifts: state => state.shift.shifts
-    })
-  }
+  components: { ShiftListFrame, FrameHooks }
 };
 </script>

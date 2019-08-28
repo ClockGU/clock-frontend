@@ -1,11 +1,19 @@
 <template>
   <v-content>
     <v-layout wrap>
-      <DataList endpoint="api/contracts">
-        <template v-slot:default="{ data: contracts, error, loading }">
+      <ContractListFrame>
+        <FrameHooks
+          slot-scope="{
+            contracts,
+            methods: { fetchList },
+            status: { loading, error }
+          }"
+          @created="fetchList()"
+        >
           <v-container>
             <span v-if="loading">Loading...</span>
             <span v-else-if="error">Error while fetching data!</span>
+
             <template v-for="contract in contracts" v-else>
               <v-flex :key="contract.uuid" xs6>
                 <v-card color="blue darken-2" class="white--text">
@@ -14,9 +22,9 @@
                   </v-card-title>
                   <v-card-text>
                     <p>
-                      Start: {{ contract.start | toDate }}
+                      Start: {{ contract.date.start | toDate }}
                       <br />
-                      End: {{ contract.end | toDate }}
+                      End: {{ contract.date.end | toDate }}
                       <br />
                       Hours: {{ contract.hours }}
                     </p>
@@ -37,8 +45,8 @@
               </v-flex>
             </template>
           </v-container>
-        </template>
-      </DataList>
+        </FrameHooks>
+      </ContractListFrame>
     </v-layout>
 
     <portal to="fab">
@@ -58,23 +66,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import { format } from "date-fns";
 
-import DataList from "@/components/DataList";
+import ContractListFrame from "@/ContractListFrame";
+import FrameHooks from "@/FrameHooks";
 
 export default {
   name: "ContractList",
-  components: { DataList },
+  components: { ContractListFrame, FrameHooks },
   filters: {
     toDate(date) {
       return format(date, "YYYY-MM-DD");
     }
-  },
-  computed: {
-    ...mapState({
-      contracts: state => state.contract.contracts
-    })
   }
 };
 </script>
