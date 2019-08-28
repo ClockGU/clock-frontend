@@ -10,6 +10,12 @@ function defaultValueTime(type) {
   return today;
 }
 
+const SHIFT_TYPES = [
+  { text: "Shift", value: "st" },
+  { text: "Sick", value: "sk" },
+  { text: "Vacation", value: "vn" }
+];
+
 export class Shift {
   constructor({
     uuid = null,
@@ -31,7 +37,9 @@ export class Shift {
         : defaultValueTime("end")
     };
     this.contract = is(String, contract) ? contract : null;
-    this.type = is(String, type) ? type : { text: "Shift", value: "st" };
+    this.type = is(Object, type)
+      ? type
+      : SHIFT_TYPES.find(item => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
   }
