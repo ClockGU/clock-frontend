@@ -9,12 +9,22 @@ const getters = {
 };
 
 const mutations = {
-  updateField
+  updateField,
+  setShifts(state, payload) {
+    state.shifts = payload;
+  }
+};
+
+const actions = {
+  setShifts({ commit }, payload) {
+    commit("setShifts", payload);
+  }
 };
 
 export default {
   namespaced: true,
   state,
+  actions,
   getters,
   mutations
 };
