@@ -67,7 +67,8 @@ const ApiService = {
             try {
               await store.dispatch("auth/refreshToken");
               // Retry the original request
-              console.log(error);
+              console.log("Retried previous request!");
+              // console.log(error);
               return this.customRequest({
                 method: error.config.method,
                 url: error.config.url,
