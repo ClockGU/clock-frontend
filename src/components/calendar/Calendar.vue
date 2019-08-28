@@ -1,91 +1,172 @@
 <template>
-  <v-sheet height="88vh" width="100vw">
-    <v-calendar
-      ref="calendar"
-      color="primary"
-      :show-month-on-first="false"
-      :locale="locale"
-      :type="type"
-      :start="start"
-      :end="end"
-      :weekdays="weekdays"
-      @click:date="changeDate"
-    >
-      <template v-slot:day="{ date }">
-        <template v-for="event in eventsMap[date]">
-          <v-menu :key="event.uuid" v-model="event.open" full-width offset-x>
+  <v-row>
+    <v-col>
+      <v-sheet height="80vh" width="100vw">
+        <v-toolbar flat color="white">
+          <v-btn outlined class="mr-4" @click="setToday">
+            Today
+          </v-btn>
+          <v-btn fab text small @click="prev">
+            <v-icon small>chevron_left</v-icon>
+          </v-btn>
+          <v-btn fab text small @click="next">
+            <v-icon small>chevron_right</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <div class="flex-grow-1"></div>
+          <v-menu bottom right>
             <template v-slot:activator="{ on }">
-              <div v-if="!event.time" v-ripple class="my-event" v-on="on">
-                {{ event.duration }}
-              </div>
+              <v-btn outlined v-on="on">
+                <span>{{ typeToLabel[type] }}</span>
+                <v-icon right>arrow_drop_down</v-icon>
+              </v-btn>
             </template>
-            <ShiftModel :uuid="event.uuid">
-              <template v-slot="{ duration, destroy }">
-                <v-card color="grey lighten-4" min-width="350px" text>
-                  <v-toolbar color="primary" dark text>
-                    <v-btn
-                      icon
-                      :to="{
-                        name: 'editShift',
-                        params: { uuid: event.uuid }
-                      }"
-                      @click.native="event.open != event.open"
-                    >
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                    <span>{{ event.contract.name }}</span>
-                    <v-spacer></v-spacer>
-                    <v-btn icon @click.native="destroy()">
-                      <v-icon>delete</v-icon>
-                    </v-btn>
-                  </v-toolbar>
-                  <v-card-title primary-title>
-                    <CalendarEvent :event="event"></CalendarEvent>
-                  </v-card-title>
-                  <!-- <v-card-actions>
-                          <v-btn text color="secondary">Cancel</v-btn>
-                  </v-card-actions>-->
-                </v-card>
-              </template>
-            </ShiftModel>
+            <v-list>
+              <v-list-item @click="type = 'day'">
+                <v-list-item-title>Day</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'week'">
+                <v-list-item-title>Week</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'month'">
+                <v-list-item-title>Month</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = '4day'">
+                <v-list-item-title>4 days</v-list-item-title>
+              </v-list-item>
+            </v-list>
           </v-menu>
-        </template>
-      </template>
-    </v-calendar>
-  </v-sheet>
+        </v-toolbar>
+        <!-- </v-sheet> -->
+        <!-- <v-sheet height="600" width="100vw"> -->
+        <v-calendar
+          ref="calendar"
+          v-model="focus"
+          color="primary"
+          :events="events"
+          :event-color="getEventColor"
+          :event-margin-bottom="3"
+          :now="today"
+          :type="type"
+          @click:event="showEvent"
+          @click:more="viewDay"
+          @click:date="viewDay"
+          @change="updateRange"
+        ></v-calendar>
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          full-width
+          offset-x
+        >
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-toolbar :color="selectedEvent.color" dark>
+              <v-btn
+                icon
+                :to="{
+                  name: 'editShift',
+                  params: { uuid: selectedEvent.uuid }
+                }"
+              >
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <span v-html="selectedEvent.details"></span>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn text color="secondary" @click="selectedOpen = false">
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+      </v-sheet>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 import { format } from "date-fns";
 import { mapState } from "vuex";
 
-import { getRouterProps } from "@/utils/date";
+// import { getRouterProps } from "@/utils/date";
 
 import { Shift } from "@/models/Shifts";
-import ShiftModel from "@/components/shifts/ShiftModel";
-import CalendarEvent from "@/components/calendar/CalendarEvent";
+import { Contract } from "@/models/Contracts";
+// import ShiftModel from "@/components/shifts/ShiftModel";
+// import CalendarEvent from "@/components/calendar/CalendarEvent";
+import ShiftService from "@/services/shift.service.js";
 
 export default {
   name: "Calendar",
-  components: {
-    CalendarEvent,
-    ShiftModel
-  },
+  // components: {
+  //   CalendarEvent,
+  //   ShiftModel
+  // },
   props: {
-    start: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      required: true
-    }
+    // start: {
+    //   type: String,
+    //   required: true
+    // },
+    // type: {
+    //   type: String,
+    //   required: true
+    // }
   },
   data: () => ({
-    end: "2019-01-06",
-    weekdays: [1, 2, 3, 4, 5, 6, 0]
+    today: "2019-08-27",
+    focus: "2019-08-27",
+    type: "month",
+    typeToLabel: {
+      month: "Month",
+      week: "Week",
+      day: "Day",
+      "4day": "4 Days"
+    },
+    start: null,
+    end: null,
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false
   }),
   computed: {
+    title() {
+      const { start, end } = this;
+      if (!start || !end) {
+        return "";
+      }
+
+      const startMonth = this.monthFormatter(start);
+      const endMonth = this.monthFormatter(end);
+      const suffixMonth = startMonth === endMonth ? "" : endMonth;
+
+      const startYear = start.year;
+      const endYear = end.year;
+      const suffixYear = startYear === endYear ? "" : endYear;
+
+      const startDay = start.day + this.nth(start.day);
+      const endDay = end.day + this.nth(end.day);
+
+      switch (this.type) {
+        case "month":
+          return `${startMonth} ${startYear}`;
+        case "week":
+        case "4day":
+          return `${startMonth} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`;
+        case "day":
+          return `${startMonth} ${startDay} ${startYear}`;
+      }
+      return "";
+    },
+    monthFormatter() {
+      return this.$refs.calendar.getFormatter({
+        timeZone: "UTC",
+        month: "long"
+      });
+    },
     eventsMap() {
       const map = {};
       this.events.forEach(e =>
@@ -97,17 +178,19 @@ export default {
     events() {
       return this.shifts.map(item => {
         const shift = new Shift(item);
-        const contract = this.contracts.find(
-          contract => contract.uuid === shift.contract
+        const contract = new Contract(
+          this.contracts.find(contract => contract.id === shift.contract)
         );
 
         return {
-          title: "ABC",
-          details: "dsa",
+          name: shift.representationalDuration,
+          details: "These are details",
           uuid: shift.uuid,
-          dates: shift.date,
-          date: format(shift.date.start, "YYYY-MM-DD"),
-          open: false,
+          // date: format(shift.date.start, "YYYY-MM-DD"),
+          start: format(shift.date.start, "YYYY-MM-DD HH:mm"),
+          end: format(shift.date.end, "YYYY-MM-DD HH:mm"),
+          // open: false,
+          color: "indigo",
           duration: shift.representationalDuration,
           contract: contract
         };
@@ -120,16 +203,65 @@ export default {
     })
   },
   methods: {
-    changeDate(payload) {
-      const date = new Date(payload.date);
-      const props = getRouterProps("day", date);
-      this.$router.push({
-        name: "calendar",
-        params: props
-      });
+    async destroy(uuid) {
+      await ShiftService.delete(uuid);
+      const remainingShifts = this.shifts.filter(shift => shift.uuid !== uuid);
 
-      this.$store.dispatch("calendar/setDate", date);
+      this.$store.dispatch("shift/setShifts", remainingShifts);
+    },
+    // changeDate(payload) {
+    //   const date = new Date(payload.date);
+    //   const props = getRouterProps("day", date);
+    //   this.$router.push({
+    //     name: "calendar",
+    //     params: props
+    //   });
+
+    //   this.$store.dispatch("calendar/setDate", date);
+    //   this.$store.dispatch("calendar/setType", "day");
+    // },
+    viewDay({ date }) {
+      this.focus = date;
+      this.type = "day";
       this.$store.dispatch("calendar/setType", "day");
+    },
+    getEventColor(event) {
+      return event.color;
+    },
+    setToday() {
+      this.focus = this.today;
+    },
+    prev() {
+      this.$refs.calendar.prev();
+    },
+    next() {
+      this.$refs.calendar.next();
+    },
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        setTimeout(() => (this.selectedOpen = true), 10);
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
+
+      nativeEvent.stopPropagation();
+    },
+    updateRange({ start, end }) {
+      // You could load events from an outside source (like database) now that we have the start and end dates on the calendar
+      this.start = start;
+      this.end = end.date;
+    },
+    nth(d) {
+      return d > 3 && d < 21
+        ? "th"
+        : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
     }
   }
 };
