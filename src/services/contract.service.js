@@ -82,6 +82,22 @@ const ContractService = {
         error.response.data.detail
       );
     }
+  },
+  update: function(data, uuid) {
+    try {
+      const response = ApiService.patch(`${BASE_URL}${uuid}/`, data);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  delete: function(uuid) {
+    try {
+      const response = ApiService.delete(`${BASE_URL}${uuid}/`);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 };
 

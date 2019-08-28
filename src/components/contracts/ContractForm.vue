@@ -1,118 +1,99 @@
 <template>
   <v-form>
-    <DataModel
-      :id="uuid"
-      :entity="initialData"
-      endpoint="api/contracts"
-      @success="redirect"
+    <FrameApi
+      v-slot="{ methods: { query }, status: { error, loading } }"
+      :endpoint="endpoint"
     >
-      <template
-        v-slot="{
-          data: contract,
-          create,
-          update,
-          destroy,
-          loading
-        }"
-      >
-        <v-card>
-          <v-card-title>
-            <h3 class="headline mb-0">{{ title }}</h3>
-          </v-card-title>
+      <v-card>
+        <v-card-title>
+          <h3 class="headline mb-0">{{ title }}</h3>
+        </v-card-title>
 
-          <v-fade-transition v-if="loading">
-            <v-overlay absolute color="#036358">
-              <v-progress-circular
-                indeterminate
-                size="32"
-              ></v-progress-circular>
-            </v-overlay>
-          </v-fade-transition>
+        <v-fade-transition v-if="loading">
+          <v-overlay absolute color="#036358">
+            <v-progress-circular indeterminate size="32"></v-progress-circular>
+          </v-overlay>
+        </v-fade-transition>
 
-          <v-card-text v-if="!loading">
-            <v-layout>
-              <v-flex xs4>
-                <ContractFormDateInput
-                  v-model="contract.start"
-                  :contract="contract"
-                  label="Start date"
-                  type="start"
-                ></ContractFormDateInput>
-              </v-flex>
-              <v-flex xs4 offset-xs2>
-                <ContractFormDateInput
-                  v-model="contract.end"
-                  :contract="contract"
-                  label="End date"
-                  type="end"
-                ></ContractFormDateInput>
-              </v-flex>
-            </v-layout>
-            <v-layout align-center>
-              <v-flex xs12 md5>
-                <v-text-field
-                  v-model="contract.name"
-                  label="Contract name"
-                  required
-                />
-                <v-text-field
-                  v-model="contract.hours"
-                  label="Working hours"
-                  hint="HH:mm"
-                  mask="time"
-                  return-masked-value
-                  persistent-hint
-                  required
-                />
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn v-if="uuid" text @click="remove(destroy)">Delete</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              text
-              @click="submit({ create: create, update: update }, contract)"
-              >{{ saveLabel }}</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </template>
-    </DataModel>
+        <v-card-text v-if="!loading">
+          <v-layout>
+            <v-flex xs4>
+              <ContractFormDateInput
+                v-model="contract.start"
+                :contract="contract"
+                label="Start date"
+                type="start"
+              ></ContractFormDateInput>
+            </v-flex>
+            <v-flex xs4 offset-xs2>
+              <ContractFormDateInput
+                v-model="contract.end"
+                :contract="contract"
+                label="End date"
+                type="end"
+              ></ContractFormDateInput>
+            </v-flex>
+          </v-layout>
+          <v-layout align-center>
+            <v-flex xs12 md5>
+              <v-text-field
+                v-model="contract.name"
+                label="Contract name"
+                required
+              />
+              <v-text-field
+                v-model="contract.hours"
+                label="Working hours"
+                hint="HH:mm"
+                mask="time"
+                return-masked-value
+                persistent-hint
+                required
+              />
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn text @click="submit(query, contract)">{{ saveLabel }}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </FrameApi>
   </v-form>
 </template>
 
 <script>
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
-// import ContractModel from "@/components/contracts/ContractModel";
-import DataModel from "@/components/DataModel";
+import FrameApi from "@/FrameApi";
+import ContractService from "@/services/contract.service";
 
 import { Contract } from "@/models/Contracts";
 
-// import { required, minLength } from "vuelidate/lib/validators";
-
 export default {
   name: "ContractForm",
-  components: { DataModel, ContractFormDateInput },
+  components: { FrameApi, ContractFormDateInput },
   props: {
     uuid: {
       type: String,
       default: null
+    },
+    entity: {
+      type: Object,
+      default: null
     }
   },
   data: () => ({
+    contract: null,
     valid: false
   }),
   computed: {
     initialData() {
-      return this.uuid
-        ? null
-        : new Contract({
-            // uuid: this.data.id,
-            name: null,
-            date: { start: new Date(), end: new Date() },
-            hours: null
-          });
+      return new Contract({
+        name: null,
+        date: { start: new Date(), end: new Date() },
+        hours: null
+      });
     },
     // nameErrors() {
     //   const errors = [];
@@ -140,24 +121,35 @@ export default {
       return this.uuid === null ? "Save" : "Update";
     }
   },
+  created() {
+    this.contract = this.uuid === null ? this.initialData : this.entity;
+
+    this.endpoint = data =>
+      this.uuid === null
+        ? ContractService.create(data)
+        : ContractService.update(data, this.uuid);
+  },
   // validations: {
   //   name: { required, maxLength: minLength(2) },
   //   hours: { required }
   // },
   methods: {
-    submit(callback, contract) {
+    async submit(callback, contract) {
       const payload = contract.toPayload();
-      this.uuid === null ? callback.create(payload) : callback.update(payload);
+      await callback(payload);
+
+      this.redirect();
     },
     redirect() {
       this.$router.push({ name: "contractList" });
     },
-    remove(callback) {
-      callback();
+    async destroy() {
+      if (this.uuid === null) return;
+
+      await ContractService.delete(this.uuid);
+
+      this.redirect();
     }
-    // validateHours(data) {
-    //   data.hours = "11:11";
-    // }
   }
 };
 </script>
