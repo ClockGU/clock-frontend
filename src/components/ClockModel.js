@@ -10,7 +10,7 @@ const { mapFields } = createHelpers({
 });
 
 export default {
-  name: "Clock",
+  name: "ClockModel",
   data: () => ({
     duration: null,
     interval: null,

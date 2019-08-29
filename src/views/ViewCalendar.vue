@@ -45,6 +45,7 @@ const { mapFields: mapShiftFields } = createHelpers({
 });
 
 export default {
+  name: "ViewCalendar",
   components: {
     Calendar
     // CalendarToolbar

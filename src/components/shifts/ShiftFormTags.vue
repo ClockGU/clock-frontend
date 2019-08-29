@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "ShiftFormInput",
+  name: "ShiftFormTags",
   props: {
     value: {
       type: Array,

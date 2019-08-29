@@ -10,15 +10,14 @@
 
 <script>
 export default {
-  name: "LogoutView",
+  name: "ViewLogout",
   data: () => ({
     username: null,
     password: null
   }),
   methods: {
-    ...mapActions("auth", ["logout"]),
     submit() {
-      this.logout();
+      this.$store.dispatch("auth/logout");
     }
   }
 };

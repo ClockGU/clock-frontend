@@ -72,7 +72,7 @@ import ContractListFrame from "@/components/contracts/ContractListFrame";
 import FrameHooks from "@/components/FrameHooks";
 
 export default {
-  name: "ContractList",
+  name: "ViewContractList",
   components: { ContractListFrame, FrameHooks },
   filters: {
     toDate(date) {

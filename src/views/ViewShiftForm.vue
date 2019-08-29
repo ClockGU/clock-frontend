@@ -13,7 +13,7 @@ import ShiftForm from "@/components/shifts/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 
 export default {
-  name: "CreateShift",
+  name: "ViewCreateShift",
   components: { ShiftForm },
   props: {
     uuid: {

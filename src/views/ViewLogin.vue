@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "LoginView",
+  name: "ViewLogin",
   data: () => ({
     username: null,
     password: null

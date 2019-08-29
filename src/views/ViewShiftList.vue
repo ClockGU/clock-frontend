@@ -27,7 +27,7 @@ import ShiftListFrame from "@/components/shifts/ShiftListFrame";
 import FrameHooks from "@/components/FrameHooks";
 
 export default {
-  name: "ShiftList",
+  name: "ViewShiftList",
   components: { ShiftListFrame, FrameHooks }
   // methods: {
   // showSnack() {

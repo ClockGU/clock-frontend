@@ -13,7 +13,7 @@ import ContractForm from "@/components/contracts/ContractForm";
 import { Contract } from "@/models/ContractModel";
 
 export default {
-  name: "ContractFormView",
+  name: "ViewContractForm",
   components: { ContractForm },
   props: {
     uuid: {
