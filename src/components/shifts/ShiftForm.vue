@@ -25,20 +25,17 @@
               label="Please select a contract"
             ></v-select>
           </v-flex>
-          <v-flex xs12 md5>
-            <ShiftFormDateTimeInput
-              v-model="shift.date"
-              :shift="shift"
-              type="start"
-            />
+          <v-flex xs12>
+            <ShiftFormDateInput v-model="shift" />
           </v-flex>
+          <v-flex xs4>
+            <ShiftFormTimeInput v-model="shift" type="start" />
+          </v-flex>
+          <v-spacer />
           <v-flex xs1>to</v-flex>
-          <v-flex xs12 md5>
-            <ShiftFormDateTimeInput
-              v-model="shift.date"
-              :shift="shift"
-              type="end"
-            />
+          <v-spacer />
+          <v-flex xs4>
+            <ShiftFormTimeInput v-model="shift" type="end" />
           </v-flex>
           <v-flex xs12 md7>
             <ShiftFormSelect v-model="shift.type" />
@@ -54,14 +51,17 @@
       <v-card-actions>
         <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
         <v-spacer></v-spacer>
-        <v-btn text @click="submit(query, shift)">{{ saveLabel }}</v-btn>
+        <v-btn text :disabled="!valid" @click="submit(query, shift)">{{
+          saveLabel
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </FrameApi>
 </template>
 
 <script>
-import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
+import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
+import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
@@ -70,12 +70,14 @@ import ShiftService from "@/services/shift.service";
 import { Shift } from "@/models/ShiftModel";
 
 import { mapState } from "vuex";
+import { isAfter, isBefore } from "date-fns";
 
 export default {
   name: "ShiftForm",
   components: {
     FrameApi,
-    ShiftFormDateTimeInput,
+    ShiftFormDateInput,
+    ShiftFormTimeInput,
     ShiftFormInput,
     ShiftFormSelect,
     ShiftFormTags
@@ -98,6 +100,15 @@ export default {
     ...mapState("contract", {
       contracts: state => state.contracts
     }),
+    valid() {
+      if (
+        isAfter(this.shift.date.start, this.shift.date.end) ||
+        isBefore(this.shift.date.end, this.shift.date.start)
+      )
+        return false;
+
+      return true;
+    },
     initialData() {
       return new Shift({
         date: { start: new Date(), end: new Date() },

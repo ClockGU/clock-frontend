@@ -18,8 +18,6 @@
     <v-date-picker
       v-model="date"
       no-title
-      :min="min"
-      :max="max"
       @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
@@ -27,20 +25,13 @@
 
 <script>
 import { format } from "date-fns";
+import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "ShiftFormDateInput",
   props: {
     value: {
-      type: Date,
-      required: true
-    },
-    shift: {
       type: Object,
-      required: true
-    },
-    type: {
-      type: String,
       required: true
     }
   },
@@ -50,23 +41,35 @@ export default {
   computed: {
     date: {
       get() {
-        return format(this.value, "YYYY-MM-DD");
+        return format(this.value.date.start, "YYYY-MM-DD");
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        const [hours, minutes] = format(this.value, "HH:mm").split(":");
-        this.$emit("input", new Date(year, month - 1, day, hours, minutes));
+        const [startHours, startMinutes] = format(
+          this.value.date.start,
+          "HH:mm"
+        ).split(":");
+        const [endHours, endMinutes] = format(
+          this.value.date.end,
+          "HH:mm"
+        ).split(":");
+
+        const startDate = new Date(
+          year,
+          month - 1,
+          day,
+          startHours,
+          startMinutes
+        );
+
+        const endDate = new Date(year, month - 1, day, endHours, endMinutes);
+
+        const newValue = { ...this.value };
+        newValue.date = { start: startDate, end: endDate };
+        const shift = new Shift({ ...newValue });
+
+        this.$emit("input", shift);
       }
-    },
-    min() {
-      if (this.type === "start") return undefined;
-
-      return format(this.shift.date.start, "YYYY-MM-DD");
-    },
-    max() {
-      if (this.type === "end") return undefined;
-
-      return format(this.shift.date.end, "YYYY-MM-DD");
     }
   }
 };
