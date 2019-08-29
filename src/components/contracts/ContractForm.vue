@@ -16,63 +16,105 @@
         </v-fade-transition>
 
         <v-card-text v-if="!loading">
-          <v-layout>
-            <v-flex xs4>
-              <ContractFormDateInput
-                v-model="contract.start"
-                :contract="contract"
-                label="Start date"
-                type="start"
-              ></ContractFormDateInput>
-            </v-flex>
-            <v-flex xs4 offset-xs2>
-              <ContractFormDateInput
-                v-model="contract.end"
-                :contract="contract"
-                label="End date"
-                type="end"
-              ></ContractFormDateInput>
-            </v-flex>
-          </v-layout>
-          <v-layout align-center>
-            <v-flex xs12 md5>
-              <v-text-field
-                v-model="contract.name"
-                label="Contract name"
-                required
-              />
-              <v-text-field
-                v-model="contract.hours"
-                label="Working hours"
-                hint="HH:mm"
-                mask="time"
-                return-masked-value
-                persistent-hint
-                required
-              />
-            </v-flex>
-          </v-layout>
+          <v-stepper v-model="stepper" vertical>
+            <v-stepper-step :complete="stepper > 1" step="1">
+              Set the date
+              <small
+                >Contracts can only start on the 1st or 15th of a month!</small
+              >
+            </v-stepper-step>
+
+            <v-stepper-content step="1">
+              <v-row justify="center" mb-1>
+                <v-card class="mb-2" elevation="0">
+                  <v-card-text>
+                    <v-date-picker
+                      v-model="date"
+                      landscape
+                      :allowed-dates="allowedDates"
+                      class="mt-4"
+                    ></v-date-picker>
+                  </v-card-text>
+                </v-card>
+              </v-row>
+              <v-btn color="primary" @click="stepper = 2">Continue</v-btn>
+            </v-stepper-content>
+
+            <v-stepper-step :complete="stepper > 2" step="2"
+              >Set the hours per month</v-stepper-step
+            >
+
+            <v-stepper-content step="2">
+              <v-card class="mb-2" elevation="0">
+                <v-card-text>
+                  <v-text-field
+                    v-model="contract.hours"
+                    label="Working hours"
+                    hint="HH:mm"
+                    mask="time"
+                    return-masked-value
+                    persistent-hint
+                    required
+                  />
+                </v-card-text>
+              </v-card>
+              <v-btn color="primary" @click="stepper = 3">Continue</v-btn>
+              <v-btn text @click="stepper = 1">Back</v-btn>
+            </v-stepper-content>
+
+            <v-stepper-step :complete="stepper > 3" step="3"
+              >Misc. settings</v-stepper-step
+            >
+
+            <v-stepper-content step="3">
+              <v-card class="mb-2" elevation="0">
+                <v-card-text>
+                  <v-text-field
+                    v-model="contract.name"
+                    label="Contract name"
+                    required
+                  />
+                </v-card-text>
+              </v-card>
+              <v-btn color="primary" @click="stepper = 4">Continue</v-btn>
+              <v-btn text @click="stepper = 2">Back</v-btn>
+            </v-stepper-content>
+
+            <v-stepper-step step="4">Summary</v-stepper-step>
+            <v-stepper-content step="4">
+              <v-card class="mb-2 grey lighten-3" elevation="0">
+                <v-card-text>
+                  <span>{{ contract.name }}</span>
+                  <h1>{{ contract.hours }}</h1>
+                  <p>{{ contract.start }} - {{ contract.end }}</p>
+                </v-card-text>
+              </v-card>
+              <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn text @click="submit(query, contract)">{{
+                saveLabel
+              }}</v-btn>
+              <v-btn text @click="stepper = 3">Back</v-btn>
+            </v-stepper-content>
+          </v-stepper>
         </v-card-text>
-        <v-card-actions>
-          <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn text @click="submit(query, contract)">{{ saveLabel }}</v-btn>
-        </v-card-actions>
       </v-card>
     </FrameApi>
   </v-form>
 </template>
 
 <script>
-import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 import FrameApi from "@/components/FrameApi";
 import ContractService from "@/services/contract.service";
 
 import { Contract } from "@/models/ContractModel";
 
+import { format } from "date-fns";
+import { defaultContractDate } from "@/utils/date";
+
 export default {
   name: "ContractForm",
-  components: { FrameApi, ContractFormDateInput },
+  components: { FrameApi },
   props: {
     uuid: {
       type: String,
@@ -85,7 +127,8 @@ export default {
   },
   data: () => ({
     contract: null,
-    valid: false
+    valid: false,
+    stepper: 1
   }),
   computed: {
     initialData() {
@@ -94,6 +137,19 @@ export default {
         date: { start: new Date(), end: new Date() },
         hours: null
       });
+    },
+    date: {
+      get() {
+        return format(this.contract.start, "YYYY-MM-DD");
+      },
+      set(val) {
+        const [year, month, day] = val.split("-");
+
+        const startDate = new Date(year, month - 1, day, 0, 0);
+
+        this.contract.start = startDate;
+        this.contract.end = defaultContractDate({ type: "stop", startDate });
+      }
     },
     // nameErrors() {
     //   const errors = [];
@@ -134,6 +190,10 @@ export default {
   //   hours: { required }
   // },
   methods: {
+    allowedDates(val) {
+      const day = parseInt(val.split("-")[2], 10);
+      return day === 1 || day === 15;
+    },
     async submit(callback, contract) {
       const payload = contract.toPayload();
       await callback(payload);
