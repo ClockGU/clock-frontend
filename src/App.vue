@@ -24,6 +24,7 @@
       <portal-target name="fab"></portal-target>
     </v-content>
 
+    <TheSnackbar />
     <!-- <v-footer color="indigo" app>
       <span class="white--text">&copy; 2019</span>
     </v-footer>-->
@@ -31,7 +32,10 @@
 </template>
 
 <script>
+import TheSnackbar from "@/components/TheSnackbar";
+
 export default {
+  components: { TheSnackbar },
   data: () => ({
     drawer: null,
     links: [
