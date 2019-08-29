@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "@/store";
+import router from "@/router";
 import TokenService from "@/services/storage.service";
 
 const ApiService = {
@@ -7,7 +8,6 @@ const ApiService = {
 
   init(baseURL) {
     axios.defaults.baseURL = baseURL;
-    // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
   },
 
   setHeader() {
@@ -57,32 +57,51 @@ const ApiService = {
         return response;
       },
       async error => {
-        if (error.request.status == 401) {
-          if (error.config.url.includes("/auth/jwt/create")) {
-            // Refresh token has failed. Logout the user
-            store.dispatch("auth/logout");
-            throw error;
-          } else {
-            // Refresh the access token
-            try {
-              await store.dispatch("auth/refreshToken");
-              // Retry the original request
-              console.log("Retried previous request!");
-              // console.log(error);
-              return this.customRequest({
-                method: error.config.method,
-                url: error.config.url,
-                data: JSON.parse(error.config.data)
-              });
-            } catch (e) {
-              // Refresh has failed - reject the original request
-              throw error;
-            }
-          }
+        // We cannot reach the backend. PANIC!
+        if (error.message == "Network Error") {
+          router.push({ path: "/uhoh" });
+          throw error;
         }
 
-        // If error was not 401 just reject as is
-        throw error;
+        // The error is not 401!
+        if (error.request.status != 401) {
+          throw error;
+        }
+
+        // Logout, if refresh token is expired
+        if (error.response.data.code == "token_not_valid") {
+          store.dispatch("auth/logout");
+          store.dispatch("snackbar/setSnack", {
+            snack: "Your session has expired.",
+            timeout: 20000,
+            color: "warning"
+          });
+
+          throw "Logging you out!";
+        }
+
+        try {
+          // Refresh the access token
+          await store.dispatch("auth/refreshToken");
+
+          // Retry the original request
+          const failedRequest = { ...error };
+          // Set new access token
+          failedRequest.response.config.headers[
+            "Authorization"
+          ] = `Bearer ${TokenService.getToken()}`;
+
+          // Return the refreshed request
+          return this.customRequest({
+            method: failedRequest.config.method,
+            url: failedRequest.config.url,
+            data: JSON.stringify(failedRequest.config.data)
+          });
+        } catch (e) {
+          // Refresh has failed - reject the original request
+          console.log(e);
+          throw error;
+        }
       }
     );
   },
