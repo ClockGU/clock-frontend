@@ -10,7 +10,7 @@
 
 <script>
 import ShiftForm from "@/components/shifts/ShiftForm";
-import { Shift } from "@/models/Shifts";
+import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "CreateShift",

@@ -65,10 +65,10 @@
 
 <script>
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
-import FrameApi from "@/FrameApi";
+import FrameApi from "@/components/FrameApi";
 import ContractService from "@/services/contract.service";
 
-import { Contract } from "@/models/Contracts";
+import { Contract } from "@/models/ContractModel";
 
 export default {
   name: "ContractForm",

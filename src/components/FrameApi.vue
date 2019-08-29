@@ -1,5 +1,5 @@
 <script>
-import FramePromise from "@/FramePromise";
+import FramePromise from "@/components/FramePromise";
 
 export default {
   props: {

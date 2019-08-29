@@ -65,9 +65,9 @@ import ShiftFormDateTimeInput from "@/components/shifts/ShiftFormDateTimeInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
-import FrameApi from "@/FrameApi";
+import FrameApi from "@/components/FrameApi";
 import ShiftService from "@/services/shift.service";
-import { Shift } from "@/models/Shifts";
+import { Shift } from "@/models/ShiftModel";
 
 import { mapState } from "vuex";
 

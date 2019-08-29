@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import FrameApi from "./FrameApi";
+import FrameApi from "@/components/FrameApi";
 import ShiftService from "@/services/shift.service";
 
 export default {

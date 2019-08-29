@@ -2,7 +2,7 @@ import { differenceInSeconds } from "date-fns";
 import uuid from "uuid/v4";
 import { createHelpers } from "vuex-map-fields";
 
-import { Shift } from "@/models/Shifts";
+import { Shift } from "@/models/ShiftModel";
 
 const { mapFields } = createHelpers({
   getterType: "shift/getField",

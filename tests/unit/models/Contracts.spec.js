@@ -1,5 +1,5 @@
-import { defaultDate } from "@/models/Contracts";
-import { Contract } from "@/models/Contracts";
+import { defaultDate } from "@/models/ContractModel";
+import { Contract } from "@/models/ContractModel";
 import { addDays } from "date-fns";
 
 describe("Contracts/defaultDate()", () => {

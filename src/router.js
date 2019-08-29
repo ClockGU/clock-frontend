@@ -1,14 +1,14 @@
 import Vue from "vue";
 import Router from "vue-router";
-import CalendarView from "./views/CalendarView.vue";
-import CreateShift from "./views/CreateShift";
-import ContractFormView from "./views/ContractFormView";
-import ShiftList from "./views/ShiftList";
-import ContractList from "./views/ContractList";
-import ClockInOut from "./views/ClockInOut";
 import TokenService from "@/services/storage.service";
-import LoginView from "@/views/LoginView";
-import LogoutView from "@/views/LogoutView";
+import ViewLogin from "@/views/ViewLogin";
+import ViewLogout from "@/views/ViewLogout";
+import ViewCalendar from "@/views/ViewCalendar.vue";
+import ViewShiftForm from "@/views/ViewShiftForm";
+import ViewShiftList from "@/views/ViewShiftList";
+import ViewContractForm from "@/views/ViewContractForm";
+import ViewContractList from "@/views/ViewContractList";
+import ViewClockInOut from "@/views/ViewClockInOut";
 
 Vue.use(Router);
 
@@ -19,7 +19,7 @@ const router = new Router({
     {
       path: "/login",
       name: "login",
-      component: LoginView,
+      component: ViewLogin,
       meta: {
         public: true,
         onlyWhenLoggedOut: true
@@ -28,7 +28,7 @@ const router = new Router({
     {
       path: "/logout",
       name: "logout",
-      component: LogoutView,
+      component: ViewLogout,
       meta: {
         public: false,
         onlyWhenLoggedOut: false
@@ -37,50 +37,50 @@ const router = new Router({
     {
       path: "/",
       name: "c",
-      component: CalendarView
+      component: ViewCalendar
     },
     {
       path: "/:type/:year/:month/:day",
       name: "calendar",
-      component: CalendarView,
+      component: ViewCalendar,
       props: true
-    },
-    {
-      path: "/shifts/",
-      name: "shiftList",
-      component: ShiftList
     },
     {
       path: "/shifts/:uuid/edit",
       name: "editShift",
-      component: CreateShift,
+      component: ViewShiftForm,
       props: true
     },
     {
       path: "/shifts/create",
       name: "createShift",
-      component: CreateShift
+      component: ViewShiftForm
     },
     {
-      path: "/contracts/",
-      name: "contractList",
-      component: ContractList
+      path: "/shifts/",
+      name: "shiftList",
+      component: ViewShiftList
     },
     {
       path: "/contracts/create",
       name: "createContract",
-      component: ContractFormView
+      component: ViewContractForm
     },
     {
       path: "/contracts/:uuid/edit",
       name: "editContract",
-      component: ContractFormView,
+      component: ViewContractForm,
       props: true
+    },
+    {
+      path: "/contracts/",
+      name: "contractList",
+      component: ViewContractList
     },
     {
       path: "/clock",
       name: "clockInOut",
-      component: ClockInOut
+      component: ViewClockInOut
     }
   ]
 });

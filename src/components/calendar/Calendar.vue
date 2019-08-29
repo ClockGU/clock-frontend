@@ -94,28 +94,12 @@ import { mapState } from "vuex";
 
 // import { getRouterProps } from "@/utils/date";
 
-import { Shift } from "@/models/Shifts";
-import { Contract } from "@/models/Contracts";
-// import ShiftModel from "@/components/shifts/ShiftModel";
-// import CalendarEvent from "@/components/calendar/CalendarEvent";
+import { Shift } from "@/models/ShiftModel";
+import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift.service.js";
 
 export default {
   name: "Calendar",
-  // components: {
-  //   CalendarEvent,
-  //   ShiftModel
-  // },
-  props: {
-    // start: {
-    //   type: String,
-    //   required: true
-    // },
-    // type: {
-    //   type: String,
-    //   required: true
-    // }
-  },
   data: () => ({
     today: "2019-08-27",
     focus: "2019-08-27",
@@ -266,20 +250,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.my-event {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 2px;
-  background-color: #1867c0;
-  color: #ffffff;
-  border: 1px solid #1867c0;
-  width: 100%;
-  font-size: 12px;
-  padding: 3px;
-  cursor: pointer;
-  margin-bottom: 1px;
-}
-</style>

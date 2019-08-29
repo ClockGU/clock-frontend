@@ -68,8 +68,8 @@
 <script>
 import { format } from "date-fns";
 
-import ContractListFrame from "@/ContractListFrame";
-import FrameHooks from "@/FrameHooks";
+import ContractListFrame from "@/components/contracts/ContractListFrame";
+import FrameHooks from "@/components/FrameHooks";
 
 export default {
   name: "ContractList",

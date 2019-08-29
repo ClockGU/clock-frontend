@@ -15,6 +15,7 @@
           <v-btn :to="{ name: 'editShift', params: { uuid: shift.uuid } }">
             {{ shift.date.start }}
           </v-btn>
+          <!-- <v-btn @click="showSnack()">SNACK</v-btn> -->
         </li>
       </ul>
     </FrameHooks>
@@ -22,11 +23,20 @@
 </template>
 
 <script>
-import ShiftListFrame from "@/ShiftListFrame";
-import FrameHooks from "@/FrameHooks";
+import ShiftListFrame from "@/components/shifts/ShiftListFrame";
+import FrameHooks from "@/components/FrameHooks";
 
 export default {
   name: "ShiftList",
   components: { ShiftListFrame, FrameHooks }
+  // methods: {
+  // showSnack() {
+  // this.$store.dispatch("snackbar/setSnack", {
+  // snack: "You dun' goofed!"
+  // color: "error",
+  // timeout: 0
+  //   });
+  // }
+  // }
 };
 </script>
