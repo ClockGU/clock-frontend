@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
   name: "LoginView",
   data: () => ({
@@ -28,9 +27,11 @@ export default {
     password: null
   }),
   methods: {
-    ...mapActions("auth", ["login"]),
     submit() {
-      this.login({ email: this.username, password: this.password });
+      this.$store.dispatch("auth/login", {
+        email: this.username,
+        password: this.password
+      });
     }
   }
 };

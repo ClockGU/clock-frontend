@@ -54,7 +54,7 @@ export default {
         options
       );
     },
-    ...mapState("calendar", {
+    ...mapState("calendar/calendar", {
       locale: state => state.locale,
       start: state => state.start,
       type: state => state.type
