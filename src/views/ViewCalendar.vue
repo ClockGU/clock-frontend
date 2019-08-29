@@ -1,14 +1,13 @@
 <template>
   <div>
-    <v-fade-transition v-if="loading">
-      <v-overlay absolute color="#036358">
-        <v-progress-circular indeterminate size="32"></v-progress-circular>
-      </v-overlay>
-    </v-fade-transition>
-    <Calendar :start="start" :type="type"></Calendar>
-    <!-- <portal to="toolbar">
-      <CalendarToolbar />
-    </portal> -->
+    <Calendar :start="start" :type="type">
+      <v-fade-transition v-if="loading">
+        <v-overlay absolute color="#036358">
+          <v-progress-circular indeterminate size="32"></v-progress-circular>
+        </v-overlay>
+      </v-fade-transition>
+    </Calendar>
+
     <portal to="fab">
       <v-btn
         absolute
