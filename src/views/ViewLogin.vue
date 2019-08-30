@@ -28,7 +28,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="yellow darken-3">Login</v-btn>
+          <v-btn color="yellow darken-3" @click.native="submit">Login</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
