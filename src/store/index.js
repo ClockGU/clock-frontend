@@ -12,12 +12,28 @@ import snackbar from "@/store/modules/snackbar";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    loadingData: true
+  },
   getters: {
     getField
   },
+  actions: {
+    startLoading({ commit }) {
+      commit("startLoading");
+    },
+    stopLoading({ commit }) {
+      commit("stopLoading");
+    }
+  },
   mutations: {
-    updateField
+    updateField,
+    startLoading(state) {
+      state.loadingData = true;
+    },
+    stopLoading(state) {
+      state.loadingData = false;
+    }
   },
   modules: {
     auth,

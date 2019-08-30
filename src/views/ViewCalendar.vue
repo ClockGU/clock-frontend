@@ -26,11 +26,6 @@
 
 <script>
 import Calendar from "@/components/calendar/Calendar";
-// import CalendarToolbar from "@/components/calendar/CalendarToolbar";
-
-import ContractService from "@/services/contract.service";
-import ShiftService from "@/services/shift.service";
-
 import { createHelpers } from "vuex-map-fields";
 
 const { mapFields: mapContractFields } = createHelpers({
@@ -67,9 +62,6 @@ export default {
       default: String(new Date().getUTCDate())
     }
   },
-  data: () => ({
-    loading: true
-  }),
   computed: {
     ...mapContractFields(["contracts"]),
     ...mapShiftFields(["shifts"]),
@@ -78,19 +70,14 @@ export default {
     },
     start() {
       return this.date.toISOString().slice(0, 10);
+    },
+    loading() {
+      return this.$store.state.loadingData;
     }
   },
   async created() {
     this.$store.dispatch("calendar/setDate", this.date);
     this.$store.dispatch("calendar/setType", this.type);
-
-    const contracts = await ContractService.list();
-    const shifts = await ShiftService.list();
-
-    this.shifts = shifts.data;
-    this.contracts = contracts.data;
-
-    this.loading = false;
   }
 };
 </script>

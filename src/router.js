@@ -9,8 +9,21 @@ import ViewShiftList from "@/views/ViewShiftList";
 import ViewContractForm from "@/views/ViewContractForm";
 import ViewContractList from "@/views/ViewContractList";
 import ViewClockInOut from "@/views/ViewClockInOut";
+import store from "@/store";
 
 Vue.use(Router);
+
+function queryData(to, from, next) {
+  Promise.all([
+    store.dispatch("shift/queryShifts"),
+    store.dispatch("contract/queryContracts")
+  ])
+    .then(() => {
+      store.dispatch("stopLoading");
+      next();
+    })
+    .catch(() => next({ path: "uhoh" }));
+}
 
 const router = new Router({
   mode: "history",
@@ -37,7 +50,8 @@ const router = new Router({
     {
       path: "/",
       name: "c",
-      component: ViewCalendar
+      component: ViewCalendar,
+      beforeEnter: queryData
     },
     {
       path: "/:type/:year/:month/:day",
@@ -59,7 +73,8 @@ const router = new Router({
     {
       path: "/shifts/",
       name: "shiftList",
-      component: ViewShiftList
+      component: ViewShiftList,
+      beforeEnter: queryData
     },
     {
       path: "/contracts/create",
@@ -75,7 +90,8 @@ const router = new Router({
     {
       path: "/contracts/",
       name: "contractList",
-      component: ViewContractList
+      component: ViewContractList,
+      beforeEnter: queryData
     },
     {
       path: "/clock",
