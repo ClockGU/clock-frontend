@@ -18,7 +18,7 @@
         <v-card-text v-if="!loading">
           <v-stepper v-model="stepper" vertical>
             <v-stepper-step :complete="stepper > 1" step="1">
-              Set the date
+              Set the start date
               <small
                 >Contracts can only start on the 1st or 15th of a month!</small
               >
@@ -29,22 +29,48 @@
                 <v-card class="mb-2" elevation="0">
                   <v-card-text>
                     <v-date-picker
-                      v-model="date"
+                      v-model="startDate"
                       landscape
-                      :allowed-dates="allowedDates"
+                      :allowed-dates="allowedStartDates"
                       class="mt-4"
                     ></v-date-picker>
                   </v-card-text>
                 </v-card>
               </v-row>
-              <v-btn color="primary" @click="stepper = 2">Continue</v-btn>
+              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step :complete="stepper > 2" step="2"
+            <v-stepper-step :complete="stepper > 2" step="2">
+              Set the end date
+              <small
+                >Contracts can only end on the 14th or last day of a
+                month!</small
+              >
+            </v-stepper-step>
+
+            <v-stepper-content step="2">
+              <v-row justify="center" mb-1>
+                <v-card class="mb-2" elevation="0">
+                  <v-card-text>
+                    <v-date-picker
+                      v-model="endDate"
+                      landscape
+                      :allowed-dates="allowedEndDates"
+                      :min="startDate"
+                      class="mt-4"
+                    ></v-date-picker>
+                  </v-card-text>
+                </v-card>
+              </v-row>
+              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn text @click="previousStep()">Back</v-btn>
+            </v-stepper-content>
+
+            <v-stepper-step :complete="stepper > 3" step="3"
               >Set the hours per month</v-stepper-step
             >
 
-            <v-stepper-content step="2">
+            <v-stepper-content step="3">
               <v-card class="mb-2" elevation="0">
                 <v-card-text>
                   <v-text-field
@@ -58,15 +84,15 @@
                   />
                 </v-card-text>
               </v-card>
-              <v-btn color="primary" @click="stepper = 3">Continue</v-btn>
-              <v-btn text @click="stepper = 1">Back</v-btn>
+              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step :complete="stepper > 3" step="3"
+            <v-stepper-step :complete="stepper > 4" step="4"
               >Misc. settings</v-stepper-step
             >
 
-            <v-stepper-content step="3">
+            <v-stepper-content step="4">
               <v-card class="mb-2" elevation="0">
                 <v-card-text>
                   <v-text-field
@@ -76,17 +102,20 @@
                   />
                 </v-card-text>
               </v-card>
-              <v-btn color="primary" @click="stepper = 4">Continue</v-btn>
-              <v-btn text @click="stepper = 2">Back</v-btn>
+              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step step="4">Summary</v-stepper-step>
-            <v-stepper-content step="4">
+            <v-stepper-step step="5">Summary</v-stepper-step>
+            <v-stepper-content step="5">
               <v-card class="mb-2 grey lighten-3" elevation="0">
                 <v-card-text>
                   <span>{{ contract.name }}</span>
                   <h1>{{ contract.hours }}</h1>
-                  <p>{{ contract.start }} - {{ contract.end }}</p>
+                  <p>
+                    {{ contract.start | formatDate }} -
+                    {{ contract.end | formatDate }}
+                  </p>
                 </v-card-text>
               </v-card>
               <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
@@ -94,7 +123,7 @@
               <v-btn text @click="submit(query, contract)">{{
                 saveLabel
               }}</v-btn>
-              <v-btn text @click="stepper = 3">Back</v-btn>
+              <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
           </v-stepper>
         </v-card-text>
@@ -104,17 +133,20 @@
 </template>
 
 <script>
-import FrameApi from "@/components/FrameApi";
-import ContractService from "@/services/contract.service";
+import { format, isLastDayOfMonth, startOfMonth, endOfMonth } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
-
-import { format } from "date-fns";
-import { defaultContractDate } from "@/utils/date";
+import FrameApi from "@/components/FrameApi";
+import ContractService from "@/services/contract.service";
 
 export default {
   name: "ContractForm",
   components: { FrameApi },
+  filters: {
+    formatDate(date) {
+      return format(date, "YYYY-MM-DD");
+    }
+  },
   props: {
     uuid: {
       type: String,
@@ -130,25 +162,34 @@ export default {
     valid: false,
     stepper: 1
   }),
+
   computed: {
     initialData() {
       return new Contract({
         name: null,
-        date: { start: new Date(), end: new Date() },
+        date: { start: startOfMonth(new Date()), end: endOfMonth(new Date()) },
         hours: null
       });
     },
-    date: {
+    startDate: {
       get() {
         return format(this.contract.start, "YYYY-MM-DD");
       },
       set(val) {
         const [year, month, day] = val.split("-");
 
-        const startDate = new Date(year, month - 1, day, 0, 0);
-
-        this.contract.start = startDate;
-        this.contract.end = defaultContractDate({ type: "stop", startDate });
+        const date = new Date(year, month - 1, day, 0, 0);
+        this.contract.start = date;
+        this.contract.end = endOfMonth(date);
+      }
+    },
+    endDate: {
+      get() {
+        return format(this.contract.end, "YYYY-MM-DD");
+      },
+      set(val) {
+        const [year, month, day] = val.split("-");
+        this.contract.end = new Date(year, month - 1, day, 0, 0);
       }
     },
     // nameErrors() {
@@ -190,9 +231,19 @@ export default {
   //   hours: { required }
   // },
   methods: {
-    allowedDates(val) {
+    nextStep() {
+      this.stepper += 1;
+    },
+    previousStep() {
+      this.stepper -= 1;
+    },
+    allowedStartDates(val) {
       const day = parseInt(val.split("-")[2], 10);
       return day === 1 || day === 15;
+    },
+    allowedEndDates(val) {
+      const day = parseInt(val.split("-")[2], 10);
+      return day === 14 || isLastDayOfMonth(val);
     },
     async submit(callback, contract) {
       const payload = contract.toPayload();
