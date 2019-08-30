@@ -68,12 +68,15 @@ const ApiService = {
           throw error;
         }
 
-        // Logout, if refresh token is expired
-        if (error.response.data.code == "token_not_valid") {
+        // Logout if refresh token is expired
+        if (
+          error.response.data.code == "token_not_valid" &&
+          error.response.data.messages === undefined
+        ) {
           store.dispatch("auth/logout");
           store.dispatch("snackbar/setSnack", {
             snack: "Your session has expired.",
-            timeout: 20000,
+            timeout: 10000,
             color: "warning"
           });
 
