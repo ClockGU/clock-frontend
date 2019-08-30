@@ -8,7 +8,12 @@
       class="grey lighten-4"
     >
       <v-list>
-        <v-list-item v-for="link in links" :key="link.text" exact :to="link.to">
+        <v-list-item
+          v-for="link in visibleLinks"
+          :key="link.text"
+          exact
+          :to="link.to"
+        >
           <v-list-item-action>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-action>
@@ -53,33 +58,52 @@ export default {
       {
         text: "Calendar",
         to: { name: "c" },
-        icon: "home"
+        icon: "home",
+        loggedOut: true
       },
       {
         text: "Shifts",
         to: { name: "shiftList" },
-        icon: "list"
+        icon: "list",
+        loggedOut: false
       },
       {
         text: "Add Shift",
         to: { name: "createShift" },
-        icon: "add"
+        icon: "add",
+        lologgedOutgin: false
       },
       {
         text: "Contracts",
         to: { name: "contractList" },
-        icon: "description"
+        icon: "description",
+        loggedOut: false
       },
       {
         text: "Clock in",
         to: { name: "clockInOut" },
-        icon: "lock"
+        icon: "timer",
+        loggedOut: false
+      },
+      {
+        text: "Logout",
+        to: { name: "logout" },
+        icon: "lock",
+        loggedOut: false
       }
     ]
   }),
   computed: {
+    visibleLinks() {
+      if (this.isLoggedIn) return this.links;
+
+      return this.links.filter(link => link.loggedOut === true);
+    },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs";
+    },
+    isLoggedIn() {
+      return this.$store.state.auth.accessToken ? true : false;
     }
   },
   methods: {
