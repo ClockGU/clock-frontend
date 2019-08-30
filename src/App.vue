@@ -1,6 +1,12 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app class="grey lighten-4">
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="mini && !isMobile"
+      :permanent="!isMobile"
+      app
+      class="grey lighten-4"
+    >
       <v-list>
         <v-list-item v-for="link in links" :key="link.text" exact :to="link.to">
           <v-list-item-action>
@@ -13,7 +19,11 @@
     </v-navigation-drawer>
 
     <v-app-bar app color="amber" absolute text>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="toggleDrawer()">
+        <v-icon v-if="!isMobile && !mini">keyboard_arrow_left</v-icon>
+        <v-icon v-else-if="!isMobile && mini">keyboard_arrow_right</v-icon>
+        <v-icon v-else>menu</v-icon>
+      </v-app-bar-nav-icon>
       <portal-target name="toolbar"></portal-target>
     </v-app-bar>
 
@@ -37,7 +47,8 @@ import TheSnackbar from "@/components/TheSnackbar";
 export default {
   components: { TheSnackbar },
   data: () => ({
-    drawer: null,
+    drawer: false,
+    mini: true,
     links: [
       {
         text: "Calendar",
@@ -65,6 +76,20 @@ export default {
         icon: "lock"
       }
     ]
-  })
+  }),
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
+    }
+  },
+  methods: {
+    toggleDrawer() {
+      if (this.isMobile) {
+        this.drawer = !this.drawer;
+      } else {
+        this.mini = !this.mini;
+      }
+    }
+  }
 };
 </script>
