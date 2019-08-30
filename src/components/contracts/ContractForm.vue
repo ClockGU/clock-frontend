@@ -15,8 +15,11 @@
           </v-overlay>
         </v-fade-transition>
 
-        <v-card-text v-if="!loading">
-          <v-stepper v-model="stepper" vertical>
+        <v-card-text
+          v-if="!loading"
+          :class="{ 'px-0': isMobile, 'py-0': isMobile }"
+        >
+          <v-stepper v-model="stepper" elevation="0" vertical>
             <v-stepper-step :complete="stepper > 1" step="1">
               Set the start date
               <small
@@ -30,7 +33,7 @@
                   <v-card-text>
                     <v-date-picker
                       v-model="startDate"
-                      landscape
+                      :landscape="!isMobile"
                       :allowed-dates="allowedStartDates"
                       class="mt-4"
                     ></v-date-picker>
@@ -54,7 +57,7 @@
                   <v-card-text>
                     <v-date-picker
                       v-model="endDate"
-                      landscape
+                      :landscape="!isMobile"
                       :allowed-dates="allowedEndDates"
                       :min="startDate"
                       class="mt-4"
@@ -164,6 +167,9 @@ export default {
   }),
 
   computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
+    },
     initialData() {
       return new Contract({
         name: null,

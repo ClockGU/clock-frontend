@@ -33,7 +33,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container fluid>
+      <v-container :class="{ 'px-0': isMobile, 'py-0': isMobile }" fluid>
         <router-view></router-view>
       </v-container>
       <portal-target name="fab"></portal-target>
