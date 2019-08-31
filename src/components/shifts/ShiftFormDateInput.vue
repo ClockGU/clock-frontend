@@ -18,6 +18,8 @@
     <v-date-picker
       v-model="date"
       no-title
+      :min="min"
+      :max="max"
       @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
@@ -33,6 +35,14 @@ export default {
     value: {
       type: Object,
       required: true
+    },
+    min: {
+      type: String,
+      default: ""
+    },
+    max: {
+      type: String,
+      default: ""
     }
   },
   data: () => ({

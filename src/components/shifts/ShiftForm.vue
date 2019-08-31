@@ -52,7 +52,11 @@
                 <v-card-text>
                   <v-layout wrap align-center>
                     <v-flex xs12>
-                      <ShiftFormDateInput v-model="shift" />
+                      <ShiftFormDateInput
+                        v-model="shift"
+                        :min="contract.date.start"
+                        :max="contract.date.end"
+                      />
                     </v-flex>
                     <v-flex xs4>
                       <ShiftFormTimeInput
@@ -226,7 +230,8 @@ export default {
       return this.shift.tags.join(", ");
     },
     contract() {
-      if (!this.shift.contract) return { name: "" };
+      if (!this.shift.contract)
+        return { name: "", date: { end: "", start: "" } };
 
       return new Contract(
         this.contracts.find(contract => contract.uuid === this.shift.contract)
