@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
 import Vuelidate from "vuelidate";
+import { VueMaskDirective } from "v-mask";
 import ApiService from "@/services/api.service";
 import TokenService from "@/services/storage.service";
 
@@ -18,6 +19,8 @@ if (TokenService.getToken()) {
 
 Vue.use(PortalVue);
 Vue.use(Vuelidate);
+
+Vue.directive("mask", VueMaskDirective);
 
 Vue.config.productionTip = false;
 

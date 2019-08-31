@@ -78,6 +78,7 @@
                 <v-card-text>
                   <v-text-field
                     v-model="contract.hours"
+                    v-mask="'##:##'"
                     label="Working hours"
                     hint="HH:mm"
                     mask="time"
