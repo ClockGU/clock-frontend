@@ -38,9 +38,11 @@ export default {
 
     if (entity !== undefined) {
       this.entity = new Shift(entity);
-    } else {
+    } else if (this.uuid != null) {
       const response = await ShiftService.get(this.uuid);
       this.entity = new Shift(response.data);
+    } else {
+      this.entity = new Shift();
     }
   }
 };

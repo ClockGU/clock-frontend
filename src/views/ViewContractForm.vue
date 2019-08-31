@@ -31,9 +31,11 @@ export default {
 
     if (entity !== undefined) {
       this.entity = new Contract(entity);
-    } else {
+    } else if (this.uuid != null) {
       const response = await ContractService.get(this.uuid);
       this.entity = new Contract(response.data);
+    } else {
+      this.entity = new Contract();
     }
   }
 };
