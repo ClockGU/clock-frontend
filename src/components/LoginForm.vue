@@ -30,10 +30,12 @@
           label="Password"
           name="password"
           prepend-icon="lock"
-          type="password"
+          :type="showPassword ? 'text' : 'password'"
+          :append-icon="showPassword ? 'visibility' : 'visibility_off'"
           :error-messages="passwordErrors"
           @blur="$v.password.$touch()"
           @keyup.enter="submit"
+          @click:append="showPassword = !showPassword"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
@@ -63,6 +65,7 @@ export default {
   data: () => ({
     email: null,
     password: null,
+    showPassword: false,
     loading: false
   }),
   computed: {
