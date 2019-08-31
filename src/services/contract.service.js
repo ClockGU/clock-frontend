@@ -38,6 +38,21 @@ const ContractService = {
       throw new Error(error);
     }
   },
+  get: async function(uuid) {
+    try {
+      const response = await ApiService.get(BASE_URL + `${uuid}`);
+      const data = new Promise(resolve => {
+        const data = mapApiResponse(response.data);
+        const newResponse = { ...response, data };
+
+        resolve(newResponse);
+      });
+
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   call: async function({ data = null, method = "post" }) {
     const requestData = {
       method: method,
