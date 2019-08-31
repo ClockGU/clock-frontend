@@ -2,6 +2,13 @@ import { is } from "ramda";
 import { differenceInDays, format, parse } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
+Number.prototype.pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {
+    s = "0" + s;
+  }
+  return s;
+};
 export class Contract {
   constructor({
     uuid = null,
