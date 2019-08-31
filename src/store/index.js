@@ -13,7 +13,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    loadingData: true
+    loadingData: true,
+    user: {
+      first_name: ""
+    }
   },
   getters: {
     getField
@@ -24,6 +27,9 @@ export default new Vuex.Store({
     },
     stopLoading({ commit }) {
       commit("stopLoading");
+    },
+    setUser({ commit }, payload) {
+      commit("setUser", payload);
     }
   },
   mutations: {
@@ -33,6 +39,9 @@ export default new Vuex.Store({
     },
     stopLoading(state) {
       state.loadingData = false;
+    },
+    setUser(state, payload) {
+      state.user = { ...payload };
     }
   },
   modules: {

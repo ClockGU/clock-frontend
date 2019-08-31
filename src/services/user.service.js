@@ -1,5 +1,6 @@
 import ApiService from "@/services/api.service";
 import TokenService from "@/services/storage.service";
+import store from "@/store";
 
 class AuthenticationError extends Error {
   constructor(errorCode, message) {
@@ -36,11 +37,33 @@ const UserService = {
 
       ApiService.mount401Interceptor();
 
+      this.getUser();
+
       return response.data.access;
     } catch (error) {
       throw new AuthenticationError(
         error.response.status,
         error.response.data.non_field_errors[0]
+      );
+    }
+  },
+
+  getUser: async function() {
+    const requestData = {
+      method: "get",
+      url: "/auth/me/"
+    };
+
+    try {
+      const response = await ApiService.customRequest(requestData);
+
+      store.dispatch("setUser", response.data);
+
+      return response.data;
+    } catch (error) {
+      throw new AuthenticationError(
+        error.response.status,
+        error.response.data.detail
       );
     }
   },

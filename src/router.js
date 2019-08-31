@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import UserService from "@/services/user.service";
 import TokenService from "@/services/storage.service";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
@@ -114,6 +115,10 @@ router.beforeEach(async (to, from, next) => {
 
   // Refresh JWT token
   if (loggedIn) await store.dispatch("auth/refreshToken");
+
+  if (loggedIn && !!store.state.user) {
+    await UserService.getUser();
+  }
 
   if (!isPublic && !loggedIn) {
     return next({
