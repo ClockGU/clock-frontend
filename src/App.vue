@@ -20,6 +20,14 @@
 
           <v-list-item-content>{{ link.text }}</v-list-item-content>
         </v-list-item>
+
+        <v-list-item v-if="isLoggedIn" @click="logoutDialog = true">
+          <v-list-item-action>
+            <v-icon>lock</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>Logout</v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -35,6 +43,13 @@
     <v-content>
       <v-container :class="{ 'px-0': isMobile, 'py-0': isMobile }" fluid>
         <router-view></router-view>
+
+        <TheDialog>
+          <template v-slot:content>
+            <LogoutForm v-if="logoutDialog" @close="logoutDialog = false" />
+          </template>
+          <portal-target name="dialog"></portal-target>
+        </TheDialog>
       </v-container>
       <portal-target name="fab"></portal-target>
     </v-content>
@@ -47,13 +62,16 @@
 </template>
 
 <script>
+import TheDialog from "@/components/TheDialog";
 import TheSnackbar from "@/components/TheSnackbar";
+import LogoutForm from "@/components/LogoutForm";
 
 export default {
-  components: { TheSnackbar },
+  components: { TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
     drawer: false,
     mini: true,
+    logoutDialog: false,
     links: [
       {
         text: "Calendar",
@@ -83,12 +101,6 @@ export default {
         text: "Clock in",
         to: { name: "clockInOut" },
         icon: "timer",
-        loggedOut: false
-      },
-      {
-        text: "Logout",
-        to: { name: "logout" },
-        icon: "lock",
         loggedOut: false
       }
     ]
