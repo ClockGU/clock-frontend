@@ -8,6 +8,14 @@
       class="grey lighten-4"
     >
       <v-list>
+        <v-list-item v-if="isLoggedIn">
+          <v-list-item-avatar color="indigo" size="24">
+            <span class="white--text">{{ firstLetter }}</span>
+          </v-list-item-avatar>
+
+          <v-list-item-content>{{ name }}</v-list-item-content>
+        </v-list-item>
+
         <v-list-item
           v-for="link in visibleLinks"
           :key="link.text"
@@ -74,7 +82,7 @@ export default {
     logoutDialog: false,
     links: [
       {
-        text: "Calendar",
+        text: "Home",
         to: { name: "c" },
         icon: "home",
         loggedOut: true
@@ -106,6 +114,14 @@ export default {
     ]
   }),
   computed: {
+    name() {
+      return this.$store.state.user.first_name;
+    },
+    firstLetter() {
+      if (this.$store.state.user.first_name.length === 0) return "X";
+
+      return this.$store.state.user.first_name.substring(0, 1);
+    },
     visibleLinks() {
       if (this.isLoggedIn) return this.links;
 
