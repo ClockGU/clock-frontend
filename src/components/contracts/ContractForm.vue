@@ -22,9 +22,9 @@
           <v-stepper v-model="stepper" elevation="0" vertical>
             <v-stepper-step :complete="stepper > 1" step="1">
               Set the start date
-              <small
-                >Contracts can only start on the 1st or 15th of a month!</small
-              >
+              <small>
+                Contracts can only start on the 1st or 15th of a month!
+              </small>
             </v-stepper-step>
 
             <v-stepper-content step="1">
@@ -45,10 +45,9 @@
 
             <v-stepper-step :complete="stepper > 2" step="2">
               Set the end date
-              <small
-                >Contracts can only end on the 14th or last day of a
-                month!</small
-              >
+              <small>
+                Contracts can only end on the 14th or last day of a month!
+              </small>
             </v-stepper-step>
 
             <v-stepper-content step="2">
@@ -69,9 +68,12 @@
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step :complete="stepper > 3" step="3"
-              >Set the hours per month</v-stepper-step
-            >
+            <v-stepper-step :complete="stepper > 3" step="3">
+              Set the hours per month
+              <small>
+                Define your worktime in hours and minutes (HH:mm).
+              </small>
+            </v-stepper-step>
 
             <v-stepper-content step="3">
               <v-card class="mb-2" elevation="0">
@@ -85,16 +87,26 @@
                     return-masked-value
                     persistent-hint
                     required
+                    :error-messages="hoursErrors"
+                    @blur="$v.contract.hours.$touch()"
                   />
                 </v-card-text>
               </v-card>
-              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn
+                color="primary"
+                :disabled="$v.contract.hours.$error"
+                @click="nextStep()"
+                >Continue</v-btn
+              >
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step :complete="stepper > 4" step="4"
-              >Misc. settings</v-stepper-step
-            >
+            <v-stepper-step :complete="stepper > 4" step="4">
+              Name your contract
+              <small>
+                Give your contract a name, to find it more easily later.
+              </small>
+            </v-stepper-step>
 
             <v-stepper-content step="4">
               <v-card class="mb-2" elevation="0">
@@ -102,11 +114,19 @@
                   <v-text-field
                     v-model="contract.name"
                     label="Contract name"
+                    :error-messages="nameErrors"
+                    counter="100"
                     required
+                    @blur="$v.contract.name.$touch()"
                   />
                 </v-card-text>
               </v-card>
-              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn
+                color="primary"
+                :disabled="$v.contract.name.$error"
+                @click="nextStep()"
+                >Continue</v-btn
+              >
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
@@ -139,9 +159,14 @@
 <script>
 import { format, isLastDayOfMonth, startOfMonth, endOfMonth } from "date-fns";
 
+import { validationMixin } from "vuelidate";
+import { required, maxLength, minLength } from "vuelidate/lib/validators";
+
 import { Contract } from "@/models/ContractModel";
 import FrameApi from "@/components/FrameApi";
 import ContractService from "@/services/contract.service";
+
+const hoursNotZero = value => value !== "00:00";
 
 export default {
   name: "ContractForm",
@@ -149,6 +174,13 @@ export default {
   filters: {
     formatDate(date) {
       return format(date, "YYYY-MM-DD");
+    }
+  },
+  mixins: [validationMixin],
+  validations: {
+    contract: {
+      name: { required, maxLength: maxLength(100), minLength: minLength(2) },
+      hours: { required, hoursNotZero }
     }
   },
   props: {
@@ -178,6 +210,12 @@ export default {
         hours: null
       });
     },
+    title() {
+      return this.uuid === null ? "Add contract" : "Update contract";
+    },
+    saveLabel() {
+      return this.uuid === null ? "Save" : "Update";
+    },
     startDate: {
       get() {
         return format(this.contract.start, "YYYY-MM-DD");
@@ -199,30 +237,25 @@ export default {
         this.contract.end = new Date(year, month - 1, day, 0, 0);
       }
     },
-    // nameErrors() {
-    //   const errors = [];
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.contract.name.$dirty) return errors;
+      !this.$v.contract.name.minLength &&
+        errors.push("Name must be at least 2 characters long!");
+      !this.$v.contract.name.maxLength &&
+        errors.push("Name cannot be longer than 100 characters!");
 
-    //   if (!this.$v.name.$dirty) return errors;
-
-    //   !this.$v.name.maxLength &&
-    //     errors.push("Name must be at most 5 characters long");
-
-    //   return errors;
-    // },
-    // hourErrors() {
-    //   const errors = [];
-    //   console.log(this.$v.hours);
-
-    //   if (!this.$v.hours.$dirty) return errors;
-    //   !this.$v.hours.required && errors.push("Hours is required");
-
-    //   return errors;
-    // },
-    title() {
-      return this.uuid === null ? "Add contract" : "Update contract";
+      !this.$v.contract.name.required && errors.push("Name is required");
+      return errors;
     },
-    saveLabel() {
-      return this.uuid === null ? "Save" : "Update";
+    hoursErrors() {
+      const errors = [];
+      if (!this.$v.contract.hours.$dirty) return errors;
+      !this.$v.contract.hours.required && errors.push("Hours is required");
+      !this.$v.contract.hours.hoursNotZero &&
+        errors.push("A contract must have a duration.");
+
+      return errors;
     }
   },
   created() {
@@ -233,10 +266,6 @@ export default {
         ? ContractService.create(data)
         : ContractService.update(data, this.uuid);
   },
-  // validations: {
-  //   name: { required, maxLength: minLength(2) },
-  //   hours: { required }
-  // },
   methods: {
     nextStep() {
       this.stepper += 1;

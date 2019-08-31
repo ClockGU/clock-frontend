@@ -63,9 +63,9 @@ export class Contract {
 
   hoursToWorktime(value) {
     const hours = Math.floor(value);
-    const minutes = (60 * (value - hours)).toFixed(2);
+    const minutes = parseInt((60 * (value - hours)).toFixed(0));
 
-    return `${hours}:${minutes}`;
+    return `${hours.pad(2)}:${minutes.pad(2)}`;
   }
 
   toPayload() {
