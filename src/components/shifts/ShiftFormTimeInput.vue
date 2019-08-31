@@ -11,8 +11,11 @@
     <template v-slot:activator="{ on }">
       <v-text-field
         v-model="time"
+        :error-messages="errors"
         readonly
         prepend-inner-icon="access_time"
+        @blur="$emit('update')"
+        @change="$emit('update')"
         v-on="on"
       ></v-text-field>
     </template>
@@ -40,6 +43,10 @@ export default {
     type: {
       type: String,
       required: true
+    },
+    errors: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
