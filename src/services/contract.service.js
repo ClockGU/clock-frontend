@@ -30,7 +30,7 @@ const ContractService = {
         const data = response.data.map(item => mapApiResponse(item));
         const newResponse = { ...response, data };
 
-        resolve(newResponse);
+        setTimeout(() => resolve(newResponse), 400);
       });
 
       return data;

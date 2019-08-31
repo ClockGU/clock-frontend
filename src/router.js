@@ -91,8 +91,8 @@ const router = new Router({
     {
       path: "/contracts/",
       name: "contractList",
-      component: ViewContractList,
-      beforeEnter: queryData
+      component: ViewContractList
+      // beforeEnter: queryData
     },
     {
       path: "/clock",
