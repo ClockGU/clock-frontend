@@ -26,8 +26,31 @@ describe("Contracts.js", () => {
       hours: 40,
       date: date
     };
+
+    const output = {
+      ...data,
+      hours: "40:00"
+    };
+
     const obj = new Contract(data);
-    expect(obj).toEqual(data);
+    expect(obj).toEqual(output);
+  });
+
+  it("converts hours user input / API response back and forth correctly", () => {
+    const data = {
+      uuid: "1234",
+      user: "user",
+      name: "name",
+      hours: 40.5,
+      date: date
+    };
+
+    expect(new Contract(data)).toEqual({ ...data, hours: "40:30" });
+
+    expect(new Contract({ ...data, hours: 0.25 })).toEqual({
+      ...data,
+      hours: "00:15"
+    });
   });
 
   it("sets and gets the start and end date", () => {
