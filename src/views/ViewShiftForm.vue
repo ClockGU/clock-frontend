@@ -2,7 +2,7 @@
   <v-container>
     <v-layout wrap justify-center>
       <v-flex xs12 md8 lg10>
-        <ShiftForm :uuid="uuid" :entity="entity" />
+        <ShiftForm v-if="entity" :uuid="uuid" :entity="entity" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -11,6 +11,8 @@
 <script>
 import ShiftForm from "@/components/shifts/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
+import ContractService from "@/services/contract.service";
+import ShiftService from "@/services/shift.service";
 
 export default {
   name: "ViewCreateShift",
@@ -21,10 +23,25 @@ export default {
       default: null
     }
   },
-  created() {
+  data() {
+    return {
+      entity: null
+    };
+  },
+  async created() {
     const shifts = this.$store.state.shift.shifts;
+    const entity = shifts.find(shift => shift.uuid === this.uuid);
 
-    this.entity = new Shift(shifts.find(shift => shift.uuid === this.uuid));
+    const response = await ContractService.list(this.uuid);
+
+    this.$store.dispatch("contract/setContracts", response.data);
+
+    if (entity !== undefined) {
+      this.entity = new Shift(entity);
+    } else {
+      const response = await ShiftService.get(this.uuid);
+      this.entity = new Shift(response.data);
+    }
   }
 };
 </script>

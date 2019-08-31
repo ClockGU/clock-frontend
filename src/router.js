@@ -69,7 +69,8 @@ const router = new Router({
     {
       path: "/shifts/create",
       name: "createShift",
-      component: ViewShiftForm
+      component: ViewShiftForm,
+      beforeEnter: queryData
     },
     {
       path: "/shifts/",

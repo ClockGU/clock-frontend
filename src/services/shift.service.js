@@ -39,6 +39,21 @@ const ShiftService = {
       throw new Error(error);
     }
   },
+  get: async function(uuid) {
+    try {
+      const response = await ApiService.get(BASE_URL + `${uuid}`);
+      const data = new Promise(resolve => {
+        const data = mapApiResponse(response.data);
+        const newResponse = { ...response, data };
+
+        resolve(newResponse);
+      });
+
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   create: async function(data) {
     try {
       const response = await ApiService.post(`${BASE_URL}`, data);
