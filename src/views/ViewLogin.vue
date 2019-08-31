@@ -1,53 +1,31 @@
 <template>
   <v-row align="center" justify="center">
-    <v-col cols="12" sm="8" md="4">
-      <v-card class="elevation-12">
-        <v-toolbar color="yellow darken-3" dark flat>
-          <v-toolbar-title>Login form</v-toolbar-title>
-        </v-toolbar>
-        <v-card-text>
-          <v-form>
-            <v-text-field
-              v-model="email"
-              label="E-Mail"
-              prepend-icon="person"
-              type="text"
-              @keyup.enter="submit"
-            ></v-text-field>
+    <v-fade-transition>
+      <v-banner v-if="loginError" elevation="6" single-line
+        >The e-mail and/or password you entered is not valid.
 
-            <v-text-field
-              id="password"
-              v-model="password"
-              label="Password"
-              name="password"
-              prepend-icon="lock"
-              type="password"
-              @keyup.enter="submit"
-            ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="yellow darken-3" @click.native="submit">Login</v-btn>
-        </v-card-actions>
-      </v-card>
+        <template v-slot:actions="{ dismiss }">
+          <v-btn icon text color="deep-purple accent-4" @click="dismiss">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </template>
+      </v-banner>
+    </v-fade-transition>
+    <v-col cols="12" sm="8" md="4">
+      <LoginForm />
     </v-col>
   </v-row>
 </template>
 
 <script>
+import LoginForm from "@/components/LoginForm";
+
 export default {
   name: "ViewLogin",
-  data: () => ({
-    email: null,
-    password: null
-  }),
-  methods: {
-    submit() {
-      this.$store.dispatch("auth/login", {
-        email: this.email,
-        password: this.password
-      });
+  components: { LoginForm },
+  computed: {
+    loginError() {
+      return !!this.$store.state.auth.authenticationError;
     }
   }
 };
