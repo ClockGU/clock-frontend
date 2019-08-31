@@ -101,12 +101,19 @@ const router = new Router({
   ]
 });
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach(async (to, from, next) => {
+//   next();
+// });
+
+router.beforeEach(async (to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
   const loggedIn = !!TokenService.getToken();
+
+  // Refresh JWT token
+  if (loggedIn) await store.dispatch("auth/refreshToken");
 
   if (!isPublic && !loggedIn) {
     return next({
