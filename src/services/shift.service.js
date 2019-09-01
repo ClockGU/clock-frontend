@@ -1,4 +1,5 @@
 import ApiService from "@/services/api.service";
+import store from "@/store";
 
 // class ShiftError extends Error {
 //   constructor(errorCode, message) {
@@ -57,6 +58,9 @@ const ShiftService = {
   create: async function(data) {
     try {
       const response = await ApiService.post(`${BASE_URL}`, data);
+      const shift = mapApiResponse(response.data);
+      store.dispatch("shift/addShift", shift);
+
       return response;
     } catch (error) {
       throw new Error(error);
@@ -65,6 +69,8 @@ const ShiftService = {
   update: async function(data, uuid) {
     try {
       const response = await ApiService.patch(`${BASE_URL}${uuid}/`, data);
+      const shift = mapApiResponse(response.data);
+      store.dispatch("shift/updateShift", shift);
 
       return response;
     } catch (error) {

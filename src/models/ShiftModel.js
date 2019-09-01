@@ -1,5 +1,14 @@
 import { is } from "ramda";
-import { differenceInMinutes, parse, getDate, getMonth, getYear, setDate, setMonth, setYear } from "date-fns";
+import {
+  differenceInMinutes,
+  parse,
+  getDate,
+  getMonth,
+  getYear,
+  setDate,
+  setMonth,
+  setYear
+} from "date-fns";
 import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
