@@ -106,6 +106,9 @@ const ContractService = {
   delete: async function(uuid) {
     try {
       const response = await ApiService.delete(`${BASE_URL}${uuid}/`);
+
+      store.dispatch("contract/deleteContract", uuid);
+
       return response;
     } catch (error) {
       throw new Error(error);

@@ -142,9 +142,8 @@
                   </p>
                 </v-card-text>
               </v-card>
-              <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
               <v-spacer></v-spacer>
-              <v-btn text @click="submit(query, contract)">{{
+              <v-btn color="primary" text @click="submit(query, contract)">{{
                 saveLabel
               }}</v-btn>
               <v-btn text @click="previousStep()">Back</v-btn>

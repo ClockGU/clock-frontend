@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="show" persistent max-width="290">
+    <v-dialog v-model="dialog" :persistent="persistent" :max-width="maxWidth">
       <slot name="content"></slot>
     </v-dialog>
   </v-row>
@@ -9,9 +9,19 @@
 <script>
 export default {
   name: "TheDialog",
-  computed: {
-    show() {
-      return !!this.$slots.content;
+  props: {
+    maxWidth: {
+      type: Number,
+      default: 290
+    },
+    persistent: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {
+      dialog: true
     }
   }
 };

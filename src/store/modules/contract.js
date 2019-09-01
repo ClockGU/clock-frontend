@@ -21,6 +21,11 @@ const mutations = {
       payload
     ];
   },
+  deleteContract(state, payload) {
+    state.contracts = state.contracts.filter(
+      contract => contract.uuid !== payload
+    );
+  },
   setContracts(state, payload) {
     state.contracts = payload;
   }
@@ -32,6 +37,9 @@ const actions = {
   },
   updateContract({ commit }, payload) {
     commit("updateContract", payload);
+  },
+  deleteContract({ commit }, payload) {
+    commit("deleteContract", payload);
   },
   setContracts({ commit }, payload) {
     commit("setContracts", payload);
