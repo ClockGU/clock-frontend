@@ -11,7 +11,6 @@
 <script>
 import ShiftForm from "@/components/shifts/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
-import ContractService from "@/services/contract.service";
 import ShiftService from "@/services/shift.service";
 
 export default {
@@ -31,10 +30,6 @@ export default {
   async created() {
     const shifts = this.$store.state.shift.shifts;
     const entity = shifts.find(shift => shift.uuid === this.uuid);
-
-    const response = await ContractService.list(this.uuid);
-
-    this.$store.dispatch("contract/setContracts", response.data);
 
     if (entity !== undefined) {
       this.entity = new Shift(entity);
