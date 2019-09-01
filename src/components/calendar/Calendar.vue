@@ -3,9 +3,7 @@
     <v-col>
       <v-sheet width="90vw">
         <v-toolbar flat color="white">
-          <v-btn outlined class="mr-4" @click="setToday">
-            Today
-          </v-btn>
+          <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
           <v-btn fab text small @click="prev">
             <v-icon small>chevron_left</v-icon>
           </v-btn>
@@ -78,9 +76,9 @@
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn text color="secondary" @click="selectedOpen = false">
-                Dismiss
-              </v-btn>
+              <v-btn text color="secondary" @click="selectedOpen = false"
+                >Dismiss</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -102,8 +100,8 @@ import ShiftService from "@/services/shift.service.js";
 export default {
   name: "Calendar",
   data: () => ({
-    today: "2019-08-27",
-    focus: "2019-08-27",
+    today: format(new Date(), "YYYY-MM-DD"),
+    focus: format(new Date(), "YYYY-MM-DD"),
     type: "month",
     typeToLabel: {
       month: "Month",
@@ -151,14 +149,6 @@ export default {
         timeZone: "UTC",
         month: "long"
       });
-    },
-    eventsMap() {
-      const map = {};
-      this.events.forEach(e =>
-        (map[format(e.date, "YYYY-MM-DD")] =
-          map[format(e.date, "YYYY-MM-DD")] || []).push(e)
-      );
-      return map;
     },
     events() {
       return this.shifts.map(item => {
