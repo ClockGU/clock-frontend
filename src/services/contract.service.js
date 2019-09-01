@@ -71,8 +71,7 @@ const ContractService = {
       );
     }
   },
-  create: async function(data, uuid) {
-    console.log(data);
+  create: async function(data) {
     const requestData = {
       method: "post",
       url: "/api/contracts/",
@@ -82,14 +81,9 @@ const ContractService = {
     try {
       const response = await ApiService.customRequest(requestData);
 
-      const contracts = store.state.contract.contracts;
+      store.dispatch("contract/addContract", response.data);
 
-      await contracts.forEach(function(contract, index) {
-        if (contract.uuid === uuid) {
-          this[index] = response;
-        }
-      }, contracts);
-      console.log(contracts);
+      return response;
     } catch (error) {
       console.log(`ERROR: ${error}`);
       throw new ContractError(
@@ -98,17 +92,20 @@ const ContractService = {
       );
     }
   },
-  update: function(data, uuid) {
+  update: async function(data, uuid) {
     try {
-      const response = ApiService.patch(`${BASE_URL}${uuid}/`, data);
+      const response = await ApiService.patch(`${BASE_URL}${uuid}/`, data);
+
+      store.dispatch("contract/updateContract", response.data);
+
       return response;
     } catch (error) {
       throw new Error(error);
     }
   },
-  delete: function(uuid) {
+  delete: async function(uuid) {
     try {
-      const response = ApiService.delete(`${BASE_URL}${uuid}/`);
+      const response = await ApiService.delete(`${BASE_URL}${uuid}/`);
       return response;
     } catch (error) {
       throw new Error(error);
