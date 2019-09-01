@@ -94,7 +94,7 @@
               </v-card>
               <v-btn
                 color="primary"
-                :disabled="$v.contract.hours.$error"
+                :disabled="$v.contract.hours.$error || !contract.hours"
                 @click="nextStep()"
                 >Continue</v-btn
               >
@@ -123,7 +123,7 @@
               </v-card>
               <v-btn
                 color="primary"
-                :disabled="$v.contract.name.$error"
+                :disabled="$v.contract.name.$error || !contract.name"
                 @click="nextStep()"
                 >Continue</v-btn
               >
@@ -180,7 +180,7 @@ export default {
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) },
-      hours: { required, hoursNotZero }
+      hours: { required, hoursNotZero, minLength: minLength(5) }
     }
   },
   props: {
@@ -252,6 +252,7 @@ export default {
       const errors = [];
       if (!this.$v.contract.hours.$dirty) return errors;
       !this.$v.contract.hours.required && errors.push("Hours is required");
+      !this.$v.contract.hours.minLength && errors.push("Please enter a valid format");
       !this.$v.contract.hours.hoursNotZero &&
         errors.push("A contract must have a duration.");
 
