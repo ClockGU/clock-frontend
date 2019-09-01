@@ -1,6 +1,24 @@
 const TOKEN_KEY = "access_token";
 const REFRESH_TOKEN_KEY = "refresh_token";
 
+export function parseJwt(token) {
+  /* Decode JWT token.
+  Source: https://stackoverflow.com/a/38552302
+  */
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function(c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
+
 /**
  * Manage the how Access Tokens are being stored and retreived from storage.
  *

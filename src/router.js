@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import UserService from "@/services/user.service";
-import TokenService from "@/services/storage.service";
+import TokenService, { parseJwt } from "@/services/storage.service";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
 import ViewCalendar from "@/views/ViewCalendar.vue";
@@ -15,6 +15,13 @@ import store from "@/store";
 Vue.use(Router);
 
 function queryData(to, from, next) {
+  if (from.name !== null) {
+    // Do nothing if we use normal router navigation.
+    next();
+    return;
+  }
+
+  // In this case, we loaded the page inititally or refreshed it.
   Promise.all([
     store.dispatch("shift/queryShifts"),
     store.dispatch("contract/queryContracts")
@@ -64,7 +71,8 @@ const router = new Router({
       path: "/shifts/:uuid/edit",
       name: "editShift",
       component: ViewShiftForm,
-      props: true
+      props: true,
+      beforeEnter: queryData
     },
     {
       path: "/shifts/create",
@@ -103,21 +111,26 @@ const router = new Router({
   ]
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   next();
-// });
-
 router.beforeEach(async (to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
-  const loggedIn = !!TokenService.getToken();
+  const token = TokenService.getToken();
+  const loggedIn = !!token;
+  const requestNewAccessToken = exp => Date.now >= exp * 1000;
 
   // Refresh JWT token
-  if (loggedIn) await store.dispatch("auth/refreshToken");
+  if (loggedIn) {
+    // Grab expiry date from JWT
+    const { exp } = parseJwt(token);
 
-  if (loggedIn && !!store.state.user) {
+    // Only request new access token if the old expired
+    if (requestNewAccessToken(exp)) await store.dispatch("auth/refreshToken");
+  }
+
+  // Get user data, if it is not set yet
+  if (loggedIn && !store.state.user.first_name) {
     await UserService.getUser();
   }
 
