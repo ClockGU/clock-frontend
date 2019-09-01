@@ -51,7 +51,7 @@ const UserService = {
   getUser: async function() {
     const requestData = {
       method: "get",
-      url: "/auth/me/"
+      url: "/auth/users/me/"
     };
 
     try {

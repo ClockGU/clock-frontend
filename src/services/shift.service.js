@@ -62,17 +62,18 @@ const ShiftService = {
       throw new Error(error);
     }
   },
-  update: function(data, uuid) {
+  update: async function(data, uuid) {
     try {
-      const response = ApiService.patch(`${BASE_URL}${uuid}/`, data);
+      const response = await ApiService.patch(`${BASE_URL}${uuid}/`, data);
+
       return response;
     } catch (error) {
       throw new Error(error);
     }
   },
-  delete: function(uuid) {
+  delete: async function(uuid) {
     try {
-      const response = ApiService.delete(`${BASE_URL}${uuid}/`);
+      const response = await ApiService.delete(`${BASE_URL}${uuid}/`);
       return response;
     } catch (error) {
       throw new Error(error);

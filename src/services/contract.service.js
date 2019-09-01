@@ -56,7 +56,7 @@ const ContractService = {
   call: async function({ data = null, method = "post" }) {
     const requestData = {
       method: method,
-      url: "/api/contracts/",
+      url: BASE_URL,
       data
     };
 
@@ -74,7 +74,7 @@ const ContractService = {
   create: async function(data) {
     const requestData = {
       method: "post",
-      url: "/api/contracts/",
+      url: BASE_URL,
       data
     };
 
