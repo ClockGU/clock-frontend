@@ -15,7 +15,7 @@ import store from "@/store";
 Vue.use(Router);
 
 function queryData(to, from, next) {
-  if (from.name !== null) {
+  if (from.name !== null && from.name !== "login") {
     // Do nothing if we use normal router navigation.
     next();
     return;
@@ -100,8 +100,8 @@ const router = new Router({
     {
       path: "/contracts/",
       name: "contractList",
-      component: ViewContractList
-      // beforeEnter: queryData
+      component: ViewContractList,
+      beforeEnter: queryData
     },
     {
       path: "/clock",
