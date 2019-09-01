@@ -52,9 +52,9 @@
       <v-container :class="{ 'px-0': isMobile, 'py-0': isMobile }" fluid>
         <router-view></router-view>
 
-        <TheDialog>
+        <TheDialog v-if="logoutDialog">
           <template v-slot:content>
-            <LogoutForm v-if="logoutDialog" @close="logoutDialog = false" />
+            <LogoutForm @close="logoutDialog = false" />
           </template>
           <portal-target name="dialog"></portal-target>
         </TheDialog>
