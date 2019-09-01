@@ -153,6 +153,26 @@
           </v-stepper-content>
         </v-stepper>
       </v-card-text>
+
+      <TheDialog v-if="contracts.length < 1" :max-width="450">
+        <template v-slot:content>
+          <v-card>
+            <v-card-title class="headline"
+              >You did not create any contracts yet!</v-card-title
+            >
+            <v-card-text>
+              You first need to create a contract, before you can add a shift.
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="error" text :to="{ name: 'createContract' }"
+                >Let's go!</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </template>
+      </TheDialog>
+
     </v-card>
   </FrameApi>
 </template>
@@ -164,6 +184,8 @@ import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import FrameApi from "@/components/FrameApi";
+import TheDialog from "@/components/TheDialog";
+
 import ShiftService from "@/services/shift.service";
 
 import { Shift } from "@/models/ShiftModel";
@@ -188,7 +210,8 @@ export default {
     ShiftFormTimeInput,
     ShiftFormInput,
     ShiftFormSelect,
-    ShiftFormTags
+    ShiftFormTags,
+    TheDialog
   },
   filters: {
     formatDate(date) {
