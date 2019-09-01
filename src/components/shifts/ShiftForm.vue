@@ -292,10 +292,22 @@ export default {
       if (oldValue === undefined) return;
 
       const contractStart = this.contract.date.start;
-      const [year, month, day] = contractStart.split("-");
+      const contractEnd = this.contract.date.end;
+      const now = Date.now();
 
-      this.shift.setDate(...[year, month, day], "start");
-      this.shift.setDate(...[year, month, day], "end");
+      // Always set Date.now(), if today is inbetween the
+      // start and end date of a contract.
+      if (
+        isBefore(new Date(contractStart), now) &&
+        isAfter(new Date(contractEnd), now)
+      ) {
+        this.shift.setToday();
+        return;
+      }
+
+      const [year, month, day] = contractStart.split("-");
+      this.shift.setDate(...[year, month - 1, day], "start");
+      this.shift.setDate(...[year, month - 1, day], "end");
     }
   },
   created() {

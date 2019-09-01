@@ -1,5 +1,5 @@
 import { is } from "ramda";
-import { differenceInMinutes, parse, setDate, setMonth, setYear, setDay } from "date-fns";
+import { differenceInMinutes, parse, getDate, getMonth, getYear, setDate, setMonth, setYear } from "date-fns";
 import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
@@ -68,11 +68,23 @@ export class Shift {
     return minutesToHHMM(this.duration);
   }
 
+  setToday() {
+    const today = Date.now();
+    const [year, month, day] = [
+      getYear(today),
+      getMonth(today),
+      getDate(today)
+    ];
+
+    this.setDate(year, month, day, "start");
+    this.setDate(year, month, day, "end");
+  }
+
   setDate(year, month, day, type) {
     let date = this.date[type];
 
     date = setYear(date, year);
-    date = setMonth(date, month - 1);
+    date = setMonth(date, month);
     date = setDate(date, day);
 
     this.date[type] = date;
