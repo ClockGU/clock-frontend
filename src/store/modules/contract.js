@@ -15,9 +15,8 @@ const mutations = {
     state.contracts.push(payload);
   },
   updateContract(state, payload) {
-    const { id } = payload;
     state.contracts = [
-      ...state.contracts.filter(contract => contract.uuid !== id),
+      ...state.contracts.filter(contract => contract.uuid !== payload.uuid),
       payload
     ];
   },

@@ -80,8 +80,8 @@ const ContractService = {
 
     try {
       const response = await ApiService.customRequest(requestData);
-
-      store.dispatch("contract/addContract", response.data);
+      const contract = mapApiResponse(response.data);
+      store.dispatch("contract/addContract", contract);
 
       return response;
     } catch (error) {
@@ -95,8 +95,8 @@ const ContractService = {
   update: async function(data, uuid) {
     try {
       const response = await ApiService.patch(`${BASE_URL}${uuid}/`, data);
-
-      store.dispatch("contract/updateContract", response.data);
+      const contract = mapApiResponse(response.data);
+      store.dispatch("contract/updateContract", contract);
 
       return response;
     } catch (error) {
