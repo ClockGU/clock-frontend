@@ -1,5 +1,5 @@
 import { is } from "ramda";
-import { differenceInMinutes, parse } from "date-fns";
+import { differenceInMinutes, parse, setDate, setMonth, setYear, setDay } from "date-fns";
 import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
@@ -66,6 +66,16 @@ export class Shift {
 
   get representationalDuration() {
     return minutesToHHMM(this.duration);
+  }
+
+  setDate(year, month, day, type) {
+    let date = this.date[type];
+
+    date = setYear(date, year);
+    date = setMonth(date, month - 1);
+    date = setDate(date, day);
+
+    this.date[type] = date;
   }
 
   toPayload() {

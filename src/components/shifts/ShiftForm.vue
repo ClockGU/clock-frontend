@@ -285,6 +285,19 @@ export default {
       return this.uuid === null ? "Save" : "Update";
     }
   },
+  watch: {
+    // Make sure to set the date to the first day of the contract,
+    // when the user changes the contract.
+    "shift.contract": function(newValue, oldValue) {
+      if (oldValue === undefined) return;
+
+      const contractStart = this.contract.date.start;
+      const [year, month, day] = contractStart.split("-");
+
+      this.shift.setDate(...[year, month, day], "start");
+      this.shift.setDate(...[year, month, day], "end");
+    }
+  },
   created() {
     this.shift = this.uuid === null ? this.initialData : this.entity;
 
