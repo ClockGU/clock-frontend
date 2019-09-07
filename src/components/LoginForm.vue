@@ -84,15 +84,18 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       this.$v.$touch();
 
       if (!this.$v.$error) {
         this.loading = true;
-        this.$store.dispatch("auth/login", {
+
+        await this.$store.dispatch("auth/login", {
           email: this.email,
           password: this.password
         });
+
+        this.loading = false;
       }
     }
   }
