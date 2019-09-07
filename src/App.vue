@@ -87,18 +87,18 @@ export default {
         icon: "home",
         loggedOut: true
       },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: "list",
-        loggedOut: false
-      },
-      {
-        text: "Add Shift",
-        to: { name: "createShift" },
-        icon: "add",
-        lologgedOutgin: false
-      },
+      // {
+      //   text: "Shifts",
+      //   to: { name: "shiftList" },
+      //   icon: "list",
+      //   loggedOut: false
+      // },
+      // {
+      //   text: "Add Shift",
+      //   to: { name: "createShift" },
+      //   icon: "add",
+      //   loggedOut: false
+      // },
       {
         text: "Contracts",
         to: { name: "contractList" },
