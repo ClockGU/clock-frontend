@@ -70,6 +70,9 @@
               >
                 <v-icon>edit</v-icon>
               </v-btn>
+              <v-btn icon @click="confirmDelete(selectedEvent.uuid)">
+                <v-icon>delete</v-icon>
+              </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
             </v-toolbar>
             <v-card-text>
@@ -84,6 +87,26 @@
         </v-menu>
       </v-sheet>
     </v-col>
+
+    <TheDialog v-if="dialog">
+      <template v-slot:content>
+        <v-card>
+          <v-card-title class="headline"
+            >You sure you want to delete this shift?</v-card-title
+          >
+          <v-card-text>
+            <p>
+              This action is not reversible.
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn text @click="dialog = false">Cancel</v-btn>
+            <v-btn color="error" text @click="destroy">Delete</v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </TheDialog>
   </v-row>
 </template>
 
@@ -97,9 +120,15 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift.service.js";
 
+import TheDialog from "@/components/TheDialog";
+
 export default {
   name: "Calendar",
+  components: {
+    TheDialog
+  },
   data: () => ({
+    dialog: false,
     today: format(new Date(), "YYYY-MM-DD"),
     focus: format(new Date(), "YYYY-MM-DD"),
     type: "month",
@@ -178,11 +207,21 @@ export default {
     })
   },
   methods: {
-    async destroy(uuid) {
-      await ShiftService.delete(uuid);
-      const remainingShifts = this.shifts.filter(shift => shift.uuid !== uuid);
+    confirmDelete(uuid) {
+      this.dialog = true;
+      this.uuid = uuid;
+    },
+    async destroy() {
+      await ShiftService.delete(this.uuid);
+      const remainingShifts = this.shifts.filter(
+        shift => shift.uuid !== this.uuid
+      );
 
       this.$store.dispatch("shift/setShifts", remainingShifts);
+
+      if (this.dialog) {
+        this.dialog = false;
+      }
     },
     // changeDate(payload) {
     //   const date = new Date(payload.date);
