@@ -251,7 +251,8 @@ export default {
       const errors = [];
       if (!this.$v.contract.hours.$dirty) return errors;
       !this.$v.contract.hours.required && errors.push("Hours is required");
-      !this.$v.contract.hours.minLength && errors.push("Please enter a valid format");
+      !this.$v.contract.hours.minLength &&
+        errors.push("Please enter a valid format");
       !this.$v.contract.hours.hoursNotZero &&
         errors.push("A contract must have a duration.");
 
