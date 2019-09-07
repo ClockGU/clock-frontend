@@ -118,7 +118,7 @@ export default {
       return this.$store.state.user.first_name;
     },
     firstLetter() {
-      if (this.$store.state.user.first_name.length === 0) return "X";
+      if (this.$store.state.user.first_name.length === 0) return "";
 
       return this.$store.state.user.first_name.substring(0, 1);
     },
