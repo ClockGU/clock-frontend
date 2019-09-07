@@ -123,7 +123,8 @@ export default {
       return this.$store.state.user.first_name.substring(0, 1);
     },
     visibleLinks() {
-      if (this.isLoggedIn) return this.links;
+      if (this.isLoggedIn && this.$store.state.selectedContract !== null)
+        return this.links;
 
       return this.links.filter(link => link.loggedOut === true);
     },
