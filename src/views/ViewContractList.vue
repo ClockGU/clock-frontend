@@ -30,20 +30,27 @@
           </template>
 
           <v-col cols="12" sm="6" md="4">
-            <v-card
-              class="mx-auto"
-              :min-height="editMode ? '170px' : '118px'"
-              max-width="350"
-              outlined
-            >
-              <v-row :style="{ height: editMode ? '168px' : '116px' }">
-                <v-col align-self="center" align="center">
-                  <v-btn text :to="{ name: 'createContract' }">
-                    <v-icon left>add</v-icon> Add contract
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card>
+            <v-hover>
+              <template v-slot:default="{ hover }">
+                <v-card
+                  class="mx-auto"
+                  :min-height="editMode ? '170px' : '118px'"
+                  :to="{ name: 'createContract' }"
+                  :elevation="hover ? 2 : 0"
+                  max-width="350"
+                  outlined
+                  @click="() => {}"
+                >
+                  <v-row :style="{ height: editMode ? '168px' : '116px' }">
+                    <v-col align-self="center" align="center">
+                      <v-btn text disabled>
+                        <v-icon left>add</v-icon> Add contract
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </template>
+            </v-hover>
           </v-col>
         </v-row>
       </FrameHooks>
@@ -93,7 +100,8 @@ export default {
   data() {
     return {
       dialog: false,
-      callback: null
+      callback: null,
+      hover: false
     };
   },
   computed: {
