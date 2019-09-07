@@ -172,7 +172,6 @@
           </v-card>
         </template>
       </TheDialog>
-
     </v-card>
   </FrameApi>
 </template>
