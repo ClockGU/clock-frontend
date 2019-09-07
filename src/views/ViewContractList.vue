@@ -77,7 +77,6 @@ export default {
   data() {
     return {
       dialog: false,
-      contract: null,
       callback: null
     };
   },
