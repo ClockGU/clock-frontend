@@ -95,7 +95,9 @@ export default {
           password: this.password
         });
 
-        this.loading = false;
+        if (!this.$store.state.auth.accessToken) {
+          this.loading = false;
+        }
       }
     }
   }
