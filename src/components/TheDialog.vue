@@ -1,6 +1,11 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" :persistent="persistent" :max-width="maxWidth">
+    <v-dialog
+      v-model="dialog"
+      :persistent="persistent"
+      :max-width="maxWidth"
+      @click:outside="$emit('click:outside')"
+    >
       <slot name="content"></slot>
     </v-dialog>
   </v-row>
@@ -22,7 +27,7 @@ export default {
   data() {
     return {
       dialog: true
-    }
+    };
   }
 };
 </script>
