@@ -37,7 +37,7 @@ const UserService = {
 
       ApiService.mount401Interceptor();
 
-      this.getUser();
+      await this.getUser();
 
       return response.data.access;
     } catch (error) {

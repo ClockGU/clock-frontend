@@ -130,7 +130,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // Get user data, if it is not set yet
-  if (loggedIn && !store.state.user.first_name) {
+  if (loggedIn && !store.state.user.first_name && to.path !== "/uhoh") {
     await UserService.getUser();
   }
 
