@@ -9,20 +9,6 @@
           :elevation="hover ? 2 : 0"
           @click="selectContract(contract)"
         >
-          <!-- <v-list-item three-line>
-            <v-list-item-content>
-              <div class="overline mb-4">
-                {{ contract.hours | hoursToWorktime }} per month
-              </div>
-              <v-list-item-title class="headline mb-1">
-                {{ contract.name }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ contract.date.start | toDate }} until
-                {{ contract.date.end | toDate }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item> -->
           <v-card-title>
             <span class="primary--text subtitle-2">
               {{ contract.hours | hoursToWorktime }} per month
