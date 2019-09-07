@@ -1,35 +1,43 @@
 <template>
-  <v-form>
-    <FrameApi
-      v-slot="{ methods: { query }, status: { error, loading } }"
-      :endpoint="endpoint"
-    >
-      <v-card>
-        <v-card-title>
-          <h3 class="headline mb-0">{{ title }}</h3>
-        </v-card-title>
+  <v-container>
+    <v-row>
+      <v-col>
+        <h1>
+          {{ title }}
+        </h1>
+      </v-col>
+    </v-row>
+    <v-form>
+      <FrameApi
+        v-slot="{ methods: { query }, status: { error, loading } }"
+        :endpoint="endpoint"
+      >
+        <v-stepper v-if="!loading" v-model="stepper">
+          <v-stepper-header>
+            <v-row align="center">
+              <v-col cols="5">
+                <v-progress-circular
+                  color="primary lighten-2"
+                  class="ml-2"
+                  :value="(stepper / 5) * 100"
+                ></v-progress-circular>
+                <span class="pl-2">Step {{ stepper }} / 5</span>
+              </v-col>
+              <v-col>
+                <p class="mb-0">
+                  {{ currentText.title }}
+                </p>
+                <small>
+                  {{ currentText.subtitle }}
+                </small>
+              </v-col>
+            </v-row>
+          </v-stepper-header>
 
-        <v-fade-transition v-if="loading">
-          <v-overlay absolute color="#036358">
-            <v-progress-circular indeterminate size="32"></v-progress-circular>
-          </v-overlay>
-        </v-fade-transition>
-
-        <v-card-text
-          v-if="!loading"
-          :class="{ 'px-0': isMobile, 'py-0': isMobile }"
-        >
-          <v-stepper v-model="stepper" elevation="0" vertical>
-            <v-stepper-step :complete="stepper > 1" step="1">
-              Set the start date
-              <small>
-                Contracts can only start on the 1st or 15th of a month!
-              </small>
-            </v-stepper-step>
-
+          <v-stepper-items>
             <v-stepper-content step="1">
               <v-row justify="center" mb-1>
-                <v-card class="mb-2" elevation="0">
+                <v-card elevation="0">
                   <v-card-text>
                     <v-date-picker
                       v-model="startDate"
@@ -42,13 +50,6 @@
               </v-row>
               <v-btn color="primary" @click="nextStep()">Continue</v-btn>
             </v-stepper-content>
-
-            <v-stepper-step :complete="stepper > 2" step="2">
-              Set the end date
-              <small>
-                Contracts can only end on the 14th or last day of a month!
-              </small>
-            </v-stepper-step>
 
             <v-stepper-content step="2">
               <v-row justify="center" mb-1>
@@ -67,13 +68,6 @@
               <v-btn color="primary" @click="nextStep()">Continue</v-btn>
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
-
-            <v-stepper-step :complete="stepper > 3" step="3">
-              Set the hours per month
-              <small>
-                Define your worktime in hours and minutes (HH:mm).
-              </small>
-            </v-stepper-step>
 
             <v-stepper-content step="3">
               <v-card class="mb-2" elevation="0">
@@ -101,13 +95,6 @@
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step :complete="stepper > 4" step="4">
-              Name your contract
-              <small>
-                Give your contract a name, to find it more easily later.
-              </small>
-            </v-stepper-step>
-
             <v-stepper-content step="4">
               <v-card class="mb-2" elevation="0">
                 <v-card-text>
@@ -130,7 +117,6 @@
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
-            <v-stepper-step step="5">Summary</v-stepper-step>
             <v-stepper-content step="5">
               <v-card class="mb-2 grey lighten-3" elevation="0">
                 <v-card-text>
@@ -148,11 +134,11 @@
               }}</v-btn>
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
-          </v-stepper>
-        </v-card-text>
-      </v-card>
-    </FrameApi>
-  </v-form>
+          </v-stepper-items>
+        </v-stepper>
+      </FrameApi>
+    </v-form>
+  </v-container>
 </template>
 
 <script>
@@ -195,10 +181,35 @@ export default {
   data: () => ({
     contract: null,
     valid: false,
-    stepper: 1
+    stepper: 1,
+    stepperText: [
+      {
+        title: "Set the start date",
+        subtitle: "Can start on the 1st or 15th!"
+      },
+      {
+        title: "Set the end date",
+        subtitle: "Can end on the 14th or last day!"
+      },
+      {
+        title: "Set the hours per month",
+        subtitle: "Your montly worktime (HH:mm)."
+      },
+      {
+        title: "Name your contract",
+        subtitle: "Give your contract a name."
+      },
+      {
+        title: "Summary",
+        subtitle: " "
+      }
+    ]
   }),
 
   computed: {
+    currentText() {
+      return this.stepperText[this.stepper - 1];
+    },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs";
     },
