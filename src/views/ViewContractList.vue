@@ -12,6 +12,7 @@
         </h1>
       </v-col>
     </v-row>
+
     <ContractListFrame>
       <FrameHooks
         slot-scope="{ contracts, methods: { fetchList }, status: { loading } }"
