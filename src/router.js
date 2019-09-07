@@ -108,7 +108,6 @@ const router = new Router({
       name: "contractSelect",
       component: ViewContractList,
       beforeEnter: queryData
-      // beforeEnter: queryData
     },
     {
       path: "/clock",
