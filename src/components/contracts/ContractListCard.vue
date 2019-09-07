@@ -1,8 +1,14 @@
 <template>
-  <v-hover>
-    <template v-slot:default="{ hover }">
-      <v-col cols="12" sm="6" md="4">
-        <v-card class="mx-auto" max-width="350" outlined>
+  <v-col cols="12" sm="6" md="4">
+    <v-hover>
+      <template v-slot:default="{ hover }">
+        <v-card
+          class="mx-auto"
+          max-width="350"
+          outlined
+          :elevation="hover ? 2 : 0"
+          @click="selectContract(contract)"
+        >
           <!-- <v-list-item three-line>
             <v-list-item-content>
               <div class="overline mb-4">
@@ -41,18 +47,10 @@
               >Edit</v-btn
             >
           </v-card-actions>
-
-          <v-fade-transition>
-            <v-overlay v-if="!editMode && hover" absolute color="#036358">
-              <v-btn @click="selectContract(contract)"
-                >Select {{ contract.name }}</v-btn
-              >
-            </v-overlay>
-          </v-fade-transition>
         </v-card>
-      </v-col>
-    </template>
-  </v-hover>
+      </template>
+    </v-hover>
+  </v-col>
 </template>
 
 <script>
