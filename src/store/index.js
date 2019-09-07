@@ -16,7 +16,8 @@ export default new Vuex.Store({
     loadingData: true,
     user: {
       first_name: ""
-    }
+    },
+    selectedContract: null
   },
   getters: {
     getField
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     stopLoading({ commit }) {
       commit("stopLoading");
+    },
+    setContract({ commit }, payload) {
+      commit("setContract", payload);
     },
     setUser({ commit }, payload) {
       commit("setUser", payload);
@@ -39,6 +43,9 @@ export default new Vuex.Store({
     },
     stopLoading(state) {
       state.loadingData = false;
+    },
+    setContract(state, payload) {
+      state.selectedContract = payload;
     },
     setUser(state, payload) {
       state.user = { ...payload };

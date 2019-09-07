@@ -1,35 +1,58 @@
 <template>
-  <v-col cols="12" sm="12" md="6">
-    <v-card class="mx-auto" max-width="350" outlined>
-      <v-list-item three-line>
-        <v-list-item-content>
-          <div class="overline mb-4">
-            {{ contract.hours | hoursToWorktime }} per month
-          </div>
-          <v-list-item-title class="headline mb-1">
-            {{ contract.name }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
+  <v-hover>
+    <template v-slot:default="{ hover }">
+      <v-col cols="12" sm="6" md="4">
+        <v-card class="mx-auto" max-width="350" outlined>
+          <!-- <v-list-item three-line>
+            <v-list-item-content>
+              <div class="overline mb-4">
+                {{ contract.hours | hoursToWorktime }} per month
+              </div>
+              <v-list-item-title class="headline mb-1">
+                {{ contract.name }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{ contract.date.start | toDate }} until
+                {{ contract.date.end | toDate }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item> -->
+          <v-card-title>
+            <span class="primary--text subtitle-2">
+              {{ contract.hours | hoursToWorktime }} per month
+            </span>
+          </v-card-title>
+
+          <v-card-text>
+            <h2 class="title primary-text">{{ contract.name }}</h2>
             {{ contract.date.start | toDate }} until
             {{ contract.date.end | toDate }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+          </v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text color="error" @click="$emit('delete')">Delete</v-btn>
-        <v-btn
-          text
-          :to="{
-            name: 'editContract',
-            params: { uuid: contract.uuid }
-          }"
-          >Edit</v-btn
-        >
-      </v-card-actions>
-    </v-card>
-  </v-col>
+          <v-card-actions v-if="editMode">
+            <v-spacer></v-spacer>
+            <v-btn text color="error" @click="$emit('delete')">Delete</v-btn>
+            <v-btn
+              text
+              :to="{
+                name: 'editContract',
+                params: { uuid: contract.uuid }
+              }"
+              >Edit</v-btn
+            >
+          </v-card-actions>
+
+          <v-fade-transition>
+            <v-overlay v-if="!editMode && hover" absolute color="#036358">
+              <v-btn @click="selectContract(contract)"
+                >Select {{ contract.name }}</v-btn
+              >
+            </v-overlay>
+          </v-fade-transition>
+        </v-card>
+      </v-col>
+    </template>
+  </v-hover>
 </template>
 
 <script>
@@ -52,6 +75,17 @@ export default {
     contract: {
       type: Object,
       required: true
+    },
+    editMode: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    selectContract(contract) {
+      this.$store.dispatch("setContract", contract);
+
+      this.$router.push({ name: "c" });
     }
   }
 };

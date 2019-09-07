@@ -1,20 +1,50 @@
 <template>
   <v-container>
+    <v-row>
+      <v-col>
+        <h1>
+          <template v-if="!editMode">
+            Who is paying?
+          </template>
+          <template v-else>
+            Contracts
+          </template>
+        </h1>
+      </v-col>
+    </v-row>
     <ContractListFrame>
       <FrameHooks
         slot-scope="{ contracts, methods: { fetchList }, status: { loading } }"
         @created="fetchList()"
       >
         <v-row>
-          <ContractListCardSkeleton v-if="loading" />
+          <ContractListCardSkeleton v-if="loading" :edit-mode="editMode" />
 
           <template v-for="contract in contracts" v-else>
             <ContractListCard
               :key="contract.uuid"
               :contract="contract"
+              :edit-mode="editMode"
               @delete="confirmDelete(contract.uuid, fetchList)"
             />
           </template>
+
+          <v-col cols="12" sm="6" md="4">
+            <v-card
+              class="mx-auto"
+              :min-height="editMode ? '170px' : '118px'"
+              max-width="350"
+              outlined
+            >
+              <v-row :style="{ height: editMode ? '168px' : '116px' }">
+                <v-col align-self="center" align="center">
+                  <v-btn text :to="{ name: 'createContract' }">
+                    <v-icon left>add</v-icon> Add contract
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
         </v-row>
       </FrameHooks>
     </ContractListFrame>
@@ -39,20 +69,6 @@
         </v-card>
       </template>
     </TheDialog>
-
-    <portal to="fab">
-      <v-btn
-        absolute
-        dark
-        fab
-        top
-        right
-        color="pink"
-        :to="{ name: 'createContract' }"
-      >
-        <v-icon>add</v-icon>
-      </v-btn>
-    </portal>
   </v-container>
 </template>
 
@@ -79,6 +95,13 @@ export default {
       dialog: false,
       callback: null
     };
+  },
+  computed: {
+    editMode() {
+      if (this.$route.name === "contractSelect") return false;
+
+      return true;
+    }
   },
   methods: {
     confirmDelete(uuid, callback) {

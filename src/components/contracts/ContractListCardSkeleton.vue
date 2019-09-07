@@ -1,19 +1,19 @@
 <template>
-  <v-col cols="12" sm="12" md="6">
+  <v-col cols="12" sm="6" md="4">
     <v-card loading class="mx-auto" max-width="350" outlined>
       <v-list-item three-line>
         <v-list-item-content>
           <v-sheet
-            class="mb-6 loading"
+            class="mb-5 loading"
             color="grey lighten-1"
-            height="25px"
+            height="15px"
             max-width="150px"
           ></v-sheet>
           <v-list-item-title class="headline mb-1">
             <v-sheet
-              class="mb-6 loading"
+              class="mb-1 loading"
               color="grey lighten-1"
-              height="50px"
+              height="26px"
               max-width="100px"
             ></v-sheet>
           </v-list-item-title>
@@ -28,19 +28,19 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-card-actions>
+      <v-card-actions v-if="editMode" class="mt-2 mb-1">
         <v-spacer></v-spacer>
         <v-sheet
-          class="loading"
-          color="grey mr-6 lighten-1"
+          class="loading mr-4"
+          color="grey lighten-1"
           height="24px"
-          min-width="50px"
+          min-width="60px"
         ></v-sheet>
         <v-sheet
           class="loading"
           color="grey lighten-1"
           height="24px"
-          min-width="50px"
+          min-width="60px"
         ></v-sheet>
       </v-card-actions>
     </v-card>
@@ -49,7 +49,13 @@
 
 <script>
 export default {
-  name: "ContractListCardSkeleton"
+  name: "ContractListCardSkeleton",
+  props: {
+    editMode: {
+      type: Boolean,
+      default: false
+    }
+  }
 };
 </script>
 

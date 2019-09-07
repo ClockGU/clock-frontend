@@ -104,6 +104,13 @@ const router = new Router({
       beforeEnter: queryData
     },
     {
+      path: "/select/",
+      name: "contractSelect",
+      component: ViewContractList,
+      beforeEnter: queryData
+      // beforeEnter: queryData
+    },
+    {
       path: "/clock",
       name: "clockInOut",
       component: ViewClockInOut
@@ -132,6 +139,16 @@ router.beforeEach(async (to, from, next) => {
   // Get user data, if it is not set yet
   if (loggedIn && !store.state.user.first_name && to.path !== "/uhoh") {
     await UserService.getUser();
+  }
+
+  if (
+    loggedIn &&
+    !store.state.selectedContract &&
+    to.name !== "contractSelect"
+  ) {
+    return next({
+      name: "contractSelect"
+    });
   }
 
   if (!isPublic && !loggedIn) {
