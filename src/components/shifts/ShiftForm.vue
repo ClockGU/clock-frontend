@@ -1,189 +1,87 @@
 <template>
-  <FrameApi
-    v-slot="{ methods: { query }, status: { error, loading } }"
-    :endpoint="endpoint"
-  >
-    <v-card>
-      <v-card-title>
-        <h3 class="headline mb-0">{{ title }}</h3>
-      </v-card-title>
+  <v-container>
+    <v-row>
+      <v-col rows="12">
+        <h1>
+          {{ title }}
+        </h1>
+      </v-col>
+    </v-row>
+    <v-form>
+      <FrameApi
+        v-slot="{ methods: { query }, status: { error, loading } }"
+        :endpoint="endpoint"
+      >
+        <v-row justify="center">
+          <v-btn text :disabled="!valid" @click="submit(query, shift)">{{
+            saveLabel
+          }}</v-btn>
 
-      <v-fade-transition v-if="loading">
-        <v-overlay absolute color="#036358">
-          <v-progress-circular indeterminate size="32"></v-progress-circular>
-        </v-overlay>
-      </v-fade-transition>
-
-      <v-card-text v-if="!loading">
-        <v-stepper v-model="stepper" elevation="0" vertical>
-          <v-stepper-step :complete="stepper > 1" step="1">
-            Contract selection
-            <small>
-              Choose the contract you want to add the shift to
-            </small>
-          </v-stepper-step>
-
-          <v-stepper-content step="1">
-            <v-select
-              v-model="shift.contract"
-              :items="contracts"
-              item-text="name"
-              item-value="uuid"
-              label="Please select a contract"
-            ></v-select>
-            <v-btn
-              color="primary"
-              :disabled="!shift.contract"
-              @click="nextStep()"
-              >Continue</v-btn
-            >
-          </v-stepper-content>
-
-          <v-stepper-step :complete="stepper > 2" step="2">
-            Time and date
-            <small>
-              Choose the date and start/end times of your shift.
-            </small>
-          </v-stepper-step>
-
-          <v-stepper-content step="2">
-            <v-row justify="center">
-              <v-card class="mb-2" elevation="0">
-                <v-card-text>
-                  <v-layout wrap align-center>
-                    <v-flex xs12>
-                      <ShiftFormDateInput
-                        v-model="shift"
-                        :min="contract.date.start"
-                        :max="contract.date.end"
-                      />
-                    </v-flex>
-                    <v-flex xs4>
-                      <ShiftFormTimeInput
-                        v-model="shift"
-                        :errors="startTimeErrors"
-                        type="start"
-                        @update="
-                          $v.shift.date.start.$touch() ||
-                            $v.shift.date.end.$touch()
-                        "
-                      />
-                    </v-flex>
-                    <v-spacer />
-                    <v-flex xs1>to</v-flex>
-                    <v-spacer />
-                    <v-flex xs4>
-                      <ShiftFormTimeInput
-                        v-model="shift"
-                        :errors="endTimeErrors"
-                        type="end"
-                        @update="
-                          $v.shift.date.end.$touch() ||
-                            $v.shift.date.start.$touch()
-                        "
-                      />
-                    </v-flex>
-                  </v-layout>
-                </v-card-text>
-              </v-card>
-            </v-row>
-            <v-btn
-              color="primary"
-              :disabled="$v.shift.date.start.$error || $v.shift.date.end.$error"
-              @click="nextStep()"
-              >Continue</v-btn
-            >
-            <v-btn text @click="previousStep()">Back</v-btn>
-          </v-stepper-content>
-
-          <v-stepper-step :complete="stepper > 3" step="3">
-            Set the end date
-            <small>
-              Contracts can only end on the 14th or last day of a month!
-            </small>
-          </v-stepper-step>
-
-          <v-stepper-content step="3">
-            <v-row justify="center" mb-1>
-              <v-card class="mb-2" elevation="0">
-                <v-card-text>
-                  <v-layout wrap align-center>
-                    <v-flex xs12 md7>
-                      <ShiftFormSelect v-model="shift.type" />
-                    </v-flex>
-                    <v-flex xs12 md7>
-                      <ShiftFormTags v-model="shift.tags" />
-                    </v-flex>
-                    <v-flex xs12 md7>
-                      <ShiftFormInput v-model="shift.note" />
-                    </v-flex>
-                  </v-layout>
-                </v-card-text>
-              </v-card>
-            </v-row>
-            <v-btn color="primary" @click="nextStep()">Continue</v-btn>
-            <v-btn text @click="previousStep()">Back</v-btn>
-          </v-stepper-content>
-
-          <v-stepper-step step="4">Summary</v-stepper-step>
-          <v-stepper-content step="4">
-            <v-card class="mb-2 grey lighten-3" elevation="0">
-              <v-card-text>
-                <span
-                  >For contract "{{ contract.name }}", type:
-                  {{ shift.type.text }}</span
-                >
-                <h1>
-                  Duration: {{ shift.representationalDuration }} ({{
-                    shift.date.start | formatTime
-                  }}
-                  - {{ shift.date.end | formatTime }})
-                </h1>
-                <p>{{ shift.date.start | formatDate }}</p>
-                <p v-if="shift.tags.length > 0">Tags: {{ tags }}</p>
-                <p v-if="shift.note">Note: {{ shift.note }}</p>
-              </v-card-text>
-            </v-card>
-            <v-btn v-if="uuid" text @click="destroy()">Delete</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn text :disabled="!valid" @click="submit(query, shift)">{{
-              saveLabel
-            }}</v-btn>
-            <v-btn text @click="previousStep()">Back</v-btn>
-          </v-stepper-content>
-        </v-stepper>
-      </v-card-text>
-
-      <TheDialog v-if="contracts.length < 1" :max-width="450">
-        <template v-slot:content>
-          <v-card>
-            <v-card-title class="headline"
-              >You did not create any contracts yet!</v-card-title
-            >
+          <v-card class="mb-2">
             <v-card-text>
-              You first need to create a contract, before you can add a shift.
+              <v-layout wrap align-center>
+                <v-flex xs12>
+                  <ShiftFormDateInlineInput
+                    v-model="shift"
+                    :min="contract.date.start"
+                    :max="contract.date.end"
+                  />
+                </v-flex>
+                <v-flex xs4>
+                  <ShiftFormTimeInput
+                    v-model="shift"
+                    :errors="startTimeErrors"
+                    type="start"
+                    @update="
+                      $v.shift.date.start.$touch() || $v.shift.date.end.$touch()
+                    "
+                  />
+                </v-flex>
+                <v-spacer />
+                <v-flex xs1>to</v-flex>
+                <v-spacer />
+                <v-flex xs4>
+                  <ShiftFormTimeInput
+                    v-model="shift"
+                    :errors="endTimeErrors"
+                    type="end"
+                    @update="
+                      $v.shift.date.end.$touch() || $v.shift.date.start.$touch()
+                    "
+                  />
+                </v-flex>
+              </v-layout>
             </v-card-text>
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="error" text :to="{ name: 'createContract' }"
-                >Let's go!</v-btn
-              >
-            </v-card-actions>
           </v-card>
-        </template>
-      </TheDialog>
-    </v-card>
-  </FrameApi>
+
+          <v-card class="mb-2">
+            <v-card-text>
+              <v-layout wrap align-center>
+                <v-flex xs12 md7>
+                  <ShiftFormSelect v-model="shift.type" />
+                </v-flex>
+                <v-flex xs12 md7>
+                  <ShiftFormTags v-model="shift.tags" />
+                </v-flex>
+                <v-flex xs12 md7>
+                  <ShiftFormInput v-model="shift.note" />
+                </v-flex>
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </v-row>
+      </FrameApi>
+    </v-form>
+  </v-container>
 </template>
 
 <script>
-import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
+import ShiftFormDateInlineInput from "@/components/shifts/ShiftFormDateInlineInput";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import FrameApi from "@/components/FrameApi";
-import TheDialog from "@/components/TheDialog";
 
 import ShiftService from "@/services/shift.service";
 
@@ -205,12 +103,11 @@ export default {
   name: "ShiftForm",
   components: {
     FrameApi,
-    ShiftFormDateInput,
+    ShiftFormDateInlineInput,
     ShiftFormTimeInput,
     ShiftFormInput,
     ShiftFormSelect,
-    ShiftFormTags,
-    TheDialog
+    ShiftFormTags
   },
   filters: {
     formatDate(date) {
@@ -242,12 +139,29 @@ export default {
   data: () => ({
     select: null,
     shift: null,
-    stepper: 1
+    stepper: 1,
+    stepperText: [
+      {
+        title: "Time and date",
+        subtitle: "Choose the date and start/end times of your shift."
+      },
+      {
+        title: "Set the hours per month",
+        subtitle: "Your montly worktime (HH:mm)."
+      },
+      {
+        title: "Summary",
+        subtitle: " "
+      }
+    ]
   }),
   computed: {
     ...mapState("contract", {
       contracts: state => state.contracts
     }),
+    currentText() {
+      return this.stepperText[this.stepper - 1];
+    },
     tags() {
       return this.shift.tags.join(", ");
     },

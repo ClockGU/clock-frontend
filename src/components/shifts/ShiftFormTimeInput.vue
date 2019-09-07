@@ -1,40 +1,50 @@
 <template>
-  <v-menu
-    ref="menu"
-    v-model="menu"
-    :close-on-content-click="false"
-    :return-value.sync="time"
-    transition="scale-transition"
-    offset-y
-    full-width
-  >
-    <template v-slot:activator="{ on }">
-      <v-text-field
-        v-model="time"
-        :error-messages="errors"
-        readonly
-        prepend-inner-icon="access_time"
-        @blur="$emit('update')"
-        @change="$emit('update')"
-        v-on="on"
-      ></v-text-field>
-    </template>
-    <v-time-picker
-      v-if="menu"
-      v-model="time"
-      no-title
-      format="24hr"
-      @click:minute="$refs.menu.save(time)"
-    ></v-time-picker>
-  </v-menu>
+  <div>
+    <v-text-field
+      v-model="data"
+      v-mask="'##:##'"
+      return-masked-value
+      :error-messages="errors"
+      mask="time"
+      append-icon="access_time"
+      @click:append="clickAppend"
+      @blur="setTime"
+    ></v-text-field>
+
+    <TheDialog
+      v-if="dialog"
+      :max-width="400"
+      :persistent="false"
+      @click:outside="dialog = false"
+    >
+      <template v-slot:content>
+        <v-card>
+          <v-card-title class="headline">
+            Set the time
+          </v-card-title>
+          <v-card-text>
+            <v-time-picker
+              v-model="data"
+              format="24hr"
+              @click:minute="setTime"
+            ></v-time-picker>
+          </v-card-text>
+        </v-card>
+      </template>
+    </TheDialog>
+  </div>
 </template>
 
 <script>
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
+import TheDialog from "@/components/TheDialog";
 
 export default {
   name: "ShiftFormTimeInput",
+  components: {
+    TheDialog
+  },
   props: {
     value: {
       type: Object,
@@ -51,10 +61,12 @@ export default {
   },
   data: () => ({
     menu: false,
+    data: null,
     opposites: {
       start: "end",
       end: "start"
-    }
+    },
+    dialog: false
   }),
   computed: {
     time: {
@@ -74,6 +86,22 @@ export default {
         const shift = new Shift({ ...newValue });
 
         this.$emit("input", shift);
+      }
+    }
+  },
+  created() {
+    this.data = format(this.value.date[this.type], "HH:mm");
+  },
+  methods: {
+    clickAppend() {
+      this.dialog = true;
+    },
+    setTime() {
+      this.time = this.data;
+      this.$emit("update");
+
+      if (this.dialog) {
+        this.dialog = false;
       }
     }
   }
