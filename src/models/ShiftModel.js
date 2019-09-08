@@ -101,8 +101,8 @@ export class Shift {
 
   toPayload() {
     return {
-      uuid: this.uuid,
-      user: this.user,
+      // uuid: this.uuid,
+      // user: this.user,
       contract: this.contract,
       tags: this.tags,
       type: this.type.value,
