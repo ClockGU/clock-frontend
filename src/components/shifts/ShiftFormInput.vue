@@ -1,5 +1,10 @@
 <template>
-  <v-textarea :value="value" @input="$emit('input', $event)" />
+  <v-textarea
+    :value="value"
+    label="Note"
+    outlined
+    @input="$emit('input', $event)"
+  />
 </template>
 
 <script>

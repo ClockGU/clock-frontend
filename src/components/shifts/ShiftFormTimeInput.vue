@@ -5,8 +5,13 @@
       v-mask="'##:##'"
       return-masked-value
       :error-messages="errors"
+      :label="label"
+      outlined
       mask="time"
       append-icon="access_time"
+      hint="HH:mm"
+      type="number"
+      :persistent-hint="true"
       @click:append="clickAppend"
       @blur="setTime"
     ></v-text-field>
@@ -18,18 +23,12 @@
       @click:outside="dialog = false"
     >
       <template v-slot:content>
-        <v-card>
-          <v-card-title class="headline">
-            Set the time
-          </v-card-title>
-          <v-card-text>
-            <v-time-picker
-              v-model="data"
-              format="24hr"
-              @click:minute="setTime"
-            ></v-time-picker>
-          </v-card-text>
-        </v-card>
+        <v-time-picker
+          v-model="data"
+          format="24hr"
+          full-width
+          @click:minute="setTime"
+        ></v-time-picker>
       </template>
     </TheDialog>
   </div>
@@ -57,6 +56,10 @@ export default {
     errors: {
       type: Array,
       default: () => []
+    },
+    label: {
+      type: String,
+      default: ""
     }
   },
   data: () => ({
