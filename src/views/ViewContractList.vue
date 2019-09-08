@@ -138,12 +138,26 @@ export default {
       this.callback = callback;
     },
     async destroy() {
-      await ContractService.delete(this.uuid);
-      await this.callback();
+      return new Promise((resolve, reject) => {
+        ContractService.delete(this.uuid)
+          .then(() => {
+            this.callback();
 
-      this.dialog = false;
-      this.uuid = null;
-      this.callback = null;
+            if (this.uuid === this.$store.state.selectedContract.uuid) {
+              this.$store.dispatch("unsetContract");
+              this.$router.push({ name: "contractSelect" });
+            }
+
+            this.dialog = false;
+            this.uuid = null;
+            this.callback = null;
+
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     }
   }
 };
