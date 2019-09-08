@@ -1,9 +1,9 @@
 <template>
   <ClockModel :start-date="startDate">
     <template v-slot="{ toggle, data, duration }">
-      <v-col cols="12">
+      <v-col cols="8">
         <v-row>
-          <v-col sm="2">
+          <v-col sm="4">
             <v-hover>
               <v-btn
                 slot-scope="{ hover }"

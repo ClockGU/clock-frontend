@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet width="90vw">
+      <v-sheet>
         <v-toolbar flat color="white">
           <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
           <v-btn fab text small @click="prev">
@@ -36,7 +36,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600" width="90vw">
+      <v-sheet height="600">
         <slot />
         <v-calendar
           ref="calendar"

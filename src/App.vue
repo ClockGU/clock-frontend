@@ -46,10 +46,9 @@
         <v-icon v-else>menu</v-icon>
       </v-app-bar-nav-icon>
       <!-- <portal-target name="toolbar"></portal-target> -->
-      <div class="flex-grow-1"></div>
       <template v-if="showSelectContractButton">
         <v-btn text :to="{ path: '/select/' }" exact>
-          Contract: {{ selectedContract }}
+          {{ selectedContract }}
         </v-btn>
         <ClockInOut />
       </template>
