@@ -145,6 +145,11 @@ export default {
     selectedOpen: false
   }),
   computed: {
+    visibleShifts() {
+      return this.shifts.filter(
+        shift => shift.contract === this.$store.state.selectedContract.uuid
+      );
+    },
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -180,7 +185,7 @@ export default {
       });
     },
     events() {
-      return this.shifts.map(item => {
+      return this.visibleShifts.map(item => {
         const shift = new Shift(item);
         const contract = new Contract(
           this.contracts.find(contract => contract.id === shift.contract)
