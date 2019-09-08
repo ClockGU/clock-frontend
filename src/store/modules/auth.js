@@ -41,14 +41,7 @@ const actions = {
 
       return true;
     } catch (e) {
-      if (e instanceof AuthenticationError) {
-        commit("loginError", {
-          errorCode: e.errorCode,
-          errorMessage: e.message
-        });
-      }
-
-      return false;
+      throw new Error(e);
     }
   },
   logout({ commit }) {
