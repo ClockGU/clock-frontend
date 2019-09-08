@@ -207,7 +207,8 @@ router.beforeEach(async (to, from, next) => {
   if (
     loggedIn &&
     !store.state.selectedContract &&
-    to.name !== "contractSelect"
+    to.name !== "contractSelect" &&
+    to.name !== "createContract"
   ) {
     return next({
       name: "contractSelect"
