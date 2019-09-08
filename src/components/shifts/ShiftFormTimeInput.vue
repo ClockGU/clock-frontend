@@ -74,11 +74,27 @@ export default {
         return format(this.value.date[this.type], "HH:mm");
       },
       set(val) {
+        // User deleted all input
+        if (val === "") {
+          this.data = format(this.value.date[this.type], "HH:mm");
+          return;
+        }
+
+        // Grab year, month and day from date entry
         const [year, month, day] = format(
           this.value.date[this.type],
           "YYYY-MM-DD"
         ).split("-");
-        const [hours, minutes] = val.split(":");
+        let [hours, minutes] = val.split(":");
+
+        // Manually reset hours and minutes to valid values
+        if (parseInt(hours) > 23) {
+          hours = 23;
+        }
+        if (parseInt(minutes) > 59) {
+          minutes = 59;
+        }
+
         const date = new Date(year, month - 1, day, hours, minutes);
 
         const newValue = { ...this.value };
@@ -86,6 +102,7 @@ export default {
         const shift = new Shift({ ...newValue });
 
         this.$emit("input", shift);
+        this.data = `${hours}:${minutes}`;
       }
     }
   },
