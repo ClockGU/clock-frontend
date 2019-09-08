@@ -1,7 +1,11 @@
 import store from "@/store";
 
 export default async function queryData({ from, next }) {
-  if (from.name !== null && from.name !== "login") {
+  if (
+    from.name !== null &&
+    from.name !== "login" &&
+    from.name !== "contractSelect"
+  ) {
     // Do nothing if we use normal router navigation.
     return next();
   }
