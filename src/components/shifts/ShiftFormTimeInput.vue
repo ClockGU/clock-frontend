@@ -10,7 +10,6 @@
       mask="time"
       append-icon="access_time"
       hint="HH:mm"
-      type="number"
       :persistent-hint="true"
       @click:append="clickAppend"
       @blur="setTime"
