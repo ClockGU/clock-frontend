@@ -46,6 +46,13 @@
         <v-icon v-else>menu</v-icon>
       </v-app-bar-nav-icon>
       <portal-target name="toolbar"></portal-target>
+      <v-btn
+        v-if="showSelectContractButton"
+        text
+        :to="{ path: '/select/' }"
+        exact
+        >Contract: {{ selectedContract }}</v-btn
+      >
     </v-app-bar>
 
     <v-content>
@@ -114,6 +121,13 @@ export default {
     ]
   }),
   computed: {
+    showSelectContractButton() {
+      return this.$store.state.selectedContract !== null;
+    },
+    selectedContract() {
+      if (this.$store.state.selectedContract === null) return;
+      return this.$store.state.selectedContract.name;
+    },
     name() {
       return this.$store.state.user.first_name;
     },
