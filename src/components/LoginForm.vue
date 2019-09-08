@@ -96,8 +96,16 @@ export default {
             password: this.password
           });
         } catch (error) {
+          let message;
+          if (error.message === "Network Error") {
+            message =
+              "A problem occured with out servers. Please try again later.";
+          } else {
+            message = error.response.data.non_field_errors[0];
+          }
+
           this.$store.dispatch("snackbar/setSnack", {
-            snack: error.message,
+            snack: message,
             timeout: 0,
             color: "error"
           });
