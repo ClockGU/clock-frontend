@@ -9,6 +9,7 @@
     label="Add a tag"
     small-chips
     multiple
+    outlined
     clearable
     @input="$emit('input', $event)"
   >
@@ -23,7 +24,11 @@
       </v-list-item>
     </template>
     <template v-slot:selection="data">
-      <v-chip :input-value="data.selected" close @input="remove(data.item)">
+      <v-chip
+        :input-value="data.selected"
+        close
+        @click:close="remove(data.item)"
+      >
         <strong>{{ data.item }}</strong>
       </v-chip>
     </template>
@@ -59,8 +64,8 @@ export default {
   },
   methods: {
     remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
+      this.items = this.items.filter(chip => chip !== item);
+      this.$emit("input", this.items);
     }
   }
 };
