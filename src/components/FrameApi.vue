@@ -21,8 +21,9 @@ export default {
     if (this.immediate) this.query();
   },
   methods: {
-    query(...params) {
+    async query(...params) {
       this.response = this.endpoint(...params);
+      this.$emit("success", { data: this.response });
     }
   },
   render(h) {

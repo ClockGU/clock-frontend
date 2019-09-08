@@ -11,6 +11,7 @@
       <FrameApi
         v-slot="{ methods: { query }, status: { error, loading } }"
         :endpoint="endpoint"
+        @success="redirect"
       >
         <v-stepper v-if="!loading" v-model="stepper">
           <v-stepper-header>
@@ -263,8 +264,8 @@ export default {
         this.contract.start = date;
 
         if (isAfter(date, this.contract.end)) {
-        this.contract.end = endOfMonth(date);
-      }
+          this.contract.end = endOfMonth(date);
+        }
       }
     },
     endDate: {
@@ -326,12 +327,14 @@ export default {
     },
     async submit(callback, contract) {
       const payload = contract.toPayload();
-      await callback(payload);
-
-      this.redirect();
+      callback(payload);
     },
     redirect() {
-      this.$router.push({ name: "contractList" });
+      // TODO: this should _not_ be our solution.
+      // Without the timeout, created/updated contracts are not shown in the ContractList
+      setTimeout(() => {
+        this.$router.push({ name: "contractList" });
+      }, 500);
     },
     async destroy() {
       if (this.uuid === null) return;
