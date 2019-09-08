@@ -28,24 +28,21 @@ const UserService = {
       }
     };
 
-    try {
-      const response = await ApiService.customRequest(requestData);
-
+    return new Promise((resolve, reject) => {
+      return ApiService.customRequest(requestData)
+        .then(response => {
       TokenService.saveToken(response.data.access);
       TokenService.saveRefreshToken(response.data.refresh);
       ApiService.setHeader();
 
       ApiService.mount401Interceptor();
 
-      await this.getUser();
-
-      return response.data.access;
-    } catch (error) {
-      throw new AuthenticationError(
-        error.response.status,
-        error.response.data.non_field_errors[0]
-      );
-    }
+          resolve(response.data.access);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   },
 
   getUser: async function() {

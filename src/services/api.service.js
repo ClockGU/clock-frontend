@@ -48,7 +48,15 @@ const ApiService = {
    *    - password
    **/
   customRequest(data) {
-    return axios(data);
+    return new Promise((resolve, reject) => {
+      return axios(data)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   },
 
   mount401Interceptor() {
