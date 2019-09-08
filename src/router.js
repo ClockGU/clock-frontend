@@ -226,7 +226,7 @@ router.beforeEach(async (to, from, next) => {
     return next("/");
   }
 
-  next();
+  return next();
 });
 
 export default router;
