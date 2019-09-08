@@ -152,6 +152,7 @@ import FrameApi from "@/components/FrameApi";
 import ContractService from "@/services/contract.service";
 
 const hoursNotZero = value => value !== "00:00";
+const validMinutes = value => value.split(":")[1] <= parseInt(59);
 
 export default {
   name: "ContractForm",
@@ -165,7 +166,7 @@ export default {
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) },
-      hours: { required, hoursNotZero, minLength: minLength(5) }
+      hours: { required, hoursNotZero, validMinutes, minLength: minLength(5) }
     }
   },
   props: {
@@ -262,8 +263,10 @@ export default {
       const errors = [];
       if (!this.$v.contract.hours.$dirty) return errors;
       !this.$v.contract.hours.required && errors.push("Hours is required");
+      !this.$v.contract.hours.validMinutes &&
+        errors.push("Please enter a valid format (HH:MM).");
       !this.$v.contract.hours.minLength &&
-        errors.push("Please enter a valid format");
+        errors.push("Please enter a valid format (HH:MM).");
       !this.$v.contract.hours.hoursNotZero &&
         errors.push("A contract must have a duration.");
 
