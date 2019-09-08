@@ -61,10 +61,11 @@ const UserService = {
 
       return response.data;
     } catch (error) {
-      throw new AuthenticationError(
-        error.response.status,
-        error.response.data.detail
-      );
+      throw new Error(error);
+      // throw new AuthenticationError(
+      //   error.response.status,
+      //   error.response.data.detail
+      // );
     }
   },
 
