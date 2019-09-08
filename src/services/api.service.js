@@ -67,7 +67,6 @@ const ApiService = {
       async error => {
         // We cannot reach the backend. PANIC!
         if (error.message == "Network Error") {
-          router.push({ path: "/uhoh" });
           throw error;
         }
 
