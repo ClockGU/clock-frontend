@@ -45,14 +45,14 @@
         <v-icon v-else-if="!isMobile && mini">keyboard_arrow_right</v-icon>
         <v-icon v-else>menu</v-icon>
       </v-app-bar-nav-icon>
-      <portal-target name="toolbar"></portal-target>
-      <v-btn
-        v-if="showSelectContractButton"
-        text
-        :to="{ path: '/select/' }"
-        exact
-        >Contract: {{ selectedContract }}</v-btn
-      >
+      <!-- <portal-target name="toolbar"></portal-target> -->
+      <div class="flex-grow-1"></div>
+      <template v-if="showSelectContractButton">
+        <v-btn text :to="{ path: '/select/' }" exact>
+          Contract: {{ selectedContract }}
+        </v-btn>
+        <ClockInOut />
+      </template>
     </v-app-bar>
 
     <v-content>
@@ -85,9 +85,10 @@
 import TheDialog from "@/components/TheDialog";
 import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
+import ClockInOut from "@/components/ClockInOut";
 
 export default {
-  components: { TheDialog, TheSnackbar, LogoutForm },
+  components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
     drawer: false,
     mini: true,
@@ -99,28 +100,10 @@ export default {
         icon: "home",
         loggedOut: true
       },
-      // {
-      //   text: "Shifts",
-      //   to: { name: "shiftList" },
-      //   icon: "list",
-      //   loggedOut: false
-      // },
-      // {
-      //   text: "Add Shift",
-      //   to: { name: "createShift" },
-      //   icon: "add",
-      //   loggedOut: false
-      // },
       {
         text: "Contracts",
         to: { name: "contractList" },
         icon: "description",
-        loggedOut: false
-      },
-      {
-        text: "Clock in",
-        to: { name: "clockInOut" },
-        icon: "timer",
         loggedOut: false
       }
     ],

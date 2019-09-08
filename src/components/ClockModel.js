@@ -1,13 +1,8 @@
 import { differenceInSeconds } from "date-fns";
 import uuid from "uuid/v4";
-import { createHelpers } from "vuex-map-fields";
 
 import { Shift } from "@/models/ShiftModel";
-
-const { mapFields } = createHelpers({
-  getterType: "shift/getField",
-  mutationType: "shift/updateField"
-});
+import ShiftService from "@/services/shift.service";
 
 export default {
   name: "ClockModel",
@@ -26,7 +21,6 @@ export default {
     }
   },
   computed: {
-    ...mapFields(["shifts"]),
     clockData() {
       return {
         started: this.shift.start,
@@ -51,9 +45,8 @@ export default {
       this.tick();
       this.interval = setInterval(() => this.tick(), 1000);
     },
-    stop() {
+    async stop() {
       clearInterval(this.interval);
-      console.log(this.contract);
 
       const data = {
         date: {
@@ -61,13 +54,14 @@ export default {
           end: new Date()
         },
         uuid: uuid(),
-        contract: this.shift.contract
+        contract: this.$store.state.selectedContract.uuid,
+        type: { value: "st", text: "Shift" }
       };
-      const shift = new Shift(data);
-      console.log(shift);
+      const payload = new Shift(data).toPayload();
 
-      this.shifts = [...this.shifts, shift];
+      console.log(payload);
 
+      await ShiftService.create(payload);
       this.initialize();
     },
     tick() {
