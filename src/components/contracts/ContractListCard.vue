@@ -1,41 +1,31 @@
 <template>
   <v-col cols="12" sm="6" md="4">
-    <v-hover>
-      <template v-slot:default="{ hover }">
-        <v-card
-          class="mx-auto"
-          max-width="350"
-          outlined
-          :elevation="hover ? 2 : 0"
-          @click="selectContract(contract)"
+    <v-card class="mx-auto" max-width="350" outlined>
+      <v-card-title>
+        <span class="primary--text subtitle-2">
+          {{ contract.hours | hoursToWorktime }} per month
+        </span>
+      </v-card-title>
+
+      <v-card-text>
+        <h2 class="title primary-text">{{ contract.name }}</h2>
+        {{ contract.date.start | toDate }} until
+        {{ contract.date.end | toDate }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text color="error" @click="$emit('delete')">Delete</v-btn>
+        <v-btn
+          text
+          :to="{
+            name: 'editContract',
+            params: { uuid: contract.uuid }
+          }"
+          >Edit</v-btn
         >
-          <v-card-title>
-            <span class="primary--text subtitle-2">
-              {{ contract.hours | hoursToWorktime }} per month
-            </span>
-          </v-card-title>
-
-          <v-card-text>
-            <h2 class="title primary-text">{{ contract.name }}</h2>
-            {{ contract.date.start | toDate }} until
-            {{ contract.date.end | toDate }}
-          </v-card-text>
-
-          <v-card-actions v-if="editMode">
-            <v-spacer></v-spacer>
-            <v-btn text color="error" @click="$emit('delete')">Delete</v-btn>
-            <v-btn
-              text
-              :to="{
-                name: 'editContract',
-                params: { uuid: contract.uuid }
-              }"
-              >Edit</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </template>
-    </v-hover>
+      </v-card-actions>
+    </v-card>
   </v-col>
 </template>
 
@@ -59,17 +49,6 @@ export default {
     contract: {
       type: Object,
       required: true
-    },
-    editMode: {
-      type: Boolean,
-      default: false
-    }
-  },
-  methods: {
-    selectContract(contract) {
-      this.$store.dispatch("setContract", contract);
-
-      this.$router.push({ name: "c" });
     }
   }
 };

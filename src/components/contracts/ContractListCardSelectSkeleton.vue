@@ -27,29 +27,13 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-
-      <v-card-actions class="mt-2 mb-1">
-        <v-spacer></v-spacer>
-        <v-sheet
-          class="loading mr-4"
-          color="grey lighten-1"
-          height="24px"
-          min-width="60px"
-        ></v-sheet>
-        <v-sheet
-          class="loading"
-          color="grey lighten-1"
-          height="24px"
-          min-width="60px"
-        ></v-sheet>
-      </v-card-actions>
     </v-card>
   </v-col>
 </template>
 
 <script>
 export default {
-  name: "ContractListCardSkeleton"
+  name: "ContractListCardSelectSkeleton"
 };
 </script>
 

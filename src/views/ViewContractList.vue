@@ -19,15 +19,30 @@
         @created="fetchList()"
       >
         <v-row>
-          <ContractListCardSkeleton v-if="loading" :edit-mode="editMode" />
+          <template v-if="editMode">
+            <ContractListCardSkeleton v-if="loading" />
 
-          <template v-for="contract in contracts" v-else>
-            <ContractListCard
-              :key="contract.uuid"
-              :contract="contract"
-              :edit-mode="editMode"
-              @delete="confirmDelete(contract.uuid, fetchList)"
-            />
+            <template v-for="contract in contracts" v-else>
+              <ContractListCard
+                :key="contract.uuid"
+                :contract="contract"
+                :edit-mode="editMode"
+                @delete="confirmDelete(contract.uuid, fetchList)"
+              />
+            </template>
+          </template>
+
+          <template v-else>
+            <ContractListCardSelectSkeleton v-if="loading" />
+
+            <template v-for="contract in contracts" v-else>
+              <ContractListCardSelect
+                :key="contract.uuid"
+                :contract="contract"
+                :edit-mode="editMode"
+                @delete="confirmDelete(contract.uuid, fetchList)"
+              />
+            </template>
           </template>
 
           <v-col cols="12" sm="6" md="4">
@@ -83,6 +98,8 @@
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSkeleton from "@/components/contracts/ContractListCardSkeleton";
+import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
+import ContractListCardSelectSkeleton from "@/components/contracts/ContractListCardSelectSkeleton";
 import ContractListFrame from "@/components/contracts/ContractListFrame";
 import FrameHooks from "@/components/FrameHooks";
 import TheDialog from "@/components/TheDialog";
@@ -94,6 +111,8 @@ export default {
   components: {
     ContractListCard,
     ContractListCardSkeleton,
+    ContractListCardSelect,
+    ContractListCardSelectSkeleton,
     ContractListFrame,
     FrameHooks,
     TheDialog
