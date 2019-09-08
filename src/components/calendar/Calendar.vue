@@ -199,7 +199,7 @@ export default {
           start: format(shift.date.start, "YYYY-MM-DD HH:mm"),
           end: format(shift.date.end, "YYYY-MM-DD HH:mm"),
           // open: false,
-          color: "indigo",
+          color: this.colorMap(shift),
           duration: shift.representationalDuration,
           contract: contract
         };
@@ -212,6 +212,13 @@ export default {
     })
   },
   methods: {
+    colorMap(event) {
+      if (event.type.value === "st") return "primary";
+      if (event.type.value === "sk") return "grey";
+      if (event.type.value === "vn") return "green lighten-1";
+
+      return "red";
+    },
     confirmDelete(uuid) {
       this.dialog = true;
       this.uuid = uuid;
