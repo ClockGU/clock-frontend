@@ -43,7 +43,8 @@ const router = new Router({
       component: ViewLogin,
       meta: {
         public: true,
-        onlyWhenLoggedOut: true
+        onlyWhenLoggedOut: true,
+        breadcrumb: null
       }
     },
     {
@@ -52,67 +53,113 @@ const router = new Router({
       component: ViewLogout,
       meta: {
         public: false,
-        onlyWhenLoggedOut: false
+        onlyWhenLoggedOut: false,
+        breadcrumb: null
       }
     },
     {
       path: "/",
       name: "c",
       component: ViewCalendar,
-      beforeEnter: queryData
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/:type/:year/:month/:day",
       name: "calendar",
       component: ViewCalendar,
-      props: true
+      props: true,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/shifts/:uuid/edit",
       name: "editShift",
       component: ViewShiftForm,
       props: true,
-      beforeEnter: queryData
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/shifts/create",
       name: "createShift",
       component: ViewShiftForm,
-      beforeEnter: queryData
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/shifts/",
       name: "shiftList",
       component: ViewShiftList,
-      beforeEnter: queryData
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/contracts/create",
       name: "createContract",
-      component: ViewContractForm
+      component: ViewContractForm,
+      meta: {
+        breadcrumb: [
+          {
+            text: "Contracts",
+            to: { path: "/contracts/" },
+            exact: true
+          },
+          { text: "New contract" }
+        ]
+      }
     },
     {
       path: "/contracts/:uuid/edit",
       name: "editContract",
       component: ViewContractForm,
-      props: true
+      props: true,
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: [
+          {
+            text: "Contracts",
+            to: { path: "/contracts/" },
+            exact: true
+          },
+          { text: "Update contract" }
+        ]
+      }
     },
     {
       path: "/contracts/",
       name: "contractList",
       component: ViewContractList,
-      beforeEnter: queryData
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/select/",
       name: "contractSelect",
       component: ViewContractList,
-      beforeEnter: queryData
+      beforeEnter: queryData,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/clock",
       name: "clockInOut",
-      component: ViewClockInOut
+      component: ViewClockInOut,
+      meta: {
+        breadcrumb: null
+      }
     }
   ]
 });
@@ -137,8 +184,8 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
-      // eslint-disable-next-line require-atomic-updates
-      pollingUserData = false;
+  // eslint-disable-next-line require-atomic-updates
+  pollingUserData = false;
   next();
 });
 

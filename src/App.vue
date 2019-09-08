@@ -57,6 +57,11 @@
 
     <v-content>
       <v-container :class="{ 'px-0': isMobile, 'py-0': isMobile }" fluid>
+        <v-breadcrumbs
+          v-if="breadcrumbList !== null"
+          :items="breadcrumbList"
+          divider=">"
+        ></v-breadcrumbs>
         <router-view></router-view>
 
         <TheDialog v-if="logoutDialog">
@@ -118,7 +123,8 @@ export default {
         icon: "timer",
         loggedOut: false
       }
-    ]
+    ],
+    breadcrumbList: null
   }),
   computed: {
     showSelectContractButton() {
@@ -147,6 +153,11 @@ export default {
     },
     isLoggedIn() {
       return this.$store.state.auth.accessToken ? true : false;
+    }
+  },
+  watch: {
+    $route() {
+      this.breadcrumbList = this.$route.meta.breadcrumb;
     }
   },
   methods: {
