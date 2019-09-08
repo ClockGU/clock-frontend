@@ -117,6 +117,32 @@ const router = new Router({
   ]
 });
 
+let pollingUserData = false;
+
+router.beforeEach(async (to, from, next) => {
+  const token = TokenService.getToken();
+  const loggedIn = !!token;
+
+  if ((loggedIn && !!store.state.user.first_name) || !pollingUserData) {
+    // Get user data, if it is not set yet
+    try {
+      pollingUserData = true;
+      await UserService.getUser();
+    } catch (error) {
+      store.dispatch("snackbar/setSnack", {
+        snack: "Cannot reach the server. Please try again later.",
+        timeout: 0,
+        color: "error"
+      });
+
+      // eslint-disable-next-line require-atomic-updates
+      pollingUserData = false;
+    }
+  }
+
+  next();
+});
+
 router.beforeEach(async (to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
@@ -133,11 +159,6 @@ router.beforeEach(async (to, from, next) => {
 
     // Only request new access token if the old expired
     if (requestNewAccessToken(exp)) await store.dispatch("auth/refreshToken");
-  }
-
-  // Get user data, if it is not set yet
-  if (loggedIn && !store.state.user.first_name && to.path !== "/uhoh") {
-    await UserService.getUser();
   }
 
   if (
