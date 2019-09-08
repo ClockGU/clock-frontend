@@ -90,10 +90,18 @@ export default {
       if (!this.$v.$error) {
         this.loading = true;
 
-        await this.$store.dispatch("auth/login", {
-          email: this.email,
-          password: this.password
-        });
+        try {
+          await this.$store.dispatch("auth/login", {
+            email: this.email,
+            password: this.password
+          });
+        } catch (error) {
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: "Cannot reach the server. Please try again later.",
+            timeout: 0,
+            color: "error"
+          });
+        }
 
         if (!this.$store.state.auth.accessToken) {
           this.loading = false;
