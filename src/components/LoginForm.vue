@@ -97,7 +97,7 @@ export default {
           });
         } catch (error) {
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "Cannot reach the server. Please try again later.",
+            snack: error.message,
             timeout: 0,
             color: "error"
           });

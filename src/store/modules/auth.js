@@ -38,8 +38,6 @@ const actions = {
 
       // Redirect the user to the page he first tried to visit or to the home view
       router.push(router.history.current.query.redirect || "/");
-
-      return true;
     } catch (e) {
       throw new Error(e);
     }
