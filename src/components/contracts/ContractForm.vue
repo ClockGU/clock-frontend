@@ -36,6 +36,11 @@
 
           <v-stepper-items>
             <v-stepper-content step="1">
+              <v-banner v-if="disableDateChange">
+                You cannot change the start/end date, after adding shifts to the
+                contract.
+              </v-banner>
+
               <v-row justify="center" mb-1>
                 <v-card elevation="0">
                   <v-card-text>
@@ -43,6 +48,7 @@
                       v-model="startDate"
                       :landscape="!isMobile"
                       :allowed-dates="allowedStartDates"
+                      :disabled="disableDateChange"
                       class="mt-4"
                     ></v-date-picker>
                   </v-card-text>
@@ -52,6 +58,11 @@
             </v-stepper-content>
 
             <v-stepper-content step="2">
+              <v-banner v-if="disableDateChange">
+                You cannot change the start/end date, after adding shifts to the
+                contract.
+              </v-banner>
+
               <v-row justify="center" mb-1>
                 <v-card class="mb-2" elevation="0">
                   <v-card-text>
@@ -60,6 +71,7 @@
                       :landscape="!isMobile"
                       :allowed-dates="allowedEndDates"
                       :min="startDate"
+                      :disabled="disableDateChange"
                       class="mt-4"
                     ></v-date-picker>
                   </v-card-text>
@@ -208,6 +220,13 @@ export default {
   }),
 
   computed: {
+    disableDateChange() {
+      return (
+        this.$store.state.shift.shifts.filter(
+          shift => shift.contract === this.contract.uuid
+        ).length > 0
+      );
+    },
     currentText() {
       return this.stepperText[this.stepper - 1];
     },
