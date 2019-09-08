@@ -19,9 +19,6 @@ const mutations = {
       ...state.shifts.filter(shift => shift.uuid !== payload.uuid),
       payload
     ];
-
-    console.log(payload);
-    console.log(state.shifts);
   },
   deleteShift(state, payload) {
     state.shifts = state.shifts.filter(shift => shift.uuid !== payload);
