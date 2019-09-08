@@ -1,11 +1,5 @@
 <template>
-  <v-menu
-    ref="menu"
-    v-model="menu"
-    offset-y
-    full-width
-    :close-on-content-click="false"
-  >
+  <v-menu ref="menu" v-model="menu" offset-y :close-on-content-click="false">
     <template v-slot:activator="{ on }">
       <v-btn text small v-on="on">
         {{ currentMonth }}
