@@ -17,12 +17,16 @@ export default new Vuex.Store({
     user: {
       first_name: ""
     },
-    selectedContract: null
+    selectedContract: null,
+    backendOffline: false
   },
   getters: {
     getField
   },
   actions: {
+    toggleBackend({ commit }) {
+      commit("toggleBackend");
+    },
     startLoading({ commit }) {
       commit("startLoading");
     },
@@ -38,6 +42,9 @@ export default new Vuex.Store({
   },
   mutations: {
     updateField,
+    toggleBackend(state) {
+      state.backendOffline = !state.backendOffline;
+    },
     startLoading(state) {
       state.loadingData = true;
     },

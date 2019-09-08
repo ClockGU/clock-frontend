@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import UserService from "@/services/user.service";
 import TokenService, { parseJwt } from "@/services/storage.service";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
@@ -11,27 +10,10 @@ import ViewContractForm from "@/views/ViewContractForm";
 import ViewContractList from "@/views/ViewContractList";
 import ViewClockInOut from "@/views/ViewClockInOut";
 import store from "@/store";
+import getUserData from "@/middlewares/user";
+import queryData from "@/middlewares/query";
 
 Vue.use(Router);
-
-function queryData(to, from, next) {
-  if (from.name !== null && from.name !== "login") {
-    // Do nothing if we use normal router navigation.
-    next();
-    return;
-  }
-
-  // In this case, we loaded the page inititally or refreshed it.
-  Promise.all([
-    store.dispatch("shift/queryShifts"),
-    store.dispatch("contract/queryContracts")
-  ])
-    .then(() => {
-      store.dispatch("stopLoading");
-      next();
-    })
-    .catch(() => next({ path: "uhoh" }));
-}
 
 const router = new Router({
   mode: "history",
@@ -61,9 +43,9 @@ const router = new Router({
       path: "/",
       name: "c",
       component: ViewCalendar,
-      beforeEnter: queryData,
       meta: {
-        breadcrumb: null
+        breadcrumb: null,
+        middleware: queryData
       }
     },
     {
@@ -80,25 +62,24 @@ const router = new Router({
       name: "editShift",
       component: ViewShiftForm,
       props: true,
-      beforeEnter: queryData,
       meta: {
-        breadcrumb: null
+        breadcrumb: null,
+        middleware: queryData
       }
     },
     {
       path: "/shifts/create",
       name: "createShift",
       component: ViewShiftForm,
-      beforeEnter: queryData,
       meta: {
-        breadcrumb: null
+        breadcrumb: null,
+        middleware: queryData
       }
     },
     {
       path: "/shifts/",
       name: "shiftList",
       component: ViewShiftList,
-      beforeEnter: queryData,
       meta: {
         breadcrumb: null
       }
@@ -116,14 +97,14 @@ const router = new Router({
           },
           { text: "New contract" }
         ]
-      }
+      },
+      middleware: queryData
     },
     {
       path: "/contracts/:uuid/edit",
       name: "editContract",
       component: ViewContractForm,
       props: true,
-      beforeEnter: queryData,
       meta: {
         breadcrumb: [
           {
@@ -133,24 +114,25 @@ const router = new Router({
           },
           { text: "Update contract" }
         ]
-      }
+      },
+      middleware: queryData
     },
     {
       path: "/contracts/",
       name: "contractList",
       component: ViewContractList,
-      beforeEnter: queryData,
       meta: {
-        breadcrumb: null
+        breadcrumb: null,
+        middleware: queryData
       }
     },
     {
       path: "/select/",
       name: "contractSelect",
       component: ViewContractList,
-      beforeEnter: queryData,
       meta: {
-        breadcrumb: null
+        breadcrumb: null,
+        middleware: getUserData
       }
     },
     {
@@ -158,35 +140,50 @@ const router = new Router({
       name: "clockInOut",
       component: ViewClockInOut,
       meta: {
-        breadcrumb: null
+        breadcrumb: null,
+        middleware: queryData
       }
     }
   ]
 });
 
-let pollingUserData = false;
+// Creates a `nextMiddleware()` function which not only
+// runs the default `next()` callback but also triggers
+// the subsequent Middleware function.
+function nextFactory(context, middleware, index) {
+  const subsequentMiddleware = middleware[index];
+  // If no subsequent Middleware exists,
+  // the default `next()` callback is returned.
+  if (!subsequentMiddleware) return context.next;
 
-router.beforeEach(async (to, from, next) => {
-  const token = TokenService.getToken();
-  const loggedIn = !!token;
+  return (...parameters) => {
+    // Run the default Vue Router `next()` callback first.
+    context.next(...parameters);
+    // Than run the subsequent Middleware with a new
+    // `nextMiddleware()` callback.
+    const nextMiddleware = nextFactory(context, middleware, index + 1);
+    subsequentMiddleware({ ...context, next: nextMiddleware });
+  };
+}
 
-  if (loggedIn && !!store.state.user.first_name && !pollingUserData) {
-    // Get user data, if it is not set yet
-    try {
-      pollingUserData = true;
-      await UserService.getUser();
-    } catch (error) {
-      store.dispatch("snackbar/setSnack", {
-        snack: error,
-        timeout: 0,
-        color: "error"
-      });
-    }
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+      ? to.meta.middleware
+      : [to.meta.middleware];
+
+    const context = {
+      from,
+      next,
+      router,
+      to
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
+
+    return middleware[0]({ ...context, next: nextMiddleware });
   }
 
-  // eslint-disable-next-line require-atomic-updates
-  pollingUserData = false;
-  next();
+  return next();
 });
 
 router.beforeEach(async (to, from, next) => {
