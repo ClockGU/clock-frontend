@@ -154,7 +154,13 @@
 </template>
 
 <script>
-import { format, isLastDayOfMonth, startOfMonth, endOfMonth } from "date-fns";
+import {
+  format,
+  isLastDayOfMonth,
+  startOfMonth,
+  endOfMonth,
+  isAfter
+} from "date-fns";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
@@ -255,7 +261,10 @@ export default {
 
         const date = new Date(year, month - 1, day, 0, 0);
         this.contract.start = date;
+
+        if (isAfter(date, this.contract.end)) {
         this.contract.end = endOfMonth(date);
+      }
       }
     },
     endDate: {
