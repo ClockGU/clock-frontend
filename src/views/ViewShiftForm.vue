@@ -1,11 +1,5 @@
 <template>
-  <v-container>
-    <v-layout wrap justify-center>
-      <v-flex xs12 md8 lg10>
-        <ShiftForm v-if="entity" :uuid="uuid" :entity="entity" />
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <ShiftForm v-if="entity" :uuid="uuid" :entity="entity" />
 </template>
 
 <script>
