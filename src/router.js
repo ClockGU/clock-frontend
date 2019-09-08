@@ -123,23 +123,22 @@ router.beforeEach(async (to, from, next) => {
   const token = TokenService.getToken();
   const loggedIn = !!token;
 
-  if ((loggedIn && !!store.state.user.first_name) || !pollingUserData) {
+  if (loggedIn && !!store.state.user.first_name && !pollingUserData) {
     // Get user data, if it is not set yet
     try {
       pollingUserData = true;
       await UserService.getUser();
     } catch (error) {
       store.dispatch("snackbar/setSnack", {
-        snack: "Cannot reach the server. Please try again later.",
+        snack: error,
         timeout: 0,
         color: "error"
       });
-
-      // eslint-disable-next-line require-atomic-updates
-      pollingUserData = false;
     }
   }
 
+      // eslint-disable-next-line require-atomic-updates
+      pollingUserData = false;
   next();
 });
 

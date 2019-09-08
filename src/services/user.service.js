@@ -88,10 +88,7 @@ const UserService = {
 
       return response.data.access;
     } catch (error) {
-      throw new AuthenticationError(
-        error.response.status,
-        error.response.data.detail
-      );
+      throw Error(error);
     }
   },
 
