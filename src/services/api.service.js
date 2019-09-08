@@ -98,7 +98,10 @@ const ApiService = {
           return this.customRequest({
             method: failedRequest.config.method,
             url: failedRequest.config.url,
-            data: JSON.stringify(failedRequest.config.data)
+            data: failedRequest.config.data,
+            headers: {
+              "Content-Type": "application/json;charset=UTF-8"
+            }
           });
         } catch (e) {
           // Refresh has failed - reject the original request
