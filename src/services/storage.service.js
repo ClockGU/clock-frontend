@@ -20,7 +20,7 @@ export function parseJwt(token) {
 }
 
 /**
- * Manage the how Access Tokens are being stored and retreived from storage.
+ * Manages how access tokens are being stored and retreived from storage.
  *
  * Current implementation stores to localStorage.
  **/

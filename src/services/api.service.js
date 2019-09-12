@@ -1,6 +1,5 @@
 import axios from "axios";
 import store from "@/store";
-import router from "@/router";
 import TokenService from "@/services/storage.service";
 
 const ApiService = {
@@ -67,12 +66,18 @@ const ApiService = {
       async error => {
         // We cannot reach the backend. PANIC!
         if (error.message == "Network Error") {
-          throw error;
+          store.dispatch("snackbar/setSnack", {
+            snack: "We cannot phone home. Please try again later.",
+            timeout: 0,
+            color: "error"
+          });
+
+          return Promise.reject(error);
         }
 
         // The error is not 401!
         if (error.request.status != 401) {
-          throw error;
+          return Promise.reject(error);
         }
 
         // Logout if refresh token is expired
@@ -87,7 +92,7 @@ const ApiService = {
             color: "warning"
           });
 
-          throw "Logging you out!";
+          return Promise.reject(error);
         }
 
         try {
@@ -110,10 +115,9 @@ const ApiService = {
               "Content-Type": "application/json;charset=UTF-8"
             }
           });
-        } catch (e) {
+        } catch (error) {
           // Refresh has failed - reject the original request
-          console.log(e);
-          throw error;
+          return Promise.reject(error);
         }
       }
     );

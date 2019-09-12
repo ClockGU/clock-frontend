@@ -25,80 +25,77 @@ function mapApiResponse(response) {
 const BASE_URL = "/api/shifts/";
 
 const ShiftService = {
-  list: async function() {
-    try {
-      const response = await ApiService.get(BASE_URL);
-      const data = new Promise(resolve => {
-        const data = response.data.map(item => mapApiResponse(item));
-        const newResponse = { ...response, data };
-
-        resolve(newResponse);
-      });
-
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-  get: async function(uuid) {
-    try {
-      const response = await ApiService.get(BASE_URL + `${uuid}`);
-      const data = new Promise(resolve => {
-        const data = mapApiResponse(response.data);
-        const newResponse = { ...response, data };
-
-        resolve(newResponse);
-      });
-
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
   create: async function(data) {
-    try {
-      const response = await ApiService.post(`${BASE_URL}`, data);
-      const shift = mapApiResponse(response.data);
-      store.dispatch("shift/addShift", shift);
-
-      return response;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-  update: async function(data, uuid) {
-    try {
-      const response = await ApiService.patch(`${BASE_URL}${uuid}/`, data);
-      const shift = mapApiResponse(response.data);
-      store.dispatch("shift/updateShift", shift);
-
-      return response;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-  delete: async function(uuid) {
-    try {
-      const response = await ApiService.delete(`${BASE_URL}${uuid}/`);
-      return response;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-  call: async function({ data = null, url = `${BASE_URL}`, method = "post" }) {
     const requestData = {
-      method: method,
-      url: url,
+      method: "post",
+      url: BASE_URL,
       data
     };
 
-    try {
-      const response = await ApiService.customRequest(requestData);
+    return new Promise((resolve, reject) => {
+      return ApiService.customRequest(requestData)
+        .then(response => {
+          const shift = mapApiResponse(response.data);
+          store.dispatch("shift/addShift", shift);
 
-      return response.data.map(item => mapApiResponse(item));
-    } catch (error) {
-      throw new Error(error);
-    }
+          return resolve(shift);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  get: async function(uuid) {
+    return new Promise((resolve, reject) => {
+      return ApiService.get(BASE_URL + `${uuid}`)
+        .then(response => {
+          const shift = mapApiResponse(response.data);
+          const newResponse = { ...response, shift };
+
+          return resolve(newResponse);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  list: async function() {
+    return new Promise((resolve, reject) => {
+      ApiService.get(BASE_URL)
+        .then(response => {
+          const data = response.data.map(item => mapApiResponse(item));
+          const newResponse = { ...response, data };
+          resolve(newResponse);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  update: async function(data, uuid) {
+    return new Promise((resolve, reject) => {
+      return ApiService.patch(`${BASE_URL}${uuid}/`, data)
+        .then(response => {
+          const shift = mapApiResponse(response.data);
+          store.dispatch("shift/updateShift", shift);
+
+          return resolve(shift);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  delete: async function(uuid) {
+    return new Promise((resolve, reject) => {
+      return ApiService.delete(`${BASE_URL}${uuid}/`)
+        .then(response => {
+          return resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 };
 

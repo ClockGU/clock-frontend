@@ -25,8 +25,6 @@ export default {
           const value = await this.promise;
           this.status({ resolved: true, value });
         } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(error);
           this.status({
             error,
             resolved: false,

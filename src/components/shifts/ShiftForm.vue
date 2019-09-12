@@ -3,6 +3,7 @@
     <FrameApi
       v-slot="{ methods: { query }, status: { error, loading } }"
       :endpoint="endpoint"
+      @success="redirect"
     >
       <v-form>
         <v-row>
@@ -306,11 +307,19 @@ export default {
     async submit(callback, shift) {
       const payload = shift.toPayload();
       await callback(payload);
-
-      this.redirect();
     },
-    redirect() {
-      this.$router.push({ name: "c" });
+    redirect({ data }) {
+      return new Promise((resolve, reject) => {
+        data
+          .then(() => {
+            this.$router.push({ name: "c" });
+
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     },
     async destroy() {
       if (this.uuid === null) return;

@@ -1,4 +1,4 @@
-import { UserService, AuthenticationError } from "@/services/user.service";
+import { UserService } from "@/services/user.service";
 import TokenService from "@/services/storage.service";
 import router from "@/router";
 
@@ -35,16 +35,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       return UserService.login(email, password)
         .then(token => {
-      commit("loginSuccess", token);
+          commit("loginSuccess", token);
 
-      // Redirect the user to the page he first tried to visit or to the home view
-      router.push(
-        router.history.current.query.redirect || { name: "contractSelect" }
-      );
+          // Redirect the user to the page he first tried to visit or to the home view
+          router.push(
+            router.history.current.query.redirect || { name: "contractSelect" }
+          );
           resolve();
         })
-        .catch(e => {
-          reject(e);
+        .catch(error => {
+          reject(error);
         });
     });
   },

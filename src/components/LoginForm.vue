@@ -90,30 +90,26 @@ export default {
       if (!this.$v.$error) {
         this.loading = true;
 
-        try {
-          await this.$store.dispatch("auth/login", {
-            email: this.email,
-            password: this.password
-          });
-        } catch (error) {
-          let message;
-          if (error.message === "Network Error") {
-            message =
-              "A problem occured with out servers. Please try again later.";
-          } else {
-            message = error.response.data.non_field_errors[0];
-          }
-
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: message,
-            timeout: 0,
-            color: "error"
-          });
-        }
-
-        if (!this.$store.state.auth.accessToken) {
-          this.loading = false;
-        }
+        // try {
+        new Promise(resolve => {
+          return this.$store
+            .dispatch("auth/login", {
+              email: this.email,
+              password: this.password
+            })
+            .then(() => {
+              this.loading = false;
+              resolve();
+            })
+            .catch(error => {
+              this.$store.dispatch("snackbar/setSnack", {
+                snack: error.message,
+                timeout: 0,
+                color: "error"
+              });
+            })
+            .finally(() => (this.loading = false));
+        });
       }
     }
   }

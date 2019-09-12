@@ -329,7 +329,7 @@ export default {
       const payload = contract.toPayload();
       callback(payload);
     },
-    redirect() {
+    redirect({ data }) {
       let routerParam = { name: "contractList" };
 
       // We need to go back to the selection screen
@@ -337,11 +337,17 @@ export default {
         routerParam = { name: "contractSelect" };
       }
 
-      // TODO: this should _not_ be our solution.
-      // Without the timeout, created/updated contracts are not shown in the ContractList
-      setTimeout(() => {
-        this.$router.push(routerParam);
-      }, 500);
+      return new Promise((resolve, reject) => {
+        data
+          .then(() => {
+            this.$router.push(routerParam);
+
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     },
     async destroy() {
       if (this.uuid === null) return;

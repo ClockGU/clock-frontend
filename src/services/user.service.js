@@ -31,16 +31,21 @@ const UserService = {
     return new Promise((resolve, reject) => {
       return ApiService.customRequest(requestData)
         .then(response => {
-      TokenService.saveToken(response.data.access);
-      TokenService.saveRefreshToken(response.data.refresh);
-      ApiService.setHeader();
+          TokenService.saveToken(response.data.access);
+          TokenService.saveRefreshToken(response.data.refresh);
+          ApiService.setHeader();
 
-      ApiService.mount401Interceptor();
+          ApiService.mount401Interceptor();
 
           resolve(response.data.access);
         })
         .catch(error => {
-          reject(error);
+          reject(
+            new AuthenticationError(
+              error.response.status,
+              error.response.data.non_field_errors[0]
+            )
+          );
         });
     });
   },
@@ -51,15 +56,22 @@ const UserService = {
       url: "/auth/users/me/"
     };
 
-    try {
-      const response = await ApiService.customRequest(requestData);
+    return new Promise((resolve, reject) => {
+      return ApiService.customRequest(requestData)
+        .then(response => {
+          store.dispatch("setUser", response.data);
 
-      store.dispatch("setUser", response.data);
-
-      return response.data;
-    } catch (error) {
-      throw new Error(error);
-    }
+          resolve();
+        })
+        .catch(error => {
+          reject(
+            new AuthenticationError(
+              error.response.status,
+              error.response.data.non_field_errors[0]
+            )
+          );
+        });
+    });
   },
 
   /**
@@ -76,17 +88,24 @@ const UserService = {
       }
     };
 
-    try {
-      const response = await ApiService.customRequest(requestData);
+    return new Promise((resolve, reject) => {
+      return ApiService.customRequest(requestData)
+        .then(response => {
+          TokenService.saveToken(response.data.access);
+          // Update the header in ApiService
+          ApiService.setHeader();
 
-      TokenService.saveToken(response.data.access);
-      // Update the header in ApiService
-      ApiService.setHeader();
-
-      return response.data.access;
-    } catch (error) {
-      throw Error(error);
-    }
+          resolve(response.data.access);
+        })
+        .catch(error => {
+          reject(
+            new AuthenticationError(
+              error.response.status,
+              error.response.data.non_field_errors[0]
+            )
+          );
+        });
+    });
   },
 
   /**
