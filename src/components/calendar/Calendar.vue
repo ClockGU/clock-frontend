@@ -87,7 +87,7 @@
       </v-sheet>
     </v-col>
 
-    <TheDialog v-if="dialog">
+    <TheDialog v-if="dialog" @close="dialog = false">
       <template v-slot:content>
         <v-card>
           <v-card-title class="headline"
@@ -99,9 +99,8 @@
             </p>
           </v-card-text>
           <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn text @click="dialog = false">Cancel</v-btn>
             <v-btn color="error" text @click="destroy">Delete</v-btn>
+            <v-btn text @click="dialog = false">Cancel</v-btn>
           </v-card-actions>
         </v-card>
       </template>
