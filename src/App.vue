@@ -63,7 +63,7 @@
         ></v-breadcrumbs>
         <router-view></router-view>
 
-        <TheDialog v-if="logoutDialog">
+        <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
           <template v-slot:content>
             <LogoutForm @close="logoutDialog = false" />
           </template>

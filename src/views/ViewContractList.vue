@@ -72,7 +72,7 @@
       </FrameHooks>
     </ContractListFrame>
 
-    <TheDialog v-if="dialog">
+    <TheDialog v-if="dialog" @close="dialog = false">
       <template v-slot:content>
         <v-card class="mx-auto">
           <v-card-title class="headline">

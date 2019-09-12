@@ -4,6 +4,7 @@
     :persistent="persistent"
     :max-width="maxWidth"
     @click:outside="$emit('click:outside')"
+    @keydown.esc="$emit('close')"
   >
     <slot name="content"></slot>
   </v-dialog>
