@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-card-title class="headline">You sure you want to logout?</v-card-title>
+    <v-card-title class="headline word-break">
+      You sure you want to logout?
+    </v-card-title>
     <v-card-text>You can come back later at any time.</v-card-text>
     <v-card-actions>
       <div class="flex-grow-1"></div>
@@ -30,3 +32,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.word-break {
+  word-break: break-word;
+}
+</style>
