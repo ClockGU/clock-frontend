@@ -34,7 +34,13 @@ export default {
 
     this.start(this.startDate);
   },
+  destroyed() {
+    this.clear();
+  },
   methods: {
+    clear() {
+      clearInterval(this.interval);
+    },
     initialize() {
       this.interval = null;
       this.shift = { start: null, contract: null };
@@ -42,11 +48,18 @@ export default {
     },
     start(date) {
       this.shift.start = date;
+      this.startTick();
+    },
+    reset() {
+      this.clear();
+      this.initialize();
+    },
+    startTick() {
       this.tick();
       this.interval = setInterval(() => this.tick(), 1000);
     },
     async stop() {
-      clearInterval(this.interval);
+      this.clear();
 
       const data = {
         date: {
@@ -58,8 +71,6 @@ export default {
         type: { value: "st", text: "Shift" }
       };
       const payload = new Shift(data).toPayload();
-
-      console.log(payload);
 
       await ShiftService.create(payload);
       this.initialize();
@@ -75,8 +86,11 @@ export default {
     return this.$scopedSlots.default({
       start: this.start,
       stop: this.stop,
+      reset: this.reset,
       toggle: this.toggle,
       data: this.shift,
+      pause: this.clear,
+      unpause: this.startTick,
       duration: this.duration
     });
   }

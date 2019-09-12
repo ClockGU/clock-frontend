@@ -67,9 +67,9 @@
           <template v-slot:content>
             <LogoutForm @close="logoutDialog = false" />
           </template>
-          <portal-target name="dialog"></portal-target>
         </TheDialog>
       </v-container>
+      <portal-target name="dialog"></portal-target>
       <portal-target name="fab"></portal-target>
     </v-content>
 
