@@ -31,7 +31,8 @@ if (process.env.NODE_ENV === "production") {
   // Here goes the DSN
   Sentry.init({
     dsn: process.env.VUE_APP_SENTRY_DSN,
-    integrations: [new Integrations.Vue({ Vue, attachProps: true })]
+    integrations: [new Integrations.Vue({ Vue, attachProps: true })],
+    environment: process.env.VUE_APP_ENV
   });
 }
 
