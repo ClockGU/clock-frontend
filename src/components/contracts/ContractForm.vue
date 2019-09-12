@@ -55,7 +55,7 @@
                   </v-card-text>
                 </v-card>
               </v-row>
-              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn color="primary" text @click="nextStep()">Continue</v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -78,7 +78,7 @@
                   </v-card-text>
                 </v-card>
               </v-row>
-              <v-btn color="primary" @click="nextStep()">Continue</v-btn>
+              <v-btn color="primary" text @click="nextStep()">Continue</v-btn>
               <v-btn text @click="previousStep()">Back</v-btn>
             </v-stepper-content>
 
@@ -101,6 +101,7 @@
               </v-card>
               <v-btn
                 color="primary"
+                text
                 :disabled="$v.contract.hours.$error || !contract.hours"
                 @click="nextStep()"
                 >Continue</v-btn
@@ -123,6 +124,7 @@
               </v-card>
               <v-btn
                 color="primary"
+                text
                 :disabled="$v.contract.name.$error || !contract.name"
                 @click="nextStep()"
                 >Continue</v-btn

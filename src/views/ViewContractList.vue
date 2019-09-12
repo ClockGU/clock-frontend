@@ -74,20 +74,17 @@
 
     <TheDialog v-if="dialog">
       <template v-slot:content>
-        <v-card>
-          <v-card-title class="headline"
-            >You sure you want to delete this contract?</v-card-title
-          >
+        <v-card class="mx-auto">
+          <v-card-title class="headline">
+            You sure you want to delete this contract?
+          </v-card-title>
           <v-card-text>
-            <p>
-              This will delete all shifts created inside this contract. This
-              action is not reversible.
-            </p>
+            This will delete all shifts created inside this contract. This
+            action is not reversible.
           </v-card-text>
           <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn text @click="dialog = false">Cancel</v-btn>
             <v-btn color="error" text @click="destroy">Delete</v-btn>
+            <v-btn text @click="dialog = false">Cancel</v-btn>
           </v-card-actions>
         </v-card>
       </template>

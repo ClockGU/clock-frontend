@@ -14,16 +14,17 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text color="error" @click="$emit('delete')">Delete</v-btn>
         <v-btn
           text
+          color="primary"
           :to="{
             name: 'editContract',
             params: { uuid: contract.uuid }
           }"
-          >Edit</v-btn
         >
+          Edit
+        </v-btn>
+        <v-btn text @click="$emit('delete')">Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-col>

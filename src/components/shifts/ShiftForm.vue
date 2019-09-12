@@ -12,17 +12,6 @@
               {{ title }}
             </h1>
           </v-col>
-
-          <v-col align-self="center">
-            <v-btn
-              text
-              :disabled="!valid"
-              color="primary"
-              @click="submit(query, shift)"
-            >
-              {{ saveLabel }}
-            </v-btn>
-          </v-col>
         </v-row>
 
         <v-row dense>
@@ -108,6 +97,20 @@
                   </v-card-text>
                 </v-col>
               </v-row>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-card-actions>
+                <v-btn
+                  text
+                  :disabled="!valid"
+                  color="primary"
+                  @click="submit(query, shift)"
+                >
+                  {{ saveLabel }}
+                </v-btn>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>

@@ -29,7 +29,6 @@
       </v-list-item>
 
       <v-card-actions class="mt-2 mb-1">
-        <v-spacer></v-spacer>
         <v-sheet
           class="loading mr-4"
           color="grey lighten-1"
