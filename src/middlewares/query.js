@@ -20,6 +20,7 @@ export default async function queryData({ from, next }) {
       return next();
     })
     .catch(() => {
-      return next({ path: "/uhoh" });
+      store.dispatch("auth/logout");
+      return Promise.reject();
     });
 }
