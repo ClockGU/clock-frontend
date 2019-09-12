@@ -42,6 +42,7 @@
           ref="calendar"
           v-model="focus"
           color="primary"
+          event-name="duration"
           :events="events"
           :event-color="getEventColor"
           :event-margin-bottom="3"
@@ -60,27 +61,33 @@
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar :color="selectedEvent.color" dark>
+              <v-btn icon @click="selectedOpen = false">
+                <v-icon>close</v-icon>
+              </v-btn>
+              <v-toolbar-title>Type: {{ selectedEvent.type }}</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <h2 class="title primary-text">
+                {{ selectedEvent.duration }} on
+                {{ selectedEvent.start | formatDate }}
+              </h2>
+              From {{ selectedEvent.start | formatTime }} until
+              {{ selectedEvent.end | formatTime }}
+            </v-card-text>
+            <v-card-actions>
               <v-btn
-                icon
+                text
+                color="primary"
                 :to="{
                   name: 'editShift',
                   params: { uuid: selectedEvent.uuid }
                 }"
               >
-                <v-icon>edit</v-icon>
+                Edit
               </v-btn>
-              <v-btn icon @click="confirmDelete(selectedEvent.uuid)">
-                <v-icon>delete</v-icon>
+              <v-btn text @click="confirmDelete(selectedEvent.uuid)">
+                Delete
               </v-btn>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-            </v-toolbar>
-            <v-card-text>
-              <span v-html="selectedEvent.details"></span>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn text color="secondary" @click="selectedOpen = false"
-                >Dismiss</v-btn
-              >
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -124,6 +131,14 @@ export default {
   name: "Calendar",
   components: {
     TheDialog
+  },
+  filters: {
+    formatDate(date, formatString = "Do MMMM YYYY") {
+      return format(date, formatString);
+    },
+    formatTime(date, formatString = "HH:mm a") {
+      return format(date, formatString);
+    }
   },
   data: () => ({
     dialog: false,
@@ -190,13 +205,10 @@ export default {
         );
 
         return {
-          name: shift.representationalDuration,
-          details: "These are details",
           uuid: shift.uuid,
-          // date: format(shift.date.start, "YYYY-MM-DD"),
           start: format(shift.date.start, "YYYY-MM-DD HH:mm"),
           end: format(shift.date.end, "YYYY-MM-DD HH:mm"),
-          // open: false,
+          type: shift.type.text,
           color: this.colorMap(shift),
           duration: shift.representationalDuration,
           contract: contract
@@ -233,17 +245,6 @@ export default {
         this.dialog = false;
       }
     },
-    // changeDate(payload) {
-    //   const date = new Date(payload.date);
-    //   const props = getRouterProps("day", date);
-    //   this.$router.push({
-    //     name: "calendar",
-    //     params: props
-    //   });
-
-    //   this.$store.dispatch("calendar/setDate", date);
-    //   this.$store.dispatch("calendar/setType", "day");
-    // },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
