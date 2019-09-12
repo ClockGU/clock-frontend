@@ -63,7 +63,14 @@ const router = new Router({
       component: ViewShiftForm,
       props: true,
       meta: {
-        breadcrumb: null,
+        breadcrumb: [
+          {
+            text: "Calendar",
+            to: { path: "/" },
+            exact: true
+          },
+          { text: "Update shift" }
+        ],
         middleware: queryData
       }
     },
@@ -72,7 +79,14 @@ const router = new Router({
       name: "createShift",
       component: ViewShiftForm,
       meta: {
-        breadcrumb: null,
+        breadcrumb: [
+          {
+            text: "Calendar",
+            to: { path: "/" },
+            exact: true
+          },
+          { text: "New shift" }
+        ],
         middleware: queryData
       }
     },
