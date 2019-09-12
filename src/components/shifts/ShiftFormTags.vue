@@ -14,12 +14,12 @@
     @input="$emit('input', $event)"
   >
     <template v-slot:no-data>
-      <v-list-item>
+      <v-list-item three-line>
         <v-list-item-content>
-          <v-list-item-title>
-            No results matching "<strong>{{ search }}</strong
-            >". Press <kbd>enter</kbd> to create a new tag.
-          </v-list-item-title>
+          <v-list-item-title>No results.</v-list-item-title>
+          <v-list-item-subtitle>
+            Press <kbd>enter</kbd> to create a new tag.
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>
