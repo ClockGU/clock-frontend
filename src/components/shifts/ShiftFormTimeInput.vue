@@ -38,6 +38,18 @@ import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import TheDialog from "@/components/TheDialog";
 
+function validHourMinute(value) {
+  let hour, minute;
+
+  try {
+    [hour, minute] = value.split(":");
+  } catch (error) {
+    return false;
+  }
+
+  return parseInt(hour) && parseInt(minute);
+}
+
 export default {
   name: "ShiftFormTimeInput",
   components: {
@@ -76,8 +88,8 @@ export default {
         return format(this.value.date[this.type], "HH:mm");
       },
       set(val) {
-        // User deleted all input
-        if (val === "") {
+        // User deleted all input or invalidated the input completely
+        if (val === "" || !validHourMinute(val)) {
           this.data = format(this.value.date[this.type], "HH:mm");
           return;
         }
