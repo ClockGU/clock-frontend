@@ -32,7 +32,14 @@ if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn: process.env.VUE_APP_SENTRY_DSN,
     integrations: [new Integrations.Vue({ Vue, attachProps: true })],
-    environment: process.env.VUE_APP_ENV
+    environment: process.env.VUE_APP_ENV,
+    beforeSend(event) {
+      // Check if it is an exception, and if so, show the report dialog
+      if (event.exception) {
+        Sentry.showReportDialog({ eventId: event.event_id });
+      }
+      return event;
+    }
   });
 }
 
