@@ -74,9 +74,9 @@
     </v-content>
 
     <TheSnackbar />
-    <!-- <v-footer color="indigo" app>
+    <v-footer color="blue lighten-1" inset absolute app>
       <span class="white--text">&copy; 2019</span>
-    </v-footer>-->
+    </v-footer>
   </v-app>
 </template>
 
