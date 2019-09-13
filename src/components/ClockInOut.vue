@@ -7,24 +7,35 @@
             <v-hover>
               <v-btn
                 slot-scope="{ hover }"
-                :class="buttonClass(hover, data)"
+                outlined
+                color="primary"
                 text
+                width="150"
                 @click="toggle(start, stop, pause, duration)"
               >
-                <span v-if="!data.start">Clock in</span>
-                <span v-if="!hover && data.start">Running</span>
-                <span v-if="hover && data.start">Clock out!</span>
+                <v-slide-y-transition hide-on-leave>
+                  <span v-if="!data.start">Clock in</span>
+                </v-slide-y-transition>
+                <v-slide-y-transition hide-on-leave>
+                  <span
+                    v-if="data.start && (!hover || clockInTimeout) && !dialog"
+                  >
+                    {{ duration | toTime }}
+                  </span>
+                </v-slide-y-transition>
+                <v-slide-y-transition hide-on-leave>
+                  <span
+                    v-if="(hover && data.start && !clockInTimeout) || dialog"
+                  >
+                    Clock out
+                  </span>
+                </v-slide-y-transition>
               </v-btn>
             </v-hover>
           </v-col>
-          <v-slide-x-transition>
-            <v-col v-if="data.start" align-self="center" sm="2">
-              {{ duration | toTime }}
-            </v-col>
-          </v-slide-x-transition>
 
           <portal to="dialog">
-            <TheDialog v-if="dialog">
+            <TheDialog v-if="dialog" :max-width="400">
               <template v-slot:content>
                 <v-card>
                   <v-card-title class="headline word-break">
@@ -75,6 +86,7 @@ import ClockModel from "@/components/ClockModel";
 import TheDialog from "@/components/TheDialog";
 
 import { addSeconds, format } from "date-fns";
+import { setTimeout } from "timers";
 
 export default {
   components: {
@@ -95,7 +107,8 @@ export default {
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      clockInTimeout: false
     };
   },
   methods: {
@@ -109,6 +122,10 @@ export default {
     toggle(start, stop, pause, duration) {
       if (duration === null) {
         start(new Date());
+        this.clockInTimeout = true;
+        setTimeout(() => {
+          this.clockInTimeout = false;
+        }, 5000);
       } else if (duration < 600) {
         this.dialog = true;
         pause();
