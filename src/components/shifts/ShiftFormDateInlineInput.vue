@@ -1,6 +1,7 @@
 <template>
   <v-date-picker
     v-model="date"
+    no-title
     :min="min"
     :max="max"
     @click:date="menu = false"

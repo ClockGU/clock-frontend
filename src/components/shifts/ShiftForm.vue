@@ -21,11 +21,13 @@
                 <v-col cols="12" sm="12" md="7">
                   <v-subheader>Select the shift date</v-subheader>
                   <v-card-text class="pt-0">
-                    <ShiftFormDateInlineInput
-                      v-model="shift"
-                      :min="contract.date.start"
-                      :max="contract.date.end"
-                    />
+                    <v-row justify="center">
+                      <ShiftFormDateInlineInput
+                        v-model="shift"
+                        :min="contract.date.start"
+                        :max="contract.date.end"
+                      />
+                    </v-row>
                   </v-card-text>
                 </v-col>
                 <v-col cols="12" sm="12" md="5">

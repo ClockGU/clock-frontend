@@ -2,6 +2,7 @@
   <v-select
     :value="value"
     :items="items"
+    label="Type"
     item-text="text"
     item-value="value"
     return-object
