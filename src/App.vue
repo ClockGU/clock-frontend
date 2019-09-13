@@ -55,7 +55,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container :class="{ 'px-0': isMobile, 'py-0': isMobile }" fluid>
+      <v-container fluid>
         <v-breadcrumbs
           v-if="breadcrumbList !== null"
           :items="breadcrumbList"
