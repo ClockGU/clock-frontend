@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-card class="elevation-12">
-      <v-toolbar color="yellow darken-3" dark flat>
+      <v-toolbar color="blue lighten-1" dark flat>
         <v-toolbar-title>Login form</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
@@ -39,11 +39,7 @@
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="yellow darken-3"
-          :disabled="$v.$error"
-          @click.native="submit"
+        <v-btn color="primary" :disabled="$v.$error" text @click.native="submit"
           >Login</v-btn
         >
       </v-card-actions>
