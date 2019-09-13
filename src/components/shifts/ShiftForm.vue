@@ -79,25 +79,31 @@
           </v-col>
 
           <v-col cols="12" sm="12">
-            <v-card>
-              <v-row>
-                <v-col>
-                  <v-subheader>
-                    Change contract
-                  </v-subheader>
-                  <v-card-text>
-                    <v-select
-                      v-model="shift.contract"
-                      :items="contracts"
-                      item-text="name"
-                      item-value="uuid"
-                      label="Select a contract"
-                      outlined
-                    ></v-select>
-                  </v-card-text>
-                </v-col>
-              </v-row>
-            </v-card>
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  Advanced settings
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col>
+                      <v-subheader>
+                        Change contract
+                      </v-subheader>
+
+                      <v-select
+                        v-model="shift.contract"
+                        :items="contracts"
+                        item-text="name"
+                        item-value="uuid"
+                        label="Select a contract"
+                        outlined
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-col>
           <v-col>
             <v-card>
