@@ -129,6 +129,8 @@ export default {
       } else if (duration < 600) {
         this.dialog = true;
         pause();
+      } else {
+        stop();
       }
     }
   }

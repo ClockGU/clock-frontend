@@ -46,8 +46,9 @@ export default {
       this.shift = { start: null, contract: null };
       this.duration = null;
     },
-    start(date) {
+    start(date, contract) {
       this.shift.start = date;
+      this.shift.contract = contract;
       this.startTick();
     },
     reset() {
