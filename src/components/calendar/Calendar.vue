@@ -41,7 +41,7 @@
         <v-calendar
           ref="calendar"
           v-model="focus"
-          color="primary"
+          color="primary lighten-2"
           event-name="duration"
           :events="events"
           :event-color="getEventColor"
@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     colorMap(event) {
-      if (event.type.value === "st") return "primary";
+      if (event.type.value === "st") return "primary lighten-2";
       if (event.type.value === "sk") return "grey";
       if (event.type.value === "vn") return "green lighten-1";
 

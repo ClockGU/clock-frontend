@@ -9,7 +9,7 @@
     >
       <v-list>
         <v-list-item v-if="isLoggedIn">
-          <v-list-item-avatar color="indigo" size="24">
+          <v-list-item-avatar color="blue" size="24">
             <span class="white--text">{{ firstLetter }}</span>
           </v-list-item-avatar>
 
@@ -39,7 +39,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="amber" absolute text>
+    <v-app-bar app dark color="blue" absolute text>
       <v-app-bar-nav-icon @click="toggleDrawer()">
         <v-icon v-if="!isMobile && !mini">keyboard_arrow_left</v-icon>
         <v-icon v-else-if="!isMobile && mini">keyboard_arrow_right</v-icon>

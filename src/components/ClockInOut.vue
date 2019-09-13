@@ -8,7 +8,6 @@
               <v-btn
                 slot-scope="{ hover }"
                 outlined
-                color="primary"
                 text
                 width="150"
                 @click="toggle(start, stop, pause, duration)"
