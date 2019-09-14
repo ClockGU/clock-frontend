@@ -47,7 +47,7 @@ function validHourMinute(value) {
     return false;
   }
 
-  return parseInt(hour) && parseInt(minute);
+  return Number.isInteger(parseInt(hour)) && Number.isInteger(parseInt(minute));
 }
 
 export default {
@@ -89,7 +89,7 @@ export default {
       },
       set(val) {
         // User deleted all input or invalidated the input completely
-        if (val === "" || !validHourMinute(val)) {
+        if (!validHourMinute(val)) {
           this.data = format(this.value.date[this.type], "HH:mm");
           return;
         }
@@ -100,6 +100,20 @@ export default {
           "YYYY-MM-DD"
         ).split("-");
         let [hours, minutes] = val.split(":");
+
+        // Normalize hours to double digits
+        if (parseInt(hours) < 10 && hours.length < 2) {
+          hours = `0${hours}`;
+        }
+        // Normalize minutes to double digits
+        if (parseInt(minutes) < 10 && minutes.length < 2) {
+          // Append zero after number, if we stay below 60
+          if (parseInt(`${minutes}0`) < 60) {
+            minutes = `${minutes}0`;
+          } else {
+            minutes = `0${minutes}`;
+          }
+        }
 
         // Manually reset hours and minutes to valid values
         if (parseInt(hours) > 23) {
