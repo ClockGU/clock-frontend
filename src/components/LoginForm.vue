@@ -82,31 +82,28 @@ export default {
   methods: {
     async submit() {
       this.$v.$touch();
+      if (this.$v.error) return;
+      this.loading = true;
 
-      if (!this.$v.$error) {
-        this.loading = true;
-
-        // try {
-        new Promise(resolve => {
-          return this.$store
-            .dispatch("auth/login", {
-              email: this.email,
-              password: this.password
-            })
-            .then(() => {
-              this.loading = false;
-              resolve();
-            })
-            .catch(error => {
-              this.$store.dispatch("snackbar/setSnack", {
-                snack: error.message,
-                timeout: 0,
-                color: "error"
-              });
-            })
-            .finally(() => (this.loading = false));
-        });
-      }
+      new Promise(resolve => {
+        return this.$store
+          .dispatch("auth/login", {
+            email: this.email,
+            password: this.password
+          })
+          .then(() => {
+            this.loading = false;
+            resolve();
+          })
+          .catch(error => {
+            this.$store.dispatch("snackbar/setSnack", {
+              snack: error.message,
+              timeout: 0,
+              color: "error"
+            });
+          })
+          .finally(() => (this.loading = false));
+      });
     }
   }
 };
