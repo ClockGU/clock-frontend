@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import { getISOWeek } from "date-fns";
 
 export default {
@@ -17,7 +17,7 @@ export default {
     calendarWeek() {
       return `Week ${getISOWeek(this.start)}`;
     },
-    ...mapGetters({ start: "calendar/start" })
+    // ...mapGetters({ start: "calendar/start" })
   }
 };
 </script>
