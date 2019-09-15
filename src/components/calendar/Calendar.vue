@@ -236,24 +236,25 @@ export default {
       this.uuid = uuid;
     },
     async destroy() {
-      try {
-        await ShiftService.delete(this.uuid);
-        const remainingShifts = this.shifts.filter(
-          shift => shift.uuid !== this.uuid
-        );
+      ShiftService.delete(this.uuid)
+        .then(() => {
+          const remainingShifts = this.shifts.filter(
+            shift => shift.uuid !== this.uuid
+          );
 
-        this.$store.dispatch("shift/setShifts", remainingShifts);
-      } catch (error) {
-        this.$store.dispatch("snackbar/setSnack", {
-          snack: error.message,
-          timeout: 0,
-          color: "error"
+          this.$store.dispatch("shift/setShifts", remainingShifts);
+        })
+        .catch(error => {
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: error.message,
+            timeout: 0,
+            color: "error"
+          });
+        })
+        .finally(() => {
+          this.dialog = false;
+          this.uuid = null;
         });
-      }
-
-      if (this.dialog) {
-        this.dialog = false;
-      }
     },
     viewDay({ date }) {
       this.focus = date;
