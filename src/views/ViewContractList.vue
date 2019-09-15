@@ -20,29 +20,33 @@
       >
         <v-row>
           <template v-if="editMode">
-            <ContractListCardSkeleton v-if="loading" />
+            <v-col cols="12" sm="6" md="4">
+              <ContractListCardSkeleton v-if="loading" />
 
-            <template v-for="contract in contracts" v-else>
-              <ContractListCard
-                :key="contract.uuid"
-                :contract="contract"
-                :edit-mode="editMode"
-                @delete="confirmDelete(contract.uuid, fetchList)"
-              />
-            </template>
+              <template v-for="contract in contracts" v-else>
+                <ContractListCard
+                  :key="contract.uuid"
+                  :contract="contract"
+                  :edit-mode="editMode"
+                  @delete="confirmDelete(contract.uuid, fetchList)"
+                />
+              </template>
+            </v-col>
           </template>
 
           <template v-else>
-            <ContractListCardSelectSkeleton v-if="loading" />
+            <v-col cols="12" sm="6" md="4">
+              <ContractListCardSelectSkeleton v-if="loading" />
 
-            <template v-for="contract in contracts" v-else>
-              <ContractListCardSelect
-                :key="contract.uuid"
-                :contract="contract"
-                :edit-mode="editMode"
-                @delete="confirmDelete(contract.uuid, fetchList)"
-              />
-            </template>
+              <template v-for="contract in contracts" v-else>
+                <ContractListCardSelect
+                  :key="contract.uuid"
+                  :contract="contract"
+                  :edit-mode="editMode"
+                  @delete="confirmDelete(contract.uuid, fetchList)"
+                />
+              </template>
+            </v-col>
           </template>
 
           <v-col cols="12" sm="6" md="4">

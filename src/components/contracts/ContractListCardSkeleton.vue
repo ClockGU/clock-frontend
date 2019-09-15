@@ -1,49 +1,47 @@
 <template>
-  <v-col cols="12" sm="6" md="4">
-    <v-card loading class="mx-auto" max-width="350" outlined>
-      <v-list-item three-line>
-        <v-list-item-content>
+  <v-card loading class="mx-auto" max-width="350" outlined>
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-sheet
+          class="mb-5 loading"
+          color="grey lighten-1"
+          height="15px"
+          max-width="150px"
+        ></v-sheet>
+        <v-list-item-title class="headline mb-1">
           <v-sheet
-            class="mb-5 loading"
+            class="mb-1 loading"
+            color="grey lighten-1"
+            height="26px"
+            max-width="100px"
+          ></v-sheet>
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          <v-sheet
+            class="loading"
             color="grey lighten-1"
             height="15px"
             max-width="150px"
           ></v-sheet>
-          <v-list-item-title class="headline mb-1">
-            <v-sheet
-              class="mb-1 loading"
-              color="grey lighten-1"
-              height="26px"
-              max-width="100px"
-            ></v-sheet>
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            <v-sheet
-              class="loading"
-              color="grey lighten-1"
-              height="15px"
-              max-width="150px"
-            ></v-sheet>
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
 
-      <v-card-actions class="mt-2 mb-1">
-        <v-sheet
-          class="loading mr-4"
-          color="grey lighten-1"
-          height="24px"
-          min-width="60px"
-        ></v-sheet>
-        <v-sheet
-          class="loading"
-          color="grey lighten-1"
-          height="24px"
-          min-width="60px"
-        ></v-sheet>
-      </v-card-actions>
-    </v-card>
-  </v-col>
+    <v-card-actions class="mt-2 mb-1">
+      <v-sheet
+        class="loading mr-4"
+        color="grey lighten-1"
+        height="24px"
+        min-width="60px"
+      ></v-sheet>
+      <v-sheet
+        class="loading"
+        color="grey lighten-1"
+        height="24px"
+        min-width="60px"
+      ></v-sheet>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

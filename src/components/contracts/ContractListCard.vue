@@ -1,33 +1,31 @@
 <template>
-  <v-col cols="12" sm="6" md="4">
-    <v-card class="mx-auto" max-width="350" outlined>
-      <v-card-title>
-        <span class="primary--text subtitle-2">
-          {{ contract.hours | hoursToWorktime }} per month
-        </span>
-      </v-card-title>
+  <v-card class="mx-auto" max-width="350" outlined>
+    <v-card-title>
+      <span class="primary--text subtitle-2">
+        {{ contract.hours | hoursToWorktime }} per month
+      </span>
+    </v-card-title>
 
-      <v-card-text>
-        <h2 class="title primary-text">{{ contract.name }}</h2>
-        {{ contract.date.start | toDate }} until
-        {{ contract.date.end | toDate }}
-      </v-card-text>
+    <v-card-text>
+      <h2 class="title primary-text">{{ contract.name }}</h2>
+      {{ contract.date.start | toDate }} until
+      {{ contract.date.end | toDate }}
+    </v-card-text>
 
-      <v-card-actions>
-        <v-btn
-          text
-          color="primary"
-          :to="{
-            name: 'editContract',
-            params: { uuid: contract.uuid }
-          }"
-        >
-          Edit
-        </v-btn>
-        <v-btn text @click="$emit('delete')">Delete</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-col>
+    <v-card-actions>
+      <v-btn
+        text
+        color="primary"
+        :to="{
+          name: 'editContract',
+          params: { uuid: contract.uuid }
+        }"
+      >
+        Edit
+      </v-btn>
+      <v-btn text @click="$emit('delete')">Delete</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
