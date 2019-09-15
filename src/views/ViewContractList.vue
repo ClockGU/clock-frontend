@@ -135,26 +135,27 @@ export default {
       this.callback = callback;
     },
     async destroy() {
-      return new Promise((resolve, reject) => {
-        ContractService.delete(this.uuid)
-          .then(() => {
-            this.callback();
+      ContractService.delete(this.uuid)
+        .then(() => {
+          this.callback();
 
-            if (this.uuid === this.$store.state.selectedContract.uuid) {
-              this.$store.dispatch("unsetContract");
-              this.$router.push({ name: "contractSelect" });
-            }
-
-            this.dialog = false;
-            this.uuid = null;
-            this.callback = null;
-
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
+          if (this.uuid === this.$store.state.selectedContract.uuid) {
+            this.$store.dispatch("unsetContract");
+            this.$router.push({ name: "contractSelect" });
+          }
+        })
+        .catch(error => {
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: error.message,
+            timeout: 0,
+            color: "error"
           });
-      });
+        })
+        .finally(() => {
+          this.dialog = false;
+          this.uuid = null;
+          this.callback = null;
+        });
     }
   }
 };
