@@ -17,7 +17,7 @@ export default {
   props: {
     startDate: {
       type: Date,
-      default: null
+      default: () => new Date()
     }
   },
   computed: {

@@ -120,7 +120,7 @@ export default {
     },
     toggle(start, stop, pause, duration) {
       if (duration === null) {
-        start(new Date());
+        start(new Date(), this.$store.state.selectedContract.uuid);
         this.clockInTimeout = true;
         setTimeout(() => {
           this.clockInTimeout = false;
