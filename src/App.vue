@@ -86,6 +86,8 @@ import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
 import ClockInOut from "@/components/ClockInOut";
 
+import { mapGetters } from "vuex";
+
 export default {
   components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
@@ -103,6 +105,12 @@ export default {
         text: "Contracts",
         to: { name: "contractList" },
         icon: "description",
+        loggedOut: false
+      },
+      {
+        text: "Password",
+        to: { name: "changePassword" },
+        icon: "user",
         loggedOut: false
       }
     ],
@@ -125,17 +133,18 @@ export default {
       return this.$store.state.user.first_name.substring(0, 1);
     },
     visibleLinks() {
-      if (this.isLoggedIn && this.$store.state.selectedContract !== null)
+      if (this.isLoggedIn && this.$store.state.selectedContract !== null) {
         return this.links;
+      }
 
       return this.links.filter(link => link.loggedOut === true);
     },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs";
     },
-    isLoggedIn() {
-      return this.$store.state.auth.accessToken ? true : false;
-    }
+    ...mapGetters({
+      isLoggedIn: "auth/loggedIn"
+    })
   },
   watch: {
     $route() {

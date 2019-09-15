@@ -12,7 +12,7 @@ const state = {
 
 const getters = {
   loggedIn: state => {
-    return state.accessToken ? true : false;
+    return !!state.accessToken;
   },
 
   authenticationErrorCode: state => {

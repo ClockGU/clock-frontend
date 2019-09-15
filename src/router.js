@@ -9,6 +9,7 @@ import ViewShiftList from "@/views/ViewShiftList";
 import ViewContractForm from "@/views/ViewContractForm";
 import ViewContractList from "@/views/ViewContractList";
 import ViewClockInOut from "@/views/ViewClockInOut";
+import ViewChangePassword from "@/views/ViewChangePassword";
 import store from "@/store";
 import getUserData from "@/middlewares/user";
 import queryData from "@/middlewares/query";
@@ -157,6 +158,11 @@ const router = new Router({
         breadcrumb: null,
         middleware: queryData
       }
+    },
+    {
+      path: "/changePassword",
+      name: "changePassword",
+      component: ViewChangePassword
     }
   ]
 });

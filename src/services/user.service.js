@@ -50,6 +50,30 @@ const UserService = {
     });
   },
 
+  changePassword: async function(current_password, new_password) {
+    const requestData = {
+      method: "post",
+      url: "/auth/users/set_password/",
+      data: {
+        current_password,
+        new_password
+      }
+    };
+
+    return new Promise((resolve, reject) => {
+      return ApiService.customRequest(requestData)
+        .then(() => {
+          this.logout();
+          resolve();
+        })
+        .catch(error => {
+          reject(
+            new AuthenticationError(error.response.status, error.response.data)
+          );
+        });
+    });
+  },
+
   getUser: async function() {
     const requestData = {
       method: "get",
