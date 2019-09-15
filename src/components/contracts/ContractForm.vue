@@ -180,7 +180,7 @@ export default {
   components: { FrameApi },
   filters: {
     formatDate(date) {
-      return format(date, "YYYY-MM-DD");
+      return format(date, "yyyy-MM-dd");
     }
   },
   mixins: [validationMixin],
@@ -257,7 +257,7 @@ export default {
     },
     startDate: {
       get() {
-        return format(this.contract.start, "YYYY-MM-DD");
+        return format(this.contract.start, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
@@ -272,7 +272,7 @@ export default {
     },
     endDate: {
       get() {
-        return format(this.contract.end, "YYYY-MM-DD");
+        return format(this.contract.end, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");

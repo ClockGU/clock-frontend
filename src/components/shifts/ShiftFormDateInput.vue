@@ -50,7 +50,7 @@ export default {
   computed: {
     date: {
       get() {
-        return format(this.value.date.start, "YYYY-MM-DD");
+        return format(this.value.date.start, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");

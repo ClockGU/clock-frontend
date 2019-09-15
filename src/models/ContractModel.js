@@ -79,8 +79,8 @@ export class Contract {
     return {
       name: this.name,
       hours: this.worktimeToHours(),
-      start_date: format(this.start, "YYYY-MM-DD"),
-      end_date: format(this.end, "YYYY-MM-DD")
+      start_date: format(this.start, "yyyy-MM-dd"),
+      end_date: format(this.end, "yyyy-MM-dd")
     };
   }
 }

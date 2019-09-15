@@ -37,7 +37,7 @@ export default {
   name: "ContractListCard",
   filters: {
     toDate(date) {
-      return format(date, "YYYY-MM-DD");
+      return format(date, "yyyy-MM-dd");
     },
     hoursToWorktime(value) {
       const hours = Math.floor(value);

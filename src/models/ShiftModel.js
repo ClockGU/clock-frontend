@@ -1,7 +1,6 @@
 import { is } from "ramda";
 import {
   differenceInMinutes,
-  parse,
   getDate,
   getMonth,
   getYear,
@@ -54,7 +53,7 @@ export class Shift {
   }
 
   get start() {
-    return parse(this.date.start);
+    return this.date.start;
   }
 
   set start(value) {
@@ -62,7 +61,7 @@ export class Shift {
   }
 
   get end() {
-    return parse(this.date.end);
+    return this.date.end;
   }
 
   set end(value) {

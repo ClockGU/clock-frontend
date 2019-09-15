@@ -19,10 +19,10 @@ export default {
   },
   computed: {
     start() {
-      return format(this.event.dates.start, "YYYY-MM-DD HH:mm");
+      return format(this.event.dates.start, "yyyy-MM-dd HH:mm");
     },
     end() {
-      return format(this.event.dates.end, "YYYY-MM-DD HH:mm");
+      return format(this.event.dates.end, "yyyy-MM-dd HH:mm");
     }
   }
 };

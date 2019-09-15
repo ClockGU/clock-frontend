@@ -97,7 +97,7 @@ export default {
         // Grab year, month and day from date entry
         const [year, month, day] = format(
           this.value.date[this.type],
-          "YYYY-MM-DD"
+          "yyyy-MM-dd"
         ).split("-");
         let [hours, minutes] = val.split(":");
 

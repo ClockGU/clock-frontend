@@ -163,7 +163,7 @@ export default {
   },
   filters: {
     formatDate(date) {
-      return format(date, "YYYY-MM-DD");
+      return format(date, "yyyy-MM-dd");
     },
     formatTime(date) {
       return format(date, "HH:mm");

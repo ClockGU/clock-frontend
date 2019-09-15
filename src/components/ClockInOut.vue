@@ -95,7 +95,7 @@ export default {
   filters: {
     toTime(seconds) {
       const date = addSeconds(new Date(1970, 1, 1), seconds);
-      return format(date, "HH[h]mm[m]ss[s]");
+      return format(date, "HH'h'mm'm'ss's'");
     }
   },
   props: {

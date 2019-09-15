@@ -53,7 +53,7 @@ export default {
   computed: {
     date: {
       get() {
-        return format(this.value, "YYYY-MM-DD");
+        return format(this.value, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
@@ -64,12 +64,12 @@ export default {
     min() {
       if (this.type === "start") return undefined;
 
-      return format(this.contract.start, "YYYY-MM-DD");
+      return format(this.contract.start, "yyyy-MM-dd");
     },
     max() {
       if (this.type === "end") return undefined;
 
-      return format(this.contract.end, "YYYY-MM-DD");
+      return format(this.contract.end, "yyyy-MM-dd");
     }
   }
 };

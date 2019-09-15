@@ -58,5 +58,4 @@ export function defaultContractDate({
       : new Date(stopYear, stopMonth, stopMonth === 2 ? 31 : 30);
 
   return newDate;
-  // return format(newDate, "YYYY-MM-DD");
 }

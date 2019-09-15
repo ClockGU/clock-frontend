@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { mapState } from "vuex";
 
 // import { getRouterProps } from "@/utils/date";
@@ -133,17 +133,19 @@ export default {
     TheDialog
   },
   filters: {
-    formatDate(date, formatString = "Do MMMM YYYY") {
-      return format(date, formatString);
+    formatDate(date, formatString = "Do MMMM yyyy") {
+      if (date === undefined) return;
+      return format(parseISO(date), formatString);
     },
     formatTime(date, formatString = "HH:mm a") {
-      return format(date, formatString);
+      if (date === undefined) return;
+      return format(parseISO(date), formatString);
     }
   },
   data: () => ({
     dialog: false,
-    today: format(new Date(), "YYYY-MM-DD"),
-    focus: format(new Date(), "YYYY-MM-DD"),
+    today: format(new Date(), "yyyy-MM-dd"),
+    focus: format(new Date(), "yyyy-MM-dd"),
     type: "month",
     typeToLabel: {
       month: "Month",
@@ -206,8 +208,8 @@ export default {
 
         return {
           uuid: shift.uuid,
-          start: format(shift.date.start, "YYYY-MM-DD HH:mm"),
-          end: format(shift.date.end, "YYYY-MM-DD HH:mm"),
+          start: format(shift.date.start, "yyyy-MM-dd HH:mm"),
+          end: format(shift.date.end, "yyyy-MM-dd HH:mm"),
           type: shift.type.text,
           color: this.colorMap(shift),
           duration: shift.representationalDuration,
