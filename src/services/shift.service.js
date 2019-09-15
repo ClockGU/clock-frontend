@@ -103,7 +103,9 @@ const ShiftService = {
           return resolve(response);
         })
         .catch(error => {
-          reject(error);
+          reject(
+            new ShiftError(error.response.status, error.response.data.detail)
+          );
         });
     });
   }

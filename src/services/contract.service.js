@@ -101,7 +101,9 @@ const ContractService = {
           return resolve(response);
         })
         .catch(error => {
-          reject(error);
+          reject(
+            new ContractError(error.response.status, error.response.data.detail)
+          );
         });
     });
   }
