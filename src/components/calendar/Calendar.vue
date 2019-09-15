@@ -236,12 +236,20 @@ export default {
       this.uuid = uuid;
     },
     async destroy() {
-      await ShiftService.delete(this.uuid);
-      const remainingShifts = this.shifts.filter(
-        shift => shift.uuid !== this.uuid
-      );
+      try {
+        await ShiftService.delete(this.uuid);
+        const remainingShifts = this.shifts.filter(
+          shift => shift.uuid !== this.uuid
+        );
 
-      this.$store.dispatch("shift/setShifts", remainingShifts);
+        this.$store.dispatch("shift/setShifts", remainingShifts);
+      } catch (error) {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: error.message,
+          timeout: 0,
+          color: "error"
+        });
+      }
 
       if (this.dialog) {
         this.dialog = false;
