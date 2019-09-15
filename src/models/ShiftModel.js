@@ -1,6 +1,7 @@
 import { is } from "ramda";
 import {
   differenceInMinutes,
+  format,
   getDate,
   getMonth,
   getYear,
@@ -105,8 +106,8 @@ export class Shift {
       contract: this.contract,
       tags: this.tags,
       type: this.type.value,
-      started: this.start,
-      stopped: this.end,
+      started: format(this.start, "yyyy-MM-dd HH:mm:ssXXX"),
+      stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
       duration: this.representationalDuration,
       was_reviewed: true
     };
