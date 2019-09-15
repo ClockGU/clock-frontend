@@ -136,6 +136,12 @@ export default {
         loggedOut: false
       },
       {
+        text: "Report",
+        to: { name: "reportList" },
+        icon: "edit",
+        loggedOut: false
+      },
+      {
         text: "Password",
         to: { name: "changePassword" },
         icon: mdiTextboxPassword,

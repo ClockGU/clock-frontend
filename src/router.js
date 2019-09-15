@@ -9,6 +9,7 @@ import ViewShiftList from "@/views/ViewShiftList";
 import ViewContractForm from "@/views/ViewContractForm";
 import ViewContractList from "@/views/ViewContractList";
 import ViewClockInOut from "@/views/ViewClockInOut";
+import ViewReportList from "@/views/ViewReportList";
 import ViewChangePassword from "@/views/ViewChangePassword";
 import ViewHelp from "@/views/ViewHelp";
 import ViewDebug from "@/views/ViewDebug";
@@ -160,6 +161,11 @@ const router = new Router({
         breadcrumb: null,
         middleware: queryData
       }
+    },
+    {
+      path: "/report",
+      name: "reportList",
+      component: ViewReportList
     },
     {
       path: "/changePassword",
