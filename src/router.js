@@ -12,6 +12,7 @@ import ViewClockInOut from "@/views/ViewClockInOut";
 import ViewChangePassword from "@/views/ViewChangePassword";
 import ViewHelp from "@/views/ViewHelp";
 import ViewDebug from "@/views/ViewDebug";
+import ViewDashboard from "@/views/ViewDashboard";
 import store from "@/store";
 import getUserData from "@/middlewares/user";
 import queryData from "@/middlewares/query";
@@ -179,6 +180,11 @@ const router = new Router({
       path: "/debug",
       name: "debug",
       component: ViewDebug
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: ViewDashboard
     }
   ]
 });

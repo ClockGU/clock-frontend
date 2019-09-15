@@ -119,14 +119,19 @@ export default {
     links: [
       {
         text: "Home",
-        to: { name: "c" },
+        to: { name: "dashboard" },
         icon: mdiHome,
         loggedOut: true
       },
       {
         text: "Shifts",
         to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
+        icon: mdiFormatListNumbered
+      },
+      {
+        text: "Calendar",
+        to: { name: "c" },
+        icon: "calendar",
         loggedOut: false
       },
       {
