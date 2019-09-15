@@ -42,7 +42,6 @@ export default {
   name: "ViewCalendar",
   components: {
     Calendar
-    // CalendarToolbar
   },
   props: {
     type: {
@@ -74,10 +73,6 @@ export default {
     loading() {
       return this.$store.state.loadingData;
     }
-  },
-  async created() {
-    this.$store.dispatch("calendar/setDate", this.date);
-    this.$store.dispatch("calendar/setType", this.type);
   }
 };
 </script>
