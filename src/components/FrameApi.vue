@@ -22,8 +22,17 @@ export default {
   },
   methods: {
     async query(...params) {
-      this.response = this.endpoint(...params);
-      this.$emit("success", { data: this.response });
+      try {
+        const response = await this.endpoint(...params);
+        this.response = new Promise(resolve => resolve(response));
+        this.$emit("success", { data: this.response });
+      } catch (error) {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: error.message,
+          timeout: 0,
+          color: "error"
+        });
+      }
     }
   },
   render(h) {

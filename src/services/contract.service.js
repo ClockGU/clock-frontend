@@ -1,14 +1,14 @@
 import ApiService from "@/services/api.service";
 import store from "@/store";
 
-// class ContractError extends Error {
-//   constructor(errorCode, message) {
-//     super(message);
-//     this.name = this.constructor.name;
-//     this.message = message;
-//     this.errorCode = errorCode;
-//   }
-// }
+class ContractError extends Error {
+  constructor(errorCode, message) {
+    super(message);
+    this.name = this.constructor.name;
+    this.message = message;
+    this.errorCode = errorCode;
+  }
+}
 
 function mapApiResponse(response) {
   return {
@@ -39,7 +39,12 @@ const ContractService = {
           return resolve(contract);
         })
         .catch(error => {
-          reject(error);
+          reject(
+            new ContractError(
+              error.response.status,
+              error.response.data.non_field_errors[0]
+            )
+          );
         });
     });
   },
@@ -80,7 +85,12 @@ const ContractService = {
           return resolve(contract);
         })
         .catch(error => {
-          reject(error);
+          reject(
+            new ContractError(
+              error.response.status,
+              error.response.data.non_field_errors[0]
+            )
+          );
         });
     });
   },
