@@ -181,7 +181,7 @@ export default {
   components: { FrameApi },
   filters: {
     formatDate(date) {
-      return format(date, "yyyy-MM-dd");
+      return format(parseISO(date), "yyyy-MM-dd");
     }
   },
   mixins: [validationMixin],
@@ -246,7 +246,10 @@ export default {
     initialData() {
       return new Contract({
         name: null,
-        date: { start: startOfMonth(new Date()), end: endOfMonth(new Date()) },
+        date: {
+          start: format(startOfMonth(new Date()), "yyyy-MM-dd"),
+          end: format(endOfMonth(new Date()), "yyyy-MM-dd")
+        },
         hours: null
       });
     },
@@ -258,7 +261,7 @@ export default {
     },
     startDate: {
       get() {
-        return format(this.contract.start, "yyyy-MM-dd");
+        return format(parseISO(this.contract.start), "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
@@ -273,7 +276,7 @@ export default {
     },
     endDate: {
       get() {
-        return format(this.contract.end, "yyyy-MM-dd");
+        return format(parseISO(this.contract.end), "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
