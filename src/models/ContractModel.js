@@ -1,5 +1,5 @@
 import { is } from "ramda";
-import { differenceInDays, format, parse } from "date-fns";
+import { differenceInDays, format, parseISO } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
 Number.prototype.pad = function(size) {
@@ -32,7 +32,7 @@ export class Contract {
   }
 
   get start() {
-    return parse(this.date.start);
+    return parseISO(this.date.start);
   }
 
   set start(value) {
@@ -40,7 +40,7 @@ export class Contract {
   }
 
   get end() {
-    return parse(this.date.end);
+    return parseISO(this.date.end);
   }
 
   set end(value) {

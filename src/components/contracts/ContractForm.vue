@@ -162,7 +162,8 @@ import {
   isLastDayOfMonth,
   startOfMonth,
   endOfMonth,
-  isAfter
+  isAfter,
+  parseISO
 } from "date-fns";
 
 import { validationMixin } from "vuelidate";
@@ -325,7 +326,7 @@ export default {
     },
     allowedEndDates(val) {
       const day = parseInt(val.split("-")[2], 10);
-      return day === 14 || isLastDayOfMonth(val);
+      return day === 14 || isLastDayOfMonth(parseISO(val));
     },
     async submit(callback, contract) {
       const payload = contract.toPayload();
