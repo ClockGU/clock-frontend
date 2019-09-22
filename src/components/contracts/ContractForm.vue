@@ -37,10 +37,10 @@
 
           <v-stepper-items>
             <v-stepper-content step="1">
-              <v-banner v-if="disableDateChange">
+              <v-alert v-if="disableDateChange" type="info">
                 You cannot change the start/end date, after adding shifts to the
                 contract.
-              </v-banner>
+              </v-alert>
 
               <v-row justify="center" mb-1>
                 <v-card elevation="0">
@@ -59,10 +59,10 @@
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <v-banner v-if="disableDateChange">
+              <v-alert v-if="disableDateChange" type="info">
                 You cannot change the start/end date, after adding shifts to the
                 contract.
-              </v-banner>
+              </v-alert>
 
               <v-row justify="center" mb-1>
                 <v-card class="mb-2" elevation="0">
