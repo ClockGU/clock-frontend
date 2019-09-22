@@ -5,10 +5,10 @@
         <v-toolbar flat color="white">
           <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
           <v-btn fab text small @click="prev">
-            <v-icon small>chevron_left</v-icon>
+            <v-icon small>{{ icons.mdiChevronLeft }}</v-icon>
           </v-btn>
           <v-btn fab text small @click="next">
-            <v-icon small>chevron_right</v-icon>
+            <v-icon small>{{ icons.mdiChevronRight }}</v-icon>
           </v-btn>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <div class="flex-grow-1"></div>
@@ -16,7 +16,7 @@
             <template v-slot:activator="{ on }">
               <v-btn outlined v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
-                <v-icon right>arrow_drop_down</v-icon>
+                <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
               </v-btn>
             </template>
             <v-list>
@@ -62,7 +62,7 @@
           <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar :color="selectedEvent.color" dark>
               <v-btn icon @click="selectedOpen = false">
-                <v-icon>close</v-icon>
+                <v-icon>{{ icons.mdiClose }}</v-icon>
               </v-btn>
               <v-toolbar-title>Type: {{ selectedEvent.type }}</v-toolbar-title>
             </v-toolbar>
@@ -127,6 +127,13 @@ import ShiftService from "@/services/shift.service.js";
 
 import TheDialog from "@/components/TheDialog";
 
+import {
+  mdiChevronLeft,
+  mdiChevronRight,
+  mdiArrowDown,
+  mdiClose
+} from "@mdi/js";
+
 export default {
   name: "Calendar",
   components: {
@@ -143,6 +150,12 @@ export default {
     }
   },
   data: () => ({
+    icons: {
+      mdiChevronLeft: mdiChevronLeft,
+      mdiChevronRight: mdiChevronRight,
+      mdiArrowDown: mdiArrowDown,
+      mdiClose: mdiClose
+    },
     dialog: false,
     today: format(new Date(), "yyyy-MM-dd"),
     focus: format(new Date(), "yyyy-MM-dd"),

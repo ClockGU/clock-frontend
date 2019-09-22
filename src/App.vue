@@ -31,7 +31,7 @@
 
         <v-list-item v-if="isLoggedIn" @click="logoutDialog = true">
           <v-list-item-action>
-            <v-icon>lock</v-icon>
+            <v-icon>{{ icons.mdiLock }}</v-icon>
           </v-list-item-action>
 
           <v-list-item-content>Logout</v-list-item-content>
@@ -41,9 +41,11 @@
 
     <v-app-bar app dark color="blue" absolute text>
       <v-app-bar-nav-icon @click="toggleDrawer()">
-        <v-icon v-if="!isMobile && !mini">keyboard_arrow_left</v-icon>
-        <v-icon v-else-if="!isMobile && mini">keyboard_arrow_right</v-icon>
-        <v-icon v-else>menu</v-icon>
+        <v-icon v-if="!isMobile && !mini">{{ icons.mdiChevronLeft }}</v-icon>
+        <v-icon v-else-if="!isMobile && mini">{{
+          icons.mdiChevronRight
+        }}</v-icon>
+        <v-icon v-else>{{ icons.mdiMenu }}</v-icon>
       </v-app-bar-nav-icon>
       <!-- <portal-target name="toolbar"></portal-target> -->
       <template v-if="showSelectContractButton">
@@ -88,29 +90,45 @@ import ClockInOut from "@/components/ClockInOut";
 
 import { mapGetters } from "vuex";
 
+import {
+  mdiHome,
+  mdiFileDocument,
+  mdiLock,
+  mdiTextboxPassword,
+  mdiChevronLeft,
+  mdiChevronRight,
+  mdiMenu
+} from "@mdi/js";
+
 export default {
   components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
     drawer: false,
     mini: true,
     logoutDialog: false,
+    icons: {
+      mdiLock: mdiLock,
+      mdiChevronLeft: mdiChevronLeft,
+      mdiChevronRight: mdiChevronRight,
+      mdiMenu: mdiMenu
+    },
     links: [
       {
         text: "Home",
         to: { name: "c" },
-        icon: "home",
+        icon: mdiHome,
         loggedOut: true
       },
       {
         text: "Contracts",
         to: { name: "contractList" },
-        icon: "description",
+        icon: mdiFileDocument,
         loggedOut: false
       },
       {
         text: "Password",
         to: { name: "changePassword" },
-        icon: "user",
+        icon: mdiTextboxPassword,
         loggedOut: false
       }
     ],

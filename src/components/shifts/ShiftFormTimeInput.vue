@@ -8,7 +8,7 @@
       :label="label"
       outlined
       mask="time"
-      append-icon="access_time"
+      :append-icon="type === 'start' ? icons.mdiClockIn : icons.mdiClockOut"
       hint="HH:mm"
       :persistent-hint="true"
       @click:append="clickAppend"
@@ -37,6 +37,8 @@
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import TheDialog from "@/components/TheDialog";
+
+import { mdiClockIn, mdiClockOut } from "@mdi/js";
 
 function validHourMinute(value) {
   let hour, minute;
@@ -80,6 +82,7 @@ export default {
       start: "end",
       end: "start"
     },
+    icons: { mdiClockIn: mdiClockIn, mdiClockOut: mdiClockOut },
     dialog: false
   }),
   computed: {

@@ -18,7 +18,7 @@
         color="pink"
         :to="{ name: 'createShift' }"
       >
-        <v-icon>add</v-icon>
+        <v-icon>{{ icons.mdiPlus }}</v-icon>
       </v-btn>
     </portal>
   </div>
@@ -27,6 +27,8 @@
 <script>
 import Calendar from "@/components/calendar/Calendar";
 import { createHelpers } from "vuex-map-fields";
+
+import { mdiPlus } from "@mdi/js";
 
 const { mapFields: mapContractFields } = createHelpers({
   getterType: "contract/getField",
@@ -60,6 +62,11 @@ export default {
       type: String,
       default: String(new Date().getUTCDate())
     }
+  },
+  data() {
+    return {
+      icons: { mdiPlus: mdiPlus }
+    };
   },
   computed: {
     ...mapContractFields(["contracts"]),
