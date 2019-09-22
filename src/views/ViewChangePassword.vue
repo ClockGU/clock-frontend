@@ -18,7 +18,7 @@
           v-model="passwords.currentPassword"
           label="Current password"
           name="password"
-          prepend-icon="lock"
+          :prepend-icon="icons.mdiLock"
           type="password"
           :error-messages="oldPasswordErrors"
           @blur="$v.passwords.currentPassword.$touch()"
@@ -32,9 +32,9 @@
           v-model="passwords.newPassword"
           label="New password"
           name="password"
-          prepend-icon="lock"
+          :prepend-icon="icons.mdiLock"
           :type="newPasswordVisible ? 'text' : 'password'"
-          :append-icon="newPasswordVisible ? 'visibility' : 'visibility_off'"
+          :append-icon="newPasswordVisible ? icons.mdiEye : icons.mdiEyeOff"
           :error-messages="newPasswordErrors"
           @blur="$v.passwords.newPassword.$touch()"
           @keyup.enter="submit"
@@ -46,7 +46,7 @@
           v-model="passwords.newPasswordRepeat"
           label="Repeat new password"
           name="password"
-          prepend-icon="lock"
+          :prepend-icon="icons.mdiLock"
           type="password"
           :error-messages="newPasswordRepeatErrors"
           @blur="$v.passwords.newPasswordRepeat.$touch()"
@@ -66,6 +66,8 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import UserService from "@/services/user.service";
+
+import { mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 
 const newPasswordEqualsRepeatPassword = (value, vm) =>
   value === vm.newPasswordRepeat;
@@ -91,6 +93,11 @@ export default {
   },
   data() {
     return {
+      icons: {
+        mdiLock: mdiLock,
+        mdiEye: mdiEye,
+        mdiEyeOff: mdiEyeOff
+      },
       passwords: {
         currentPassword: null,
         newPassword: null,
@@ -147,7 +154,6 @@ export default {
       this.$v.$touch();
 
       if (this.$v.$error) return;
-
 
       UserService.changePassword(
         this.passwords.currentPassword,

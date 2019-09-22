@@ -16,7 +16,7 @@
           required
           label="E-mail"
           name="email"
-          prepend-icon="person"
+          :prepend-icon="icons.mdiAccount"
           type="text"
           autocomplete="email"
           :error-messages="emailErrors"
@@ -29,9 +29,9 @@
           v-model="password"
           label="Password"
           name="password"
-          prepend-icon="lock"
+          :prepend-icon="icons.mdiLock"
           :type="showPassword ? 'text' : 'password'"
-          :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+          :append-icon="showPassword ? icons.mdiEye : icons.mdiEyeOff"
           :error-messages="passwordErrors"
           @blur="$v.password.$touch()"
           @keyup.enter="submit"
@@ -51,6 +51,8 @@
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 
+import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
+
 export default {
   name: "LoginForm",
   mixins: [validationMixin],
@@ -59,6 +61,12 @@ export default {
     password: { required }
   },
   data: () => ({
+    icons: {
+      mdiAccount: mdiAccount,
+      mdiLock: mdiLock,
+      mdiEye: mdiEye,
+      mdiEyeOff: mdiEyeOff
+    },
     email: null,
     password: null,
     showPassword: false,

@@ -60,7 +60,7 @@
                   <v-row :style="{ height: editMode ? '168px' : '116px' }">
                     <v-col align-self="center" align="center">
                       <v-btn text disabled>
-                        <v-icon left>add</v-icon> Add contract
+                        <v-icon left>{{ icons.mdiPlus }}</v-icon> Add contract
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -103,6 +103,8 @@ import TheDialog from "@/components/TheDialog";
 
 import ContractService from "@/services/contract.service";
 
+import { mdiPlus } from "@mdi/js";
+
 export default {
   name: "ViewContractList",
   components: {
@@ -118,7 +120,10 @@ export default {
     return {
       dialog: false,
       callback: null,
-      hover: false
+      hover: false,
+      icons: {
+        mdiPlus: mdiPlus
+      }
     };
   },
   computed: {
