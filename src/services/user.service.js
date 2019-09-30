@@ -88,12 +88,7 @@ const UserService = {
           resolve();
         })
         .catch(error => {
-          reject(
-            new AuthenticationError(
-              error.response.status,
-              error.response.data.non_field_errors[0]
-            )
-          );
+          reject(new AuthenticationError(error.errorCode, error.message));
         });
     });
   },
@@ -125,7 +120,7 @@ const UserService = {
           reject(
             new AuthenticationError(
               error.response.status,
-              error.response.data.non_field_errors[0]
+              error.response.data.detail
             )
           );
         });
