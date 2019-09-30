@@ -1,10 +1,13 @@
 import store from "@/store";
+import TokenService from "@/services/storage.service";
 
 export default async function queryData({ from, next }) {
+  const loggedIn = TokenService.getToken();
   if (
-    from.name !== null &&
-    from.name !== "login" &&
-    from.name !== "contractSelect"
+    !loggedIn ||
+    (from.name !== null &&
+      from.name !== "login" &&
+      from.name !== "contractSelect")
   ) {
     // Do nothing if we use normal router navigation.
     return next();
