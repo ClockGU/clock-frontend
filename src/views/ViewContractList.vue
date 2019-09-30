@@ -4,7 +4,7 @@
       <v-col>
         <h1>
           <template v-if="!editMode">
-            Who is paying?
+            Select a contract
           </template>
           <template v-else>
             Contracts

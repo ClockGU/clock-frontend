@@ -207,16 +207,16 @@ export default {
     stepper: 1,
     stepperText: [
       {
-        title: "Set the start date",
+        title: "Start date",
         subtitle: "Can start on the 1st or 15th!"
       },
       {
-        title: "Set the end date",
+        title: "End date",
         subtitle: "Can end on the 14th or last day!"
       },
       {
-        title: "Set the hours per month",
-        subtitle: "Your montly worktime (HH:mm)."
+        title: "Hours per month",
+        subtitle: "Your monthly worktime (HH:mm)."
       },
       {
         title: "Name your contract",

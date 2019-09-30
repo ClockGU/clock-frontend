@@ -19,7 +19,7 @@
             <v-card min-width="330">
               <v-row>
                 <v-col cols="12" sm="12" md="7">
-                  <v-subheader>Select the shift date</v-subheader>
+                  <v-subheader>Select shift date</v-subheader>
                   <v-card-text class="pt-0">
                     <v-row justify="center">
                       <ShiftFormDateInlineInput
