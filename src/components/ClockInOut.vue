@@ -84,7 +84,7 @@
 import ClockModel from "@/components/ClockModel";
 import TheDialog from "@/components/TheDialog";
 
-import { addSeconds, format } from "date-fns";
+import { addSeconds, format, parseISO } from "date-fns";
 import { setTimeout } from "timers";
 
 export default {
@@ -98,17 +98,18 @@ export default {
       return format(date, "HH'h'mm'm'ss's'");
     }
   },
-  props: {
-    startDate: {
-      type: Date,
-      default: null
-    }
-  },
   data() {
     return {
       dialog: false,
-      clockInTimeout: false
+      clockInTimeout: false,
+      startDate: null
     };
+  },
+  created() {
+    const clockedShift = this.$store.state.shift.clockedShift;
+    if (!clockedShift) return;
+
+    this.startDate = parseISO(clockedShift.start);
   },
   methods: {
     buttonClass(hover) {

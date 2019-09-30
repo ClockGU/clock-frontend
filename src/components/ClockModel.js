@@ -45,11 +45,14 @@ export default {
       this.interval = null;
       this.shift = { start: null, contract: null };
       this.duration = null;
+      this.$store.dispatch("shift/clearClockedShift");
     },
     start(date, contract) {
       this.shift.start = date;
       this.shift.contract = contract;
       this.startTick();
+
+      this.$store.dispatch("shift/clockShift", this.shift);
     },
     reset() {
       this.clear();

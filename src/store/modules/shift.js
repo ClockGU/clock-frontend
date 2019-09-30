@@ -2,7 +2,8 @@ import { getField, updateField } from "vuex-map-fields";
 import ShiftService from "@/services/shift.service";
 
 const state = {
-  shifts: []
+  shifts: [],
+  clockedShift: null
 };
 
 const getters = {
@@ -11,6 +12,12 @@ const getters = {
 
 const mutations = {
   updateField,
+  clockShift(state, payload) {
+    state.clockedShift = payload;
+  },
+  clearClockedShift(state) {
+    state.clockedShift = null;
+  },
   addShift(state, payload) {
     state.shifts.push(payload);
   },
@@ -29,6 +36,12 @@ const mutations = {
 };
 
 const actions = {
+  clockShift({ commit }, payload) {
+    commit("clockShift", payload);
+  },
+  clearClockedShift({ commit }) {
+    commit("clearClockedShift");
+  },
   addShift({ commit }, payload) {
     commit("addShift", payload);
   },
