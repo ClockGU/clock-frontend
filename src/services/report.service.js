@@ -25,7 +25,8 @@ function mapApiResponse(response) {
     uuid: response.id,
     contract: response.contract,
     duration: timedeltaToMinutes(response.hours),
-    date: response.month_year
+    date: response.month_year,
+    exported: false
   };
 }
 
