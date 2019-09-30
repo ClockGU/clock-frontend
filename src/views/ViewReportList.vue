@@ -5,8 +5,8 @@
         slot-scope="{ reports, methods: { fetchList }, status: { loading } }"
         @created="fetchList()"
       >
-        <v-row v-if="!loading">
-
+        <v-row>
+          <span v-if="loading">Loading...</span>
           <template v-for="report in reports">
             <div :key="report.uuid" :report="report">{{ report }}</div>
           </template>
