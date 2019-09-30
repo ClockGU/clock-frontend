@@ -226,7 +226,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (
     loggedIn &&
-    !store.state.selectedContract &&
+    store.state.selectedContract === null &&
     to.name !== "contractSelect" &&
     to.name !== "createContract"
   ) {
@@ -238,8 +238,8 @@ router.beforeEach(async (to, from, next) => {
   if (!isPublic && !loggedIn) {
     store.dispatch("unsetContract");
     return next({
-      path: "/login",
-      query: { redirect: to.fullPath } // Store the full path to redirect the user to after login
+      path: "/login"
+      // query: { redirect: to.fullPath } // Store the full path to redirect the user to after login
     });
   }
 
