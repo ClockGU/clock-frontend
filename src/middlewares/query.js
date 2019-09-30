@@ -21,6 +21,7 @@ export default async function queryData({ from, next }) {
     })
     .catch(() => {
       store.dispatch("auth/logout");
+      store.dispatch("unsetContract");
       return Promise.reject();
     });
 }

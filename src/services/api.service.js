@@ -86,6 +86,7 @@ const ApiService = {
           error.response.data.messages === undefined
         ) {
           store.dispatch("auth/logout");
+          store.dispatch("unsetContract");
           store.dispatch("snackbar/setSnack", {
             snack: "Your session has expired.",
             timeout: 10000,

@@ -236,6 +236,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (!isPublic && !loggedIn) {
+    store.dispatch("unsetContract");
     return next({
       path: "/login",
       query: { redirect: to.fullPath } // Store the full path to redirect the user to after login

@@ -36,8 +36,8 @@ export default new Vuex.Store({
     setContract({ commit }, payload) {
       commit("setContract", payload);
     },
-    unsetContract({ commit }, payload) {
-      commit("unsetContract", payload);
+    unsetContract({ commit }) {
+      commit("unsetContract");
     },
     setUser({ commit }, payload) {
       commit("setUser", payload);
