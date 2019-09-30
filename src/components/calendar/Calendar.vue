@@ -272,7 +272,7 @@ export default {
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
-      this.$store.dispatch("calendar/setType", "day");
+      // this.$store.dispatch("calendar/setType", "day");
     },
     getEventColor(event) {
       return event.color;
