@@ -140,7 +140,7 @@ export default {
     TheDialog
   },
   filters: {
-    formatDate(date, formatString = "Do MMMM yyyy") {
+    formatDate(date, formatString = "do MMMM yyyy") {
       if (date === undefined) return;
       return format(parseISO(date), formatString);
     },
