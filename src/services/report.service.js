@@ -9,13 +9,23 @@ class ReportError extends Error {
   }
 }
 
+function timedeltaToMinutes(timedelta) {
+  const [days, timeString] = timedelta.split(" ");
+  let [hours, minutes, seconds] = timeString.split(":");
+
+  return (
+    (parseInt(days) * 24 + parseInt(hours)) * 60 +
+    parseInt(minutes) +
+    parseInt(seconds) / 60
+  );
+}
+
 function mapApiResponse(response) {
   return {
     uuid: response.id,
-    user: response.user,
-    name: response.name,
-    date: { start: response.start_date, end: response.end_date },
-    hours: response.hours
+    contract: response.contract,
+    duration: timedeltaToMinutes(response.hours),
+    date: response.month_year
   };
 }
 
