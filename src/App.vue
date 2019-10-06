@@ -101,7 +101,8 @@ import {
   mdiChevronRight,
   mdiMenu,
   mdiHelp,
-  mdiFormatListNumbered
+  mdiFormatListNumbered,
+  mdiCalendar
 } from "@mdi/js";
 
 export default {
@@ -131,7 +132,7 @@ export default {
       {
         text: "Calendar",
         to: { name: "c" },
-        icon: "calendar",
+        icon: mdiCalendar,
         loggedOut: false
       },
       {
