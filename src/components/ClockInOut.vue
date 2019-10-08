@@ -109,7 +109,10 @@ export default {
     const clockedShift = this.$store.state.shift.clockedShift;
     if (!clockedShift || clockedShift.start === null) return;
 
-    this.startDate = parseISO(clockedShift.start);
+    this.startDate =
+      typeof clockedShift.start === "string"
+        ? parseISO(clockedShift.start)
+        : clockedShift.start;
   },
   methods: {
     buttonClass(hover) {
@@ -120,7 +123,7 @@ export default {
       this.dialog = false;
     },
     toggle(start, stop, pause, duration) {
-      if (duration === null) {
+      if (duration === 0) {
         start(new Date(), this.$store.state.selectedContract.uuid);
         this.clockInTimeout = true;
         setTimeout(() => {

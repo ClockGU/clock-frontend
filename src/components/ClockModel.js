@@ -1,4 +1,4 @@
-import { differenceInSeconds } from "date-fns";
+import { differenceInSeconds, isDate } from "date-fns";
 import uuid from "uuid/v4";
 
 import { Shift } from "@/models/ShiftModel";
@@ -7,12 +7,12 @@ import ShiftService from "@/services/shift.service";
 export default {
   name: "ClockModel",
   data: () => ({
-    duration: null,
     interval: null,
     shift: {
       start: null,
       contract: null
-    }
+    },
+    now: null
   }),
   props: {
     startDate: {
@@ -26,13 +26,18 @@ export default {
         started: this.shift.start,
         duration: this.duration
       };
+    },
+    duration() {
+      if (!isDate(this.now)) return 0;
+
+      return differenceInSeconds(new Date(), this.shift.start);
     }
   },
   mounted() {
     // Do nothing if no initialStart value was provided.
     if (!this.startDate) return;
 
-    this.start(this.startDate);
+    this.start(this.startDate, this.$store.state.selectedContract.uuid);
   },
   destroyed() {
     this.clear();
@@ -44,7 +49,7 @@ export default {
     initialize() {
       this.interval = null;
       this.shift = { start: null, contract: null };
-      this.duration = null;
+      this.now = null;
       this.$store.dispatch("shift/clearClockedShift");
     },
     start(date, contract) {
@@ -80,7 +85,7 @@ export default {
       this.initialize();
     },
     tick() {
-      this.duration = differenceInSeconds(new Date(), this.shift.start);
+      this.now = new Date();
     },
     toggle() {
       this.shift.start ? this.stop() : this.start(new Date());
