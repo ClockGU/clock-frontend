@@ -10,6 +10,7 @@ import ViewContractForm from "@/views/ViewContractForm";
 import ViewContractList from "@/views/ViewContractList";
 import ViewClockInOut from "@/views/ViewClockInOut";
 import ViewChangePassword from "@/views/ViewChangePassword";
+import ViewHelp from "@/views/ViewHelp";
 import store from "@/store";
 import getUserData from "@/middlewares/user";
 import queryData from "@/middlewares/query";
