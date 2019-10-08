@@ -163,6 +163,15 @@ const router = new Router({
       path: "/changePassword",
       name: "changePassword",
       component: ViewChangePassword
+    },
+    {
+      path: "/help",
+      name: "help",
+      component: ViewHelp,
+      meta: {
+        public: true,
+        breadcrumb: null
+      }
     }
   ]
 });

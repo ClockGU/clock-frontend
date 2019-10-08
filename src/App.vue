@@ -97,7 +97,8 @@ import {
   mdiTextboxPassword,
   mdiChevronLeft,
   mdiChevronRight,
-  mdiMenu
+  mdiMenu,
+  mdiHelp
 } from "@mdi/js";
 
 export default {
@@ -130,6 +131,12 @@ export default {
         to: { name: "changePassword" },
         icon: mdiTextboxPassword,
         loggedOut: false
+      },
+      {
+        text: "Help",
+        to: { name: "help" },
+        icon: mdiHelp,
+        loggedOut: true
       }
     ],
     breadcrumbList: null
