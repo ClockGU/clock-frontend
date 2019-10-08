@@ -107,7 +107,7 @@ export default {
   },
   created() {
     const clockedShift = this.$store.state.shift.clockedShift;
-    if (!clockedShift) return;
+    if (!clockedShift || clockedShift.start === null) return;
 
     this.startDate = parseISO(clockedShift.start);
   },
