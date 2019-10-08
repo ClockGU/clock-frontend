@@ -238,7 +238,8 @@ router.beforeEach(async (to, from, next) => {
     loggedIn &&
     store.state.selectedContract === null &&
     to.name !== "contractSelect" &&
-    to.name !== "createContract"
+    to.name !== "createContract" &&
+    to.name !== "help"
   ) {
     return next({
       name: "contractSelect"
