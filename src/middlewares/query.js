@@ -1,8 +1,7 @@
 import store from "@/store";
-import TokenService from "@/services/storage.service";
 
 export default async function queryData({ from, next }) {
-  const loggedIn = TokenService.getToken();
+  const loggedIn = store.getters["auth/loggedIn"];
   if (
     !loggedIn ||
     (from.name !== null &&
@@ -25,6 +24,6 @@ export default async function queryData({ from, next }) {
     .catch(() => {
       store.dispatch("auth/logout");
       store.dispatch("unsetContract");
-      return Promise.reject();
+      return;
     });
 }

@@ -1,6 +1,13 @@
 import axios from "axios";
 import store from "@/store";
-import TokenService from "@/services/storage.service";
+
+function sessionExpiredSnack() {
+  store.dispatch("snackbar/setSnack", {
+    snack: "Your session has expired.",
+    timeout: 10000,
+    color: "warning"
+  });
+}
 
 const ApiService = {
   _401interceptor: null,
@@ -9,10 +16,12 @@ const ApiService = {
     axios.defaults.baseURL = baseURL;
   },
 
-  setHeader() {
-    axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${TokenService.getToken()}`;
+  setHeader(accessToken) {
+    return new Promise(resolve => {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+      resolve();
+    });
   },
 
   removeHeader() {
@@ -47,15 +56,16 @@ const ApiService = {
    *    - password
    **/
   customRequest(data) {
-    return new Promise((resolve, reject) => {
-      return axios(data)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+    return axios(data);
+    // return new Promise((resolve, reject) => {
+    //   return axios(data)
+    //     .then(response => {
+    //       resolve(response);
+    //     })
+    //     .catch(error => {
+    //       reject(error);
+    //     });
+    // });
   },
 
   mount401Interceptor() {
@@ -82,43 +92,38 @@ const ApiService = {
 
         // Logout if refresh token is expired
         if (
-          error.response.data.code == "token_not_valid" &&
-          error.response.data.messages === undefined
+          error.response.data.code === "token_not_valid" &&
+          (error.response.data.detail === "Token is invalid or expired" ||
+            error.response.data.detail === "Token 'exp' claim has expired")
         ) {
           store.dispatch("auth/logout");
           store.dispatch("unsetContract");
-          store.dispatch("snackbar/setSnack", {
-            snack: "Your session has expired.",
-            timeout: 10000,
-            color: "warning"
-          });
+          sessionExpiredSnack();
 
           return Promise.reject(error);
         }
 
         try {
           // Refresh the access token
-          await store.dispatch("auth/refreshToken");
+          const accessToken = await store.dispatch("auth/refreshToken");
 
-          // Retry the original request
-          const failedRequest = { ...error };
+          const { config: originalRequest } = error;
           // Set new access token
-          failedRequest.response.config.headers[
-            "Authorization"
-          ] = `Bearer ${TokenService.getToken()}`;
+          originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
 
-          // Return the refreshed request
+          // Retry the request
           return this.customRequest({
-            method: failedRequest.config.method,
-            url: failedRequest.config.url,
-            data: failedRequest.config.data,
+            ...originalRequest,
             headers: {
               "Content-Type": "application/json;charset=UTF-8"
             }
           });
-        } catch (error) {
+        } catch (e) {
           // Refresh has failed - reject the original request
-          return Promise.reject(error);
+          // and logout user.
+          sessionExpiredSnack();
+
+          return Promise.reject();
         }
       }
     );

@@ -7,15 +7,14 @@ import PortalVue from "portal-vue";
 import Vuelidate from "vuelidate";
 import { VueMaskDirective } from "v-mask";
 import ApiService from "@/services/api.service";
-import TokenService from "@/services/storage.service";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 
 ApiService.init(process.env.VUE_APP_API_URL);
 
-// If token exists set header
-if (TokenService.getToken()) {
-  ApiService.setHeader();
+// Set axios header if we are logged in
+if (store.getters["auth/loggedIn"]) {
+  ApiService.setHeader(store.getters["auth/accessToken"]);
   ApiService.mount401Interceptor();
 }
 

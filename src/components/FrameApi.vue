@@ -27,6 +27,10 @@ export default {
         this.response = new Promise(resolve => resolve(response));
         this.$emit("success", { data: this.response });
       } catch (error) {
+        // We probably came from `api.service.js` and need to logout.
+        // The error is undefined and we quit here.
+        if (error === undefined) return;
+
         this.$store.dispatch("snackbar/setSnack", {
           snack: error.message,
           timeout: 0,

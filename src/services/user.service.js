@@ -1,6 +1,23 @@
 import ApiService from "@/services/api.service";
-import TokenService from "@/services/storage.service";
 import store from "@/store";
+
+export function parseJwt(token) {
+  /* Decode JWT token.
+  Source: https://stackoverflow.com/a/38552302
+  */
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function(c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
 
 class AuthenticationError extends Error {
   constructor(errorCode, message) {
@@ -13,7 +30,7 @@ class AuthenticationError extends Error {
 
 const UserService = {
   /**
-   * Login the user and store the access token to TokenService.
+   * Login the user and store the access token to Vuex.
    *
    * @returns access_token
    * @throws AuthenticationError
@@ -31,13 +48,10 @@ const UserService = {
     return new Promise((resolve, reject) => {
       return ApiService.customRequest(requestData)
         .then(response => {
-          TokenService.saveToken(response.data.access);
-          TokenService.saveRefreshToken(response.data.refresh);
-          ApiService.setHeader();
-
+          ApiService.setHeader(response.data.access);
           ApiService.mount401Interceptor();
 
-          resolve(response.data.access);
+          resolve(response.data);
         })
         .catch(error => {
           reject(
@@ -75,20 +89,16 @@ const UserService = {
   },
 
   getUser: async function() {
-    const requestData = {
-      method: "get",
-      url: "/auth/users/me/"
-    };
+    const url = "/auth/users/me/";
 
     return new Promise((resolve, reject) => {
-      return ApiService.customRequest(requestData)
+      return ApiService.get(url)
         .then(response => {
           store.dispatch("setUser", response.data);
-
           resolve();
         })
         .catch(error => {
-          reject(new AuthenticationError(error.errorCode, error.message));
+          reject(error.errorCode, error.message);
         });
     });
   },
@@ -96,10 +106,8 @@ const UserService = {
   /**
    * Refresh the access token.
    **/
-  refreshToken: async function() {
-    const refreshToken = TokenService.getRefreshToken();
-
-    const requestData = {
+  refreshToken: async function(refreshToken) {
+    const request = {
       method: "post",
       url: "/auth/jwt/refresh",
       data: {
@@ -108,21 +116,12 @@ const UserService = {
     };
 
     return new Promise((resolve, reject) => {
-      return ApiService.customRequest(requestData)
+      return ApiService.customRequest(request)
         .then(response => {
-          TokenService.saveToken(response.data.access);
-          // Update the header in ApiService
-          ApiService.setHeader();
-
           resolve(response.data.access);
         })
         .catch(error => {
-          reject(
-            new AuthenticationError(
-              error.response.status,
-              error.response.data.detail
-            )
-          );
+          reject(error);
         });
     });
   },
@@ -134,11 +133,7 @@ const UserService = {
    **/
   logout() {
     // Remove the token and remove Authorization header from Api Service as well
-    TokenService.removeToken();
-    TokenService.removeRefreshToken();
     ApiService.removeHeader();
-
-    // NOTE: Again, we'll cover the 401 Interceptor a bit later.
     ApiService.unmount401Interceptor();
   }
 };

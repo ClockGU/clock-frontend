@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import TokenService, { parseJwt } from "@/services/storage.service";
+import { parseJwt } from "@/services/user.service";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
 import ViewCalendar from "@/views/ViewCalendar.vue";
@@ -221,8 +221,8 @@ router.beforeEach(async (to, from, next) => {
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
-  const token = TokenService.getToken();
-  const loggedIn = !!token;
+  const token = store.getters["auth/accessToken"];
+  const loggedIn = store.getters["auth/loggedIn"];
   const requestNewAccessToken = exp => Date.now >= exp * 1000;
 
   // Refresh JWT token
