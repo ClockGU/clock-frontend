@@ -160,7 +160,7 @@ export default {
         this.passwords.newPassword
       )
         .then(() => {
-          this.$router.push({ name: "login" });
+          this.$store.dispatch("auth/logout");
         })
         .catch(error => {
           this.$store.dispatch("snackbar/setSnack", {
