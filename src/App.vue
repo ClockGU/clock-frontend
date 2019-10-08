@@ -130,7 +130,8 @@ export default {
         text: "Password",
         to: { name: "changePassword" },
         icon: mdiTextboxPassword,
-        loggedOut: false
+        loggedOut: false,
+        withoutContract: true
       },
       {
         text: "Help",
@@ -160,6 +161,12 @@ export default {
     visibleLinks() {
       if (this.isLoggedIn && this.$store.state.selectedContract !== null) {
         return this.links;
+      }
+
+      if (this.$store.state.selectedContract === null && this.isLoggedIn) {
+        return this.links.filter(
+          link => link.withoutContract === true || link.loggedOut === true
+        );
       }
 
       return this.links.filter(link => link.loggedOut === true);
