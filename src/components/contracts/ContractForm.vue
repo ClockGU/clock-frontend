@@ -267,9 +267,9 @@ export default {
         const [year, month, day] = val.split("-");
 
         const date = new Date(year, month - 1, day, 0, 0);
-        this.contract.start = date;
+        this.contract.start = format(date, "yyyy-MM-dd");
 
-        if (isAfter(date, this.contract.end)) {
+        if (isAfter(date, parseISO(this.contract.end))) {
           this.contract.end = endOfMonth(date);
         }
       }
@@ -280,7 +280,10 @@ export default {
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        this.contract.end = new Date(year, month - 1, day, 0, 0);
+        this.contract.end = format(
+          new Date(year, month - 1, day, 0, 0),
+          "yyyy-MM-dd"
+        );
       }
     },
     nameErrors() {
