@@ -42,13 +42,13 @@ export default {
       }
     },
     clearVuex() {
+      this.$store.dispatch("unsetContract");
       localStorage.removeItem("vuex");
     },
     logout() {
       this.$store.dispatch("auth/logout");
     },
     reset() {
-      console.log("Reset.");
       this.clearAllIntervals();
       this.logout();
       this.clearVuex();
