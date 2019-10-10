@@ -271,12 +271,22 @@ export default {
       return this.uuid === null ? "Save" : "Update";
     }
   },
-  watch: {
-    // Make sure to set the date to the first day of the contract,
-    // when the user changes the contract.
-    "shift.contract": function(newValue, oldValue) {
-      if (oldValue === undefined) return;
+  created() {
+    this.shift = this.uuid === null ? this.initialData : this.entity;
 
+    if (!this.shift.contract) {
+      this.shift.contract = this.$store.state.selectedContract.uuid;
+    }
+
+    this.setStartDate();
+
+    this.endpoint = data =>
+      this.uuid === null
+        ? ShiftService.create(data)
+        : ShiftService.update(data, this.uuid);
+  },
+  methods: {
+    setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
       const now = Date.now();
@@ -291,24 +301,12 @@ export default {
         return;
       }
 
+      console.log(contractStart, now);
+
       const [year, month, day] = contractStart.split("-");
       this.shift.setDate(...[year, month - 1, day], "start");
       this.shift.setDate(...[year, month - 1, day], "end");
-    }
-  },
-  created() {
-    this.shift = this.uuid === null ? this.initialData : this.entity;
-
-    if (!this.shift.contract) {
-      this.shift.contract = this.$store.state.selectedContract.uuid;
-    }
-
-    this.endpoint = data =>
-      this.uuid === null
-        ? ShiftService.create(data)
-        : ShiftService.update(data, this.uuid);
-  },
-  methods: {
+    },
     nextStep() {
       this.stepper += 1;
     },
