@@ -10,6 +10,7 @@
                 outlined
                 text
                 width="150"
+                :disabled="disabled"
                 @click="toggle(start, stop, pause, duration)"
               >
                 <v-slide-y-transition hide-on-leave>
@@ -84,7 +85,12 @@
 import ClockModel from "@/components/ClockModel";
 import TheDialog from "@/components/TheDialog";
 
-import { addSeconds, format, parseISO } from "date-fns";
+import {
+  addSeconds,
+  areIntervalsOverlapping,
+  format,
+  parseISO
+} from "date-fns";
 import { setTimeout } from "timers";
 
 export default {
@@ -104,6 +110,23 @@ export default {
       clockInTimeout: false,
       startDate: null
     };
+  },
+  computed: {
+    disabled() {
+      // Make sure to never disable the button, if a shift is clocked already.
+      if (this.startDate !== null) return false;
+
+      const contractStart = parseISO(
+        this.$store.state.selectedContract.date.start
+      );
+      const contractEnd = parseISO(this.$store.state.selectedContract.date.end);
+
+      // Return false if todays date does not overlap with the contract.
+      return !areIntervalsOverlapping(
+        { start: contractStart, end: contractEnd },
+        { start: new Date(), end: new Date() }
+      );
+    }
   },
   created() {
     const clockedShift = this.$store.state.shift.clockedShift;
