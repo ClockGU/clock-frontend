@@ -301,8 +301,6 @@ export default {
         return;
       }
 
-      console.log(contractStart, now);
-
       const [year, month, day] = contractStart.split("-");
       this.shift.setDate(...[year, month - 1, day], "start");
       this.shift.setDate(...[year, month - 1, day], "end");
