@@ -101,11 +101,10 @@ export class Shift {
 
   toPayload() {
     return {
-      // uuid: this.uuid,
-      // user: this.user,
       contract: this.contract,
       tags: this.tags,
       type: this.type.value,
+      note: this.note,
       started: format(this.start, "yyyy-MM-dd HH:mm:ssXXX"),
       stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
       duration: this.representationalDuration,
