@@ -90,7 +90,7 @@ export default {
   methods: {
     async submit() {
       this.$v.$touch();
-      if (this.$v.error) return;
+      if (this.$v.$invalid) return;
       this.loading = true;
 
       new Promise(resolve => {

@@ -152,8 +152,7 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-
-      if (this.$v.$error) return;
+      if (this.$v.$invalid) return;
 
       UserService.changePassword(
         this.passwords.currentPassword,
