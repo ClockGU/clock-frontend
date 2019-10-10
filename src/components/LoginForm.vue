@@ -106,7 +106,7 @@ export default {
           .catch(error => {
             this.$store.dispatch("snackbar/setSnack", {
               snack: error.message,
-              timeout: 0,
+              timeout: 10000,
               color: "error"
             });
           })
