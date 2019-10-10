@@ -96,7 +96,7 @@ export default {
       new Promise(resolve => {
         return this.$store
           .dispatch("auth/login", {
-            email: this.email,
+            email: this.email.toLowerCase(),
             password: this.password
           })
           .then(() => {
