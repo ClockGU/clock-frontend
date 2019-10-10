@@ -1,5 +1,5 @@
 import { is } from "ramda";
-import { differenceInCalendarDays, format } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
 Number.prototype.pad = function(size) {
