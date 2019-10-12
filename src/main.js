@@ -10,6 +10,8 @@ import ApiService from "@/services/api.service";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 
+import "@/assets/main.scss";
+
 ApiService.init(process.env.VUE_APP_API_URL);
 
 // Set axios header if we are logged in
