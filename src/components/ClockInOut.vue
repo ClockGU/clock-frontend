@@ -93,6 +93,8 @@ import {
 } from "date-fns";
 import { setTimeout } from "timers";
 
+import { mapState } from "vuex";
+
 export default {
   components: {
     ClockModel,
@@ -108,27 +110,28 @@ export default {
     return {
       dialog: false,
       clockInTimeout: false,
-      startDate: null
+      startDate: null,
+      contractDates: null
     };
   },
   computed: {
+    ...mapState(["selectedContract"]),
     disabled() {
-      // Make sure to never disable the button, if a shift is clocked already.
-      if (this.startDate !== null) return false;
-
-      const contractStart = parseISO(
-        this.$store.state.selectedContract.date.start
-      );
-      const contractEnd = parseISO(this.$store.state.selectedContract.date.end);
-
       // Return false if todays date does not overlap with the contract.
       return !areIntervalsOverlapping(
-        { start: contractStart, end: contractEnd },
+        { start: this.contractDates.start, end: this.contractDates.end },
         { start: new Date(), end: new Date() }
       );
     }
   },
+  watch: {
+    selectedContract(newValue) {
+      this.setContractDates(newValue);
+    }
+  },
   created() {
+    this.setContractDates(this.selectedContract);
+
     const clockedShift = this.$store.state.shift.clockedShift;
     if (!clockedShift || clockedShift.start === null) return;
 
@@ -138,6 +141,12 @@ export default {
         : clockedShift.start;
   },
   methods: {
+    setContractDates(contract) {
+      this.contractDates = {
+        start: parseISO(contract.date.start),
+        end: parseISO(contract.date.end)
+      };
+    },
     buttonClass(hover) {
       return hover ? "primary darken-1" : "primary";
     },
