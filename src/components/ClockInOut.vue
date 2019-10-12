@@ -171,9 +171,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.word-break {
-  word-break: break-word;
-}
-</style>
