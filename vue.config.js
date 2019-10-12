@@ -1,6 +1,7 @@
 const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 
 module.exports = {
+  transpileDependencies: ["vuetify"],
   productionSourceMap: true,
   configureWebpack: config => {
     if (
