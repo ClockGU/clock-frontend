@@ -73,8 +73,8 @@ export class Shift {
     return differenceInMinutes(this.end, this.start);
   }
 
-  get representationalDuration() {
-    return minutesToHHMM(this.duration);
+  representationalDuration(format = "") {
+    return minutesToHHMM(this.duration, format);
   }
 
   setToday() {
