@@ -25,6 +25,21 @@
           </v-row>
         </v-card-text>
 
+        <v-list>
+          <v-subheader>Overflowing shift</v-subheader>
+          <v-list-item two-line>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ shift.representationalDuration("hm") }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{ shift.start | formatDate }} -
+                {{ shift.end | formatDate }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+
         <v-list v-if="newShifts">
           <v-subheader>New shifts</v-subheader>
           <v-list-item
@@ -98,7 +113,7 @@ export default {
     timezone: "Europe/Berlin",
     selected: "both",
     options: [
-      { text: "Keep both shifts, but split across days", value: "both" },
+      { text: "Keep both shifts and split across days", value: "both" },
       { text: "Keep first", value: "first" },
       { text: "Keep second", value: "second" },
       { text: "Discard both", value: "none" }
