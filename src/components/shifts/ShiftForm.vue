@@ -271,6 +271,11 @@ export default {
       return this.uuid === null ? "Save" : "Update";
     }
   },
+  watch: {
+    "shift.contract": function() {
+      this.setStartDate();
+    }
+  },
   created() {
     this.shift = this.uuid === null ? this.initialData : this.entity;
 
@@ -290,6 +295,15 @@ export default {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
       const now = Date.now();
+
+      // Do nothing if current date is inside the
+      // selected contract
+      if (
+        isBefore(new Date(contractStart), this.shift.date.start) &&
+        isAfter(new Date(contractEnd), this.shift.date.end)
+      ) {
+        return;
+      }
 
       // Always set Date.now(), if today is inbetween the
       // start and end date of a contract.
