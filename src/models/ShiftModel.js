@@ -105,6 +105,7 @@ export class Shift {
       tags: this.tags,
       type: this.type.value,
       note: this.note,
+      uuid: this.uuid,
       started: format(this.start, "yyyy-MM-dd HH:mm:ssXXX"),
       stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
       duration: this.representationalDuration,

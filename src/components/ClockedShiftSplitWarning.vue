@@ -1,99 +1,97 @@
 <template>
-  <!-- <portal to="dialog"> -->
-  <TheDialog :max-width="400">
-    <template v-slot:content>
-      <v-card>
-        <v-card-title class="headline word-break">
-          Shift overflow
-        </v-card-title>
-        <v-card-text>
-          <p>
-            A shift must end on the same day it started. Therefore, we will need
-            to split your shift. Make a decision on what to do.
-          </p>
+  <v-card>
+    <v-card-title class="headline word-break">
+      Shift overflow
+    </v-card-title>
+    <v-card-text>
+      <p>
+        A shift must end on the same day it started. Therefore, we will need to
+        split your shift. Make a decision on what to do.
+      </p>
 
-          <v-row>
-            <v-col sm="12" class="pb-0">
-              <v-select
-                v-model="selected"
-                :items="options"
-                label="Select an action"
-                hide-details
-                outlined
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-card-text>
+      <v-row align="stretch">
+        <v-col sm="10" class="pb-0">
+          <v-select
+            v-model="selected"
+            :items="options"
+            label="Select an action"
+            hide-details
+            outlined
+            :disabled="!persistPseudoShiftToVuex"
+            @change="setPseudoShifts"
+          ></v-select>
+        </v-col>
+        <v-col sm="2">
+          <v-btn text x-large @click="setPseudoShifts">Reset</v-btn>
+        </v-col>
+      </v-row>
+    </v-card-text>
 
-        <v-list>
-          <v-subheader>Overflowing shift</v-subheader>
-          <v-list-item two-line>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ shift.representationalDuration("hm") }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ shift.start | formatDate }} -
-                {{ shift.end | formatDate }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+    <v-list>
+      <v-subheader>Overflowing shift</v-subheader>
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ shift.representationalDuration("hm") }}
+          </v-list-item-title>
 
-        <v-list v-if="newShifts">
-          <v-subheader>New shifts</v-subheader>
-          <v-list-item
-            v-for="newShift in newShifts"
-            :key="newShift.uuid"
-            two-line
-          >
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ newShift.representationalDuration("hm") }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ newShift.start | formatDate }} -
-                {{ newShift.end | formatDate }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+          <v-list-item-subtitle>
+            {{ shift.start | formatDate }} -
+            {{ shift.end | formatDate }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
 
-        <v-list v-else>
-          <v-subheader>Discarding both shifts</v-subheader>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>
-                We will delete both shifts.
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+    <v-list v-if="shifts">
+      <v-subheader>New shifts</v-subheader>
+      <v-list-item
+        v-for="newShift in shifts"
+        :key="newShift.uuid"
+        two-line
+        @click="goTo(newShift)"
+      >
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ newShift.representationalDuration("hm") }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{ newShift.start | formatDate }} -
+            {{ newShift.end | formatDate }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
 
-        <v-card-actions>
-          <v-btn :disabled="!selected" text color="primary" @click="submit">
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </template>
-  </TheDialog>
-  <!-- </portal> -->
+    <v-list v-else>
+      <v-subheader>Discarding both shifts</v-subheader>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>
+            We will delete both shifts.
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+
+    <v-card-actions>
+      <v-btn :disabled="!selected" text color="primary" @click="submit">
+        Continue
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
-
 import { Shift } from "@/models/ShiftModel";
-
-import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
+import uuid from "uuid/v4";
+import { endOfDay, startOfDay } from "date-fns";
 const { utcToZonedTime, format } = require("date-fns-tz");
+
+import equals from "ramda/src/equals";
 
 export default {
   name: "ClockedShiftSplitWarning",
-  components: {
-    TheDialog
-  },
   filters: {
     formatDate(date) {
       return format(date, "yyyy-MM-dd HH':'mm");
@@ -106,6 +104,10 @@ export default {
     },
     shift: {
       type: Object,
+      required: true
+    },
+    pseudoShifts: {
+      type: Array,
       required: true
     }
   },
@@ -120,15 +122,50 @@ export default {
     ]
   }),
   computed: {
+    shifts() {
+      if (this.persistPseudoShiftToVuex) return this.newShifts;
+
+      return this.pseudoShifts.map(shift => new Shift(shift));
+    },
     newShifts() {
       if (this.selected == "both") return this.splitShifts();
       if (this.selected == "first") return this.firstShift();
       if (this.selected == "second") return this.lastShift();
 
       return null;
+    },
+    persistPseudoShiftToVuex() {
+      const pseudoShifts = this.pseudoShifts.map(shift => {
+        const item = new Shift(shift).toPayload();
+        return { ...item, uuid: null };
+      });
+      const newShifts = this.newShifts.map(shift => {
+        const item = new Shift(shift).toPayload();
+        return { ...item, uuid: null };
+      });
+
+      if (this.pseudoShifts.length == 0) return true;
+
+      return equals(pseudoShifts, newShifts);
     }
   },
+  created() {
+    if (this.persistPseudoShiftToVuex) this.setPseudoShifts();
+  },
   methods: {
+    setPseudoShifts() {
+      this.$emit("pseudoShifts", this.newShifts);
+    },
+    goTo(shift) {
+      this.$router.push({
+        name: "editPseudoShift",
+        params: {
+          uuid: shift.uuid,
+          pseudo: true,
+          routerPush: { name: "reviewShifts" }
+        }
+      });
+    },
     toggleShortShift(callback) {
       callback();
       this.dialog = false;
@@ -141,6 +178,7 @@ export default {
       start = utcToZonedTime(start, this.timezone);
       const shift = new Shift({
         ...this.shift,
+        uuid: uuid(),
         date: { start: start, end: endOfDay(start) }
       });
 
@@ -151,6 +189,7 @@ export default {
       end = utcToZonedTime(end, this.timezone);
       const shift = new Shift({
         ...this.shift,
+        uuid: uuid(),
         date: { start: startOfDay(end), end: end }
       });
 
