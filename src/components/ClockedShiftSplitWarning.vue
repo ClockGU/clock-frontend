@@ -200,7 +200,7 @@ export default {
     }
   },
   created() {
-    if (this.persistPseudoShiftToVuex) this.setPseudoShifts();
+    if (!this.persistPseudoShiftToVuex) this.setPseudoShifts();
   },
   methods: {
     deleteShift(shift) {
