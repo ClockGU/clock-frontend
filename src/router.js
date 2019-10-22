@@ -11,7 +11,6 @@ import ViewContractList from "@/views/ViewContractList";
 import ViewClockInOut from "@/views/ViewClockInOut";
 import ViewChangePassword from "@/views/ViewChangePassword";
 import ViewHelp from "@/views/ViewHelp";
-import ViewReviewShifts from "@/views/ViewReviewShifts";
 import store from "@/store";
 import getUserData from "@/middlewares/user";
 import queryData from "@/middlewares/query";
@@ -174,25 +173,6 @@ const router = new Router({
         public: true,
         breadcrumb: null
       }
-    },
-    {
-      path: "/review/shifts",
-      name: "reviewShifts",
-      component: ViewReviewShifts,
-      meta: {
-        public: true,
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/review/shifts/:uuid/edit",
-      name: "editPseudoShift",
-      component: ViewShiftForm,
-      props: true,
-      meta: {
-        public: true,
-        breadcrumb: null
-      },
     }
   ]
 });

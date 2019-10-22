@@ -31,14 +31,6 @@ export default {
     uuid: {
       type: String,
       default: null
-    },
-    pseudo: {
-      type: Boolean,
-      default: false
-    },
-    routerPush: {
-      type: Object,
-      default: () => ({ name: "c" })
     }
   },
   data() {
@@ -50,19 +42,11 @@ export default {
   async created() {
     const shifts = this.$store.state.shift.shifts;
 
-    let entity;
-    if (this.pseudo) {
-      entity = this.$store.state.shift.pseudoShifts.find(
-        shift => shift.uuid === this.uuid
-      );
-      this.query = this.updatePseudoShift;
-    } else {
-      entity = shifts.find(shift => shift.uuid === this.uuid);
-      this.endpoint = data =>
-        this.uuid === null
-          ? ShiftService.create(data.toPayload())
-          : ShiftService.update(data.toPayload(), this.uuid);
-    }
+    const entity = shifts.find(shift => shift.uuid === this.uuid);
+    this.endpoint = data =>
+      this.uuid === null
+        ? ShiftService.create(data.toPayload())
+        : ShiftService.update(data.toPayload(), this.uuid);
 
     if (entity !== undefined) {
       this.entity = new Shift(entity);
@@ -74,14 +58,11 @@ export default {
     }
   },
   methods: {
-    updatePseudoShift(shift) {
-      this.$store.dispatch("shift/updatePseudoShift", shift);
-    },
     redirect({ data }) {
       return new Promise((resolve, reject) => {
         data
           .then(() => {
-            this.$router.push({ name: "reviewShifts" });
+            this.$router.push({ name: "c" });
 
             resolve();
           })
