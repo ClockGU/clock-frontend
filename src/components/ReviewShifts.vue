@@ -26,6 +26,7 @@
             :pseudo-shifts="pseudoShifts"
             @close="close"
             @editShift="editShift"
+            @pseudoShifts="setPseudoShifts"
           />
 
           <ClockedShiftShortWarning
@@ -128,6 +129,9 @@ export default {
 
       this.formDialog = false;
       this.entity = null;
+    },
+    setPseudoShifts(shifts) {
+      this.$store.dispatch("shift/setPseudoShifts", shifts);
     },
     close() {
       this.$emit("close");

@@ -54,12 +54,7 @@
 
     <v-list v-if="shifts">
       <v-subheader>New shifts</v-subheader>
-      <v-list-item
-        v-for="newShift in shifts"
-        :key="newShift.uuid"
-        two-line
-        @click="editShift(newShift)"
-      >
+      <v-list-item v-for="newShift in shifts" :key="newShift.uuid" two-line>
         <v-list-item-content>
           <v-list-item-title>
             {{ newShift.representationalDuration("hm") }}
@@ -69,6 +64,27 @@
             {{ newShift.end | formatDate }}
           </v-list-item-subtitle>
         </v-list-item-content>
+
+        <v-list-item-action>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on">
+                <v-icon color="grey lighten-1">
+                  {{ icons.mdiDotsVertical }}
+                </v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item @click="editShift(newShift)">
+                <v-list-item-title>Edit</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="deleteShift(newShift)">
+                <v-list-item-title>Delete</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
 
@@ -94,10 +110,12 @@
 <script>
 import { Shift } from "@/models/ShiftModel";
 import uuid from "uuid/v4";
-import { endOfDay, startOfDay } from "date-fns";
+import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
 const { utcToZonedTime, format } = require("date-fns-tz");
 
 import ShiftService from "@/services/shift.service";
+
+import { mdiDotsHorizontal, mdiDotsVertical } from "@mdi/js";
 
 import equals from "ramda/src/equals";
 
@@ -123,6 +141,7 @@ export default {
     }
   },
   data: () => ({
+    icons: { mdiDotsHorizontal, mdiDotsVertical },
     timezone: "Europe/Berlin",
     selected: "both",
     options: [
@@ -133,6 +152,15 @@ export default {
     ]
   }),
   computed: {
+    separateDays() {
+      const { start, end } = this.shift.date;
+      const days = eachDayOfInterval({
+        start: start,
+        end: end
+      });
+
+      return days;
+    },
     shifts() {
       if (this.persistPseudoShiftToVuex) return this.newShifts;
 
@@ -160,10 +188,24 @@ export default {
       return equals(pseudoShifts, newShifts);
     }
   },
+  watch: {
+    pseudoShifts: function(newValue) {
+      // Reset pseudo shifts, if we have deleted all manually.
+      if (newValue.length < 1) {
+        this.setPseudoShifts();
+      }
+    }
+  },
   created() {
     if (this.persistPseudoShiftToVuex) this.setPseudoShifts();
   },
   methods: {
+    deleteShift(shift) {
+      const filteredShifts = this.pseudoShifts.filter(
+        newShift => newShift.uuid !== shift.uuid
+      );
+      this.$emit("pseudoShifts", filteredShifts);
+    },
     setPseudoShifts() {
       this.$emit("pseudoShifts", this.newShifts);
     },
@@ -202,7 +244,26 @@ export default {
       return [shift];
     },
     splitShifts() {
-      return [...this.firstShift(), ...this.lastShift()];
+      if (this.separateDays.length == 2) {
+        return [...this.firstShift(), ...this.lastShift()];
+      }
+
+      const middleShifts = this.separateDays.slice(
+        1,
+        this.separateDays.length - 1
+      );
+      const newShifts = middleShifts.map(date => {
+        return new Shift({
+          ...this.shift,
+          uuid: uuid(),
+          date: {
+            start: startOfDay(date),
+            end: endOfDay(date)
+          }
+        });
+      });
+
+      return [...this.firstShift(), ...newShifts, ...this.lastShift()];
     }
   }
 };
