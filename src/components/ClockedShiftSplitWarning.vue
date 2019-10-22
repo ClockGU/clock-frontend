@@ -103,6 +103,9 @@
       <v-btn :disabled="!selected" text color="primary" @click="submit">
         Continue
       </v-btn>
+      <v-btn :disabled="!selected" text @click="reset">
+        Discard
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -220,6 +223,10 @@ export default {
       this.shifts.map(shift => ShiftService.create(shift.toPayload()));
       this.$emit("close");
       this.callbacks.reset();
+    },
+    reset() {
+      this.callbacks.reset();
+      this.$emit("close");
     },
     firstShift() {
       let { start } = this.shift.date;
