@@ -22,7 +22,14 @@
           ></v-select>
         </v-col>
         <v-col sm="2">
-          <v-btn text x-large @click="setPseudoShifts">Reset</v-btn>
+          <v-btn
+            text
+            x-large
+            :disabled="persistPseudoShiftToVuex"
+            @click="setPseudoShifts"
+          >
+            Reset
+          </v-btn>
         </v-col>
       </v-row>
     </v-card-text>
@@ -43,13 +50,15 @@
       </v-list-item>
     </v-list>
 
+    <v-divider></v-divider>
+
     <v-list v-if="shifts">
       <v-subheader>New shifts</v-subheader>
       <v-list-item
         v-for="newShift in shifts"
         :key="newShift.uuid"
         two-line
-        @click="goTo(newShift)"
+        @click="editShift(newShift)"
       >
         <v-list-item-content>
           <v-list-item-title>
@@ -87,6 +96,8 @@ import { Shift } from "@/models/ShiftModel";
 import uuid from "uuid/v4";
 import { endOfDay, startOfDay } from "date-fns";
 const { utcToZonedTime, format } = require("date-fns-tz");
+
+import ShiftService from "@/services/shift.service";
 
 import equals from "ramda/src/equals";
 
@@ -156,22 +167,17 @@ export default {
     setPseudoShifts() {
       this.$emit("pseudoShifts", this.newShifts);
     },
-    goTo(shift) {
-      this.$router.push({
-        name: "editPseudoShift",
-        params: {
-          uuid: shift.uuid,
-          pseudo: true,
-          routerPush: { name: "reviewShifts" }
-        }
-      });
+    editShift(shift) {
+      this.$emit("editShift", shift);
     },
     toggleShortShift(callback) {
       callback();
       this.dialog = false;
     },
     submit() {
-      console.log(this.newShifts);
+      this.shifts.map(shift => ShiftService.create(shift.toPayload()));
+      this.$emit("close");
+      this.callbacks.reset();
     },
     firstShift() {
       let { start } = this.shift.date;

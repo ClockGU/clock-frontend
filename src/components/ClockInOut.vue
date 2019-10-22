@@ -47,14 +47,7 @@
           <ReviewShifts
             :shift="data"
             :callbacks="callbacks"
-            @close="
-              closeReview({
-                actions: {
-                  ...$event.actions,
-                  unpause: unpause
-                }
-              })
-            "
+            @close="closeReview()"
           />
         </portal>
       </div>
@@ -140,10 +133,8 @@ export default {
     buttonClass(hover) {
       return hover ? "primary darken-1" : "primary";
     },
-    closeReview(event) {
+    closeReview() {
       this.needsReview = false;
-
-      console.log(event);
     },
     toggle(start, stop, pause, unpause, reset, duration, data) {
       if (duration === 0) {
@@ -163,6 +154,8 @@ export default {
 
         if (days.length > 1) {
           this.needsReview = true;
+
+          this.callbacks = { reset: reset };
           return;
         }
 

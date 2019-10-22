@@ -24,7 +24,8 @@
             :shift="shiftToBeReviewed"
             :callbacks="callbacks"
             :pseudo-shifts="pseudoShifts"
-            @pseudoShifts="setPseudoShifts"
+            @close="close"
+            @editShift="editShift"
           />
 
           <ClockedShiftShortWarning
@@ -36,8 +37,12 @@
       </template>
     </TheDialog>
 
-    <v-dialog v-if="formDialog">
-      <ShiftForm :query="query" :uuid="uuid" :entity="entity" />
+    <v-dialog v-if="entity" v-model="formDialog">
+      <v-card>
+        <v-container>
+          <ShiftForm :query="query" :uuid="entity.uuid" :entity="entity" />
+        </v-container>
+      </v-card>
     </v-dialog>
   </v-container>
 </template>
@@ -72,10 +77,6 @@ export default {
     shift: {
       type: Object,
       required: true
-    },
-    uuid: {
-      type: String,
-      default: null
     }
   },
   data() {
@@ -107,43 +108,29 @@ export default {
       });
 
       return days;
-      // if (days.length > 1) {
-      //   this.$emit("handleShift", {
-      //     type: "overflow",
-      //     actions: { stop, pause, reset, data }
-      //   });
-
-      //   stop({ submit: false });
-      //   return;
-      // }
     }
   },
   created() {
-    if (this.separateDays > 1) {
+    if (this.separateDays.length > 1) {
       this.problem = "overflow";
-
-      const entity = this.$store.state.shift.pseudoShifts.find(
-        shift => shift.uuid === this.uuid
-      );
       this.query = this.updatePseudoShift;
-
-      if (entity !== undefined) {
-        this.entity = new Shift(entity);
-      }
     } else {
       this.problem = "short";
     }
   },
   methods: {
+    editShift(shift) {
+      this.entity = shift;
+      this.formDialog = true;
+    },
     updatePseudoShift(shift) {
       this.$store.dispatch("shift/updatePseudoShift", shift);
-      this.$router.go(-1);
+
+      this.formDialog = false;
+      this.entity = null;
     },
     close() {
-      this.$emit("close", { actions: { test: "asd" } });
-    },
-    setPseudoShifts(shifts) {
-      this.$store.dispatch("shift/setPseudoShifts", shifts);
+      this.$emit("close");
     }
   },
   beforeRouteEnter(to, from, next) {
