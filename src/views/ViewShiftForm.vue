@@ -78,7 +78,6 @@ export default {
       this.$store.dispatch("shift/updatePseudoShift", shift);
     },
     redirect({ data }) {
-      console.log(data);
       return new Promise((resolve, reject) => {
         data
           .then(() => {
