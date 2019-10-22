@@ -1,19 +1,14 @@
 import { getField, updateField } from "vuex-map-fields";
 import ShiftService from "@/services/shift.service";
 
-import { Shift } from "@/models/ShiftModel";
-
 const state = {
   shifts: [],
   clockedShift: null,
-  stagedShift: new Shift({
-    type: { text: "shift", value: "st" },
-    contract: "4e2dd4dd-79b2-4099-a4c2-c6f33e2b793e",
-    date: {
-      start: new Date(2019, 9, 7, 15),
-      end: new Date(2019, 9, 8, 10)
-    }
-  }),
+  // clockedShift: {
+  //   start: new Date("Sun Oct 20 2019 11:09:32 GMT+0200"),
+  //   contract: "4e2dd4dd-79b2-4099-a4c2-c6f33e2b793e"
+  // },
+  stagedShift: null,
   pseudoShifts: []
 };
 
@@ -63,6 +58,9 @@ const mutations = {
   },
   setPseudoShifts(state, payload) {
     state.pseudoShifts = payload;
+  },
+  stageShift(state, payload) {
+    state.stagedShift = payload;
   }
 };
 
@@ -93,6 +91,9 @@ const actions = {
   },
   setPseudoShifts({ commit }, payload) {
     commit("setPseudoShifts", payload);
+  },
+  stageShift({ commit }, payload) {
+    commit("stageShift", payload);
   },
   async queryShifts({ commit }) {
     const shifts = await ShiftService.list();
