@@ -1,104 +1,84 @@
 <template>
   <ClockModel :start-date="startDate">
     <template v-slot="{ start, stop, reset, data, pause, unpause, duration }">
-      <v-col cols="8">
-        <v-row>
-          <v-col sm="4">
-            <v-hover>
-              <v-btn
-                slot-scope="{ hover }"
-                outlined
-                text
-                width="150"
-                :disabled="disabled"
-                @click="toggle(start, stop, pause, duration)"
-              >
-                <v-slide-y-transition hide-on-leave>
-                  <span v-if="!data.start">Clock in</span>
-                </v-slide-y-transition>
-                <v-slide-y-transition hide-on-leave>
-                  <span
-                    v-if="data.start && (!hover || clockInTimeout) && !dialog"
-                  >
-                    {{ duration | toTime }}
-                  </span>
-                </v-slide-y-transition>
-                <v-slide-y-transition hide-on-leave>
-                  <span
-                    v-if="(hover && data.start && !clockInTimeout) || dialog"
-                  >
-                    Clock out
-                  </span>
-                </v-slide-y-transition>
-              </v-btn>
-            </v-hover>
-          </v-col>
+      <div>
+        <v-col cols="10">
+          <v-row>
+            <v-col xs="10">
+              <v-hover>
+                <v-btn
+                  slot-scope="{ hover }"
+                  outlined
+                  text
+                  width="150"
+                  :disabled="disabled"
+                  @click="
+                    toggle(start, stop, pause, unpause, reset, duration, data)
+                  "
+                >
+                  <v-slide-y-transition hide-on-leave>
+                    <span v-if="!data.start">Clock in</span>
+                  </v-slide-y-transition>
+                  <v-slide-y-transition hide-on-leave>
+                    <span
+                      v-if="
+                        data.start && (!hover || clockInTimeout) && !needsReview
+                      "
+                    >
+                      {{ duration | toTime }}
+                    </span>
+                  </v-slide-y-transition>
+                  <v-slide-y-transition hide-on-leave>
+                    <span
+                      v-if="
+                        (hover && data.start && !clockInTimeout) || needsReview
+                      "
+                    >
+                      Clock out
+                    </span>
+                  </v-slide-y-transition>
+                </v-btn>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </v-col>
 
-          <portal to="dialog">
-            <TheDialog v-if="dialog" :max-width="400">
-              <template v-slot:content>
-                <v-card>
-                  <v-card-title class="headline word-break">
-                    This shift looks very short.
-                  </v-card-title>
-                  <v-card-text>
-                    Do you want to save this shift or continue working? We can
-                    also forget about it completely.
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-row>
-                      <v-col sm="12">
-                        <v-btn
-                          color="primary"
-                          text
-                          @click="toggleShortShift(stop)"
-                        >
-                          Finish and save shift
-                        </v-btn>
-                      </v-col>
-                      <v-col sm="12">
-                        <v-btn text @click="toggleShortShift(unpause)">
-                          Continue working
-                        </v-btn>
-                      </v-col>
-                      <v-col sm="12">
-                        <v-btn
-                          color="error"
-                          text
-                          @click="toggleShortShift(reset)"
-                          >Discard shift</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                  </v-card-actions>
-                </v-card>
-              </template>
-            </TheDialog>
-          </portal>
-        </v-row>
-      </v-col>
+        <portal v-if="needsReview" to="dialog">
+          <ReviewShifts
+            :shift="data"
+            :callbacks="callbacks"
+            @close="
+              closeReview({
+                actions: {
+                  ...$event.actions,
+                  unpause: unpause
+                }
+              })
+            "
+          />
+        </portal>
+      </div>
     </template>
   </ClockModel>
 </template>
 
 <script>
 import ClockModel from "@/components/ClockModel";
-import TheDialog from "@/components/TheDialog";
+import ReviewShifts from "@/components/ReviewShifts";
 
 import {
   addSeconds,
   areIntervalsOverlapping,
+  eachDayOfInterval,
   format,
   parseISO
 } from "date-fns";
 import { setTimeout } from "timers";
 
-import { mapState } from "vuex";
-
 export default {
   components: {
     ClockModel,
-    TheDialog
+    ReviewShifts
   },
   filters: {
     toTime(seconds) {
@@ -106,16 +86,27 @@ export default {
       return format(date, "HH'h'mm'm'ss's'");
     }
   },
+  props: {
+    selectedContract: {
+      type: Object,
+      required: true
+    },
+    clockedShift: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
-      dialog: false,
       clockInTimeout: false,
       startDate: null,
-      contractDates: null
+      contractDates: null,
+      dialog: false,
+      needsReview: false,
+      callbacks: null
     };
   },
   computed: {
-    ...mapState(["selectedContract"]),
     disabled() {
       // Return false if todays date does not overlap with the contract.
       return !areIntervalsOverlapping(
@@ -132,13 +123,12 @@ export default {
   created() {
     this.setContractDates(this.selectedContract);
 
-    const clockedShift = this.$store.state.shift.clockedShift;
-    if (!clockedShift || clockedShift.start === null) return;
+    if (!this.clockedShift || this.clockedShift.start === null) return;
 
     this.startDate =
-      typeof clockedShift.start === "string"
-        ? parseISO(clockedShift.start)
-        : clockedShift.start;
+      typeof this.clockedShift.start === "string"
+        ? parseISO(this.clockedShift.start)
+        : this.clockedShift.start;
   },
   methods: {
     setContractDates(contract) {
@@ -150,22 +140,34 @@ export default {
     buttonClass(hover) {
       return hover ? "primary darken-1" : "primary";
     },
-    toggleShortShift(callback) {
-      callback();
-      this.dialog = false;
+    closeReview(event) {
+      this.needsReview = false;
+
+      console.log(event);
     },
-    toggle(start, stop, pause, duration) {
+    toggle(start, stop, pause, unpause, reset, duration, data) {
       if (duration === 0) {
-        start(new Date(), this.$store.state.selectedContract.uuid);
+        start(new Date(), this.selectedContract.uuid);
         this.clockInTimeout = true;
         setTimeout(() => {
           this.clockInTimeout = false;
         }, 5000);
       } else if (duration < 600) {
         this.dialog = true;
+
+        this.needsReview = true;
         pause();
+        this.callbacks = { stop: stop, unpause: unpause, reset: reset };
       } else {
+        const days = eachDayOfInterval({ start: data.start, end: new Date() });
+
+        if (days.length > 1) {
+          this.needsReview = true;
+          return;
+        }
+
         stop();
+        this.callbacks = null;
       }
     }
   }
