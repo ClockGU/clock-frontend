@@ -103,9 +103,32 @@
       <v-btn :disabled="!selected" text color="primary" @click="submit">
         Continue
       </v-btn>
-      <v-btn :disabled="!selected" text @click="reset">
-        Discard
-      </v-btn>
+      <v-dialog v-model="dialogReset" max-width="350">
+        <template v-slot:activator="{ on }">
+          <v-btn :disabled="!selected" text v-on="on">
+            Discard
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-title class="headline" primary-title>
+            Discard shift
+          </v-card-title>
+
+          <v-card-text>
+            Do really want to discard the shift? This action is permanent.
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn color="error" text @click="reset">Confirm</v-btn>
+            <v-btn text @click="dialogReset = false">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-card-actions>
   </v-card>
 </template>
@@ -152,7 +175,8 @@ export default {
       { text: "Keep first", value: "first" },
       { text: "Keep second", value: "second" },
       { text: "Discard both", value: "none" }
-    ]
+    ],
+    dialogReset: false
   }),
   computed: {
     separateDays() {
