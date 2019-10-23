@@ -50,9 +50,12 @@
       <!-- <portal-target name="toolbar"></portal-target> -->
       <template v-if="showSelectContractButton">
         <v-btn text :to="{ path: '/select/' }" exact>
-          {{ selectedContract }}
+          {{ selectedContract.name }}
         </v-btn>
-        <ClockInOut />
+        <ClockInOut
+          :selected-contract="selectedContract"
+          :clocked-shift="clockedShift"
+        />
       </template>
     </v-app-bar>
 
@@ -87,7 +90,6 @@ import TheDialog from "@/components/TheDialog";
 import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
 import ClockInOut from "@/components/ClockInOut";
-
 import { mapGetters } from "vuex";
 
 import {
@@ -146,9 +148,13 @@ export default {
     showSelectContractButton() {
       return this.$store.state.selectedContract !== null;
     },
+    clockedShift() {
+      return this.$store.state.shift.clockedShift;
+    },
     selectedContract() {
       if (this.$store.state.selectedContract === null) return;
-      return this.$store.state.selectedContract.name;
+
+      return this.$store.state.selectedContract;
     },
     name() {
       return this.$store.state.user.first_name;

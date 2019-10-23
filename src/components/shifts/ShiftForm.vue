@@ -1,130 +1,120 @@
 <template>
-  <v-container fluid>
-    <FrameApi
-      v-slot="{ methods: { query }, status: { error, loading } }"
-      :endpoint="endpoint"
-      @success="redirect"
-    >
-      <v-form>
-        <v-row>
-          <v-col>
-            <h1>
-              {{ title }}
-            </h1>
-          </v-col>
-        </v-row>
+  <v-form>
+    <v-row>
+      <v-col>
+        <h1>
+          {{ title }}
+        </h1>
+      </v-col>
+    </v-row>
 
-        <v-row dense>
-          <v-col sm="12">
-            <v-card min-width="330">
-              <v-row>
-                <v-col cols="12" sm="12" md="7">
-                  <v-subheader>Select shift date</v-subheader>
-                  <v-card-text class="pt-0">
-                    <v-row justify="center">
-                      <ShiftFormDateInlineInput
-                        v-model="shift"
-                        :min="contract.date.start"
-                        :max="contract.date.end"
-                      />
-                    </v-row>
-                  </v-card-text>
-                </v-col>
-                <v-col cols="12" sm="12" md="5">
-                  <v-subheader
-                    >What time did you start and end your shift?</v-subheader
-                  >
-                  <v-card-text>
-                    <ShiftFormTimeInput
-                      v-model="shift"
-                      :errors="startTimeErrors"
-                      label="Start time"
-                      type="start"
-                      @update="
-                        $v.shift.date.start.$touch() ||
-                          $v.shift.date.end.$touch()
-                      "
-                    />
-                  </v-card-text>
-                  <v-card-text>
-                    <ShiftFormTimeInput
-                      v-model="shift"
-                      :errors="endTimeErrors"
-                      label="End time"
-                      type="end"
-                      @update="
-                        $v.shift.date.end.$touch() ||
-                          $v.shift.date.start.$touch()
-                      "
-                    />
-                  </v-card-text>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-col>
+    <v-row dense>
+      <v-col sm="12">
+        <v-card min-width="330">
+          <v-row>
+            <v-col cols="12" sm="12" md="7">
+              <v-subheader>Select shift date</v-subheader>
+              <v-card-text class="pt-0">
+                <v-row justify="center">
+                  <ShiftFormDateInlineInput
+                    v-model="shift"
+                    :min="contract.date.start"
+                    :max="contract.date.end"
+                  />
+                </v-row>
+              </v-card-text>
+            </v-col>
+            <v-col cols="12" sm="12" md="5">
+              <v-subheader
+                >What time did you start and end your shift?</v-subheader
+              >
+              <v-card-text>
+                <ShiftFormTimeInput
+                  v-model="shift"
+                  :errors="startTimeErrors"
+                  label="Start time"
+                  type="start"
+                  @update="
+                    $v.shift.date.start.$touch() || $v.shift.date.end.$touch()
+                  "
+                />
+              </v-card-text>
+              <v-card-text>
+                <ShiftFormTimeInput
+                  v-model="shift"
+                  :errors="endTimeErrors"
+                  label="End time"
+                  type="end"
+                  @update="
+                    $v.shift.date.end.$touch() || $v.shift.date.start.$touch()
+                  "
+                />
+              </v-card-text>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
 
-          <v-col cols="12" sm="12">
-            <v-card>
+      <v-col cols="12" sm="12">
+        <v-card>
+          <v-row>
+            <v-col>
+              <v-subheader>
+                Additional information
+              </v-subheader>
+              <v-card-text>
+                <ShiftFormSelect v-model="shift.type" />
+                <ShiftFormTags v-model="shift.tags" />
+                <ShiftFormInput v-model="shift.note" />
+              </v-card-text>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" sm="12">
+        <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              Advanced settings
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
               <v-row>
                 <v-col>
                   <v-subheader>
-                    Additional information
+                    Change contract
                   </v-subheader>
-                  <v-card-text>
-                    <ShiftFormSelect v-model="shift.type" />
-                    <ShiftFormTags v-model="shift.tags" />
-                    <ShiftFormInput v-model="shift.note" />
-                  </v-card-text>
+
+                  <v-select
+                    v-model="shift.contract"
+                    :items="contracts"
+                    item-text="name"
+                    item-value="uuid"
+                    label="Select a contract"
+                    outlined
+                  ></v-select>
                 </v-col>
               </v-row>
-            </v-card>
-          </v-col>
-
-          <v-col cols="12" sm="12">
-            <v-expansion-panels>
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Advanced settings
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-row>
-                    <v-col>
-                      <v-subheader>
-                        Change contract
-                      </v-subheader>
-
-                      <v-select
-                        v-model="shift.contract"
-                        :items="contracts"
-                        item-text="name"
-                        item-value="uuid"
-                        label="Select a contract"
-                        outlined
-                      ></v-select>
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col>
-          <v-col>
-            <v-card>
-              <v-card-actions>
-                <v-btn
-                  text
-                  :disabled="!valid"
-                  color="primary"
-                  @click="submit(query, shift)"
-                >
-                  {{ saveLabel }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-form>
-    </FrameApi>
-  </v-container>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+      <v-col>
+        <v-card>
+          <v-card-actions>
+            <v-btn
+              text
+              :disabled="!valid"
+              color="primary"
+              @click="submit(query, shift)"
+            >
+              {{ saveLabel }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-form>
 </template>
 
 <script>
@@ -133,7 +123,6 @@ import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
 import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
-import FrameApi from "@/components/FrameApi";
 
 import ShiftService from "@/services/shift.service";
 
@@ -154,7 +143,6 @@ const endAfterStart = (value, vm) => isAfter(value, vm.start);
 export default {
   name: "ShiftForm",
   components: {
-    FrameApi,
     ShiftFormDateInlineInput,
     ShiftFormTimeInput,
     ShiftFormInput,
@@ -186,6 +174,10 @@ export default {
     entity: {
       type: Object,
       default: null
+    },
+    query: {
+      type: Function,
+      required: true
     }
   },
   data: () => ({
@@ -271,25 +263,32 @@ export default {
       return this.uuid === null ? "Save" : "Update";
     }
   },
+  watch: {
+    "shift.contract": function() {
+      this.setStartDate();
+    }
+  },
   created() {
     this.shift = this.uuid === null ? this.initialData : this.entity;
 
     if (!this.shift.contract) {
       this.shift.contract = this.$store.state.selectedContract.uuid;
     }
-
-    this.setStartDate();
-
-    this.endpoint = data =>
-      this.uuid === null
-        ? ShiftService.create(data)
-        : ShiftService.update(data, this.uuid);
   },
   methods: {
     setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
       const now = Date.now();
+
+      // Do nothing if current date is inside the
+      // selected contract
+      if (
+        isBefore(new Date(contractStart), this.shift.date.start) &&
+        isAfter(new Date(contractEnd), this.shift.date.end)
+      ) {
+        return;
+      }
 
       // Always set Date.now(), if today is inbetween the
       // start and end date of a contract.
@@ -312,21 +311,7 @@ export default {
       this.stepper -= 1;
     },
     async submit(callback, shift) {
-      const payload = shift.toPayload();
-      await callback(payload);
-    },
-    redirect({ data }) {
-      return new Promise((resolve, reject) => {
-        data
-          .then(() => {
-            this.$router.push({ name: "c" });
-
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+      await callback(shift);
     },
     async destroy() {
       if (this.uuid === null) return;

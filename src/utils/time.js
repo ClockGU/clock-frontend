@@ -10,7 +10,7 @@ export function minutesToHHMM(min, format) {
   const hours = Math.floor(min / 60).pad(2);
   const minutes = (min % 60).pad(2);
 
-  return format === "hm" ? `${hours}h${minutes}m` : `${hours}:${minutes}`;
+  return format === "hm" ? `${hours}h ${minutes}m` : `${hours}:${minutes}`;
 }
 
 export function startEndHours(date) {

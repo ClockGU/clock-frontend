@@ -3,11 +3,23 @@ import ShiftService from "@/services/shift.service";
 
 const state = {
   shifts: [],
-  clockedShift: null
+  clockedShift: null,
+  // clockedShift: {
+  //   start: new Date("Sun Oct 20 2019 11:09:32 GMT+0200"),
+  //   contract: "4e2dd4dd-79b2-4099-a4c2-c6f33e2b793e"
+  // },
+  stagedShift: null,
+  pseudoShifts: []
 };
 
 const getters = {
-  getField
+  getField,
+  stagedShift: state => {
+    return state.stagedShift;
+  },
+  pseudoShifts: state => {
+    return state.pseudoShifts;
+  }
 };
 
 const mutations = {
@@ -27,11 +39,28 @@ const mutations = {
       payload
     ];
   },
+  updatePseudoShift(state, payload) {
+    state.pseudoShifts = [
+      ...state.pseudoShifts.filter(shift => shift.uuid !== payload.uuid),
+      payload
+    ];
+  },
   deleteShift(state, payload) {
     state.shifts = state.shifts.filter(shift => shift.uuid !== payload);
   },
+  deletePseudoShift(state, payload) {
+    state.pseudoShifts = state.pseudoShifts.filter(
+      shift => shift.uuid !== payload
+    );
+  },
   setShifts(state, payload) {
     state.shifts = payload;
+  },
+  setPseudoShifts(state, payload) {
+    state.pseudoShifts = payload;
+  },
+  stageShift(state, payload) {
+    state.stagedShift = payload;
   }
 };
 
@@ -53,6 +82,18 @@ const actions = {
   },
   setShifts({ commit }, payload) {
     commit("setShifts", payload);
+  },
+  updatePseudoShift({ commit }, payload) {
+    commit("updatePseudoShift", payload);
+  },
+  deletePseudoShift({ commit }, payload) {
+    commit("deletePseudoShift", payload);
+  },
+  setPseudoShifts({ commit }, payload) {
+    commit("setPseudoShifts", payload);
+  },
+  stageShift({ commit }, payload) {
+    commit("stageShift", payload);
   },
   async queryShifts({ commit }) {
     const shifts = await ShiftService.list();
