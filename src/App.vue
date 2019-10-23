@@ -100,7 +100,8 @@ import {
   mdiChevronLeft,
   mdiChevronRight,
   mdiMenu,
-  mdiHelp
+  mdiHelp,
+  mdiFormatListNumbered
 } from "@mdi/js";
 
 export default {
@@ -121,6 +122,12 @@ export default {
         to: { name: "c" },
         icon: mdiHome,
         loggedOut: true
+      },
+      {
+        text: "Shifts",
+        to: { name: "shiftList" },
+        icon: mdiFormatListNumbered,
+        loggedOut: false
       },
       {
         text: "Contracts",
