@@ -101,7 +101,7 @@
 
     <v-card-actions>
       <v-btn :disabled="!selected" text color="primary" @click="submit">
-        Continue
+        Save
       </v-btn>
       <v-dialog v-model="dialogReset" max-width="350">
         <template v-slot:activator="{ on }">
