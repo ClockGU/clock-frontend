@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "export VUE_APP_SENTRY_RELEASE=$(git rev-parse HEAD) && vue-cli-service build && bash scripts/sentry-release.sh",
     "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -26,8 +27,8 @@
   "devDependencies": {
     "@mdi/js": "^4.4.95",
     "@sentry/webpack-plugin": "^1.8.1",
-
     "@vue/cli-plugin-babel": "^4.0.5",
+    "@vue/cli-plugin-e2e-cypress": "^4.0.5",
     "@vue/cli-plugin-eslint": "^4.0.5",
     "@vue/cli-plugin-unit-jest": "^4.0.5",
     "@vue/cli-service": "^4.0.5",
@@ -38,6 +39,7 @@
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.9.0",
     "codecov": "^3.5.0",
+    "cypress": "3.8",
     "date-fns-tz": "^1.0.8",
     "eslint": "^6.2.2",
     "eslint-config": "^0.3.0",
