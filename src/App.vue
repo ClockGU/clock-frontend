@@ -101,7 +101,8 @@ import {
   mdiChevronRight,
   mdiMenu,
   mdiHelp,
-  mdiFormatListNumbered
+  mdiFormatListNumbered,
+  mdiFileChart
 } from "@mdi/js";
 
 export default {
@@ -138,7 +139,7 @@ export default {
       {
         text: "Report",
         to: { name: "reportList" },
-        icon: "edit",
+        icon: mdiFileChart,
         loggedOut: false
       },
       {
