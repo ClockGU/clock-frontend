@@ -165,7 +165,10 @@ const router = new Router({
     {
       path: "/report",
       name: "reportList",
-      component: ViewReportList
+      component: ViewReportList,
+      meta: {
+        breadcrumb: null
+      }
     },
     {
       path: "/changePassword",
@@ -184,7 +187,10 @@ const router = new Router({
     {
       path: "/debug",
       name: "debug",
-      component: ViewDebug
+      component: ViewDebug,
+      meta: {
+        breadcrumb: null
+      }
     }
   ]
 });
