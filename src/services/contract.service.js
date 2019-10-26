@@ -39,12 +39,7 @@ const ContractService = {
           return resolve(contract);
         })
         .catch(error => {
-          reject(
-            new ContractError(
-              error.response.status,
-              error.response.data.non_field_errors[0]
-            )
-          );
+          reject(error);
         });
     });
   },
@@ -85,12 +80,7 @@ const ContractService = {
           return resolve(contract);
         })
         .catch(error => {
-          reject(
-            new ContractError(
-              error.response.status,
-              error.response.data.non_field_errors[0]
-            )
-          );
+          reject(error);
         });
     });
   },
@@ -101,9 +91,7 @@ const ContractService = {
           return resolve(response);
         })
         .catch(error => {
-          reject(
-            new ContractError(error.response.status, error.response.data.detail)
-          );
+          reject(error);
         });
     });
   }
