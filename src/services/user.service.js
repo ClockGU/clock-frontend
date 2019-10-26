@@ -81,9 +81,7 @@ const UserService = {
           resolve();
         })
         .catch(error => {
-          reject(
-            new AuthenticationError(error.response.status, error.response.data)
-          );
+          reject(error);
         });
     });
   },

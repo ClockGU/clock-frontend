@@ -41,12 +41,7 @@ const ShiftService = {
           return resolve(shift);
         })
         .catch(error => {
-          reject(
-            new ShiftError(
-              error.response.status,
-              error.response.data.non_field_errors[0]
-            )
-          );
+          reject(error);
         });
     });
   },
@@ -87,12 +82,7 @@ const ShiftService = {
           return resolve(shift);
         })
         .catch(error => {
-          reject(
-            new ShiftError(
-              error.response.status,
-              error.response.data.non_field_errors[0]
-            )
-          );
+          reject(error);
         });
     });
   },
@@ -103,9 +93,7 @@ const ShiftService = {
           return resolve(response);
         })
         .catch(error => {
-          reject(
-            new ShiftError(error.response.status, error.response.data.detail)
-          );
+          reject(error);
         });
     });
   }
