@@ -20,8 +20,22 @@
         <v-card-title>Last shifts</v-card-title>
 
         <v-card-text>
-          <v-list v-for="i in [1, 2, 3]" :key="i" dense>
-            <v-list-item @click="() => {}">ABC</v-list-item>
+          <v-list v-for="shift in lastShifts" :key="shift.uuid">
+            <v-list-item
+              two-line
+              :to="{ name: 'editShift', params: { uuid: shift.uuid } }"
+            >
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ shift.representationalDuration("hm") }}
+                  ({{ shift.date.start | formatDate }})
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ shift.date.start | formatTime }} -
+                  {{ shift.date.end | formatTime }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-card-text>
 
@@ -45,8 +59,22 @@ const gradients = [
 
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 
+import { mapGetters } from "vuex";
+import { Shift } from "@/models/ShiftModel";
+
+import { format } from "date-fns";
+
 export default {
   name: "ViewDashboard",
+  filters: {
+    formatDate: date => {
+      return format(date, "do MMMM yyyy");
+    },
+    formatTime(date, formatString = "HH:mm a") {
+      if (date === undefined) return;
+      return format(date, formatString);
+    }
+  },
   components: {
     ContractListCardSelect
   },
@@ -56,14 +84,17 @@ export default {
       gradients,
       padding: 8,
       radius: 10,
-      value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-      contract: {
-        uuid: "42ea6ef5-298d-49ae-9b90-003db528784d",
-        name: "Der Vertrag",
-        date: { start: "2019-09-01", end: "2019-09-30" },
-        hours: 44.73
-      }
+      value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]
     };
+  },
+  computed: {
+    ...mapGetters({
+      shifts: "shift/shifts",
+      contract: "selectedContract"
+    }),
+    lastShifts() {
+      return this.shifts.slice(-5).map(shift => new Shift(shift));
+    }
   }
 };
 </script>
