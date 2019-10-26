@@ -13,12 +13,10 @@
         slot-scope="{ reports, methods: { fetchList }, status: { loading } }"
         @created="fetchList()"
       >
-        <v-row>
+        <div>
           <span v-if="loading">Loading...</span>
-          <template v-for="report in reports">
-            <ReportCard :key="report.uuid" :report="report"></ReportCard>
-          </template>
-        </v-row>
+          <ReportCardList :reports="reports" />
+        </div>
       </FrameHooks>
     </ReportListFrame>
   </v-container>
@@ -27,7 +25,7 @@
 <script>
 import ReportListFrame from "@/components/ReportListFrame";
 import FrameHooks from "@/components/FrameHooks";
-import ReportCard from "@/components/ReportCard";
+import ReportCardList from "@/components/ReportCardList";
 
 // import ReportService from "@/services/report.service";
 
@@ -36,7 +34,7 @@ export default {
   components: {
     ReportListFrame,
     FrameHooks,
-    ReportCard
+    ReportCardList
   },
   data() {
     return {
