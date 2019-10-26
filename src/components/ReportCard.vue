@@ -17,8 +17,15 @@
         <v-btn v-if="report.exported" text color="primary">
           Review
         </v-btn>
-        <v-btn v-else text color="primary">
-          View
+        <v-btn
+          v-else
+          :loading="loading"
+          :outlined="loading"
+          text
+          color="primary"
+          @click="action"
+        >
+          {{ downloadLabel }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -27,6 +34,7 @@
 
 <script>
 import { format, parseISO } from "date-fns";
+import ReportService from "@/services/report.service";
 
 export default {
   name: "ReportCard",
@@ -41,7 +49,20 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      pdfResponse: null,
+      loading: false
+    };
+  },
   computed: {
+    fileName() {
+      const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
+      return `Report_${date}.pdf`;
+    },
+    downloadLabel() {
+      return !this.pdfResponse ? "Request" : "Download";
+    },
     debit() {
       const contract = this.$store.state.contract.contracts.find(
         contract => contract.uuid === this.report.contract
@@ -54,6 +75,33 @@ export default {
     },
     creditDebit() {
       return `${this.credit} of ${this.debit}`;
+    }
+  },
+  methods: {
+    action() {
+      if (!this.pdfResponse) {
+        this.requestDownload();
+        return;
+      }
+
+      this.download();
+    },
+    download() {
+      let link = document.createElement("a");
+      link.href = window.URL.createObjectURL(
+        new Blob([this.pdfResponse], { type: "application/pdf" })
+      );
+      link.download = this.fileName;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    async requestDownload() {
+      this.loading = true;
+      const { data } = await ReportService.export(this.report.uuid);
+      this.pdfResponse = data;
+      this.loading = false;
     }
   }
 };

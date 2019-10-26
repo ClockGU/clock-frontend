@@ -40,6 +40,22 @@ function mapApiResponse(response) {
 const BASE_URL = "/api/reports/";
 
 const ReportService = {
+  export: async function(uuid) {
+    const requestData = {
+      method: "get",
+      url: BASE_URL + `${uuid}/export/`,
+      responseType: "blob"
+    };
+    return new Promise((resolve, reject) => {
+      return ApiService.customRequest(requestData)
+        .then(response => {
+          return resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
   create: async function(data) {
     const requestData = {
       method: "post",
