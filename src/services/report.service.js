@@ -10,8 +10,14 @@ class ReportError extends Error {
 }
 
 function timedeltaToMinutes(timedelta) {
-  const [days, timeString] = timedelta.split(" ");
-  let [hours, minutes, seconds] = timeString.split(":");
+  const splitTimedelta = timedelta.split(" ");
+  let days = 0;
+  let timeString = splitTimedelta[0];
+
+  if (splitTimedelta.length == 2) {
+    [days, timeString] = splitTimedelta;
+  }
+  const [hours, minutes, seconds] = timeString.split(":");
 
   return (
     (parseInt(days) * 24 + parseInt(hours)) * 60 +
@@ -25,6 +31,7 @@ function mapApiResponse(response) {
     uuid: response.id,
     contract: response.contract,
     duration: timedeltaToMinutes(response.hours),
+    hours: response.hours,
     date: response.month_year,
     exported: false
   };
