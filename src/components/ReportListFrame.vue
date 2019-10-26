@@ -13,7 +13,7 @@ import FrameApi from "@/components/FrameApi";
 import ReportService from "@/services/report.service";
 
 export default {
-  name: `ContractListFrame`,
+  name: `ReportListFrame`,
   components: {
     FrameApi
   },
