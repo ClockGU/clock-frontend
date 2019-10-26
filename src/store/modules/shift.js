@@ -14,6 +14,12 @@ const state = {
 
 const getters = {
   getField,
+  shifts: (state, getters, rootState) => {
+    if (rootState.selectedContract === null) return [];
+    return state.shifts.filter(
+      shift => shift.contract === rootState.selectedContract.uuid
+    );
+  },
   stagedShift: state => {
     return state.stagedShift;
   },
