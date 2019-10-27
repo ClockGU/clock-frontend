@@ -14,11 +14,7 @@
       <v-card-text>Credit/Debit: {{ creditDebit }} hours</v-card-text>
 
       <v-card-actions>
-        <v-btn v-if="report.exported" text color="primary">
-          Review
-        </v-btn>
         <v-btn
-          v-else
           :loading="loading"
           :outlined="loading"
           text
@@ -26,6 +22,10 @@
           @click="action"
         >
           {{ downloadLabel }}
+        </v-btn>
+
+        <v-btn v-if="exported" text @click="resetExport">
+          Reset
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -53,9 +53,11 @@
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
+import { format, parseISO, isThisMonth } from "date-fns";
 import ReportService from "@/services/report.service";
 import TheDialog from "@/components/TheDialog";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "ReportCard",
@@ -81,6 +83,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentShifts: "shift/currentShifts"
+    }),
+    exported() {
+      return isThisMonth(parseISO(this.report.date));
+    },
     fileName() {
       const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
       return `Report_${date}.pdf`;
@@ -129,6 +137,9 @@ export default {
       const { data } = await ReportService.export(this.report.uuid);
       this.pdfResponse = data;
       this.loading = false;
+    },
+    resetExport() {
+      console.log("reset report!");
     }
   }
 };
