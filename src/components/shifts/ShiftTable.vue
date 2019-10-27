@@ -50,6 +50,8 @@ import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift.service.js";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "ShiftTable",
   props: {
@@ -91,6 +93,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      contract: "selectedContract"
+    }),
     deleteLabel() {
       if (this.selected.length == 0) return "Delete";
 
@@ -98,10 +103,15 @@ export default {
 
       return `Delete (${this.selected.length} ${shift})`;
     },
-    items() {
+    visibleShifts() {
       if (this.shifts === null) return [];
 
-      return this.shifts.map(item => {
+      return this.shifts.filter(shift => shift.contract === this.contract.uuid);
+    },
+    items() {
+      if (this.visibleShifts === null) return [];
+
+      return this.visibleShifts.map(item => {
         const shift = new Shift(item);
 
         return {
