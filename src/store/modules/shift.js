@@ -1,3 +1,4 @@
+import { isThisMonth, parseISO } from "date-fns";
 import { getField, updateField } from "vuex-map-fields";
 import ShiftService from "@/services/shift.service";
 
@@ -18,6 +19,11 @@ const getters = {
     if (rootState.selectedContract === null) return [];
     return state.shifts.filter(
       shift => shift.contract === rootState.selectedContract.uuid
+    );
+  },
+  shiftsCurrentMonth: (state, getters, rootState) => {
+    return getters.shifts.filter(shift =>
+      isThisMonth(parseISO(shift.date.start))
     );
   },
   stagedShift: state => {
