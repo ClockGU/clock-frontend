@@ -29,15 +29,39 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+
+    <TheDialog v-if="requestDialog" @close="requestDialog = false">
+      <template v-slot:content>
+        <v-card>
+          <v-card-title>Generate report</v-card-title>
+
+          <v-card-text
+            >Once you generate the report, you will not be able to add or update
+            shifts in the corresponding month
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn text color="primary" @click="requestDownload">
+              Continue
+            </v-btn>
+            <v-btn text @click="requestDialog = false">Cancel</v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </TheDialog>
   </v-col>
 </template>
 
 <script>
 import { format, parseISO } from "date-fns";
 import ReportService from "@/services/report.service";
+import TheDialog from "@/components/TheDialog";
 
 export default {
   name: "ReportCard",
+  components: {
+    TheDialog
+  },
   filters: {
     formatDate(date) {
       return format(parseISO(date), "MMMM yyyy");
@@ -51,6 +75,7 @@ export default {
   },
   data() {
     return {
+      requestDialog: false,
       pdfResponse: null,
       loading: false
     };
@@ -80,7 +105,8 @@ export default {
   methods: {
     action() {
       if (!this.pdfResponse) {
-        this.requestDownload();
+        this.requestDialog = true;
+        // this.requestDownload();
         return;
       }
 
@@ -99,6 +125,7 @@ export default {
     },
     async requestDownload() {
       this.loading = true;
+      this.requestDialog = false;
       const { data } = await ReportService.export(this.report.uuid);
       this.pdfResponse = data;
       this.loading = false;
