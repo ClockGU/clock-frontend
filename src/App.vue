@@ -102,7 +102,7 @@ import {
   mdiMenu,
   mdiHelp,
   mdiFormatListNumbered,
-  mdiCalendar
+  mdiCalendarClock
 } from "@mdi/js";
 
 export default {
@@ -132,7 +132,7 @@ export default {
       {
         text: "Calendar",
         to: { name: "c" },
-        icon: mdiCalendar,
+        icon: mdiCalendarClock,
         loggedOut: false
       },
       {
