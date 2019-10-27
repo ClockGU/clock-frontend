@@ -79,22 +79,17 @@
               Advanced settings
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-row>
-                <v-col>
-                  <v-subheader>
-                    Change contract
-                  </v-subheader>
+              <v-subheader>
+                Change contract
+              </v-subheader>
 
-                  <v-select
-                    v-model="shift.contract"
-                    :items="contracts"
-                    item-text="name"
-                    item-value="uuid"
-                    label="Select a contract"
-                    outlined
-                  ></v-select>
-                </v-col>
-              </v-row>
+              <v-select
+                v-model="shift.contract"
+                :items="contracts"
+                item-text="name"
+                item-value="uuid"
+                outlined
+              ></v-select>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
