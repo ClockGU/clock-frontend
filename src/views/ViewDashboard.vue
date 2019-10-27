@@ -8,6 +8,10 @@
       <DashboardMonthlyProgress />
     </v-col>
 
+    <v-col cols="12" xs="12" md="4">
+      <DashboardCalendar />
+    </v-col>
+
     <v-col cols="12" xs="12" md="6">
       <v-sparkline
         fill
@@ -38,6 +42,7 @@ const gradients = [
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 import DashboardLastShift from "@/components/DashboardLastShifts";
 import DashboardMonthlyProgress from "@/components/DashboardMonthlyProgress";
+import DashboardCalendar from "@/components/DashboardCalendar";
 
 import { mapGetters } from "vuex";
 
@@ -46,7 +51,8 @@ export default {
   components: {
     ContractListCardSelect,
     DashboardLastShift,
-    DashboardMonthlyProgress
+    DashboardMonthlyProgress,
+    DashboardCalendar
   },
   data() {
     return {
