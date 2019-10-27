@@ -2,25 +2,23 @@
   <v-card>
     <v-card-title>Last shifts</v-card-title>
 
-    <v-card-text>
-      <v-list v-for="shift in lastShifts" :key="shift.uuid">
-        <v-list-item
-          two-line
-          :to="{ name: 'editShift', params: { uuid: shift.uuid } }"
-        >
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ shift.representationalDuration("hm") }}
-              ({{ shift.date.start | formatDate }})
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{ shift.date.start | formatTime }} -
-              {{ shift.date.end | formatTime }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
+    <v-list v-for="shift in lastShifts" :key="shift.uuid">
+      <v-list-item
+        two-line
+        :to="{ name: 'editShift', params: { uuid: shift.uuid } }"
+      >
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ shift.representationalDuration("hm") }}
+            ({{ shift.date.start | formatDate }})
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{ shift.date.start | formatTime }} -
+            {{ shift.date.end | formatTime }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
 
     <v-card-actions>
       <v-btn color="primary" text :to="{ name: 'shiftList' }">
