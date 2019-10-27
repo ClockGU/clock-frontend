@@ -1,6 +1,8 @@
 import { is } from "ramda";
 import {
   differenceInMinutes,
+  isFuture,
+  isToday,
   format,
   getDate,
   getMonth,
@@ -33,7 +35,8 @@ export class Shift {
     contract = null,
     type = null,
     note = null,
-    tags = null
+    tags = null,
+    exported = null
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
@@ -51,6 +54,7 @@ export class Shift {
       : SHIFT_TYPES.find(item => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
+    this.exported = exported === null ? false : exported;
   }
 
   get start() {
@@ -71,6 +75,12 @@ export class Shift {
 
   get duration() {
     return differenceInMinutes(this.end, this.start);
+  }
+
+  get reviewed() {
+    if (isToday(this.start)) return true;
+
+    return !isFuture(this.start);
   }
 
   representationalDuration(format = "") {
@@ -109,7 +119,8 @@ export class Shift {
       started: format(this.start, "yyyy-MM-dd HH:mm:ssXXX"),
       stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
       duration: this.representationalDuration,
-      was_reviewed: true
+      was_reviewed: this.reviewed,
+      was_exported: this.exported
     };
   }
 }

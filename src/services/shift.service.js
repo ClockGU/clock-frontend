@@ -18,7 +18,9 @@ function mapApiResponse(response) {
     date: { start: response.started, end: response.stopped },
     type: response.type,
     note: response.note,
-    tags: response.tags
+    tags: response.tags,
+    exported: response.was_exported,
+    reviewed: response.was_reviewed
   };
 }
 
