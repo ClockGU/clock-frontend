@@ -1,5 +1,6 @@
 import { getField, updateField } from "vuex-map-fields";
 import ShiftService from "@/services/shift.service";
+import { isThisMonth, parseISO } from "date-fns";
 
 const state = {
   shifts: [],
@@ -19,6 +20,11 @@ const getters = {
   },
   pseudoShifts: state => {
     return state.pseudoShifts;
+  },
+  currentShifts: state => {
+    return state.shifts.filter(shift =>
+      isThisMonth(parseISO(shift.date.start))
+    );
   }
 };
 
