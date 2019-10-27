@@ -1,10 +1,14 @@
 <template>
   <v-row>
-    <v-col sm="12" md="4">
+    <v-col cols="12" xs="12" sm="6">
       <ContractListCardSelect :contract="contract" />
     </v-col>
 
-    <v-col sm="12" md="4">
+    <v-col cols="12" xs="12" sm="6">
+      <DashboardMonthlyProgress />
+    </v-col>
+
+    <v-col cols="12" xs="12" md="6">
       <v-sparkline
         fill
         :gradient="gradient"
@@ -15,7 +19,7 @@
       ></v-sparkline>
     </v-col>
 
-    <v-col sm="12" md="4">
+    <v-col xs="12">
       <DashboardLastShift />
     </v-col>
   </v-row>
@@ -33,6 +37,7 @@ const gradients = [
 
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 import DashboardLastShift from "@/components/DashboardLastShifts";
+import DashboardMonthlyProgress from "@/components/DashboardMonthlyProgress";
 
 import { mapGetters } from "vuex";
 
@@ -40,7 +45,8 @@ export default {
   name: "ViewDashboard",
   components: {
     ContractListCardSelect,
-    DashboardLastShift
+    DashboardLastShift,
+    DashboardMonthlyProgress
   },
   data() {
     return {
