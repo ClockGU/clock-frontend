@@ -1,5 +1,5 @@
 <template>
-  <ClockModel :start-date="startDate">
+  <ClockModel :clocked-shift="clockedShift" :start-date="startDate">
     <template v-slot="{ start, stop, reset, data, pause, unpause, duration }">
       <div>
         <v-col cols="10">
@@ -109,21 +109,27 @@ export default {
     }
   },
   watch: {
+    clockedShift() {
+      this.initialize();
+    },
     selectedContract(newValue) {
       this.setContractDates(newValue);
     }
   },
   created() {
-    this.setContractDates(this.selectedContract);
-
-    if (!this.clockedShift || this.clockedShift.start === null) return;
-
-    this.startDate =
-      typeof this.clockedShift.start === "string"
-        ? parseISO(this.clockedShift.start)
-        : this.clockedShift.start;
+    this.initialize();
   },
   methods: {
+    initialize() {
+      this.setContractDates(this.selectedContract);
+
+      if (!this.clockedShift || this.clockedShift.started === null) return;
+
+      this.startDate =
+        typeof this.clockedShift.started === "string"
+          ? parseISO(this.clockedShift.started)
+          : this.clockedShift.started;
+    },
     setContractDates(contract) {
       this.contractDates = {
         start: parseISO(contract.date.start),
