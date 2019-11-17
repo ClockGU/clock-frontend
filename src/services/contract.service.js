@@ -1,14 +1,14 @@
 import ApiService from "@/services/api.service";
 import store from "@/store";
 
-class ContractError extends Error {
-  constructor(errorCode, message) {
-    super(message);
-    this.name = this.constructor.name;
-    this.message = message;
-    this.errorCode = errorCode;
-  }
-}
+// class ContractError extends Error {
+//   constructor(errorCode, message) {
+//     super(message);
+//     this.name = this.constructor.name;
+//     this.message = message;
+//     this.errorCode = errorCode;
+//   }
+// }
 
 function mapApiResponse(response) {
   return {
