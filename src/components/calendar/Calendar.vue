@@ -82,10 +82,15 @@
                   name: 'editShift',
                   params: { uuid: selectedEvent.uuid }
                 }"
+                :disabled="selectedEvent.exported"
               >
                 Edit
               </v-btn>
-              <v-btn text @click="confirmDelete(selectedEvent.uuid)">
+              <v-btn
+                text
+                :disabled="selectedEvent.exported"
+                @click="confirmDelete(selectedEvent.uuid)"
+              >
                 Delete
               </v-btn>
             </v-card-actions>
@@ -226,7 +231,8 @@ export default {
           type: shift.type.text,
           color: this.colorMap(shift),
           duration: shift.representationalDuration(),
-          contract: contract
+          contract: contract,
+          exported: shift.exported
         };
       });
     },
