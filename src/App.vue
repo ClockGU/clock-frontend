@@ -91,6 +91,7 @@ import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
 import ClockInOut from "@/components/ClockInOut";
 import { mapGetters } from "vuex";
+import ClockService from "@/services/clock.service";
 
 import {
   mdiHome,
@@ -107,6 +108,7 @@ import {
 export default {
   components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
+    clockedShift: null,
     drawer: false,
     mini: true,
     logoutDialog: false,
@@ -155,9 +157,6 @@ export default {
     showSelectContractButton() {
       return this.$store.state.selectedContract !== null;
     },
-    clockedShift() {
-      return this.$store.state.shift.clockedShift;
-    },
     selectedContract() {
       if (this.$store.state.selectedContract === null) return;
 
@@ -196,7 +195,18 @@ export default {
       this.breadcrumbList = this.$route.meta.breadcrumb;
     }
   },
+  created() {
+    this.getClockedShift();
+  },
   methods: {
+    async getClockedShift() {
+      try {
+        const response = await ClockService.get();
+        this.clockedShift = response.data;
+      } catch (err) {
+        this.clockedShift = null;
+      }
+    },
     toggleDrawer() {
       if (this.isMobile) {
         this.drawer = !this.drawer;

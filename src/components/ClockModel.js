@@ -1,8 +1,9 @@
-import { differenceInSeconds, isDate } from "date-fns";
+import { differenceInSeconds, isDate, parseISO } from "date-fns";
 import uuid from "uuid/v4";
 
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift.service";
+import ClockService from "@/services/clock.service";
 
 export default {
   name: "ClockModel",
@@ -15,6 +16,10 @@ export default {
     now: null
   }),
   props: {
+    clockedShift: {
+      type: Object || null,
+      default: null
+    },
     startDate: {
       type: Date,
       default: () => new Date()
@@ -33,11 +38,13 @@ export default {
       return differenceInSeconds(new Date(), this.shift.start);
     }
   },
+  watch: {
+    startDate() {
+      this.startClock();
+    }
+  },
   mounted() {
-    // Do nothing if no initialStart value was provided.
-    if (!this.startDate) return;
-
-    this.start(this.startDate, this.$store.state.selectedContract.uuid);
+    this.startClock();
   },
   destroyed() {
     this.clear();
@@ -46,20 +53,43 @@ export default {
     clear() {
       clearInterval(this.interval);
     },
+    startClock() {
+      // Do nothing if no initialStart value was provided.
+      if (!this.startDate) return;
+
+      this.start(
+        this.startDate,
+        this.$store.state.selectedContract.uuid,
+        false
+      );
+    },
     initialize() {
       this.interval = null;
       this.shift = { start: null, contract: null };
       this.now = null;
       this.$store.dispatch("shift/clearClockedShift");
     },
-    start(date, contract) {
+    async start(date, contract, create = true) {
       this.shift.start = date;
       this.shift.contract = contract;
       this.startTick();
 
+      if (create === true) {
+        const response = await ClockService.create({
+          ...this.shift,
+          started: this.shift.start
+        });
+        this.shift.start = parseISO(response.date.start);
+        this.shift.contract = response.contract;
+        this.shift.id = response.uuid;
+      } else {
+        this.shift.id = this.clockedShift.id;
+      }
       this.$store.dispatch("shift/clockShift", this.shift);
     },
-    reset() {
+    async reset() {
+      await ClockService.delete(this.shift.id);
+
       this.clear();
       this.initialize();
     },
@@ -79,6 +109,8 @@ export default {
         contract: this.$store.state.selectedContract.uuid,
         type: { value: "st", text: "Shift" }
       };
+
+      await ClockService.delete(this.shift.id);
       const payload = new Shift(data).toPayload();
 
       await ShiftService.create(payload);
