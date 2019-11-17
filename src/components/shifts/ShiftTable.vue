@@ -48,6 +48,11 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-spacer />
+        <span>
+          Work time sum: {{ totalDuration | minutesToDuration }} /
+          {{ debit | hoursToWorktime }}
+        </span>
       </v-toolbar>
     </template>
   </v-data-table>
@@ -57,9 +62,21 @@
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift.service.js";
+import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ShiftTable",
+  filters: {
+    minutesToDuration(value) {
+      return minutesToHHMM(value);
+    },
+    hoursToWorktime(value) {
+      const hours = Math.floor(value);
+      const minutes = parseInt((60 * (value - hours)).toFixed(0));
+
+      return `${hours.pad(2)}:${minutes.pad(2)}`;
+    }
+  },
   props: {
     loading: {
       type: Boolean,
@@ -99,6 +116,15 @@ export default {
     };
   },
   computed: {
+    debit() {
+      return this.$store.state.selectedContract.hours.toFixed(1);
+    },
+    totalDuration() {
+      return this.items.reduce(
+        (acc, current) => acc + current["minuteDuration"],
+        0
+      );
+    },
     visibleShifts() {
       if (this.shifts === null) return [];
 
@@ -123,6 +149,7 @@ export default {
         const shift = new Shift(item);
 
         return {
+          minuteDuration: shift.duration,
           duration: shift.representationalDuration("hm"),
           date: this.formatDate(shift.start),
           start: this.formatTime(shift.start),
