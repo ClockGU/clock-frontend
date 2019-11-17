@@ -101,7 +101,8 @@ import {
   mdiChevronRight,
   mdiMenu,
   mdiHelp,
-  mdiFormatListNumbered
+  mdiFormatListNumbered,
+  mdiFileChart
 } from "@mdi/js";
 
 export default {
@@ -133,6 +134,12 @@ export default {
         text: "Contracts",
         to: { name: "contractList" },
         icon: mdiFileDocument,
+        loggedOut: false
+      },
+      {
+        text: "Report",
+        to: { name: "reportList" },
+        icon: mdiFileChart,
         loggedOut: false
       },
       {

@@ -54,6 +54,16 @@ const UserService = {
           resolve(response.data);
         })
         .catch(error => {
+          if (error.message === "Network Error") {
+            reject(
+              new AuthenticationError(
+                503,
+                "Cannot reach the backend. Please try again later."
+              )
+            );
+            return;
+          }
+
           reject(
             new AuthenticationError(
               error.response.status,

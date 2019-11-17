@@ -11,12 +11,20 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-btn text :disabled="selected.length != 1" @click="editShift">
+        <v-btn
+          text
+          :disabled="selected.length != 1 || exportedInSelected.length > 0"
+          @click="editShift"
+        >
           Edit
         </v-btn>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn text :disabled="selected.length == 0" v-on="on">
+            <v-btn
+              text
+              :disabled="selected.length == 0 || exportedInSelected.length > 0"
+              v-on="on"
+            >
               {{ deleteLabel }}
             </v-btn>
           </template>
@@ -91,6 +99,16 @@ export default {
     };
   },
   computed: {
+    visibleShifts() {
+      if (this.shifts === null) return [];
+
+      return this.shifts.filter(
+        shift => shift.contract === this.$store.state.selectedContract.uuid
+      );
+    },
+    exportedInSelected() {
+      return this.selected.filter(shift => shift.exported === true);
+    },
     deleteLabel() {
       if (this.selected.length == 0) return "Delete";
 
@@ -99,9 +117,9 @@ export default {
       return `Delete (${this.selected.length} ${shift})`;
     },
     items() {
-      if (this.shifts === null) return [];
+      if (this.visibleShifts === null) return [];
 
-      return this.shifts.map(item => {
+      return this.visibleShifts.map(item => {
         const shift = new Shift(item);
 
         return {
@@ -111,7 +129,8 @@ export default {
           end: this.formatTime(shift.end),
           type: shift.type.text,
           fullDate: this.formatDate(shift.start, "yyyy'-'MM'-'dd"),
-          uuid: shift.uuid
+          uuid: shift.uuid,
+          exported: shift.exported
         };
       });
     }
