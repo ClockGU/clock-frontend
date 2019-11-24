@@ -2,7 +2,7 @@
   <v-container>
     <FrameApi
       v-if="endpoint"
-      v-slot="{ methods: { query }, status: { error, loading } }"
+      v-slot="{ methods: { query } }"
       :endpoint="endpoint"
       @success="redirect"
     >

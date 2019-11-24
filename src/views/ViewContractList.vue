@@ -120,7 +120,6 @@ export default {
     return {
       dialog: false,
       callback: null,
-      hover: false,
       icons: {
         mdiPlus: mdiPlus
       }
