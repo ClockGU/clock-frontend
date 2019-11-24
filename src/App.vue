@@ -7,7 +7,7 @@
       app
       class="grey lighten-4"
     >
-      <v-list>
+      <v-list data-cy="menu-list">
         <v-list-item v-if="isLoggedIn">
           <v-list-item-avatar color="blue" size="24">
             <span class="white--text">{{ firstLetter }}</span>
