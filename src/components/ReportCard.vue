@@ -24,9 +24,9 @@
           {{ downloadLabel }}
         </v-btn>
 
-        <v-btn v-if="exported" text @click="resetExport">
+        <!-- <v-btn v-if="exported" text @click="resetExport">
           Reset
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
     </v-card>
 
@@ -137,10 +137,10 @@ export default {
       const { data } = await ReportService.export(this.report.uuid);
       this.pdfResponse = data;
       this.loading = false;
-    },
-    resetExport() {
-      console.log("reset report!");
     }
+    // resetExport() {
+    //   console.log("reset report!");
+    // }
   }
 };
 </script>
