@@ -36,7 +36,7 @@ export class Shift {
     type = null,
     note = null,
     tags = null,
-    exported = null
+    was_exported = null
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
@@ -54,7 +54,7 @@ export class Shift {
       : SHIFT_TYPES.find(item => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.exported = exported === null ? false : exported;
+    this.exported = was_exported === null ? false : was_exported;
   }
 
   get start() {
