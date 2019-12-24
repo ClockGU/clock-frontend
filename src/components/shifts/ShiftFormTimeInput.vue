@@ -3,6 +3,8 @@
     <v-text-field
       v-model="data"
       v-mask="'##:##'"
+      :data-time-value="data"
+      :data-cy="type"
       return-masked-value
       :error-messages="errors"
       :label="label"

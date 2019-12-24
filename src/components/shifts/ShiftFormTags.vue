@@ -1,7 +1,7 @@
 <template>
   <v-combobox
-    :value="value"
-    :items="items"
+    v-model="items"
+    data-cy="tags"
     :search-input.sync="search"
     :hide-no-data="!search"
     no-data-text="Start typing to search or add a tag."
@@ -23,13 +23,14 @@
         </v-list-item-content>
       </v-list-item>
     </template>
-    <template v-slot:selection="data">
+    <template v-slot:selection="{ attrs, item, selected }">
       <v-chip
-        :input-value="data.selected"
+        v-bind="attrs"
+        :input-value="selected"
         close
-        @click:close="remove(data.item)"
+        @click:close="remove(item)"
       >
-        <strong>{{ data.item }}</strong>
+        <strong>{{ item }}</strong>
       </v-chip>
     </template>
   </v-combobox>
@@ -49,19 +50,6 @@ export default {
     items: [],
     search: null
   }),
-  watch: {
-    value(val, prev) {
-      if (val.length === prev.length) return;
-
-      this.chips = val.map(v => {
-        if (typeof v === "string") {
-          this.items.push(v);
-        }
-
-        return v;
-      });
-    }
-  },
   methods: {
     remove(item) {
       this.items = this.items.filter(chip => chip !== item);

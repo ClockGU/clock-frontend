@@ -7,7 +7,7 @@
       :fullscreen="problem === 'overflow'"
     >
       <template v-slot:content>
-        <v-card>
+        <v-card data-cy="review-shift">
           <v-toolbar dark color="primary">
             <v-btn icon dark @click="close">
               <v-icon>{{ icons.mdiClose }}</v-icon>
@@ -40,7 +40,7 @@
 
     <v-dialog v-if="entity" v-model="formDialog">
       <v-card>
-        <v-container>
+        <v-container data-cy="review-edit-shift">
           <ShiftForm :query="query" :uuid="entity.uuid" :entity="entity" />
         </v-container>
       </v-card>

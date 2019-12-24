@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     v-model="selected"
+    data-cy="shift-table"
     :headers="headers"
     :items="items"
     :sort-by="['fullDate']"
@@ -12,6 +13,7 @@
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-btn
+          data-cy="shift-edit"
           text
           :disabled="selected.length != 1 || exportedInSelected.length > 0"
           @click="editShift"
@@ -21,6 +23,7 @@
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn
+              data-cy="shift-delete"
               text
               :disabled="selected.length == 0 || exportedInSelected.length > 0"
               v-on="on"
@@ -29,7 +32,7 @@
             </v-btn>
           </template>
 
-          <v-card>
+          <v-card data-cy="delete-dialog">
             <v-card-title>
               <span class="headline">Delete shifts?</span>
             </v-card-title>
@@ -41,10 +44,17 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="error" text @click="destroy">
+              <v-btn
+                data-cy="delete-confirm"
+                color="error"
+                text
+                @click="destroy"
+              >
                 Delete
               </v-btn>
-              <v-btn text @click="dialog = false">Cancel</v-btn>
+              <v-btn data-cy="delete-cancel" text @click="dialog = false">
+                Cancel
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

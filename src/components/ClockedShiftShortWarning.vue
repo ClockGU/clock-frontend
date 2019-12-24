@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card data-cy="short-warning">
     <v-card-title class="headline word-break">
       This shift looks very short.
     </v-card-title>
@@ -10,17 +10,31 @@
     <v-card-actions>
       <v-row>
         <v-col sm="12">
-          <v-btn color="primary" text @click="toggleShortShift(callbacks.stop)">
+          <v-btn
+            data-cy="short-save"
+            color="primary"
+            text
+            @click="toggleShortShift(callbacks.stop)"
+          >
             Finish and save shift
           </v-btn>
         </v-col>
         <v-col sm="12">
-          <v-btn text @click="toggleShortShift(callbacks.unpause)">
+          <v-btn
+            data-cy="short-continue"
+            text
+            @click="toggleShortShift(callbacks.unpause)"
+          >
             Continue working
           </v-btn>
         </v-col>
         <v-col sm="12">
-          <v-btn color="error" text @click="toggleShortShift(callbacks.reset)">
+          <v-btn
+            data-cy="short-discard"
+            color="error"
+            text
+            @click="toggleShortShift(callbacks.reset)"
+          >
             Discard shift
           </v-btn>
         </v-col>

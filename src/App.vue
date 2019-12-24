@@ -7,7 +7,7 @@
       app
       class="grey lighten-4"
     >
-      <v-list>
+      <v-list data-cy="menu-list">
         <v-list-item v-if="isLoggedIn">
           <v-list-item-avatar color="blue" size="24">
             <span class="white--text">{{ firstLetter }}</span>
@@ -29,7 +29,11 @@
           <v-list-item-content>{{ link.text }}</v-list-item-content>
         </v-list-item>
 
-        <v-list-item v-if="isLoggedIn" @click="logoutDialog = true">
+        <v-list-item
+          v-if="isLoggedIn"
+          data-cy="menu-logout"
+          @click="logoutDialog = true"
+        >
           <v-list-item-action>
             <v-icon>{{ icons.mdiLock }}</v-icon>
           </v-list-item-action>

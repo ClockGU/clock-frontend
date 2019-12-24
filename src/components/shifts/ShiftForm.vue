@@ -1,10 +1,27 @@
 <template>
   <v-form>
+    <v-overlay v-if="contractExpired" light :dark="false">
+      <v-card data-cy="overlay" class="mx-auto" max-width="300">
+        <v-card-title class="headline">
+          I'm sorry Dave, I'm afraid I can't do that!
+        </v-card-title>
+
+        <v-card-text>
+          The report for this shift was already exported. You can't edit this
+          shift anymore.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn data-cy="overlay-ack" color="primary" text :to="{ path: '/' }">
+            OK, take me back
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-overlay>
+
     <v-row>
       <v-col>
-        <h1>
-          {{ title }}
-        </h1>
+        <h1>{{ title }}</h1>
       </v-col>
     </v-row>
 
@@ -18,6 +35,7 @@
                 <v-row justify="center">
                   <ShiftFormDateInlineInput
                     v-model="shift"
+                    data-cy="shift-date"
                     :min="contract.date.start"
                     :max="contract.date.end"
                   />
@@ -31,6 +49,7 @@
               <v-card-text>
                 <ShiftFormTimeInput
                   v-model="shift"
+                  data-cy="shift-start-time"
                   :errors="startTimeErrors"
                   label="Start time"
                   type="start"
@@ -42,6 +61,7 @@
               <v-card-text>
                 <ShiftFormTimeInput
                   v-model="shift"
+                  data-cy="shift-end-time"
                   :errors="endTimeErrors"
                   label="End time"
                   type="end"
@@ -59,13 +79,11 @@
         <v-card>
           <v-row>
             <v-col>
-              <v-subheader>
-                Additional information
-              </v-subheader>
+              <v-subheader>Additional information</v-subheader>
               <v-card-text>
-                <ShiftFormSelect v-model="shift.type" />
-                <ShiftFormTags v-model="shift.tags" />
-                <ShiftFormInput v-model="shift.note" />
+                <ShiftFormSelect v-model="shift.type" data-cy="shift-type" />
+                <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
+                <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
               </v-card-text>
             </v-col>
           </v-row>
@@ -75,16 +93,15 @@
       <v-col cols="12" sm="12">
         <v-expansion-panels>
           <v-expansion-panel>
-            <v-expansion-panel-header>
-              Advanced settings
-            </v-expansion-panel-header>
+            <v-expansion-panel-header
+              >Advanced settings</v-expansion-panel-header
+            >
             <v-expansion-panel-content>
-              <v-subheader>
-                Change contract
-              </v-subheader>
+              <v-subheader>Change contract</v-subheader>
 
               <v-select
                 v-model="shift.contract"
+                data-cy="shift-contract"
                 :items="contracts"
                 item-text="name"
                 item-value="uuid"
@@ -98,13 +115,13 @@
         <v-card>
           <v-card-actions>
             <v-btn
+              data-cy="shift-save"
               text
               :disabled="!valid"
               color="primary"
               @click="submit(query, shift)"
+              >{{ saveLabel }}</v-btn
             >
-              {{ saveLabel }}
-            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -198,6 +215,9 @@ export default {
     ...mapState("contract", {
       contracts: state => state.contracts
     }),
+    contractExpired() {
+      return this.shift.exported;
+    },
     currentText() {
       return this.stepperText[this.stepper - 1];
     },

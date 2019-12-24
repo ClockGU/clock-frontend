@@ -1,12 +1,14 @@
 <template>
-  <v-card>
+  <v-card data-cy="logout-form">
     <v-card-title class="headline word-break">
       You sure you want to logout?
     </v-card-title>
     <v-card-text>You can come back later at any time.</v-card-text>
     <v-card-actions>
-      <v-btn color="primary" text @click="logout">Logout</v-btn>
-      <v-btn text @click="close">Cancel</v-btn>
+      <v-btn data-cy="logout" color="primary" text @click="logout">
+        Logout
+      </v-btn>
+      <v-btn data-cy="cancel" text @click="close">Cancel</v-btn>
     </v-card-actions>
   </v-card>
 </template>

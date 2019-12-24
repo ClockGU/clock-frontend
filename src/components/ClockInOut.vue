@@ -8,6 +8,7 @@
               <v-hover>
                 <v-btn
                   slot-scope="{ hover }"
+                  data-cy="clock-in-out-button"
                   outlined
                   text
                   width="150"

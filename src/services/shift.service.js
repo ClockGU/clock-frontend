@@ -52,6 +52,7 @@ const ShiftService = {
       return ApiService.get(BASE_URL + `${uuid}`)
         .then(response => {
           const shift = mapApiResponse(response.data);
+          // TODO: we might need to use `{ ...response, data: shift }` here!?
           const newResponse = { ...response, shift };
 
           return resolve(newResponse);
