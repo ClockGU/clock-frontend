@@ -44,28 +44,8 @@ const ApiService = {
     return axios.delete(resource);
   },
 
-  /**
-   * Perform a custom Axios request.
-   *
-   * data is an object containing the following properties:
-   *  - method
-   *  - url
-   *  - data ... request payload
-   *  - auth (optional)
-   *    - username
-   *    - password
-   **/
   customRequest(data) {
     return axios(data);
-    // return new Promise((resolve, reject) => {
-    //   return axios(data)
-    //     .then(response => {
-    //       resolve(response);
-    //     })
-    //     .catch(error => {
-    //       reject(error);
-    //     });
-    // });
   },
 
   mount401Interceptor() {
