@@ -1,4 +1,4 @@
-import ApiService from "@/services/api.service";
+import ApiService from "@/services/api";
 
 class ReportError extends Error {
   constructor(errorCode, message) {

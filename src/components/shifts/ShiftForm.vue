@@ -136,7 +136,7 @@ import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 
-import ShiftService from "@/services/shift.service";
+import ShiftService from "@/services/shift";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";

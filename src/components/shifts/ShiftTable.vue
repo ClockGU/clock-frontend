@@ -71,7 +71,7 @@
 <script>
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
-import ShiftService from "@/services/shift.service.js";
+import ShiftService from "@/services/shift";
 import { minutesToHHMM } from "@/utils/time";
 
 export default {

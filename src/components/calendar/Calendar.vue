@@ -128,7 +128,7 @@ import { mapState } from "vuex";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
-import ShiftService from "@/services/shift.service.js";
+import ShiftService from "@/services/shift";
 
 import TheDialog from "@/components/TheDialog";
 

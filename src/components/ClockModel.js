@@ -2,8 +2,8 @@ import { differenceInSeconds, isDate, parseISO } from "date-fns";
 import uuid from "uuid/v4";
 
 import { Shift } from "@/models/ShiftModel";
-import ShiftService from "@/services/shift.service";
-import ClockService from "@/services/clock.service";
+import ShiftService from "@/services/shift";
+import ClockService from "@/services/clock";
 
 export default {
   name: "ClockModel",

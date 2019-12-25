@@ -1,5 +1,5 @@
 import { getField, updateField } from "vuex-map-fields";
-import ContractService from "@/services/contract.service";
+import ContractService from "@/services/contract";
 
 const state = {
   contracts: []

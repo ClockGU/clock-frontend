@@ -216,7 +216,7 @@ import { required, maxLength, minLength } from "vuelidate/lib/validators";
 
 import { Contract } from "@/models/ContractModel";
 import FrameApi from "@/components/FrameApi";
-import ContractService from "@/services/contract.service";
+import ContractService from "@/services/contract";
 
 const hoursNotZero = value => value !== "00:00";
 const validMinutes = value => value.split(":")[1] <= parseInt(59);

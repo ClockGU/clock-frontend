@@ -1,5 +1,5 @@
 import { getField, updateField } from "vuex-map-fields";
-import ShiftService from "@/services/shift.service";
+import ShiftService from "@/services/shift";
 import { isThisMonth, parseISO } from "date-fns";
 
 const state = {

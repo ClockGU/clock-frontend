@@ -10,7 +10,7 @@
 
 <script>
 import FrameApi from "@/components/FrameApi";
-import ContractService from "@/services/contract.service";
+import ContractService from "@/services/contract";
 
 export default {
   name: `ContractListFrame`,

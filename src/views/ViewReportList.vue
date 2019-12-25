@@ -27,7 +27,7 @@ import ReportListFrame from "@/components/ReportListFrame";
 import FrameHooks from "@/components/FrameHooks";
 import ReportCardList from "@/components/ReportCardList";
 
-// import ReportService from "@/services/report.service";
+// import ReportService from "@/services/report";
 
 export default {
   name: "ViewReportList",

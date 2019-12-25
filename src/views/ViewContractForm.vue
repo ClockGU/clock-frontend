@@ -9,7 +9,7 @@
 <script>
 import ContractForm from "@/components/contracts/ContractForm";
 import { Contract } from "@/models/ContractModel";
-import ContractService from "@/services/contract.service";
+import ContractService from "@/services/contract";
 
 export default {
   name: "ViewContractForm",

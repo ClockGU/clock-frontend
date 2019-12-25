@@ -6,7 +6,7 @@ import store from "./store";
 import PortalVue from "portal-vue";
 import Vuelidate from "vuelidate";
 import { VueMaskDirective } from "v-mask";
-import ApiService from "@/services/api.service";
+import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 

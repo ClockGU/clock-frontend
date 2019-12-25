@@ -1,5 +1,5 @@
-import { UserService } from "@/services/user.service";
-import ApiService from "@/services/api.service";
+import { UserService } from "@/services/user";
+import ApiService from "@/services/api";
 import router from "@/router";
 
 const state = {

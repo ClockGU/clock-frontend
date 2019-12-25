@@ -10,7 +10,7 @@
 
 <script>
 import FrameApi from "@/components/FrameApi";
-import ShiftService from "@/services/shift.service";
+import ShiftService from "@/services/shift";
 
 export default {
   name: `ShiftListFrame`,

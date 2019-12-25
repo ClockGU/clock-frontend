@@ -1,7 +1,7 @@
-import ApiService from "@/services/api.service";
+import ApiService from "@/services/api";
 import store from "@/store";
 
-// class ShiftError extends Error {
+// class ContractError extends Error {
 //   constructor(errorCode, message) {
 //     super(message);
 //     this.name = this.constructor.name;
@@ -14,19 +14,15 @@ function mapApiResponse(response) {
   return {
     uuid: response.id,
     user: response.user,
-    contract: response.contract,
-    date: { start: response.started, end: response.stopped },
-    type: response.type,
-    note: response.note,
-    tags: response.tags,
-    exported: response.was_exported,
-    reviewed: response.was_reviewed
+    name: response.name,
+    date: { start: response.start_date, end: response.end_date },
+    hours: response.hours
   };
 }
 
-const BASE_URL = "/api/shifts/";
+const BASE_URL = "/api/contracts/";
 
-const ShiftService = {
+const ContractService = {
   create: async function(data) {
     const requestData = {
       method: "post",
@@ -37,10 +33,10 @@ const ShiftService = {
     return new Promise((resolve, reject) => {
       return ApiService.customRequest(requestData)
         .then(response => {
-          const shift = mapApiResponse(response.data);
-          store.dispatch("shift/addShift", shift);
+          const contract = mapApiResponse(response.data);
+          store.dispatch("contract/addContract", contract);
 
-          return resolve(shift);
+          return resolve(contract);
         })
         .catch(error => {
           reject(error);
@@ -51,9 +47,8 @@ const ShiftService = {
     return new Promise((resolve, reject) => {
       return ApiService.get(BASE_URL + `${uuid}`)
         .then(response => {
-          const shift = mapApiResponse(response.data);
-          // TODO: we might need to use `{ ...response, data: shift }` here!?
-          const newResponse = { ...response, shift };
+          const contract = mapApiResponse(response.data);
+          const newResponse = { ...response, contract };
 
           return resolve(newResponse);
         })
@@ -79,10 +74,10 @@ const ShiftService = {
     return new Promise((resolve, reject) => {
       return ApiService.patch(`${BASE_URL}${uuid}/`, data)
         .then(response => {
-          const shift = mapApiResponse(response.data);
-          store.dispatch("shift/updateShift", shift);
+          const contract = mapApiResponse(response.data);
+          store.dispatch("contract/updateContract", contract);
 
-          return resolve(shift);
+          return resolve(contract);
         })
         .catch(error => {
           reject(error);
@@ -102,4 +97,4 @@ const ShiftService = {
   }
 };
 
-export default ShiftService;
+export default ContractService;

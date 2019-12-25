@@ -95,7 +95,7 @@ import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
 import ClockInOut from "@/components/ClockInOut";
 import { mapGetters } from "vuex";
-import ClockService from "@/services/clock.service";
+import ClockService from "@/services/clock";
 
 import {
   mdiHome,

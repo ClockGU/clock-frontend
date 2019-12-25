@@ -10,7 +10,7 @@
 
 <script>
 import FrameApi from "@/components/FrameApi";
-import ReportService from "@/services/report.service";
+import ReportService from "@/services/report";
 
 export default {
   name: `ReportListFrame`,

@@ -156,7 +156,7 @@ import uuid from "uuid/v4";
 import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
 const { utcToZonedTime, format } = require("date-fns-tz");
 
-import ShiftService from "@/services/shift.service";
+import ShiftService from "@/services/shift";
 
 import { mdiDotsHorizontal, mdiDotsVertical } from "@mdi/js";
 

@@ -101,7 +101,7 @@ import ContractListFrame from "@/components/contracts/ContractListFrame";
 import FrameHooks from "@/components/FrameHooks";
 import TheDialog from "@/components/TheDialog";
 
-import ContractService from "@/services/contract.service";
+import ContractService from "@/services/contract";
 
 import { mdiPlus } from "@mdi/js";
 
