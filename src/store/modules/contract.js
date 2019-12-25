@@ -2,11 +2,13 @@ import { getField, updateField } from "vuex-map-fields";
 import ContractService from "@/services/contract";
 
 const state = {
-  contracts: []
+  contracts: [],
+  status: "idle"
 };
 
 const getters = {
-  getField
+  getField,
+  loading: () => state.status === "loading"
 };
 
 const mutations = {
@@ -44,7 +46,9 @@ const actions = {
     commit("setContracts", payload);
   },
   async queryContracts({ commit }) {
+    state.status = "loading";
     const contracts = await ContractService.list();
+    state.status = "idle";
 
     commit("setContracts", contracts.data);
   }

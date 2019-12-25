@@ -13,64 +13,56 @@
       </v-col>
     </v-row>
 
-    <ContractListFrame>
-      <FrameHooks
-        slot-scope="{ contracts, methods: { fetchList }, status: { loading } }"
-        @created="fetchList()"
-      >
-        <v-row>
-          <template v-if="editMode">
-            <ContractListCardSkeleton v-if="loading" />
+    <v-row>
+      <template v-if="editMode">
+        <ContractListCardSkeleton v-if="loading" />
 
-            <template v-for="contract in contracts" v-else>
-              <ContractListCard
-                :key="contract.uuid"
-                :contract="contract"
-                :edit-mode="editMode"
-                @delete="confirmDelete(contract.uuid, fetchList)"
-              />
-            </template>
+        <template v-for="contract in contracts" v-else>
+          <ContractListCard
+            :key="contract.uuid"
+            :contract="contract"
+            :edit-mode="editMode"
+            @delete="confirmDelete(contract.uuid)"
+          />
+        </template>
+      </template>
+
+      <template v-else>
+        <ContractListCardSelectSkeleton v-if="loading" />
+
+        <template v-for="contract in contracts" v-else>
+          <ContractListCardSelect
+            :key="contract.uuid"
+            :contract="contract"
+            :edit-mode="editMode"
+          />
+        </template>
+      </template>
+
+      <v-col cols="12" sm="6" md="4">
+        <v-hover>
+          <template v-slot:default="{ hover }">
+            <v-card
+              class="mx-auto"
+              :min-height="editMode ? '170px' : '118px'"
+              :to="{ name: 'createContract' }"
+              :elevation="hover ? 2 : 0"
+              max-width="350"
+              outlined
+              @click="() => {}"
+            >
+              <v-row :style="{ height: editMode ? '168px' : '116px' }">
+                <v-col align-self="center" align="center">
+                  <v-btn text disabled>
+                    <v-icon left>{{ icons.mdiPlus }}</v-icon> Add contract
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
           </template>
-
-          <template v-else>
-            <ContractListCardSelectSkeleton v-if="loading" />
-
-            <template v-for="contract in contracts" v-else>
-              <ContractListCardSelect
-                :key="contract.uuid"
-                :contract="contract"
-                :edit-mode="editMode"
-                @delete="confirmDelete(contract.uuid, fetchList)"
-              />
-            </template>
-          </template>
-
-          <v-col cols="12" sm="6" md="4">
-            <v-hover>
-              <template v-slot:default="{ hover }">
-                <v-card
-                  class="mx-auto"
-                  :min-height="editMode ? '170px' : '118px'"
-                  :to="{ name: 'createContract' }"
-                  :elevation="hover ? 2 : 0"
-                  max-width="350"
-                  outlined
-                  @click="() => {}"
-                >
-                  <v-row :style="{ height: editMode ? '168px' : '116px' }">
-                    <v-col align-self="center" align="center">
-                      <v-btn text disabled>
-                        <v-icon left>{{ icons.mdiPlus }}</v-icon> Add contract
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </template>
-            </v-hover>
-          </v-col>
-        </v-row>
-      </FrameHooks>
-    </ContractListFrame>
+        </v-hover>
+      </v-col>
+    </v-row>
 
     <TheDialog v-if="dialog" @close="dialog = false">
       <template v-slot:content>
@@ -97,13 +89,13 @@ import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSkeleton from "@/components/contracts/ContractListCardSkeleton";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 import ContractListCardSelectSkeleton from "@/components/contracts/ContractListCardSelectSkeleton";
-import ContractListFrame from "@/components/contracts/ContractListFrame";
-import FrameHooks from "@/components/FrameHooks";
 import TheDialog from "@/components/TheDialog";
 
 import ContractService from "@/services/contract";
 
 import { mdiPlus } from "@mdi/js";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "ViewContractList",
@@ -112,53 +104,51 @@ export default {
     ContractListCardSkeleton,
     ContractListCardSelect,
     ContractListCardSelectSkeleton,
-    ContractListFrame,
-    FrameHooks,
     TheDialog
   },
   data() {
     return {
       dialog: false,
-      callback: null,
       icons: {
         mdiPlus: mdiPlus
       }
     };
   },
   computed: {
+    ...mapGetters({
+      loading: "contract/loading"
+    }),
+    contracts() {
+      return this.$store.state.contract.contracts;
+    },
     editMode() {
       if (this.$route.name === "contractSelect") return false;
 
       return true;
     }
   },
+  mounted() {
+    this.$store.dispatch("contract/queryContracts");
+  },
   methods: {
-    confirmDelete(uuid, callback) {
+    confirmDelete(uuid) {
       this.uuid = uuid;
       this.dialog = true;
-      this.callback = callback;
     },
     async destroy() {
       ContractService.delete(this.uuid)
         .then(() => {
-          this.callback();
-
           if (this.uuid === this.$store.state.selectedContract.uuid) {
             this.$store.dispatch("unsetContract");
             this.$router.push({ name: "contractSelect" });
           }
         })
-        .catch(error => {
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: error.message,
-            timeout: 0,
-            color: "error"
-          });
-        })
+        .catch(() => {})
         .finally(() => {
+          this.$store.dispatch("contract/queryContracts");
+
           this.dialog = false;
           this.uuid = null;
-          this.callback = null;
         });
     }
   }
