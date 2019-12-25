@@ -1,13 +1,10 @@
 import axios from "axios";
-import store from "@/store";
-
-function sessionExpiredSnack() {
-  store.dispatch("snackbar/setSnack", {
-    snack: "Your session has expired.",
-    timeout: 10000,
-    color: "warning"
-  });
-}
+import {
+  handleGenericError,
+  handleLogout,
+  handleNetworkError,
+  handleTokenRefresh
+} from "@/utils/interceptors";
 
 const ApiService = {
   _401interceptor: null,
@@ -54,57 +51,33 @@ const ApiService = {
         return response;
       },
       async error => {
-        // We cannot reach the backend. PANIC!
-        if (error.message == "Network Error") {
-          store.dispatch("snackbar/setSnack", {
-            snack: "We cannot phone home. Please try again later.",
-            timeout: 0,
-            color: "error"
-          });
+        const isNetworkError = error.message == "Network Error";
+        const isRefreshTokenExpired =
+          error.response.data.code === "token_not_valid" &&
+          (error.response.data.detail === "Token is invalid or expired" ||
+            error.response.data.detail === "Token 'exp' claim has expired");
 
-          return Promise.reject(error);
+        // We cannot reach the backend :(
+        if (isNetworkError) {
+          handleNetworkError();
+          return;
         }
 
-        // The error is not 401!
+        // The error is not 401, so we should handle it and show it to the user.
         if (error.request.status != 401) {
+          handleGenericError(error);
           return Promise.reject(error);
         }
 
         // Logout if refresh token is expired
-        if (
-          error.response.data.code === "token_not_valid" &&
-          (error.response.data.detail === "Token is invalid or expired" ||
-            error.response.data.detail === "Token 'exp' claim has expired")
-        ) {
-          store.dispatch("auth/logout");
-          store.dispatch("unsetContract");
-          sessionExpiredSnack();
+        if (isRefreshTokenExpired) {
+          handleLogout();
 
           return Promise.reject(error);
         }
 
-        try {
-          // Refresh the access token
-          const accessToken = await store.dispatch("auth/refreshToken");
-
-          const { config: originalRequest } = error;
-          // Set new access token
-          originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
-
-          // Retry the request
-          return this.customRequest({
-            ...originalRequest,
-            headers: {
-              "Content-Type": "application/json;charset=UTF-8"
-            }
-          });
-        } catch (e) {
-          // Refresh has failed - reject the original request
-          // and logout user.
-          sessionExpiredSnack();
-
-          return Promise.reject();
-        }
+        // Try to refresh the access token
+        return await handleTokenRefresh(error, this.customRequest);
       }
     );
   },
