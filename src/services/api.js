@@ -25,24 +25,24 @@ const ApiService = {
     axios.defaults.headers.common = {};
   },
 
-  get(resource) {
-    return axios.get(resource);
+  get(resource, config = {}) {
+    return axios.get(resource, config);
   },
 
-  post(resource, data) {
-    return axios.post(resource, data);
+  post(resource, data, config = {}) {
+    return axios.post(resource, data, config);
   },
 
-  patch(resource, data) {
-    return axios.patch(resource, data);
+  patch(resource, data, config = {}) {
+    return axios.patch(resource, data, config);
   },
 
-  delete(resource) {
-    return axios.delete(resource);
+  delete(resource, config = {}) {
+    return axios.delete(resource, config);
   },
 
-  customRequest(data) {
-    return axios(data);
+  customRequest(data, config = {}) {
+    return axios(data, config);
   },
 
   mount401Interceptor() {
