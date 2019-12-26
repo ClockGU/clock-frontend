@@ -62,7 +62,7 @@ import ReviewShifts from "@/components/ReviewShifts";
 
 import {
   addSeconds,
-  areIntervalsOverlapping,
+  // areIntervalsOverlapping,
   eachDayOfInterval,
   format,
   parseISO
@@ -102,11 +102,14 @@ export default {
   },
   computed: {
     disabled() {
+      // Always return false to make the button never disabled.
+      // We should catch all errors now, and disabling is not a priority right now.
+      return false;
       // Return false if todays date does not overlap with the contract.
-      return !areIntervalsOverlapping(
-        { start: this.contractDates.start, end: this.contractDates.end },
-        { start: new Date(), end: new Date() }
-      );
+      // return !areIntervalsOverlapping(
+      //   { start: this.contractDates.start, end: this.contractDates.end },
+      //   { start: new Date(), end: new Date() }
+      // );
     }
   },
   watch: {

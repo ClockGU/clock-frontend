@@ -11,6 +11,7 @@
 <script>
 import FrameApi from "@/components/FrameApi";
 import ContractService from "@/services/contract";
+import { handleApiError } from "../../utils/interceptors";
 
 export default {
   name: `ContractListFrame`,
@@ -18,7 +19,7 @@ export default {
     FrameApi
   },
   created() {
-    this.listEndpoint = () => ContractService.list();
+    this.listEndpoint = () => ContractService.list().catch(handleApiError);
   }
 };
 </script>

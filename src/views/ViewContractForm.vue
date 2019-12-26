@@ -10,6 +10,7 @@
 import ContractForm from "@/components/contracts/ContractForm";
 import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
+import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: "ViewContractForm",
@@ -32,7 +33,9 @@ export default {
     if (entity !== undefined) {
       this.entity = new Contract(entity);
     } else if (this.uuid != null) {
-      const response = await ContractService.get(this.uuid);
+      const response = await ContractService.get(this.uuid).catch(
+        handleApiError
+      );
       this.entity = new Contract(response.data);
     } else {
       this.entity = new Contract();

@@ -1,5 +1,6 @@
 import { getField, updateField } from "vuex-map-fields";
 import ContractService from "@/services/contract";
+import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   contracts: [],
@@ -47,7 +48,7 @@ const actions = {
   },
   async queryContracts({ commit }) {
     state.status = "loading";
-    const contracts = await ContractService.list();
+    const contracts = await ContractService.list().catch(handleApiError);
     state.status = "idle";
 
     commit("setContracts", contracts.data);

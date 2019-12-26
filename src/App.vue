@@ -109,6 +109,7 @@ import {
   mdiFormatListNumbered,
   mdiFileChart
 } from "@mdi/js";
+import { handleApiError } from "./utils/interceptors";
 
 export default {
   components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
@@ -212,7 +213,7 @@ export default {
   methods: {
     async getClockedShift() {
       try {
-        const response = await ClockService.get();
+        const response = await ClockService.get().catch(handleApiError);
         this.clockedShift = response.data;
       } catch (err) {
         this.clockedShift = null;

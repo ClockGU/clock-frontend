@@ -73,6 +73,7 @@ import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift";
 import { minutesToHHMM } from "@/utils/time";
+import { handleApiError } from "../../utils/interceptors";
 
 export default {
   name: "ShiftTable",
@@ -182,7 +183,7 @@ export default {
     destroy() {
       const promises = [];
       for (const shift of this.selected) {
-        promises.push(ShiftService.delete(shift.uuid));
+        promises.push(ShiftService.delete(shift.uuid).catch(handleApiError));
       }
 
       Promise.all(promises)

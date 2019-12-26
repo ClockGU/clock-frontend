@@ -148,6 +148,7 @@ import { startEndHours } from "@/utils/time";
 
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import { handleApiError } from "../../utils/interceptors";
 
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
@@ -326,12 +327,14 @@ export default {
       this.stepper -= 1;
     },
     async submit(callback, shift) {
-      await callback(shift);
+      callback(shift)
+        .then(() => this.$emit("submit"))
+        .catch(handleApiError);
     },
     async destroy() {
       if (this.uuid === null) return;
 
-      await ShiftService.delete(this.uuid);
+      await ShiftService.delete(this.uuid).catch(handleApiError);
 
       this.redirect();
     }

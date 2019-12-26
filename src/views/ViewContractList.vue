@@ -96,6 +96,7 @@ import ContractService from "@/services/contract";
 import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
+import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: "ViewContractList",
@@ -143,7 +144,7 @@ export default {
             this.$router.push({ name: "contractSelect" });
           }
         })
-        .catch(() => {})
+        .catch(handleApiError)
         .finally(() => {
           this.$store.dispatch("contract/queryContracts");
 

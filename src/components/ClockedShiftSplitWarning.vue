@@ -162,6 +162,8 @@ import { mdiDotsHorizontal, mdiDotsVertical } from "@mdi/js";
 
 import equals from "ramda/src/equals";
 
+import { handleApiError } from "@/utils/interceptors";
+
 export default {
   name: "ClockedShiftSplitWarning",
   filters: {
@@ -263,7 +265,9 @@ export default {
       this.dialog = false;
     },
     submit() {
-      this.shifts.map(shift => ShiftService.create(shift.toPayload()));
+      this.shifts.map(shift =>
+        ShiftService.create(shift.toPayload()).catch(handleApiError)
+      );
       this.$emit("close");
       this.callbacks.reset();
     },

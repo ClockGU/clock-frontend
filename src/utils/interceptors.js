@@ -1,11 +1,12 @@
 import store from "@/store";
 
-const errorProperties = ["detail"];
+const errorProperties = ["detail", "non_field_errors"];
 
 const ignoreClockedShiftNotFound = function(error) {
   return (
     error.config.url.includes("clockedinshifts") &&
-    error.response.status === 404
+    error.response.status === 404 &&
+    error.config.method !== "delete"
   );
 };
 
@@ -15,6 +16,10 @@ const sessionExpiredSnack = function() {
     timeout: 10000,
     color: "warning"
   });
+};
+
+export const handleApiError = function() {
+  return {};
 };
 
 export const handleLogout = function() {
@@ -43,6 +48,12 @@ export const handleGenericError = function(error) {
       continue;
     }
     message = data[property];
+
+    // The error is of type "non_field_errors" and returns a list.
+    // Join all separate messages into one long message.
+    if (Array.isArray(message)) {
+      message = message.join(" ");
+    }
   }
   message = message === null ? data : message;
 

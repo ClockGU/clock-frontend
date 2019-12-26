@@ -138,6 +138,7 @@ import {
   mdiArrowDown,
   mdiClose
 } from "@mdi/js";
+import { handleApiError } from "../../utils/interceptors";
 
 export default {
   name: "Calendar",
@@ -263,13 +264,7 @@ export default {
 
           this.$store.dispatch("shift/setShifts", remainingShifts);
         })
-        .catch(error => {
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: error.message,
-            timeout: 0,
-            color: "error"
-          });
-        })
+        .catch(handleApiError)
         .finally(() => {
           this.dialog = false;
           this.uuid = null;

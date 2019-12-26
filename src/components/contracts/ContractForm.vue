@@ -217,6 +217,7 @@ import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import { Contract } from "@/models/ContractModel";
 import FrameApi from "@/components/FrameApi";
 import ContractService from "@/services/contract";
+import { handleApiError } from "../../utils/interceptors";
 
 const hoursNotZero = value => value !== "00:00";
 const validMinutes = value => value.split(":")[1] <= parseInt(59);
@@ -361,8 +362,8 @@ export default {
 
     this.endpoint = data =>
       this.uuid === null
-        ? ContractService.create(data)
-        : ContractService.update(data, this.uuid);
+        ? ContractService.create(data).catch(handleApiError)
+        : ContractService.update(data, this.uuid).catch(handleApiError);
   },
   methods: {
     nextStep() {
@@ -406,7 +407,7 @@ export default {
     async destroy() {
       if (this.uuid === null) return;
 
-      await ContractService.delete(this.uuid);
+      await ContractService.delete(this.uuid).catch(handleApiError);
 
       this.redirect();
     }

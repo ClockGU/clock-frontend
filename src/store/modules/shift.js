@@ -1,6 +1,7 @@
 import { getField, updateField } from "vuex-map-fields";
 import ShiftService from "@/services/shift";
 import { isThisMonth, parseISO } from "date-fns";
+import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   shifts: [],
@@ -102,7 +103,7 @@ const actions = {
     commit("stageShift", payload);
   },
   async queryShifts({ commit }) {
-    const shifts = await ShiftService.list();
+    const shifts = await ShiftService.list().catch(handleApiError);
 
     commit("setShifts", shifts.data);
   }

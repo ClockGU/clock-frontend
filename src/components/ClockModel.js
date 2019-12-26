@@ -4,6 +4,7 @@ import uuid from "uuid/v4";
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift";
 import ClockService from "@/services/clock";
+import { handleApiError } from "@/utils/interceptors";
 
 export default {
   name: "ClockModel",
@@ -78,7 +79,7 @@ export default {
         const response = await ClockService.create({
           ...this.shift,
           started: this.shift.start
-        });
+        }).catch(handleApiError);
         this.shift.start = parseISO(response.date.start);
         this.shift.contract = response.contract;
         this.shift.id = response.uuid;
@@ -88,7 +89,7 @@ export default {
       this.$store.dispatch("shift/clockShift", this.shift);
     },
     async reset() {
-      await ClockService.delete(this.shift.id);
+      await ClockService.delete(this.shift.id).catch(handleApiError);
 
       this.clear();
       this.initialize();
@@ -110,10 +111,10 @@ export default {
         type: { value: "st", text: "Shift" }
       };
 
-      await ClockService.delete(this.shift.id);
+      await ClockService.delete(this.shift.id).catch(handleApiError);
       const payload = new Shift(data).toPayload();
 
-      await ShiftService.create(payload);
+      await ShiftService.create(payload).catch(handleApiError);
       this.initialize();
     },
     tick() {
