@@ -8,32 +8,21 @@
       </v-col>
     </v-row>
 
-    <ReportListFrame>
-      <FrameHooks
-        slot-scope="{ reports, methods: { fetchList }, status: { loading } }"
-        @created="fetchList()"
-      >
-        <div>
-          <span v-if="loading">Loading...</span>
-          <ReportCardList :reports="reports" />
-        </div>
-      </FrameHooks>
-    </ReportListFrame>
+    <div>
+      <span v-if="loading">Loading...</span>
+      <ReportCardList v-else :reports="reports" />
+    </div>
   </v-container>
 </template>
 
 <script>
-import ReportListFrame from "@/components/ReportListFrame";
-import FrameHooks from "@/components/FrameHooks";
 import ReportCardList from "@/components/ReportCardList";
 
-// import ReportService from "@/services/report";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ViewReportList",
   components: {
-    ReportListFrame,
-    FrameHooks,
     ReportCardList
   },
   data() {
@@ -42,6 +31,15 @@ export default {
       callback: null,
       hover: false
     };
+  },
+  computed: {
+    ...mapGetters({ loading: "report/loading" }),
+    reports() {
+      return this.$store.state.report.reports;
+    }
+  },
+  mounted() {
+    this.$store.dispatch("report/list");
   }
 };
 </script>
