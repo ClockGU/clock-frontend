@@ -13,13 +13,14 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row data-cy="contract-list">
       <template v-if="editMode">
         <ContractListCardSkeleton v-if="loading" />
 
-        <template v-for="contract in contracts" v-else>
+        <template v-for="(contract, i) in contracts" v-else>
           <ContractListCard
             :key="contract.uuid"
+            :data-cy="'contract-' + i"
             :contract="contract"
             :edit-mode="editMode"
             @delete="confirmDelete(contract.uuid)"
@@ -66,7 +67,7 @@
 
     <TheDialog v-if="dialog" @close="dialog = false">
       <template v-slot:content>
-        <v-card class="mx-auto">
+        <v-card data-cy="delete-dialog" class="mx-auto">
           <v-card-title class="headline">
             You sure you want to delete this contract?
           </v-card-title>
@@ -75,8 +76,12 @@
             action is not reversible.
           </v-card-text>
           <v-card-actions>
-            <v-btn color="error" text @click="destroy">Delete</v-btn>
-            <v-btn text @click="dialog = false">Cancel</v-btn>
+            <v-btn data-cy="delete-confirm" color="error" text @click="destroy">
+              Delete
+            </v-btn>
+            <v-btn data-cy="delete-cancel" text @click="dialog = false">
+              Cancel
+            </v-btn>
           </v-card-actions>
         </v-card>
       </template>
@@ -129,6 +134,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("shift/queryShifts");
     this.$store.dispatch("contract/queryContracts");
   },
   methods: {

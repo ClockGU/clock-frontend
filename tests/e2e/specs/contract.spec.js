@@ -1,81 +1,344 @@
-describe("Contract Page", () => {
-  beforeEach(() => {
-    cy.server();
-    cy.route({
-      method: "POST",
-      url: "/api/contacts/",
-      response: {},
-      status: 204
+describe("Contracts", () => {
+  context("viewing the list of contracts", () => {
+    beforeEach(() => {
+      cy.server();
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+
+      cy.login();
+      cy.selectContract();
+      cy.visit("http://localhost:8080/contracts/");
     });
 
-    cy.login();
-    cy.visit("http://localhost:8080/contracts/create");
+    it("lists all contracts", () => {
+      cy.get("[data-cy=contract-list]")
+        .children()
+        .should("have.length", 5);
+    });
+
+    it("each contract lists all details", () => {
+      cy.get("[data-cy=contract-0]")
+        .should("contain", "20:00 per month")
+        .should("contain", "Cypress")
+        .should("contain", "2019-10-01 until 2020-03-31");
+    });
+
+    it("each contract has two buttons", () => {
+      cy.get("[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions]")
+        .children()
+        .should("have.length", 2);
+
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+      )
+        .should("not.be.disabled")
+        .should("contain", "Edit");
+
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=delete]"
+      )
+        .should("not.be.disabled")
+        .should("contain", "Delete");
+    });
+
+    it("shows a confirm dialog when trying to delete", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=delete]"
+      ).click();
+      cy.get("[data-cy=delete-dialog]", { timeout: 1000 }).should(
+        "contain",
+        "You sure you want to delete this contract?"
+      );
+      cy.get("[data-cy=delete-dialog]").should("be.visible");
+    });
+
+    it("can cancel the delete dialog", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=delete]"
+      ).click();
+      cy.get("[data-cy=delete-cancel]").click();
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+    });
+
+    it("can cancel the delete dialog with escape key", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=delete]"
+      ).click();
+      cy.focused().type("{esc}");
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+    });
+
+    it("can delete a single contract", () => {
+      cy.server();
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
+        "allContracts"
+      );
+
+      cy.fixture("contracts.json").then(contracts => {
+        cy.wait("@allContracts");
+
+        const remainingContracts = contracts.slice(1);
+        cy.route("GET", "/api/contracts/", remainingContracts);
+        cy.route(
+          "DELETE",
+          "/api/contracts/178bc9a6-132e-46ab-8fa2-df8e22c229b6/",
+          {}
+        );
+
+        cy.get(
+          "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=delete]"
+        ).click();
+        cy.get("[data-cy=delete-confirm]").click();
+        cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+        cy.get("[data-cy=contract-list]")
+          .children()
+          .should("have.length", 4);
+      });
+    });
+
+    it("shows a warning when we try to delete a contract", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=delete]"
+      ).click();
+      cy.get("[data-cy=delete-confirm]").click();
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+      cy.get("[data-cy=snackbar]").should("contain", "Not found.");
+    });
   });
 
-  it("Can create a contract", () => {
-    // First step
-    cy.get("[data-cy=header]").contains("Step 1 / 5");
-    cy.get("[data-cy=continue-step-one]")
-      .contains("Continue")
-      .click();
+  context("editing a contract", () => {
+    beforeEach(() => {
+      cy.server();
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
 
-    // Second step
-    cy.get("[data-cy=header]").contains("Step 2 / 5");
-    cy.get("[data-cy=continue-step-two]")
-      .contains("Continue")
-      .click();
+      cy.login();
+      cy.selectContract();
+      cy.visit("http://localhost:8080/contracts/");
+    });
 
-    // Third step
-    cy.get("[data-cy=header]").contains("Step 3 / 5");
-    cy.get("[data-cy=continue-step-three]")
-      .should("be.disabled")
-      .contains("Continue");
+    it("redirects to contract form", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+      ).click();
 
-    cy.get("input[mask=time]")
-      .type("40")
-      .blur();
+      cy.url().should(
+        "contain",
+        "/contracts/178bc9a6-132e-46ab-8fa2-df8e22c229b6/edit"
+      );
+    });
 
-    cy.get(".v-messages__message").contains(
-      "Please enter a valid format (HH:MM)"
-    );
+    it("fills the contract form with all data", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+      ).click();
 
-    cy.get("input[mask=time]").type("00");
+      cy.progressContractForm();
+      cy.get("[data-cy=header]").should("contain", "Summary");
+      cy.get("[data-cy=summary] > .v-card__text")
+        .should("contain", "Cypress")
+        .should("contain", "20:00")
+        .should("contain", "2019-10-01 - 2020-03-31");
+    });
 
-    cy.get("[data-cy=continue-step-three]")
-      .should("not.be.disabled")
-      .click();
+    it("can update a contract without input", () => {
+      cy.server();
+      cy.route("PATCH", "**/contracts/*", {});
 
-    // // Fourth step
-    cy.get("[data-cy=header]").contains("Step 4 / 5");
-    cy.get("[data-cy=continue-step-four]")
-      .should("be.disabled")
-      .contains("Continue");
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+      ).click();
 
-    cy.get("[data-cy=input-contract]").type("Cypress");
-    cy.get("[data-cy=continue-step-four]")
-      .should("not.be.disabled")
-      .contains("Continue");
+      cy.progressContractForm();
 
-    cy.get("[data-cy=input-contract]").clear();
-    cy.get("[data-cy=continue-step-four]")
-      .should("be.disabled")
-      .contains("Continue");
+      // Submit data
+      cy.get("[data-cy=save]").click();
+      cy.url().should("include", "/contracts");
+    });
 
-    cy.get("[data-cy=input-contract]").type("Cypress");
-    cy.get("[data-cy=continue-step-four]").click();
+    it("can update a contract", () => {
+      cy.server();
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
+        "allContracts"
+      );
+      cy.route("PATCH", "**/contracts/*", {});
 
-    const date = new Date();
-    const currentMonth = date.getMonth() + 1;
-    const lastDayOfCurrentMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    // Fifth step
-    cy.get("[data-cy=header]").should("contain", "Summary");
-    cy.get("[data-cy=summary] > .v-card__text")
-      .should("contain", "Cypress")
-      .should("contain", "40:00")
-      .should("contain", `2019-${currentMonth}-01 - 2019-${currentMonth}-${lastDayOfCurrentMonth}`);
+      cy.fixture("contracts.json").then(contracts => {
+        cy.wait("@allContracts");
 
-    // Submit data
-    cy.get("[data-cy=save]").click();
-    cy.url().should("include", "/contracts");
+        const editedContract = Object.assign({}, contracts[0], {
+          name: "ABC",
+          hours: 15
+        });
+        const remainingContracts = contracts.slice(1);
+        const newContracts = [editedContract];
+        Array.prototype.push.apply(newContracts, remainingContracts);
+        cy.route("GET", "/api/contracts/", newContracts);
+
+        cy.get(
+          "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+        ).click();
+
+        cy.get("[data-cy=continue-step-one]").click();
+        cy.get("[data-cy=continue-step-two]").click();
+
+        cy.get("[data-cy=input-hours]")
+          .clear()
+          .type("15:00");
+        cy.get("[data-cy=continue-step-three]").click();
+
+        cy.get("[data-cy=input-contract]")
+          .clear()
+          .type("ABC");
+        cy.get("[data-cy=continue-step-four]").click();
+
+        cy.get("[data-cy=header]").should("contain", "Summary");
+        cy.get("[data-cy=summary] > .v-card__text")
+          .should("contain", "ABC")
+          .should("contain", "15:00")
+          .should("contain", "2019-10-01 - 2020-03-31");
+
+        // Submit data
+        cy.get("[data-cy=save]").click();
+        cy.url().should("include", "/contracts");
+
+        cy.get("[data-cy=contract-0]")
+          .should("contain", "15:00 per month")
+          .should("contain", "ABC")
+          .should("contain", "2019-10-01 until 2020-03-31");
+      });
+    });
+
+    it("shows a banner after adding shifts to the contract", () => {
+      cy.server();
+      cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
+        "contracts"
+      );
+
+      cy.wait(["@shifts", "@contracts"]);
+
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+      ).click();
+
+      cy.get("[data-cy=alert-step-one]").should(
+        "contain",
+        "You cannot change the start/end date, after adding shifts to the contract."
+      );
+      cy.get(
+        "[data-cy=datepicker-step-one] > .v-picker__body > :nth-child(1) > :nth-child(1)"
+      ).should("have.class", "v-date-picker-header--disabled");
+      cy.get(
+        "[data-cy=datepicker-step-one] > .v-picker__body > :nth-child(1) > :nth-child(2)"
+      ).should("have.class", "v-date-picker-table--disabled");
+      cy.get("[data-cy=continue-step-one]").click();
+
+      cy.get("[data-cy=alert-step-two]").should(
+        "contain",
+        "You cannot change the start/end date, after adding shifts to the contract."
+      );
+      cy.get(
+        "[data-cy=datepicker-step-two] > .v-picker__body > :nth-child(1) > :nth-child(1)"
+      ).should("have.class", "v-date-picker-header--disabled");
+      cy.get(
+        "[data-cy=datepicker-step-two] > .v-picker__body > :nth-child(1) > :nth-child(2)"
+      ).should("have.class", "v-date-picker-table--disabled");
+    });
+  });
+
+  context("adding a contract", () => {
+    beforeEach(() => {
+      cy.server();
+      cy.route({
+        method: "POST",
+        url: "/api/contacts/",
+        response: {},
+        status: 204
+      });
+
+      cy.login();
+      cy.visit("http://localhost:8080/contracts/create");
+    });
+
+    it("can create a contract", () => {
+      cy.server();
+      cy.route({
+        method: "POST",
+        url: "/api/contracts/",
+        response: {},
+        status: 204
+      });
+
+      // First step
+      cy.get("[data-cy=header]").contains("Step 1 / 5");
+      cy.get("[data-cy=continue-step-one]")
+        .contains("Continue")
+        .click();
+
+      // Second step
+      cy.get("[data-cy=header]").contains("Step 2 / 5");
+      cy.get("[data-cy=continue-step-two]")
+        .contains("Continue")
+        .click();
+
+      // Third step
+      cy.get("[data-cy=header]").contains("Step 3 / 5");
+      cy.get("[data-cy=continue-step-three]")
+        .should("be.disabled")
+        .contains("Continue");
+
+      cy.get("input[mask=time]")
+        .type("40")
+        .blur();
+
+      cy.get(".v-messages__message").contains(
+        "Please enter a valid format (HH:MM)"
+      );
+
+      cy.get("input[mask=time]").type("00");
+
+      cy.get("[data-cy=continue-step-three]")
+        .should("not.be.disabled")
+        .click();
+
+      // // Fourth step
+      cy.get("[data-cy=header]").contains("Step 4 / 5");
+      cy.get("[data-cy=continue-step-four]")
+        .should("be.disabled")
+        .contains("Continue");
+
+      cy.get("[data-cy=input-contract]").type("Cypress");
+      cy.get("[data-cy=continue-step-four]")
+        .should("not.be.disabled")
+        .contains("Continue");
+
+      cy.get("[data-cy=input-contract]").clear();
+      cy.get("[data-cy=continue-step-four]")
+        .should("be.disabled")
+        .contains("Continue");
+
+      cy.get("[data-cy=input-contract]").type("Cypress");
+      cy.get("[data-cy=continue-step-four]").click();
+
+      const date = new Date();
+      const currentMonth = date.getMonth() + 1;
+      const lastDayOfCurrentMonth = new Date(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        0
+      ).getDate();
+      // Fifth step
+      cy.get("[data-cy=header]").should("contain", "Summary");
+      cy.get("[data-cy=summary] > .v-card__text")
+        .should("contain", "Cypress")
+        .should("contain", "40:00")
+        .should(
+          "contain",
+          `2019-${currentMonth}-01 - 2019-${currentMonth}-${lastDayOfCurrentMonth}`
+        );
+
+      // Submit data
+      cy.get("[data-cy=save]").click();
+      cy.url().should("include", "/contracts");
+    });
   });
 });

@@ -28,6 +28,13 @@ Cypress.Commands.add("login", () => {
   });
 });
 
+Cypress.Commands.add("progressContractForm", () => {
+  cy.get("[data-cy=continue-step-one]", { timeout: 5000 }).click();
+  cy.get("[data-cy=continue-step-two]", { timeout: 5000 }).click();
+  cy.get("[data-cy=continue-step-three]", { timeout: 5000 }).click();
+  cy.get("[data-cy=continue-step-four]", { timeout: 5000 }).click();
+});
+
 Cypress.Commands.add("createContract", () => {
   cy.request({
     method: "POST",
