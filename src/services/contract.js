@@ -1,5 +1,4 @@
 import ApiService from "@/services/api";
-import store from "@/store";
 
 // class ContractError extends Error {
 //   constructor(errorCode, message) {
@@ -34,7 +33,6 @@ const ContractService = {
       return ApiService.customRequest(requestData)
         .then(response => {
           const contract = mapApiResponse(response.data);
-          store.dispatch("contract/addContract", contract);
 
           return resolve(contract);
         })
@@ -75,7 +73,6 @@ const ContractService = {
       return ApiService.patch(`${BASE_URL}${uuid}/`, data)
         .then(response => {
           const contract = mapApiResponse(response.data);
-          store.dispatch("contract/updateContract", contract);
 
           return resolve(contract);
         })
