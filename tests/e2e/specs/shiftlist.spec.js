@@ -53,6 +53,15 @@ describe("Shift list table", () => {
         .should("not.be.disabled")
         .should("contain", "Delete (1 shift)");
     });
+
+    it("shows an error when trying to delete a stale shift", () => {
+      cy.server();
+      cy.get("[data-cy=shift-delete]").click();
+      cy.get("[data-cy=delete-dialog]").should("contain", "Delete shifts?");
+      cy.get("[data-cy=delete-confirm]").click();
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+      cy.get("[data-cy=snackbar]").should("contain", "Not found.");
+    });
   });
 
   context("multiple shifts selected", () => {

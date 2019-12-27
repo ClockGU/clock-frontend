@@ -15,7 +15,7 @@
 
     <v-row data-cy="contract-list">
       <template v-if="editMode">
-        <ContractListCardSkeleton v-if="loading" />
+        <ContractListCardSkeleton v-if="loading" data-cy="skeleton" />
 
         <template v-for="(contract, i) in contracts" v-else>
           <ContractListCard

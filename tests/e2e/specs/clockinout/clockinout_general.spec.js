@@ -16,7 +16,7 @@ describe("when no shifts are clocked", () => {
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
   });
 
-  it("shows the duration when after a shift is started", () => {
+  it("shows the duration after a shift is started", () => {
     const time = new Date(2019, 10, 20, 10).getTime();
     cy.clock(time, ["Date"]);
 
@@ -48,7 +48,7 @@ describe("when no shifts are clocked", () => {
 });
 
 describe("when a shift was already clocked before loading the page", () => {
-  it.only("can clock out", () => {
+  beforeEach(() => {
     cy.login();
     cy.selectContract();
 
@@ -68,11 +68,30 @@ describe("when a shift was already clocked before loading the page", () => {
     cy.route("POST", "/api/clockedinshifts/", {});
 
     cy.visit("http://localhost:8080");
-
     cy.tick(1000);
     cy.wait(100);
+  });
 
+  it("can clock out", () => {
     cy.get("[data-cy=clock-in-out-button]").click();
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
+  });
+
+  it("shows an error when trying to delete a stale shift", () => {
+    cy.server();
+    cy.route({
+      method: "DELETE",
+      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      body: { detail: "Not found." },
+      status: 404
+    });
+
+    cy.get("[data-cy=clock-in-out-button]").click();
+    cy.get("[data-cy=snackbar]").should("contain", "Not found.");
+    cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
+  });
+
+  it("deselects the contract when a shift is clocked outside the current contract", () => {
+    throw "not implemented";
   });
 });

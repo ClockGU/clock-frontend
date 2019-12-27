@@ -9,6 +9,12 @@ describe("Contracts", () => {
       cy.visit("http://localhost:8080/contracts/");
     });
 
+    it("initially shows a loading skeleton", () => {
+      cy.get("[data-cy=skeleton]").should("be.visible");
+      cy.wait(5000);
+      cy.get("[data-cy=skeleton]").should("not.be.visible");
+    });
+
     it("lists all contracts", () => {
       cy.get("[data-cy=contract-list]")
         .children()
@@ -242,6 +248,20 @@ describe("Contracts", () => {
       cy.get(
         "[data-cy=datepicker-step-two] > .v-picker__body > :nth-child(1) > :nth-child(2)"
       ).should("have.class", "v-date-picker-table--disabled");
+    });
+
+    it("shows an error when trying to edit a stale contract", () => {
+      cy.get(
+        "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
+      ).click();
+
+      cy.progressContractForm();
+      cy.get("[data-cy=save]").click();
+      cy.get("[data-cy=snackbar]").should("contain", "Not found.");
+      cy.url().should(
+        "contain",
+        "/contracts/178bc9a6-132e-46ab-8fa2-df8e22c229b6/edit"
+      );
     });
   });
 
