@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center>
     <v-flex xs8 md4>
-      <ClockModel :start-date="startDate">
+      <ClockInOut :start-date="startDate">
         <template v-slot="{ toggle, data, duration }">
           <v-layout wrap>
             <v-flex xs12>
@@ -46,21 +46,21 @@
             </v-expand-transition>
           </v-layout>
         </template>
-      </ClockModel>
+      </ClockInOut>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import ClockModel from "@/components/ClockModel";
+import ClockInOut from "@/components/ClockInOut";
 
 import { addSeconds, format } from "date-fns";
 
 export default {
   name: "ViewClockInOut",
   components: {
-    ClockModel
+    ClockInOut
   },
   filters: {
     toTime(seconds) {

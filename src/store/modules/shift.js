@@ -1,4 +1,6 @@
 import { getField, updateField } from "vuex-map-fields";
+import { Shift } from "@/models/ShiftModel";
+import ClockService from "@/services/clock";
 import ShiftService from "@/services/shift";
 import { isThisMonth, parseISO } from "date-fns";
 import { handleApiError } from "@/utils/interceptors";
@@ -6,10 +8,6 @@ import { handleApiError } from "@/utils/interceptors";
 const state = {
   shifts: [],
   clockedShift: null,
-  // clockedShift: {
-  //   start: new Date("Sun Oct 20 2019 11:09:32 GMT+0200"),
-  //   contract: "4e2dd4dd-79b2-4099-a4c2-c6f33e2b793e"
-  // },
   stagedShift: null,
   pseudoShifts: []
 };
@@ -35,7 +33,7 @@ const mutations = {
     state.clockedShift = payload;
   },
   clearClockedShift(state) {
-    state.clockedShift = null;
+    state.clockedShift = undefined;
   },
   addShift(state, payload) {
     state.shifts.push(payload);
@@ -72,6 +70,48 @@ const mutations = {
 };
 
 const actions = {
+  async CREATE_CLOCKED_SHIFT(
+    { dispatch },
+    { shift: shift, callback: callback }
+  ) {
+    return await ClockService.create(shift)
+      .then(response => {
+        shift.id = response.uuid;
+        dispatch("clockShift", shift);
+        callback();
+      })
+      .catch(handleApiError);
+  },
+  async DELETE_CLOCKED_SHIFT({ commit, state }, { callback }) {
+    return await ClockService.delete(state.clockedShift.id)
+      .then(() => {
+        callback();
+        commit("clearClockedShift");
+      })
+      .catch(handleApiError);
+  },
+  async CONVERT_CLOCKED_TO_NORMAL_SHIFT({ commit, dispatch, state }) {
+    return await ClockService.delete(state.clockedShift.id)
+      .then(async () => {
+        const data = {
+          date: {
+            start: state.clockedShift.started,
+            end: new Date()
+          },
+          contract: state.clockedShift.contract,
+          type: { value: "st", text: "Shift" }
+        };
+
+        const payload = new Shift(data).toPayload();
+        await ShiftService.create(payload)
+          .then(() => {
+            commit("clearClockedShift");
+            dispatch("queryShifts");
+          })
+          .catch(handleApiError);
+      })
+      .catch(handleApiError);
+  },
   clockShift({ commit }, payload) {
     commit("clockShift", payload);
   },
@@ -106,6 +146,16 @@ const actions = {
     const shifts = await ShiftService.list().catch(handleApiError);
 
     commit("setShifts", shifts.data);
+  },
+  async queryClockedShift({ commit }) {
+    const clockedShift = await ClockService.get().catch(handleApiError);
+
+    let payload = clockedShift.data;
+    if (payload !== undefined) {
+      payload = { ...payload, override: true };
+    }
+
+    commit("clockShift", payload);
   }
 };
 

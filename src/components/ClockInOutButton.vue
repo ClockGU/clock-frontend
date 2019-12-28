@@ -1,6 +1,6 @@
 <template>
-  <ClockModel :clocked-shift="clockedShift" :start-date="startDate">
-    <template v-slot="{ start, stop, reset, data, pause, unpause, duration }">
+  <ClockInOut :clocked-shift="clockedShift" @short="short" @overflow="overflow">
+    <template v-slot="{ action, duration, status }">
       <div>
         <v-col cols="10">
           <v-row>
@@ -13,17 +13,18 @@
                   text
                   width="150"
                   :disabled="disabled"
-                  @click="
-                    toggle(start, stop, pause, unpause, reset, duration, data)
-                  "
+                  @click="action"
                 >
                   <v-slide-y-transition hide-on-leave>
-                    <span v-if="!data.start">Clock in</span>
+                    <span v-if="status === 'idle'">
+                      Clock in
+                    </span>
                   </v-slide-y-transition>
                   <v-slide-y-transition hide-on-leave>
                     <span
                       v-if="
-                        data.start && (!hover || clockInTimeout) && !needsReview
+                        (status === 'running' && (!hover || duration <= 5)) ||
+                          needsReview
                       "
                     >
                       {{ duration | toTime }}
@@ -32,7 +33,8 @@
                   <v-slide-y-transition hide-on-leave>
                     <span
                       v-if="
-                        (hover && data.start && !clockInTimeout) || needsReview
+                        (status === 'paused' || (hover && duration > 5)) &&
+                          !needsReview
                       "
                     >
                       Clock out
@@ -46,36 +48,37 @@
 
         <portal v-if="needsReview" to="dialog">
           <ReviewShifts
-            :shift="data"
+            :shift="shiftToReview"
             :callbacks="callbacks"
             @close="closeReview()"
           />
         </portal>
       </div>
     </template>
-  </ClockModel>
+  </ClockInOut>
 </template>
 
 <script>
-import ClockModel from "@/components/ClockModel";
+import ClockInOut from "@/components/ClockInOut";
 import ReviewShifts from "@/components/ReviewShifts";
 
 import {
   addSeconds,
   // areIntervalsOverlapping,
-  eachDayOfInterval,
   format,
   parseISO
 } from "date-fns";
-import { setTimeout } from "timers";
 
 export default {
   components: {
-    ClockModel,
+    ClockInOut,
     ReviewShifts
   },
   filters: {
     toTime(seconds) {
+      // Initially the value is NaN.
+      if (isNaN(seconds)) return "";
+
       const date = addSeconds(new Date(1970, 1, 1), seconds);
       return format(date, "HH'h'mm'm'ss's'");
     }
@@ -95,12 +98,15 @@ export default {
       clockInTimeout: false,
       startDate: null,
       contractDates: null,
-      dialog: false,
       needsReview: false,
-      callbacks: null
+      callbacks: null,
+      shiftToReview: null
     };
   },
   computed: {
+    contract() {
+      return this.$store.state.selectedContract;
+    },
     disabled() {
       // Always return false to make the button never disabled.
       // We should catch all errors now, and disabling is not a priority right now.
@@ -113,26 +119,20 @@ export default {
     }
   },
   watch: {
-    clockedShift() {
-      this.initialize();
-    },
     selectedContract(newValue) {
       this.setContractDates(newValue);
     }
   },
-  created() {
-    this.initialize();
-  },
   methods: {
-    initialize() {
-      this.setContractDates(this.selectedContract);
-
-      if (!this.clockedShift || this.clockedShift.started === null) return;
-
-      this.startDate =
-        typeof this.clockedShift.started === "string"
-          ? parseISO(this.clockedShift.started)
-          : this.clockedShift.started;
+    short(data, callbacks) {
+      this.shiftToReview = { start: data.startDate, contract: this.contract };
+      this.needsReview = true;
+      this.callbacks = callbacks;
+    },
+    overflow(data, callbacks) {
+      this.shiftToReview = { start: data.startDate, contract: this.contract };
+      this.needsReview = true;
+      this.callbacks = callbacks;
     },
     setContractDates(contract) {
       this.contractDates = {
@@ -145,33 +145,6 @@ export default {
     },
     closeReview() {
       this.needsReview = false;
-    },
-    toggle(start, stop, pause, unpause, reset, duration, data) {
-      if (duration === 0) {
-        start(new Date(), this.selectedContract.uuid);
-        this.clockInTimeout = true;
-        setTimeout(() => {
-          this.clockInTimeout = false;
-        }, 5000);
-      } else if (duration < 600) {
-        this.dialog = true;
-
-        this.needsReview = true;
-        pause();
-        this.callbacks = { stop: stop, unpause: unpause, reset: reset };
-      } else {
-        const days = eachDayOfInterval({ start: data.start, end: new Date() });
-
-        if (days.length > 1) {
-          this.needsReview = true;
-
-          this.callbacks = { reset: reset };
-          return;
-        }
-
-        stop();
-        this.callbacks = null;
-      }
     }
   }
 };

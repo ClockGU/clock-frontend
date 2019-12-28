@@ -1,5 +1,4 @@
 import ApiService from "@/services/api";
-import store from "@/store";
 
 function mapApiResponse(response) {
   return {
@@ -24,7 +23,6 @@ const ClockService = {
       return ApiService.customRequest(requestData)
         .then(response => {
           const shift = mapApiResponse(response.data);
-          store.dispatch("shift/clockShift", shift);
 
           return resolve(shift);
         })

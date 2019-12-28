@@ -56,7 +56,8 @@
         <v-btn text :to="{ path: '/select/' }" exact>
           {{ selectedContract.name }}
         </v-btn>
-        <ClockInOut
+        <ClockInOutButton
+          v-if="clockedShift !== null"
           :selected-contract="selectedContract"
           :clocked-shift="clockedShift"
         />
@@ -93,9 +94,8 @@
 import TheDialog from "@/components/TheDialog";
 import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
-import ClockInOut from "@/components/ClockInOut";
+import ClockInOutButton from "@/components/ClockInOutButton";
 import { mapGetters } from "vuex";
-import ClockService from "@/services/clock";
 
 import {
   mdiHome,
@@ -109,12 +109,10 @@ import {
   mdiFormatListNumbered,
   mdiFileChart
 } from "@mdi/js";
-import { handleApiError } from "./utils/interceptors";
 
 export default {
-  components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
+  components: { ClockInOutButton, TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
-    clockedShift: null,
     drawer: false,
     mini: true,
     logoutDialog: false,
@@ -200,25 +198,22 @@ export default {
     },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn"
-    })
+    }),
+    clockedShift() {
+      return this.$store.state.shift.clockedShift;
+    }
   },
   watch: {
     $route() {
       this.breadcrumbList = this.$route.meta.breadcrumb;
+
+      this.$store.dispatch("shift/queryClockedShift");
     }
   },
-  created() {
-    this.getClockedShift();
+  mounted() {
+    this.$store.dispatch("shift/queryClockedShift");
   },
   methods: {
-    async getClockedShift() {
-      try {
-        const response = await ClockService.get().catch(handleApiError);
-        this.clockedShift = response.data;
-      } catch (err) {
-        this.clockedShift = null;
-      }
-    },
     toggleDrawer() {
       if (this.isMobile) {
         this.drawer = !this.drawer;
