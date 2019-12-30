@@ -141,11 +141,11 @@ describe("Contracts", () => {
     it("can delete a single contract", () => {
       cy.server();
       cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
-        "allContracts"
+        "contracts"
       );
 
       cy.fixture("contracts.json").then(contracts => {
-        cy.wait("@allContracts");
+        cy.wait("@contracts");
 
         const remainingContracts = contracts.slice(1);
         cy.route("GET", "/api/contracts/", remainingContracts);
@@ -176,10 +176,12 @@ describe("Contracts", () => {
     });
   });
 
-  context("editing a contract", () => {
+  context.only("editing a contract", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
+        "contracts"
+      );
 
       cy.login();
       cy.selectContract();
@@ -227,13 +229,10 @@ describe("Contracts", () => {
 
     it("can update a contract", () => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
-        "allContracts"
-      );
       cy.route("PATCH", "**/contracts/*", {});
 
       cy.fixture("contracts.json").then(contracts => {
-        cy.wait("@allContracts");
+        cy.wait("@contracts");
 
         const editedContract = Object.assign({}, contracts[0], {
           name: "ABC",
@@ -281,9 +280,7 @@ describe("Contracts", () => {
     it("shows a banner after adding shifts to the contract", () => {
       cy.server();
       cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
-        "contracts"
-      );
+      cy.visit("http://localhost:8080/contracts/");
 
       cy.wait(["@shifts", "@contracts"]);
 
