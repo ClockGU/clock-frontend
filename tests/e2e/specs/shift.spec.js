@@ -135,6 +135,42 @@ describe("ShiftForm", () => {
       cy.url().should("contain", "/");
     });
 
+    it("shows an error when editing a shift of an exported month", () => {
+      cy.server();
+      cy.route("GET", "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53", {
+        id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
+        tags: [],
+        started: "2019-11-13T06:30:00+02:00",
+        stopped: "2019-11-13T08:56:00+02:00",
+        type: "sk",
+        note: "",
+        was_reviewed: true,
+        was_exported: false,
+        created_at: "2019-11-13T06:30:00+02:00",
+        modified_at: "2019-11-13T06:30:00+02:00",
+        contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+      });
+      cy.route(
+        "PATCH",
+        "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/",
+        {
+          detail:
+            "Eine Schicht die bereits exportiert wurde darf nicht modifiziert werden."
+        },
+        { status: 403 }
+      );
+
+      cy.visit(
+        "http://localhost:8080/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/edit"
+      );
+
+      cy.get("[data-cy=shift-save]").click();
+      cy.get("[data-cy=snackbar]").should(
+        "contain",
+        "Eine Schicht die bereits exportiert wurde darf nicht modifiziert werden."
+      );
+    });
+
     it("shows an error when trying to edit a stale shift", () => {
       cy.server();
       cy.route("GET", "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53", {
