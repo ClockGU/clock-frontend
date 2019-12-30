@@ -3,7 +3,12 @@ describe("when no shifts are clocked", () => {
     cy.server();
     cy.route("GET", "/api/shifts/", "fixture:shifts.json");
     cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", {});
+    cy.route({
+      method: "GET",
+      url: "/api/clockedinshifts/",
+      data: {},
+      status: 404
+    });
     cy.route("POST", "/api/clockedinshifts/", "fixture:clockin_short.json");
 
     cy.login();
@@ -44,6 +49,8 @@ describe("when no shifts are clocked", () => {
     cy.get("[data-cy=clock-in-out-button]").click();
 
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
+    cy.tick(1000);
+    cy.wait(1000);
   });
 });
 
@@ -104,22 +111,20 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
     cy.route("GET", "/api/shifts/", "fixture:shifts.json");
     cy.route("POST", "/api/shifts/", {});
     cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", {});
     cy.route(
       "DELETE",
       "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       {}
     );
     cy.route("POST", "/api/clockedinshifts/", {});
-
-    cy.visit("http://localhost:8080");
-    cy.tick(1000);
-    cy.wait(100);
   });
 
   it("starts a new clock when it was started after loading the current page", () => {
     cy.server();
     cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.visit("http://localhost:8080");
+    cy.tick(1000);
+    cy.wait(100);
 
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
     cy.get('[href="/shifts"]').click();
@@ -132,6 +137,11 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
   it("replaces clock when it was started after loading the current page", () => {
     cy.server();
     cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+
+    cy.visit("http://localhost:8080");
+    cy.tick(1000);
+    cy.wait(100);
+
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
     cy.get('[href="/shifts"]').click();
     cy.get("[data-cy=clock-in-out-button]").should("contain", "00h10m01s");
@@ -157,6 +167,11 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
   it("resets the clock if it was stopped after loading the page", () => {
     cy.server();
     cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+
+    cy.visit("http://localhost:8080");
+    cy.tick(1000);
+    cy.wait(100);
+
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
     cy.get('[href="/shifts"]').click();
     cy.get("[data-cy=clock-in-out-button]").should("contain", "00h10m01s");
