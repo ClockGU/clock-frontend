@@ -41,7 +41,11 @@
     <v-dialog v-if="entity" v-model="formDialog">
       <v-card>
         <v-container data-cy="review-edit-shift">
-          <ShiftForm :query="query" :uuid="entity.uuid" :entity="entity" />
+          <ReviewShiftForm
+            :query="query"
+            :uuid="entity.uuid"
+            :entity="entity"
+          />
         </v-container>
       </v-card>
     </v-dialog>
@@ -49,7 +53,7 @@
 </template>
 
 <script>
-import ShiftForm from "@/components/shifts/ShiftForm";
+import ReviewShiftForm from "@/components/shifts/ReviewShiftForm";
 import TheDialog from "@/components/TheDialog";
 import ClockedShiftSplitWarning from "@/components/ClockedShiftSplitWarning";
 import ClockedShiftShortWarning from "@/components/ClockedShiftShortWarning";
@@ -67,7 +71,7 @@ export default {
   components: {
     ClockedShiftSplitWarning,
     ClockedShiftShortWarning,
-    ShiftForm,
+    ReviewShiftForm,
     TheDialog
   },
   props: {
