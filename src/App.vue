@@ -53,7 +53,12 @@
       </v-app-bar-nav-icon>
       <!-- <portal-target name="toolbar"></portal-target> -->
       <template v-if="showSelectContractButton">
-        <v-btn text :to="{ path: '/select/' }" exact>
+        <v-btn
+          data-cy="select-contract-button"
+          text
+          :to="{ path: '/select/' }"
+          exact
+        >
           {{ selectedContract.name }}
         </v-btn>
         <ClockInOutButton

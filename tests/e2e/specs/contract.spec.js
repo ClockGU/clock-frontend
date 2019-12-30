@@ -1,4 +1,69 @@
 describe("Contracts", () => {
+  context("selecting a contract", () => {
+    beforeEach(() => {
+      cy.login();
+
+      cy.server();
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+
+      cy.visit("http://localhost:8080/contracts/");
+    });
+
+    it("initially shows a loading skeleton", () => {
+      cy.get("[data-cy=skeleton]").should("be.visible");
+      cy.wait(1000);
+      cy.get("[data-cy=skeleton]").should("not.be.visible");
+    });
+    it("shows a list of contracts", () => {
+      cy.get("[data-cy=contract-list]")
+        .children()
+        .should("have.length", 5);
+    });
+
+    it("each contract lists all details", () => {
+      cy.get("[data-cy=contract-0]")
+        .should("contain", "20:00 per month")
+        .should("contain", "Cypress")
+        .should("contain", "2019-10-01 until 2020-03-31");
+    });
+
+    it("lets us select one contract", () => {
+      cy.get("[data-cy=contract-0]").click();
+      cy.url().should("include", "/");
+      cy.get("[data-cy=select-contract-button]").should("contain", "Cypress");
+    });
+
+    it("disables all but one contract, if a shift is clocked", () => {
+      cy.server();
+      cy.route("GET", "/api/clockedinshifts/", {
+        id: "deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd",
+        started: "2019-11-20T08:00:00.00000+01:00",
+        created_at: "2019-11-20T08:00:00.00000+01:00",
+        modified_at: "2019-11-20T08:00:00.00000+01:00",
+        contract: "32157f66-8eca-4410-b6af-386d858d2804"
+      });
+
+      cy.visit("http://localhost:8080/contracts/");
+
+      cy.get("[data-cy=contract-0] > .mx-auto").should(
+        "have.class",
+        "v-card--disabled"
+      );
+      cy.get("[data-cy=contract-1] > .mx-auto").should(
+        "not.have.class",
+        "v-card--disabled"
+      );
+      cy.get("[data-cy=contract-2] > .mx-auto").should(
+        "have.class",
+        "v-card--disabled"
+      );
+      cy.get("[data-cy=contract-3] > .mx-auto").should(
+        "have.class",
+        "v-card--disabled"
+      );
+    });
+  });
+
   context("viewing the list of contracts", () => {
     beforeEach(() => {
       cy.server();
@@ -11,7 +76,7 @@ describe("Contracts", () => {
 
     it("initially shows a loading skeleton", () => {
       cy.get("[data-cy=skeleton]").should("be.visible");
-      cy.wait(5000);
+      cy.wait(1000);
       cy.get("[data-cy=skeleton]").should("not.be.visible");
     });
 

@@ -1,6 +1,6 @@
 <template>
   <ClockInOut :clocked-shift="clockedShift" @short="short" @overflow="overflow">
-    <template v-slot="{ action, duration, status }">
+    <template v-slot="{ action, duration, status, reselectContract }">
       <div>
         <v-col cols="10">
           <v-row>
@@ -53,6 +53,31 @@
             @close="closeReview()"
           />
         </portal>
+
+        <portal v-if="reselectContract !== null" to="dialog">
+          <TheDialog>
+            <template v-slot:content>
+              <v-card data-cy="change-contract">
+                <v-card-title class="headline word-break">
+                  You are clocked into a different contract.
+                </v-card-title>
+                <v-card-text>
+                  You will be redirected to the contract selection screen.
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn
+                    data-cy="redirect"
+                    color="primary"
+                    text
+                    @click="reselectContract"
+                  >
+                    OK
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </TheDialog>
+        </portal>
       </div>
     </template>
   </ClockInOut>
@@ -61,6 +86,7 @@
 <script>
 import ClockInOut from "@/components/ClockInOut";
 import ReviewShifts from "@/components/ReviewShifts";
+import TheDialog from "@/components/TheDialog";
 
 import {
   addSeconds,
@@ -72,7 +98,8 @@ import {
 export default {
   components: {
     ClockInOut,
-    ReviewShifts
+    ReviewShifts,
+    TheDialog
   },
   filters: {
     toTime(seconds) {

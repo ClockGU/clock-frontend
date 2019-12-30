@@ -29,13 +29,15 @@
       </template>
 
       <template v-else>
-        <ContractListCardSelectSkeleton v-if="loading" />
+        <ContractListCardSelectSkeleton v-if="loading" data-cy="skeleton" />
 
-        <template v-for="contract in contracts" v-else>
+        <template v-for="(contract, i) in contracts" v-else>
           <ContractListCardSelect
             :key="contract.uuid"
+            :data-cy="'contract-' + i"
             :contract="contract"
             :edit-mode="editMode"
+            :disabled="clockedIntoContract(contract.uuid)"
           />
         </template>
       </template>
@@ -124,6 +126,9 @@ export default {
     ...mapGetters({
       loading: "contract/loading"
     }),
+    clockedInContract() {
+      return this.$store.state.shift.clockedShift;
+    },
     contracts() {
       return this.$store.state.contract.contracts;
     },
@@ -138,6 +143,15 @@ export default {
     this.$store.dispatch("contract/queryContracts");
   },
   methods: {
+    clockedIntoContract(uuid) {
+      if (
+        this.clockedInContract === undefined ||
+        this.clockedInContract === null
+      )
+        return false;
+
+      return this.clockedInContract.contract !== uuid;
+    },
     confirmDelete(uuid) {
       this.uuid = uuid;
       this.dialog = true;

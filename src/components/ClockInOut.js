@@ -4,7 +4,8 @@ import ClockModel from "@/models/ClockModel";
 export default {
   name: "ClockInOut",
   data: () => ({
-    clock: null
+    clock: null,
+    reselectContract: null
   }),
   props: {
     clockedShift: {
@@ -39,13 +40,31 @@ export default {
       // We performed a query and retrieved a new clocked shift.
       // If a clock is already running, stop it.
       // And always start a new clock.
+      const clockedInADifferentSession =
+        newValue.override !== undefined && newValue.override;
       if (
-        (newValue.override !== undefined && newValue.override) ||
+        clockedInADifferentSession ||
         (oldValue !== null &&
           JSON.stringify(newValue) === JSON.stringify(oldValue))
       ) {
         if (this.clock !== null) this.stop();
         this.start();
+
+        // Redirect to contract selection screen
+        const clockedIntoDifferentContract =
+          newValue.contract !== this.contract.uuid;
+        const allowedRoutes = [
+          "contractSelect",
+          "createContract",
+          "help",
+          "changePassword",
+          "debug"
+        ];
+        const currentRouteInAllowedRoutes =
+          allowedRoutes.indexOf(this.$route.name) > -1;
+        if (clockedIntoDifferentContract && !currentRouteInAllowedRoutes) {
+          this.redirectToContractSelection();
+        }
       }
     }
   },
@@ -148,6 +167,12 @@ export default {
         .then(() => {
           this.clock = null;
         });
+    },
+    redirectToContractSelection() {
+      this.reselectContract = () => {
+        this.$router.push({ name: "contractSelect" });
+        this.reselectContract = null;
+      };
     }
   },
   render() {
@@ -162,7 +187,8 @@ export default {
       unpause: this.unpause,
       duration: this.duration,
       action: this.action,
-      status: this.status
+      status: this.status,
+      reselectContract: this.reselectContract
     });
   }
 };
