@@ -90,7 +90,10 @@ const actions = {
       })
       .catch(handleApiError);
   },
-  async CONVERT_CLOCKED_TO_NORMAL_SHIFT({ commit, dispatch, state }) {
+  async CONVERT_CLOCKED_TO_NORMAL_SHIFT(
+    { commit, dispatch, state },
+    { callback }
+  ) {
     return await ClockService.delete(state.clockedShift.id)
       .then(async () => {
         const data = {
@@ -103,14 +106,14 @@ const actions = {
         };
 
         const payload = new Shift(data).toPayload();
-        await ShiftService.create(payload)
-          .then(() => {
-            commit("clearClockedShift");
-            dispatch("queryShifts");
-          })
-          .catch(handleApiError);
+        await ShiftService.create(payload).catch(handleApiError);
       })
-      .catch(handleApiError);
+      .catch(handleApiError)
+      .finally(() => {
+        callback();
+        commit("clearClockedShift");
+        dispatch("queryShifts");
+      });
   },
   clockShift({ commit }, payload) {
     commit("clockShift", payload);

@@ -33,7 +33,7 @@ export default {
       // We stopped or reset the clock. Make sure to cleanup everything.
       // This also takes care of some edge-case with the below code.
       if (newValue === null) {
-        this.stop();
+        if (this.clock !== null) this.stop();
         return;
       }
 
@@ -86,8 +86,9 @@ export default {
       const isNewShift = this.duration === 0;
       const isShortShift = this.duration < 600;
       const stopFn = () => {
-        this.$store.dispatch("shift/CONVERT_CLOCKED_TO_NORMAL_SHIFT");
-        this.stop();
+        this.$store.dispatch("shift/CONVERT_CLOCKED_TO_NORMAL_SHIFT", {
+          callback: () => this.stop()
+        });
       };
 
       // Starting a new shift
