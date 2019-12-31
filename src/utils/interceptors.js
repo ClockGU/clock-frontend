@@ -1,4 +1,5 @@
 import store from "@/store";
+import { log } from "@/utils/log";
 
 const errorProperties = ["detail", "non_field_errors"];
 
@@ -18,27 +19,39 @@ const sessionExpiredSnack = function() {
   });
 };
 
-export const handleApiError = function() {
+export const handleApiError = function(error) {
+  log("handleApiError called:", error);
+
   return {};
 };
 
-export const handleLogout = function() {
+export const handleLogout = function(error) {
+  log("handleLogout called:", error);
+
   store.dispatch("auth/logout");
   store.dispatch("unsetContract");
   sessionExpiredSnack();
+
+  return Promise.reject(error);
 };
 
-export const handleNetworkError = function() {
+export const handleNetworkError = function(error) {
+  log("handleNetworkError called:", error);
+
   store.dispatch("snackbar/setSnack", {
     snack: "We cannot phone home. Please try again later.",
     timeout: 0,
     color: "error"
   });
+
+  return Promise.reject(error);
 };
 
 export const handleGenericError = function(error) {
+  log("handleGenericError");
+
   if (ignoreClockedShiftNotFound(error)) {
-    return;
+    return Promise.reject(error);
   }
 
   const { data } = error.response;
@@ -62,6 +75,8 @@ export const handleGenericError = function(error) {
     timeout: 5000,
     color: "error"
   });
+
+  return Promise.reject(error);
 };
 
 export const handleTokenRefresh = async function(error, customRequest) {
@@ -85,6 +100,6 @@ export const handleTokenRefresh = async function(error, customRequest) {
     // and logout user.
     sessionExpiredSnack();
 
-    return Promise.reject();
+    return Promise.reject(error);
   }
 };
