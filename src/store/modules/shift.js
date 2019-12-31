@@ -7,7 +7,7 @@ import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   shifts: [],
-  clockedShift: null,
+  clockedShift: undefined,
   stagedShift: null,
   pseudoShifts: []
 };
@@ -32,8 +32,8 @@ const mutations = {
   clockShift(state, payload) {
     state.clockedShift = payload;
   },
-  clearClockedShift(state) {
-    state.clockedShift = undefined;
+  clearClockedShift() {
+    state.clockedShift = null;
   },
   addShift(state, payload) {
     state.shifts.push(payload);
@@ -82,17 +82,24 @@ const actions = {
       })
       .catch(handleApiError);
   },
-  async DELETE_CLOCKED_SHIFT({ commit, state }, { callback }) {
+  async DELETE_CLOCKED_SHIFT(
+    { commit, state, rootState },
+    { callback, errorCallback }
+  ) {
     return await ClockService.delete(state.clockedShift.id)
       .then(() => {
         callback();
         commit("clearClockedShift");
       })
-      .catch(handleApiError);
+      .catch(error => {
+        // Only perform callback if we are still logged in
+        if (rootState.auth.isLoggedIn) errorCallback();
+        return Promise.reject(error);
+      });
   },
   async CONVERT_CLOCKED_TO_NORMAL_SHIFT(
-    { commit, dispatch, state },
-    { callback }
+    { commit, dispatch, state, rootState },
+    { callback, errorCallback }
   ) {
     return await ClockService.delete(state.clockedShift.id)
       .then(async () => {
@@ -106,13 +113,17 @@ const actions = {
         };
 
         const payload = new Shift(data).toPayload();
-        await ShiftService.create(payload).catch(handleApiError);
+        await ShiftService.create(payload)
+          .then(() => {
+            callback();
+            commit("clearClockedShift");
+            dispatch("queryShifts");
+          })
+          .catch(handleApiError);
       })
-      .catch(handleApiError)
-      .finally(() => {
-        callback();
-        commit("clearClockedShift");
-        dispatch("queryShifts");
+      .catch(() => {
+        // Only perform callback if we are still logged in
+        if (rootState.auth.isLoggedIn) errorCallback();
       });
   },
   clockShift({ commit }, payload) {
@@ -146,19 +157,25 @@ const actions = {
     commit("stageShift", payload);
   },
   async queryShifts({ commit }) {
-    const shifts = await ShiftService.list().catch(handleApiError);
-
-    commit("setShifts", shifts.data);
+    await ShiftService.list()
+      .then(response => {
+        commit("setShifts", response.data);
+      })
+      .catch(handleApiError);
   },
   async queryClockedShift({ commit }) {
-    const clockedShift = await ClockService.get().catch(handleApiError);
+    await ClockService.get()
+      .then(response => {
+        let { data } = response;
+        if (data !== undefined) {
+          data = { ...data, override: true };
+        }
 
-    let payload = clockedShift.data;
-    if (payload !== undefined) {
-      payload = { ...payload, override: true };
-    }
-
-    commit("clockShift", payload);
+        commit("clockShift", data);
+      })
+      .catch(() => {
+        commit("clearClockedShift");
+      });
   }
 };
 

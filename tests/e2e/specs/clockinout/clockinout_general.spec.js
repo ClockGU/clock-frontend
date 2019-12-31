@@ -263,3 +263,63 @@ describe("forces to change contract when a shift is clocked outside the current 
     });
   });
 });
+
+describe.only("expired tokens", () => {
+  beforeEach(() => {
+    cy.login();
+    cy.selectContract();
+
+    const time = new Date(2019, 10, 20, 11).getTime();
+    cy.clock(time, ["Date"]);
+
+    cy.server();
+    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+
+    cy.visit("http://localhost:8080/help");
+    cy.tick(1000);
+    cy.wait(1000);
+  });
+
+  it("handles an expired refresh token", () => {
+    cy.server();
+    cy.route({
+      method: "DELETE",
+      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      status: 401,
+      response: {
+        code: "token_not_valid",
+        detail: "Token is invalid or expired"
+      }
+    });
+
+    cy.get("[data-cy=clock-in-out-button]").click();
+
+    cy.url().should("include", "/login");
+    cy.get(".v-snack__content").contains("Your session has expired.");
+  });
+
+  it("handles an expired access token", () => {
+    cy.server();
+    cy.route("POST", "/api/shifts/", {});
+    cy.route({
+      method: "DELETE",
+      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      status: 401,
+      response: {
+        code: "token_not_valid",
+        detail: ""
+      }
+    }).as("tokenExpired");
+    cy.get("[data-cy=clock-in-out-button]").click();
+
+    cy.wait("@tokenExpired");
+    cy.route({
+      method: "DELETE",
+      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      status: 200,
+      response: {}
+    });
+
+    cy.get(".v-snack__content").should("not.be.visible");
+  });
+});

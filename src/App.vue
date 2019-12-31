@@ -62,7 +62,7 @@
           {{ selectedContract.name }}
         </v-btn>
         <ClockInOutButton
-          v-if="clockedShift !== null"
+          v-if="showClockInOutButton"
           :selected-contract="selectedContract"
           :clocked-shift="clockedShift"
         />
@@ -169,6 +169,9 @@ export default {
     breadcrumbList: null
   }),
   computed: {
+    showClockInOutButton() {
+      return this.clockedShift !== undefined;
+    },
     showSelectContractButton() {
       return this.$store.state.selectedContract !== null;
     },
@@ -212,10 +215,12 @@ export default {
     $route() {
       this.breadcrumbList = this.$route.meta.breadcrumb;
 
+      if (!this.isLoggedIn) return;
       this.$store.dispatch("shift/queryClockedShift");
     }
   },
   mounted() {
+    if (!this.isLoggedIn) return;
     this.$store.dispatch("shift/queryClockedShift");
   },
   methods: {

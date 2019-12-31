@@ -87,7 +87,8 @@ export default {
       const isShortShift = this.duration < 600;
       const stopFn = () => {
         this.$store.dispatch("shift/CONVERT_CLOCKED_TO_NORMAL_SHIFT", {
-          callback: () => this.stop()
+          callback: () => this.stop(),
+          errorCallback: () => this.unpause()
         });
       };
 
@@ -163,11 +164,13 @@ export default {
       this.$store
         .dispatch("shift/DELETE_CLOCKED_SHIFT", {
           uuid: uuid,
-          callback: () => this.clock.stop()
+          callback: () => this.clock.stop(),
+          errorCallback: () => this.unpause()
         })
         .then(() => {
           this.clock = null;
-        });
+        })
+        .catch(() => {});
     },
     redirectToContractSelection() {
       this.reselectContract = () => {
