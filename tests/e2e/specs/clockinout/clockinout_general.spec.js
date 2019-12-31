@@ -264,7 +264,7 @@ describe("forces to change contract when a shift is clocked outside the current 
   });
 });
 
-describe.only("expired tokens", () => {
+describe("expired tokens", () => {
   beforeEach(() => {
     cy.login();
     cy.selectContract();

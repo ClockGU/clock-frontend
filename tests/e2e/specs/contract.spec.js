@@ -176,7 +176,7 @@ describe("Contracts", () => {
     });
   });
 
-  context.only("editing a contract", () => {
+  context("editing a contract", () => {
     beforeEach(() => {
       cy.server();
       cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
