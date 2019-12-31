@@ -1,6 +1,7 @@
 import { UserService } from "@/services/user";
 import ApiService from "@/services/api";
 import router from "@/router";
+import { log } from "@/utils/log";
 
 const state = {
   authenticating: false,
@@ -34,22 +35,14 @@ const getters = {
 
 const actions = {
   login({ commit }, { email, password }) {
-    commit("loginRequest");
+    return UserService.login(email, password).then(token => {
+      log("AuthVuex.login: resolved");
+      commit("loginSuccess", token);
 
-    return new Promise((resolve, reject) => {
-      return UserService.login(email, password)
-        .then(token => {
-          commit("loginSuccess", token);
-
-          // Redirect the user to the page he first tried to visit or to the home view
-          router.push(
-            router.history.current.query.redirect || { name: "contractSelect" }
-          );
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
+      // Redirect the user to the page he first tried to visit or to the home view
+      router.push(
+        router.history.current.query.redirect || { name: "contractSelect" }
+      );
     });
   },
   logout({ commit }) {

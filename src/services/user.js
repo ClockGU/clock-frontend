@@ -1,5 +1,6 @@
 import ApiService from "@/services/api";
 import store from "@/store";
+import { log } from "@/utils/log";
 
 export function parseJwt(token) {
   /* Decode JWT token.
@@ -19,57 +20,20 @@ export function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-class AuthenticationError extends Error {
-  constructor(errorCode, message) {
-    super(message);
-    this.name = this.constructor.name;
-    this.message = message;
-    this.errorCode = errorCode;
-  }
-}
-
 const UserService = {
-  /**
-   * Login the user and store the access token to Vuex.
-   *
-   * @returns access_token
-   * @throws AuthenticationError
-   **/
   login: async function(email, password) {
-    const requestData = {
-      method: "post",
-      url: "/auth/jwt/create/",
-      data: {
-        email: email,
-        password: password
-      }
-    };
-
     return new Promise((resolve, reject) => {
-      return ApiService.customRequest(requestData)
+      return ApiService.post("/auth/jwt/create/", { email, password })
         .then(response => {
+          log("UserService.login: resolved");
           ApiService.setHeader(response.data.access);
-          ApiService.mount401Interceptor();
 
           resolve(response.data);
         })
         .catch(error => {
-          if (error.message === "Network Error") {
-            reject(
-              new AuthenticationError(
-                503,
-                "Cannot reach the backend. Please try again later."
-              )
-            );
-            return;
-          }
-
-          reject(
-            new AuthenticationError(
-              error.response.status,
-              error.response.data.non_field_errors[0]
-            )
-          );
+          log(`UserService.login error: ${error}`);
+          log("UserService.login: rejected");
+          reject(error);
         });
     });
   },
@@ -115,16 +79,10 @@ const UserService = {
    * Refresh the access token.
    **/
   refreshToken: async function(refreshToken) {
-    const request = {
-      method: "post",
-      url: "/auth/jwt/refresh",
-      data: {
-        refresh: refreshToken
-      }
-    };
-
     return new Promise((resolve, reject) => {
-      return ApiService.customRequest(request)
+      return ApiService.post("/auth/jwt/refresh", {
+        refresh: refreshToken
+      })
         .then(response => {
           resolve(response.data.access);
         })
@@ -142,10 +100,10 @@ const UserService = {
   logout() {
     // Remove the token and remove Authorization header from Api Service as well
     ApiService.removeHeader();
-    ApiService.unmount401Interceptor();
+    ApiService.unmountInterceptor();
   }
 };
 
 export default UserService;
 
-export { UserService, AuthenticationError };
+export { UserService };

@@ -50,8 +50,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
-
 import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
+import { handleApiError } from "@/utils/interceptors";
 
 export default {
   name: "LoginForm",
@@ -93,25 +93,13 @@ export default {
       if (this.$v.$invalid) return;
       this.loading = true;
 
-      new Promise(resolve => {
-        return this.$store
-          .dispatch("auth/login", {
-            email: this.email.toLowerCase(),
-            password: this.password
-          })
-          .then(() => {
-            this.loading = false;
-            resolve();
-          })
-          .catch(error => {
-            this.$store.dispatch("snackbar/setSnack", {
-              snack: error.message,
-              timeout: 10000,
-              color: "error"
-            });
-          })
-          .finally(() => (this.loading = false));
-      });
+      this.$store
+        .dispatch("auth/login", {
+          email: this.email.toLowerCase(),
+          password: this.password
+        })
+        .catch(handleApiError)
+        .finally(() => (this.loading = false));
     }
   }
 };

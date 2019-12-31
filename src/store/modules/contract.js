@@ -48,10 +48,14 @@ const actions = {
   },
   async queryContracts({ commit }) {
     state.status = "loading";
-    const contracts = await ContractService.list().catch(handleApiError);
-    state.status = "idle";
-
-    commit("setContracts", contracts.data);
+    await ContractService.list()
+      .then(response => {
+        commit("setContracts", response.data);
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        state.status = "idle";
+      });
   }
 };
 

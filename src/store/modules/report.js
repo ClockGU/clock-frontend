@@ -28,10 +28,14 @@ const actions = {
   },
   async list({ commit }) {
     state.status = "loading";
-    const reports = await ReportService.list().catch(handleApiError);
-    state.status = "idle";
-
-    commit("set", reports.data);
+    await ReportService.list()
+      .then(response => {
+        commit("set", response.data);
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        state.status = "idle";
+      });
   }
 };
 
