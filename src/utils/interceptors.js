@@ -79,27 +79,33 @@ export const handleGenericError = function(error) {
   return Promise.reject(error);
 };
 
-export const handleTokenRefresh = async function(error, customRequest) {
-  try {
-    // Refresh the access token
-    const accessToken = await store.dispatch("auth/refreshToken");
+export const handleTokenRefresh = async function(error, requestFn) {
+  await store
+    .dispatch("auth/refreshToken")
+    .then(response => {
+      const { accessToken } = response;
 
-    const { config: originalRequest } = error;
-    // Set new access token
-    originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+      const { config: originalRequest } = error;
+      // Set new access token
+      originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
 
-    // Retry the request
-    return customRequest({
-      ...originalRequest,
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-      }
+      // Retry the request
+      return requestFn({
+        ...originalRequest,
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        }
+      }).catch(error => {
+        log("requestFn rejected");
+        return Promise.reject(error);
+      });
+    })
+    .catch(error => {
+      log("handleTokenRefresh rejected");
+      // Refresh has failed - reject the original request
+      // and logout user.
+      sessionExpiredSnack();
+
+      return Promise.reject(error);
     });
-  } catch (e) {
-    // Refresh has failed - reject the original request
-    // and logout user.
-    sessionExpiredSnack();
-
-    return Promise.reject(error);
-  }
 };
