@@ -1,4 +1,5 @@
 import { eachDayOfInterval, parseISO } from "date-fns";
+import is from "ramda/src/is";
 import ClockModel from "@/models/ClockModel";
 
 export default {
@@ -110,9 +111,12 @@ export default {
       }
 
       // Trying to stop the shift, but it spans multiple days
+      const start = is(Date, this.clockedShift.started)
+        ? this.clockedShift.started
+        : parseISO(this.clockedShift.started);
       const isOverflowedShift =
         eachDayOfInterval({
-          start: parseISO(this.clockedShift.started),
+          start,
           end: new Date()
         }).length > 1;
       if (isOverflowedShift) {
