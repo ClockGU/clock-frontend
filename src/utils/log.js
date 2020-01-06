@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { debugLogger } from "@/main";
 
 export const log = (message, args) => {
