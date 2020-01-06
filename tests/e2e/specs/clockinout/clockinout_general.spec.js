@@ -45,12 +45,15 @@ describe("when no shifts are clocked", () => {
     cy.clock(time, ["Date"]);
 
     cy.get("[data-cy=clock-in-out-button]").click();
+    cy.wait(1000);
     cy.tick(10 * 60 * 1000);
+    cy.wait(1000);
     cy.get("[data-cy=clock-in-out-button]").click();
 
-    cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
-    cy.tick(1000);
-    cy.wait(1000);
+    cy.get("[data-cy=clock-in-out-button]", { timeout: 1000 }).should(
+      "contain",
+      "Clock in"
+    );
   });
 });
 
