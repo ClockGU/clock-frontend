@@ -283,6 +283,39 @@ describe("expired tokens", () => {
     cy.wait(1000);
   });
 
+  it("handles an expired refresh token when re-visting the site", () => {
+    cy.server();
+    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route({
+      method: "GET",
+      url: "/api/shifts/",
+      status: 401,
+      response: {
+        code: "token_not_valid",
+        detail: "Token is invalid or expired"
+      }
+    }).as("tokenExpired");
+    cy.visit("http://localhost:8080/shifts");
+    cy.wait("@tokenExpired");
+
+    cy.login();
+    cy.selectContract();
+    cy.reload();
+
+    cy.route({
+      method: "GET",
+      url: "/api/shifts/",
+      status: 200,
+      data: {}
+    });
+
+    cy.tick(1000);
+    cy.get("[data-cy=clock-in-out-button]", { timeout: 1000 }).should(
+      "contain",
+      "01h00m01s"
+    );
+  });
+
   it("handles an expired refresh token", () => {
     cy.server();
     cy.route({
