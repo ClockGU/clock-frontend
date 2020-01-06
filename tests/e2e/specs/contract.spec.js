@@ -4,16 +4,19 @@ describe("Contracts", () => {
       cy.login();
 
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json", {
+        delay: 1000
+      }).as("contracts");
 
       cy.visit("http://localhost:8080/contracts/");
     });
 
     it("initially shows a loading skeleton", () => {
       cy.get("[data-cy=skeleton]").should("be.visible");
-      cy.wait(1000);
+      cy.wait("@contracts");
       cy.get("[data-cy=skeleton]").should("not.be.visible");
     });
+
     it("shows a list of contracts", () => {
       cy.get("[data-cy=contract-list]")
         .children()
