@@ -16,7 +16,7 @@ export default {
     },
     calendarWeek() {
       return `Week ${getISOWeek(this.start)}`;
-    },
+    }
     // ...mapGetters({ start: "calendar/start" })
   }
 };
