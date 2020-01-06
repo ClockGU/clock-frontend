@@ -106,7 +106,10 @@ export const handleTokenRefresh = async function(error, requestFn) {
       log("handleTokenRefresh rejected");
       // Refresh has failed - reject the original request
       // and logout user.
-      sessionExpiredSnack();
+      // If we are retrieving a clockedshift not found error, do nothing.
+      if (!ignoreClockedShiftNotFound(error)) {
+        handleLogout();
+      }
 
       return Promise.reject(error);
     });
