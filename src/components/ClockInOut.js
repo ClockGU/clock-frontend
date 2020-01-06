@@ -89,7 +89,10 @@ export default {
       const stopFn = () => {
         this.$store.dispatch("shift/CONVERT_CLOCKED_TO_NORMAL_SHIFT", {
           callback: () => this.stop(),
-          errorCallback: () => this.unpause()
+          errorCallback: () => {
+            this.clock.resetInterval();
+            this.clock = null;
+          }
         });
       };
 
