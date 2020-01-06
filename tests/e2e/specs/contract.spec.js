@@ -70,7 +70,9 @@ describe("Contracts", () => {
   context("viewing the list of contracts", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
+        "contracts"
+      );
 
       cy.login();
       cy.selectContract();
@@ -142,11 +144,6 @@ describe("Contracts", () => {
     });
 
     it("can delete a single contract", () => {
-      cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
-        "contracts"
-      );
-
       cy.fixture("contracts.json").then(contracts => {
         cy.wait("@contracts");
 
