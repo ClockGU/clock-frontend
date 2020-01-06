@@ -1,5 +1,5 @@
 describe("Shift list table", () => {
-  before(() => {
+  beforeEach(() => {
     cy.server();
     cy.route("GET", "/api/shifts/", "fixture:shifts.json");
 
@@ -52,6 +52,15 @@ describe("Shift list table", () => {
       cy.get("[data-cy=shift-delete]")
         .should("not.be.disabled")
         .should("contain", "Delete (1 shift)");
+    });
+
+    it("shows an error when trying to delete a stale shift", () => {
+      cy.server();
+      cy.get("[data-cy=shift-delete]").click();
+      cy.get("[data-cy=delete-dialog]").should("contain", "Delete shifts?");
+      cy.get("[data-cy=delete-confirm]").click();
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+      cy.get("[data-cy=snackbar]").should("contain", "Not found.");
     });
   });
 
@@ -134,23 +143,23 @@ describe("Shift list table", () => {
 
     it("redirects to shift form", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/01c7098c-c209-4e61-86b2-da4652163ed9", {
-        id: "01c7098c-c209-4e61-86b2-da4652163ed9",
+      cy.route("GET", "/api/shifts/7d08fa88-8ab3-489f-b20f-06055a1cf939", {
+        id: "7d08fa88-8ab3-489f-b20f-06055a1cf939",
         tags: [],
-        started: "2019-11-26T12:00:00+01:00",
-        stopped: "2019-11-26T16:00:00+01:00",
+        started: "2019-11-27T00:00:00+01:00",
+        stopped: "2019-11-27T19:53:06+01:00",
         type: "st",
         note: "",
         was_reviewed: true,
         was_exported: false,
-        created_at: "2019-11-27T19:53:45.394670+01:00",
-        modified_at: "2019-11-27T19:53:45.394725+01:00",
+        created_at: "2019-11-27T19:53:45.294094+01:00",
+        modified_at: "2019-11-27T19:53:45.294180+01:00",
         contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
       });
 
       cy.get("[data-cy=shift-edit]").click();
 
-      cy.url().should("contain", "01c7098c-c209-4e61-86b2-da4652163ed9/edit");
+      cy.url().should("contain", "7d08fa88-8ab3-489f-b20f-06055a1cf939/edit");
     });
   });
 });

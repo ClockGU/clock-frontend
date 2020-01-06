@@ -65,7 +65,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import UserService from "@/services/user.service";
+import UserService from "@/services/user";
 
 import { mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 

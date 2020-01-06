@@ -10,7 +10,8 @@
 
 <script>
 import FrameApi from "@/components/FrameApi";
-import ShiftService from "@/services/shift.service";
+import ShiftService from "@/services/shift";
+import { handleApiError } from "../../utils/interceptors";
 
 export default {
   name: `ShiftListFrame`,
@@ -18,7 +19,7 @@ export default {
     FrameApi
   },
   created() {
-    this.listEndpoint = () => ShiftService.list();
+    this.listEndpoint = () => ShiftService.list().catch(handleApiError);
   }
 };
 </script>

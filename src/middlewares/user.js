@@ -1,6 +1,6 @@
 import store from "@/store";
 
-import UserService from "@/services/user.service";
+import UserService from "@/services/user";
 
 let toggled = false;
 

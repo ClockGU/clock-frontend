@@ -54,7 +54,7 @@
 
 <script>
 import { format, parseISO, isThisMonth } from "date-fns";
-import ReportService from "@/services/report.service";
+import ReportService from "@/services/report";
 import TheDialog from "@/components/TheDialog";
 
 import { mapGetters } from "vuex";

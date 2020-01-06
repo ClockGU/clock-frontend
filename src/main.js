@@ -6,29 +6,31 @@ import store from "./store";
 import PortalVue from "portal-vue";
 import Vuelidate from "vuelidate";
 import { VueMaskDirective } from "v-mask";
-import ApiService from "@/services/api.service";
+import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 
 import "@/assets/main.scss";
 
+// Initialize ApiService
 ApiService.init(process.env.VUE_APP_API_URL);
+ApiService.mountInterceptor();
 
-// Set axios header if we are logged in
-if (store.getters["auth/loggedIn"]) {
-  ApiService.setHeader(store.getters["auth/accessToken"]);
-  ApiService.mount401Interceptor();
+const isLoggedIn = store.getters["auth/loggedIn"];
+if (isLoggedIn) {
+  const accessToken = store.getters["auth/accessToken"];
+  ApiService.setHeader(accessToken);
 }
 
 Vue.use(PortalVue);
 Vue.use(Vuelidate);
-
 Vue.directive("mask", VueMaskDirective);
-
 Vue.config.productionTip = false;
 
 // Setup sentry error tracking in production
-if (process.env.NODE_ENV === "production") {
+const isProduction = process.env.NODE_ENV === "production";
+export const debugLogger = isProduction ? false : true;
+if (isProduction) {
   // Here goes the DSN
   Sentry.init({
     dsn: process.env.VUE_APP_SENTRY_DSN,

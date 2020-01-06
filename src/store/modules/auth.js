@@ -1,6 +1,7 @@
-import { UserService } from "@/services/user.service";
-import ApiService from "@/services/api.service";
+import { UserService } from "@/services/user";
+import ApiService from "@/services/api";
 import router from "@/router";
+import { log } from "@/utils/log";
 
 const state = {
   authenticating: false,
@@ -34,22 +35,14 @@ const getters = {
 
 const actions = {
   login({ commit }, { email, password }) {
-    commit("loginRequest");
+    return UserService.login(email, password).then(token => {
+      log("AuthVuex.login: resolved");
+      commit("loginSuccess", token);
 
-    return new Promise((resolve, reject) => {
-      return UserService.login(email, password)
-        .then(token => {
-          commit("loginSuccess", token);
-
-          // Redirect the user to the page he first tried to visit or to the home view
-          router.push(
-            router.history.current.query.redirect || { name: "contractSelect" }
-          );
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
+      // Redirect the user to the page he first tried to visit or to the home view
+      router.push(
+        router.history.current.query.redirect || { name: "contractSelect" }
+      );
     });
   },
   logout({ commit }) {
@@ -60,7 +53,7 @@ const actions = {
     // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
     router.push("/login").catch(() => {});
   },
-  refreshToken({ commit, state }) {
+  async refreshToken({ commit, state }) {
     // If this is the first time the refreshToken has been called, make a request
     // otherwise return the same promise to the caller
     if (
@@ -76,19 +69,16 @@ const actions = {
     // Wait for the UserService.refreshToken() to resolve. On success set the token and clear promise
     // Clear the promise on error as well.
     return p
-      .then(async response => {
-        await ApiService.setHeader(response);
+      .then(response => {
+        ApiService.setHeader(response);
         commit("loginSuccess", { access: response, refresh: null });
-        commit("refreshTokenPromise", null);
 
         return Promise.resolve(response);
       })
       .catch(error => {
-        commit("refreshTokenPromise", null);
-        // commit("loginError", error);
-
         return Promise.reject(error);
-      });
+      })
+      .finally(() => commit("refreshTokenPromise", null));
   }
 };
 

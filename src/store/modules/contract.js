@@ -1,12 +1,15 @@
 import { getField, updateField } from "vuex-map-fields";
-import ContractService from "@/services/contract.service";
+import ContractService from "@/services/contract";
+import { handleApiError } from "@/utils/interceptors";
 
 const state = {
-  contracts: []
+  contracts: [],
+  status: "idle"
 };
 
 const getters = {
-  getField
+  getField,
+  loading: () => state.status === "loading"
 };
 
 const mutations = {
@@ -44,9 +47,15 @@ const actions = {
     commit("setContracts", payload);
   },
   async queryContracts({ commit }) {
-    const contracts = await ContractService.list();
-
-    commit("setContracts", contracts.data);
+    state.status = "loading";
+    await ContractService.list()
+      .then(response => {
+        commit("setContracts", response.data);
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        state.status = "idle";
+      });
   }
 };
 

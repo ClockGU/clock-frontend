@@ -40,6 +40,8 @@ const { mapFields: mapShiftFields } = createHelpers({
   mutationType: "shift/updateField"
 });
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "ViewCalendar",
   components: {
@@ -71,14 +73,12 @@ export default {
   computed: {
     ...mapContractFields(["contracts"]),
     ...mapShiftFields(["shifts"]),
+    ...mapGetters({ loading: "contract/loading" }),
     date() {
       return new Date(Date.UTC(this.year, this.month - 1, this.day));
     },
     start() {
       return this.date.toISOString().slice(0, 10);
-    },
-    loading() {
-      return this.$store.state.loadingData;
     }
   }
 };

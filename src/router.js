@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { parseJwt } from "@/services/user.service";
+import { parseJwt } from "@/services/user";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
 import ViewCalendar from "@/views/ViewCalendar.vue";
@@ -15,7 +15,7 @@ import ViewHelp from "@/views/ViewHelp";
 import ViewDebug from "@/views/ViewDebug";
 import store from "@/store";
 import getUserData from "@/middlewares/user";
-import queryData from "@/middlewares/query";
+// import queryData from "@/middlewares/query";
 
 Vue.use(Router);
 
@@ -48,8 +48,8 @@ const router = new Router({
       name: "c",
       component: ViewCalendar,
       meta: {
-        breadcrumb: null,
-        middleware: queryData
+        breadcrumb: null
+        // middleware: queryData
       }
     },
     {
@@ -74,8 +74,8 @@ const router = new Router({
             exact: true
           },
           { text: "Update shift" }
-        ],
-        middleware: queryData
+        ]
+        // middleware: queryData
       }
     },
     {
@@ -90,8 +90,8 @@ const router = new Router({
             exact: true
           },
           { text: "New shift" }
-        ],
-        middleware: queryData
+        ]
+        // middleware: queryData
       }
     },
     {
@@ -115,8 +115,8 @@ const router = new Router({
           },
           { text: "New contract" }
         ]
-      },
-      middleware: queryData
+      }
+      // middleware: queryData
     },
     {
       path: "/contracts/:uuid/edit",
@@ -132,16 +132,16 @@ const router = new Router({
           },
           { text: "Update contract" }
         ]
-      },
-      middleware: queryData
+      }
+      // middleware: queryData
     },
     {
       path: "/contracts/",
       name: "contractList",
       component: ViewContractList,
       meta: {
-        breadcrumb: null,
-        middleware: queryData
+        breadcrumb: null
+        // middleware: queryData
       }
     },
     {
@@ -158,8 +158,8 @@ const router = new Router({
       name: "clockInOut",
       component: ViewClockInOut,
       meta: {
-        breadcrumb: null,
-        middleware: queryData
+        breadcrumb: null
+        // middleware: queryData
       }
     },
     {

@@ -8,6 +8,7 @@ import auth from "@/store/modules/auth";
 import shift from "@/store/modules/shift";
 import contract from "@/store/modules/contract";
 import snackbar from "@/store/modules/snackbar";
+import report from "@/store/modules/report";
 
 Vue.use(Vuex);
 
@@ -69,7 +70,8 @@ export default new Vuex.Store({
     // calendar,
     shift,
     contract,
-    snackbar
+    snackbar,
+    report
   },
   plugins: [createPersistedState()]
 });

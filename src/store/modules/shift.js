@@ -1,16 +1,16 @@
 import { getField, updateField } from "vuex-map-fields";
-import ShiftService from "@/services/shift.service";
+import { Shift } from "@/models/ShiftModel";
+import ClockService from "@/services/clock";
+import ShiftService from "@/services/shift";
 import { isThisMonth, parseISO } from "date-fns";
+import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   shifts: [],
-  clockedShift: null,
-  // clockedShift: {
-  //   start: new Date("Sun Oct 20 2019 11:09:32 GMT+0200"),
-  //   contract: "4e2dd4dd-79b2-4099-a4c2-c6f33e2b793e"
-  // },
+  clockedShift: undefined,
   stagedShift: null,
-  pseudoShifts: []
+  pseudoShifts: [],
+  status: "idle"
 };
 
 const getters = {
@@ -25,7 +25,8 @@ const getters = {
     return state.shifts.filter(shift =>
       isThisMonth(parseISO(shift.date.start))
     );
-  }
+  },
+  loading: () => state.status === "loading"
 };
 
 const mutations = {
@@ -33,7 +34,7 @@ const mutations = {
   clockShift(state, payload) {
     state.clockedShift = payload;
   },
-  clearClockedShift(state) {
+  clearClockedShift() {
     state.clockedShift = null;
   },
   addShift(state, payload) {
@@ -71,6 +72,61 @@ const mutations = {
 };
 
 const actions = {
+  async CREATE_CLOCKED_SHIFT(
+    { dispatch },
+    { shift: shift, callback: callback }
+  ) {
+    return await ClockService.create(shift)
+      .then(response => {
+        shift.id = response.uuid;
+        dispatch("clockShift", shift);
+        callback();
+      })
+      .catch(handleApiError);
+  },
+  async DELETE_CLOCKED_SHIFT(
+    { commit, state, rootGetters },
+    { callback, errorCallback }
+  ) {
+    return await ClockService.delete(state.clockedShift.id)
+      .then(() => {
+        callback();
+        commit("clearClockedShift");
+      })
+      .catch(() => {
+        // Only perform callback if we are still logged in
+        if (rootGetters["auth/loggedIn"]) errorCallback();
+      });
+  },
+  async CONVERT_CLOCKED_TO_NORMAL_SHIFT(
+    { commit, dispatch, state, rootGetters },
+    { callback, errorCallback }
+  ) {
+    return await ClockService.delete(state.clockedShift.id)
+      .then(async () => {
+        const data = {
+          date: {
+            start: state.clockedShift.started,
+            end: new Date()
+          },
+          contract: state.clockedShift.contract,
+          type: { value: "st", text: "Shift" }
+        };
+
+        const payload = new Shift(data).toPayload();
+        await ShiftService.create(payload)
+          .then(() => {
+            callback();
+            commit("clearClockedShift");
+            dispatch("queryShifts");
+          })
+          .catch(handleApiError);
+      })
+      .catch(() => {
+        // Only perform callback if we are still logged in
+        if (rootGetters["auth/loggedIn"]) errorCallback();
+      });
+  },
   clockShift({ commit }, payload) {
     commit("clockShift", payload);
   },
@@ -102,9 +158,29 @@ const actions = {
     commit("stageShift", payload);
   },
   async queryShifts({ commit }) {
-    const shifts = await ShiftService.list();
+    state.status = "loading";
+    await ShiftService.list()
+      .then(response => {
+        commit("setShifts", response.data);
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        state.status = "idle";
+      });
+  },
+  async queryClockedShift({ commit }) {
+    await ClockService.get()
+      .then(response => {
+        let { data } = response;
+        if (data !== undefined) {
+          data = { ...data, override: true };
+        }
 
-    commit("setShifts", shifts.data);
+        commit("clockShift", data);
+      })
+      .catch(() => {
+        commit("clearClockedShift");
+      });
   }
 };
 

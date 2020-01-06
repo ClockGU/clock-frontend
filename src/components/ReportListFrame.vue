@@ -10,7 +10,8 @@
 
 <script>
 import FrameApi from "@/components/FrameApi";
-import ReportService from "@/services/report.service";
+import ReportService from "@/services/report";
+import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: `ReportListFrame`,
@@ -18,7 +19,7 @@ export default {
     FrameApi
   },
   created() {
-    this.listEndpoint = () => ReportService.list();
+    this.listEndpoint = () => ReportService.list().catch(handleApiError);
   }
 };
 </script>

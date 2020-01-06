@@ -154,7 +154,7 @@ const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
 export default {
-  name: "ShiftForm",
+  name: "ShiftForm2",
   components: {
     ShiftFormDateInlineInput,
     ShiftFormTimeInput,

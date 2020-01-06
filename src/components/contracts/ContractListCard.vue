@@ -13,7 +13,7 @@
         {{ contract.date.end | toDate }}
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions data-cy="contract-actions">
         <v-btn
           text
           color="primary"
@@ -21,10 +21,11 @@
             name: 'editContract',
             params: { uuid: contract.uuid }
           }"
+          data-cy="edit"
         >
           Edit
         </v-btn>
-        <v-btn text @click="$emit('delete')">Delete</v-btn>
+        <v-btn text data-cy="delete" @click="$emit('delete')">Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-col>

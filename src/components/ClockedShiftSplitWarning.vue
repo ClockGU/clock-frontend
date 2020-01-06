@@ -156,11 +156,13 @@ import uuid from "uuid/v4";
 import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
 const { utcToZonedTime, format } = require("date-fns-tz");
 
-import ShiftService from "@/services/shift.service";
+import ShiftService from "@/services/shift";
 
 import { mdiDotsHorizontal, mdiDotsVertical } from "@mdi/js";
 
 import equals from "ramda/src/equals";
+
+import { handleApiError } from "@/utils/interceptors";
 
 export default {
   name: "ClockedShiftSplitWarning",
@@ -263,7 +265,9 @@ export default {
       this.dialog = false;
     },
     submit() {
-      this.shifts.map(shift => ShiftService.create(shift.toPayload()));
+      this.shifts.map(shift =>
+        ShiftService.create(shift.toPayload()).catch(handleApiError)
+      );
       this.$emit("close");
       this.callbacks.reset();
     },

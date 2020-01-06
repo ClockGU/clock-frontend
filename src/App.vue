@@ -53,10 +53,16 @@
       </v-app-bar-nav-icon>
       <!-- <portal-target name="toolbar"></portal-target> -->
       <template v-if="showSelectContractButton">
-        <v-btn text :to="{ path: '/select/' }" exact>
+        <v-btn
+          data-cy="select-contract-button"
+          text
+          :to="{ path: '/select/' }"
+          exact
+        >
           {{ selectedContract.name }}
         </v-btn>
-        <ClockInOut
+        <ClockInOutButton
+          v-if="showClockInOutButton"
           :selected-contract="selectedContract"
           :clocked-shift="clockedShift"
         />
@@ -93,9 +99,8 @@
 import TheDialog from "@/components/TheDialog";
 import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
-import ClockInOut from "@/components/ClockInOut";
+import ClockInOutButton from "@/components/ClockInOutButton";
 import { mapGetters } from "vuex";
-import ClockService from "@/services/clock.service";
 
 import {
   mdiHome,
@@ -111,9 +116,8 @@ import {
 } from "@mdi/js";
 
 export default {
-  components: { ClockInOut, TheDialog, TheSnackbar, LogoutForm },
+  components: { ClockInOutButton, TheDialog, TheSnackbar, LogoutForm },
   data: () => ({
-    clockedShift: null,
     drawer: false,
     mini: true,
     logoutDialog: false,
@@ -165,6 +169,9 @@ export default {
     breadcrumbList: null
   }),
   computed: {
+    showClockInOutButton() {
+      return this.clockedShift !== undefined;
+    },
     showSelectContractButton() {
       return this.$store.state.selectedContract !== null;
     },
@@ -199,25 +206,24 @@ export default {
     },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn"
-    })
+    }),
+    clockedShift() {
+      return this.$store.state.shift.clockedShift;
+    }
   },
   watch: {
     $route() {
       this.breadcrumbList = this.$route.meta.breadcrumb;
+
+      if (!this.isLoggedIn) return;
+      this.$store.dispatch("shift/queryClockedShift");
     }
   },
-  created() {
-    this.getClockedShift();
+  mounted() {
+    if (!this.isLoggedIn) return;
+    this.$store.dispatch("shift/queryClockedShift");
   },
   methods: {
-    async getClockedShift() {
-      try {
-        const response = await ClockService.get();
-        this.clockedShift = response.data;
-      } catch (err) {
-        this.clockedShift = null;
-      }
-    },
     toggleDrawer() {
       if (this.isMobile) {
         this.drawer = !this.drawer;

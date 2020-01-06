@@ -1,19 +1,11 @@
 <template>
   <v-container>
-    <FrameApi
-      v-if="endpoint"
-      v-slot="{ methods: { query } }"
-      :endpoint="endpoint"
-      @success="redirect"
-    >
-      <ShiftForm v-if="entity" :query="query" :uuid="uuid" :entity="entity" />
-    </FrameApi>
-
     <ShiftForm
-      v-if="endpoint === null && entity"
-      :query="query"
+      v-if="entity"
+      :query="endpoint"
       :uuid="uuid"
       :entity="entity"
+      @submit="redirect"
     />
   </v-container>
 </template>
@@ -21,12 +13,12 @@
 <script>
 import ShiftForm from "@/components/shifts/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
-import ShiftService from "@/services/shift.service";
-import FrameApi from "@/components/FrameApi";
+import ShiftService from "@/services/shift";
+import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: "ViewShiftForm",
-  components: { FrameApi, ShiftForm },
+  components: { ShiftForm },
   props: {
     uuid: {
       type: String,
@@ -51,26 +43,30 @@ export default {
     if (entity !== undefined) {
       this.entity = new Shift(entity);
     } else if (this.uuid != null) {
-      const response = await ShiftService.get(this.uuid);
+      const response = await ShiftService.get(this.uuid).catch(handleApiError);
       this.entity = new Shift(response.data);
     } else {
       this.entity = new Shift();
     }
   },
   methods: {
-    redirect({ data }) {
-      return new Promise((resolve, reject) => {
-        data
-          .then(() => {
-            this.$router.push({ name: "c" });
-
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+    redirect() {
+      this.$router.push({ name: "c" });
     }
   }
+  //   console.log(data);
+  //   return new Promise((resolve, reject) => {
+  //     data
+  //       .then(() => {
+  //         // this.$router.push({ name: "c" });
+
+  //         resolve();
+  //       })
+  //       .catch(error => {
+  //         reject(error);
+  //       });
+  //   });
+  // }
+  // }
 };
 </script>

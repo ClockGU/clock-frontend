@@ -7,6 +7,7 @@
           max-width="350"
           outlined
           :elevation="hover ? 2 : 0"
+          :disabled="disabled"
           @click="selectContract(contract)"
         >
           <v-card-title>
@@ -46,6 +47,10 @@ export default {
     contract: {
       type: Object,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
