@@ -81,7 +81,7 @@ describe("Contracts", () => {
 
     it("initially shows a loading skeleton", () => {
       cy.get("[data-cy=skeleton]").should("be.visible");
-      cy.wait(1000);
+      cy.wait("@contracts");
       cy.get("[data-cy=skeleton]").should("not.be.visible");
     });
 
