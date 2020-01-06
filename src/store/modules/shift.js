@@ -83,7 +83,7 @@ const actions = {
       .catch(handleApiError);
   },
   async DELETE_CLOCKED_SHIFT(
-    { commit, state, rootState },
+    { commit, state, rootGetters },
     { callback, errorCallback }
   ) {
     return await ClockService.delete(state.clockedShift.id)
@@ -93,12 +93,12 @@ const actions = {
       })
       .catch(error => {
         // Only perform callback if we are still logged in
-        if (rootState.auth.isLoggedIn) errorCallback();
+        if (rootGetters["auth/loggedIn"]) errorCallback();
         return Promise.reject(error);
       });
   },
   async CONVERT_CLOCKED_TO_NORMAL_SHIFT(
-    { commit, dispatch, state, rootState },
+    { commit, dispatch, state, rootGetters },
     { callback, errorCallback }
   ) {
     return await ClockService.delete(state.clockedShift.id)
@@ -123,7 +123,7 @@ const actions = {
       })
       .catch(() => {
         // Only perform callback if we are still logged in
-        if (rootState.auth.isLoggedIn) errorCallback();
+        if (rootGetters["auth/loggedIn"]) errorCallback();
       });
   },
   clockShift({ commit }, payload) {
