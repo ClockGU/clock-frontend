@@ -329,6 +329,9 @@ describe("Contracts", () => {
 
   context("adding a contract", () => {
     beforeEach(() => {
+      const time = new Date(2019, 10, 20, 10).getTime();
+      cy.clock(time, ["Date"]);
+
       cy.server();
       cy.route({
         method: "POST",
@@ -401,22 +404,12 @@ describe("Contracts", () => {
       cy.get("[data-cy=input-contract]").type("Cypress");
       cy.get("[data-cy=continue-step-four]").click();
 
-      const date = new Date();
-      const currentMonth = date.getMonth() + 1;
-      const lastDayOfCurrentMonth = new Date(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        0
-      ).getDate();
       // Fifth step
       cy.get("[data-cy=header]").should("contain", "Summary");
       cy.get("[data-cy=summary] > .v-card__text")
         .should("contain", "Cypress")
         .should("contain", "40:00")
-        .should(
-          "contain",
-          `2019-${currentMonth}-01 - 2019-${currentMonth}-${lastDayOfCurrentMonth}`
-        );
+        .should("contain", "2019-11-01 - 2019-11-30");
 
       // Submit data
       cy.get("[data-cy=save]").click();
