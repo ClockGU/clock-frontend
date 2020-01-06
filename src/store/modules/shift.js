@@ -91,10 +91,9 @@ const actions = {
         callback();
         commit("clearClockedShift");
       })
-      .catch(error => {
+      .catch(() => {
         // Only perform callback if we are still logged in
         if (rootGetters["auth/loggedIn"]) errorCallback();
-        return Promise.reject(error);
       });
   },
   async CONVERT_CLOCKED_TO_NORMAL_SHIFT(

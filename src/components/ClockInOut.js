@@ -172,12 +172,14 @@ export default {
         .dispatch("shift/DELETE_CLOCKED_SHIFT", {
           uuid: uuid,
           callback: () => this.clock.stop(),
-          errorCallback: () => this.unpause()
+          errorCallback: () => {
+            this.clock.resetInterval();
+            this.clock = null;
+          }
         })
         .then(() => {
           this.clock = null;
-        })
-        .catch(() => {});
+        });
     },
     redirectToContractSelection() {
       this.reselectContract = () => {
