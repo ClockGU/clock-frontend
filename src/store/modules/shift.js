@@ -9,7 +9,8 @@ const state = {
   shifts: [],
   clockedShift: undefined,
   stagedShift: null,
-  pseudoShifts: []
+  pseudoShifts: [],
+  status: "idle"
 };
 
 const getters = {
@@ -24,7 +25,8 @@ const getters = {
     return state.shifts.filter(shift =>
       isThisMonth(parseISO(shift.date.start))
     );
-  }
+  },
+  loading: () => state.status === "loading"
 };
 
 const mutations = {
@@ -156,11 +158,15 @@ const actions = {
     commit("stageShift", payload);
   },
   async queryShifts({ commit }) {
+    state.status = "loading";
     await ShiftService.list()
       .then(response => {
         commit("setShifts", response.data);
       })
-      .catch(handleApiError);
+      .catch(handleApiError)
+      .finally(() => {
+        state.status = "idle";
+      });
   },
   async queryClockedShift({ commit }) {
     await ClockService.get()
