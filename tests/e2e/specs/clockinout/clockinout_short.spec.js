@@ -57,4 +57,20 @@ describe("ClockInOut with short shifts", () => {
     cy.get("[data-cy=review-shift]").should("not.be.visible");
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
   });
+
+  it("shows an error when trying to discard a stale shift", () => {
+    cy.server();
+    cy.route({
+      method: "DELETE",
+      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      body: { detail: "Not found." },
+      status: 404
+    });
+
+    cy.get("[data-cy=clock-in-out-button]").click();
+    cy.get("[data-cy=short-discard]").click();
+    cy.get("[data-cy=review-shift]").should("not.be.visible");
+    cy.get("[data-cy=snackbar]").should("contain", "Not found.");
+    cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
+  });
 });
