@@ -169,27 +169,22 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
 
   it("resets the clock if it was stopped after loading the page", () => {
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route(
+      "GET",
+      "/api/clockedinshifts/",
+      { detail: "Not found." },
+      { status: 404 }
+    ).as("clockedShift");
 
     cy.visit("http://localhost:8080");
+
+    cy.get("[data-cy=clock-in-out-button]").click();
     cy.tick(1000);
-    cy.wait(100);
-
-    cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
-    cy.get('[href="/shifts"]').click();
-    cy.get("[data-cy=clock-in-out-button]").should("contain", "00h10m01s");
-    cy.tick(60000);
     cy.wait(1000);
-    cy.get("[data-cy=clock-in-out-button]").should("contain", "00h11m01s");
+    cy.get("[data-cy=clock-in-out-button]").should("contain", "00h00m01s");
 
-    cy.server();
-    cy.route({
-      method: "GET",
-      url: "/api/clockedinshifts/",
-      data: {},
-      status: 404
-    });
     cy.get('[href="/changePassword"]').click();
+    cy.wait("@clockedShift");
     cy.tick(1000);
     cy.wait(1000);
     cy.get("[data-cy=clock-in-out-button]").should("contain", "Clock in");
