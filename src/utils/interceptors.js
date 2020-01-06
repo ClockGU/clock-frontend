@@ -48,11 +48,13 @@ export const handleNetworkError = function(error) {
 };
 
 export const handleGenericError = function(error) {
-  log("handleGenericError");
-
   if (ignoreClockedShiftNotFound(error)) {
+    log("ignoring clockedShiftNotFound");
+
     return Promise.reject(error);
   }
+
+  log("handleGenericError:", error);
 
   const { data } = error.response;
   let message = null;
