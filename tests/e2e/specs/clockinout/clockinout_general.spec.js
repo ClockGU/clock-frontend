@@ -245,7 +245,7 @@ describe("forces to change contract when a shift is clocked outside the current 
     cy.url().should("contain", "/select");
   });
 
-  ["select", "createContract", "help", "changePassword"].forEach(path => {
+  ["select", "contracts/create", "help", "changePassword"].forEach(path => {
     it(`allows visiting ${path} page without showing the dialog`, () => {
       cy.server();
       cy.route("GET", "/api/clockedinshifts/", {
