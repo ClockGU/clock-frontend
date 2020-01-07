@@ -73,5 +73,5 @@ export default new Vuex.Store({
     snackbar,
     report
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState({ paths: ["auth", "selectedContract"] })]
 });
