@@ -91,12 +91,12 @@ const actions = {
     return await ClockService.delete(state.clockedShift.id)
       .then(() => {
         callback();
-        commit("clearClockedShift");
       })
       .catch(() => {
         // Only perform callback if we are still logged in
         if (rootGetters["auth/loggedIn"]) errorCallback();
-      });
+      })
+      .finally(() => commit("clearClockedShift"));
   },
   async CONVERT_CLOCKED_TO_NORMAL_SHIFT(
     { commit, dispatch, state, rootGetters },
