@@ -16,6 +16,7 @@
         top
         right
         color="pink"
+        data-cy="calendar-create-button"
         :to="{ name: 'createShift' }"
       >
         <v-icon>{{ icons.mdiPlus }}</v-icon>
@@ -30,6 +31,8 @@ import { createHelpers } from "vuex-map-fields";
 
 import { mdiPlus } from "@mdi/js";
 
+import { mapGetters } from "vuex";
+
 const { mapFields: mapContractFields } = createHelpers({
   getterType: "contract/getField",
   mutationType: "contract/updateField"
@@ -39,8 +42,6 @@ const { mapFields: mapShiftFields } = createHelpers({
   getterType: "shift/getField",
   mutationType: "shift/updateField"
 });
-
-import { mapGetters } from "vuex";
 
 export default {
   name: "ViewCalendar",
@@ -73,7 +74,7 @@ export default {
   computed: {
     ...mapContractFields(["contracts"]),
     ...mapShiftFields(["shifts"]),
-    ...mapGetters({ loading: "contract/loading" }),
+    ...mapGetters({ loading: "shift/loading" }),
     date() {
       return new Date(Date.UTC(this.year, this.month - 1, this.day));
     },
