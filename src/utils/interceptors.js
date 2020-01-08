@@ -86,7 +86,7 @@ export const handleTokenRefresh = async function(error, requestFn) {
   return await store
     .dispatch("auth/refreshToken")
     .then(response => {
-      const { accessToken } = response;
+      const accessToken = response;
 
       const { config: originalRequest } = error;
       // Set new access token
@@ -109,7 +109,6 @@ export const handleTokenRefresh = async function(error, requestFn) {
 
       // Refresh has failed - reject the original request
       // and logout user.
-      handleLogout();
-      return Promise.reject(error);
+      return handleLogout(error);
     });
 };
