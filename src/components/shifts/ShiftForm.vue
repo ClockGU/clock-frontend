@@ -268,7 +268,7 @@ export default {
       const now = new Date();
       return new Shift({
         date: { ...startEndHours(now) },
-        contracts: null,
+        contract: null,
         type: "st"
       });
     },
