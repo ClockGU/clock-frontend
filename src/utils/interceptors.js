@@ -51,7 +51,7 @@ export const handleGenericError = function(error) {
   if (ignoreClockedShiftNotFound(error)) {
     log("ignoring clockedShiftNotFound");
 
-    return Promise.reject(error);
+    return Promise.resolve();
   }
 
   log("handleGenericError:", error);
@@ -82,7 +82,8 @@ export const handleGenericError = function(error) {
 };
 
 export const handleTokenRefresh = async function(error, requestFn) {
-  await store
+  log("handling tokenRefresh");
+  return await store
     .dispatch("auth/refreshToken")
     .then(response => {
       const { accessToken } = response;
@@ -92,25 +93,23 @@ export const handleTokenRefresh = async function(error, requestFn) {
       originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
 
       // Retry the request
+      log("retrying request");
       return requestFn({
         ...originalRequest,
         headers: {
           "Content-Type": "application/json;charset=UTF-8"
         }
       }).catch(error => {
-        log("requestFn rejected");
+        log("requestFn rejected:", error);
         return Promise.reject(error);
       });
     })
     .catch(error => {
       log("handleTokenRefresh rejected");
+
       // Refresh has failed - reject the original request
       // and logout user.
-      // If we are retrieving a clockedshift not found error, do nothing.
-      if (!ignoreClockedShiftNotFound(error)) {
-        handleLogout();
-      }
-
+      handleLogout();
       return Promise.reject(error);
     });
 };

@@ -27,6 +27,14 @@ export default {
       if (this.clock === null) return "idle";
       if (this.clock.interval) return "running";
       if (this.clock.startDate && !this.clock.interval) return "paused";
+    },
+    startDate() {
+      const date =
+        this.clockedShift.started === undefined
+          ? this.clockedShift.start
+          : this.clockedShift.started;
+
+      return is(Date, date) ? date : parseISO(date);
     }
   },
   watch: {
@@ -114,12 +122,13 @@ export default {
       }
 
       // Trying to stop the shift, but it spans multiple days
-      const start = is(Date, this.clockedShift.started)
-        ? this.clockedShift.started
-        : parseISO(this.clockedShift.started);
+      // TODO: Delete commented code below?
+      // const start = is(Date, this.clockedShift.started)
+      //   ? this.clockedShift.started
+      //   : parseISO(this.clockedShift.started);
       const isOverflowedShift =
         eachDayOfInterval({
-          start,
+          start: this.startDate,
           end: new Date()
         }).length > 1;
       if (isOverflowedShift) {
@@ -132,10 +141,16 @@ export default {
       return;
     },
     start() {
-      const date =
-        this.clockedShift === null
-          ? new Date()
-          : parseISO(this.clockedShift.started);
+      let date = new Date();
+
+      if (this.clockedShift !== null) {
+        date = this.startDate;
+      }
+      // TODO: Delete commented code below?
+      // const date =
+      //   this.clockedShift === null
+      //     ? new Date()
+      //     : parseISO(this.clockedShift.started);
       this.clock = new ClockModel({ startDate: date });
 
       // Persists shift to API if it was not already retrieved from it.
