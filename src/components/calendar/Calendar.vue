@@ -69,6 +69,8 @@
           :event-margin-bottom="3"
           :now="today"
           :type="type"
+          :weekdays="weekdays"
+          :interval-format="intervalFormat"
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -219,7 +221,8 @@ export default {
     end: null,
     selectedEvent: {},
     selectedElement: null,
-    selectedOpen: false
+    selectedOpen: false,
+    weekdays: [1, 2, 3, 4, 5, 6, 0]
   }),
   computed: {
     visibleShifts() {
@@ -290,6 +293,9 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
+    intervalFormat(interval) {
+      return interval.time;
+    },
     colorMap(event) {
       if (event.type.value === "st") return "primary lighten-2";
       if (event.type.value === "sk") return "grey";
