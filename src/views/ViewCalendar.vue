@@ -80,6 +80,10 @@ export default {
     start() {
       return this.date.toISOString().slice(0, 10);
     }
+  },
+  mounted() {
+    this.$store.dispatch("shift/queryShifts");
+    this.$store.dispatch("contract/queryContracts");
   }
 };
 </script>
