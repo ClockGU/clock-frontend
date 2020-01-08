@@ -3,33 +3,54 @@
     <v-col>
       <v-sheet>
         <v-toolbar flat color="white">
-          <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
-          <v-btn fab text small @click="prev">
+          <v-btn
+            outlined
+            class="mr-4"
+            data-cy="calendar-today"
+            @click="setToday"
+          >
+            Today
+          </v-btn>
+          <v-btn fab text small data-cy="calendar-previous-month" @click="prev">
             <v-icon small>{{ icons.mdiChevronLeft }}</v-icon>
           </v-btn>
-          <v-btn fab text small @click="next">
+          <v-btn fab text small data-cy="calendar-next-month" @click="next">
             <v-icon small>{{ icons.mdiChevronRight }}</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <v-toolbar-title data-cy="calendar-title">
+            {{ title }}
+          </v-toolbar-title>
           <div class="flex-grow-1"></div>
           <v-menu bottom right>
             <template v-slot:activator="{ on }">
-              <v-btn outlined v-on="on">
+              <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
               </v-btn>
             </template>
-            <v-list>
-              <v-list-item @click="type = 'day'">
+            <v-list data-cy="calendar-type-select">
+              <v-list-item
+                data-cy="calendar-type-select-day"
+                @click="type = 'day'"
+              >
                 <v-list-item-title>Day</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'week'">
+              <v-list-item
+                data-cy="calendar-type-select-week"
+                @click="type = 'week'"
+              >
                 <v-list-item-title>Week</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item
+                data-cy="calendar-type-select-month"
+                @click="type = 'month'"
+              >
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = '4day'">
+              <v-list-item
+                data-cy="calendar-type-select-4days"
+                @click="type = '4day'"
+              >
                 <v-list-item-title>4 days</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -59,14 +80,21 @@
           :activator="selectedElement"
           offset-x
         >
-          <v-card color="grey lighten-4" min-width="350px" flat>
+          <v-card
+            color="grey lighten-4"
+            min-width="350px"
+            flat
+            data-cy="calendar-selected-event"
+          >
             <v-toolbar :color="selectedEvent.color" dark>
               <v-btn icon @click="selectedOpen = false">
                 <v-icon>{{ icons.mdiClose }}</v-icon>
               </v-btn>
-              <v-toolbar-title>Type: {{ selectedEvent.type }}</v-toolbar-title>
+              <v-toolbar-title data-cy="calendar-selected-event-type">
+                Type: {{ selectedEvent.type }}
+              </v-toolbar-title>
             </v-toolbar>
-            <v-card-text>
+            <v-card-text data-cy="calendar-selected-event-text">
               <h2 class="title primary-text">
                 {{ selectedEvent.duration }} on
                 {{ selectedEvent.start | formatDate }}
@@ -83,12 +111,14 @@
                   params: { uuid: selectedEvent.uuid }
                 }"
                 :disabled="selectedEvent.exported"
+                data-cy="calendar-selected-event-edit"
               >
                 Edit
               </v-btn>
               <v-btn
                 text
                 :disabled="selectedEvent.exported"
+                data-cy="calendar-selected-event-delete"
                 @click="confirmDelete(selectedEvent.uuid)"
               >
                 Delete
@@ -101,7 +131,7 @@
 
     <TheDialog v-if="dialog" @close="dialog = false">
       <template v-slot:content>
-        <v-card>
+        <v-card data-cy="calendar-delete-shift-dialog">
           <v-card-title class="headline"
             >You sure you want to delete this shift?</v-card-title
           >
@@ -111,8 +141,21 @@
             </p>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="error" text @click="destroy">Delete</v-btn>
-            <v-btn text @click="dialog = false">Cancel</v-btn>
+            <v-btn
+              color="error"
+              text
+              data-cy="calendar-delete-shift-confirm"
+              @click="destroy"
+            >
+              Delete
+            </v-btn>
+            <v-btn
+              text
+              data-cy="calendar-delete-shift-cancel"
+              @click="dialog = false"
+            >
+              Cancel
+            </v-btn>
           </v-card-actions>
         </v-card>
       </template>
@@ -243,6 +286,9 @@ export default {
       shifts: state => state.shift.shifts
     })
   },
+  mounted() {
+    this.$refs.calendar.checkChange();
+  },
   methods: {
     colorMap(event) {
       if (event.type.value === "st") return "primary lighten-2";
@@ -304,9 +350,8 @@ export default {
       nativeEvent.stopPropagation();
     },
     updateRange({ start, end }) {
-      // You could load events from an outside source (like database) now that we have the start and end dates on the calendar
       this.start = start;
-      this.end = end.date;
+      this.end = end;
     },
     nth(d) {
       return d > 3 && d < 21
