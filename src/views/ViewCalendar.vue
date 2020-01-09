@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Calendar :start="start" :type="type">
+    <Calendar @updateRange="updateRange">
       <v-fade-transition v-if="loading">
         <v-overlay absolute color="#036358">
           <v-progress-circular indeterminate size="32"></v-progress-circular>
@@ -85,6 +85,20 @@ export default {
   mounted() {
     this.$store.dispatch("shift/queryShifts");
     this.$store.dispatch("contract/queryContracts");
+  },
+  methods: {
+    updateRange({ type, start: { day, month, year } }) {
+      // Update router parameters to reflect the calendar range
+      this.$router.push({
+        name: "calendar",
+        params: {
+          type: type,
+          year: year.toString(),
+          month: month.toString(),
+          day: day.toString()
+        }
+      });
+    }
   }
 };
 </script>

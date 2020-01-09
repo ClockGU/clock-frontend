@@ -358,6 +358,9 @@ export default {
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
+
+      // Tell parent component the range updated
+      this.$emit("updateRange", { type: this.type, start });
     },
     nth(d) {
       return d > 3 && d < 21
