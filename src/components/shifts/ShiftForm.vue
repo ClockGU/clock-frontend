@@ -180,6 +180,10 @@ export default {
     }
   },
   props: {
+    now: {
+      type: Date,
+      default: () => new Date()
+    },
     uuid: {
       type: String,
       default: null
@@ -265,9 +269,8 @@ export default {
       return errors;
     },
     initialData() {
-      const now = new Date();
       return new Shift({
-        date: { ...startEndHours(now) },
+        date: { ...startEndHours(this.now) },
         contract: null,
         type: "st"
       });
@@ -295,7 +298,7 @@ export default {
     setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
-      const now = Date.now();
+      const now = this.now;
 
       // Do nothing if current date is inside the
       // selected contract

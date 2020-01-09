@@ -2,6 +2,7 @@
   <v-container>
     <ShiftForm
       v-if="entity"
+      :now="now"
       :query="endpoint"
       :uuid="uuid"
       :entity="entity"
@@ -20,6 +21,10 @@ export default {
   name: "ViewShiftForm",
   components: { ShiftForm },
   props: {
+    now: {
+      type: Date,
+      default: () => new Date()
+    },
     uuid: {
       type: String,
       default: null
@@ -46,7 +51,7 @@ export default {
       const response = await ShiftService.get(this.uuid).catch(handleApiError);
       this.entity = new Shift(response.data);
     } else {
-      this.entity = new Shift();
+      this.entity = new Shift({ date: { start: this.now } });
     }
   },
   methods: {

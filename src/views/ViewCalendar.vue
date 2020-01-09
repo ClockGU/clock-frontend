@@ -17,7 +17,7 @@
         right
         color="pink"
         data-cy="calendar-create-button"
-        :to="{ name: 'createShift' }"
+        :to="{ name: 'createShift', params: { now: now } }"
       >
         <v-icon>{{ icons.mdiPlus }}</v-icon>
       </v-btn>
@@ -68,7 +68,8 @@ export default {
   },
   data() {
     return {
-      icons: { mdiPlus: mdiPlus }
+      icons: { mdiPlus: mdiPlus },
+      now: null
     };
   },
   computed: {
@@ -88,6 +89,8 @@ export default {
   },
   methods: {
     updateRange({ type, start: { day, month, year } }) {
+      this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
+
       // Update router parameters to reflect the calendar range
       this.$router.push({
         name: "calendar",
