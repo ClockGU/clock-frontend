@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Calendar @updateRange="updateRange">
+    <Calendar
+      :initial-focus="focus"
+      :initial-type="type"
+      @updateRange="updateRange"
+    >
       <v-fade-transition v-if="loading">
         <v-overlay absolute color="#036358">
           <v-progress-circular indeterminate size="32"></v-progress-circular>
@@ -76,6 +80,9 @@ export default {
     ...mapContractFields(["contracts"]),
     ...mapShiftFields(["shifts"]),
     ...mapGetters({ loading: "shift/loading" }),
+    focus() {
+      return `${this.year}-${this.month}-${this.day}`;
+    },
     date() {
       return new Date(Date.UTC(this.year, this.month - 1, this.day));
     },

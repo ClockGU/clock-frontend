@@ -200,6 +200,16 @@ export default {
       return format(parseISO(date), formatString);
     }
   },
+  props: {
+    initialFocus: {
+      type: String,
+      default: () => format(new Date(), "yyyy-MM-dd")
+    },
+    initialType: {
+      type: String,
+      default: "month"
+    }
+  },
   data: () => ({
     icons: {
       mdiChevronLeft: mdiChevronLeft,
@@ -209,7 +219,7 @@ export default {
     },
     dialog: false,
     today: format(new Date(), "yyyy-MM-dd"),
-    focus: format(new Date(), "yyyy-MM-dd"),
+    focus: null,
     type: "month",
     typeToLabel: {
       month: "Month",
@@ -290,6 +300,8 @@ export default {
     })
   },
   mounted() {
+    this.focus = this.initialFocus;
+    this.type = this.initialType;
     this.$refs.calendar.checkChange();
   },
   methods: {

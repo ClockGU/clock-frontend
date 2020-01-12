@@ -1,3 +1,48 @@
+describe("Visiting calender via specific URLs", () => {
+  beforeEach(() => {
+    const time = new Date(2019, 10, 20, 10).getTime();
+    cy.clock(time, ["Date"]);
+
+    cy.server();
+    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("DELETE", "/api/shifts/7d08fa88-8ab3-489f-b20f-06055a1cf939/", {});
+
+    cy.login();
+    cy.selectContract();
+  });
+
+  it("works with the month view", () => {
+    cy.visit("http://localhost:8080/month/2019/11/20");
+    cy.url().should("contain", "month/2019/11/1");
+    cy.get("[data-cy=calendar-title]").should("contain", "November 2019");
+  });
+
+  it("works with the day view", () => {
+    cy.visit("http://localhost:8080/day/2019/11/20");
+    cy.url().should("contain", "day/2019/11/20");
+    cy.get("[data-cy=calendar-title]").should("contain", "November 20th 2019");
+  });
+
+  it("works with the week view", () => {
+    cy.visit("http://localhost:8080/week/2019/11/20");
+    cy.url().should("contain", "week/2019/11/18");
+    cy.get("[data-cy=calendar-title]").should(
+      "contain",
+      "November 18th 2019 -  24th"
+    );
+  });
+
+  it("works with the 4day view", () => {
+    cy.visit("http://localhost:8080/4day/2019/11/20");
+    cy.url().should("contain", "4day/2019/11/20");
+    cy.get("[data-cy=calendar-title]").should(
+      "contain",
+      "November 20th 2019 -  24th"
+    );
+  });
+});
+
 describe("Viewing the calendar", () => {
   beforeEach(() => {
     const time = new Date(2019, 10, 20, 10).getTime();
