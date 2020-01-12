@@ -27,6 +27,19 @@ Vue.use(Vuelidate);
 Vue.directive("mask", VueMaskDirective);
 Vue.config.productionTip = false;
 
+const ignoreWarnMessage =
+  "The .native modifier for v-on is only valid on components but it was used on <div>.";
+Vue.config.warnHandler = function(msg, vm, trace) {
+  // `trace` is the component hierarchy trace
+  if (msg === ignoreWarnMessage) {
+    msg = null;
+    vm = null;
+    trace = null;
+  }
+
+  return msg, vm, trace;
+};
+
 // Setup sentry error tracking in production
 const isProduction = process.env.NODE_ENV === "production";
 export const debugLogger = isProduction ? false : true;
@@ -44,6 +57,16 @@ if (isProduction) {
       return event;
     }
   });
+} else {
+  Vue.config.errorHandler = function(err, vm, info) {
+    // eslint-disable-next-line no-console
+    console.log("[Global Error Handler]: Error in " + info + ": " + err);
+  };
+
+  window.onerror = function(message, source, line, column, error) {
+    // eslint-disable-next-line no-console
+    console.log("[onError]: ", line, column, error);
+  };
 }
 
 new Vue({
