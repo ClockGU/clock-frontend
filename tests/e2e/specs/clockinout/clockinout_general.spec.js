@@ -293,16 +293,15 @@ describe("expired tokens", () => {
     cy.visit("http://localhost:8080/shifts");
     cy.wait("@tokenExpired");
 
-    cy.login();
-    cy.selectContract();
-    cy.reload();
-
     cy.route({
       method: "GET",
       url: "/api/shifts/",
       status: 200,
       data: {}
     });
+    cy.login();
+    cy.selectContract();
+    cy.reload();
 
     cy.tick(1000);
     cy.get("[data-cy=clock-in-out-button]", { timeout: 1000 }).should(
