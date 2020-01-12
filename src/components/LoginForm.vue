@@ -19,6 +19,7 @@
           :prepend-icon="icons.mdiAccount"
           type="text"
           autocomplete="email"
+          autofocus
           :error-messages="emailErrors"
           @blur="$v.email.$touch()"
           @keyup.enter="submit"
