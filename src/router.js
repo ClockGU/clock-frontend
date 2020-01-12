@@ -82,6 +82,7 @@ const router = new Router({
       path: "/shifts/create",
       name: "createShift",
       component: ViewShiftForm,
+      props: true,
       meta: {
         breadcrumb: [
           {

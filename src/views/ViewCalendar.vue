@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Calendar :start="start" :type="type">
+    <Calendar
+      :initial-focus="focus"
+      :initial-type="type"
+      @updateRange="updateRange"
+    >
       <v-fade-transition v-if="loading">
         <v-overlay absolute color="#036358">
           <v-progress-circular indeterminate size="32"></v-progress-circular>
@@ -16,7 +20,8 @@
         top
         right
         color="pink"
-        :to="{ name: 'createShift' }"
+        data-cy="calendar-create-button"
+        :to="{ name: 'createShift', params: { now: now } }"
       >
         <v-icon>{{ icons.mdiPlus }}</v-icon>
       </v-btn>
@@ -30,6 +35,8 @@ import { createHelpers } from "vuex-map-fields";
 
 import { mdiPlus } from "@mdi/js";
 
+import { mapGetters } from "vuex";
+
 const { mapFields: mapContractFields } = createHelpers({
   getterType: "contract/getField",
   mutationType: "contract/updateField"
@@ -39,8 +46,6 @@ const { mapFields: mapShiftFields } = createHelpers({
   getterType: "shift/getField",
   mutationType: "shift/updateField"
 });
-
-import { mapGetters } from "vuex";
 
 export default {
   name: "ViewCalendar",
@@ -67,13 +72,17 @@ export default {
   },
   data() {
     return {
-      icons: { mdiPlus: mdiPlus }
+      icons: { mdiPlus: mdiPlus },
+      now: null
     };
   },
   computed: {
     ...mapContractFields(["contracts"]),
     ...mapShiftFields(["shifts"]),
-    ...mapGetters({ loading: "contract/loading" }),
+    ...mapGetters({ loading: "shift/loading" }),
+    focus() {
+      return `${this.year}-${this.month}-${this.day}`;
+    },
     date() {
       return new Date(Date.UTC(this.year, this.month - 1, this.day));
     },
@@ -84,6 +93,22 @@ export default {
   mounted() {
     this.$store.dispatch("shift/queryShifts");
     this.$store.dispatch("contract/queryContracts");
+  },
+  methods: {
+    updateRange({ type, start: { day, month, year } }) {
+      this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
+
+      // Update router parameters to reflect the calendar range
+      this.$router.push({
+        name: "calendar",
+        params: {
+          type: type,
+          year: year.toString(),
+          month: month.toString(),
+          day: day.toString()
+        }
+      });
+    }
   }
 };
 </script>
