@@ -88,7 +88,7 @@ describe("Viewing the calendar", () => {
       const titles = {
         day: "November 20th 2019",
         month: "November 2019",
-        week: "November 17th 2019 -  23rd",
+        week: "November 18th 2019 -  24th",
         "4days": "November 20th 2019 -  24th"
       };
       it(`changes the calendar type to ${type}`, () => {
@@ -126,14 +126,14 @@ describe("Viewing the calendar", () => {
 
   context("interacting with events", () => {
     it("opens a preview of the event on click", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .should("be.visible");
     });
 
     it("event preview shows a shift summary", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event-text]")
         .should("contain", "19:53 on 27th November 2019")
@@ -141,7 +141,7 @@ describe("Viewing the calendar", () => {
     });
 
     it("event preview has two buttons", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .get("[data-cy=calendar-selected-event-edit]")
@@ -149,7 +149,7 @@ describe("Viewing the calendar", () => {
     });
 
     it("redirects to the edit shift form", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .get("[data-cy=calendar-selected-event-edit]")
@@ -162,7 +162,7 @@ describe("Viewing the calendar", () => {
     });
 
     it("shows a confirm dialog to delete shift", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .get("[data-cy=calendar-selected-event-delete]")
@@ -174,7 +174,7 @@ describe("Viewing the calendar", () => {
     });
 
     it("lets us discard the dialog with the cancel button", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .get("[data-cy=calendar-selected-event-delete]")
@@ -186,7 +186,7 @@ describe("Viewing the calendar", () => {
     });
 
     it("lets us discard the dialog with escape key", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .get("[data-cy=calendar-selected-event-delete]")
@@ -198,7 +198,7 @@ describe("Viewing the calendar", () => {
     });
 
     it("deletes the shift", () => {
-      cy.get(":nth-child(4) > .v-event > .pl-1")
+      cy.get(":nth-child(3) > .v-event > .pl-1")
         .click()
         .get("[data-cy=calendar-selected-event]")
         .get("[data-cy=calendar-selected-event-delete]")
@@ -208,7 +208,7 @@ describe("Viewing the calendar", () => {
       cy.get("[data-cy=calendar-delete-shift-confirm]").click();
       cy.get("[data-cy=calendar-delete-shift-dialog]").should("not.be.visible");
 
-      cy.get(":nth-child(4) > .v-event > .pl-1").should("not.be.visible");
+      cy.get(":nth-child(3) > .v-event > .pl-1").should("not.be.visible");
     });
   });
 });
