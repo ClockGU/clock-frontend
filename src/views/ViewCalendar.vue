@@ -99,15 +99,17 @@ export default {
       this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
 
       // Update router parameters to reflect the calendar range
-      this.$router.push({
-        name: "calendar",
-        params: {
-          type: type,
-          year: year.toString(),
-          month: month.toString(),
-          day: day.toString()
-        }
-      });
+      this.$router
+        .push({
+          name: "calendar",
+          params: {
+            type: type,
+            year: year.toString(),
+            month: month.toString(),
+            day: day.toString()
+          }
+        })
+        .catch(() => {});
     }
   }
 };
