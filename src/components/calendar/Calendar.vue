@@ -159,14 +159,27 @@
         </v-card>
       </template>
     </TheDialog>
+
+    <portal to="fab">
+      <v-btn
+        absolute
+        dark
+        fab
+        bottom
+        right
+        color="pink"
+        data-cy="calendar-create-button"
+        :to="{ name: 'createShift', params: { now: now } }"
+      >
+        <v-icon>{{ icons.mdiPlus }}</v-icon>
+      </v-btn>
+    </portal>
   </v-sheet>
 </template>
 
 <script>
 import { format, parseISO } from "date-fns";
 import { mapState } from "vuex";
-
-// import { getRouterProps } from "@/utils/date";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
@@ -178,7 +191,8 @@ import {
   mdiChevronLeft,
   mdiChevronRight,
   mdiArrowDown,
-  mdiClose
+  mdiClose,
+  mdiPlus
 } from "@mdi/js";
 import { handleApiError } from "../../utils/interceptors";
 
@@ -212,7 +226,8 @@ export default {
       mdiChevronLeft: mdiChevronLeft,
       mdiChevronRight: mdiChevronRight,
       mdiArrowDown: mdiArrowDown,
-      mdiClose: mdiClose
+      mdiClose: mdiClose,
+      mdiPlus
     },
     dialog: false,
     today: format(new Date(), "yyyy-MM-dd"),
