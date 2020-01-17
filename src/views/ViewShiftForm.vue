@@ -33,8 +33,14 @@ export default {
   data() {
     return {
       entity: null,
-      endpoint: null
+      endpoint: null,
+      prevRoute: null
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevRoute = from;
+    });
   },
   async created() {
     const shifts = this.$store.state.shift.shifts;
@@ -56,22 +62,29 @@ export default {
   },
   methods: {
     redirect() {
-      this.$router.push({ name: "c" });
+      let obj;
+      const isVisitingDirectly =
+        this.prevRoute === null ||
+        (this.prevRoute.fullPath === "/" &&
+          this.prevRoute.name === null &&
+          this.prevRoute.path === "/");
+
+      if (isVisitingDirectly) {
+        // Coming from nothing, redirect to calendar.
+        obj = { name: "c" };
+      } else if (this.prevRoute.name === "calendar") {
+        // Coming from the calendar, redirect to the specific parameters.
+        obj = { name: "calendar", params: this.prevRoute.params };
+      } else if (this.prevRoute.name === "shiftList") {
+        // Coming from the shift list
+        obj = { name: "shiftList" };
+      } else {
+        // Fallback -- just in case.
+        obj = { name: "c" };
+      }
+
+      this.$router.push(obj);
     }
   }
-  //   console.log(data);
-  //   return new Promise((resolve, reject) => {
-  //     data
-  //       .then(() => {
-  //         // this.$router.push({ name: "c" });
-
-  //         resolve();
-  //       })
-  //       .catch(error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
-  // }
 };
 </script>
