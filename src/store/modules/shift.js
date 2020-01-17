@@ -165,7 +165,7 @@ const actions = {
   },
   async queryShifts({ commit }) {
     state.status = "loading";
-    await ShiftService.list()
+    return await ShiftService.list()
       .then(response => {
         commit("setShifts", response.data);
       })
@@ -175,7 +175,7 @@ const actions = {
       });
   },
   async queryClockedShift({ commit }) {
-    await ClockService.get()
+    return await ClockService.get()
       .then(response => {
         let { data } = response;
         if (data !== undefined) {
