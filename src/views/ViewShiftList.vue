@@ -148,6 +148,8 @@ export default {
   watch: {
     toDelete: {
       handler: function(value) {
+        if (value === null) return;
+
         const arr = [];
 
         Object.entries(value).forEach(entry => {
@@ -177,6 +179,9 @@ export default {
         this.groupShiftsByMonth();
         this.dialog = false;
         this.editable = false;
+
+        this.shiftsToDelete = [];
+        this.toDelete = null;
       });
     },
     groupShiftsByMonth() {
