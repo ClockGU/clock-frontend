@@ -42,6 +42,41 @@ export default {
       vm.prevRoute = from;
     });
   },
+  computed: {
+    redirectTo() {
+      const params = this.prevRoute === null ? null : this.prevRoute.params;
+      const REDIRECT_TO = {
+        genericCalendar: { name: "c" },
+        specificCalendar: { name: "calendar", params: params },
+        shiftList: { name: "shiftList" }
+      };
+
+      return REDIRECT_TO[this.visitType];
+    },
+    visitType() {
+      const isVisitingDirectly =
+        this.prevRoute === null ||
+        (this.prevRoute.fullPath === "/" &&
+          this.prevRoute.name === null &&
+          this.prevRoute.path === "/");
+      const isVisitingFromCalendar = this.prevRoute.name === "calendar";
+      const isVisitingFromShiftList = this.prevRoute.name === "shiftList";
+
+      if (isVisitingDirectly) {
+        // Coming from nothing, redirect to calendar.
+        return "genericCalendar";
+      } else if (isVisitingFromCalendar) {
+        // Coming from the calendar, redirect to the specific parameters.
+        return "specificCalendar";
+      } else if (isVisitingFromShiftList) {
+        // Coming from the shift list
+        return "shiftList";
+      } else {
+        // Fallback -- just in case.
+        return "genericCalendar";
+      }
+    }
+  },
   async created() {
     const shifts = this.$store.state.shift.shifts;
 
@@ -62,28 +97,7 @@ export default {
   },
   methods: {
     redirect() {
-      let obj;
-      const isVisitingDirectly =
-        this.prevRoute === null ||
-        (this.prevRoute.fullPath === "/" &&
-          this.prevRoute.name === null &&
-          this.prevRoute.path === "/");
-
-      if (isVisitingDirectly) {
-        // Coming from nothing, redirect to calendar.
-        obj = { name: "c" };
-      } else if (this.prevRoute.name === "calendar") {
-        // Coming from the calendar, redirect to the specific parameters.
-        obj = { name: "calendar", params: this.prevRoute.params };
-      } else if (this.prevRoute.name === "shiftList") {
-        // Coming from the shift list
-        obj = { name: "shiftList" };
-      } else {
-        // Fallback -- just in case.
-        obj = { name: "c" };
-      }
-
-      this.$router.push(obj);
+      this.$router.push(this.redirectTo);
     }
   }
 };
