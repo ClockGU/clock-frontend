@@ -200,3 +200,83 @@ describe("ShiftForm", () => {
     });
   });
 });
+
+describe("returns to correct previous view", () => {
+  beforeEach(() => {
+    const time = new Date(2019, 10, 20, 10).getTime();
+    cy.clock(time, ["Date"]);
+
+    cy.server();
+    cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+    cy.route({
+      method: "POST",
+      url: "/api/shifts/",
+      response: {},
+      status: 204
+    });
+    cy.route({
+      method: "PATCH",
+      url: "/api/shifts/**",
+      response: {},
+      status: 204
+    });
+
+    cy.login();
+    cy.selectContract();
+  });
+
+  context("when creating a shift", () => {
+    it("redirects to generic calendar view", () => {
+      cy.visit("http://localhost:8080/");
+      cy.get("[data-cy=calendar-create-button]").click();
+      cy.get("[data-cy=shift-save]").click();
+      cy.url().should("contain", "/month/2019/11/1");
+    });
+
+    it("redirects to specific calendar view", () => {
+      cy.visit("http://localhost:8080/day/2019/11/22");
+      cy.get("[data-cy=calendar-create-button]").click();
+      cy.get("[data-cy=shift-save]").click();
+      cy.url().should("contain", "/day/2019/11/22");
+    });
+
+    it("redirects to shift list", () => {
+      throw new Error("not yet implemented. Requires PR #81.");
+
+      // cy.visit("http://localhost:8080/shifts");
+      // cy.get("[data-cy=shift-create-button]").click();
+      // cy.get("[data-cy=shift-save]").click();
+      // cy.url().should("contain", "/shifts");
+    });
+  });
+
+  context("when updating a shift", () => {
+    it("redirects to generic calendar view", () => {
+      cy.visit("http://localhost:8080/");
+      cy.wait("@shifts");
+      cy.get(":nth-child(1) > .v-event > .pl-1").click();
+      cy.get("[data-cy=calendar-selected-event-edit]").click();
+      cy.get("[data-cy=shift-save]").click();
+      cy.url().should("contain", "/month/2019/11/1");
+    });
+
+    it("redirects to specific calendar view", () => {
+      cy.visit("http://localhost:8080/day/2019/11/25");
+      cy.wait("@shifts");
+      cy.get(".v-event-timed").click();
+      cy.get("[data-cy=calendar-selected-event-edit]").click();
+      cy.get("[data-cy=shift-save]").click();
+      cy.url().should("contain", "/day/2019/11/25");
+    });
+
+    it("redirects to shift list", () => {
+      throw new Error("not yet implemented. Requires PR #81.");
+
+      // cy.visit("http://localhost:8080/shifts");
+      // cy.get("tbody > :nth-child(1) > :nth-child(1)").click();
+      // cy.get("[data-cy=shift-edit]").click();
+      // cy.get("[data-cy=shift-save]").click();
+      // cy.url().should("contain", "/shifts");
+    });
+  });
+});

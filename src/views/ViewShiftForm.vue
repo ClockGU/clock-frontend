@@ -33,8 +33,49 @@ export default {
   data() {
     return {
       entity: null,
-      endpoint: null
+      endpoint: null,
+      prevRoute: null
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevRoute = from;
+    });
+  },
+  computed: {
+    redirectTo() {
+      const params = this.prevRoute === null ? null : this.prevRoute.params;
+      const REDIRECT_TO = {
+        genericCalendar: { name: "c" },
+        specificCalendar: { name: "calendar", params: params },
+        shiftList: { name: "shiftList" }
+      };
+
+      return REDIRECT_TO[this.visitType];
+    },
+    visitType() {
+      const isVisitingDirectly =
+        this.prevRoute === null ||
+        (this.prevRoute.fullPath === "/" &&
+          this.prevRoute.name === null &&
+          this.prevRoute.path === "/");
+      const isVisitingFromCalendar = this.prevRoute.name === "calendar";
+      const isVisitingFromShiftList = this.prevRoute.name === "shiftList";
+
+      if (isVisitingDirectly) {
+        // Coming from nothing, redirect to calendar.
+        return "genericCalendar";
+      } else if (isVisitingFromCalendar) {
+        // Coming from the calendar, redirect to the specific parameters.
+        return "specificCalendar";
+      } else if (isVisitingFromShiftList) {
+        // Coming from the shift list
+        return "shiftList";
+      } else {
+        // Fallback -- just in case.
+        return "genericCalendar";
+      }
+    }
   },
   async created() {
     const shifts = this.$store.state.shift.shifts;
@@ -56,22 +97,8 @@ export default {
   },
   methods: {
     redirect() {
-      this.$router.push({ name: "c" });
+      this.$router.push(this.redirectTo);
     }
   }
-  //   console.log(data);
-  //   return new Promise((resolve, reject) => {
-  //     data
-  //       .then(() => {
-  //         // this.$router.push({ name: "c" });
-
-  //         resolve();
-  //       })
-  //       .catch(error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
-  // }
 };
 </script>
