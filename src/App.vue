@@ -71,11 +71,11 @@
 
     <v-content>
       <v-container fluid>
-        <v-breadcrumbs
+        <!-- <v-breadcrumbs
           v-if="breadcrumbList !== null"
           :items="breadcrumbList"
           divider=">"
-        ></v-breadcrumbs>
+        ></v-breadcrumbs> -->
         <router-view></router-view>
 
         <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
@@ -165,8 +165,8 @@ export default {
         icon: mdiHelp,
         loggedOut: true
       }
-    ],
-    breadcrumbList: null
+    ]
+    // breadcrumbList: null
   }),
   computed: {
     showClockInOutButton() {
@@ -213,7 +213,7 @@ export default {
   },
   watch: {
     $route() {
-      this.breadcrumbList = this.$route.meta.breadcrumb;
+      // this.breadcrumbList = this.$route.meta.breadcrumb;
 
       if (!this.isLoggedIn) return;
       this.$store.dispatch("shift/queryClockedShift");
