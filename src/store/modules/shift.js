@@ -165,9 +165,11 @@ const actions = {
   },
   async queryShifts({ commit }) {
     state.status = "loading";
-    return await ShiftService.list()
+    return ShiftService.list()
       .then(response => {
         commit("setShifts", response.data);
+
+        return response.data;
       })
       .catch(handleApiError)
       .finally(() => {

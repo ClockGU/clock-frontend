@@ -15,7 +15,6 @@
 import ShiftForm from "@/components/shifts/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift";
-import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: "ViewShiftForm",
@@ -78,22 +77,22 @@ export default {
     }
   },
   async created() {
-    const shifts = this.$store.state.shift.shifts;
-
-    const entity = shifts.find(shift => shift.uuid === this.uuid);
     this.endpoint = data =>
       this.uuid === null
         ? ShiftService.create(data.toPayload())
         : ShiftService.update(data.toPayload(), this.uuid);
 
-    if (entity !== undefined) {
-      this.entity = new Shift(entity);
-    } else if (this.uuid != null) {
-      const response = await ShiftService.get(this.uuid).catch(handleApiError);
-      this.entity = new Shift(response.data);
-    } else {
-      this.entity = new Shift({ date: { start: this.now } });
-    }
+    Promise.all([
+      this.$store.dispatch("shift/queryShifts"),
+      this.$store.dispatch("contract/queryContracts")
+    ]).then(values => {
+      const entity = values[0].find(shift => shift.uuid === this.uuid);
+      if (entity !== undefined) {
+        this.entity = new Shift(entity);
+      } else {
+        this.entity = new Shift();
+      }
+    });
   },
   methods: {
     redirect() {
