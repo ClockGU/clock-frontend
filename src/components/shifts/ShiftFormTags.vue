@@ -50,6 +50,9 @@ export default {
     items: [],
     search: null
   }),
+  created() {
+    this.items = this.value;
+  },
   methods: {
     remove(item) {
       this.items = this.items.filter(chip => chip !== item);
