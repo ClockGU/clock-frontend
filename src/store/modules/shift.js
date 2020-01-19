@@ -15,6 +15,7 @@ const state = {
 
 const getters = {
   getField,
+  shifts: state => state.shifts,
   stagedShift: state => {
     return state.stagedShift;
   },
@@ -24,6 +25,11 @@ const getters = {
   currentShifts: state => {
     return state.shifts.filter(shift =>
       isThisMonth(parseISO(shift.date.start))
+    );
+  },
+  shiftsOfContract: (state, getters, rootState) => {
+    return state.shifts.filter(
+      shift => shift.contract === rootState.selectedContract.uuid
     );
   },
   loading: () => state.status === "loading"
@@ -159,7 +165,7 @@ const actions = {
   },
   async queryShifts({ commit }) {
     state.status = "loading";
-    await ShiftService.list()
+    return await ShiftService.list()
       .then(response => {
         commit("setShifts", response.data);
       })
@@ -169,7 +175,7 @@ const actions = {
       });
   },
   async queryClockedShift({ commit }) {
-    await ClockService.get()
+    return await ClockService.get()
       .then(response => {
         let { data } = response;
         if (data !== undefined) {

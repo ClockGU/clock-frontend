@@ -241,12 +241,11 @@ describe("returns to correct previous view", () => {
     });
 
     it("redirects to shift list", () => {
-      throw new Error("not yet implemented. Requires PR #81.");
-
-      // cy.visit("http://localhost:8080/shifts");
-      // cy.get("[data-cy=shift-create-button]").click();
-      // cy.get("[data-cy=shift-save]").click();
-      // cy.url().should("contain", "/shifts");
+      cy.visit("http://localhost:8080/shifts");
+      cy.get("[data-cy=shift-create-button]").click();
+      cy.url().should("contain", "/shifts/create");
+      cy.get("[data-cy=shift-save]").click();
+      cy.url().should("contain", "/shifts");
     });
   });
 
@@ -270,13 +269,13 @@ describe("returns to correct previous view", () => {
     });
 
     it("redirects to shift list", () => {
-      throw new Error("not yet implemented. Requires PR #81.");
-
-      // cy.visit("http://localhost:8080/shifts");
-      // cy.get("tbody > :nth-child(1) > :nth-child(1)").click();
-      // cy.get("[data-cy=shift-edit]").click();
-      // cy.get("[data-cy=shift-save]").click();
-      // cy.url().should("contain", "/shifts");
+      cy.get("[data-cy=shift-list-item-2]").click();
+      cy.url().should(
+        "contain",
+        "/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
+      );
+      cy.get("[data-cy=shift-save]").click();
+      cy.url().should("contain", "/shifts");
     });
   });
 });

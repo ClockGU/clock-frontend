@@ -1,5 +1,18 @@
 [
   {
+    "id": "dac0ea17-e0d5-43dd-8032-bba8ac41f43c",
+    "tags": ["tag1", "tag2"],
+    "started": "2019-11-25T18:20:38+01:00",
+    "stopped": "2019-11-25T23:59:59+01:00",
+    "type": "sk",
+    "note": "",
+    "was_reviewed": true,
+    "was_exported": false,
+    "created_at": "2019-11-27T19:53:45.060876+01:00",
+    "modified_at": "2019-11-27T19:53:45.060944+01:00",
+    "contract": "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+  },
+  {
     "id": "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
     "tags": [],
     "started": "2019-09-13T06:30:00+02:00",
@@ -39,19 +52,6 @@
     "contract": "df293949-6dba-4f1f-a10e-0bb95f1a46d7"
   },
   {
-    "id": "dac0ea17-e0d5-43dd-8032-bba8ac41f43c",
-    "tags": [],
-    "started": "2019-11-25T18:20:38+01:00",
-    "stopped": "2019-11-25T23:59:59+01:00",
-    "type": "st",
-    "note": "",
-    "was_reviewed": true,
-    "was_exported": false,
-    "created_at": "2019-11-27T19:53:45.060876+01:00",
-    "modified_at": "2019-11-27T19:53:45.060944+01:00",
-    "contract": "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
-  },
-  {
     "id": "7d08fa88-8ab3-489f-b20f-06055a1cf939",
     "tags": [],
     "started": "2019-11-27T00:00:00+01:00",
@@ -62,6 +62,32 @@
     "was_exported": false,
     "created_at": "2019-11-27T19:53:45.294094+01:00",
     "modified_at": "2019-11-27T19:53:45.294180+01:00",
+    "contract": "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+  },
+  {
+    "id": "bc39f918-bc79-4ac9-9ebf-1bce71f98ece",
+    "tags": [],
+    "started": "2019-10-18T00:00:00+01:00",
+    "stopped": "2019-10-18T01:00:00+01:00",
+    "type": "st",
+    "note": "",
+    "was_reviewed": false,
+    "was_exported": false,
+    "created_at": "2019-10-17T22:55:30.178299+01:00",
+    "modified_at": "2019-10-17T22:55:30.178367+01:00",
+    "contract": "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+  },
+  {
+    "id": "b8024303-4e35-4102-83d5-688370604a46",
+    "tags": [],
+    "started": "2019-10-17T01:00:00+01:00",
+    "stopped": "2019-10-17T01:00:00+01:00",
+    "type": "st",
+    "note": "",
+    "was_reviewed": true,
+    "was_exported": true,
+    "created_at": "2019-10-17T22:42:41.544529+01:00",
+    "modified_at": "2019-10-17T22:55:23.650819+01:00",
     "contract": "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
   },
   {
