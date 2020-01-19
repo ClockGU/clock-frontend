@@ -16,7 +16,18 @@
         </v-list-item-subtitle>
         <v-list-item-subtitle>
           <v-chip
-            v-for="tag in item.tags"
+            outlined
+            small
+            class="my-2"
+            :color="typeColor"
+          >
+            {{ item.type.text }}
+          </v-chip>
+
+          <span v-if="item.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
+
+          <v-chip
+            v-for="(tag, i) in item.tags"
             :key="tag"
             outlined
             small
@@ -32,6 +43,12 @@
 
 <script>
 import { format } from "date-fns";
+
+const TYPE_COLORS = {
+  st: "primary",
+  sk: "red",
+  vn: "green"
+};
 
 export default {
   name: "ShiftListItem",
@@ -54,6 +71,11 @@ export default {
     item: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    typeColor() {
+      return TYPE_COLORS[this.item.type.value];
     }
   },
   methods: {
