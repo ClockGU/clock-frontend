@@ -3,13 +3,13 @@
     <v-subheader>
       <v-checkbox
         v-if="editable"
+        data-cy="shift-list-toggle-all"
         :disabled="!editable"
         :value="hasSelectedAllShifts"
         :indeterminate="isIndeterminate"
         @change="toggle"
       ></v-checkbox>
-      <!-- <span class="ml-6"> -->
-      <span :class="{ 'ml-6': editable }">
+      <span :class="{ 'ml-6': editable }" data-cy="shift-list-header">
         {{ title | formatHeader }}
         <br />
         Work time sum: {{ totalDuration | minutesToDuration }} /
@@ -17,10 +17,16 @@
       </span>
     </v-subheader>
 
-    <v-list-item-group v-model="selected" multiple color="primary">
+    <v-list-item-group
+      v-model="selected"
+      data-cy="shift-list-group"
+      multiple
+      color="primary"
+    >
       <template v-for="(item, index) in shifts">
         <ShiftListItem
           :key="index"
+          :data-cy="'shift-list-item-' + index"
           :editable="editable"
           :item="item"
           :active="active"

@@ -2,16 +2,23 @@
   <div>
     <v-skeleton-loader
       v-if="loading"
+      data-cy="shift-list-skeleton"
       loading="true"
       transition="fade-transition"
       type="table"
     >
     </v-skeleton-loader>
 
-    <div v-else-if="shiftsOfContract.length > 0">
-      <v-btn icon @click="toggleEdit">
-        <v-icon v-if="!editable">{{ icons.mdiPencil }}</v-icon>
-        <v-icon v-else>{{ icons.mdiPencilOff }}</v-icon>
+    <div v-else-if="shiftsOfContract.length > 0" data-cy="shift-lists">
+      <v-btn
+        data-cy="shift-list-edit-mode-button"
+        text
+        :outlined="editable"
+        @click="toggleEdit"
+      >
+        <v-icon v-if="!editable" left>{{ icons.mdiPencil }}</v-icon>
+        <v-icon v-else left>{{ icons.mdiPencilOff }}</v-icon>
+        Edit mode
       </v-btn>
 
       <v-dialog v-model="dialog" max-width="500px">
@@ -19,7 +26,7 @@
           <v-slide-x-transition>
             <v-btn
               v-if="editable"
-              data-cy="shift-delete"
+              data-cy="shift-list-delete-button"
               text
               :disabled="deleteDisabled"
               v-on="on"
@@ -54,6 +61,7 @@
       <ShiftList
         v-for="(shifts, key) in shiftsByMonth"
         :key="key"
+        :data-cy="'shift-list-' + key"
         :title="key"
         :shifts="shifts"
         :editable="editable"
@@ -62,7 +70,10 @@
       />
     </div>
 
-    <div v-else-if="shiftsOfContract.length === 0">
+    <div
+      v-else-if="shiftsOfContract.length === 0"
+      data-cy="shift-list-empty-placeholder"
+    >
       <v-container fluid>
         <v-row justify="center">
           <p>You have not created any shifts yet. Get to work!</p>

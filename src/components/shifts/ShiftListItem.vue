@@ -16,6 +16,7 @@
         </v-list-item-subtitle>
         <v-list-item-subtitle>
           <v-chip
+            data-cy="shift-list-item-type"
             outlined
             small
             class="my-2"
@@ -29,6 +30,7 @@
           <v-chip
             v-for="(tag, i) in item.tags"
             :key="tag"
+            :data-cy="'shift-list-item-tag-' + i"
             outlined
             small
             class="my-2"
