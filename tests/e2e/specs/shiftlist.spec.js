@@ -18,7 +18,7 @@ describe("Shift list table", () => {
     });
   });
 
-  context.only("with existing shifts", () => {
+  context("with existing shifts", () => {
     before(() => {
       cy.server();
       cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
