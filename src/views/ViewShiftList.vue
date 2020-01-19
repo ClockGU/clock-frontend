@@ -122,10 +122,10 @@ export default {
   data: () => ({
     dialog: false,
     editable: false,
-    shiftsByMonth: null,
     icons: { mdiPlus, mdiDelete, mdiDeleteOff, mdiPencil, mdiPencilOff },
     toDelete: null, // We do not want to watch this object, so we use a slightly different solution,
-    shiftsToDelete: []
+    shiftsToDelete: [],
+    unsortedShifts: []
   }),
   computed: {
     ...mapGetters({
@@ -134,6 +134,15 @@ export default {
       selectedContract: "selectedContract",
       shiftsOfContract: "shift/shiftsOfContract"
     }),
+    shiftsByMonth() {
+      return datesGroupByComponent(this.sortedShifts, "y MM");
+    },
+    sortedShifts() {
+      const unsorted = [...this.unsortedShifts];
+      return unsorted.sort((a, b) => {
+        return new Date(b.date.start) - new Date(a.date.start);
+      });
+    },
     deleteDisabled() {
       return this.shiftsToDelete.length === 0;
     },
@@ -186,10 +195,7 @@ export default {
     },
     groupShiftsByMonth() {
       this.$store.dispatch("shift/queryShifts").then(() => {
-        this.shiftsByMonth = datesGroupByComponent(
-          this.shiftsOfContract,
-          "y MM"
-        );
+        this.unsortedShifts = this.shiftsOfContract;
       });
     },
     handleSelection(key, event) {
