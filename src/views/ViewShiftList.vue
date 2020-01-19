@@ -92,7 +92,7 @@
         top
         right
         color="secondary"
-        data-cy="calendar-create-button"
+        data-cy="shift-create-button"
         :to="{ name: 'createShift' }"
       >
         <v-icon>{{ icons.mdiPlus }}</v-icon>
