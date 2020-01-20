@@ -144,13 +144,14 @@ export default {
   },
   methods: {
     clickAppend() {
-      // TODO
       // Make sure to remove blur from the input, before opening the dialog.
       // Otherwise, only an overlay is shown.
-      // We blur the activeElement from the document, instead of the input here,
+      // TODO: We blur the activeElement from the document, instead of the input here,
       // because we did not get it to work quickly.
       document.activeElement.blur();
-      this.dialog = true;
+      this.$nextTick(() => {
+        this.dialog = true;
+      });
     },
     setTime() {
       this.time = this.data;
