@@ -96,15 +96,30 @@ describe("ShiftForm", () => {
       cy.server();
       cy.route("GET", "/api/shifts/", "fixture:shifts.json");
       cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-      // cy.route("GET", "/api/clockedinshifts/", {});
 
-      cy.visit("http://localhost:8080/shifts/");
+      cy.visit(
+        "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
+      );
 
-      // cy.get("[data-cy=overlay]")
-      //   .should("be.visible")
-      //   .should("contain", "I'm sorry Dave");
-      // cy.get("[data-cy=overlay-ack]").click();
-      // cy.url().should("contain", "/");
+      cy.url().should(
+        "contain",
+        "/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
+      );
+
+      cy.get(".accent--text > button").should("contain", "November 2019");
+      cy.get(":nth-child(5) > :nth-child(2) > .v-btn").should(
+        "have.class",
+        "accent"
+      );
+      cy.get("[data-cy=start]").should("have.attr", "data-time-value", "18:20");
+      cy.get("[data-cy=end]").should("have.attr", "data-time-value", "23:59");
+
+      cy.get(
+        "[data-cy=shift-tags] > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections > :nth-child(1)"
+      ).should("be.visible");
+      cy.get(
+        "[data-cy=shift-tags] > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections > :nth-child(2)"
+      ).should("be.visible");
     });
 
     it("cannot edit shift in an exported report", () => {
