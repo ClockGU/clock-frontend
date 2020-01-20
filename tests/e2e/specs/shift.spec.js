@@ -64,6 +64,15 @@ describe("ShiftForm", () => {
         .its("length")
         .should("eq", 1);
     });
+
+    it("has an enabled cancel button", () => {
+      cy.get("[data-cy=shift-cancel]").should("be.enabled");
+    });
+
+    it("clicking the cancel button will redirect to previous view", () => {
+      cy.get("[data-cy=shift-cancel]").click();
+      cy.url().should("not.contain", "/shifts");
+    });
   });
 
   context("creating shifts", () => {

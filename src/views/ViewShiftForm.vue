@@ -7,6 +7,7 @@
       :uuid="uuid"
       :entity="entity"
       @submit="redirect"
+      @cancel="redirect"
     />
   </v-container>
 </template>

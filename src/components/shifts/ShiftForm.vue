@@ -122,6 +122,9 @@
               @click="submit(query, shift)"
               >{{ saveLabel }}</v-btn
             >
+            <v-btn data-cy="shift-cancel" text @click="$emit('cancel')"
+              >Cancel</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
