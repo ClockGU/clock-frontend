@@ -82,6 +82,10 @@ describe("ShiftForm", () => {
       cy.visit("http://localhost:8080/shifts/create");
     });
 
+    it("has no delete button", () => {
+      cy.get("[data-cy=shift-form-delete-button]").should("not.be.visible");
+    });
+
     it("can save a shift without input", () => {
       cy.server();
       cy.route({
@@ -129,6 +133,18 @@ describe("ShiftForm", () => {
       cy.get(
         "[data-cy=shift-tags] > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections > :nth-child(2)"
       ).should("be.visible");
+    });
+
+    it("has a delete button", () => {
+      cy.server();
+      cy.route("GET", "/api/shifts/", "fixture:shifts.json");
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+
+      cy.visit(
+        "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
+      );
+
+      cy.get("[data-cy=shift-form-delete-button]").should("be.visible");
     });
 
     it("cannot edit shift in an exported report", () => {
@@ -221,6 +237,69 @@ describe("ShiftForm", () => {
         "contain",
         "/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/edit"
       );
+    });
+  });
+
+  context("deleting a shift", () => {
+    before(() => {
+      cy.server();
+      cy.route("GET", "/api/shifts/", "fixture:shifts.json");
+      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+
+      cy.login();
+      cy.selectContract();
+
+      cy.visit(
+        "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
+      );
+    });
+
+    it("shows a confirm dialog when trying to delete", () => {
+      cy.get("[data-cy=shift-form-delete-button]").click();
+      cy.get("[data-cy=delete-dialog]", { timeout: 1000 }).should(
+        "contain",
+        "Are you sure you want to delete the selected shifts? This action is permanent."
+      );
+      cy.get("[data-cy=delete-dialog]").should("be.visible");
+    });
+
+    it("can cancel the delete dialog", () => {
+      cy.get("[data-cy=delete-cancel]").click();
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+    });
+
+    it("can cancel the delete dialog with escape key", () => {
+      cy.get("[data-cy=shift-form-delete-button]").click();
+      cy.focused().type("{esc}");
+      cy.get("[data-cy=delete-dialog]").should("not.be.visible");
+    });
+
+    it("can delete a shift", () => {
+      const time = new Date(2019, 10, 20, 10).getTime();
+      cy.clock(time, ["Date"]);
+
+      cy.server();
+      cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+
+      cy.login();
+      cy.selectContract();
+
+      cy.visit(
+        "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
+      );
+
+      cy.fixture("shifts.json").then(shifts => {
+        cy.wait("@shifts");
+
+        const remainingShifts = shifts.slice(1);
+        cy.route("GET", "/api/shifts/", remainingShifts).as("remainingShifts");
+        cy.route("DELETE", "/api/shifts/**", {});
+
+        cy.get("[data-cy=shift-form-delete-button]").click();
+        cy.get("[data-cy=delete-confirm]").click();
+        cy.get(":nth-child(1) > .v-event > .pl-1").should("not.be.visible");
+        cy.url().should("contain", "/month/2020/1/1");
+      });
     });
   });
 });

@@ -8,6 +8,7 @@
       :entity="entity"
       @submit="redirect"
       @cancel="redirect"
+      @redirect="redirect"
     />
   </v-container>
 </template>

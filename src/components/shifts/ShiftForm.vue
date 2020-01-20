@@ -125,6 +125,50 @@
             <v-btn data-cy="shift-cancel" text @click="$emit('cancel')"
               >Cancel</v-btn
             >
+            <v-spacer></v-spacer>
+
+            <v-dialog v-model="dialog" max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-slide-x-transition>
+                  <v-btn
+                    v-if="uuid !== null"
+                    data-cy="shift-form-delete-button"
+                    text
+                    :disabled="deleteDisabled"
+                    color="error"
+                    v-on="on"
+                  >
+                    Delete
+                  </v-btn>
+                </v-slide-x-transition>
+              </template>
+
+              <v-card data-cy="delete-dialog">
+                <v-card-title>
+                  <span class="headline">Delete shifts?</span>
+                </v-card-title>
+
+                <v-card-text>
+                  Are you sure you want to delete the selected shifts? This
+                  action is permanent.
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    data-cy="delete-confirm"
+                    color="error"
+                    text
+                    @click="destroy"
+                  >
+                    Delete
+                  </v-btn>
+                  <v-btn data-cy="delete-cancel" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -151,7 +195,7 @@ import { startEndHours } from "@/utils/time";
 
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import { handleApiError } from "../../utils/interceptors";
+import { handleApiError } from "@/utils/interceptors";
 
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
@@ -201,6 +245,7 @@ export default {
     }
   },
   data: () => ({
+    dialog: false,
     select: null,
     shift: null,
     stepper: 1,
@@ -298,6 +343,17 @@ export default {
     }
   },
   methods: {
+    destroy() {
+      ShiftService.delete(this.uuid)
+        .then(() => {
+          this.$store.dispatch("shift/queryShifts");
+        })
+        .catch(handleApiError)
+        .finally(() => {
+          this.dialog = false;
+          this.$emit("redirect");
+        });
+    },
     setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
@@ -336,13 +392,6 @@ export default {
       callback(shift)
         .then(() => this.$emit("submit"))
         .catch(handleApiError);
-    },
-    async destroy() {
-      if (this.uuid === null) return;
-
-      await ShiftService.delete(this.uuid).catch(handleApiError);
-
-      this.redirect();
     }
   }
 };
