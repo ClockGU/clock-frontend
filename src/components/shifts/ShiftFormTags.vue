@@ -1,7 +1,8 @@
 <template>
   <v-combobox
-    v-model="items"
+    v-model="model"
     data-cy="tags"
+    :items="usedTags"
     :search-input.sync="search"
     :hide-no-data="!search"
     no-data-text="Start typing to search or add a tag."
@@ -14,12 +15,12 @@
     @input="$emit('input', $event)"
   >
     <template v-slot:no-data>
-      <v-list-item three-line>
+      <v-list-item>
         <v-list-item-content>
-          <v-list-item-title>No results.</v-list-item-title>
-          <v-list-item-subtitle>
-            Press <kbd>enter</kbd> to create a new tag.
-          </v-list-item-subtitle>
+          <v-list-item-title>
+            No results matching "<strong>{{ search }}</strong
+            >". Press <kbd>enter</kbd> to create a new one
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -37,6 +38,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "ShiftFormTags",
   props: {
@@ -46,17 +49,21 @@ export default {
     }
   },
   data: () => ({
-    chips: [],
-    items: [],
+    model: [],
     search: null
   }),
+  computed: {
+    ...mapGetters({
+      usedTags: "shift/usedTags"
+    })
+  },
   created() {
-    this.items = this.value;
+    this.model = this.value;
   },
   methods: {
     remove(item) {
-      this.items = this.items.filter(chip => chip !== item);
-      this.$emit("input", this.items);
+      this.model = this.model.filter(chip => chip !== item);
+      this.$emit("input", this.model);
     }
   }
 };

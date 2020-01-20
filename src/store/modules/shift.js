@@ -32,7 +32,11 @@ const getters = {
       shift => shift.contract === rootState.selectedContract.uuid
     );
   },
-  loading: () => state.status === "loading"
+  loading: state => state.status === "loading",
+  usedTags: state =>
+    state.shifts.reduce(function(a, b) {
+      return a.concat(b.tags);
+    }, [])
 };
 
 const mutations = {
