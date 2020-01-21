@@ -71,7 +71,7 @@
           :type="type"
           :weekdays="weekdays"
           :interval-format="intervalFormat"
-          @click:event="showEvent"
+          @click:event="handleEventClick"
           @click:more="viewDay"
           @click:date="viewDay"
           @change="updateRange"
@@ -232,7 +232,10 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    weekdays: [1, 2, 3, 4, 5, 6, 0]
+    weekdays: [1, 2, 3, 4, 5, 6, 0],
+    eventClicks: 0,
+    doubleClickTimer: null,
+    doubleClickDelay: 500
   }),
   computed: {
     visibleShifts() {
@@ -305,6 +308,22 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
+    handleEventClick({ nativeEvent, event }) {
+      this.eventClicks++;
+      this.showEvent({ nativeEvent, event });
+      if (this.eventClicks === 1) {
+        this.timer = setTimeout(() => {
+          this.eventClicks = 0;
+        }, this.doubleClickDelay);
+      } else {
+        clearTimeout(this.doubleClickTimer);
+        this.eventClicks = 0;
+        this.$router.push({
+          name: "editShift",
+          params: { uuid: event.uuid }
+        });
+      }
+    },
     intervalFormat(interval) {
       return interval.time;
     },
