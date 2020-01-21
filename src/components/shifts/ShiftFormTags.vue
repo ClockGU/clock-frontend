@@ -13,6 +13,7 @@
     outlined
     clearable
     @input="$emit('input', $event)"
+    @change="search = null"
   >
     <template v-slot:no-data>
       <v-list-item>
