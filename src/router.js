@@ -1,23 +1,21 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { parseJwt } from "@/utils/jwt";
-import ViewLogin from "@/views/ViewLogin";
-import ViewLogout from "@/views/ViewLogout";
-import ViewCalendar from "@/views/ViewCalendar.vue";
-import ViewShiftForm from "@/views/ViewShiftForm";
-import ViewShiftList from "@/views/ViewShiftList";
-import ViewContractForm from "@/views/ViewContractForm";
-import ViewContractList from "@/views/ViewContractList";
-import ViewClockInOut from "@/views/ViewClockInOut";
-import ViewReportList from "@/views/ViewReportList";
-import ViewChangePassword from "@/views/ViewChangePassword";
-import ViewHelp from "@/views/ViewHelp";
-import ViewDebug from "@/views/ViewDebug";
 import store from "@/store";
-import getUserData from "@/middlewares/user";
-// import queryData from "@/middlewares/query";
+import { parseJwt } from "@/utils/jwt";
 
 Vue.use(Router);
+
+const ViewLogin = () => import("@/views/ViewLogin");
+const ViewLogout = () => import("@/views/ViewLogout");
+const ViewCalendar = () => import("@/views/ViewCalendar.vue");
+const ViewShiftForm = () => import("@/views/ViewShiftForm");
+const ViewShiftList = () => import("@/views/ViewShiftList");
+const ViewContractForm = () => import("@/views/ViewContractForm");
+const ViewContractList = () => import("@/views/ViewContractList");
+const ViewReportList = () => import("@/views/ViewReportList");
+const ViewChangePassword = () => import("@/views/ViewChangePassword");
+const ViewHelp = () => import("@/views/ViewHelp");
+const ViewDebug = () => import("@/views/ViewDebug");
 
 const router = new Router({
   mode: "history",
@@ -63,7 +61,7 @@ const router = new Router({
       name: "createShift",
       component: ViewShiftForm,
       props: true
-          },
+    },
     {
       path: "/shifts/",
       name: "shiftList",
@@ -73,13 +71,13 @@ const router = new Router({
       path: "/contracts/create",
       name: "createContract",
       component: ViewContractForm
-          },
+    },
     {
       path: "/contracts/:uuid/edit",
       name: "editContract",
       component: ViewContractForm,
       props: true
-          },
+    },
     {
       path: "/contracts/",
       name: "contractList",
