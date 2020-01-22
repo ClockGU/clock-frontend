@@ -13,58 +13,44 @@
       </v-col>
     </v-row>
 
-    <v-row data-cy="contract-list">
-      <template v-if="editMode">
-        <ContractListCardSkeleton v-if="loading" data-cy="skeleton" />
+    <v-row v-if="loading" data-cy="contract-list">
+      <v-col cols="12" sm="6" md="4">
+        <v-skeleton-loader
+          data-cy="skeleton"
+          type="card"
+          max-width="350"
+          :loading="true"
+        ></v-skeleton-loader>
+      </v-col>
+    </v-row>
 
-        <template v-for="(contract, i) in contracts" v-else>
-          <ContractListCard
-            :key="contract.uuid"
-            :data-cy="'contract-' + i"
-            :contract="contract"
-            :edit-mode="editMode"
-            @delete="confirmDelete(contract.uuid)"
-          />
+    <v-row v-else>
+      <template v-if="editMode">
+        <template v-for="(contract, i) in contracts">
+          <v-col :key="contract.uuid" cols="12" sm="6" md="4">
+            <ContractListCard
+              :key="contract.uuid"
+              :data-cy="'contract-' + i"
+              :contract="contract"
+              :edit-mode="editMode"
+              @delete="confirmDelete(contract.uuid)"
+            />
+          </v-col>
         </template>
       </template>
 
       <template v-else>
-        <ContractListCardSelectSkeleton v-if="loading" data-cy="skeleton" />
-
-        <template v-for="(contract, i) in contracts" v-else>
-          <ContractListCardSelect
-            :key="contract.uuid"
-            :data-cy="'contract-' + i"
-            :contract="contract"
-            :edit-mode="editMode"
-            :disabled="clockedIntoContract(contract.uuid)"
-          />
+        <template v-for="(contract, i) in contracts">
+          <v-col :key="contract.uuid" cols="12" sm="6" md="4">
+            <ContractListCardSelect
+              :data-cy="'contract-' + i"
+              :contract="contract"
+              :edit-mode="editMode"
+              :disabled="clockedIntoContract(contract.uuid)"
+            />
+          </v-col>
         </template>
       </template>
-
-      <v-col cols="12" sm="6" md="4">
-        <v-hover>
-          <template v-slot:default="{ hover }">
-            <v-card
-              class="mx-auto"
-              :min-height="editMode ? '170px' : '118px'"
-              :to="{ name: 'createContract' }"
-              :elevation="hover ? 2 : 0"
-              max-width="350"
-              outlined
-              @click="() => {}"
-            >
-              <v-row :style="{ height: editMode ? '168px' : '116px' }">
-                <v-col align-self="center" align="center">
-                  <v-btn text disabled>
-                    <v-icon left>{{ icons.mdiPlus }}</v-icon> Add contract
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card>
-          </template>
-        </v-hover>
-      </v-col>
     </v-row>
 
     <TheDialog v-if="dialog" @close="dialog = false">
@@ -88,14 +74,27 @@
         </v-card>
       </template>
     </TheDialog>
+
+    <portal to="fab">
+      <v-btn
+        absolute
+        dark
+        fab
+        top
+        right
+        color="secondary"
+        data-cy="contraxt-create-button"
+        :to="{ name: 'createContract' }"
+      >
+        <v-icon>{{ icons.mdiPlus }}</v-icon>
+      </v-btn>
+    </portal>
   </v-container>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
-import ContractListCardSkeleton from "@/components/contracts/ContractListCardSkeleton";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
-import ContractListCardSelectSkeleton from "@/components/contracts/ContractListCardSelectSkeleton";
 import TheDialog from "@/components/TheDialog";
 
 import ContractService from "@/services/contract";
@@ -109,9 +108,7 @@ export default {
   name: "ViewContractList",
   components: {
     ContractListCard,
-    ContractListCardSkeleton,
     ContractListCardSelect,
-    ContractListCardSelectSkeleton,
     TheDialog
   },
   data() {
@@ -124,14 +121,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loading: "contract/loading"
+      loading: "contract/loading",
+      contracts: "contract/contracts",
+      clockedShift: "shift/clockedShift"
     }),
-    clockedInContract() {
-      return this.$store.state.shift.clockedShift;
-    },
-    contracts() {
-      return this.$store.state.contract.contracts;
-    },
     editMode() {
       if (this.$route.name === "contractSelect") return false;
 
@@ -144,13 +137,11 @@ export default {
   },
   methods: {
     clockedIntoContract(uuid) {
-      if (
-        this.clockedInContract === undefined ||
-        this.clockedInContract === null
-      )
+      if (this.clockedShift === undefined || this.clockedShift === null) {
         return false;
+      }
 
-      return this.clockedInContract.contract !== uuid;
+      return this.clockedShift.contract !== uuid;
     },
     confirmDelete(uuid) {
       this.uuid = uuid;
