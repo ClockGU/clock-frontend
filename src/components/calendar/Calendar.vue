@@ -284,13 +284,18 @@ export default {
           this.contracts.find(contract => contract.id === shift.contract)
         );
 
+        const duration =
+          this.type === "month"
+            ? "- " + shift.representationalDuration()
+            : shift.representationalDuration();
+
         return {
           uuid: shift.uuid,
           start: format(shift.date.start, "yyyy-MM-dd HH:mm"),
           end: format(shift.date.end, "yyyy-MM-dd HH:mm"),
           type: shift.type.text,
           color: this.colorMap(shift),
-          duration: "- " + shift.representationalDuration(),
+          duration: duration,
           selectedEventDuration: shift.representationalDuration(),
           contract: contract,
           exported: shift.exported
