@@ -70,12 +70,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container fluid :class="containerClasses">
-        <!-- <v-breadcrumbs
-          v-if="breadcrumbList !== null"
-          :items="breadcrumbList"
-          divider=">"
-        ></v-breadcrumbs> -->
+      <v-container fluid style="height: 100%" :class="containerClasses">
         <router-view></router-view>
 
         <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
@@ -166,7 +161,6 @@ export default {
         loggedOut: true
       }
     ]
-    // breadcrumbList: null
   }),
   computed: {
     containerClasses() {
@@ -216,8 +210,6 @@ export default {
   },
   watch: {
     $route() {
-      // this.breadcrumbList = this.$route.meta.breadcrumb;
-
       if (!this.isLoggedIn) return;
       this.$store.dispatch("shift/queryClockedShift");
     }

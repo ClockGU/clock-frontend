@@ -1,32 +1,10 @@
 <template>
-  <!-- <div fill-height> -->
   <Calendar
     :initial-focus="focus"
     :initial-type="type"
     @updateRange="updateRange"
   >
-    <!-- <v-fade-transition v-if="loading">
-        <v-overlay absolute color="#036358">
-          <v-progress-circular indeterminate size="32"></v-progress-circular>
-        </v-overlay>
-      </v-fade-transition> -->
   </Calendar>
-
-  <!-- <portal to="fab">
-      <v-btn
-        absolute
-        dark
-        fab
-        top
-        right
-        color="pink"
-        data-cy="calendar-create-button"
-        :to="{ name: 'createShift', params: { now: now } }"
-      >
-        <v-icon>{{ icons.mdiPlus }}</v-icon>
-      </v-btn>
-    </portal> -->
-  <!-- </div> -->
 </template>
 
 <script>
