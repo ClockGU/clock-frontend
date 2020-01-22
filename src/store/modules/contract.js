@@ -10,7 +10,7 @@ const state = {
 const getters = {
   getField,
   contracts: state => state.contracts,
-  loading: state.status === "loading"
+  loading: state => state.status === "loading"
 };
 
 const mutations = {
