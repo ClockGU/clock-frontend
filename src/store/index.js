@@ -23,7 +23,8 @@ export default new Vuex.Store({
   },
   getters: {
     getField,
-    selectedContract: state => state.selectedContract
+    selectedContract: state => state.selectedContract,
+    user: state => state.user
   },
   actions: {
     toggleBackend({ commit }) {
