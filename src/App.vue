@@ -70,7 +70,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container fluid>
+      <v-container fluid :class="containerClasses">
         <!-- <v-breadcrumbs
           v-if="breadcrumbList !== null"
           :items="breadcrumbList"
@@ -169,6 +169,9 @@ export default {
     // breadcrumbList: null
   }),
   computed: {
+    containerClasses() {
+      return this.$route.name === "calendar" ? { "pa-0": true } : {};
+    },
     showClockInOutButton() {
       return this.clockedShift !== undefined;
     },
