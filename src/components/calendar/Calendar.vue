@@ -290,7 +290,7 @@ export default {
           end: format(shift.date.end, "yyyy-MM-dd HH:mm"),
           type: shift.type.text,
           color: this.colorMap(shift),
-          duration: shift.representationalDuration(),
+          duration: "- " + shift.representationalDuration(),
           contract: contract,
           exported: shift.exported
         };
