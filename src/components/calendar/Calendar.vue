@@ -1,65 +1,23 @@
 <template>
   <div style="height: 100%">
     <v-sheet>
-      <v-row height="100px" flat color="white" class="px-4">
+      <v-row align="center" height="100px" flat color="white" class="px-4">
         <v-col cols="8" sm="5" order="1">
-          <v-btn
-            outlined
-            class="mr-4"
-            data-cy="calendar-today"
-            @click="setToday"
-          >
-            Today
-          </v-btn>
-          <v-btn fab text small data-cy="calendar-previous-month" @click="prev">
-            <v-icon small>{{ icons.mdiChevronLeft }}</v-icon>
-          </v-btn>
-          <v-btn fab text small data-cy="calendar-next-month" @click="next">
-            <v-icon small>{{ icons.mdiChevronRight }}</v-icon>
-          </v-btn>
+          <CalendarNavigationButtons
+            @today="setToday"
+            @next="next"
+            @prev="prev"
+          />
         </v-col>
 
         <v-col cols="6" sm="4" order="3" order-sm="2">
-          <v-toolbar-title data-cy="calendar-title">
+          <span data-cy="calendar-title">
             {{ title }}
-          </v-toolbar-title>
+          </span>
         </v-col>
 
         <v-col cols="4" sm="3" order="2" order-sm="3">
-          <v-menu bottom right>
-            <template v-slot:activator="{ on }">
-              <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
-                <span>{{ typeToLabel[type] }}</span>
-                <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
-              </v-btn>
-            </template>
-            <v-list data-cy="calendar-type-select">
-              <v-list-item
-                data-cy="calendar-type-select-day"
-                @click="type = 'day'"
-              >
-                <v-list-item-title>Day</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                data-cy="calendar-type-select-week"
-                @click="type = 'week'"
-              >
-                <v-list-item-title>Week</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                data-cy="calendar-type-select-month"
-                @click="type = 'month'"
-              >
-                <v-list-item-title>Month</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                data-cy="calendar-type-select-4days"
-                @click="type = '4day'"
-              >
-                <v-list-item-title>4 days</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <CalendarTypeSelect v-model="type" />
         </v-col>
       </v-row>
     </v-sheet>
@@ -186,27 +144,25 @@
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
-import { mapState } from "vuex";
-
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift";
+import { handleApiError } from "@/utils/interceptors";
 
+import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
+import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import TheDialog from "@/components/TheDialog";
 
-import {
-  mdiChevronLeft,
-  mdiChevronRight,
-  mdiArrowDown,
-  mdiClose,
-  mdiPlus
-} from "@mdi/js";
-import { handleApiError } from "../../utils/interceptors";
+import { format, parseISO } from "date-fns";
+import { mdiClose, mdiPlus } from "@mdi/js";
+import { mapState } from "vuex";
 
 export default {
   name: "Calendar",
   components: {
+    CalendarNavigationButtons,
+    CalendarTypeSelect,
     TheDialog
   },
   filters: {
@@ -231,9 +187,6 @@ export default {
   },
   data: () => ({
     icons: {
-      mdiChevronLeft: mdiChevronLeft,
-      mdiChevronRight: mdiChevronRight,
-      mdiArrowDown: mdiArrowDown,
       mdiClose: mdiClose,
       mdiPlus
     },
@@ -241,12 +194,6 @@ export default {
     today: format(new Date(), "yyyy-MM-dd"),
     focus: null,
     type: "month",
-    typeToLabel: {
-      month: "Month",
-      week: "Week",
-      day: "Day",
-      "4day": "4 Days"
-    },
     start: null,
     end: null,
     selectedEvent: {},
@@ -354,11 +301,7 @@ export default {
       return interval.time;
     },
     colorMap(event) {
-      if (event.type.value === "st") return "primary lighten-2";
-      if (event.type.value === "sk") return "grey";
-      if (event.type.value === "vn") return "green lighten-1";
-
-      return "red";
+      return SHIFT_TYPE_COLORS[event.type.value];
     },
     confirmDelete(uuid) {
       this.dialog = true;
@@ -382,7 +325,6 @@ export default {
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
-      // this.$store.dispatch("calendar/setType", "day");
     },
     getEventColor(event) {
       return event.color;
