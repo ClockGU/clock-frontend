@@ -57,16 +57,6 @@ if (isProduction) {
       return event;
     }
   });
-} else {
-  Vue.config.errorHandler = function(err, vm, info) {
-    // eslint-disable-next-line no-console
-    console.log("[Global Error Handler]: Error in " + info + ": " + err);
-  };
-
-  window.onerror = function(message, source, line, column, error) {
-    // eslint-disable-next-line no-console
-    console.log("[onError]: ", line, column, error);
-  };
 }
 
 new Vue({
