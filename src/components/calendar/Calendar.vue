@@ -98,7 +98,7 @@
             </v-toolbar>
             <v-card-text data-cy="calendar-selected-event-text">
               <h2 class="title primary-text">
-                {{ selectedEvent.duration }} on
+                {{ selectedEvent.selectedEventDuration }} on
                 {{ selectedEvent.start | formatDate }}
               </h2>
               From {{ selectedEvent.start | formatTime }} until
@@ -291,6 +291,7 @@ export default {
           type: shift.type.text,
           color: this.colorMap(shift),
           duration: "- " + shift.representationalDuration(),
+          selectedEventDuration: shift.representationalDuration(),
           contract: contract,
           exported: shift.exported
         };
