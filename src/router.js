@@ -29,8 +29,7 @@ const router = new Router({
       component: ViewLogin,
       meta: {
         public: true,
-        onlyWhenLoggedOut: true,
-        breadcrumb: null
+        onlyWhenLoggedOut: true
       }
     },
     {
@@ -39,137 +38,62 @@ const router = new Router({
       component: ViewLogout,
       meta: {
         public: false,
-        onlyWhenLoggedOut: false,
-        breadcrumb: null
+        onlyWhenLoggedOut: false
       }
     },
     {
       path: "/",
       name: "c",
-      component: ViewCalendar,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
+      component: ViewCalendar
     },
     {
       path: "/:type/:year/:month/:day",
       name: "calendar",
       component: ViewCalendar,
-      props: true,
-      meta: {
-        breadcrumb: null
-      }
+      props: true
     },
     {
       path: "/shifts/:uuid/edit",
       name: "editShift",
       component: ViewShiftForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Calendar",
-            to: { path: "/" },
-            exact: true
-          },
-          { text: "Update shift" }
-        ]
-        // middleware: queryData
-      }
+      props: true
     },
     {
       path: "/shifts/create",
       name: "createShift",
       component: ViewShiftForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Calendar",
-            to: { path: "/" },
-            exact: true
+      props: true
           },
-          { text: "New shift" }
-        ]
-        // middleware: queryData
-      }
-    },
     {
       path: "/shifts/",
       name: "shiftList",
-      component: ViewShiftList,
-      meta: {
-        breadcrumb: null
-      }
+      component: ViewShiftList
     },
     {
       path: "/contracts/create",
       name: "createContract",
-      component: ViewContractForm,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Contracts",
-            to: { path: "/contracts/" },
-            exact: true
+      component: ViewContractForm
           },
-          { text: "New contract" }
-        ]
-      }
-      // middleware: queryData
-    },
     {
       path: "/contracts/:uuid/edit",
       name: "editContract",
       component: ViewContractForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Contracts",
-            to: { path: "/contracts/" },
-            exact: true
+      props: true
           },
-          { text: "Update contract" }
-        ]
-      }
-      // middleware: queryData
-    },
     {
       path: "/contracts/",
       name: "contractList",
-      component: ViewContractList,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
+      component: ViewContractList
     },
     {
       path: "/select/",
       name: "contractSelect",
-      component: ViewContractList,
-      meta: {
-        breadcrumb: null,
-        middleware: getUserData
-      }
-    },
-    {
-      path: "/clock",
-      name: "clockInOut",
-      component: ViewClockInOut,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
+      component: ViewContractList
     },
     {
       path: "/report",
       name: "reportList",
-      component: ViewReportList,
-      meta: {
-        breadcrumb: null
-      }
+      component: ViewReportList
     },
     {
       path: "/changePassword",
@@ -181,17 +105,13 @@ const router = new Router({
       name: "help",
       component: ViewHelp,
       meta: {
-        public: true,
-        breadcrumb: null
+        public: true
       }
     },
     {
       path: "/debug",
       name: "debug",
-      component: ViewDebug,
-      meta: {
-        breadcrumb: null
-      }
+      component: ViewDebug
     }
   ]
 });
