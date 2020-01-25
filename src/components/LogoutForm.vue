@@ -25,7 +25,7 @@ export default {
       this.$emit("close");
     },
     logout() {
-      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("auth/LOGOUT");
       this.$store.dispatch("unsetContract");
 
       this.close();

@@ -26,9 +26,8 @@ const UserService = {
       return ApiService.post("/auth/jwt/create/", { email, password })
         .then(response => {
           log("UserService.login: resolved");
-          ApiService.setHeader(response.data.access);
 
-          resolve(response.data);
+          resolve(response);
         })
         .catch(error => {
           log(`UserService.login error: ${error}`);
@@ -78,13 +77,13 @@ const UserService = {
   /**
    * Refresh the access token.
    **/
-  refreshToken: async function(refreshToken) {
+  refreshToken: function(refreshToken) {
     return new Promise((resolve, reject) => {
       return ApiService.post("/auth/jwt/refresh", {
         refresh: refreshToken
       })
         .then(response => {
-          resolve(response.data.access);
+          resolve(response);
         })
         .catch(error => {
           reject(error);

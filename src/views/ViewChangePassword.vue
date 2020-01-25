@@ -159,7 +159,7 @@ export default {
         this.passwords.newPassword
       )
         .then(() => {
-          this.$store.dispatch("auth/logout");
+          this.$store.dispatch("auth/LOGOUT");
         })
         .catch(error => {
           this.$store.dispatch("snackbar/setSnack", {

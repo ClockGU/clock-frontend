@@ -28,7 +28,7 @@ export const handleApiError = function(error) {
 export const handleLogout = function(error) {
   log("handleLogout called:", error);
 
-  store.dispatch("auth/logout");
+  store.dispatch("auth/LOGOUT");
   store.dispatch("unsetContract");
   sessionExpiredSnack();
 
@@ -83,12 +83,12 @@ export const handleGenericError = function(error) {
 
 export const handleTokenRefresh = async function(error, requestFn) {
   log("handling tokenRefresh");
-  return await store
-    .dispatch("auth/refreshToken")
+  return store
+    .dispatch("auth/REFRESH_TOKEN")
     .then(response => {
-      const accessToken = response;
-
+      const { access: accessToken } = response.data;
       const { config: originalRequest } = error;
+
       // Set new access token
       originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
 
