@@ -1,4 +1,4 @@
-import { is } from "ramda";
+import is from "ramda/src/is";
 import {
   differenceInMinutes,
   isFuture,

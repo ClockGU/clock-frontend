@@ -1,4 +1,4 @@
-import { is } from "ramda";
+import is from "ramda/src/is";
 import { differenceInCalendarDays } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
