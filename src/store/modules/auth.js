@@ -1,4 +1,4 @@
-import UserService from "@/services/user";
+import AuthService from "@/services/auth";
 import ApiService from "@/services/api";
 import router from "@/router";
 import { log } from "@/utils/log";
@@ -17,7 +17,7 @@ const getters = {
 
 const actions = {
   LOGIN({ commit }, { email, password }) {
-    return UserService.login(email, password).then(response => {
+    return AuthService.login(email, password).then(response => {
       log("AuthVuex.login: resolved");
       commit("LOGIN", response.data);
       ApiService.setHeader(response.data.access);
@@ -29,7 +29,7 @@ const actions = {
     });
   },
   LOGOUT({ commit }) {
-    UserService.logout();
+    AuthService.logout();
 
     commit("LOGOUT");
     // We need to catch errors here. Otherwise we get the "NavigationDuplicated" error.
@@ -43,10 +43,10 @@ const actions = {
       return state.refreshTokenPromise;
     }
 
-    const refreshPromise = UserService.refreshToken(state.refreshToken);
+    const refreshPromise = AuthService.refreshToken(state.refreshToken);
     commit("SET_REFRESH_TOKEN_PROMISE", refreshPromise);
 
-    // Wait for the UserService.refreshToken() to resolve. On success set the token and clear promise
+    // Wait for the AuthService.refreshToken() to resolve. On success set the token and clear promise
     // Clear the promise on error as well.
     return refreshPromise
       .then(response => {

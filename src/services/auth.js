@@ -18,7 +18,7 @@ export function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-const UserService = {
+const AuthService = {
   /**
    * Login using the provided credentials.
    */
@@ -63,4 +63,4 @@ const UserService = {
   }
 };
 
-export default UserService;
+export default AuthService;

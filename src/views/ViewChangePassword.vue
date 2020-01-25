@@ -65,7 +65,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import UserService from "@/services/user";
+import AuthService from "@/services/auth";
 
 import { mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 
@@ -155,7 +155,7 @@ export default {
       if (this.$v.$invalid) return;
 
       this.$store.dispatch("auth/REFRESH_TOKEN").then(() => {
-        UserService.changePassword(
+        AuthService.changePassword(
           this.passwords.currentPassword,
           this.passwords.newPassword
         ).then(() => {

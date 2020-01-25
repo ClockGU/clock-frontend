@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { parseJwt } from "@/services/user";
+import { parseJwt } from "@/services/auth";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
 import ViewCalendar from "@/views/ViewCalendar.vue";
