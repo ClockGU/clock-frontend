@@ -373,7 +373,6 @@ export default {
       return day === 14 || isLastDayOfMonth(parseISO(val));
     },
     async submit(callback, contract) {
-      // const payload = contract.toPayload();
       callback(contract)
         .then(() => this.$emit("submit"))
         .catch(handleApiError);

@@ -193,7 +193,6 @@ export default {
       { text: "Keep both shifts and split across days", value: "both" },
       { text: "Keep first", value: "first" },
       { text: "Keep second", value: "second" }
-      // { text: "Discard both", value: "none" }
     ],
     dialogReset: false
   }),
