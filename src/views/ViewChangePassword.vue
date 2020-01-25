@@ -154,20 +154,14 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) return;
 
-      UserService.changePassword(
-        this.passwords.currentPassword,
-        this.passwords.newPassword
-      )
-        .then(() => {
+      this.$store.dispatch("auth/REFRESH_TOKEN").then(() => {
+        UserService.changePassword(
+          this.passwords.currentPassword,
+          this.passwords.newPassword
+        ).then(() => {
           this.$store.dispatch("auth/LOGOUT");
-        })
-        .catch(error => {
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: error.message,
-            timeout: 0,
-            color: "error"
-          });
         });
+      });
     }
   }
 };

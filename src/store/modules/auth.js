@@ -1,4 +1,4 @@
-import { UserService } from "@/services/user";
+import UserService from "@/services/user";
 import ApiService from "@/services/api";
 import router from "@/router";
 import { log } from "@/utils/log";

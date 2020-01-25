@@ -1,6 +1,4 @@
 import ApiService from "@/services/api";
-import store from "@/store";
-import { log } from "@/utils/log";
 
 export function parseJwt(token) {
   /* Decode JWT token.
@@ -21,88 +19,48 @@ export function parseJwt(token) {
 }
 
 const UserService = {
-  login: async function(email, password) {
-    return new Promise((resolve, reject) => {
-      return ApiService.post("/auth/jwt/create/", { email, password })
-        .then(response => {
-          log("UserService.login: resolved");
+  /**
+   * Login using the provided credentials.
+   */
+  login: (email, password) => {
+    return ApiService.post("/auth/jwt/create/", { email, password });
+  },
 
-          resolve(response);
-        })
-        .catch(error => {
-          log(`UserService.login error: ${error}`);
-          log("UserService.login: rejected");
-          reject(error);
-        });
+  /**
+   * Change current to the new password.
+   **/
+  changePassword: (current_password, new_password) => {
+    return ApiService.post("/auth/users/set_password/", {
+      current_password,
+      new_password
     });
   },
 
-  changePassword: async function(current_password, new_password) {
-    const requestData = {
-      method: "post",
-      url: "/auth/users/set_password/",
-      data: {
-        current_password,
-        new_password
-      }
-    };
-
-    return new Promise((resolve, reject) => {
-      return ApiService.customRequest(requestData)
-        .then(() => {
-          this.logout();
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  },
-
+  /**
+   * Retrieve data about logged in user from API.
+   */
   getUser: async function() {
     const url = "/auth/users/me/";
-
-    return new Promise((resolve, reject) => {
-      return ApiService.get(url)
-        .then(response => {
-          store.dispatch("setUser", response.data);
-          resolve();
-        })
-        .catch(error => {
-          reject(error.errorCode, error.message);
-        });
-    });
+    return ApiService.get(url);
   },
 
   /**
    * Refresh the access token.
    **/
-  refreshToken: function(refreshToken) {
-    return new Promise((resolve, reject) => {
-      return ApiService.post("/auth/jwt/refresh", {
-        refresh: refreshToken
-      })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+  refreshToken: refreshToken => {
+    return ApiService.post("/auth/jwt/refresh", { refresh: refreshToken });
   },
 
   /**
    * Logout the current user by removing the token from storage.
    *
-   * Will also remove `Authorization Bearer <token>` header from future requests.
+   * Will also remove `Authorization Bearer <token>` header from future requests
+   * and unmount the interceptor.
    **/
   logout() {
-    // Remove the token and remove Authorization header from Api Service as well
     ApiService.removeHeader();
     ApiService.unmountInterceptor();
   }
 };
 
 export default UserService;
-
-export { UserService };
