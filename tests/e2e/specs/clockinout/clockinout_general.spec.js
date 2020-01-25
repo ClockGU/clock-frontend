@@ -209,11 +209,12 @@ describe("forces to change contract when a shift is clocked outside the current 
       created_at: "2019-11-20T08:00:00.00000+01:00",
       modified_at: "2019-11-20T08:00:00.00000+01:00",
       contract: "32157f66-8eca-4410-b6af-386d858d2804"
-    });
+    }).as("clockedShifts");
 
     cy.get('[href="/report"]').click();
     cy.tick(1000);
     cy.wait(1000);
+    cy.wait("@clockedShifts");
 
     cy.get("[data-cy=change-contract]").should("be.visible");
 

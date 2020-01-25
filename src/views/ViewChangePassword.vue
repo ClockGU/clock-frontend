@@ -65,7 +65,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import UserService from "@/services/user";
+import AuthService from "@/services/auth";
 
 import { mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 
@@ -154,20 +154,14 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) return;
 
-      UserService.changePassword(
-        this.passwords.currentPassword,
-        this.passwords.newPassword
-      )
-        .then(() => {
-          this.$store.dispatch("auth/logout");
-        })
-        .catch(error => {
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: error.message,
-            timeout: 0,
-            color: "error"
-          });
+      this.$store.dispatch("auth/REFRESH_TOKEN").then(() => {
+        AuthService.changePassword(
+          this.passwords.currentPassword,
+          this.passwords.newPassword
+        ).then(() => {
+          this.$store.dispatch("auth/LOGOUT");
         });
+      });
     }
   }
 };

@@ -46,7 +46,7 @@ export default {
       localStorage.removeItem("vuex");
     },
     logout() {
-      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("auth/LOGOUT");
     },
     reset() {
       this.clearAllIntervals();

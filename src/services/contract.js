@@ -1,14 +1,5 @@
 import ApiService from "@/services/api";
 
-// class ContractError extends Error {
-//   constructor(errorCode, message) {
-//     super(message);
-//     this.name = this.constructor.name;
-//     this.message = message;
-//     this.errorCode = errorCode;
-//   }
-// }
-
 function mapApiResponse(response) {
   return {
     uuid: response.id,

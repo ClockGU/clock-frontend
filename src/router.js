@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { parseJwt } from "@/services/user";
+import { parseJwt } from "@/utils/jwt";
 import ViewLogin from "@/views/ViewLogin";
 import ViewLogout from "@/views/ViewLogout";
 import ViewCalendar from "@/views/ViewCalendar.vue";
@@ -242,7 +242,7 @@ router.beforeEach(async (to, from, next) => {
   );
   const token = store.getters["auth/accessToken"];
   const loggedIn = store.getters["auth/loggedIn"];
-  const requestNewAccessToken = exp => Date.now >= exp * 1000;
+  const needToRequestNewAccessToken = exp => Date.now >= exp * 1000;
 
   // Refresh JWT token
   if (loggedIn) {
@@ -250,7 +250,9 @@ router.beforeEach(async (to, from, next) => {
     const { exp } = parseJwt(token);
 
     // Only request new access token if the old expired
-    if (requestNewAccessToken(exp)) await store.dispatch("auth/refreshToken");
+    if (needToRequestNewAccessToken(exp)) {
+      await store.dispatch("auth/REFRESH_TOKEN");
+    }
   }
 
   if (

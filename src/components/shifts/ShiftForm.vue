@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <v-overlay v-if="contractExpired" light :dark="false">
+    <v-overlay v-if="shiftExported" light :dark="false">
       <v-card data-cy="overlay" class="mx-auto" max-width="300">
         <v-card-title class="headline">
           I'm sorry Dave, I'm afraid I can't do that!
@@ -268,7 +268,7 @@ export default {
     ...mapState("contract", {
       contracts: state => state.contracts
     }),
-    contractExpired() {
+    shiftExported() {
       return this.shift.exported;
     },
     currentText() {

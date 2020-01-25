@@ -1,7 +1,7 @@
 const PUBLIC_LINKS = ["Home", "Help"];
-const PARTIALLY_LOGGED_IN_LINKS = ["Cy", "Home", "Password", "Help", "Logout"];
+const PARTIALLY_LOGGED_IN_LINKS = ["", "Home", "Password", "Help", "Logout"];
 const LOGGED_IN_LINKS = [
-  "Cy",
+  "",
   "Home",
   "Shifts",
   "Contracts",

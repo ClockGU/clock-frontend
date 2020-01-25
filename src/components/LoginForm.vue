@@ -95,7 +95,7 @@ export default {
       this.loading = true;
 
       this.$store
-        .dispatch("auth/login", {
+        .dispatch("auth/LOGIN", {
           email: this.email.toLowerCase(),
           password: this.password
         })
