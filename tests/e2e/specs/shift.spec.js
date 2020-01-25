@@ -150,19 +150,21 @@ describe("ShiftForm", () => {
     it("cannot edit shift in an exported report", () => {
       cy.server();
       cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-      cy.route("GET", "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53", {
-        id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
-        tags: [],
-        started: "2019-10-13T06:30:00+02:00",
-        stopped: "2019-10-13T08:56:00+02:00",
-        type: "sk",
-        note: "",
-        was_reviewed: true,
-        was_exported: true,
-        created_at: "2019-09-13T08:53:23.180684+02:00",
-        modified_at: "2019-09-13T08:54:08.613204+02:00",
-        contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
-      });
+      cy.route("GET", "/api/shifts/", [
+        {
+          id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
+          tags: [],
+          started: "2019-10-13T06:30:00+02:00",
+          stopped: "2019-10-13T08:56:00+02:00",
+          type: "sk",
+          note: "",
+          was_reviewed: true,
+          was_exported: true,
+          created_at: "2019-09-13T08:53:23.180684+02:00",
+          modified_at: "2019-09-13T08:54:08.613204+02:00",
+          contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+        }
+      ]);
 
       cy.visit(
         "http://localhost:8080/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/edit"
@@ -175,21 +177,23 @@ describe("ShiftForm", () => {
       cy.url().should("contain", "/");
     });
 
-    it("shows an error when editing a shift of an exported month", () => {
+    it("shows an error when trying to save an exported shift", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53", {
-        id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
-        tags: [],
-        started: "2019-11-13T06:30:00+02:00",
-        stopped: "2019-11-13T08:56:00+02:00",
-        type: "sk",
-        note: "",
-        was_reviewed: true,
-        was_exported: false,
-        created_at: "2019-11-13T06:30:00+02:00",
-        modified_at: "2019-11-13T06:30:00+02:00",
-        contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
-      });
+      cy.route("GET", "/api/shifts/", [
+        {
+          id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
+          tags: [],
+          started: "2019-11-13T06:30:00+02:00",
+          stopped: "2019-11-13T08:56:00+02:00",
+          type: "sk",
+          note: "",
+          was_reviewed: true,
+          was_exported: false,
+          created_at: "2019-11-13T06:30:00+02:00",
+          modified_at: "2019-11-13T06:30:00+02:00",
+          contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+        }
+      ]);
       cy.route(
         "PATCH",
         "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/",
@@ -213,19 +217,21 @@ describe("ShiftForm", () => {
 
     it("shows an error when trying to edit a stale shift", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53", {
-        id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
-        tags: [],
-        started: "2019-11-13T06:30:00+02:00",
-        stopped: "2019-11-13T08:56:00+02:00",
-        type: "sk",
-        note: "",
-        was_reviewed: true,
-        was_exported: false,
-        created_at: "2019-11-13T06:30:00+02:00",
-        modified_at: "2019-11-13T06:30:00+02:00",
-        contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
-      });
+      cy.route("GET", "/api/shifts/", [
+        {
+          id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
+          tags: [],
+          started: "2019-11-13T06:30:00+02:00",
+          stopped: "2019-11-13T08:56:00+02:00",
+          type: "sk",
+          note: "",
+          was_reviewed: true,
+          was_exported: false,
+          created_at: "2019-11-13T06:30:00+02:00",
+          modified_at: "2019-11-13T06:30:00+02:00",
+          contract: "178bc9a6-132e-46ab-8fa2-df8e22c229b6"
+        }
+      ]);
 
       cy.visit(
         "http://localhost:8080/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/edit"
@@ -298,7 +304,7 @@ describe("ShiftForm", () => {
         cy.get("[data-cy=shift-form-delete-button]").click();
         cy.get("[data-cy=delete-confirm]").click();
         cy.get(":nth-child(1) > .v-event > .pl-1").should("not.be.visible");
-        cy.url().should("contain", "/month/2020/1/1");
+        cy.url().should("contain", "/month/2019/11/1");
       });
     });
   });
@@ -372,6 +378,8 @@ describe("returns to correct previous view", () => {
     });
 
     it("redirects to shift list", () => {
+      cy.visit("http://localhost:8080/shifts");
+      cy.wait("@shifts");
       cy.get("[data-cy=shift-list-item-2]").click();
       cy.url().should(
         "contain",
