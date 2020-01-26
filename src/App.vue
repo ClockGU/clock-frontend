@@ -5,6 +5,7 @@
       :is-mobile="isMobile"
       :mini="mini"
       @logout="logoutDialog = true"
+      @closeDrawer="drawer = false"
     />
 
     <TheAppBar :is-mobile="isMobile" :mini="mini" @toggle="toggleDrawer()" />

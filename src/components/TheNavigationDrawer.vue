@@ -5,6 +5,7 @@
     :permanent="!isMobile"
     app
     class="grey lighten-4"
+    @input="closeDrawer"
   >
     <v-list data-cy="menu-list">
       <v-list-item v-if="isLoggedIn">
@@ -143,6 +144,13 @@ export default {
       selectedContract: "selectedContract",
       user: "user"
     })
+  },
+  methods: {
+    closeDrawer(value) {
+      if (!value) {
+        this.$emit("closeDrawer");
+      }
+    }
   }
 };
 </script>
