@@ -5,14 +5,14 @@
     </v-app-bar-nav-icon>
 
     <v-spacer class="hidden-md-and-up"></v-spacer>
-    <v-toolbar-title class="text-uppercase">
-      <router-link
-        to="/dashboard"
-        tag="span"
-        style="cursor: pointer"
-        class="headline"
-      >
-        <span class="font-weight-bold">Clock</span>
+    <v-toolbar-title>
+      <router-link to="/dashboard" tag="span" style="cursor: pointer">
+        <v-img
+          width="96px"
+          height="32px"
+          :src="require('@/assets/clock_full.svg')"
+          contain
+        />
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
