@@ -1,12 +1,78 @@
 <template>
-  <v-app-bar app dark color="blue" absolute text>
-    <v-app-bar-nav-icon @click="$emit('toggle')">
-      <v-icon v-if="!isMobile && !mini">{{ icons.mdiChevronLeft }}</v-icon>
-      <v-icon v-else-if="!isMobile && mini">{{ icons.mdiChevronRight }}</v-icon>
-      <v-icon v-else>{{ icons.mdiMenu }}</v-icon>
+  <v-app-bar app flat fixed>
+    <v-app-bar-nav-icon class="hidden-md-and-up" @click="$emit('toggle')">
+      <v-icon>{{ icons.mdiMenu }}</v-icon>
     </v-app-bar-nav-icon>
 
-    <template v-if="showSelectContractButton">
+    <v-spacer class="hidden-md-and-up"></v-spacer>
+    <v-toolbar-title class="text-uppercase">
+      <router-link
+        to="/dashboard"
+        tag="span"
+        style="cursor: pointer"
+        class="headline"
+      >
+        <span class="font-weight-bold">Clock</span>
+      </router-link>
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+
+    <v-menu offset-y>
+      <template v-slot:activator="{ on }" class="ml-4">
+        <div class="d-flex align-center" v-on="on">
+          <v-avatar
+            size="30px"
+            color="blue lighten-2"
+            class="ml-2"
+            style="cursor: pointer"
+          >
+            <span class="white--text">M</span>
+          </v-avatar>
+          <div class="hidden-sm-and-down">
+            <v-btn text class="pa-1">
+              <span class="text-capitalize">Michael</span>
+              <v-icon>{{ icons.mdiChevronDown }}</v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.text"
+          :to="item.to"
+          dense
+          router
+        >
+          <v-list-item-action>
+            <v-icon small>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>{{ item.text }} </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item data-cy="menu-logout" @click="$emit('logout')">
+          <v-list-item-action>
+            <v-icon>{{ icons.mdiLock }}</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>Logout</v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item
+          v-for="item in menuItems"
+          :key="item.text"
+          router
+          dense
+          :to="item.route"
+        >
+          <v-list-item-icon class="mr-2">
+            <v-icon small>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>{{ item.text }}</v-list-item-title>
+        </v-list-item> -->
+      </v-list>
+    </v-menu>
+
+    <!-- <template v-if="showSelectContractButton">
       <v-btn
         data-cy="select-contract-button"
         text
@@ -20,39 +86,53 @@
         :selected-contract="selectedContract"
         :clocked-shift="clockedShift"
       />
-    </template>
+    </template> -->
   </v-app-bar>
 </template>
 
 <script>
-import ClockInOutButton from "@/components/ClockInOutButton";
+// import ClockInOutButton from "@/components/ClockInOutButton";
 
 import { mapGetters } from "vuex";
 
-import { mdiChevronLeft, mdiChevronRight, mdiMenu } from "@mdi/js";
+import {
+  // mdiChevronLeft,
+  // mdiChevronRight,
+  mdiChevronDown,
+  mdiMenu,
+  mdiTextboxPassword,
+  mdiHelp,
+  mdiLock
+} from "@mdi/js";
 
 export default {
   name: "TheAppBar",
   components: {
-    ClockInOutButton
-  },
-  props: {
-    mini: {
-      type: Boolean,
-      default: true
-    },
-    isMobile: {
-      type: Boolean,
-      default: false
-    }
+    // ClockInOutButton
   },
   data: () => ({
-    mini: true,
     icons: {
-      mdiChevronLeft: mdiChevronLeft,
-      mdiChevronRight: mdiChevronRight,
-      mdiMenu: mdiMenu
-    }
+      // mdiChevronLeft: mdiChevronLeft,
+      // mdiChevronRight: mdiChevronRight,
+      mdiMenu,
+      mdiChevronDown,
+      mdiLock
+    },
+    menuItems: [
+      {
+        text: "Password",
+        to: { name: "changePassword" },
+        icon: mdiTextboxPassword,
+        loggedOut: false,
+        withoutContract: true
+      },
+      {
+        text: "Help",
+        to: { name: "help" },
+        icon: mdiHelp,
+        loggedOut: true
+      }
+    ]
   }),
   computed: {
     ...mapGetters({

@@ -1,44 +1,20 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    :mini-variant="mini && !isMobile"
-    :permanent="!isMobile"
     app
+    left
     class="grey lighten-4"
+    disable-resize-watcher
+    clipped
     @input="closeDrawer"
   >
     <v-list data-cy="menu-list">
-      <v-list-item v-if="isLoggedIn">
-        <v-list-item-avatar color="blue" size="24">
-          <span class="white--text">{{ firstLetter }}</span>
-        </v-list-item-avatar>
-
-        <v-list-item-content>{{ name }}</v-list-item-content>
-      </v-list-item>
-
-      <v-list-item
-        v-for="link in visibleLinks"
-        :key="link.text"
-        exact
-        :to="link.to"
-      >
+      <v-list-item v-for="link in visibleLinks" :key="link.text" :to="link.to">
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-action>
 
         <v-list-item-content>{{ link.text }}</v-list-item-content>
-      </v-list-item>
-
-      <v-list-item
-        v-if="isLoggedIn"
-        data-cy="menu-logout"
-        @click="$emit('logout')"
-      >
-        <v-list-item-action>
-          <v-icon>{{ icons.mdiLock }}</v-icon>
-        </v-list-item-action>
-
-        <v-list-item-content>Logout</v-list-item-content>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -48,11 +24,10 @@
 import { mapGetters } from "vuex";
 
 import {
+  mdiCalendar,
   mdiHome,
   mdiFileDocument,
   mdiLock,
-  mdiTextboxPassword,
-  mdiHelp,
   mdiFormatListNumbered,
   mdiFileChart
 } from "@mdi/js";
@@ -63,14 +38,6 @@ export default {
     drawer: {
       type: Boolean,
       default: false
-    },
-    mini: {
-      type: Boolean,
-      default: true
-    },
-    isMobile: {
-      type: Boolean,
-      default: false
     }
   },
   data: () => ({
@@ -79,10 +46,19 @@ export default {
     },
     links: [
       {
-        text: "Home",
-        to: { name: "c" },
+        text: "Dashboard",
+        to: { name: "dashboard" },
         icon: mdiHome,
-        loggedOut: true
+        loggedOut: false
+      },
+      {
+        text: "Calendar",
+        to: {
+          name: "calendar",
+          params: { type: "month", year: 2020, month: 1, day: 1 }
+        },
+        icon: mdiCalendar,
+        loggedOut: false
       },
       {
         text: "Shifts",
@@ -101,31 +77,10 @@ export default {
         to: { name: "reportList" },
         icon: mdiFileChart,
         loggedOut: false
-      },
-      {
-        text: "Password",
-        to: { name: "changePassword" },
-        icon: mdiTextboxPassword,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
       }
     ]
   }),
   computed: {
-    name() {
-      return this.user.first_name;
-    },
-    firstLetter() {
-      if (this.name.length === 0) return "";
-
-      return this.name.substring(0, 1);
-    },
     visibleLinks() {
       if (this.isLoggedIn && this.selectedContract !== null) {
         return this.links;
@@ -141,8 +96,7 @@ export default {
     },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
-      selectedContract: "selectedContract",
-      user: "user"
+      selectedContract: "selectedContract"
     })
   },
   methods: {

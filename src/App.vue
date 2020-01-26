@@ -1,28 +1,27 @@
 <template>
   <v-app>
     <TheNavigationDrawer
+      class="hidden-md-and-up"
       :drawer="drawer"
-      :is-mobile="isMobile"
-      :mini="mini"
-      @logout="logoutDialog = true"
       @closeDrawer="drawer = false"
     />
 
-    <TheAppBar :is-mobile="isMobile" :mini="mini" @toggle="toggleDrawer()" />
+    <TheAppBar @logout="logoutDialog = true" @toggle="toggleDrawer" />
+    <TheNavigationAppBar class="hidden-sm-and-down" />
 
-    <v-content>
-      <v-container fluid style="height: 100%" :class="containerClasses">
-        <router-view></router-view>
+    <!-- <v-content> -->
+    <!-- <v-container fluid style="height: 100%" :class="containerClasses"> -->
+    <router-view></router-view>
 
-        <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
-          <template v-slot:content>
-            <LogoutForm @close="logoutDialog = false" />
-          </template>
-        </TheDialog>
-      </v-container>
-      <portal-target name="dialog"></portal-target>
-      <portal-target name="fab"></portal-target>
-    </v-content>
+    <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
+      <template v-slot:content>
+        <LogoutForm @close="logoutDialog = false" />
+      </template>
+    </TheDialog>
+    <!-- </v-container> -->
+    <portal-target name="dialog"></portal-target>
+    <portal-target name="fab"></portal-target>
+    <!-- </v-content> -->
 
     <TheSnackbar />
     <v-footer color="blue lighten-1" inset absolute app>
@@ -34,6 +33,7 @@
 <script>
 import LogoutForm from "@/components/LogoutForm";
 import TheAppBar from "@/components/TheAppBar";
+import TheNavigationAppBar from "@/components/TheNavigationAppBar";
 import TheDialog from "@/components/TheDialog";
 import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
@@ -44,13 +44,13 @@ export default {
   components: {
     LogoutForm,
     TheAppBar,
+    TheNavigationAppBar,
     TheNavigationDrawer,
     TheDialog,
     TheSnackbar
   },
   data: () => ({
     drawer: false,
-    mini: true,
     logoutDialog: false
   }),
   computed: {
@@ -61,9 +61,6 @@ export default {
       const showingCalendar =
         this.$route.name === "calendar" || this.$route.name === "c";
       return showingCalendar ? { "pa-0": true } : {};
-    },
-    isMobile() {
-      return this.$vuetify.breakpoint.name === "xs";
     }
   },
   watch: {
@@ -80,11 +77,7 @@ export default {
       this.$store.dispatch("shift/queryClockedShift");
     },
     toggleDrawer() {
-      if (this.isMobile) {
-        this.drawer = !this.drawer;
-      } else {
-        this.mini = !this.mini;
-      }
+      this.drawer = !this.drawer;
     }
   }
 };
