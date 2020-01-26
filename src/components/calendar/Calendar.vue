@@ -130,7 +130,8 @@
           absolute
           dark
           fab
-          bottom
+          :top="$vuetify.breakpoint.mdAndUp"
+          :bottom="$vuetify.breakpoint.smAndDown"
           right
           color="pink"
           data-cy="calendar-create-button"

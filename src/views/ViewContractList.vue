@@ -80,7 +80,8 @@
         absolute
         dark
         fab
-        top
+        :top="$vuetify.breakpoint.mdAndUp"
+        :bottom="$vuetify.breakpoint.smAndDown"
         right
         color="secondary"
         data-cy="contraxt-create-button"

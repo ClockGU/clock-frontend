@@ -3,6 +3,7 @@
     <v-container :style="styles">
       <v-content>
         <router-view></router-view>
+        <portal-target name="fab"></portal-target>
       </v-content>
     </v-container>
   </div>

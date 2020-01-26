@@ -20,7 +20,6 @@
     </TheDialog>
     <!-- </v-container> -->
     <portal-target name="dialog"></portal-target>
-    <portal-target name="fab"></portal-target>
     <!-- </v-content> -->
 
     <TheSnackbar />
