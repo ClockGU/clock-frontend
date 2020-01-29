@@ -49,7 +49,6 @@
             v-for="item in menuItems"
             :key="item.text"
             :to="item.to"
-            dense
             router
           >
             <v-list-item-action>
