@@ -11,7 +11,7 @@
       :fixed="$vuetify.breakpoint.smAndDown"
       color="purple lighten-2"
       data-cy="shift-create-button"
-      :to="{ name: 'createShift' }"
+      :to="to"
     >
       <v-icon>{{ icons.mdiPlus }}</v-icon>
     </v-btn>
@@ -23,6 +23,12 @@ import { mdiPlus } from "@mdi/js";
 
 export default {
   name: "TheFAB",
+  props: {
+    to: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     icons: { mdiPlus }
   })

@@ -125,7 +125,7 @@
         </template>
       </TheDialog>
 
-      <TheFAB />
+      <TheFAB :to="{ name: 'createShift' }" />
     </v-sheet>
   </div>
 </template>

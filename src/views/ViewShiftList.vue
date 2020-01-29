@@ -133,7 +133,7 @@
       </v-card>
     </v-col>
 
-    <TheFAB />
+    <TheFAB :to="{ name: 'createShift' }" />
   </v-row>
 </template>
 
