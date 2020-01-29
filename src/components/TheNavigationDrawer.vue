@@ -35,15 +35,9 @@
           </v-list-item-content>
         </template>
 
-        <v-list-item @click="() => {}">
+        <v-list-item v-for="item in menuItems" :key="item.text" :to="item.to">
           <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item @click="() => {}">
-          <v-list-item-content>
-            <v-list-item-title>Help</v-list-item-title>
+            <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -72,7 +66,9 @@ import {
   mdiFileDocument,
   mdiLock,
   mdiFormatListNumbered,
-  mdiFileChart
+  mdiFileChart,
+  mdiTextboxPassword,
+  mdiHelp
 } from "@mdi/js";
 
 export default {
@@ -87,6 +83,21 @@ export default {
     icons: {
       mdiLock: mdiLock
     },
+    menuItems: [
+      {
+        text: "Password",
+        to: { name: "changePassword" },
+        icon: mdiTextboxPassword,
+        loggedOut: false,
+        withoutContract: true
+      },
+      {
+        text: "Help",
+        to: { name: "help" },
+        icon: mdiHelp,
+        loggedOut: true
+      }
+    ],
     links: [
       {
         text: "Dashboard",
