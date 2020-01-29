@@ -7,7 +7,7 @@
     />
 
     <TheAppBar @logout="logoutDialog = true" @toggle="toggleDrawer" />
-    <TheNavigationAppBar class="hidden-sm-and-down" />
+    <TheNavigationToolbar class="hidden-sm-and-down" />
 
     <!-- <v-content> -->
     <!-- <v-container fluid style="height: 100%" :class="containerClasses"> -->
@@ -32,7 +32,7 @@
 <script>
 import LogoutForm from "@/components/LogoutForm";
 import TheAppBar from "@/components/TheAppBar";
-import TheNavigationAppBar from "@/components/TheNavigationAppBar";
+import TheNavigationToolbar from "@/components/TheNavigationToolbar";
 import TheDialog from "@/components/TheDialog";
 import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
@@ -43,7 +43,7 @@ export default {
   components: {
     LogoutForm,
     TheAppBar,
-    TheNavigationAppBar,
+    TheNavigationToolbar,
     TheNavigationDrawer,
     TheDialog,
     TheSnackbar

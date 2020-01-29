@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="secondary-toolbar mt-12" dense fixed flat>
+  <v-toolbar class="mt-12 pt-4" max-height="10px" flat tag="nav">
     <v-tabs centered optional>
       <v-tab
         v-for="item in links"
@@ -12,7 +12,7 @@
         {{ item.text }}
       </v-tab>
     </v-tabs>
-  </v-app-bar>
+  </v-toolbar>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ import {
 } from "@mdi/js";
 
 export default {
-  name: "TheNavigationAppBar",
+  name: "TheNavigationToolbar",
   data: () => ({
     links: [
       {
