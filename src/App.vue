@@ -7,7 +7,7 @@
     />
 
     <TheAppBar @logout="logoutDialog = true" @toggle="toggleDrawer" />
-    <TheNavigationToolbar class="hidden-sm-and-down" />
+    <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
 
     <router-view></router-view>
 

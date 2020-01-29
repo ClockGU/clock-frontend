@@ -5,6 +5,7 @@
   >
     <v-app-bar app flat fixed>
       <v-app-bar-nav-icon
+        v-if="isLoggedIn"
         class="hidden-md-and-up"
         @click="toggleNavigationdrawer"
       >
@@ -24,7 +25,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu v-if="$vuetify.breakpoint.mdAndUp" offset-y>
+      <v-menu v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp" offset-y>
         <template v-slot:activator="{ on }" class="ml-4">
           <div class="d-flex align-center" v-on="on">
             <v-avatar
@@ -133,7 +134,8 @@ export default {
   computed: {
     ...mapGetters({
       selectedContract: "selectedContract",
-      clockedShift: "shift/clockedShift"
+      clockedShift: "shift/clockedShift",
+      isLoggedIn: "auth/loggedIn"
     }),
     showClockInOutButton() {
       return this.clockedShift !== undefined;

@@ -21,7 +21,7 @@
 
     <v-divider></v-divider>
 
-    <v-list>
+    <v-list v-if="isLoggedIn">
       <v-list-group no-action>
         <template v-slot:activator>
           <v-list-item-avatar>
