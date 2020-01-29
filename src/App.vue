@@ -23,9 +23,7 @@
     <!-- </v-content> -->
 
     <TheSnackbar />
-    <v-footer color="blue lighten-1" inset absolute app>
-      <span class="white--text">&copy; 2019</span>
-    </v-footer>
+    <TheFooter />
   </v-app>
 </template>
 
@@ -36,6 +34,7 @@ import TheNavigationToolbar from "@/components/TheNavigationToolbar";
 import TheDialog from "@/components/TheDialog";
 import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
+import TheFooter from "@/components/TheFooter";
 
 import { mapGetters } from "vuex";
 
@@ -46,7 +45,8 @@ export default {
     TheNavigationToolbar,
     TheNavigationDrawer,
     TheDialog,
-    TheSnackbar
+    TheSnackbar,
+    TheFooter
   },
   data: () => ({
     drawer: false,
