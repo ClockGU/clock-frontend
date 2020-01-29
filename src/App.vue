@@ -9,8 +9,6 @@
     <TheAppBar @logout="logoutDialog = true" @toggle="toggleDrawer" />
     <TheNavigationToolbar class="hidden-sm-and-down" />
 
-    <!-- <v-content> -->
-    <!-- <v-container fluid style="height: 100%" :class="containerClasses"> -->
     <router-view></router-view>
 
     <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
@@ -18,9 +16,7 @@
         <LogoutForm @close="logoutDialog = false" />
       </template>
     </TheDialog>
-    <!-- </v-container> -->
     <portal-target name="dialog"></portal-target>
-    <!-- </v-content> -->
 
     <TheSnackbar />
     <TheFooter />
@@ -55,12 +51,7 @@ export default {
   computed: {
     ...mapGetters({
       isLoggedIn: "auth/loggedIn"
-    }),
-    containerClasses() {
-      const showingCalendar =
-        this.$route.name === "calendar" || this.$route.name === "c";
-      return showingCalendar ? { "pa-0": true } : {};
-    }
+    })
   },
   watch: {
     $route() {
