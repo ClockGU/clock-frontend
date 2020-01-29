@@ -8,7 +8,50 @@
     clipped
     @input="closeDrawer"
   >
-    <v-list data-cy="menu-list">
+    <v-row class="mt-4 mb-4" justify="center">
+      <router-link to="/dashboard" tag="span" style="cursor: pointer">
+        <v-img
+          width="240px"
+          height="36px"
+          :src="require('@/assets/clock_full.svg')"
+          contain
+        />
+      </router-link>
+    </v-row>
+
+    <v-divider></v-divider>
+
+    <v-list>
+      <v-list-group no-action>
+        <template v-slot:activator>
+          <v-list-item-avatar>
+            <v-img
+              src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortWaved&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=MoustacheFancy&facialHairColor=Auburn&clotheType=ShirtVNeck&clotheColor=PastelBlue&eyeType=Squint&eyebrowType=SadConcerned&mouthType=Eating&skinColor=Brown"
+            ></v-img>
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title class="title">John Doe</v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item @click="() => {}">
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="() => {}">
+          <v-list-item-content>
+            <v-list-item-title>Help</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+
+    <v-divider></v-divider>
+
+    <v-list nav dense data-cy="menu-list">
       <v-list-item v-for="link in visibleLinks" :key="link.text" :to="link.to">
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
