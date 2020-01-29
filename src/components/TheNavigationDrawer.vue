@@ -40,6 +40,12 @@
             <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item data-cy="menu-logout" @click="$emit('logout')">
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list-group>
     </v-list>
 
@@ -81,7 +87,7 @@ export default {
   },
   data: () => ({
     icons: {
-      mdiLock: mdiLock
+      mdiLock
     },
     menuItems: [
       {

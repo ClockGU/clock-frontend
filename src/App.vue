@@ -4,6 +4,7 @@
       class="hidden-md-and-up"
       :drawer="drawer"
       @closeDrawer="drawer = false"
+      @logout="logoutDialog = true"
     />
 
     <TheAppBar @logout="logoutDialog = true" @toggle="toggleDrawer" />
