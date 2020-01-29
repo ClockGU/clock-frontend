@@ -59,7 +59,7 @@
 
           <v-list-item data-cy="menu-logout" @click="$emit('logout')">
             <v-list-item-action>
-              <v-icon>{{ icons.mdiLock }}</v-icon>
+              <v-icon small>{{ icons.mdiLock }}</v-icon>
             </v-list-item-action>
 
             <v-list-item-content>Logout</v-list-item-content>
@@ -98,7 +98,8 @@ import {
   mdiMenu,
   mdiTextboxPassword,
   mdiHelp,
-  mdiLock
+  mdiLock,
+  mdiFileDocument
 } from "@mdi/js";
 
 export default {
@@ -115,6 +116,11 @@ export default {
       mdiLock
     },
     menuItems: [
+      {
+        text: "Select contract",
+        to: { name: "contractSelect" },
+        icon: mdiFileDocument
+      },
       {
         text: "Password",
         to: { name: "changePassword" },

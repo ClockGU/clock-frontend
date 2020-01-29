@@ -85,6 +85,11 @@ export default {
     },
     menuItems: [
       {
+        text: "Select contract",
+        to: { name: "contractSelect" },
+        icon: mdiFileDocument
+      },
+      {
         text: "Password",
         to: { name: "changePassword" },
         icon: mdiTextboxPassword,
