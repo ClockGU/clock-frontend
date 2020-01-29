@@ -1,23 +1,21 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { parseJwt } from "@/utils/jwt";
-import ViewLogin from "@/views/ViewLogin";
-import ViewLogout from "@/views/ViewLogout";
-import ViewCalendar from "@/views/ViewCalendar.vue";
-import ViewShiftForm from "@/views/ViewShiftForm";
-import ViewShiftList from "@/views/ViewShiftList";
-import ViewContractForm from "@/views/ViewContractForm";
-import ViewContractList from "@/views/ViewContractList";
-import ViewClockInOut from "@/views/ViewClockInOut";
-import ViewReportList from "@/views/ViewReportList";
-import ViewChangePassword from "@/views/ViewChangePassword";
-import ViewHelp from "@/views/ViewHelp";
-import ViewDebug from "@/views/ViewDebug";
 import store from "@/store";
-import getUserData from "@/middlewares/user";
-// import queryData from "@/middlewares/query";
+import { parseJwt } from "@/utils/jwt";
 
 Vue.use(Router);
+
+const ViewLogin = () => import("@/views/ViewLogin");
+const ViewLogout = () => import("@/views/ViewLogout");
+const ViewCalendar = () => import("@/views/ViewCalendar.vue");
+const ViewShiftForm = () => import("@/views/ViewShiftForm");
+const ViewShiftList = () => import("@/views/ViewShiftList");
+const ViewContractForm = () => import("@/views/ViewContractForm");
+const ViewContractList = () => import("@/views/ViewContractList");
+const ViewReportList = () => import("@/views/ViewReportList");
+const ViewChangePassword = () => import("@/views/ViewChangePassword");
+const ViewHelp = () => import("@/views/ViewHelp");
+const ViewDebug = () => import("@/views/ViewDebug");
 
 const router = new Router({
   mode: "history",
@@ -29,8 +27,7 @@ const router = new Router({
       component: ViewLogin,
       meta: {
         public: true,
-        onlyWhenLoggedOut: true,
-        breadcrumb: null
+        onlyWhenLoggedOut: true
       }
     },
     {
@@ -39,137 +36,62 @@ const router = new Router({
       component: ViewLogout,
       meta: {
         public: false,
-        onlyWhenLoggedOut: false,
-        breadcrumb: null
+        onlyWhenLoggedOut: false
       }
     },
     {
       path: "/",
       name: "c",
-      component: ViewCalendar,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
+      component: ViewCalendar
     },
     {
       path: "/:type/:year/:month/:day",
       name: "calendar",
       component: ViewCalendar,
-      props: true,
-      meta: {
-        breadcrumb: null
-      }
+      props: true
     },
     {
       path: "/shifts/:uuid/edit",
       name: "editShift",
       component: ViewShiftForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Calendar",
-            to: { path: "/" },
-            exact: true
-          },
-          { text: "Update shift" }
-        ]
-        // middleware: queryData
-      }
+      props: true
     },
     {
       path: "/shifts/create",
       name: "createShift",
       component: ViewShiftForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Calendar",
-            to: { path: "/" },
-            exact: true
-          },
-          { text: "New shift" }
-        ]
-        // middleware: queryData
-      }
+      props: true
     },
     {
       path: "/shifts/",
       name: "shiftList",
-      component: ViewShiftList,
-      meta: {
-        breadcrumb: null
-      }
+      component: ViewShiftList
     },
     {
       path: "/contracts/create",
       name: "createContract",
-      component: ViewContractForm,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Contracts",
-            to: { path: "/contracts/" },
-            exact: true
-          },
-          { text: "New contract" }
-        ]
-      }
-      // middleware: queryData
+      component: ViewContractForm
     },
     {
       path: "/contracts/:uuid/edit",
       name: "editContract",
       component: ViewContractForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Contracts",
-            to: { path: "/contracts/" },
-            exact: true
-          },
-          { text: "Update contract" }
-        ]
-      }
-      // middleware: queryData
+      props: true
     },
     {
       path: "/contracts/",
       name: "contractList",
-      component: ViewContractList,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
+      component: ViewContractList
     },
     {
       path: "/select/",
       name: "contractSelect",
-      component: ViewContractList,
-      meta: {
-        breadcrumb: null,
-        middleware: getUserData
-      }
-    },
-    {
-      path: "/clock",
-      name: "clockInOut",
-      component: ViewClockInOut,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
+      component: ViewContractList
     },
     {
       path: "/report",
       name: "reportList",
-      component: ViewReportList,
-      meta: {
-        breadcrumb: null
-      }
+      component: ViewReportList
     },
     {
       path: "/changePassword",
@@ -181,17 +103,13 @@ const router = new Router({
       name: "help",
       component: ViewHelp,
       meta: {
-        public: true,
-        breadcrumb: null
+        public: true
       }
     },
     {
       path: "/debug",
       name: "debug",
-      component: ViewDebug,
-      meta: {
-        breadcrumb: null
-      }
+      component: ViewDebug
     }
   ]
 });

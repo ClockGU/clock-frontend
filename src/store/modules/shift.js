@@ -16,22 +16,15 @@ const state = {
 const getters = {
   getField,
   shifts: state => state.shifts,
-  stagedShift: state => {
-    return state.stagedShift;
-  },
-  pseudoShifts: state => {
-    return state.pseudoShifts;
-  },
-  currentShifts: state => {
-    return state.shifts.filter(shift =>
-      isThisMonth(parseISO(shift.date.start))
-    );
-  },
-  shiftsOfContract: (state, getters, rootState) => {
-    return state.shifts.filter(
+  clockedShift: state => state.clockedShift,
+  stagedShift: state => state.stagedShift,
+  pseudoShifts: state => state.pseudoShifts,
+  currentShifts: state =>
+    state.shifts.filter(shift => isThisMonth(parseISO(shift.date.start))),
+  shiftsOfContract: (state, getters, rootState) =>
+    state.shifts.filter(
       shift => shift.contract === rootState.selectedContract.uuid
-    );
-  },
+    ),
   loading: state => state.status === "loading",
   usedTags: state =>
     state.shifts.reduce(function(a, b) {

@@ -64,8 +64,6 @@ import { eachDayOfInterval } from "date-fns";
 
 import { mdiClose } from "@mdi/js";
 
-// import uuid from "uuid/v4";
-
 export default {
   name: "ReviewShift",
   components: {

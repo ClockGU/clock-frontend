@@ -9,7 +9,8 @@ const state = {
 
 const getters = {
   getField,
-  loading: () => state.status === "loading"
+  contracts: state => state.contracts,
+  loading: state => state.status === "loading"
 };
 
 const mutations = {

@@ -1,81 +1,17 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="mini && !isMobile"
-      :permanent="!isMobile"
-      app
-      class="grey lighten-4"
-    >
-      <v-list data-cy="menu-list">
-        <v-list-item v-if="isLoggedIn">
-          <v-list-item-avatar color="blue" size="24">
-            <span class="white--text">{{ firstLetter }}</span>
-          </v-list-item-avatar>
+    <TheNavigationDrawer
+      :drawer="drawer"
+      :is-mobile="isMobile"
+      :mini="mini"
+      @logout="logoutDialog = true"
+      @closeDrawer="drawer = false"
+    />
 
-          <v-list-item-content>{{ name }}</v-list-item-content>
-        </v-list-item>
-
-        <v-list-item
-          v-for="link in visibleLinks"
-          :key="link.text"
-          exact
-          :to="link.to"
-        >
-          <v-list-item-action>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-item-action>
-
-          <v-list-item-content>{{ link.text }}</v-list-item-content>
-        </v-list-item>
-
-        <v-list-item
-          v-if="isLoggedIn"
-          data-cy="menu-logout"
-          @click="logoutDialog = true"
-        >
-          <v-list-item-action>
-            <v-icon>{{ icons.mdiLock }}</v-icon>
-          </v-list-item-action>
-
-          <v-list-item-content>Logout</v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-app-bar app dark color="blue" absolute text>
-      <v-app-bar-nav-icon @click="toggleDrawer()">
-        <v-icon v-if="!isMobile && !mini">{{ icons.mdiChevronLeft }}</v-icon>
-        <v-icon v-else-if="!isMobile && mini">{{
-          icons.mdiChevronRight
-        }}</v-icon>
-        <v-icon v-else>{{ icons.mdiMenu }}</v-icon>
-      </v-app-bar-nav-icon>
-      <!-- <portal-target name="toolbar"></portal-target> -->
-      <template v-if="showSelectContractButton">
-        <v-btn
-          data-cy="select-contract-button"
-          text
-          :to="{ path: '/select/' }"
-          exact
-        >
-          {{ selectedContract.name }}
-        </v-btn>
-        <ClockInOutButton
-          v-if="showClockInOutButton"
-          :selected-contract="selectedContract"
-          :clocked-shift="clockedShift"
-        />
-      </template>
-    </v-app-bar>
+    <TheAppBar :is-mobile="isMobile" :mini="mini" @toggle="toggleDrawer()" />
 
     <v-content>
-      <v-container fluid>
-        <!-- <v-breadcrumbs
-          v-if="breadcrumbList !== null"
-          :items="breadcrumbList"
-          divider=">"
-        ></v-breadcrumbs> -->
+      <v-container fluid style="height: 100%" :class="containerClasses">
         <router-view></router-view>
 
         <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
@@ -96,134 +32,53 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
-import TheSnackbar from "@/components/TheSnackbar";
 import LogoutForm from "@/components/LogoutForm";
-import ClockInOutButton from "@/components/ClockInOutButton";
+import TheAppBar from "@/components/TheAppBar";
+import TheDialog from "@/components/TheDialog";
+import TheNavigationDrawer from "@/components/TheNavigationDrawer";
+import TheSnackbar from "@/components/TheSnackbar";
+
 import { mapGetters } from "vuex";
 
-import {
-  mdiHome,
-  mdiFileDocument,
-  mdiLock,
-  mdiTextboxPassword,
-  mdiChevronLeft,
-  mdiChevronRight,
-  mdiMenu,
-  mdiHelp,
-  mdiFormatListNumbered,
-  mdiFileChart
-} from "@mdi/js";
-
 export default {
-  components: { ClockInOutButton, TheDialog, TheSnackbar, LogoutForm },
+  components: {
+    LogoutForm,
+    TheAppBar,
+    TheNavigationDrawer,
+    TheDialog,
+    TheSnackbar
+  },
   data: () => ({
     drawer: false,
     mini: true,
-    logoutDialog: false,
-    icons: {
-      mdiLock: mdiLock,
-      mdiChevronLeft: mdiChevronLeft,
-      mdiChevronRight: mdiChevronRight,
-      mdiMenu: mdiMenu
-    },
-    links: [
-      {
-        text: "Home",
-        to: { name: "c" },
-        icon: mdiHome,
-        loggedOut: true
-      },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
-        loggedOut: false
-      },
-      {
-        text: "Contracts",
-        to: { name: "contractList" },
-        icon: mdiFileDocument,
-        loggedOut: false
-      },
-      {
-        text: "Report",
-        to: { name: "reportList" },
-        icon: mdiFileChart,
-        loggedOut: false
-      },
-      {
-        text: "Password",
-        to: { name: "changePassword" },
-        icon: mdiTextboxPassword,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
-      }
-    ]
-    // breadcrumbList: null
+    logoutDialog: false
   }),
   computed: {
-    showClockInOutButton() {
-      return this.clockedShift !== undefined;
-    },
-    showSelectContractButton() {
-      return this.$store.state.selectedContract !== null;
-    },
-    selectedContract() {
-      if (this.$store.state.selectedContract === null) return;
-
-      return this.$store.state.selectedContract;
-    },
-    name() {
-      return this.$store.state.user.first_name;
-    },
-    firstLetter() {
-      if (this.$store.state.user.first_name.length === 0) return "";
-
-      return this.$store.state.user.first_name.substring(0, 1);
-    },
-    visibleLinks() {
-      if (this.isLoggedIn && this.$store.state.selectedContract !== null) {
-        return this.links;
-      }
-
-      if (this.$store.state.selectedContract === null && this.isLoggedIn) {
-        return this.links.filter(
-          link => link.withoutContract === true || link.loggedOut === true
-        );
-      }
-
-      return this.links.filter(link => link.loggedOut === true);
-    },
-    isMobile() {
-      return this.$vuetify.breakpoint.name === "xs";
-    },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn"
     }),
-    clockedShift() {
-      return this.$store.state.shift.clockedShift;
+    containerClasses() {
+      const showingCalendar =
+        this.$route.name === "calendar" || this.$route.name === "c";
+      return showingCalendar ? { "pa-0": true } : {};
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
     }
   },
   watch: {
     $route() {
-      // this.breadcrumbList = this.$route.meta.breadcrumb;
-
-      if (!this.isLoggedIn) return;
-      this.$store.dispatch("shift/queryClockedShift");
+      this.loadClockedShift();
     }
   },
   mounted() {
-    if (!this.isLoggedIn) return;
-    this.$store.dispatch("shift/queryClockedShift");
+    this.loadClockedShift();
   },
   methods: {
+    loadClockedShift() {
+      if (!this.isLoggedIn) return;
+      this.$store.dispatch("shift/queryClockedShift");
+    },
     toggleDrawer() {
       if (this.isMobile) {
         this.drawer = !this.drawer;
