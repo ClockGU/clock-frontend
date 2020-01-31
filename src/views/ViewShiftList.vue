@@ -1,104 +1,140 @@
 <template>
-  <div>
-    <v-skeleton-loader
-      v-if="loading"
-      data-cy="shift-list-skeleton"
-      loading="true"
-      transition="fade-transition"
-      type="table"
-    >
-    </v-skeleton-loader>
+  <v-row justify="center">
+    <v-col cols="12" md="6" class="py-0">
+      <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+        <portal-target
+          v-if="shiftsOfContract.length !== 0"
+          name="card-toolbar"
+        ></portal-target>
 
-    <div v-else-if="shiftsOfContract.length > 0" data-cy="shift-lists">
-      <v-btn
-        data-cy="shift-list-edit-mode-button"
-        text
-        :outlined="editable"
-        @click="toggleEdit"
-      >
-        <v-icon v-if="!editable" left>{{ icons.mdiPencil }}</v-icon>
-        <v-icon v-else left>{{ icons.mdiPencilOff }}</v-icon>
-        Edit mode
-      </v-btn>
+        <portal
+          :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'"
+        >
+          <v-toolbar slot-scope="{ action }" :elevation="0">
+            <v-app-bar-nav-icon
+              v-if="$vuetify.breakpoint.smAndDown && !shiftsToDelete.length"
+              icon
+              @click="action"
+            ></v-app-bar-nav-icon>
 
-      <v-dialog v-model="dialog" max-width="500px">
-        <template v-slot:activator="{ on }">
-          <v-slide-x-transition>
             <v-btn
-              v-if="editable"
-              data-cy="shift-list-delete-button"
-              text
-              :disabled="deleteDisabled"
-              v-on="on"
+              v-else-if="!!shiftsToDelete.length"
+              icon
+              @click="shiftsToDelete = []"
             >
-              {{ deleteLabel }}
+              <v-icon>{{ icons.mdiClose }}</v-icon>
             </v-btn>
-          </v-slide-x-transition>
-        </template>
 
-        <v-card data-cy="delete-dialog">
-          <v-card-title>
-            <span class="headline">Delete shifts?</span>
-          </v-card-title>
+            <v-btn v-else icon disabled></v-btn>
 
-          <v-card-text>
-            Are you sure you want to delete the selected shifts? This action is
-            permanent.
-          </v-card-text>
+            <v-toolbar-title>
+              {{
+                shiftsToDelete.length
+                  ? `${shiftsToDelete.length} selected`
+                  : "Shifts"
+              }}
+            </v-toolbar-title>
 
-          <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn data-cy="delete-confirm" color="error" text @click="destroy">
-              Delete
+
+            <v-scale-transition>
+              <v-btn
+                v-if="!deleteDisabled && shiftsToDelete.length === 1"
+                key="export"
+                icon
+                :to="{
+                  name: 'editShift',
+                  params: { uuid: shiftsToDelete[0].uuid }
+                }"
+              >
+                <v-icon>{{ icons.mdiPencil }}</v-icon>
+              </v-btn>
+            </v-scale-transition>
+
+            <v-dialog v-model="dialog" max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-scale-transition>
+                  <v-btn v-if="!deleteDisabled" key="delete" icon v-on="on">
+                    <v-icon>{{ icons.mdiDelete }}</v-icon>
+                  </v-btn>
+                </v-scale-transition>
+              </template>
+
+              <v-card data-cy="delete-dialog">
+                <v-card-title>
+                  <span class="headline">Delete shifts?</span>
+                </v-card-title>
+
+                <v-card-text>
+                  Are you sure you want to delete the selected shifts? This
+                  action is permanent.
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    data-cy="delete-confirm"
+                    color="error"
+                    text
+                    @click="destroy"
+                  >
+                    Delete
+                  </v-btn>
+                  <v-btn data-cy="delete-cancel" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+            <v-btn icon>
+              <v-icon>{{ icons.mdiDotsVertical }}</v-icon>
             </v-btn>
-            <v-btn data-cy="delete-cancel" text @click="dialog = false">
-              Cancel
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+          </v-toolbar>
+        </portal>
 
-      <ShiftList
-        v-for="(shifts, key) in shiftsByMonth"
-        :key="key"
-        :data-cy="'shift-list-' + key"
-        :title="key"
-        :shifts="shifts"
-        :editable="editable"
-        @newSelection="handleSelection(key, $event)"
-        @resetSelection="resetSelection(key)"
-      />
-    </div>
+        <v-card-text class="pa-0">
+          <v-skeleton-loader
+            data-cy="shift-list-skeleton"
+            :loading="loading"
+            transition="fade-transition"
+            type="table"
+          >
+            <div data-cy="shift-lists">
+              <ShiftList
+                v-for="(shifts, key, i) in shiftsByMonth"
+                :key="key"
+                :data-cy="'shift-list-' + key"
+                :title="key"
+                :shifts="shifts"
+                :editable="true"
+                :show-divider="i + 1 < numberOfMonths"
+                :shifts-to-delete="shiftsToDelete"
+                @newSelection="handleSelection(key, $event)"
+                @resetSelection="resetSelection(key)"
+              />
+            </div>
+          </v-skeleton-loader>
 
-    <div
-      v-else-if="shiftsOfContract.length === 0"
-      data-cy="shift-list-empty-placeholder"
-    >
-      <v-container fluid>
-        <v-row justify="center">
-          <p>You have not created any shifts yet. Get to work!</p>
-        </v-row>
-        <v-row justify="center">
-          <UndrawWorkTime height="200" />
-        </v-row>
-      </v-container>
-    </div>
+          <div
+            v-if="shiftsOfContract.length === 0"
+            data-cy="shift-list-empty-placeholder"
+          >
+            <v-container fluid>
+              <v-row justify="center">
+                <p>You have not created any shifts yet. Get to work!</p>
+              </v-row>
+              <v-row justify="center">
+                <UndrawWorkTime height="200" />
+              </v-row>
+            </v-container>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-col>
 
-    <portal to="fab">
-      <v-btn
-        absolute
-        dark
-        fab
-        top
-        right
-        color="secondary"
-        data-cy="shift-create-button"
-        :to="{ name: 'createShift' }"
-      >
-        <v-icon>{{ icons.mdiPlus }}</v-icon>
-      </v-btn>
-    </portal>
-  </div>
+    <TheFAB :to="{ name: 'createShift' }" />
+  </v-row>
 </template>
 
 <script>
@@ -111,13 +147,18 @@ import {
   mdiDelete,
   mdiDeleteOff,
   mdiPencil,
-  mdiPencilOff
+  mdiPencilOff,
+  mdiClose,
+  mdiExportVariant,
+  mdiDotsVertical,
+  mdiMenu
 } from "@mdi/js";
 
 import { format, parseISO } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
+import TheFAB from "@/components/TheFAB";
 
 function datesGroupByComponent(dates, token) {
   return dates.reduce(function(val, obj) {
@@ -129,11 +170,21 @@ function datesGroupByComponent(dates, token) {
 
 export default {
   name: "ViewShiftList",
-  components: { ShiftList, UndrawWorkTime },
+  components: { TheFAB, ShiftList, UndrawWorkTime },
   data: () => ({
     dialog: false,
     editable: false,
-    icons: { mdiPlus, mdiDelete, mdiDeleteOff, mdiPencil, mdiPencilOff },
+    icons: {
+      mdiPlus,
+      mdiDelete,
+      mdiDeleteOff,
+      mdiPencil,
+      mdiPencilOff,
+      mdiClose,
+      mdiExportVariant,
+      mdiDotsVertical,
+      mdiMenu
+    },
     toDelete: null, // We do not want to watch this object, so we use a slightly different solution,
     shiftsToDelete: [],
     unsortedShifts: []
@@ -147,6 +198,9 @@ export default {
     }),
     shiftsByMonth() {
       return datesGroupByComponent(this.sortedShifts, "y MM");
+    },
+    numberOfMonths() {
+      return Object.keys(this.shiftsByMonth).length;
     },
     sortedShifts() {
       const unsorted = [...this.unsortedShifts];

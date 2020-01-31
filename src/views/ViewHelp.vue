@@ -1,35 +1,39 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>Help</h1>
-      </v-col>
-    </v-row>
+  <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+    <portal-target name="card-toolbar"></portal-target>
 
-    <v-card>
-      <v-card-title>
-        Reset app to factory settings
-      </v-card-title>
+    <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+      <v-toolbar slot-scope="{ action }" :elevation="0">
+        <v-app-bar-nav-icon
+          v-if="$vuetify.breakpoint.smAndDown"
+          icon
+          @click="action"
+        ></v-app-bar-nav-icon>
 
-      <v-card-text>
-        <span>
-          If you are experiencing problems, you can reset the app to its factory
-          settings. You will be logged out
-        </span>
+        <v-toolbar-title>
+          Help
+        </v-toolbar-title>
+      </v-toolbar>
+    </portal>
 
-        <p>
-          <strong>
-            This will NOT delete any of your data. All your shifts and contracts
-            will remain untouched.
-          </strong>
-        </p>
-      </v-card-text>
+    <v-card-text>
+      <span>
+        If you are experiencing problems, you can reset the app to its factory
+        settings. You will be logged out
+      </span>
 
-      <v-card-actions>
-        <v-btn color="error" text @click="reset">Reset</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-container>
+      <p>
+        <strong>
+          This will NOT delete any of your data. All your shifts and contracts
+          will remain untouched.
+        </strong>
+      </p>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-btn color="error" text @click="reset">Reset</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

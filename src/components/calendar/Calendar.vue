@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <v-sheet>
       <v-row align="center" height="100px" flat color="white" class="px-4">
-        <v-col cols="8" sm="5" order="1">
+        <v-col cols="8" md="4" offset-md="1" sm="5" order="1">
           <CalendarNavigationButtons
             @today="setToday"
             @next="next"
@@ -125,20 +125,7 @@
         </template>
       </TheDialog>
 
-      <portal to="fab">
-        <v-btn
-          absolute
-          dark
-          fab
-          bottom
-          right
-          color="pink"
-          data-cy="calendar-create-button"
-          :to="{ name: 'createShift', params: { now: now } }"
-        >
-          <v-icon>{{ icons.mdiPlus }}</v-icon>
-        </v-btn>
-      </portal>
+      <TheFAB :to="{ name: 'createShift' }" />
     </v-sheet>
   </div>
 </template>
@@ -153,6 +140,7 @@ import { handleApiError } from "@/utils/interceptors";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import TheDialog from "@/components/TheDialog";
+import TheFAB from "@/components/TheFAB";
 
 import { format, parseISO } from "date-fns";
 import { mdiClose, mdiPlus } from "@mdi/js";
@@ -163,7 +151,8 @@ export default {
   components: {
     CalendarNavigationButtons,
     CalendarTypeSelect,
-    TheDialog
+    TheDialog,
+    TheFAB
   },
   filters: {
     formatDate(date, formatString = "do MMMM yyyy") {

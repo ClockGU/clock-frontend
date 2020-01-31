@@ -1,9 +1,22 @@
 <template>
   <v-form>
-    <v-card class="elevation-12">
-      <v-toolbar color="blue lighten-1" dark flat>
-        <v-toolbar-title>Change password</v-toolbar-title>
-      </v-toolbar>
+    <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+      <portal-target name="card-toolbar"></portal-target>
+
+      <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+        <v-toolbar slot-scope="{ action }" :elevation="0">
+          <v-app-bar-nav-icon
+            v-if="$vuetify.breakpoint.smAndDown"
+            icon
+            @click="action"
+          ></v-app-bar-nav-icon>
+
+          <v-toolbar-title>
+            Change password
+          </v-toolbar-title>
+        </v-toolbar>
+      </portal>
+
       <v-card-text>
         <v-fade-transition>
           <v-overlay v-if="loading" absolute color="#036358">

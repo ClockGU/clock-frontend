@@ -5,6 +5,7 @@ import { parseJwt } from "@/utils/jwt";
 
 Vue.use(Router);
 
+const Home = () => import("@/views/Home");
 const ViewLogin = () => import("@/views/ViewLogin");
 const ViewLogout = () => import("@/views/ViewLogout");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
@@ -17,10 +18,87 @@ const ViewChangePassword = () => import("@/views/ViewChangePassword");
 const ViewHelp = () => import("@/views/ViewHelp");
 const ViewDebug = () => import("@/views/ViewDebug");
 
+const Dashboard = () => import("@/components/Dashboard");
+
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: "/",
+      component: Home,
+      children: [
+        { path: "/dashboard", name: "dashboard", component: Dashboard },
+        { path: "/", component: Dashboard },
+        {
+          path: "/changePassword",
+          name: "changePassword",
+          component: ViewChangePassword
+        },
+        {
+          path: "/help",
+          name: "help",
+          component: ViewHelp,
+          meta: {
+            public: true
+          }
+        },
+        {
+          path: "/:type/:year/:month/:day",
+          name: "calendar",
+          component: ViewCalendar,
+          props: true
+        },
+        {
+          path: "/shifts/:uuid/edit",
+          name: "editShift",
+          component: ViewShiftForm,
+          props: true
+        },
+        {
+          path: "/shifts/create",
+          name: "createShift",
+          component: ViewShiftForm,
+          props: true
+        },
+        {
+          path: "/shifts/",
+          name: "shiftList",
+          component: ViewShiftList
+        },
+        {
+          path: "/contracts/create",
+          name: "createContract",
+          component: ViewContractForm
+        },
+        {
+          path: "/contracts/:uuid/edit",
+          name: "editContract",
+          component: ViewContractForm,
+          props: true
+        },
+        {
+          path: "/contracts/",
+          name: "contractList",
+          component: ViewContractList
+        },
+        {
+          path: "/select/",
+          name: "contractSelect",
+          component: ViewContractList
+        },
+        {
+          path: "/report",
+          name: "reportList",
+          component: ViewReportList
+        },
+        {
+          path: "/debug",
+          name: "debug",
+          component: ViewDebug
+        }
+      ]
+    },
     {
       path: "/login",
       name: "login",
@@ -38,78 +116,6 @@ const router = new Router({
         public: false,
         onlyWhenLoggedOut: false
       }
-    },
-    {
-      path: "/",
-      name: "c",
-      component: ViewCalendar
-    },
-    {
-      path: "/:type/:year/:month/:day",
-      name: "calendar",
-      component: ViewCalendar,
-      props: true
-    },
-    {
-      path: "/shifts/:uuid/edit",
-      name: "editShift",
-      component: ViewShiftForm,
-      props: true
-    },
-    {
-      path: "/shifts/create",
-      name: "createShift",
-      component: ViewShiftForm,
-      props: true
-    },
-    {
-      path: "/shifts/",
-      name: "shiftList",
-      component: ViewShiftList
-    },
-    {
-      path: "/contracts/create",
-      name: "createContract",
-      component: ViewContractForm
-    },
-    {
-      path: "/contracts/:uuid/edit",
-      name: "editContract",
-      component: ViewContractForm,
-      props: true
-    },
-    {
-      path: "/contracts/",
-      name: "contractList",
-      component: ViewContractList
-    },
-    {
-      path: "/select/",
-      name: "contractSelect",
-      component: ViewContractList
-    },
-    {
-      path: "/report",
-      name: "reportList",
-      component: ViewReportList
-    },
-    {
-      path: "/changePassword",
-      name: "changePassword",
-      component: ViewChangePassword
-    },
-    {
-      path: "/help",
-      name: "help",
-      component: ViewHelp,
-      meta: {
-        public: true
-      }
-    },
-    {
-      path: "/debug",
-      name: "debug",
-      component: ViewDebug
     }
   ]
 });
