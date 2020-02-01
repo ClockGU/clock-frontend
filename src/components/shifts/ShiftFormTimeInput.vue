@@ -1,44 +1,39 @@
 <template>
-  <div>
-    <v-text-field
+  <v-menu
+    ref="menu"
+    v-model="menu"
+    :close-on-content-click="false"
+    transition="scale-transition"
+    offset-y
+  >
+    <template v-slot:activator="{ on }">
+      <v-text-field
+        v-model="data"
+        :data-time-value="data"
+        :data-cy="type"
+        return-masked-value
+        hide-details
+        filled
+        dense
+        mask="time"
+        :readonly="$vuetify.breakpoint.smAndDown"
+        @click:append="clickAppend"
+        @blur="setTime"
+        v-on="$vuetify.breakpoint.smAndDown ? on : ''"
+      ></v-text-field>
+    </template>
+    <v-time-picker
+      v-if="$vuetify.breakpoint.smAndDown"
       v-model="data"
-      v-mask="'##:##'"
-      :data-time-value="data"
-      :data-cy="type"
-      return-masked-value
-      :error-messages="errors"
-      :label="label"
-      outlined
-      mask="time"
-      :append-icon="type === 'start' ? icons.mdiClockIn : icons.mdiClockOut"
-      hint="HH:mm"
-      :persistent-hint="true"
-      @click:append="clickAppend"
-      @blur="setTime"
-    ></v-text-field>
-
-    <TheDialog
-      v-if="dialog"
-      :max-width="400"
-      :persistent="false"
-      @click:outside="dialog = false"
-    >
-      <template v-slot:content>
-        <v-time-picker
-          v-model="data"
-          format="24hr"
-          full-width
-          @click:minute="setTime"
-        ></v-time-picker>
-      </template>
-    </TheDialog>
-  </div>
+      format="24hr"
+      @click:minute="setTime"
+    ></v-time-picker>
+  </v-menu>
 </template>
 
 <script>
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
-import TheDialog from "@/components/TheDialog";
 
 import { mdiClockIn, mdiClockOut } from "@mdi/js";
 
@@ -56,9 +51,6 @@ function validHourMinute(value) {
 
 export default {
   name: "ShiftFormTimeInput",
-  components: {
-    TheDialog
-  },
   props: {
     value: {
       type: Object,
@@ -84,8 +76,7 @@ export default {
       start: "end",
       end: "start"
     },
-    icons: { mdiClockIn: mdiClockIn, mdiClockOut: mdiClockOut },
-    dialog: false
+    icons: { mdiClockIn: mdiClockIn, mdiClockOut: mdiClockOut }
   }),
   computed: {
     time: {
