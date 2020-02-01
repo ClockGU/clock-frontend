@@ -188,7 +188,7 @@ import ShiftService from "@/services/shift";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { format, isAfter, isBefore } from "date-fns";
 
 import { startEndHours } from "@/utils/time";
@@ -247,32 +247,15 @@ export default {
   data: () => ({
     dialog: false,
     select: null,
-    shift: null,
-    stepper: 1,
-    stepperText: [
-      {
-        title: "Time and date",
-        subtitle: "Choose the date and start/end times of your shift."
-      },
-      {
-        title: "Set the hours per month",
-        subtitle: "Your montly worktime (HH:mm)."
-      },
-      {
-        title: "Summary",
-        subtitle: " "
-      }
-    ]
+    shift: null
   }),
   computed: {
-    ...mapState("contract", {
-      contracts: state => state.contracts
+    ...mapGetters({
+      contracts: "contract/contracts",
+      selectedContract: "selectedContract"
     }),
     shiftExported() {
       return this.shift.exported;
-    },
-    currentText() {
-      return this.stepperText[this.stepper - 1];
     },
     tags() {
       return this.shift.tags.join(", ");
@@ -339,7 +322,7 @@ export default {
     this.shift = this.uuid === null ? this.initialData : this.entity;
 
     if (!this.shift.contract) {
-      this.shift.contract = this.$store.state.selectedContract.uuid;
+      this.shift.contract = this.selectedContract.uuid;
     }
   },
   methods: {
@@ -381,12 +364,6 @@ export default {
       const [year, month, day] = contractStart.split("-");
       this.shift.setDate(...[year, month - 1, day], "start");
       this.shift.setDate(...[year, month - 1, day], "end");
-    },
-    nextStep() {
-      this.stepper += 1;
-    },
-    previousStep() {
-      this.stepper -= 1;
     },
     async submit(callback, shift) {
       callback(shift)
