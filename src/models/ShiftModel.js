@@ -22,8 +22,8 @@ function defaultValueTime(type) {
 }
 
 export const SHIFT_TYPES = [
-  { text: "Shift", value: "st" },
-  { text: "Sick", value: "sk" },
+  { text: "Normal shift", value: "st" },
+  { text: "Sick leave", value: "sk" },
   { text: "Vacation", value: "vn" }
 ];
 
