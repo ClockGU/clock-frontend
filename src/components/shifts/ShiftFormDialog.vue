@@ -17,7 +17,11 @@
         <v-toolbar-title>Update shift</v-toolbar-title>
         <v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
         <v-toolbar-items v-if="$vuetify.breakpoint.smAndDown">
-          <v-btn icon @click="confirmDialog = true">
+          <v-btn
+            v-if="shiftEntity.uuid !== null"
+            icon
+            @click="confirmDialog = true"
+          >
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
           <v-btn text @click="save">Save</v-btn>
@@ -90,7 +94,7 @@
 <script>
 import ShiftService from "@/services/shift";
 import ShiftForm from "@/components/shifts/ShiftForm";
-// import { handleApiError } from "@/utils/interceptors";
+import { handleApiError } from "@/utils/interceptors";
 
 import { mdiDelete, mdiClose } from "@mdi/js";
 
@@ -134,6 +138,7 @@ export default {
         .then(() => {
           this.$emit("refresh");
         })
+        .catch(handleApiError)
         .finally(() => {
           this.closeMainDialog();
         });
@@ -143,6 +148,7 @@ export default {
         .then(() => {
           this.$emit("refresh");
         })
+        .catch(handleApiError)
         .finally(() => {
           this.closeMainDialog();
         });
@@ -152,6 +158,7 @@ export default {
         .then(() => {
           this.$emit("refresh");
         })
+        .catch(handleApiError)
         .finally(() => {
           this.closeMainDialog();
         });
