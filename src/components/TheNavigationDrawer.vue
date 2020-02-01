@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
 
 import {
@@ -120,7 +121,7 @@ export default {
         text: "Calendar",
         to: {
           name: "calendar",
-          params: { type: "month", year: 2020, month: 1, day: 1 }
+          params: { ...getRouterProps("month", new Date()) }
         },
         icon: mdiCalendar,
         loggedOut: false
