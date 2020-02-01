@@ -30,7 +30,7 @@
         </v-toolbar-items>
       </v-toolbar>
 
-      <v-card-text>
+      <v-card-text class="pb-0">
         <ShiftForm
           :entity="shiftEntity"
           :uuid="shiftEntity.uuid"

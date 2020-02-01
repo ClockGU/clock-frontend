@@ -19,8 +19,8 @@
       </v-card>
     </v-overlay>
 
-    <v-row align="center" justify="center">
-      <v-col cols="5" md="4">
+    <v-row align="center" justify="start">
+      <v-col cols="5">
         <ShiftFormDateInput
           v-model="shift"
           data-cy="shift-date"
@@ -30,7 +30,7 @@
         />
       </v-col>
 
-      <v-col cols="3" md="2">
+      <v-col cols="3">
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-start-time"
@@ -45,7 +45,7 @@
         to
       </v-col>
 
-      <v-col cols="3" md="2">
+      <v-col cols="3">
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-end-time"
@@ -56,32 +56,28 @@
         />
       </v-col>
 
-      <v-col cols="12" md="10">
+      <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
         <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
         <ShiftFormType v-model="shift.type" data-cy="shift-type" />
       </v-col>
 
-      <v-col cols="12" md="10">
-        <v-expansion-panels :elevation="0">
-          <v-expansion-panel>
-            <v-expansion-panel-header
-              >Advanced settings</v-expansion-panel-header
-            >
-            <v-expansion-panel-content>
-              <v-subheader>Change contract</v-subheader>
+      <v-col cols="12">
+        <v-divider></v-divider>
+      </v-col>
 
-              <v-select
-                v-model="shift.contract"
-                data-cy="shift-contract"
-                :items="contracts"
-                item-text="name"
-                item-value="uuid"
-                outlined
-              ></v-select>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+      <v-col cols="12" class="pb-0">
+        <v-subheader>Advanced settings</v-subheader>
+        <v-select
+          v-model="shift.contract"
+          data-cy="shift-contract"
+          :items="contracts"
+          :prepend-icon="icons.mdiFileDocumentEditOutline"
+          label="Change contract"
+          item-text="name"
+          item-value="uuid"
+          filled
+        ></v-select>
       </v-col>
     </v-row>
   </v-form>
@@ -107,6 +103,8 @@ import { required } from "vuelidate/lib/validators";
 
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
+
+import { mdiFileDocumentEditOutline } from "@mdi/js";
 
 export default {
   name: "ShiftForm",
@@ -149,6 +147,7 @@ export default {
     }
   },
   data: () => ({
+    icons: { mdiFileDocumentEditOutline },
     dialog: false,
     select: null,
     shift: null
