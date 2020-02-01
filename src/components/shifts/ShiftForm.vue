@@ -245,6 +245,10 @@ export default {
       const contractEnd = this.contract.date.end;
       const now = this.now;
 
+      // If we go to fast, contractStart is null and we get an error.
+      // Gotta go fast.
+      if (contractStart === null || contractEnd === null) return;
+
       // Do nothing if current date is inside the
       // selected contract
       if (
