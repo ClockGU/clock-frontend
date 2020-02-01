@@ -43,6 +43,7 @@
                     :data-cy="'contract-' + i"
                     :contract="contract"
                     :edit-mode="editMode"
+                    @edit="editContract"
                     @delete="confirmDelete(contract.uuid)"
                   />
                 </v-col>
@@ -70,7 +71,7 @@
       <template v-slot:content>
         <v-card data-cy="delete-dialog" class="mx-auto">
           <v-card-title class="headline">
-            You sure you want to delete this contract?
+            Delete contract?
           </v-card-title>
           <v-card-text>
             This will delete all shifts created inside this contract. This
@@ -88,16 +89,25 @@
       </template>
     </TheDialog>
 
-    <TheFAB :to="{ name: 'createContract' }" />
+    <ContractFormDialog
+      v-if="contractEntity !== null"
+      :contract-entity="contractEntity"
+      @close="contractEntity = null"
+      @refresh="refresh"
+    />
+
+    <TheFAB :to="null" :click="newContract" />
   </v-row>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
+import ContractFormDialog from "@/components/contracts/ContractFormDialog";
 import TheDialog from "@/components/TheDialog";
 import TheFAB from "@/components/TheFAB";
 
+import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
 
 import { mdiPlus } from "@mdi/js";
@@ -110,6 +120,7 @@ export default {
   components: {
     ContractListCard,
     ContractListCardSelect,
+    ContractFormDialog,
     TheDialog,
     TheFAB
   },
@@ -118,7 +129,8 @@ export default {
       dialog: false,
       icons: {
         mdiPlus: mdiPlus
-      }
+      },
+      contractEntity: null
     };
   },
   computed: {
@@ -134,10 +146,20 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("shift/queryShifts");
-    this.$store.dispatch("contract/queryContracts");
+    this.refresh();
   },
   methods: {
+    refresh() {
+      this.$store.dispatch("shift/queryShifts");
+      this.$store.dispatch("contract/queryContracts");
+    },
+    editContract(uuid) {
+      const contract = this.contracts.find(contract => contract.uuid === uuid);
+      this.contractEntity = new Contract(contract);
+    },
+    newContract() {
+      this.contractEntity = new Contract();
+    },
     clockedIntoContract(uuid) {
       if (this.clockedShift === undefined || this.clockedShift === null) {
         return false;
