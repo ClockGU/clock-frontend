@@ -8,7 +8,7 @@
   >
     <template v-slot:activator="{ on }">
       <v-text-field
-        v-model="date"
+        :value="formattedDate"
         readonly
         filled
         dense
@@ -60,6 +60,9 @@ export default {
     menu: false
   }),
   computed: {
+    formattedDate() {
+      return format(this.value.date.start, "eee dd',' yyyy");
+    },
     date: {
       get() {
         return format(this.value.date.start, "yyyy-MM-dd");
