@@ -9,7 +9,7 @@
     <v-list data-cy="calendar-type-select">
       <v-list-item
         v-for="type in types"
-        :key="type"
+        :key="type.value"
         :data-cy="'calendar-type-select-' + type.value"
         @click="$emit('input', type.value)"
       >
