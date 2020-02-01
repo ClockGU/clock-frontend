@@ -10,7 +10,7 @@
     label="Add a tag"
     small-chips
     multiple
-    outlined
+    filled
     clearable
     @input="$emit('input', $event)"
     @change="search = null"

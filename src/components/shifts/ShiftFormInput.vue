@@ -2,7 +2,7 @@
   <v-textarea
     :value="value"
     label="Note"
-    outlined
+    filled
     @input="$emit('input', $event)"
   />
 </template>
