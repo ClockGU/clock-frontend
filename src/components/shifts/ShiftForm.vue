@@ -20,7 +20,7 @@
     </v-overlay>
 
     <v-row align="center" justify="start">
-      <v-col cols="5">
+      <v-col cols="12" md="5">
         <ShiftFormDateInput
           v-model="shift"
           data-cy="shift-date"
@@ -30,13 +30,14 @@
         />
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="6" md="3">
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-start-time"
           :errors="startTimeErrors"
           label="Start"
           type="start"
+          :prepend-icon="$vuetify.breakpoint.smAndDown"
           @update="$v.shift.date.start.$touch() || $v.shift.date.end.$touch()"
         />
       </v-col>
@@ -45,7 +46,7 @@
         to
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="5" md="3">
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-end-time"

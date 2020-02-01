@@ -17,6 +17,7 @@
         dense
         mask="time"
         :readonly="$vuetify.breakpoint.smAndDown"
+        :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
         @click:append="clickAppend"
         @blur="setTime"
         v-on="$vuetify.breakpoint.smAndDown ? on : ''"
@@ -35,7 +36,7 @@
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 
-import { mdiClockIn, mdiClockOut } from "@mdi/js";
+import { mdiClockOutline } from "@mdi/js";
 
 function validHourMinute(value) {
   let hour, minute;
@@ -67,6 +68,10 @@ export default {
     label: {
       type: String,
       default: ""
+    },
+    prependIcon: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -76,7 +81,7 @@ export default {
       start: "end",
       end: "start"
     },
-    icons: { mdiClockIn: mdiClockIn, mdiClockOut: mdiClockOut }
+    icons: { mdiClockOutline }
   }),
   computed: {
     time: {
