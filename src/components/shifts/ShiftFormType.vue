@@ -1,6 +1,6 @@
 <template>
   <v-row align="center">
-    <v-icon class="ml-4 mr-2">{{ icons.mdiInformationOutline }}</v-icon>
+    <v-icon class="ml-4 mr-2">{{ icons.mdiBriefcaseOutline }}</v-icon>
     <v-radio-group v-model="radios" row>
       <v-radio
         v-for="type in types"
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mdiInformationOutline } from "@mdi/js";
+import { mdiBriefcaseOutline } from "@mdi/js";
 import { SHIFT_TYPES } from "@/models/ShiftModel";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
@@ -28,7 +28,7 @@ export default {
   },
   data: () => ({
     icons: {
-      mdiInformationOutline
+      mdiBriefcaseOutline
     },
     types: SHIFT_TYPES,
     typeColors: SHIFT_TYPE_COLORS
