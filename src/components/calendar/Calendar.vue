@@ -206,7 +206,7 @@ export default {
       const now = new Date();
       const [year, month, day] = this.focus.split("-");
 
-      return new Date(year, month, day, now.getHours(), now.getMinutes());
+      return new Date(year, month + 1, day, now.getHours(), now.getMinutes());
     },
     visibleShifts() {
       return this.shifts.filter(
