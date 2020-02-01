@@ -25,7 +25,7 @@
 
         <v-card-text>
           <v-row :justify="loading ? 'center' : 'start'">
-            <v-col v-if="loading" cols="6" md="6">
+            <v-col v-if="loading" cols="10" md="6">
               <v-skeleton-loader
                 v-if="loading"
                 data-cy="skeleton"
