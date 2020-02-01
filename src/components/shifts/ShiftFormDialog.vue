@@ -14,7 +14,9 @@
         >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
-        <v-toolbar-title>Update shift</v-toolbar-title>
+        <v-toolbar-title>
+          {{ shiftEntity.uuid !== null ? "Update shift" : "Create shift" }}
+        </v-toolbar-title>
         <v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
         <v-toolbar-items v-if="$vuetify.breakpoint.smAndDown">
           <v-btn
