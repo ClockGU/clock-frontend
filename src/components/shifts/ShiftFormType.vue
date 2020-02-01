@@ -1,6 +1,6 @@
 <template>
-  <v-row align="center">
-    <v-icon class="ml-4 mr-2">{{ icons.mdiBriefcaseOutline }}</v-icon>
+  <v-row align="center" class="pl-4">
+    <v-icon>{{ icons.mdiBriefcaseOutline }}</v-icon>
     <v-radio-group v-model="radios" row>
       <v-radio
         v-for="type in types"

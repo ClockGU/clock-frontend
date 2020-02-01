@@ -60,6 +60,10 @@
       <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
         <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
+
+        <v-subheader class="pl-8" style="height: 10px">
+          What category does this shift fall into?
+        </v-subheader>
         <ShiftFormType v-model="shift.type" data-cy="shift-type" />
       </v-col>
 
@@ -68,7 +72,7 @@
       </v-col>
 
       <v-col cols="12" class="pb-0">
-        <v-subheader>Advanced settings</v-subheader>
+        <v-subheader class="pl-8">Advanced settings</v-subheader>
         <v-select
           v-model="shift.contract"
           data-cy="shift-contract"
