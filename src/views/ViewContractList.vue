@@ -1,7 +1,7 @@
 <template>
   <v-row
-    :align="$vuetify.breakpoint.mdAndUp ? 'center' : ''"
-    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : ''"
+    :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
   >
     <v-col cols="12" md="6" class="py-0">
       <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
