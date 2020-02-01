@@ -1,7 +1,7 @@
 <template>
-  <v-row align="center" class="pl-4">
+  <v-row align="end" class="pl-4">
     <v-icon>{{ icons.mdiBriefcaseOutline }}</v-icon>
-    <v-radio-group v-model="radios" row>
+    <v-radio-group v-model="radios" row hide-details dense>
       <v-radio
         v-for="type in types"
         :key="type.value"
