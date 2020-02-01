@@ -21,7 +21,7 @@ function defaultValueTime(type) {
   return today;
 }
 
-const SHIFT_TYPES = [
+export const SHIFT_TYPES = [
   { text: "Shift", value: "st" },
   { text: "Sick", value: "sk" },
   { text: "Vacation", value: "vn" }

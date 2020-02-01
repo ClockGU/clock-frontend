@@ -57,9 +57,9 @@
       </v-col>
 
       <v-col cols="12" md="10">
-        <ShiftFormSelect v-model="shift.type" data-cy="shift-type" />
         <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
         <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
+        <ShiftFormType v-model="shift.type" data-cy="shift-type" />
       </v-col>
 
       <v-col cols="12" md="10">
@@ -90,7 +90,7 @@
 <script>
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
-import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
+import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 
@@ -114,7 +114,7 @@ export default {
     ShiftFormDateInput,
     ShiftFormTimeInput,
     ShiftFormInput,
-    ShiftFormSelect,
+    ShiftFormType,
     ShiftFormTags
   },
   filters: {
