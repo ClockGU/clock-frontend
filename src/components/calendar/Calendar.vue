@@ -125,7 +125,7 @@
       <ShiftFormDialog
         v-if="shiftEntity !== null"
         :shift-entity="shiftEntity"
-        :now="new Date(focus)"
+        :now="shiftNow"
         @close="shiftEntity = null"
         @refresh="$emit('refresh')"
       />
@@ -202,6 +202,12 @@ export default {
     shiftEntity: null
   }),
   computed: {
+    shiftNow() {
+      const now = new Date();
+      const [year, month, day] = this.focus.split("-");
+
+      return new Date(year, month, day, now.getHours(), now.getMinutes());
+    },
     visibleShifts() {
       return this.shifts.filter(
         shift => shift.contract === this.$store.state.selectedContract.uuid
