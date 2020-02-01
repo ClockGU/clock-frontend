@@ -12,6 +12,7 @@
       color="purple lighten-2"
       data-cy="shift-create-button"
       :to="to"
+      @click="click"
     >
       <v-icon>{{ icons.mdiPlus }}</v-icon>
     </v-btn>
@@ -26,7 +27,11 @@ export default {
   props: {
     to: {
       type: Object,
-      required: true
+      default: () => {}
+    },
+    click: {
+      type: Function,
+      default: () => {}
     }
   },
   data: () => ({

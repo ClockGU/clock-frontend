@@ -31,7 +31,6 @@
           :data-cy="'shift-list-item-' + index"
           :editable="editable"
           :item="item"
-          :active="active"
           :toggle="toggle"
         />
       </template>
@@ -75,7 +74,7 @@ export default {
       required: true
     },
     shifts: {
-      type: Object,
+      type: Array,
       required: true
     },
     title: {

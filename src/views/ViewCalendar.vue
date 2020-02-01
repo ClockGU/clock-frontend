@@ -3,6 +3,7 @@
     :initial-focus="focus"
     :initial-type="type"
     @updateRange="updateRange"
+    @refresh="refresh"
   >
   </Calendar>
 </template>
@@ -69,10 +70,13 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("shift/queryShifts");
-    this.$store.dispatch("contract/queryContracts");
+    this.refresh();
   },
   methods: {
+    refresh() {
+      this.$store.dispatch("shift/queryShifts");
+      this.$store.dispatch("contract/queryContracts");
+    },
     updateRange({ type, start: { day, month, year } }) {
       this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
 

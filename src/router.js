@@ -9,7 +9,6 @@ const Home = () => import("@/views/Home");
 const ViewLogin = () => import("@/views/ViewLogin");
 const ViewLogout = () => import("@/views/ViewLogout");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
-const ViewShiftForm = () => import("@/views/ViewShiftForm");
 const ViewShiftList = () => import("@/views/ViewShiftList");
 const ViewContractForm = () => import("@/views/ViewContractForm");
 const ViewContractList = () => import("@/views/ViewContractList");
@@ -47,18 +46,6 @@ const router = new Router({
           path: "/:type/:year/:month/:day",
           name: "calendar",
           component: ViewCalendar,
-          props: true
-        },
-        {
-          path: "/shifts/:uuid/edit",
-          name: "editShift",
-          component: ViewShiftForm,
-          props: true
-        },
-        {
-          path: "/shifts/create",
-          name: "createShift",
-          component: ViewShiftForm,
           props: true
         },
         {

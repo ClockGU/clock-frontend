@@ -42,10 +42,7 @@
                 v-if="!deleteDisabled && shiftsToDelete.length === 1"
                 key="export"
                 icon
-                :to="{
-                  name: 'editShift',
-                  params: { uuid: shiftsToDelete[0].uuid }
-                }"
+                @click="editShift"
               >
                 <v-icon>{{ icons.mdiPencil }}</v-icon>
               </v-btn>
@@ -117,7 +114,7 @@
           </v-skeleton-loader>
 
           <div
-            v-if="shiftsOfContract.length === 0"
+            v-if="!loading && shiftsOfContract.length === 0"
             data-cy="shift-list-empty-placeholder"
           >
             <v-container fluid>
@@ -133,13 +130,22 @@
       </v-card>
     </v-col>
 
-    <TheFAB :to="{ name: 'createShift' }" />
+    <ShiftFormDialog
+      v-if="shiftEntity !== null"
+      :shift-entity="shiftEntity"
+      @close="shiftEntity = null"
+      @refresh="groupShiftsByMonth"
+    />
+
+    <TheFAB :to="null" :click="newShift" />
   </v-row>
 </template>
 
 <script>
 import ShiftList from "@/components/shifts/ShiftList";
 import UndrawWorkTime from "vue-undraw/UndrawWorkTime";
+import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
+import { Shift } from "@/models/ShiftModel";
 
 import { mapGetters } from "vuex";
 import {
@@ -155,7 +161,6 @@ import {
 } from "@mdi/js";
 
 import { format, parseISO } from "date-fns";
-import { Shift } from "@/models/ShiftModel";
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
 import TheFAB from "@/components/TheFAB";
@@ -170,7 +175,7 @@ function datesGroupByComponent(dates, token) {
 
 export default {
   name: "ViewShiftList",
-  components: { TheFAB, ShiftList, UndrawWorkTime },
+  components: { TheFAB, ShiftList, ShiftFormDialog, UndrawWorkTime },
   data: () => ({
     dialog: false,
     editable: false,
@@ -187,7 +192,8 @@ export default {
     },
     toDelete: null, // We do not want to watch this object, so we use a slightly different solution,
     shiftsToDelete: [],
-    unsortedShifts: []
+    unsortedShifts: [],
+    shiftEntity: null
   }),
   computed: {
     ...mapGetters({
@@ -238,11 +244,23 @@ export default {
       deep: true
     }
   },
-  mounted() {
-    this.groupShiftsByMonth();
+  created() {
     this.$store.dispatch("contract/queryContracts");
+    this.groupShiftsByMonth();
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.groupShiftsByMonth();
+    next();
   },
   methods: {
+    editShift() {
+      this.shiftEntity = new Shift(this.shiftsToDelete[0]);
+      this.shiftsToDelete = [];
+    },
+    newShift() {
+      this.shiftEntity = new Shift();
+      this.shiftsToDelete = [];
+    },
     destroy() {
       const promises = [];
       for (const shift of this.shiftsToDelete) {
@@ -259,7 +277,7 @@ export default {
       });
     },
     groupShiftsByMonth() {
-      this.$store.dispatch("shift/queryShifts").then(() => {
+      return this.$store.dispatch("shift/queryShifts").then(() => {
         this.unsortedShifts = this.shiftsOfContract;
       });
     },

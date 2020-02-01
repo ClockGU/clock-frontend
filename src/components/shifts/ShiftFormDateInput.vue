@@ -8,9 +8,12 @@
   >
     <template v-slot:activator="{ on }">
       <v-text-field
-        v-model="date"
+        :value="formattedDate"
         readonly
-        prepend-inner-icon="calendar_today"
+        filled
+        dense
+        hide-details
+        :prepend-icon="icons.mdiCalendar"
         v-on="on"
       ></v-text-field>
     </template>
@@ -28,6 +31,8 @@
 import { format } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 
+import { mdiCalendar } from "@mdi/js";
+
 export default {
   name: "ShiftFormDateInput",
   props: {
@@ -42,12 +47,22 @@ export default {
     max: {
       type: String,
       default: ""
+    },
+    label: {
+      type: String,
+      default: ""
     }
   },
   data: () => ({
+    icons: {
+      mdiCalendar
+    },
     menu: false
   }),
   computed: {
+    formattedDate() {
+      return format(this.value.date.start, "eee dd',' yyyy");
+    },
     date: {
       get() {
         return format(this.value.date.start, "yyyy-MM-dd");
