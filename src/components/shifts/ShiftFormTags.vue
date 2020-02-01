@@ -12,6 +12,7 @@
     multiple
     filled
     clearable
+    :prepend-icon="icons.mdiTagOutline"
     @input="$emit('input', $event)"
     @change="search = null"
   >
@@ -41,6 +42,8 @@
 <script>
 import { mapGetters } from "vuex";
 
+import { mdiTagOutline } from "@mdi/js";
+
 export default {
   name: "ShiftFormTags",
   props: {
@@ -50,6 +53,7 @@ export default {
     }
   },
   data: () => ({
+    icons: { mdiTagOutline },
     model: [],
     search: null
   }),
