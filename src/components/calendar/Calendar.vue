@@ -72,12 +72,9 @@
             <v-btn
               text
               color="primary"
-              :to="{
-                name: 'editShift',
-                params: { uuid: selectedEvent.uuid }
-              }"
               :disabled="selectedEvent.exported"
               data-cy="calendar-selected-event-edit"
+              @click="editShift(selectedEvent.uuid)"
             >
               Edit
             </v-btn>
@@ -125,7 +122,15 @@
         </template>
       </TheDialog>
 
-      <TheFAB :to="{ name: 'createShift' }" />
+      <ShiftFormDialog
+        v-if="shiftEntity !== null"
+        :shift-entity="shiftEntity"
+        :now="new Date(focus)"
+        @close="shiftEntity = null"
+        @refresh="$emit('refresh')"
+      />
+
+      <TheFAB :to="null" :click="newShift" />
     </v-sheet>
   </div>
 </template>
@@ -137,6 +142,7 @@ import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
 
+import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import TheDialog from "@/components/TheDialog";
@@ -151,6 +157,7 @@ export default {
   components: {
     CalendarNavigationButtons,
     CalendarTypeSelect,
+    ShiftFormDialog,
     TheDialog,
     TheFAB
   },
@@ -191,7 +198,8 @@ export default {
     weekdays: [1, 2, 3, 4, 5, 6, 0],
     eventClicks: 0,
     doubleClickTimer: null,
-    doubleClickDelay: 500
+    doubleClickDelay: 500,
+    shiftEntity: null
   }),
   computed: {
     visibleShifts() {
@@ -270,6 +278,13 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
+    editShift(uuid) {
+      const shift = this.visibleShifts.find(shift => shift.uuid === uuid);
+      this.shiftEntity = new Shift(shift);
+    },
+    newShift() {
+      this.shiftEntity = new Shift();
+    },
     handleEventClick({ nativeEvent, event }) {
       this.eventClicks++;
       this.showEvent({ nativeEvent, event });
