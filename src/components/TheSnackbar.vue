@@ -2,6 +2,8 @@
   <v-snackbar
     v-model="show"
     data-cy="snackbar"
+    top
+    right
     :color="color"
     :timeout="timeout"
   >
