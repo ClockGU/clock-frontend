@@ -57,12 +57,10 @@ export default {
     })
   },
   watch: {
-    $route() {
+    $route(to, from) {
+      if (to.name === from.name) return;
       this.loadClockedShift();
     }
-  },
-  mounted() {
-    this.loadClockedShift();
   },
   methods: {
     loadClockedShift() {
