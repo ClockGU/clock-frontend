@@ -18,25 +18,8 @@ function mapApiResponse(response) {
 const BASE_URL = "/api/shifts/";
 
 const ShiftService = {
-  create: async function(data) {
-    const requestData = {
-      method: "post",
-      url: BASE_URL,
-      data
-    };
-
-    return new Promise((resolve, reject) => {
-      return ApiService.customRequest(requestData)
-        .then(response => {
-          const shift = mapApiResponse(response.data);
-          store.dispatch("shift/addShift", shift);
-
-          return resolve(shift);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+  create: function(data) {
+    return ApiService.post(BASE_URL, { ...data });
   },
   get: async function(uuid) {
     return new Promise((resolve, reject) => {
