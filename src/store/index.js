@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { getField, updateField } from "vuex-map-fields";
 import createPersistedState from "vuex-persistedstate";
 
 import auth from "@/store/modules/auth";
@@ -22,7 +21,6 @@ export default new Vuex.Store({
     backendOffline: false
   },
   getters: {
-    getField,
     selectedContract: state => state.selectedContract,
     user: state => state.user
   },
@@ -47,7 +45,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateField,
     toggleBackend(state) {
       state.backendOffline = !state.backendOffline;
     },
