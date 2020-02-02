@@ -33,6 +33,8 @@ import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
 import TheFooter from "@/components/TheFooter";
 
+import { handleApiError } from "@/utils/interceptors";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -65,7 +67,7 @@ export default {
   methods: {
     loadClockedShift() {
       if (!this.isLoggedIn) return;
-      this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
+      this.$store.dispatch("clock/GET_CLOCKED_SHIFT").catch(handleApiError);
     },
     toggleDrawer() {
       this.drawer = !this.drawer;

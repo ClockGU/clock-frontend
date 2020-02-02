@@ -43,8 +43,10 @@ const actions = {
 
         commit("CLOCK_SHIFT", data);
       })
-      .catch(() => {
+      .catch(err => {
         commit("UNCLOCK_SHIFT");
+
+        return Promise.reject(err);
       })
       .finally(() => {
         state.status = "idle";

@@ -51,7 +51,7 @@ export const handleGenericError = function(error) {
   if (ignoreClockedShiftNotFound(error)) {
     log("ignoring clockedShiftNotFound");
 
-    return Promise.resolve();
+    return Promise.reject(error);
   }
 
   log("handleGenericError:", error);
