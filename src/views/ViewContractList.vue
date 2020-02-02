@@ -154,7 +154,7 @@ export default {
     ...mapGetters({
       loading: "contract/loading",
       contracts: "contract/contracts",
-      clockedShift: "shift/clockedShift"
+      clockedShift: "clock/clockedShift"
     }),
     editMode() {
       if (this.$route.name === "contractSelect") return false;

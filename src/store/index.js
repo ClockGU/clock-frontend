@@ -4,6 +4,7 @@ import { getField, updateField } from "vuex-map-fields";
 import createPersistedState from "vuex-persistedstate";
 
 import auth from "@/store/modules/auth";
+import clock from "@/store/modules/clock";
 import shift from "@/store/modules/shift";
 import contract from "@/store/modules/contract";
 import snackbar from "@/store/modules/snackbar";
@@ -68,6 +69,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
+    clock,
     shift,
     contract,
     snackbar,

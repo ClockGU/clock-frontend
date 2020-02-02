@@ -65,7 +65,7 @@ export default {
   methods: {
     loadClockedShift() {
       if (!this.isLoggedIn) return;
-      this.$store.dispatch("shift/queryClockedShift");
+      this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
     },
     toggleDrawer() {
       this.drawer = !this.drawer;
