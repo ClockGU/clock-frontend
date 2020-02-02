@@ -54,7 +54,7 @@ export default {
       return `${this.year}-${this.month}-${this.day}`;
     },
     date() {
-      return new Date(Date.UTC(this.year, this.month - 1, this.day));
+      return new Date(Date.UTC(this.year, this.month + 1, this.day));
     },
     start() {
       return this.date.toISOString().slice(0, 10);
@@ -69,17 +69,17 @@ export default {
       this.$store.dispatch("contract/queryContracts");
     },
     updateRange({ type, start: { day, month, year } }) {
-      this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
+      this.now = type === "day" ? new Date(year, month + 1, day) : new Date();
 
       // Update router parameters to reflect the calendar range
       this.$router
-        .push({
+        .replace({
           name: "calendar",
           params: {
             type: type,
             year: year.toString(),
             month: month.toString(),
-            day: day.toString()
+            day: new Date().getDate().toString()
           }
         })
         .catch(() => {});
