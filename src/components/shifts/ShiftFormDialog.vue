@@ -26,7 +26,9 @@
           >
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="save">Save</v-btn>
+          <v-btn text @click="shiftToSave.uuid === null ? save() : update()">
+            Save
+          </v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
