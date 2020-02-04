@@ -8,30 +8,35 @@
   >
     <template v-slot:activator="{ on }">
       <v-text-field
-        v-model="date"
-        :label="label"
+        :value="formattedDate"
         readonly
-        prepend-inner-icon="calendar_today"
+        filled
+        dense
+        hide-details
+        :prepend-icon="icon"
         v-on="on"
       ></v-text-field>
     </template>
     <v-date-picker
       v-model="date"
+      :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
       :min="min"
-      :max="max"
+      no-title
       @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
-import { format } from "date-fns";
+import { format, parseISO, isLastDayOfMonth } from "date-fns";
+
+import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 
 export default {
   name: "ContractFormDateInput",
   props: {
     value: {
-      type: Date,
+      type: String,
       required: true
     },
     label: {
@@ -42,34 +47,48 @@ export default {
       type: Object,
       required: true
     },
+    min: {
+      type: String,
+      default: null
+    },
     type: {
       type: String,
       required: true
     }
   },
   data: () => ({
+    icons: {
+      mdiCalendarArrowLeft,
+      mdiCalendarArrowRight
+    },
     menu: false
   }),
   computed: {
+    icon() {
+      if (this.type === "start") return this.icons.mdiCalendarArrowRight;
+
+      return this.icons.mdiCalendarArrowLeft;
+    },
+    formattedDate() {
+      return format(parseISO(this.value), "eee do MMM yyyy");
+    },
     date: {
       get() {
-        return format(this.value, "yyyy-MM-dd");
+        return this.value;
       },
-      set(val) {
-        const [year, month, day] = val.split("-");
-        const [hours, minutes] = format(this.value, "HH:mm").split(":");
-        this.$emit("input", new Date(year, month - 1, day, hours, minutes));
+      set(value) {
+        this.$emit("input", value);
       }
+    }
+  },
+  methods: {
+    allowedStartDates(val) {
+      const day = parseInt(val.split("-")[2], 10);
+      return day === 1 || day === 15;
     },
-    min() {
-      if (this.type === "start") return undefined;
-
-      return format(this.contract.start, "yyyy-MM-dd");
-    },
-    max() {
-      if (this.type === "end") return undefined;
-
-      return format(this.contract.end, "yyyy-MM-dd");
+    allowedEndDates(val) {
+      const day = parseInt(val.split("-")[2], 10);
+      return day === 14 || isLastDayOfMonth(parseISO(val));
     }
   }
 };

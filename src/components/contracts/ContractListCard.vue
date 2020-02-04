@@ -16,11 +16,8 @@
       <v-btn
         text
         color="primary"
-        :to="{
-          name: 'editContract',
-          params: { uuid: contract.uuid }
-        }"
         data-cy="edit"
+        @click="$emit('edit', contract.uuid)"
       >
         Edit
       </v-btn>

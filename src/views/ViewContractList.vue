@@ -25,7 +25,7 @@
 
         <v-card-text>
           <v-row :justify="loading ? 'center' : 'start'">
-            <v-col v-if="loading" cols="6" md="6">
+            <v-col v-if="loading" cols="10" md="6">
               <v-skeleton-loader
                 v-if="loading"
                 data-cy="skeleton"
@@ -43,6 +43,7 @@
                     :data-cy="'contract-' + i"
                     :contract="contract"
                     :edit-mode="editMode"
+                    @edit="editContract"
                     @delete="confirmDelete(contract.uuid)"
                   />
                 </v-col>
@@ -62,6 +63,20 @@
               </template>
             </template>
           </v-row>
+
+          <div
+            v-if="!loading && contracts.length === 0"
+            data-cy="contract-list-empty-placeholder"
+          >
+            <v-container fluid>
+              <v-row justify="center">
+                <p>Start using Clock by creating your first contract!</p>
+              </v-row>
+              <v-row justify="center">
+                <UndrawContentCreator height="200" />
+              </v-row>
+            </v-container>
+          </div>
         </v-card-text>
       </v-card>
     </v-col>
@@ -70,7 +85,7 @@
       <template v-slot:content>
         <v-card data-cy="delete-dialog" class="mx-auto">
           <v-card-title class="headline">
-            You sure you want to delete this contract?
+            Delete contract?
           </v-card-title>
           <v-card-text>
             This will delete all shifts created inside this contract. This
@@ -88,16 +103,27 @@
       </template>
     </TheDialog>
 
-    <TheFAB :to="{ name: 'createContract' }" />
+    <ContractFormDialog
+      v-if="contractEntity !== null"
+      :contract-entity="contractEntity"
+      @close="contractEntity = null"
+      @refresh="refresh"
+    />
+
+    <TheFAB :to="null" :click="newContract" />
   </v-row>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
+import ContractFormDialog from "@/components/contracts/ContractFormDialog";
 import TheDialog from "@/components/TheDialog";
 import TheFAB from "@/components/TheFAB";
 
+import UndrawContentCreator from "vue-undraw/UndrawContentCreator";
+
+import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
 
 import { mdiPlus } from "@mdi/js";
@@ -110,6 +136,8 @@ export default {
   components: {
     ContractListCard,
     ContractListCardSelect,
+    ContractFormDialog,
+    UndrawContentCreator,
     TheDialog,
     TheFAB
   },
@@ -118,7 +146,8 @@ export default {
       dialog: false,
       icons: {
         mdiPlus: mdiPlus
-      }
+      },
+      contractEntity: null
     };
   },
   computed: {
@@ -134,10 +163,20 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("shift/queryShifts");
-    this.$store.dispatch("contract/queryContracts");
+    this.refresh();
   },
   methods: {
+    refresh() {
+      this.$store.dispatch("shift/queryShifts");
+      this.$store.dispatch("contract/queryContracts");
+    },
+    editContract(uuid) {
+      const contract = this.contracts.find(contract => contract.uuid === uuid);
+      this.contractEntity = new Contract(contract);
+    },
+    newContract() {
+      this.contractEntity = new Contract();
+    },
     clockedIntoContract(uuid) {
       if (this.clockedShift === undefined || this.clockedShift === null) {
         return false;

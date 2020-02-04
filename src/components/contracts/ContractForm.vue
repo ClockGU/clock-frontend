@@ -1,215 +1,81 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>
-          {{ title }}
-        </h1>
+  <v-form>
+    <v-alert v-if="disableDateChange" data-cy="alert-step-one" type="error">
+      You cannot change the start/end date, after adding shifts to the contract.
+    </v-alert>
+
+    <v-row align="center" justify="start">
+      <v-col cols="12" md="5">
+        <ContractFormDateInput
+          v-model="startDate"
+          :contract="contract"
+          type="start"
+        />
+      </v-col>
+
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2" class="text-center">
+        to
+      </v-col>
+
+      <v-col cols="12" md="5">
+        <ContractFormDateInput
+          v-model="endDate"
+          :contract="contract"
+          :min="startDate"
+          type="end"
+        />
+      </v-col>
+
+      <v-col cols="12">
+        <v-text-field
+          v-model="contract.hours"
+          data-cy="input-hours"
+          label="Working hours"
+          hint="HH:mm"
+          :prepend-icon="icons.mdiTimetable"
+          return-masked-value
+          persistent-hint
+          required
+          :error-messages="hoursErrors"
+          filled
+          @blur="hoursUpdated"
+        />
+      </v-col>
+
+      <v-col cols="12">
+        <v-text-field
+          v-model="contract.name"
+          data-cy="input-contract"
+          label="Contract name"
+          :error-messages="nameErrors"
+          :prepend-icon="icons.mdiFolderInformationOutline"
+          filled
+          counter="100"
+          required
+          @blur="$v.contract.name.$touch()"
+        />
       </v-col>
     </v-row>
-    <v-form>
-      <v-stepper v-model="stepper">
-        <v-stepper-header>
-          <v-row data-cy="header" align="center">
-            <v-col cols="5">
-              <v-progress-circular
-                color="primary lighten-2"
-                class="ml-2"
-                :value="(stepper / 5) * 100"
-              ></v-progress-circular>
-              <span class="pl-2">Step {{ stepper }} / 5</span>
-            </v-col>
-            <v-col>
-              <p class="mb-0">
-                {{ currentText.title }}
-              </p>
-              <small>
-                {{ currentText.subtitle }}
-              </small>
-            </v-col>
-          </v-row>
-        </v-stepper-header>
-
-        <v-stepper-items>
-          <v-stepper-content step="1">
-            <v-alert
-              v-if="disableDateChange"
-              data-cy="alert-step-one"
-              type="info"
-            >
-              You cannot change the start/end date, after adding shifts to the
-              contract.
-            </v-alert>
-
-            <v-row justify="center" mb-1>
-              <v-card elevation="0">
-                <v-card-text>
-                  <v-date-picker
-                    v-model="startDate"
-                    data-cy="datepicker-step-one"
-                    :landscape="!isMobile"
-                    :allowed-dates="allowedStartDates"
-                    :disabled="disableDateChange"
-                    class="mt-4"
-                  ></v-date-picker>
-                </v-card-text>
-              </v-card>
-            </v-row>
-            <v-btn
-              data-cy="continue-step-one"
-              color="primary"
-              text
-              @click="nextStep()"
-            >
-              Continue
-            </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="2">
-            <v-alert
-              v-if="disableDateChange"
-              data-cy="alert-step-two"
-              type="info"
-            >
-              You cannot change the start/end date, after adding shifts to the
-              contract.
-            </v-alert>
-
-            <v-row justify="center" mb-1>
-              <v-card class="mb-2" elevation="0">
-                <v-card-text>
-                  <v-date-picker
-                    v-model="endDate"
-                    data-cy="datepicker-step-two"
-                    :landscape="!isMobile"
-                    :allowed-dates="allowedEndDates"
-                    :min="startDate"
-                    :disabled="disableDateChange"
-                    class="mt-4"
-                  ></v-date-picker>
-                </v-card-text>
-              </v-card>
-            </v-row>
-            <v-btn
-              data-cy="continue-step-two"
-              color="primary"
-              text
-              @click="nextStep()"
-            >
-              Continue
-            </v-btn>
-            <v-btn data-cy="back-step-two" text @click="previousStep()">
-              Back
-            </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="3">
-            <v-card class="mb-2" elevation="0">
-              <v-card-text>
-                <v-text-field
-                  v-model="contract.hours"
-                  v-mask="'##:##'"
-                  data-cy="input-hours"
-                  label="Working hours"
-                  hint="HH:mm"
-                  mask="time"
-                  return-masked-value
-                  persistent-hint
-                  required
-                  :error-messages="hoursErrors"
-                  @blur="$v.contract.hours.$touch()"
-                />
-              </v-card-text>
-            </v-card>
-            <v-btn
-              data-cy="continue-step-three"
-              color="primary"
-              text
-              :disabled="$v.contract.hours.$error || !contract.hours"
-              @click="nextStep()"
-            >
-              Continue
-            </v-btn>
-            <v-btn data-cy="back-step-two" text @click="previousStep()">
-              Back
-            </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="4">
-            <v-card class="mb-2" elevation="0">
-              <v-card-text>
-                <v-text-field
-                  v-model="contract.name"
-                  data-cy="input-contract"
-                  label="Contract name"
-                  :error-messages="nameErrors"
-                  counter="100"
-                  required
-                  @blur="$v.contract.name.$touch()"
-                />
-              </v-card-text>
-            </v-card>
-            <v-btn
-              data-cy="continue-step-four"
-              color="primary"
-              text
-              :disabled="$v.contract.name.$error || !contract.name"
-              @click="nextStep()"
-            >
-              Continue
-            </v-btn>
-            <v-btn data-cy="back-step-two" text @click="previousStep()">
-              Back
-            </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="5">
-            <v-card data-cy="summary" class="mb-2 grey lighten-3" elevation="0">
-              <v-card-text>
-                <span>{{ contract.name }}</span>
-                <h1>{{ contract.hours }}</h1>
-                <p>
-                  {{ contract.start | formatDate }} -
-                  {{ contract.end | formatDate }}
-                </p>
-              </v-card-text>
-            </v-card>
-            <v-spacer></v-spacer>
-            <v-btn
-              data-cy="save"
-              color="primary"
-              text
-              @click="submit(query, contract)"
-            >
-              {{ saveLabel }}
-            </v-btn>
-            <v-btn text @click="previousStep()">Back</v-btn>
-          </v-stepper-content>
-        </v-stepper-items>
-      </v-stepper>
-    </v-form>
-  </v-container>
+  </v-form>
 </template>
 
 <script>
-import {
-  format,
-  isLastDayOfMonth,
-  startOfMonth,
-  endOfMonth,
-  isAfter,
-  parseISO
-} from "date-fns";
+import { Contract } from "@/models/ContractModel";
+import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 
+import { format, startOfMonth, endOfMonth, isAfter, parseISO } from "date-fns";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
-
-import { Contract } from "@/models/ContractModel";
-import ContractService from "@/services/contract";
-import { handleApiError } from "../../utils/interceptors";
+import { mdiTimetable, mdiFolderInformationOutline } from "@mdi/js";
 
 const hoursNotZero = value => value !== "00:00";
-const validMinutes = value => value.split(":")[1] <= parseInt(59);
+const validMinutes = value => {
+  try {
+    return value.split(":")[1] <= parseInt(59);
+  } catch {
+    return false;
+  }
+};
 
 export default {
   name: "ContractForm",
@@ -218,6 +84,7 @@ export default {
       return format(parseISO(date), "yyyy-MM-dd");
     }
   },
+  components: { ContractFormDateInput },
   mixins: [validationMixin],
   validations: {
     contract: {
@@ -233,53 +100,32 @@ export default {
     entity: {
       type: Object,
       default: null
-    },
-    query: {
-      type: Function,
-      required: true
     }
   },
   data: () => ({
-    contract: null,
-    valid: false,
-    stepper: 1,
-    stepperText: [
-      {
-        title: "Start date",
-        subtitle: "Can start on the 1st or 15th!"
-      },
-      {
-        title: "End date",
-        subtitle: "Can end on the 14th or last day!"
-      },
-      {
-        title: "Hours per month",
-        subtitle: "Your monthly worktime (HH:mm)."
-      },
-      {
-        title: "Name your contract",
-        subtitle: "Give your contract a name."
-      },
-      {
-        title: "Summary",
-        subtitle: " "
-      }
-    ]
+    icons: { mdiFolderInformationOutline, mdiTimetable },
+    contract: null
   }),
 
   computed: {
+    valid() {
+      if (
+        this.hoursErrors.length > 0 ||
+        this.nameErrors.length > 0 ||
+        this.contract.name === null ||
+        this.contract.hours === null
+      ) {
+        return false;
+      }
+
+      return true;
+    },
     disableDateChange() {
       return (
         this.$store.state.shift.shifts.filter(
           shift => shift.contract === this.contract.uuid
         ).length > 0
       );
-    },
-    currentText() {
-      return this.stepperText[this.stepper - 1];
-    },
-    isMobile() {
-      return this.$vuetify.breakpoint.name === "xs";
     },
     initialData() {
       return new Contract({
@@ -290,12 +136,6 @@ export default {
         },
         hours: null
       });
-    },
-    title() {
-      return this.uuid === null ? "Add contract" : "Update contract";
-    },
-    saveLabel() {
-      return this.uuid === null ? "Save" : "Update";
     },
     startDate: {
       get() {
@@ -308,7 +148,7 @@ export default {
         this.contract.start = format(date, "yyyy-MM-dd");
 
         if (isAfter(date, parseISO(this.contract.end))) {
-          this.contract.end = endOfMonth(date);
+          this.contract.end = format(endOfMonth(date), "yyyy-MM-dd");
         }
       }
     },
@@ -349,40 +189,21 @@ export default {
       return errors;
     }
   },
+  watch: {
+    contract: {
+      handler: function() {
+        this.$emit("update", { contract: this.contract, valid: this.valid });
+      },
+      deep: true
+    }
+  },
   created() {
     this.contract = this.uuid === null ? this.initialData : this.entity;
-
-    this.endpoint = data =>
-      this.uuid === null
-        ? ContractService.create(data).catch(handleApiError)
-        : ContractService.update(data, this.uuid).catch(handleApiError);
   },
   methods: {
-    nextStep() {
-      this.stepper += 1;
-    },
-    previousStep() {
-      this.stepper -= 1;
-    },
-    allowedStartDates(val) {
-      const day = parseInt(val.split("-")[2], 10);
-      return day === 1 || day === 15;
-    },
-    allowedEndDates(val) {
-      const day = parseInt(val.split("-")[2], 10);
-      return day === 14 || isLastDayOfMonth(parseISO(val));
-    },
-    async submit(callback, contract) {
-      callback(contract)
-        .then(() => this.$emit("submit"))
-        .catch(handleApiError);
-    },
-    async destroy() {
-      if (this.uuid === null) return;
-
-      await ContractService.delete(this.uuid).catch(handleApiError);
-
-      this.redirect();
+    hoursUpdated() {
+      this.$v.contract.hours.$touch();
+      this.$emit("update", { contract: this.contract, valid: this.valid });
     }
   }
 };

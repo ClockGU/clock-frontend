@@ -5,7 +5,6 @@ import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
 import Vuelidate from "vuelidate";
-import { VueMaskDirective } from "v-mask";
 import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
@@ -24,7 +23,6 @@ if (isLoggedIn) {
 
 Vue.use(PortalVue);
 Vue.use(Vuelidate);
-Vue.directive("mask", VueMaskDirective);
 Vue.config.productionTip = false;
 
 const ignoreWarnMessage =
