@@ -21,8 +21,7 @@
     "vue-undraw": "^2.0.13",
     "vuelidate": "0.7.4",
     "vuetify": "2.2.3",
-    "vuex": "3.1.2",
-    "vuex-map-fields": "1.3.6"
+    "vuex": "3.1.2"
   },
   "devDependencies": {
     "@mdi/js": "4.7.95",
