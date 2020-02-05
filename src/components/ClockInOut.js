@@ -18,6 +18,11 @@ export default {
     }
   },
   computed: {
+    clockData() {
+      if (this.clock === null) return {};
+
+      return { startDate: this.clock.startDate, duration: this.duration };
+    },
     contract() {
       return this.$store.state.selectedContract;
     },
@@ -95,8 +100,12 @@ export default {
   },
   methods: {
     save() {
+      this.pause();
       this.$store
         .dispatch("clock/GET_CLOCKED_SHIFT")
+        .then(() => {
+          this.saving = true;
+        })
         .then(() => {
           const data = {
             date: {
@@ -106,29 +115,28 @@ export default {
             contract: this.clockedShift.contract,
             type: { value: "st", text: "Shift" }
           };
-          const shift = new Shift(data).toPayload();
-          this.saving = true;
-          this.pause();
-
-          this.$store
-            .dispatch("shift/CREATE_SHIFT", shift)
-            .then(() => {
-              this.reset(false);
-
-              this.$store.dispatch("snackbar/setSnack", {
-                snack: "Clocked out successfully.",
-                timeout: 4000,
-                color: "success"
-              });
-            })
-            .catch(() => {
-              this.unpause();
-            })
-            .finally(() => {
-              this.saving = false;
-            });
+          return new Shift(data).toPayload();
         })
-        .catch(handleApiError);
+        .then(shift => {
+          return this.$store.dispatch("shift/CREATE_SHIFT", shift);
+        })
+        .then(() => {
+          return this.reset(false);
+        })
+        .then(() => {
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: "Clocked out successfully.",
+            timeout: 4000,
+            color: "success"
+          });
+        })
+        .catch(error => {
+          this.unpause();
+          handleApiError(error);
+        })
+        .finally(() => {
+          this.saving = false;
+        });
     },
     start() {
       // If we retrieve a clockedShift from the API, start the local clock
@@ -138,7 +146,7 @@ export default {
         return;
       }
 
-      this.$store
+      return this.$store
         .dispatch("clock/GET_CLOCKED_SHIFT")
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
@@ -155,19 +163,17 @@ export default {
             started: date,
             contract: this.contract.uuid
           };
-          this.$store
-            .dispatch("clock/CLOCK_SHIFT", { ...shift })
-            .then(() => {
-              this.clock.start();
-
-              this.$store.dispatch("snackbar/setSnack", {
-                snack: "Clocked in a new shift.",
-                timeout: 4000,
-                color: "success"
-              });
-            })
-            .catch(handleApiError);
-        });
+          return this.$store.dispatch("clock/CLOCK_SHIFT", { ...shift });
+        })
+        .then(() => this.clock.start())
+        .then(() => {
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: "Clocked in a new shift.",
+            timeout: 4000,
+            color: "success"
+          });
+        })
+        .catch(handleApiError);
     },
     unpause() {
       this.clock.start();
@@ -183,36 +189,38 @@ export default {
       this.clock = null;
     },
     reset(snackbar = true) {
-      this.$store
+      this.pause();
+      return this.$store
         .dispatch("clock/GET_CLOCKED_SHIFT")
         .then(() => {
-          this.$store
-            .dispatch("clock/DELETE_CLOCKED_SHIFT")
-            .then(() => {
-              this.stop();
-            })
-            .catch(() => {
-              this.clock.resetInterval();
-              this.clock = null;
-            })
-            .finally(() => {
-              this.$store.dispatch("clock/UNCLOCK_SHIFT");
-
-              if (snackbar) {
-                this.$store.dispatch("snackbar/setSnack", {
-                  snack: "Deleted clocked shift.",
-                  timeout: 4000,
-                  color: "success"
-                });
-              }
-            });
+          this.saving = true;
+          return this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+        })
+        .then(() => {
+          this.stop();
         })
         .catch(() => {
+          this.clock.resetInterval();
+          this.clock = null;
+
           this.$store.dispatch("snackbar/setSnack", {
             snack: "You were already clocked out.",
             timeout: 4000,
             color: "warning"
           });
+        })
+        .finally(() => {
+          this.saving = false;
+
+          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+
+          if (snackbar) {
+            this.$store.dispatch("snackbar/setSnack", {
+              snack: "Deleted clocked shift.",
+              timeout: 4000,
+              color: "success"
+            });
+          }
         });
     },
     redirectToContractSelection() {
@@ -227,10 +235,7 @@ export default {
       stop: this.stop,
       reset: this.reset,
       start: this.start,
-      data:
-        this.clock === null
-          ? {}
-          : { startDate: this.clock.startDate, duration: this.duration },
+      data: this.clockData,
       pause: this.pause,
       unpause: this.unpause,
       duration: this.duration,
