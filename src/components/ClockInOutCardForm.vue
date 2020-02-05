@@ -10,11 +10,7 @@
     </v-toolbar>
 
     <v-card-text>
-      <ClockedShiftSplitWarning
-        v-if="clockedShift !== null"
-        :clocked-shift="clockedShift"
-        @save="save"
-      />
+      <ClockedShiftSplitWarning :clocked-shift="clockedShift" @save="save" />
     </v-card-text>
   </v-card>
 </template>

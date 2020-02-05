@@ -19,7 +19,7 @@
           />
         </v-window-item>
 
-        <v-window-item :key="1">
+        <v-window-item v-if="clockedShift !== null" :key="1">
           <ClockInOutCardForm
             :clocked-shift="clockedShift"
             :destroy="destroy"
