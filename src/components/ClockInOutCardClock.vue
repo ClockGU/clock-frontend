@@ -14,9 +14,13 @@
       <v-toolbar-items>
         <v-scale-transition>
           <v-btn
-            v-if="actions.status === 'running' || actions.status === 'saving'"
+            v-if="
+              overflowedShift &&
+                (actions.status === 'running' || actions.status === 'saving')
+            "
             icon
             color="error"
+            @click="$emit('updateWindow', 1)"
           >
             <v-icon>{{ icons.mdiInformation }}</v-icon>
           </v-btn>
@@ -78,7 +82,7 @@
 </template>
 
 <script>
-import { addSeconds, format } from "date-fns";
+import { addSeconds, format, isSameDay } from "date-fns";
 import { mdiDelete, mdiInformation } from "@mdi/js";
 
 export default {
@@ -122,6 +126,12 @@ export default {
     return {
       icons: { mdiDelete, mdiInformation }
     };
+  },
+  computed: {
+    overflowedShift() {
+      const today = new Date();
+      return !isSameDay(today, this.actions.data.startDate);
+    }
   }
 };
 </script>
