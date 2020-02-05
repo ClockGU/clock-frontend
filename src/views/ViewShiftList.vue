@@ -131,9 +131,9 @@
     </v-col>
 
     <ShiftFormDialog
-      v-if="shiftEntity !== null"
+      v-if="showFormDialog"
       :shift-entity="shiftEntity"
-      @close="shiftEntity = null"
+      @close="showFormDialog = false"
       @refresh="groupShiftsByMonth"
     />
 
@@ -193,7 +193,8 @@ export default {
     toDelete: null, // We do not want to watch this object, so we use a slightly different solution,
     shiftsToDelete: [],
     unsortedShifts: [],
-    shiftEntity: null
+    shiftEntity: null,
+    showFormDialog: false
   }),
   computed: {
     ...mapGetters({
@@ -255,10 +256,11 @@ export default {
   methods: {
     editShift() {
       this.shiftEntity = new Shift(this.shiftsToDelete[0]);
+      this.showFormDialog = true;
       this.shiftsToDelete = [];
     },
     newShift() {
-      this.shiftEntity = new Shift();
+      this.showFormDialog = true;
       this.shiftsToDelete = [];
     },
     destroy() {

@@ -15,15 +15,11 @@
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
         <v-toolbar-title>
-          {{ shiftEntity.uuid !== null ? "Update shift" : "Create shift" }}
+          {{ uuid !== null ? "Update shift" : "Create shift" }}
         </v-toolbar-title>
         <v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
         <v-toolbar-items v-if="$vuetify.breakpoint.smAndDown">
-          <v-btn
-            v-if="shiftEntity.uuid !== null"
-            icon
-            @click="confirmDialog = true"
-          >
+          <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
           <v-btn text @click="shiftToSave.uuid === null ? save() : update()">
@@ -35,7 +31,7 @@
       <v-card-text class="pb-0">
         <ShiftForm
           :entity="shiftEntity"
-          :uuid="shiftEntity.uuid"
+          :uuid="uuid"
           :now="now"
           @cancel="closeMainDialog"
           @destroy="destroy"
@@ -125,6 +121,11 @@ export default {
     },
     shiftToSave: null
   }),
+  computed: {
+    uuid() {
+      return this.shiftEntity === null ? null : this.shiftEntity.uuid;
+    }
+  },
   created() {
     // Make a copy of the shift we will save.
     this.shiftToSave = this.shiftEntity;
