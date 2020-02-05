@@ -45,8 +45,8 @@ export default {
   },
   props: {
     selectedContract: {
-      type: Object || null,
-      required: true
+      required: true,
+      validator: prop => typeof prop === "object" || prop === null
     },
     clockedShift: {
       type: Object,
