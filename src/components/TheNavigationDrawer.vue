@@ -21,7 +21,15 @@
 
     <v-divider></v-divider>
 
-    <v-list v-if="isLoggedIn">
+    <v-skeleton-loader
+      v-if="isLoggedIn && userLoading"
+      :loading="userLoading"
+      type="heading"
+      width="300px"
+      class="pl-2 py-3"
+    >
+    </v-skeleton-loader>
+    <v-list v-else>
       <v-list-group no-action>
         <template v-slot:activator>
           <v-list-item-avatar>
@@ -31,7 +39,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title class="title">John Doe</v-list-item-title>
+            <v-list-item-title class="title">
+              {{ user.first_name }}
+            </v-list-item-title>
           </v-list-item-content>
         </template>
 
@@ -162,7 +172,9 @@ export default {
     },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
-      selectedContract: "selectedContract"
+      selectedContract: "selectedContract",
+      user: "user",
+      userLoading: "userLoading"
     })
   },
   methods: {

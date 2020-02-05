@@ -62,6 +62,10 @@ export default {
       this.loadClockedShift();
     }
   },
+  created() {
+    if (!this.loggedIn) return;
+    this.$store.dispatch("GET_USER");
+  },
   methods: {
     loadClockedShift() {
       if (!this.isLoggedIn) return;
