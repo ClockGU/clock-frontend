@@ -23,7 +23,10 @@ const actions = {
   CLOCK_SHIFT({ commit }, payload) {
     return ClockService.create(payload).then(response => {
       payload.id = response.uuid;
+
       commit("CLOCK_SHIFT", payload);
+
+      return response;
     });
   },
   DELETE_CLOCKED_SHIFT() {
