@@ -209,7 +209,7 @@ export default {
 
       return new Date(
         parseInt(year),
-        parseInt(month) - 1,
+        parseInt(month),
         parseInt(day),
         now.getHours(),
         now.getMinutes()
@@ -286,9 +286,11 @@ export default {
     })
   },
   mounted() {
+    this.$refs.calendar.checkChange();
+  },
+  created() {
     this.focus = this.initialFocus;
     this.type = this.initialType;
-    this.$refs.calendar.checkChange();
   },
   methods: {
     editShift(uuid) {
