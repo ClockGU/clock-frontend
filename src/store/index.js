@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { getField, updateField } from "vuex-map-fields";
 import createPersistedState from "vuex-persistedstate";
 
 import auth from "@/store/modules/auth";
+import clock from "@/store/modules/clock";
 import shift from "@/store/modules/shift";
 import contract from "@/store/modules/contract";
 import snackbar from "@/store/modules/snackbar";
@@ -21,7 +21,6 @@ export default new Vuex.Store({
     backendOffline: false
   },
   getters: {
-    getField,
     selectedContract: state => state.selectedContract,
     user: state => state.user
   },
@@ -46,7 +45,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateField,
     toggleBackend(state) {
       state.backendOffline = !state.backendOffline;
     },
@@ -68,6 +66,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
+    clock,
     shift,
     contract,
     snackbar,

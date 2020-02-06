@@ -39,7 +39,11 @@ const actions = {
   REFRESH_TOKEN({ commit, state }) {
     // If this is the first time the refreshToken has been called, make a request
     // otherwise return the same promise to the caller
-    if (state.refreshTokenPromise !== null) {
+    const objectToCheck =
+      state.refreshTokenPromise !== null
+        ? Object.keys(state.refreshTokenPromise).length
+        : -1;
+    if (state.refreshTokenPromise !== null || objectToCheck > 0) {
       return state.refreshTokenPromise;
     }
 

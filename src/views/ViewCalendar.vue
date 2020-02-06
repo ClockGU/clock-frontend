@@ -10,21 +10,10 @@
 
 <script>
 import Calendar from "@/components/calendar/Calendar";
-import { createHelpers } from "vuex-map-fields";
 
 import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
-
-const { mapFields: mapContractFields } = createHelpers({
-  getterType: "contract/getField",
-  mutationType: "contract/updateField"
-});
-
-const { mapFields: mapShiftFields } = createHelpers({
-  getterType: "shift/getField",
-  mutationType: "shift/updateField"
-});
 
 export default {
   name: "ViewCalendar",
@@ -56,14 +45,16 @@ export default {
     };
   },
   computed: {
-    ...mapContractFields(["contracts"]),
-    ...mapShiftFields(["shifts"]),
-    ...mapGetters({ loading: "shift/loading" }),
+    ...mapGetters({
+      contracts: "contract/contracts",
+      loading: "shift/loading",
+      shifts: "shift/shifts"
+    }),
     focus() {
       return `${this.year}-${this.month}-${this.day}`;
     },
     date() {
-      return new Date(Date.UTC(this.year, this.month - 1, this.day));
+      return new Date(Date.UTC(this.year, this.month + 1, this.day));
     },
     start() {
       return this.date.toISOString().slice(0, 10);
@@ -78,17 +69,17 @@ export default {
       this.$store.dispatch("contract/queryContracts");
     },
     updateRange({ type, start: { day, month, year } }) {
-      this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
+      this.now = type === "day" ? new Date(year, month + 1, day) : new Date();
 
       // Update router parameters to reflect the calendar range
       this.$router
-        .push({
+        .replace({
           name: "calendar",
           params: {
             type: type,
             year: year.toString(),
             month: month.toString(),
-            day: day.toString()
+            day: new Date().getDate().toString()
           }
         })
         .catch(() => {});

@@ -66,29 +66,11 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
-      <!-- <template v-if="showSelectContractButton">
-        <v-btn
-          data-cy="select-contract-button"
-          text
-          :to="{ path: '/select/' }"
-          exact
-        >
-          {{ selectedContract.name }}
-        </v-btn>
-        <ClockInOutButton
-          v-if="showClockInOutButton"
-          :selected-contract="selectedContract"
-          :clocked-shift="clockedShift"
-        />
-      </template> -->
     </v-app-bar>
   </portal-target>
 </template>
 
 <script>
-// import ClockInOutButton from "@/components/ClockInOutButton";
-
 import { mapGetters } from "vuex";
 
 import {
@@ -104,9 +86,6 @@ import {
 
 export default {
   name: "TheAppBar",
-  components: {
-    // ClockInOutButton
-  },
   data: () => ({
     icons: {
       // mdiChevronLeft: mdiChevronLeft,

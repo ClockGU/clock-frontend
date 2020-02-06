@@ -207,13 +207,6 @@ export default {
 
       return errors;
     },
-    initialData() {
-      return new Shift({
-        date: { ...startEndHours(this.now) },
-        contract: null,
-        type: "st"
-      });
-    },
     title() {
       return this.uuid === null ? "Add shift" : "Update shift";
     },
@@ -233,13 +226,20 @@ export default {
     }
   },
   created() {
-    this.shift = this.uuid === null ? this.initialData : this.entity;
+    this.shift = this.uuid === null ? this.initializeForm() : this.entity;
 
     if (!this.shift.contract) {
       this.shift.contract = this.selectedContract.uuid;
     }
   },
   methods: {
+    initializeForm() {
+      return new Shift({
+        date: { ...startEndHours(this.now) },
+        contract: null,
+        type: "st"
+      });
+    },
     setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;

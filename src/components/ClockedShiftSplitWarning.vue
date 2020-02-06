@@ -1,44 +1,18 @@
 <template>
-  <v-card data-cy="clicked-shift-split-warning">
-    <v-card-title class="headline word-break">
-      Shift overflow
-    </v-card-title>
-    <v-card-text>
-      <p>
-        A shift must end on the same day it started. Therefore, we will need to
-        split your shift. Make a decision on what to do.
-      </p>
-
-      <v-row align="stretch">
-        <v-col sm="10" class="pb-0">
-          <v-select
-            v-model="selected"
-            data-cy="select"
-            :items="options"
-            label="Select an action"
-            hide-details
-            outlined
-            :disabled="!persistPseudoShiftToVuex"
-            @change="setPseudoShifts"
-          ></v-select>
-        </v-col>
-        <v-col sm="2">
-          <v-btn
-            data-cy="reset"
-            text
-            x-large
-            :disabled="persistPseudoShiftToVuex"
-            @click="setPseudoShifts"
-          >
-            Reset
-          </v-btn>
-        </v-col>
-      </v-row>
+  <v-card
+    :elevation="0"
+    class="ma-0 pa-0"
+    :disabled="disabled"
+    data-cy="clicked-shift-split-warning"
+  >
+    <v-card-text class="pa-0 ma-0">
+      A shift must end on the same day it started. Therefore, we will need to
+      split your shift. Make a decision on what to do.
     </v-card-text>
 
-    <v-list data-cy="overflowing-shift">
-      <v-subheader>Overflowing shift</v-subheader>
-      <v-list-item two-line>
+    <v-list class="px-0" data-cy="overflowing-shift">
+      <v-subheader class="px-0">Clocked shift</v-subheader>
+      <v-list-item two-line class="px-0">
         <v-list-item-content>
           <v-list-item-title data-cy="overflowing-shift-duration">
             {{ shift.representationalDuration("hm") }}
@@ -52,26 +26,76 @@
       </v-list-item>
     </v-list>
 
+    <v-card-text class="px-0">
+      <v-row>
+        <v-col>
+          <v-select
+            v-model="selected"
+            data-cy="select"
+            :items="options"
+            label="Select an action"
+            hide-details
+            outlined
+            @change="initializePseudoShifts"
+          ></v-select>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
     <v-divider></v-divider>
 
-    <v-list v-if="shifts" data-cy="new-shifts">
-      <v-subheader>New shifts</v-subheader>
+    <v-list class="px-0" data-cy="new-shifts">
+      <v-subheader class="px-0">New shifts</v-subheader>
+      <v-row v-if="pseudoShifts.length === 0" justify="center">
+        You have deleted all staged shifts. You can either clock out, without
+        saving new shifts, or reset your actions.
+      </v-row>
       <v-list-item
-        v-for="(newShift, i) in shifts"
-        :key="newShift.uuid"
+        v-for="(shift, i) in pseudoShifts"
+        v-else
+        :key="shift.uuid"
+        class="px-0"
         two-line
       >
         <v-list-item-content>
-          <v-list-item-title :data-cy="'new-shift-duration-' + i">
-            {{ newShift.representationalDuration("hm") }}
+          <v-list-item-title>
+            {{ shift.date.start | formatDay }}
           </v-list-item-title>
-          <v-list-item-subtitle :data-cy="'new-shift-dates-' + i">
-            {{ newShift.start | formatDate }} -
-            {{ newShift.end | formatDate }}
+          <v-list-item-subtitle class="text--primary">
+            {{ shift.date.start | formatTime }} -
+            {{ shift.date.end | formatTime }}
+            ({{ shift.representationalDuration("hm") }})
+          </v-list-item-subtitle>
+          <v-list-item-subtitle>
+            <v-chip
+              data-cy="shift-list-item-type"
+              outlined
+              small
+              class="my-2"
+              :color="typeColor(shift)"
+            >
+              {{ shift.type.text }}
+            </v-chip>
+
+            <span v-if="shift.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
+
+            <v-chip
+              v-for="(tag, j) in shift.tags"
+              :key="tag"
+              :data-cy="'shift-list-item-tag-' + j"
+              outlined
+              small
+              class="my-2"
+            >
+              {{ tag }}
+            </v-chip>
           </v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-action :data-cy="'options-' + i">
+        <v-list-item-action
+          v-if="selected === 'advanced'"
+          :data-cy="'options-' + i"
+        >
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on">
@@ -82,13 +106,10 @@
             </template>
 
             <v-list>
-              <v-list-item :data-cy="'edit-' + i" @click="editShift(newShift)">
+              <v-list-item :data-cy="'edit-' + i" @click="editShift(shift)">
                 <v-list-item-title>Edit</v-list-item-title>
               </v-list-item>
-              <v-list-item
-                :data-cy="'delete-' + i"
-                @click="deleteShift(newShift)"
-              >
+              <v-list-item :data-cy="'delete-' + i" @click="remove(shift.uuid)">
                 <v-list-item-title>Delete</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -97,106 +118,86 @@
       </v-list-item>
     </v-list>
 
-    <v-list v-else>
-      <v-subheader>Discarding both shifts</v-subheader>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>
-            We will delete both shifts.
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-
-    <v-card-actions>
+    <v-card-actions class="px-0">
       <v-btn
         data-cy="save"
         :disabled="!selected"
         text
         color="primary"
-        @click="submit"
+        @click="save"
       >
-        Save
+        {{ pseudoShifts.length > 0 ? "Save" : "Clock out" }}
       </v-btn>
-      <v-dialog v-model="dialogReset" max-width="350">
-        <template v-slot:activator="{ on }">
-          <v-btn data-cy="discard" :disabled="!selected" text v-on="on">
-            Discard
-          </v-btn>
-        </template>
-
-        <v-card data-cy="discard-dialog">
-          <v-card-title class="headline" primary-title>
-            Discard shift
-          </v-card-title>
-
-          <v-card-text>
-            Do really want to discard the shift? This action is permanent.
-          </v-card-text>
-
-          <v-divider></v-divider>
-
-          <v-card-actions>
-            <v-btn data-cy="dialog-confirm" color="error" text @click="reset">
-              Confirm
-            </v-btn>
-            <v-btn data-cy="dialog-cancel" text @click="dialogReset = false">
-              Cancel
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <v-btn data-cy="reset" text @click="initializePseudoShifts">
+        Reset
+      </v-btn>
     </v-card-actions>
+
+    <ShiftReviewFormDialog
+      v-if="showFormDialog"
+      :shift-entity="shiftEntity"
+      :uuid="1"
+      @close="close"
+      @update="update"
+    />
   </v-card>
 </template>
 
 <script>
-import { Shift } from "@/models/ShiftModel";
 import uuid from "uuid/v4";
 import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
+import { mdiDotsVertical } from "@mdi/js";
 const { utcToZonedTime, format } = require("date-fns-tz");
 
+import ShiftReviewFormDialog from "@/components/shifts/ShiftReviewFormDialog";
 import ShiftService from "@/services/shift";
-
-import { mdiDotsHorizontal, mdiDotsVertical } from "@mdi/js";
-
-import equals from "ramda/src/equals";
-
-import { handleApiError } from "@/utils/interceptors";
+import { Shift } from "@/models/ShiftModel";
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
 export default {
   name: "ClockedShiftSplitWarning",
   filters: {
+    formatDay(date) {
+      return format(date, "EEEE',' do");
+    },
     formatDate(date) {
-      return format(date, "yyyy-MM-dd HH':'mm");
+      return format(date, "dd'.'MM'.' HH':'mm");
+    },
+    formatTime(date) {
+      return format(date, "HH':'mm");
     }
   },
+  components: { ShiftReviewFormDialog },
   props: {
-    callbacks: {
+    clockedShift: {
       type: Object,
-      required: true
-    },
-    shift: {
-      type: Object,
-      required: true
-    },
-    pseudoShifts: {
-      type: Array,
       required: true
     }
   },
   data: () => ({
-    icons: { mdiDotsHorizontal, mdiDotsVertical },
+    disabled: false,
+    icons: { mdiDotsVertical },
     timezone: "Europe/Berlin",
     selected: "both",
     options: [
       { text: "Keep both shifts and split across days", value: "both" },
       { text: "Keep first", value: "first" },
-      { text: "Keep second", value: "second" }
+      { text: "Keep second", value: "second" },
+      { text: "Advanced mode", value: "advanced" }
     ],
-    dialogReset: false
+    dialogReset: false,
+    pseudoShifts: [],
+    shiftEntity: null,
+    showFormDialog: false
   }),
   computed: {
+    editShiftIndex() {
+      if (this.shiftEntity === null) return null;
+
+      return this.pseudoShifts.findIndex(
+        shift => shift.uuid === this.shiftEntity.uuid
+      );
+    },
     separateDays() {
       const { start, end } = this.shift.date;
       const days = eachDayOfInterval({
@@ -205,74 +206,67 @@ export default {
       });
 
       return days;
-    },
-    shifts() {
-      if (this.persistPseudoShiftToVuex) return this.newShifts;
-
-      return this.pseudoShifts.map(shift => new Shift(shift));
-    },
-    newShifts() {
-      if (this.selected == "both") return this.splitShifts();
-      if (this.selected == "first") return this.firstShift();
-      if (this.selected == "second") return this.lastShift();
-
-      return null;
-    },
-    persistPseudoShiftToVuex() {
-      const pseudoShifts = this.pseudoShifts.map(shift => {
-        const item = new Shift(shift).toPayload();
-        return { ...item, uuid: null };
-      });
-      const newShifts = this.newShifts.map(shift => {
-        const item = new Shift(shift).toPayload();
-        return { ...item, uuid: null };
-      });
-
-      if (this.pseudoShifts.length == 0) return true;
-
-      return equals(pseudoShifts, newShifts);
-    }
-  },
-  watch: {
-    pseudoShifts: function(newValue) {
-      // Reset pseudo shifts, if we have deleted all manually.
-      if (newValue.length < 1) {
-        this.setPseudoShifts();
-      }
     }
   },
   created() {
-    this.setPseudoShifts();
-    // TODO: What edgecase was this check for?
-    // if (!this.persistPseudoShiftToVuex) this.setPseudoShifts();
+    this.shift = new Shift({
+      ...this.clockedShift,
+      date: { start: this.clockedShift.started, end: new Date() },
+      type: "st"
+    });
+
+    this.initializePseudoShifts();
   },
   methods: {
-    deleteShift(shift) {
-      const filteredShifts = this.pseudoShifts.filter(
-        newShift => newShift.uuid !== shift.uuid
-      );
-      this.$emit("pseudoShifts", filteredShifts);
+    typeColor(shift) {
+      return SHIFT_TYPE_COLORS[shift.type.value];
     },
-    setPseudoShifts() {
-      this.$emit("pseudoShifts", this.newShifts);
+    close() {
+      this.shiftEntity = null;
+      this.showFormDialog = false;
+    },
+    update(shift) {
+      const shifts = this.pseudoShifts;
+      shifts[this.editShiftIndex] = shift;
+      this.pseudoShifts = [...shifts];
+
+      this.close();
+    },
+    initializePseudoShifts() {
+      const SHIFT_CASES = {
+        both: this.splitShifts,
+        first: this.firstShift,
+        second: this.lastShift,
+        advanced: this.splitShifts
+      };
+      this.pseudoShifts = SHIFT_CASES[this.selected]();
+    },
+    remove(uuid) {
+      this.pseudoShifts = this.pseudoShifts.filter(
+        shift => shift.uuid !== uuid
+      );
     },
     editShift(shift) {
-      this.$emit("editShift", shift);
+      this.shiftEntity = shift;
+      this.showFormDialog = true;
     },
     toggleShortShift(callback) {
       callback();
       this.dialog = false;
     },
-    submit() {
-      this.shifts.map(shift =>
-        ShiftService.create(shift.toPayload()).catch(handleApiError)
+    save() {
+      this.disabled = true;
+      const shiftPromises = this.pseudoShifts.map(shift =>
+        ShiftService.create(shift.toPayload())
       );
-      this.$emit("close");
-      this.callbacks.reset();
-    },
-    reset() {
-      this.callbacks.reset();
-      this.$emit("close");
+
+      Promise.all(shiftPromises)
+        .then(() => {
+          this.$emit("save", this.pseudoShifts.length);
+        })
+        .catch(() => {
+          this.disabled = false;
+        });
     },
     firstShift() {
       let { start } = this.shift.date;

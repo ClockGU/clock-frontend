@@ -55,7 +55,7 @@ export default {
     selectContract(contract) {
       this.$store.dispatch("setContract", contract);
 
-      this.$router.push({ name: "calendar", params: { type: "month" } });
+      this.$router.push({ name: "dashboard" });
     }
   }
 };

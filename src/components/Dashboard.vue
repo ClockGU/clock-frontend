@@ -2,8 +2,6 @@
   <v-row justify="center">
     <v-col cols="12" md="6">
       <v-card>
-        <!-- <portal-target name="card-toolbar"></portal-target> -->
-
         <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : ''">
           <v-toolbar slot-scope="{ action }" :elevation="0">
             <v-app-bar-nav-icon
@@ -23,17 +21,27 @@
     </v-col>
 
     <v-col cols="12" md="6">
-      <v-card>
-        <v-card-title>Stats</v-card-title>
-
-        <v-card-text>Some dashboard information</v-card-text>
-      </v-card>
+      <ClockInOutCard
+        :clocked-shift="clockedShift"
+        :selected-contract="selectedContract"
+      />
     </v-col>
   </v-row>
 </template>
 
 <script>
+import ClockInOutCard from "@/components/ClockInOutCard";
+
+import { mapGetters } from "vuex";
+
 export default {
-  name: "Dashboard"
+  name: "Dashboard",
+  components: { ClockInOutCard },
+  computed: {
+    ...mapGetters({
+      clockedShift: "clock/clockedShift",
+      selectedContract: "selectedContract"
+    })
+  }
 };
 </script>

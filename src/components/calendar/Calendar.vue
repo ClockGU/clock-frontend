@@ -123,10 +123,10 @@
       </TheDialog>
 
       <ShiftFormDialog
-        v-if="shiftEntity !== null"
+        v-if="showFormDialog"
         :shift-entity="shiftEntity"
         :now="shiftNow"
-        @close="shiftEntity = null"
+        @close="showFormDialog = false"
         @refresh="$emit('refresh')"
       />
 
@@ -199,14 +199,21 @@ export default {
     eventClicks: 0,
     doubleClickTimer: null,
     doubleClickDelay: 500,
-    shiftEntity: null
+    shiftEntity: null,
+    showFormDialog: false
   }),
   computed: {
     shiftNow() {
       const now = new Date();
       const [year, month, day] = this.focus.split("-");
 
-      return new Date(year, month + 1, day, now.getHours(), now.getMinutes());
+      return new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day),
+        now.getHours(),
+        now.getMinutes()
+      );
     },
     visibleShifts() {
       return this.shifts.filter(
@@ -287,9 +294,10 @@ export default {
     editShift(uuid) {
       const shift = this.visibleShifts.find(shift => shift.uuid === uuid);
       this.shiftEntity = new Shift(shift);
+      this.showFormDialog = true;
     },
     newShift() {
-      this.shiftEntity = new Shift();
+      this.showFormDialog = true;
     },
     handleEventClick({ nativeEvent, event }) {
       this.eventClicks++;

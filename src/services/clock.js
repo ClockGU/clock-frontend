@@ -46,15 +46,7 @@ const ClockService = {
     });
   },
   delete: async function(uuid) {
-    return new Promise((resolve, reject) => {
-      return ApiService.delete(`${BASE_URL}${uuid}/`)
-        .then(response => {
-          return resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+    return ApiService.delete(`${BASE_URL}${uuid}/`);
   }
 };
 
