@@ -138,6 +138,8 @@ export default {
       const { data } = await ReportService.export(this.report.uuid);
       this.pdfResponse = data;
       this.loading = false;
+
+      this.$store.dispatch("shift/queryShifts");
     }
     // resetExport() {
     //   console.log("reset report!");

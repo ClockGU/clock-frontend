@@ -38,10 +38,10 @@
             <v-col v-else>
               <v-row>
                 <ReportCard
-                  v-for="report in sortedByMonth"
+                  v-for="report in sortedReports"
                   :key="report.uuid"
                   :report="report"
-                  :exported="false"
+                  :exported="report.exported"
                 ></ReportCard>
               </v-row>
             </v-col>
@@ -54,6 +54,8 @@
 
 <script>
 import ReportCard from "@/components/ReportCard";
+
+import { datesGroupByComponent } from "@/utils/shift";
 
 import { mapGetters } from "vuex";
 
@@ -75,12 +77,21 @@ export default {
       reports: "report/reports",
       shiftsOfContract: "shift/shiftsOfContract"
     }),
-    sortedByMonth() {
-      const reports = this.reports;
+    extendedReports() {
+      return this.reports.map(report => ({
+        ...report,
+        exported: this.checkExported(report.date)
+      }));
+    },
+    sortedReports() {
+      const reports = this.extendedReports;
       return reports.sort((a, b) => a.date < b.date);
+    },
+    shiftsByMonth() {
+      return datesGroupByComponent(this.shiftsOfContract, "y MM");
     }
   },
-  mounted() {
+  created() {
     const requests = [
       this.$store.dispatch("contract/queryContracts"),
       this.$store.dispatch("shift/queryShifts")
@@ -88,6 +99,17 @@ export default {
     Promise.all(requests).then(() => {
       this.$store.dispatch("report/list");
     });
+  },
+  methods: {
+    checkExported(date) {
+      const [year, month] = date.slice(0, 7).split("-");
+      const key = `${year} ${month}`;
+      if (!(key in this.shiftsByMonth)) return false;
+
+      const shifts = this.shiftsByMonth[key];
+      const exported = shifts.map(shift => shift.exported);
+      return exported.every(x => x);
+    }
   }
 };
 </script>
