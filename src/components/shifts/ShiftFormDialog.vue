@@ -1,9 +1,11 @@
 <template>
   <v-dialog
-    v-model="mainDialog"
+    v-model="dialog"
     :fullscreen="$vuetify.breakpoint.smAndDown"
     max-width="600"
-    @click:outside="closeMainDialog"
+    persistent
+    no-click-animation
+    @keydown.esc="closeMainDialog"
   >
     <v-card>
       <v-toolbar flat>
@@ -22,7 +24,11 @@
           <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="uuid === null ? save() : update()">
+          <v-btn
+            text
+            :disabled="!formValid"
+            @click="uuid === null ? save() : update()"
+          >
             Save
           </v-btn>
         </v-toolbar-items>
@@ -114,7 +120,7 @@ export default {
   data: () => ({
     confirmDialog: false,
     formValid: true,
-    mainDialog: true,
+    dialog: true,
     icons: {
       mdiDelete,
       mdiClose
@@ -153,20 +159,20 @@ export default {
         .then(() => {
           this.$emit("refresh");
         })
-        .catch(handleApiError)
-        .finally(() => {
+        .then(() => {
           this.closeMainDialog();
-        });
+        })
+        .catch(handleApiError);
     },
     save() {
       ShiftService.create(this.shiftToSave.toPayload())
         .then(() => {
           this.$emit("refresh");
         })
-        .catch(handleApiError)
-        .finally(() => {
+        .then(() => {
           this.closeMainDialog();
-        });
+        })
+        .catch(handleApiError);
     }
   }
 };
