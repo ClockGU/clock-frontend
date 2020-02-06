@@ -126,7 +126,7 @@
         v-if="showFormDialog"
         :shift-entity="shiftEntity"
         :now="shiftNow"
-        @close="showFormDialog = false"
+        @close="closeFormDialog"
         @refresh="$emit('refresh')"
       />
 
@@ -300,6 +300,10 @@ export default {
     },
     newShift() {
       this.showFormDialog = true;
+    },
+    closeFormDialog() {
+      this.showFormDialog = false;
+      this.shiftEntity = null;
     },
     handleEventClick({ nativeEvent, event }) {
       this.eventClicks++;

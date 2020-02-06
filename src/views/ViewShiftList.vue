@@ -133,7 +133,7 @@
     <ShiftFormDialog
       v-if="showFormDialog"
       :shift-entity="shiftEntity"
-      @close="showFormDialog = false"
+      @close="closeFormDialog"
       @refresh="groupShiftsByMonth"
     />
 
@@ -262,6 +262,10 @@ export default {
     newShift() {
       this.showFormDialog = true;
       this.shiftsToDelete = [];
+    },
+    closeFormDialog() {
+      this.showFormDialog = false;
+      this.shiftEntity = null;
     },
     destroy() {
       const promises = [];
