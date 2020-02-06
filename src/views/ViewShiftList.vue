@@ -160,18 +160,11 @@ import {
   mdiMenu
 } from "@mdi/js";
 
-import { format, parseISO } from "date-fns";
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
 import TheFAB from "@/components/TheFAB";
 
-function datesGroupByComponent(dates, token) {
-  return dates.reduce(function(val, obj) {
-    let comp = format(parseISO(obj["date"]["start"]), token);
-    (val[comp] = val[comp] || []).push(new Shift(obj));
-    return val;
-  }, {});
-}
+import { datesGroupByComponent } from "@/utils/shift";
 
 export default {
   name: "ViewShiftList",
