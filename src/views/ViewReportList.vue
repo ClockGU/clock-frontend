@@ -1,29 +1,66 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>
-          Reports
-        </h1>
-      </v-col>
-    </v-row>
+  <v-row
+    :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+  >
+    <v-col cols="12" md="8" class="py-0">
+      <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+        <portal-target name="card-toolbar"></portal-target>
 
-    <div>
-      <span v-if="loading">Loading...</span>
-      <ReportCardList v-else :reports="reports" />
-    </div>
-  </v-container>
+        <portal
+          :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'"
+        >
+          <v-toolbar slot-scope="{ action }" :elevation="0">
+            <v-app-bar-nav-icon
+              v-if="$vuetify.breakpoint.smAndDown"
+              icon
+              @click="action"
+            ></v-app-bar-nav-icon>
+
+            <v-toolbar-title>
+              Reports
+            </v-toolbar-title>
+          </v-toolbar>
+        </portal>
+
+        <v-card-text class="pt-0">
+          <v-row :justify="loading ? 'center' : 'start'">
+            <v-col v-if="loading" cols="10" md="6" class="pt-0">
+              <v-skeleton-loader
+                v-if="loading"
+                data-cy="skeleton"
+                type="card"
+                width="90%"
+                :loading="true"
+              ></v-skeleton-loader>
+            </v-col>
+
+            <v-col v-else>
+              <v-row>
+                <ReportCard
+                  v-for="report in sortedByMonth"
+                  :key="report.uuid"
+                  :report="report"
+                  :exported="false"
+                ></ReportCard>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import ReportCardList from "@/components/ReportCardList";
+import ReportCard from "@/components/ReportCard";
 
 import { mapGetters } from "vuex";
 
 export default {
   name: "ViewReportList",
   components: {
-    ReportCardList
+    ReportCard
   },
   data() {
     return {
@@ -33,13 +70,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ loading: "report/loading" }),
-    reports() {
-      return this.$store.state.report.reports;
+    ...mapGetters({
+      loading: "report/loading",
+      reports: "report/reports",
+      shiftsOfContract: "shift/shiftsOfContract"
+    }),
+    sortedByMonth() {
+      const reports = this.reports;
+      return reports.sort((a, b) => a.date < b.date);
     }
   },
   mounted() {
-    this.$store.dispatch("contract/queryContracts").then(() => {
+    const requests = [
+      this.$store.dispatch("contract/queryContracts"),
+      this.$store.dispatch("shift/queryShifts")
+    ];
+    Promise.all(requests).then(() => {
       this.$store.dispatch("report/list");
     });
   }

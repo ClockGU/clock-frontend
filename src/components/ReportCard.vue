@@ -6,7 +6,7 @@
           {{ report.date | formatDate }}
         </span>
         <v-spacer></v-spacer>
-        <v-chip v-if="report.exported" outlined color="primary">
+        <v-chip v-if="exported" outlined color="primary">
           Exported
         </v-chip>
       </v-card-title>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { format, parseISO, isThisMonth } from "date-fns";
+import { format, parseISO } from "date-fns";
 import ReportService from "@/services/report";
 import TheDialog from "@/components/TheDialog";
 
@@ -70,6 +70,10 @@ export default {
     }
   },
   props: {
+    exported: {
+      type: Boolean,
+      default: false
+    },
     report: {
       type: Object,
       required: true
@@ -86,9 +90,6 @@ export default {
     ...mapGetters({
       currentShifts: "shift/currentShifts"
     }),
-    exported() {
-      return isThisMonth(parseISO(this.report.date));
-    },
     fileName() {
       const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
       return `Report_${date}.pdf`;
