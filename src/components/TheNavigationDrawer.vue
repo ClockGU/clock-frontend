@@ -33,9 +33,15 @@
       <v-list-group no-action>
         <template v-slot:activator>
           <v-list-item-avatar>
-            <v-img
-              src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortWaved&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=MoustacheFancy&facialHairColor=Auburn&clotheType=ShirtVNeck&clotheColor=PastelBlue&eyeType=Squint&eyebrowType=SadConcerned&mouthType=Eating&skinColor=Brown"
-            ></v-img>
+            <v-avatar
+              size="32px"
+              color="blue lighten-2"
+              style="cursor: pointer"
+            >
+              <span class="white--text">
+                {{ firstLetter }}
+              </span>
+            </v-avatar>
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -157,6 +163,11 @@ export default {
     ]
   }),
   computed: {
+    firstLetter() {
+      if (this.user === null) return "";
+
+      return this.user.first_name.charAt(0);
+    },
     visibleLinks() {
       if (this.isLoggedIn && this.selectedContract !== null) {
         return this.links;
