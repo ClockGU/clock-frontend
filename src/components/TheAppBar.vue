@@ -3,7 +3,7 @@
     :slot-props="{ action: () => toggleNavigationdrawer() }"
     name="app-bar"
   >
-    <v-app-bar app flat fixed>
+    <v-app-bar app flat fixed color="white">
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
         class="hidden-md-and-up"
