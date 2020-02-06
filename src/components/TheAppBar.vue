@@ -25,8 +25,12 @@
 
       <v-spacer></v-spacer>
 
-      <v-skeleton-loader v-if="isLoggedIn" :loading="userLoading" type="avatar">
-        <v-menu v-if="$vuetify.breakpoint.mdAndUp" offset-y>
+      <v-skeleton-loader
+        v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
+        :loading="userLoading"
+        type="avatar"
+      >
+        <v-menu offset-y>
           <template v-slot:activator="{ on }" class="ml-4">
             <div class="d-flex align-center" v-on="on">
               <v-avatar
