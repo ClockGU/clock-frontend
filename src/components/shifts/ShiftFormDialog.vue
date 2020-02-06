@@ -22,7 +22,7 @@
           <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="shiftToSave.uuid === null ? save() : update()">
+          <v-btn text @click="uuid === null ? save() : update()">
             Save
           </v-btn>
         </v-toolbar-items>
@@ -46,7 +46,7 @@
           text
           :disabled="!formValid"
           color="primary"
-          @click="shiftToSave.uuid === null ? save() : update()"
+          @click="uuid === null ? save() : update()"
         >
           Save
         </v-btn>
@@ -56,7 +56,7 @@
 
         <v-spacer></v-spacer>
         <v-btn
-          v-if="shiftToSave.uuid !== null"
+          v-if="uuid !== null"
           data-cy="shift-form-delete-button"
           text
           color="error"
