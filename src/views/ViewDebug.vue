@@ -67,33 +67,48 @@ export default {
   methods: {
     shortShift() {
       const now = new Date();
-      const start = subMinutes(now, 5);
+      const started = subMinutes(now, 5);
       const contract = this.$store.state.selectedContract.uuid;
 
-      const shift = { start, contract };
+      const shift = { started, contract };
 
-      this.$store.dispatch("shift/clockShift", shift);
-      location.reload(true);
+      this.$store.dispatch("clock/CLOCK_SHIFT", { ...shift }).then(() => {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: "Debug: done.",
+          timeout: 4000,
+          color: "success"
+        });
+      });
     },
     overflowShift() {
       const now = new Date();
-      const start = subDays(now, 1);
+      const started = subDays(now, 1);
       const contract = this.$store.state.selectedContract.uuid;
 
-      const shift = { start, contract };
+      const shift = { started, contract };
 
-      this.$store.dispatch("shift/clockShift", shift);
-      location.reload(true);
+      this.$store.dispatch("clock/CLOCK_SHIFT", { ...shift }).then(() => {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: "Debug: done.",
+          timeout: 4000,
+          color: "success"
+        });
+      });
     },
     veryLongShift() {
       const now = new Date();
-      const start = subDays(now, 4);
+      const started = subDays(now, 4);
       const contract = this.$store.state.selectedContract.uuid;
 
-      const shift = { start, contract };
+      const shift = { started, contract };
 
-      this.$store.dispatch("shift/clockShift", shift);
-      location.reload(true);
+      this.$store.dispatch("clock/CLOCK_SHIFT", { ...shift }).then(() => {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: "Debug: done.",
+          timeout: 4000,
+          color: "success"
+        });
+      });
     }
   }
 };
