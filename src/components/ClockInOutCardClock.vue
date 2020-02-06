@@ -14,19 +14,6 @@
       <v-toolbar-items>
         <v-scale-transition>
           <v-btn
-            v-if="
-              overflowedShift &&
-                (actions.status === 'running' || actions.status === 'saving')
-            "
-            icon
-            color="error"
-            @click="$emit('updateWindow', 1)"
-          >
-            <v-icon>{{ icons.mdiInformation }}</v-icon>
-          </v-btn>
-        </v-scale-transition>
-        <v-scale-transition>
-          <v-btn
             v-if="actions.status === 'running' || actions.status === 'saving'"
             icon
             @click="actions.destroy"
@@ -66,15 +53,32 @@
           Clock in
         </v-btn>
         <v-btn
-          v-else
+          v-else-if="
+            !overflowedShift &&
+              (actions.status === 'running' || actions.status === 'saving')
+          "
           key="clock-out"
           :disabled="actions.status === 'saving'"
-          color="red"
+          color="primary"
           block
           text
           @click="actions.save"
         >
           Clock out
+        </v-btn>
+        <v-btn
+          v-else-if="
+            overflowedShift &&
+              (actions.status === 'running' || actions.status === 'saving')
+          "
+          key="review-problems"
+          :disabled="actions.status === 'saving'"
+          color="error"
+          block
+          text
+          @click="$emit('updateWindow', 1)"
+        >
+          Review problems
         </v-btn>
       </v-slide-x-transition>
     </v-card-text>
