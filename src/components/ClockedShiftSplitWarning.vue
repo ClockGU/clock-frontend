@@ -46,8 +46,13 @@
 
     <v-list class="px-0" data-cy="new-shifts">
       <v-subheader class="px-0">New shifts</v-subheader>
+      <v-row v-if="pseudoShifts.length === 0" justify="center">
+        You have deleted all staged shifts. You can either clock out, without
+        saving new shifts, or reset your actions.
+      </v-row>
       <v-list-item
         v-for="(shift, i) in pseudoShifts"
+        v-else
         :key="shift.uuid"
         class="px-0"
         two-line
@@ -121,7 +126,7 @@
         color="primary"
         @click="save"
       >
-        Save
+        {{ pseudoShifts.length > 0 ? "Save" : "Clock out" }}
       </v-btn>
       <v-btn data-cy="reset" text @click="initializePseudoShifts">
         Reset
@@ -257,7 +262,7 @@ export default {
 
       Promise.all(shiftPromises)
         .then(() => {
-          this.$emit("save");
+          this.$emit("save", this.pseudoShifts.length);
         })
         .catch(() => {
           this.disabled = false;

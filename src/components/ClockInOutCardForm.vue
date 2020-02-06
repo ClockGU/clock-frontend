@@ -38,10 +38,19 @@ export default {
     icons: { mdiArrowLeft }
   }),
   methods: {
-    save() {
+    save(length) {
       this.destroy(false).then(() => {
+        let message = "You were clocked out.";
+        if (length > 1) {
+          message += " All shifts were saved.";
+        } else if (length === 1) {
+          message += " The shift was saved.";
+        } else {
+          message += " No additional shifts were saved";
+        }
+
         this.$store.dispatch("snackbar/setSnack", {
-          snack: "Saved shift(s).",
+          snack: message,
           timeout: 4000,
           color: "success"
         });
