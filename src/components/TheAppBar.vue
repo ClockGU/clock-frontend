@@ -25,47 +25,51 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp" offset-y>
-        <template v-slot:activator="{ on }" class="ml-4">
-          <div class="d-flex align-center" v-on="on">
-            <v-avatar
-              size="30px"
-              color="blue lighten-2"
-              class="ml-2"
-              style="cursor: pointer"
-            >
-              <span class="white--text">J</span>
-            </v-avatar>
-            <div>
-              <v-btn text class="pa-1">
-                <span class="text-capitalize">John</span>
-                <v-icon>{{ icons.mdiChevronDown }}</v-icon>
-              </v-btn>
+      <v-skeleton-loader v-if="isLoggedIn" :loading="userLoading" type="avatar">
+        <v-menu v-if="$vuetify.breakpoint.mdAndUp" offset-y>
+          <template v-slot:activator="{ on }" class="ml-4">
+            <div class="d-flex align-center" v-on="on">
+              <v-avatar
+                size="30px"
+                color="blue lighten-2"
+                class="ml-2"
+                style="cursor: pointer"
+              >
+                <span class="white--text">
+                  {{ firstLetter }}
+                </span>
+              </v-avatar>
+              <div>
+                <v-btn text class="pa-1">
+                  <span class="text-capitalize">{{ user.first_name }}</span>
+                  <v-icon>{{ icons.mdiChevronDown }}</v-icon>
+                </v-btn>
+              </div>
             </div>
-          </div>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="item in menuItems"
-            :key="item.text"
-            :to="item.to"
-            router
-          >
-            <v-list-item-action>
-              <v-icon small>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>{{ item.text }} </v-list-item-content>
-          </v-list-item>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="item in menuItems"
+              :key="item.text"
+              :to="item.to"
+              router
+            >
+              <v-list-item-action>
+                <v-icon small>{{ item.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>{{ item.text }} </v-list-item-content>
+            </v-list-item>
 
-          <v-list-item data-cy="menu-logout" @click="$emit('logout')">
-            <v-list-item-action>
-              <v-icon small>{{ icons.mdiLock }}</v-icon>
-            </v-list-item-action>
+            <v-list-item data-cy="menu-logout" @click="$emit('logout')">
+              <v-list-item-action>
+                <v-icon small>{{ icons.mdiLock }}</v-icon>
+              </v-list-item-action>
 
-            <v-list-item-content>Logout</v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+              <v-list-item-content>Logout</v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-skeleton-loader>
     </v-app-bar>
   </portal-target>
 </template>
@@ -119,8 +123,15 @@ export default {
     ...mapGetters({
       selectedContract: "selectedContract",
       clockedShift: "shift/clockedShift",
-      isLoggedIn: "auth/loggedIn"
+      isLoggedIn: "auth/loggedIn",
+      user: "user",
+      userLoading: "userLoading"
     }),
+    firstLetter() {
+      if (this.user === null) return "";
+
+      return this.user.first_name.charAt(0);
+    },
     showClockInOutButton() {
       return this.clockedShift !== undefined;
     },

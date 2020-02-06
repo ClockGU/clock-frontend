@@ -16,12 +16,13 @@ const getters = {
 };
 
 const actions = {
-  LOGIN({ commit }, { email, password }) {
+  LOGIN({ commit, dispatch }, { email, password }) {
     return AuthService.login(email, password).then(response => {
       log("AuthVuex.login: resolved");
       commit("LOGIN", response.data);
       ApiService.setHeader(response.data.access);
 
+      dispatch("GET_USER", null, { root: true });
       // Redirect the user to the page he first tried to visit or to the home view
       router.push(
         router.history.current.query.redirect || { name: "contractSelect" }

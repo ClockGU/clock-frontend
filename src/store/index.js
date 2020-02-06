@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+import AuthService from "@/services/auth";
+
 import auth from "@/store/modules/auth";
 import clock from "@/store/modules/clock";
 import shift from "@/store/modules/shift";
@@ -18,15 +20,27 @@ export default new Vuex.Store({
       first_name: ""
     },
     selectedContract: null,
-    backendOffline: false
+    backendOffline: false,
+    userLoading: false
   },
   getters: {
     selectedContract: state => state.selectedContract,
-    user: state => state.user
+    user: state => state.user,
+    userLoading: state => state.userLoading
   },
   actions: {
     toggleBackend({ commit }) {
       commit("toggleBackend");
+    },
+    GET_USER({ commit, state }) {
+      state.userLoading = true;
+      return AuthService.getUser()
+        .then(response => {
+          commit("SET_USER", response.data);
+        })
+        .finally(() => {
+          state.userLoading = false;
+        });
     },
     startLoading({ commit }) {
       commit("startLoading");
@@ -45,6 +59,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_USER(state, payload) {
+      state.user = payload;
+    },
     toggleBackend(state) {
       state.backendOffline = !state.backendOffline;
     },
