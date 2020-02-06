@@ -209,7 +209,7 @@ export default {
 
       return new Date(
         parseInt(year),
-        parseInt(month),
+        parseInt(month) - 1,
         parseInt(day),
         now.getHours(),
         now.getMinutes()
@@ -378,8 +378,13 @@ export default {
       this.start = start;
       this.end = end;
 
+      const [year, month, day] = format(this.shiftNow, "yyyy-MM-dd").split("-");
+
       // Tell parent component the range updated
-      this.$emit("updateRange", { type: this.type, start });
+      this.$emit("updateRange", {
+        type: this.type,
+        start: { day, month, year }
+      });
     },
     nth(d) {
       return d > 3 && d < 21
