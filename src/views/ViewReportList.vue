@@ -39,7 +39,9 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("report/list");
+    this.$store.dispatch("contract/queryContracts").then(() => {
+      this.$store.dispatch("report/list");
+    });
   }
 };
 </script>
