@@ -63,7 +63,7 @@ export default {
     }
   },
   created() {
-    if (!this.loggedIn) return;
+    if (!this.isLoggedIn) return;
     this.$store.dispatch("GET_USER");
   },
   methods: {
