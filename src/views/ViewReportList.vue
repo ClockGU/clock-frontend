@@ -75,13 +75,19 @@ export default {
     ...mapGetters({
       loading: "report/loading",
       reports: "report/reports",
-      shiftsOfContract: "shift/shiftsOfContract"
+      shiftsOfContract: "shift/shiftsOfContract",
+      selectedContract: "selectedContract"
     }),
     extendedReports() {
-      return this.reports.map(report => ({
+      return this.reportsInContract.map(report => ({
         ...report,
         exported: this.checkExported(report.date)
       }));
+    },
+    reportsInContract() {
+      return this.reports.filter(
+        report => report.contract === this.selectedContract.uuid
+      );
     },
     sortedReports() {
       const reports = this.extendedReports;
