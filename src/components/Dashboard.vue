@@ -26,17 +26,22 @@
         :selected-contract="selectedContract"
       />
     </v-col>
+
+    <v-col cols="12" md="6">
+      <MessageListCard />
+    </v-col>
   </v-row>
 </template>
 
 <script>
 import ClockInOutCard from "@/components/ClockInOutCard";
+import MessageListCard from "@/components/MessageListCard";
 
 import { mapGetters } from "vuex";
 
 export default {
   name: "Dashboard",
-  components: { ClockInOutCard },
+  components: { ClockInOutCard, MessageListCard },
   computed: {
     ...mapGetters({
       clockedShift: "clock/clockedShift",

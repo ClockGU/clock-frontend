@@ -6,10 +6,11 @@ import AuthService from "@/services/auth";
 
 import auth from "@/store/modules/auth";
 import clock from "@/store/modules/clock";
-import shift from "@/store/modules/shift";
 import contract from "@/store/modules/contract";
-import snackbar from "@/store/modules/snackbar";
+import messages from "@/store/modules/messages";
 import report from "@/store/modules/report";
+import shift from "@/store/modules/shift";
+import snackbar from "@/store/modules/snackbar";
 
 Vue.use(Vuex);
 
@@ -84,10 +85,11 @@ export default new Vuex.Store({
   modules: {
     auth,
     clock,
-    shift,
     contract,
-    snackbar,
-    report
+    messages,
+    report,
+    shift,
+    snackbar
   },
   plugins: [
     createPersistedState({
