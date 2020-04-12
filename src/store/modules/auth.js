@@ -40,11 +40,8 @@ const actions = {
   REFRESH_TOKEN({ commit, state }) {
     // If this is the first time the refreshToken has been called, make a request
     // otherwise return the same promise to the caller
-    const objectToCheck =
-      state.refreshTokenPromise !== null
-        ? Object.keys(state.refreshTokenPromise).length
-        : -1;
-    if (state.refreshTokenPromise !== null || objectToCheck > 0) {
+    if (state.refreshTokenPromise !== null) {
+      log("Returning pending token promise");
       return state.refreshTokenPromise;
     }
 
@@ -63,7 +60,13 @@ const actions = {
       .catch(error => {
         return Promise.reject(error);
       })
-      .finally(() => commit("SET_REFRESH_TOKEN_PROMISE", null));
+      .finally(() => {
+        log(
+          "%c [TOKEN] Resetting token promise!",
+          "background: #222; color: #bada55"
+        );
+        commit("SET_REFRESH_TOKEN_PROMISE", null);
+      });
   }
 };
 
