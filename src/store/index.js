@@ -89,5 +89,10 @@ export default new Vuex.Store({
     snackbar,
     report
   },
-  plugins: [createPersistedState({ paths: ["auth", "selectedContract"] })]
+  plugins: [
+    createPersistedState({
+      key: "clock1.0",
+      paths: ["auth.accessToken", "auth.refreshToken", "selectedContract"]
+    })
+  ]
 });
