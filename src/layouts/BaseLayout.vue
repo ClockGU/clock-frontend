@@ -1,25 +1,33 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" md="6">
-      <v-card>
-        <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : ''">
-          <v-toolbar slot-scope="{ action }" :elevation="0">
-            <v-app-bar-nav-icon
-              v-if="$vuetify.breakpoint.smAndDown"
-              icon
-              @click="action"
-            ></v-app-bar-nav-icon>
+    <v-col cols="12" md="6" :class="colClasses">
+      <v-card :elevation="cardElevation">
+        <slot name="card-top"></slot>
+
+        <portal
+          :to="
+            $vuetify.breakpoint.smAndDown ? 'app-bar' : alternativePortalTarget
+          "
+        >
+          <v-toolbar slot-scope="{ action }" :elevation="toolbarElevation">
+            <slot name="pre-toolbar-title" :action="() => action()">
+              <v-app-bar-nav-icon
+                v-if="$vuetify.breakpoint.smAndDown"
+                icon
+                @click="action"
+              ></v-app-bar-nav-icon>
+            </slot>
 
             <v-toolbar-title>
               <slot name="title"></slot>
             </v-toolbar-title>
 
-            <slot name="extra-toolbar"></slot>
+            <slot name="post-toolbar-title"></slot>
           </v-toolbar>
         </portal>
 
         <v-card-text>
-          <slot name="text"></slot>
+          <slot name="content"></slot>
         </v-card-text>
       </v-card>
     </v-col>
@@ -30,6 +38,24 @@
 
 <script>
 export default {
-  name: "BaseLayout"
+  name: "BaseLayout",
+  props: {
+    alternativePortalTarget: {
+      type: String,
+      default: ""
+    },
+    cardElevation: {
+      type: Number,
+      default: null
+    },
+    colClasses: {
+      type: String,
+      default: ""
+    },
+    toolbarElevation: {
+      type: Number,
+      default: 0
+    }
+  }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <base-layout>
     <template v-slot:title>Dashboard</template>
-    <template v-slot:text>
+    <template v-slot:content>
       <v-card-text>Some dashboard information</v-card-text>
     </template>
 
