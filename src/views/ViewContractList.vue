@@ -64,19 +64,13 @@
             </template>
           </v-row>
 
-          <div
+          <placeholder
             v-if="!loading && contracts.length === 0"
             data-cy="contract-list-empty-placeholder"
+            component="UndrawContentCreator"
           >
-            <v-container fluid>
-              <v-row justify="center">
-                <p>Start using Clock by creating your first contract!</p>
-              </v-row>
-              <v-row justify="center">
-                <UndrawContentCreator height="200" />
-              </v-row>
-            </v-container>
-          </div>
+            Start using Clock by creating your first contract!
+          </placeholder>
         </v-card-text>
       </v-card>
     </v-col>
@@ -120,8 +114,6 @@ import ContractListCardSelect from "@/components/contracts/ContractListCardSelec
 import ContractFormDialog from "@/components/contracts/ContractFormDialog";
 import TheDialog from "@/components/TheDialog";
 
-import UndrawContentCreator from "vue-undraw/UndrawContentCreator";
-
 import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
 
@@ -136,7 +128,6 @@ export default {
     ContractListCard,
     ContractListCardSelect,
     ContractFormDialog,
-    UndrawContentCreator,
     TheDialog
   },
   data() {

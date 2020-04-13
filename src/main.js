@@ -10,6 +10,7 @@ import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 import BaseLayout from "@/layouts/BaseLayout";
 import TheFAB from "@/components/TheFAB";
+import Placeholder from "@/components/Placeholder";
 
 import "@/assets/main.scss";
 
@@ -61,6 +62,7 @@ if (isProduction) {
 
 Vue.component("base-layout", BaseLayout);
 Vue.component("the-fab", TheFAB);
+Vue.component("placeholder", Placeholder);
 
 new Vue({
   vuetify,

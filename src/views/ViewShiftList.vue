@@ -94,19 +94,13 @@
         </div>
       </v-skeleton-loader>
 
-      <div
+      <placeholder
         v-if="!loading && shiftsOfContract.length === 0"
         data-cy="shift-list-empty-placeholder"
+        component="UndrawWorkTime"
       >
-        <v-container fluid>
-          <v-row justify="center">
-            <p>You have not created any shifts yet. Get to work!</p>
-          </v-row>
-          <v-row justify="center">
-            <UndrawWorkTime height="200" />
-          </v-row>
-        </v-container>
-      </div>
+        You have not created any shifts yet. Get to work!
+      </placeholder>
     </template>
 
     <template v-slot:extra-content>
@@ -125,7 +119,6 @@
 <script>
 import ShiftList from "@/components/shifts/ShiftList";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import UndrawWorkTime from "vue-undraw/UndrawWorkTime";
 import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
 import { Shift } from "@/models/ShiftModel";
 
@@ -152,8 +145,7 @@ export default {
   components: {
     ConfirmationDialog,
     ShiftList,
-    ShiftFormDialog,
-    UndrawWorkTime
+    ShiftFormDialog
   },
   data: () => ({
     editable: false,
