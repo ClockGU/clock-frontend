@@ -117,7 +117,7 @@
         @refresh="groupShiftsByMonth"
       />
 
-      <TheFAB :to="null" :click="newShift" />
+      <the-fab :to="null" :click="newShift" />
     </template>
   </base-layout>
 </template>
@@ -144,7 +144,6 @@ import {
 
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
-import TheFAB from "@/components/TheFAB";
 
 import { datesGroupByComponent } from "@/utils/shift";
 
@@ -152,7 +151,6 @@ export default {
   name: "ViewShiftList",
   components: {
     ConfirmationDialog,
-    TheFAB,
     ShiftList,
     ShiftFormDialog,
     UndrawWorkTime

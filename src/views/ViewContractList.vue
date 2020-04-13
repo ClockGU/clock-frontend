@@ -110,7 +110,7 @@
       @refresh="refresh"
     />
 
-    <TheFAB :to="null" :click="newContract" />
+    <the-fab :to="null" :click="newContract" />
   </v-row>
 </template>
 
@@ -119,7 +119,6 @@ import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 import ContractFormDialog from "@/components/contracts/ContractFormDialog";
 import TheDialog from "@/components/TheDialog";
-import TheFAB from "@/components/TheFAB";
 
 import UndrawContentCreator from "vue-undraw/UndrawContentCreator";
 
@@ -138,8 +137,7 @@ export default {
     ContractListCardSelect,
     ContractFormDialog,
     UndrawContentCreator,
-    TheDialog,
-    TheFAB
+    TheDialog
   },
   data() {
     return {

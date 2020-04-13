@@ -130,7 +130,7 @@
         @refresh="$emit('refresh')"
       />
 
-      <TheFAB :to="null" :click="newShift" />
+      <the-fab :to="null" :click="newShift" />
     </v-sheet>
   </div>
 </template>
@@ -146,7 +146,6 @@ import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import TheDialog from "@/components/TheDialog";
-import TheFAB from "@/components/TheFAB";
 
 import { format, parseISO } from "date-fns";
 import { mdiClose, mdiPlus } from "@mdi/js";
@@ -158,8 +157,7 @@ export default {
     CalendarNavigationButtons,
     CalendarTypeSelect,
     ShiftFormDialog,
-    TheDialog,
-    TheFAB
+    TheDialog
   },
   filters: {
     formatDate(date, formatString = "do MMMM yyyy") {
