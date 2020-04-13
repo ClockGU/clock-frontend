@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     undrawComponent() {
-      return () => import(`vue-undraw/${this.component}`);
+      return () => import(`vue-undraw/${this.component}.vue`);
     }
   }
 };
