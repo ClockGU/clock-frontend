@@ -8,6 +8,7 @@ import Vuelidate from "vuelidate";
 import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
+import BaseLayout from "@/layouts/BaseLayout";
 
 import "@/assets/main.scss";
 
@@ -56,6 +57,8 @@ if (isProduction) {
     }
   });
 }
+
+Vue.component("base-layout", BaseLayout);
 
 new Vue({
   vuetify,
