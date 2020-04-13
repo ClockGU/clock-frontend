@@ -49,7 +49,7 @@
         </v-btn>
       </v-scale-transition>
 
-      <v-dialog v-model="dialog" max-width="500px">
+      <ConfirmationDialog @destroy="destroy">
         <template v-slot:activator="{ on }">
           <v-scale-transition>
             <v-btn v-if="!deleteDisabled" key="delete" icon v-on="on">
@@ -58,27 +58,13 @@
           </v-scale-transition>
         </template>
 
-        <v-card data-cy="delete-dialog">
-          <v-card-title>
-            <span class="headline">Delete shifts?</span>
-          </v-card-title>
+        <template v-slot:title>Delete shifts?</template>
 
-          <v-card-text>
-            Are you sure you want to delete the selected shifts? This action is
-            permanent.
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn data-cy="delete-confirm" color="error" text @click="destroy">
-              Delete
-            </v-btn>
-            <v-btn data-cy="delete-cancel" text @click="dialog = false">
-              Cancel
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        <template v-slot:text>
+          Are you sure you want to delete the selected shifts? This action is
+          permanent.
+        </template>
+      </ConfirmationDialog>
 
       <v-btn icon>
         <v-icon>{{ icons.mdiDotsVertical }}</v-icon>
@@ -138,6 +124,7 @@
 
 <script>
 import ShiftList from "@/components/shifts/ShiftList";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 import UndrawWorkTime from "vue-undraw/UndrawWorkTime";
 import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
 import { Shift } from "@/models/ShiftModel";
@@ -163,9 +150,14 @@ import { datesGroupByComponent } from "@/utils/shift";
 
 export default {
   name: "ViewShiftList",
-  components: { TheFAB, ShiftList, ShiftFormDialog, UndrawWorkTime },
+  components: {
+    ConfirmationDialog,
+    TheFAB,
+    ShiftList,
+    ShiftFormDialog,
+    UndrawWorkTime
+  },
   data: () => ({
-    dialog: false,
     editable: false,
     icons: {
       mdiPlus,
