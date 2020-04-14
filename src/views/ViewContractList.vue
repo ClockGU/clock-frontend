@@ -41,7 +41,7 @@
                 :contract="contract"
                 :edit-mode="editMode"
                 @edit="editContract"
-                @delete="confirmDelete(contract.uuid)"
+                @delete="destroy(contract.uuid)"
               />
             </v-col>
           </template>
@@ -71,33 +71,6 @@
     </template>
 
     <template v-slot:extra-content>
-      <TheDialog v-if="dialog" @close="dialog = false">
-        <template v-slot:content>
-          <v-card data-cy="delete-dialog" class="mx-auto">
-            <v-card-title class="headline">
-              Delete contract?
-            </v-card-title>
-            <v-card-text>
-              This will delete all shifts created inside this contract. This
-              action is not reversible.
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                data-cy="delete-confirm"
-                color="error"
-                text
-                @click="destroy"
-              >
-                Delete
-              </v-btn>
-              <v-btn data-cy="delete-cancel" text @click="dialog = false">
-                Cancel
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </TheDialog>
-
       <ContractFormDialog
         v-if="contractEntity !== null"
         :contract-entity="contractEntity"
@@ -114,7 +87,6 @@
 import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 import ContractFormDialog from "@/components/contracts/ContractFormDialog";
-import TheDialog from "@/components/TheDialog";
 
 import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
@@ -129,8 +101,7 @@ export default {
   components: {
     ContractListCard,
     ContractListCardSelect,
-    ContractFormDialog,
-    TheDialog
+    ContractFormDialog
   },
   data() {
     return {
@@ -175,14 +146,10 @@ export default {
 
       return this.clockedShift.contract !== uuid;
     },
-    confirmDelete(uuid) {
-      this.uuid = uuid;
-      this.dialog = true;
-    },
-    async destroy() {
-      ContractService.delete(this.uuid)
+    async destroy(uuid) {
+      ContractService.delete(uuid)
         .then(() => {
-          if (this.uuid === this.$store.state.selectedContract.uuid) {
+          if (uuid === this.$store.state.selectedContract.uuid) {
             this.$store.dispatch("unsetContract");
             this.$router.push({ name: "contractSelect" });
           }
@@ -190,9 +157,6 @@ export default {
         .catch(handleApiError)
         .finally(() => {
           this.$store.dispatch("contract/queryContracts");
-
-          this.dialog = false;
-          this.uuid = null;
         });
     }
   }

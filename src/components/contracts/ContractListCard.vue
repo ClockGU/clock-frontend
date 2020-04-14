@@ -21,16 +21,30 @@
       >
         Edit
       </v-btn>
-      <v-btn text data-cy="delete" @click="$emit('delete')">Delete</v-btn>
+
+      <ConfirmationDialog @destroy="$emit('delete')">
+        <template v-slot:activator="{ on }">
+          <v-btn text data-cy="delete" v-on="on">Delete</v-btn>
+        </template>
+
+        <template v-slot:title>Delete contract?</template>
+
+        <template v-slot:text>
+          This will delete all shifts created inside this contract. This action
+          is not reversible.
+        </template>
+      </ConfirmationDialog>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { format, parseISO } from "date-fns";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 export default {
   name: "ContractListCard",
+  components: { ConfirmationDialog },
   filters: {
     toDate(date) {
       return format(parseISO(date), "yyyy-MM-dd");
