@@ -1,127 +1,93 @@
 <template>
-  <v-row
-    :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
-    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+  <base-layout
+    alternative-portal-target="card-toolbar"
+    col-classes="py-0"
+    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
   >
-    <v-col cols="12" md="6" class="py-0">
-      <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
-        <portal-target name="card-toolbar"></portal-target>
+    <template v-slot:card-top>
+      <portal-target name="card-toolbar"></portal-target>
+    </template>
 
-        <portal
-          :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'"
-        >
-          <v-toolbar slot-scope="{ action }" :elevation="0">
-            <v-app-bar-nav-icon
-              v-if="$vuetify.breakpoint.smAndDown"
-              icon
-              @click="action"
-            ></v-app-bar-nav-icon>
+    <template v-slot:pre-toolbar-title="{ action }">
+      <v-app-bar-nav-icon
+        v-if="$vuetify.breakpoint.smAndDown"
+        icon
+        @click="action"
+      ></v-app-bar-nav-icon>
+    </template>
 
-            <v-toolbar-title>
-              {{ editMode ? "Contracts" : "Select a contract" }}
-            </v-toolbar-title>
-          </v-toolbar>
-        </portal>
+    <template v-slot:title>
+      {{ editMode ? "Contracts" : "Select a contract" }}
+    </template>
 
-        <v-card-text>
-          <v-row :justify="loading ? 'center' : 'start'">
-            <v-col v-if="loading" cols="10" md="6">
-              <v-skeleton-loader
-                v-if="loading"
-                data-cy="skeleton"
-                type="card"
-                width="90%"
-                :loading="true"
-              ></v-skeleton-loader>
+    <template v-slot:content>
+      <v-row :justify="loading ? 'center' : 'start'">
+        <v-col v-if="loading" cols="10" md="6">
+          <v-skeleton-loader
+            v-if="loading"
+            data-cy="skeleton"
+            type="card"
+            width="90%"
+            :loading="true"
+          ></v-skeleton-loader>
+        </v-col>
+
+        <template v-if="!loading && editMode">
+          <template v-for="(contract, i) in contracts">
+            <v-col :key="contract.uuid" cols="12" md="6">
+              <ContractListCard
+                :key="contract.uuid"
+                :data-cy="'contract-' + i"
+                :contract="contract"
+                :edit-mode="editMode"
+                @edit="editContract"
+                @delete="destroy(contract.uuid)"
+              />
             </v-col>
+          </template>
+        </template>
 
-            <template v-if="!loading && editMode">
-              <template v-for="(contract, i) in contracts">
-                <v-col :key="contract.uuid" cols="12" md="6">
-                  <ContractListCard
-                    :key="contract.uuid"
-                    :data-cy="'contract-' + i"
-                    :contract="contract"
-                    :edit-mode="editMode"
-                    @edit="editContract"
-                    @delete="confirmDelete(contract.uuid)"
-                  />
-                </v-col>
-              </template>
-            </template>
+        <template v-if="!loading && !editMode">
+          <template v-for="(contract, i) in contracts">
+            <v-col :key="contract.uuid" cols="12" md="6">
+              <ContractListCardSelect
+                :data-cy="'contract-' + i"
+                :contract="contract"
+                :edit-mode="editMode"
+                :disabled="clockedIntoContract(contract.uuid)"
+              />
+            </v-col>
+          </template>
+        </template>
+      </v-row>
 
-            <template v-if="!loading && !editMode">
-              <template v-for="(contract, i) in contracts">
-                <v-col :key="contract.uuid" cols="12" md="6">
-                  <ContractListCardSelect
-                    :data-cy="'contract-' + i"
-                    :contract="contract"
-                    :edit-mode="editMode"
-                    :disabled="clockedIntoContract(contract.uuid)"
-                  />
-                </v-col>
-              </template>
-            </template>
-          </v-row>
+      <placeholder
+        v-if="!loading && contracts.length === 0"
+        data-cy="contract-list-empty-placeholder"
+        component="UndrawContentCreator"
+      >
+        Start using Clock by creating your first contract!
+      </placeholder>
+    </template>
 
-          <div
-            v-if="!loading && contracts.length === 0"
-            data-cy="contract-list-empty-placeholder"
-          >
-            <v-container fluid>
-              <v-row justify="center">
-                <p>Start using Clock by creating your first contract!</p>
-              </v-row>
-              <v-row justify="center">
-                <UndrawContentCreator height="200" />
-              </v-row>
-            </v-container>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-col>
+    <template v-slot:extra-content>
+      <FormDialog
+        v-if="contractEntity !== null"
+        entity-name="contract"
+        :entity="contractEntity"
+        @close="contractEntity = null"
+        @refresh="refresh"
+      />
 
-    <TheDialog v-if="dialog" @close="dialog = false">
-      <template v-slot:content>
-        <v-card data-cy="delete-dialog" class="mx-auto">
-          <v-card-title class="headline">
-            Delete contract?
-          </v-card-title>
-          <v-card-text>
-            This will delete all shifts created inside this contract. This
-            action is not reversible.
-          </v-card-text>
-          <v-card-actions>
-            <v-btn data-cy="delete-confirm" color="error" text @click="destroy">
-              Delete
-            </v-btn>
-            <v-btn data-cy="delete-cancel" text @click="dialog = false">
-              Cancel
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </template>
-    </TheDialog>
-
-    <ContractFormDialog
-      v-if="contractEntity !== null"
-      :contract-entity="contractEntity"
-      @close="contractEntity = null"
-      @refresh="refresh"
-    />
-
-    <TheFAB :to="null" :click="newContract" />
-  </v-row>
+      <the-fab :to="null" :click="newContract" />
+    </template>
+  </base-layout>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
-import ContractFormDialog from "@/components/contracts/ContractFormDialog";
-import TheDialog from "@/components/TheDialog";
-import TheFAB from "@/components/TheFAB";
-
-import UndrawContentCreator from "vue-undraw/UndrawContentCreator";
+import FormDialog from "@/components/FormDialog";
 
 import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
@@ -136,10 +102,7 @@ export default {
   components: {
     ContractListCard,
     ContractListCardSelect,
-    ContractFormDialog,
-    UndrawContentCreator,
-    TheDialog,
-    TheFAB
+    FormDialog
   },
   data() {
     return {
@@ -184,14 +147,10 @@ export default {
 
       return this.clockedShift.contract !== uuid;
     },
-    confirmDelete(uuid) {
-      this.uuid = uuid;
-      this.dialog = true;
-    },
-    async destroy() {
-      ContractService.delete(this.uuid)
+    async destroy(uuid) {
+      ContractService.delete(uuid)
         .then(() => {
-          if (this.uuid === this.$store.state.selectedContract.uuid) {
+          if (uuid === this.$store.state.selectedContract.uuid) {
             this.$store.dispatch("unsetContract");
             this.$router.push({ name: "contractSelect" });
           }
@@ -199,9 +158,6 @@ export default {
         .catch(handleApiError)
         .finally(() => {
           this.$store.dispatch("contract/queryContracts");
-
-          this.dialog = false;
-          this.uuid = null;
         });
     }
   }

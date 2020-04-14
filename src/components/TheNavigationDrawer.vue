@@ -57,11 +57,15 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item data-cy="menu-logout" @click="$emit('logout')">
-          <v-list-item-content>
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <LogoutDialog>
+          <template v-slot:activator="{ on }">
+            <v-list-item data-cy="menu-logout" v-on="on">
+              <v-list-item-content>
+                <v-list-item-title>Logout</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </LogoutDialog>
       </v-list-group>
     </v-list>
 
@@ -83,6 +87,8 @@
 import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
 
+import LogoutDialog from "@/components/LogoutDialog";
+
 import {
   mdiCalendar,
   mdiHome,
@@ -96,6 +102,7 @@ import {
 
 export default {
   name: "NavigationDrawer",
+  components: { LogoutDialog },
   props: {
     drawer: {
       type: Boolean,

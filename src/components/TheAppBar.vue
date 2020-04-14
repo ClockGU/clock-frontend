@@ -64,13 +64,17 @@
               <v-list-item-content>{{ item.text }} </v-list-item-content>
             </v-list-item>
 
-            <v-list-item data-cy="menu-logout" @click="$emit('logout')">
-              <v-list-item-action>
-                <v-icon small>{{ icons.mdiLock }}</v-icon>
-              </v-list-item-action>
+            <LogoutDialog>
+              <template v-slot:activator="{ on }">
+                <v-list-item data-cy="menu-logout" v-on="on">
+                  <v-list-item-action>
+                    <v-icon small>{{ icons.mdiLock }} </v-icon>
+                  </v-list-item-action>
 
-              <v-list-item-content>Logout</v-list-item-content>
-            </v-list-item>
+                  <v-list-item-content>Logout</v-list-item-content>
+                </v-list-item>
+              </template>
+            </LogoutDialog>
           </v-list>
         </v-menu>
       </v-skeleton-loader>
@@ -92,8 +96,11 @@ import {
   mdiFileDocument
 } from "@mdi/js";
 
+import LogoutDialog from "@/components/LogoutDialog";
+
 export default {
   name: "TheAppBar",
+  components: { LogoutDialog },
   data: () => ({
     icons: {
       // mdiChevronLeft: mdiChevronLeft,

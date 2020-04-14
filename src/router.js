@@ -7,7 +7,6 @@ Vue.use(Router);
 
 const Home = () => import("@/views/Home");
 const ViewLogin = () => import("@/views/ViewLogin");
-const ViewLogout = () => import("@/views/ViewLogout");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
 const ViewShiftList = () => import("@/views/ViewShiftList");
 const ViewContractForm = () => import("@/views/ViewContractForm");
@@ -93,15 +92,6 @@ const router = new Router({
       meta: {
         public: true,
         onlyWhenLoggedOut: true
-      }
-    },
-    {
-      path: "/logout",
-      name: "logout",
-      component: ViewLogout,
-      meta: {
-        public: false,
-        onlyWhenLoggedOut: false
       }
     }
   ]

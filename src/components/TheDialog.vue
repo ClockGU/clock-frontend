@@ -5,9 +5,14 @@
     :max-width="maxWidth"
     :fullscreen="fullscreen"
     transition="dialog-bottom-transition"
-    @click:outside="$emit('click:outside')"
+    @click:outside="handleClickOutside"
     @keydown.esc="$emit('close')"
+    @input="$emit('input', false)"
   >
+    <template v-slot:activator="{ on }">
+      <slot name="activator" :on="on"></slot>
+    </template>
+
     <slot name="content"></slot>
   </v-dialog>
 </template>
@@ -27,12 +32,35 @@ export default {
     fullscreen: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      dialog: true
+      dialog: false
     };
+  },
+  watch: {
+    dialog: function(value) {
+      if (!value) return;
+
+      this.$emit("input", value);
+    },
+    value: function(value) {
+      if (value) return;
+
+      this.dialog = false;
+    }
+  },
+  methods: {
+    handleClickOutside() {
+      if (this.persistent) return;
+
+      this.$emit("click:outside");
+    }
   }
 };
 </script>
