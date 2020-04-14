@@ -43,7 +43,7 @@
 
       <v-card-text class="pb-0">
         <component
-          :is="formComponent"
+          :is="serviceRepository.formComponent"
           :entity="entity"
           :uuid="uuid"
           :now="now"
@@ -99,6 +99,8 @@ import { mdiDelete, mdiClose } from "@mdi/js";
 
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
+import { ServiceFactory } from "@/utils/serviceFactory";
+
 export default {
   name: "FormDialog",
   components: { ConfirmationDialog },
@@ -114,10 +116,6 @@ export default {
     entityName: {
       type: String,
       required: true
-    },
-    formPath: {
-      type: Array,
-      required: true
     }
   },
   data: () => ({
@@ -132,12 +130,8 @@ export default {
     service: null
   }),
   computed: {
-    formComponent() {
-      return () =>
-        import(`@/components/${this.formPath[0]}/${this.formPath[1]}.vue`);
-    },
-    serviceLoader() {
-      return () => import(`@/services/${this.entityName}.js`);
+    serviceRepository() {
+      return ServiceFactory.get(this.entityName);
     },
     uuid() {
       return this.entity === null ? null : this.entity.uuid;
@@ -151,7 +145,7 @@ export default {
   },
   methods: {
     loadService() {
-      this.serviceLoader().then(service => {
+      this.serviceRepository.serviceLoader().then(service => {
         this.service = service["default"];
       });
     },

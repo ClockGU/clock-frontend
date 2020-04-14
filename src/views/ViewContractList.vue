@@ -74,7 +74,6 @@
       <FormDialog
         v-if="contractEntity !== null"
         entity-name="contract"
-        :form-path="['contracts', 'ContractForm']"
         :entity="contractEntity"
         @close="contractEntity = null"
         @refresh="refresh"

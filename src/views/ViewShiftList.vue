@@ -107,7 +107,6 @@
       <FormDialog
         v-if="showFormDialog"
         entity-name="shift"
-        :form-path="['shifts', 'ShiftForm']"
         :entity="shiftEntity"
         @close="closeFormDialog"
         @refresh="groupShiftsByMonth"

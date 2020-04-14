@@ -105,7 +105,6 @@
       <FormDialog
         v-if="showFormDialog"
         entity-name="shift"
-        :form-path="['shifts', 'ShiftForm']"
         :entity="shiftEntity"
         :now="shiftNow"
         @close="closeFormDialog"
