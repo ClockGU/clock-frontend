@@ -49,7 +49,7 @@
         </v-btn>
       </v-scale-transition>
 
-      <ConfirmationDialog @destroy="destroy">
+      <ConfirmationDialog @confirm="destroy">
         <template v-slot:activator="{ on }">
           <v-scale-transition>
             <v-btn v-if="!deleteDisabled" key="delete" icon v-on="on">

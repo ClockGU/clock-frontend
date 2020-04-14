@@ -79,7 +79,7 @@
               Edit
             </v-btn>
 
-            <ConfirmationDialog @destroy="destroy(selectedEvent.uuid)">
+            <ConfirmationDialog @confirm="destroy(selectedEvent.uuid)">
               <template v-slot:activator="{ on }">
                 <v-btn
                   text

@@ -22,7 +22,7 @@
         Edit
       </v-btn>
 
-      <ConfirmationDialog @destroy="$emit('delete')">
+      <ConfirmationDialog @confirm="$emit('delete')">
         <template v-slot:activator="{ on }">
           <v-btn text data-cy="delete" v-on="on">Delete</v-btn>
         </template>

@@ -23,11 +23,21 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn data-cy="delete-confirm" color="error" text @click="destroy">
-            Delete
+          <v-btn
+            data-cy="delete-confirm"
+            :color="confirmationButton.color"
+            text
+            @click="confirm"
+          >
+            {{ confirmationButton.text }}
           </v-btn>
-          <v-btn data-cy="delete-cancel" text @click="cancel">
-            Cancel
+          <v-btn
+            data-cy="delete-cancel"
+            :color="cancelButton.color"
+            text
+            @click="cancel"
+          >
+            {{ cancelButton.text }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -41,6 +51,26 @@ import TheDialog from "@/components/TheDialog";
 export default {
   name: "ConfirmationDialog",
   components: { TheDialog },
+  props: {
+    confirmationButton: {
+      type: Object,
+      default: () => {
+        return {
+          text: "Delete",
+          color: "error"
+        };
+      }
+    },
+    cancelButton: {
+      type: Object,
+      default: () => {
+        return {
+          text: "Cancel",
+          color: ""
+        };
+      }
+    }
+  },
   data: () => ({
     dialog: false
   }),
@@ -52,8 +82,8 @@ export default {
     close() {
       this.dialog = false;
     },
-    destroy() {
-      this.$emit("destroy");
+    confirm() {
+      this.$emit("confirm");
       this.close();
     }
   }
