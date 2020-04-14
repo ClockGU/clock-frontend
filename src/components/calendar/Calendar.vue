@@ -78,49 +78,29 @@
             >
               Edit
             </v-btn>
-            <v-btn
-              text
-              :disabled="selectedEvent.exported"
-              data-cy="calendar-selected-event-delete"
-              @click="confirmDelete(selectedEvent.uuid)"
-            >
-              Delete
-            </v-btn>
+
+            <ConfirmationDialog @destroy="destroy(selectedEvent.uuid)">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  text
+                  :disabled="selectedEvent.exported"
+                  data-cy="calendar-selected-event-delete"
+                  v-on="on"
+                >
+                  Delete
+                </v-btn>
+              </template>
+
+              <template v-slot:title>Delete shift?</template>
+
+              <template v-slot:text>
+                Are you sure you want to delete the shift? This action is
+                permanent.
+              </template>
+            </ConfirmationDialog>
           </v-card-actions>
         </v-card>
       </v-menu>
-
-      <TheDialog v-if="dialog" @close="dialog = false">
-        <template v-slot:content>
-          <v-card data-cy="calendar-delete-shift-dialog">
-            <v-card-title class="headline"
-              >You sure you want to delete this shift?</v-card-title
-            >
-            <v-card-text>
-              <p>
-                This action is not reversible.
-              </p>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                color="error"
-                text
-                data-cy="calendar-delete-shift-confirm"
-                @click="destroy"
-              >
-                Delete
-              </v-btn>
-              <v-btn
-                text
-                data-cy="calendar-delete-shift-cancel"
-                @click="dialog = false"
-              >
-                Cancel
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </TheDialog>
 
       <ShiftFormDialog
         v-if="showFormDialog"
@@ -145,7 +125,7 @@ import { handleApiError } from "@/utils/interceptors";
 import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
-import TheDialog from "@/components/TheDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { format, parseISO } from "date-fns";
 import { mdiClose, mdiPlus } from "@mdi/js";
@@ -156,8 +136,8 @@ export default {
   components: {
     CalendarNavigationButtons,
     CalendarTypeSelect,
-    ShiftFormDialog,
-    TheDialog
+    ConfirmationDialog,
+    ShiftFormDialog
   },
   filters: {
     formatDate(date, formatString = "do MMMM yyyy") {
@@ -184,7 +164,6 @@ export default {
       mdiClose: mdiClose,
       mdiPlus
     },
-    dialog: false,
     today: format(new Date(), "yyyy-MM-dd"),
     focus: null,
     type: "month",
@@ -325,24 +304,18 @@ export default {
     colorMap(event) {
       return SHIFT_TYPE_COLORS[event.type.value];
     },
-    confirmDelete(uuid) {
-      this.dialog = true;
-      this.uuid = uuid;
-    },
-    async destroy() {
-      ShiftService.delete(this.uuid)
+    async destroy(uuid) {
+      this.selectedOpen = false;
+
+      ShiftService.delete(uuid)
         .then(() => {
           const remainingShifts = this.shifts.filter(
-            shift => shift.uuid !== this.uuid
+            shift => shift.uuid !== uuid
           );
 
           this.$store.dispatch("shift/setShifts", remainingShifts);
         })
-        .catch(handleApiError)
-        .finally(() => {
-          this.dialog = false;
-          this.uuid = null;
-        });
+        .catch(handleApiError);
     },
     viewDay({ date }) {
       this.focus = date;
