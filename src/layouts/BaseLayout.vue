@@ -1,5 +1,8 @@
 <template>
-  <v-row justify="center">
+  <v-row
+    :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+  >
     <v-col cols="12" md="6" :class="colClasses">
       <v-card :elevation="cardElevation">
         <slot name="card-top"></slot>
