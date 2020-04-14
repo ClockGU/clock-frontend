@@ -2,6 +2,7 @@
   <TheDialog
     v-model="dialog"
     :persistent="false"
+    :max-width="maxWidth"
     @close="cancel"
     @click:outside="cancel"
   >
@@ -69,6 +70,10 @@ export default {
           color: ""
         };
       }
+    },
+    maxWidth: {
+      type: Number,
+      default: 290
     }
   },
   data: () => ({
