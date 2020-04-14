@@ -104,9 +104,11 @@
     </template>
 
     <template v-slot:extra-content>
-      <ShiftFormDialog
+      <FormDialog
         v-if="showFormDialog"
-        :shift-entity="shiftEntity"
+        entity-name="shift"
+        :form-path="['shifts', 'ShiftForm']"
+        :entity="shiftEntity"
         @close="closeFormDialog"
         @refresh="groupShiftsByMonth"
       />
@@ -119,7 +121,7 @@
 <script>
 import ShiftList from "@/components/shifts/ShiftList";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
+import FormDialog from "@/components/FormDialog";
 import { Shift } from "@/models/ShiftModel";
 
 import { mapGetters } from "vuex";
@@ -145,7 +147,7 @@ export default {
   components: {
     ConfirmationDialog,
     ShiftList,
-    ShiftFormDialog
+    FormDialog
   },
   data: () => ({
     editable: false,

@@ -71,9 +71,11 @@
     </template>
 
     <template v-slot:extra-content>
-      <ContractFormDialog
+      <FormDialog
         v-if="contractEntity !== null"
-        :contract-entity="contractEntity"
+        entity-name="contract"
+        :form-path="['contracts', 'ContractForm']"
+        :entity="contractEntity"
         @close="contractEntity = null"
         @refresh="refresh"
       />
@@ -86,7 +88,7 @@
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
-import ContractFormDialog from "@/components/contracts/ContractFormDialog";
+import FormDialog from "@/components/FormDialog";
 
 import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
@@ -101,7 +103,7 @@ export default {
   components: {
     ContractListCard,
     ContractListCardSelect,
-    ContractFormDialog
+    FormDialog
   },
   data() {
     return {

@@ -102,9 +102,11 @@
         </v-card>
       </v-menu>
 
-      <ShiftFormDialog
+      <FormDialog
         v-if="showFormDialog"
-        :shift-entity="shiftEntity"
+        entity-name="shift"
+        :form-path="['shifts', 'ShiftForm']"
+        :entity="shiftEntity"
         :now="shiftNow"
         @close="closeFormDialog"
         @refresh="$emit('refresh')"
@@ -122,7 +124,7 @@ import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
 
-import ShiftFormDialog from "@/components/shifts/ShiftFormDialog";
+import FormDialog from "@/components/FormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
@@ -137,7 +139,7 @@ export default {
     CalendarNavigationButtons,
     CalendarTypeSelect,
     ConfirmationDialog,
-    ShiftFormDialog
+    FormDialog
   },
   filters: {
     formatDate(date, formatString = "do MMMM yyyy") {
