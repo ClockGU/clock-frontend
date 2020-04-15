@@ -90,13 +90,13 @@ import { mapGetters } from "vuex";
 import LogoutDialog from "@/components/LogoutDialog";
 
 import {
+  mdiAccount,
   mdiCalendar,
   mdiHome,
   mdiFileDocument,
   mdiLock,
   mdiFormatListNumbered,
   mdiFileChart,
-  mdiTextboxPassword,
   mdiHelp
 } from "@mdi/js";
 
@@ -120,9 +120,9 @@ export default {
         icon: mdiFileDocument
       },
       {
-        text: "Password",
-        to: { name: "changePassword" },
-        icon: mdiTextboxPassword,
+        text: "Settings",
+        to: { name: "settings" },
+        icon: mdiAccount,
         loggedOut: false,
         withoutContract: true
       },

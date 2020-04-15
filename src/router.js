@@ -12,8 +12,8 @@ const ViewShiftList = () => import("@/views/ViewShiftList");
 const ViewContractForm = () => import("@/views/ViewContractForm");
 const ViewContractList = () => import("@/views/ViewContractList");
 const ViewReportList = () => import("@/views/ViewReportList");
-const ViewChangePassword = () => import("@/views/ViewChangePassword");
 const ViewHelp = () => import("@/views/ViewHelp");
+const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 
 const Dashboard = () => import("@/components/Dashboard");
@@ -28,11 +28,6 @@ const router = new Router({
       children: [
         { path: "/dashboard", name: "dashboard", component: Dashboard },
         { path: "/", component: Dashboard },
-        {
-          path: "/changePassword",
-          name: "changePassword",
-          component: ViewChangePassword
-        },
         {
           path: "/help",
           name: "help",
@@ -77,6 +72,11 @@ const router = new Router({
           path: "/report",
           name: "reportList",
           component: ViewReportList
+        },
+        {
+          path: "/settings",
+          name: "settings",
+          component: Settings
         },
         {
           path: "/debug",
