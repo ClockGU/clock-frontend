@@ -1,9 +1,16 @@
 <template>
   <v-form>
-    <v-card class="elevation-12">
-      <v-toolbar color="blue lighten-1" dark flat>
-        <v-toolbar-title>Login form</v-toolbar-title>
-      </v-toolbar>
+    <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+      <portal-target name="card-toolbar"></portal-target>
+
+      <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+        <v-toolbar :elevation="0">
+          <v-toolbar-title>
+            Login Form
+          </v-toolbar-title>
+        </v-toolbar>
+      </portal>
+
       <v-card-text>
         <v-fade-transition>
           <v-overlay v-if="loading" absolute color="#036358">

@@ -51,7 +51,7 @@ export const handleGenericError = function(error) {
   if (ignoreClockedShiftNotFound(error)) {
     log("ignoring clockedShiftNotFound");
 
-    return Promise.resolve();
+    return Promise.reject(error);
   }
 
   log("handleGenericError:", error);
@@ -99,12 +99,16 @@ export const handleTokenRefresh = async function(error, requestFn) {
         headers: {
           "Content-Type": "application/json;charset=UTF-8"
         }
-      }).catch(error => {
-        log("requestFn rejected:", error);
-        return Promise.reject(error);
       });
     })
     .catch(error => {
+      if (error.response.status !== 401) {
+        log("ignoring non-401 error");
+
+        // Return empty dummy data for our API response handlers
+        return Promise.reject(error);
+      }
+
       log("handleTokenRefresh rejected");
 
       // Refresh has failed - reject the original request

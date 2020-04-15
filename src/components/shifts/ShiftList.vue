@@ -10,7 +10,9 @@
         @change="toggle"
       ></v-checkbox>
       <span :class="{ 'ml-6': editable }" data-cy="shift-list-header">
-        {{ title | formatHeader }}
+        <span class="title">
+          {{ title | formatHeader }}
+        </span>
         <br />
         Work time sum: {{ totalDuration | minutesToDuration }} /
         {{ debit | hoursToWorktime }}
@@ -29,12 +31,11 @@
           :data-cy="'shift-list-item-' + index"
           :editable="editable"
           :item="item"
-          :active="active"
           :toggle="toggle"
         />
       </template>
 
-      <v-divider v-if="index + 1 < shifts.length" :key="index"></v-divider>
+      <v-divider v-if="showDivider"></v-divider>
     </v-list-item-group>
   </v-list>
 </template>
@@ -73,11 +74,19 @@ export default {
       required: true
     },
     shifts: {
-      type: Object,
+      type: Array,
       required: true
     },
     title: {
       type: String,
+      required: true
+    },
+    showDivider: {
+      type: Boolean,
+      required: true
+    },
+    shiftsToDelete: {
+      type: Array,
       required: true
     }
   },
@@ -105,6 +114,13 @@ export default {
     }
   },
   watch: {
+    shiftsToDelete: function(newValue, oldValue) {
+      if (oldValue === undefined) return;
+      if (newValue.length > 0) return;
+      if (this.selected.length === 0) return;
+
+      this.deselectAll();
+    },
     editable: function(newValue, oldValue) {
       // noop if oldValue is undefined (=component just initialized)
       if (oldValue === undefined) return;

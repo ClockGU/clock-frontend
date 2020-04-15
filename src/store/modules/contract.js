@@ -1,4 +1,3 @@
-import { getField, updateField } from "vuex-map-fields";
 import ContractService from "@/services/contract";
 import { handleApiError } from "@/utils/interceptors";
 
@@ -8,12 +7,11 @@ const state = {
 };
 
 const getters = {
-  getField,
-  loading: () => state.status === "loading"
+  contracts: state => state.contracts,
+  loading: state => state.status === "loading"
 };
 
 const mutations = {
-  updateField,
   addContract(state, payload) {
     state.contracts.push(payload);
   },

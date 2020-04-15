@@ -19,194 +19,105 @@
       </v-card>
     </v-overlay>
 
-    <v-row>
-      <v-col>
-        <h1>{{ title }}</h1>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col sm="12">
-        <v-card min-width="330">
-          <v-row>
-            <v-col cols="12" sm="12" md="7">
-              <v-subheader>Select shift date</v-subheader>
-              <v-card-text class="pt-0">
-                <v-row justify="center">
-                  <ShiftFormDateInlineInput
-                    v-model="shift"
-                    data-cy="shift-date"
-                    :min="contract.date.start"
-                    :max="contract.date.end"
-                  />
-                </v-row>
-              </v-card-text>
-            </v-col>
-            <v-col cols="12" sm="12" md="5">
-              <v-subheader
-                >What time did you start and end your shift?</v-subheader
-              >
-              <v-card-text>
-                <ShiftFormTimeInput
-                  v-model="shift"
-                  data-cy="shift-start-time"
-                  :errors="startTimeErrors"
-                  label="Start time"
-                  type="start"
-                  @update="
-                    $v.shift.date.start.$touch() || $v.shift.date.end.$touch()
-                  "
-                />
-              </v-card-text>
-              <v-card-text>
-                <ShiftFormTimeInput
-                  v-model="shift"
-                  data-cy="shift-end-time"
-                  :errors="endTimeErrors"
-                  label="End time"
-                  type="end"
-                  @update="
-                    $v.shift.date.end.$touch() || $v.shift.date.start.$touch()
-                  "
-                />
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
+    <v-row align="center" justify="start">
+      <v-col cols="12" md="5">
+        <ShiftFormDateInput
+          v-model="shift"
+          data-cy="shift-date"
+          :min="contract.date.start"
+          :max="contract.date.end"
+          label="Date"
+        />
       </v-col>
 
-      <v-col cols="12" sm="12">
-        <v-card>
-          <v-row>
-            <v-col>
-              <v-subheader>Additional information</v-subheader>
-              <v-card-text>
-                <ShiftFormSelect v-model="shift.type" data-cy="shift-type" />
-                <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
-                <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
+      <v-col cols="6" md="3">
+        <ShiftFormTimeInput
+          v-model="shift"
+          data-cy="shift-start-time"
+          :errors="startTimeErrors"
+          label="Start"
+          type="start"
+          :prepend-icon="$vuetify.breakpoint.smAndDown"
+          @update="$v.shift.date.start.$touch() || $v.shift.date.end.$touch()"
+        />
       </v-col>
 
-      <v-col cols="12" sm="12">
-        <v-expansion-panels>
-          <v-expansion-panel>
-            <v-expansion-panel-header
-              >Advanced settings</v-expansion-panel-header
-            >
-            <v-expansion-panel-content>
-              <v-subheader>Change contract</v-subheader>
-
-              <v-select
-                v-model="shift.contract"
-                data-cy="shift-contract"
-                :items="contracts"
-                item-text="name"
-                item-value="uuid"
-                outlined
-              ></v-select>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+      <v-col cols="1" class="px-0 text-center">
+        to
       </v-col>
-      <v-col>
-        <v-card>
-          <v-card-actions>
-            <v-btn
-              data-cy="shift-save"
-              text
-              :disabled="!valid"
-              color="primary"
-              @click="submit(query, shift)"
-              >{{ saveLabel }}</v-btn
-            >
-            <v-btn data-cy="shift-cancel" text @click="$emit('cancel')"
-              >Cancel</v-btn
-            >
-            <v-spacer></v-spacer>
 
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on }">
-                <v-slide-x-transition>
-                  <v-btn
-                    v-if="uuid !== null"
-                    data-cy="shift-form-delete-button"
-                    text
-                    :disabled="deleteDisabled"
-                    color="error"
-                    v-on="on"
-                  >
-                    Delete
-                  </v-btn>
-                </v-slide-x-transition>
-              </template>
+      <v-col cols="5" md="3">
+        <ShiftFormTimeInput
+          v-model="shift"
+          data-cy="shift-end-time"
+          :errors="endTimeErrors"
+          label="End"
+          type="end"
+          @update="$v.shift.date.end.$touch() || $v.shift.date.start.$touch()"
+        />
+      </v-col>
 
-              <v-card data-cy="delete-dialog">
-                <v-card-title>
-                  <span class="headline">Delete shifts?</span>
-                </v-card-title>
+      <v-col cols="12">
+        <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
+        <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
 
-                <v-card-text>
-                  Are you sure you want to delete the selected shifts? This
-                  action is permanent.
-                </v-card-text>
+        <v-subheader class="pl-8" style="height: 10px">
+          What category does this shift fall into?
+        </v-subheader>
+        <ShiftFormType v-model="shift.type" data-cy="shift-type" />
+      </v-col>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    data-cy="delete-confirm"
-                    color="error"
-                    text
-                    @click="destroy"
-                  >
-                    Delete
-                  </v-btn>
-                  <v-btn data-cy="delete-cancel" text @click="dialog = false">
-                    Cancel
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-card-actions>
-        </v-card>
+      <v-col cols="12">
+        <v-divider></v-divider>
+      </v-col>
+
+      <v-col cols="12" class="pb-0">
+        <v-subheader class="pl-8">Advanced settings</v-subheader>
+        <v-select
+          v-model="shift.contract"
+          data-cy="shift-contract"
+          :items="contracts"
+          :prepend-icon="icons.mdiFileDocumentEditOutline"
+          label="Change contract"
+          item-text="name"
+          item-value="uuid"
+          filled
+        ></v-select>
       </v-col>
     </v-row>
   </v-form>
 </template>
 
 <script>
-import ShiftFormDateInlineInput from "@/components/shifts/ShiftFormDateInlineInput";
+import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
-import ShiftFormSelect from "@/components/shifts/ShiftFormSelect";
+import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormInput from "@/components/shifts/ShiftFormInput";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
-
-import ShiftService from "@/services/shift";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { format, isAfter, isBefore } from "date-fns";
 
 import { startEndHours } from "@/utils/time";
 
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import { handleApiError } from "@/utils/interceptors";
 
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
+import { mdiFileDocumentEditOutline } from "@mdi/js";
+
 export default {
   name: "ShiftForm",
   components: {
-    ShiftFormDateInlineInput,
+    ShiftFormDateInput,
     ShiftFormTimeInput,
     ShiftFormInput,
-    ShiftFormSelect,
+    ShiftFormType,
     ShiftFormTags
   },
   filters: {
@@ -238,41 +149,21 @@ export default {
     entity: {
       type: Object,
       default: null
-    },
-    query: {
-      type: Function,
-      required: true
     }
   },
   data: () => ({
+    icons: { mdiFileDocumentEditOutline },
     dialog: false,
     select: null,
-    shift: null,
-    stepper: 1,
-    stepperText: [
-      {
-        title: "Time and date",
-        subtitle: "Choose the date and start/end times of your shift."
-      },
-      {
-        title: "Set the hours per month",
-        subtitle: "Your montly worktime (HH:mm)."
-      },
-      {
-        title: "Summary",
-        subtitle: " "
-      }
-    ]
+    shift: null
   }),
   computed: {
-    ...mapState("contract", {
-      contracts: state => state.contracts
+    ...mapGetters({
+      contracts: "contract/contracts",
+      selectedContract: "selectedContract"
     }),
     shiftExported() {
       return this.shift.exported;
-    },
-    currentText() {
-      return this.stepperText[this.stepper - 1];
     },
     tags() {
       return this.shift.tags.join(", ");
@@ -316,13 +207,6 @@ export default {
 
       return errors;
     },
-    initialData() {
-      return new Shift({
-        date: { ...startEndHours(this.now) },
-        contract: null,
-        type: "st"
-      });
-    },
     title() {
       return this.uuid === null ? "Add shift" : "Update shift";
     },
@@ -333,31 +217,37 @@ export default {
   watch: {
     "shift.contract": function() {
       this.setStartDate();
+    },
+    shift: {
+      handler: function() {
+        this.$emit("update", { shift: this.shift, valid: this.valid });
+      },
+      deep: true
     }
   },
   created() {
-    this.shift = this.uuid === null ? this.initialData : this.entity;
+    this.shift = this.uuid === null ? this.initializeForm() : this.entity;
 
     if (!this.shift.contract) {
-      this.shift.contract = this.$store.state.selectedContract.uuid;
+      this.shift.contract = this.selectedContract.uuid;
     }
   },
   methods: {
-    destroy() {
-      ShiftService.delete(this.uuid)
-        .then(() => {
-          this.$store.dispatch("shift/queryShifts");
-        })
-        .catch(handleApiError)
-        .finally(() => {
-          this.dialog = false;
-          this.$emit("redirect");
-        });
+    initializeForm() {
+      return new Shift({
+        date: { ...startEndHours(this.now) },
+        contract: null,
+        type: "st"
+      });
     },
     setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
       const now = this.now;
+
+      // If we go to fast, contractStart is null and we get an error.
+      // Gotta go fast.
+      if (contractStart === null || contractEnd === null) return;
 
       // Do nothing if current date is inside the
       // selected contract
@@ -381,17 +271,6 @@ export default {
       const [year, month, day] = contractStart.split("-");
       this.shift.setDate(...[year, month - 1, day], "start");
       this.shift.setDate(...[year, month - 1, day], "end");
-    },
-    nextStep() {
-      this.stepper += 1;
-    },
-    previousStep() {
-      this.stepper -= 1;
-    },
-    async submit(callback, shift) {
-      callback(shift)
-        .then(() => this.$emit("submit"))
-        .catch(handleApiError);
     }
   }
 };

@@ -44,13 +44,9 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
-const TYPE_COLORS = {
-  st: "primary",
-  sk: "red",
-  vn: "green"
-};
+import { format } from "date-fns";
 
 export default {
   name: "ShiftListItem",
@@ -77,7 +73,7 @@ export default {
   },
   computed: {
     typeColor() {
-      return TYPE_COLORS[this.item.type.value];
+      return SHIFT_TYPE_COLORS[this.item.type.value];
     }
   },
   methods: {

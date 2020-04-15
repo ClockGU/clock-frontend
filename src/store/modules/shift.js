@@ -1,37 +1,24 @@
-import { getField, updateField } from "vuex-map-fields";
-import { Shift } from "@/models/ShiftModel";
-import ClockService from "@/services/clock";
 import ShiftService from "@/services/shift";
 import { isThisMonth, parseISO } from "date-fns";
 import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   shifts: [],
-  clockedShift: undefined,
   stagedShift: null,
   pseudoShifts: [],
   status: "idle"
 };
 
 const getters = {
-  getField,
   shifts: state => state.shifts,
-  stagedShift: state => {
-    return state.stagedShift;
-  },
-  pseudoShifts: state => {
-    return state.pseudoShifts;
-  },
-  currentShifts: state => {
-    return state.shifts.filter(shift =>
-      isThisMonth(parseISO(shift.date.start))
-    );
-  },
-  shiftsOfContract: (state, getters, rootState) => {
-    return state.shifts.filter(
+  stagedShift: state => state.stagedShift,
+  pseudoShifts: state => state.pseudoShifts,
+  currentShifts: state =>
+    state.shifts.filter(shift => isThisMonth(parseISO(shift.date.start))),
+  shiftsOfContract: (state, getters, rootState) =>
+    state.shifts.filter(
       shift => shift.contract === rootState.selectedContract.uuid
-    );
-  },
+    ),
   loading: state => state.status === "loading",
   usedTags: state =>
     state.shifts.reduce(function(a, b) {
@@ -40,13 +27,6 @@ const getters = {
 };
 
 const mutations = {
-  updateField,
-  clockShift(state, payload) {
-    state.clockedShift = payload;
-  },
-  clearClockedShift() {
-    state.clockedShift = null;
-  },
   addShift(state, payload) {
     state.shifts.push(payload);
   },
@@ -82,66 +62,10 @@ const mutations = {
 };
 
 const actions = {
-  async CREATE_CLOCKED_SHIFT(
-    { dispatch },
-    { shift: shift, callback: callback }
-  ) {
-    return await ClockService.create(shift)
-      .then(response => {
-        shift.id = response.uuid;
-        dispatch("clockShift", shift);
-        callback();
-      })
-      .catch(handleApiError);
-  },
-  async DELETE_CLOCKED_SHIFT(
-    { commit, state, rootGetters },
-    { callback, errorCallback }
-  ) {
-    return await ClockService.delete(state.clockedShift.id)
-      .then(() => {
-        callback();
-      })
-      .catch(() => {
-        // Only perform callback if we are still logged in
-        if (rootGetters["auth/loggedIn"]) errorCallback();
-      })
-      .finally(() => commit("clearClockedShift"));
-  },
-  async CONVERT_CLOCKED_TO_NORMAL_SHIFT(
-    { commit, dispatch, state, rootGetters },
-    { callback, errorCallback }
-  ) {
-    return await ClockService.delete(state.clockedShift.id)
-      .then(async () => {
-        const data = {
-          date: {
-            start: state.clockedShift.started,
-            end: new Date()
-          },
-          contract: state.clockedShift.contract,
-          type: { value: "st", text: "Shift" }
-        };
-
-        const payload = new Shift(data).toPayload();
-        await ShiftService.create(payload)
-          .then(() => {
-            callback();
-            commit("clearClockedShift");
-            dispatch("queryShifts");
-          })
-          .catch(handleApiError);
-      })
-      .catch(() => {
-        // Only perform callback if we are still logged in
-        if (rootGetters["auth/loggedIn"]) errorCallback();
-      });
-  },
-  clockShift({ commit }, payload) {
-    commit("clockShift", payload);
-  },
-  clearClockedShift({ commit }) {
-    commit("clearClockedShift");
+  CREATE_SHIFT({ dispatch }, payload) {
+    return ShiftService.create(payload).then(() => {
+      dispatch("queryShifts");
+    });
   },
   addShift({ commit }, payload) {
     commit("addShift", payload);
@@ -178,20 +102,6 @@ const actions = {
       .catch(handleApiError)
       .finally(() => {
         state.status = "idle";
-      });
-  },
-  async queryClockedShift({ commit }) {
-    return await ClockService.get()
-      .then(response => {
-        let { data } = response;
-        if (data !== undefined) {
-          data = { ...data, override: true };
-        }
-
-        commit("clockShift", data);
-      })
-      .catch(() => {
-        commit("clearClockedShift");
       });
   }
 };

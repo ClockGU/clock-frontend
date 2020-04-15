@@ -60,7 +60,7 @@ const ApiService = {
         log("_interceptor: resolved");
         return response;
       },
-      async error => {
+      error => {
         log("_interceptor: rejected");
         const isLoggedIn = store.getters["auth/loggedIn"];
         const isNetworkError = error.message == "Network Error";
@@ -80,15 +80,14 @@ const ApiService = {
 
         // Logout if refresh token is expired
         const isRefreshTokenExpired =
-          error.response.data.code === "token_not_valid" &&
-          (error.response.data.detail === "Token is invalid or expired" ||
-            error.response.data.detail === "Token 'exp' claim has expired");
+          error.response.code === "token_not_valid" &&
+          error.response.detail === "Token is invalid or expired";
         if (isRefreshTokenExpired) {
           return handleLogout(error);
         }
 
         // Try to refresh the access token
-        return await handleTokenRefresh(error, this.customRequest);
+        return handleTokenRefresh(error, this.customRequest);
       }
     );
   },

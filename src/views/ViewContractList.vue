@@ -1,103 +1,95 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>
-          <template v-if="!editMode">
-            Select a contract
-          </template>
-          <template v-else>
-            Contracts
-          </template>
-        </h1>
-      </v-col>
-    </v-row>
+  <base-layout
+    alternative-portal-target="card-toolbar"
+    col-classes="py-0"
+    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
+  >
+    <template v-slot:card-top>
+      <portal-target name="card-toolbar"></portal-target>
+    </template>
 
-    <v-row data-cy="contract-list">
-      <template v-if="editMode">
-        <ContractListCardSkeleton v-if="loading" data-cy="skeleton" />
+    <template v-slot:pre-toolbar-title="{ action }">
+      <v-app-bar-nav-icon
+        v-if="$vuetify.breakpoint.smAndDown"
+        icon
+        @click="action"
+      ></v-app-bar-nav-icon>
+    </template>
 
-        <template v-for="(contract, i) in contracts" v-else>
-          <ContractListCard
-            :key="contract.uuid"
-            :data-cy="'contract-' + i"
-            :contract="contract"
-            :edit-mode="editMode"
-            @delete="confirmDelete(contract.uuid)"
-          />
+    <template v-slot:title>
+      {{ editMode ? "Contracts" : "Select a contract" }}
+    </template>
+
+    <template v-slot:content>
+      <v-row :justify="loading ? 'center' : 'start'">
+        <v-col v-if="loading" cols="10" md="6">
+          <v-skeleton-loader
+            v-if="loading"
+            data-cy="skeleton"
+            type="card"
+            width="90%"
+            :loading="true"
+          ></v-skeleton-loader>
+        </v-col>
+
+        <template v-if="!loading && editMode">
+          <template v-for="(contract, i) in contracts">
+            <v-col :key="contract.uuid" cols="12" md="6">
+              <ContractListCard
+                :key="contract.uuid"
+                :data-cy="'contract-' + i"
+                :contract="contract"
+                :edit-mode="editMode"
+                @edit="editContract"
+                @delete="destroy(contract.uuid)"
+              />
+            </v-col>
+          </template>
         </template>
-      </template>
 
-      <template v-else>
-        <ContractListCardSelectSkeleton v-if="loading" data-cy="skeleton" />
-
-        <template v-for="(contract, i) in contracts" v-else>
-          <ContractListCardSelect
-            :key="contract.uuid"
-            :data-cy="'contract-' + i"
-            :contract="contract"
-            :edit-mode="editMode"
-            :disabled="clockedIntoContract(contract.uuid)"
-          />
-        </template>
-      </template>
-
-      <v-col cols="12" sm="6" md="4">
-        <v-hover>
-          <template v-slot:default="{ hover }">
-            <v-card
-              class="mx-auto"
-              :min-height="editMode ? '170px' : '118px'"
-              :to="{ name: 'createContract' }"
-              :elevation="hover ? 2 : 0"
-              max-width="350"
-              outlined
-              @click="() => {}"
-            >
-              <v-row :style="{ height: editMode ? '168px' : '116px' }">
-                <v-col align-self="center" align="center">
-                  <v-btn text disabled>
-                    <v-icon left>{{ icons.mdiPlus }}</v-icon> Add contract
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card>
+        <template v-if="!loading && !editMode">
+          <template v-for="(contract, i) in contracts">
+            <v-col :key="contract.uuid" cols="12" md="6">
+              <ContractListCardSelect
+                :data-cy="'contract-' + i"
+                :contract="contract"
+                :edit-mode="editMode"
+                :disabled="clockedIntoContract(contract.uuid)"
+              />
+            </v-col>
           </template>
-        </v-hover>
-      </v-col>
-    </v-row>
+        </template>
+      </v-row>
 
-    <TheDialog v-if="dialog" @close="dialog = false">
-      <template v-slot:content>
-        <v-card data-cy="delete-dialog" class="mx-auto">
-          <v-card-title class="headline">
-            You sure you want to delete this contract?
-          </v-card-title>
-          <v-card-text>
-            This will delete all shifts created inside this contract. This
-            action is not reversible.
-          </v-card-text>
-          <v-card-actions>
-            <v-btn data-cy="delete-confirm" color="error" text @click="destroy">
-              Delete
-            </v-btn>
-            <v-btn data-cy="delete-cancel" text @click="dialog = false">
-              Cancel
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </template>
-    </TheDialog>
-  </v-container>
+      <placeholder
+        v-if="!loading && contracts.length === 0"
+        data-cy="contract-list-empty-placeholder"
+        component="UndrawContentCreator"
+      >
+        Start using Clock by creating your first contract!
+      </placeholder>
+    </template>
+
+    <template v-slot:extra-content>
+      <FormDialog
+        v-if="contractEntity !== null"
+        entity-name="contract"
+        :entity="contractEntity"
+        @close="contractEntity = null"
+        @refresh="refresh"
+      />
+
+      <the-fab :to="null" :click="newContract" />
+    </template>
+  </base-layout>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
-import ContractListCardSkeleton from "@/components/contracts/ContractListCardSkeleton";
 import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
-import ContractListCardSelectSkeleton from "@/components/contracts/ContractListCardSelectSkeleton";
-import TheDialog from "@/components/TheDialog";
+import FormDialog from "@/components/FormDialog";
 
+import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
 
 import { mdiPlus } from "@mdi/js";
@@ -109,29 +101,24 @@ export default {
   name: "ViewContractList",
   components: {
     ContractListCard,
-    ContractListCardSkeleton,
     ContractListCardSelect,
-    ContractListCardSelectSkeleton,
-    TheDialog
+    FormDialog
   },
   data() {
     return {
       dialog: false,
       icons: {
         mdiPlus: mdiPlus
-      }
+      },
+      contractEntity: null
     };
   },
   computed: {
     ...mapGetters({
-      loading: "contract/loading"
+      loading: "contract/loading",
+      contracts: "contract/contracts",
+      clockedShift: "clock/clockedShift"
     }),
-    clockedInContract() {
-      return this.$store.state.shift.clockedShift;
-    },
-    contracts() {
-      return this.$store.state.contract.contracts;
-    },
     editMode() {
       if (this.$route.name === "contractSelect") return false;
 
@@ -139,27 +126,31 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("shift/queryShifts");
-    this.$store.dispatch("contract/queryContracts");
+    this.refresh();
   },
   methods: {
+    refresh() {
+      this.$store.dispatch("shift/queryShifts");
+      this.$store.dispatch("contract/queryContracts");
+    },
+    editContract(uuid) {
+      const contract = this.contracts.find(contract => contract.uuid === uuid);
+      this.contractEntity = new Contract(contract);
+    },
+    newContract() {
+      this.contractEntity = new Contract();
+    },
     clockedIntoContract(uuid) {
-      if (
-        this.clockedInContract === undefined ||
-        this.clockedInContract === null
-      )
+      if (this.clockedShift === undefined || this.clockedShift === null) {
         return false;
+      }
 
-      return this.clockedInContract.contract !== uuid;
+      return this.clockedShift.contract !== uuid;
     },
-    confirmDelete(uuid) {
-      this.uuid = uuid;
-      this.dialog = true;
-    },
-    async destroy() {
-      ContractService.delete(this.uuid)
+    async destroy(uuid) {
+      ContractService.delete(uuid)
         .then(() => {
-          if (this.uuid === this.$store.state.selectedContract.uuid) {
+          if (uuid === this.$store.state.selectedContract.uuid) {
             this.$store.dispatch("unsetContract");
             this.$router.push({ name: "contractSelect" });
           }
@@ -167,9 +158,6 @@ export default {
         .catch(handleApiError)
         .finally(() => {
           this.$store.dispatch("contract/queryContracts");
-
-          this.dialog = false;
-          this.uuid = null;
         });
     }
   }

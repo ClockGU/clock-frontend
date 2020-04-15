@@ -5,10 +5,12 @@ import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
 import Vuelidate from "vuelidate";
-import { VueMaskDirective } from "v-mask";
 import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
+import BaseLayout from "@/layouts/BaseLayout";
+import TheFAB from "@/components/TheFAB";
+import Placeholder from "@/components/Placeholder";
 
 import "@/assets/main.scss";
 
@@ -24,21 +26,20 @@ if (isLoggedIn) {
 
 Vue.use(PortalVue);
 Vue.use(Vuelidate);
-Vue.directive("mask", VueMaskDirective);
 Vue.config.productionTip = false;
 
-const ignoreWarnMessage =
-  "The .native modifier for v-on is only valid on components but it was used on <div>.";
-Vue.config.warnHandler = function(msg, vm, trace) {
-  // `trace` is the component hierarchy trace
-  if (msg === ignoreWarnMessage) {
-    msg = null;
-    vm = null;
-    trace = null;
-  }
+// const ignoreWarnMessage =
+//   "The .native modifier for v-on is only valid on components but it was used on <div>.";
+// Vue.config.warnHandler = function(msg, vm, trace) {
+//   // `trace` is the component hierarchy trace
+//   if (msg === ignoreWarnMessage) {
+//     msg = null;
+//     vm = null;
+//     trace = null;
+//   }
 
-  return msg, vm, trace;
-};
+//   return msg, vm, trace;
+// };
 
 // Setup sentry error tracking in production
 const isProduction = process.env.NODE_ENV === "production";
@@ -57,17 +58,11 @@ if (isProduction) {
       return event;
     }
   });
-} else {
-  Vue.config.errorHandler = function(err, vm, info) {
-    // eslint-disable-next-line no-console
-    console.log("[Global Error Handler]: Error in " + info + ": " + err);
-  };
-
-  window.onerror = function(message, source, line, column, error) {
-    // eslint-disable-next-line no-console
-    console.log("[onError]: ", line, column, error);
-  };
 }
+
+Vue.component("base-layout", BaseLayout);
+Vue.component("the-fab", TheFAB);
+Vue.component("placeholder", Placeholder);
 
 new Vue({
   vuetify,

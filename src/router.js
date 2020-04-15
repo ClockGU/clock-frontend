@@ -1,196 +1,97 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { parseJwt } from "@/utils/jwt";
-import ViewLogin from "@/views/ViewLogin";
-import ViewLogout from "@/views/ViewLogout";
-import ViewCalendar from "@/views/ViewCalendar.vue";
-import ViewShiftForm from "@/views/ViewShiftForm";
-import ViewShiftList from "@/views/ViewShiftList";
-import ViewContractForm from "@/views/ViewContractForm";
-import ViewContractList from "@/views/ViewContractList";
-import ViewClockInOut from "@/views/ViewClockInOut";
-import ViewReportList from "@/views/ViewReportList";
-import ViewChangePassword from "@/views/ViewChangePassword";
-import ViewHelp from "@/views/ViewHelp";
-import ViewDebug from "@/views/ViewDebug";
 import store from "@/store";
-import getUserData from "@/middlewares/user";
-// import queryData from "@/middlewares/query";
+import { parseJwt } from "@/utils/jwt";
 
 Vue.use(Router);
+
+const Home = () => import("@/views/Home");
+const ViewLogin = () => import("@/views/ViewLogin");
+const ViewCalendar = () => import("@/views/ViewCalendar.vue");
+const ViewShiftList = () => import("@/views/ViewShiftList");
+const ViewContractForm = () => import("@/views/ViewContractForm");
+const ViewContractList = () => import("@/views/ViewContractList");
+const ViewReportList = () => import("@/views/ViewReportList");
+const ViewChangePassword = () => import("@/views/ViewChangePassword");
+const ViewHelp = () => import("@/views/ViewHelp");
+const ViewDebug = () => import("@/views/ViewDebug");
+
+const Dashboard = () => import("@/components/Dashboard");
 
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/",
+      component: Home,
+      children: [
+        { path: "/dashboard", name: "dashboard", component: Dashboard },
+        { path: "/", component: Dashboard },
+        {
+          path: "/changePassword",
+          name: "changePassword",
+          component: ViewChangePassword
+        },
+        {
+          path: "/help",
+          name: "help",
+          component: ViewHelp,
+          meta: {
+            public: true
+          }
+        },
+        {
+          path: "/:type/:year/:month/:day",
+          name: "calendar",
+          component: ViewCalendar,
+          props: true
+        },
+        {
+          path: "/shifts/",
+          name: "shiftList",
+          component: ViewShiftList
+        },
+        {
+          path: "/contracts/create",
+          name: "createContract",
+          component: ViewContractForm
+        },
+        {
+          path: "/contracts/:uuid/edit",
+          name: "editContract",
+          component: ViewContractForm,
+          props: true
+        },
+        {
+          path: "/contracts/",
+          name: "contractList",
+          component: ViewContractList
+        },
+        {
+          path: "/select/",
+          name: "contractSelect",
+          component: ViewContractList
+        },
+        {
+          path: "/report",
+          name: "reportList",
+          component: ViewReportList
+        },
+        {
+          path: "/debug",
+          name: "debug",
+          component: ViewDebug
+        }
+      ]
+    },
+    {
       path: "/login",
       name: "login",
       component: ViewLogin,
       meta: {
         public: true,
-        onlyWhenLoggedOut: true,
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/logout",
-      name: "logout",
-      component: ViewLogout,
-      meta: {
-        public: false,
-        onlyWhenLoggedOut: false,
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/",
-      name: "c",
-      component: ViewCalendar,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
-    },
-    {
-      path: "/:type/:year/:month/:day",
-      name: "calendar",
-      component: ViewCalendar,
-      props: true,
-      meta: {
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/shifts/:uuid/edit",
-      name: "editShift",
-      component: ViewShiftForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Calendar",
-            to: { path: "/" },
-            exact: true
-          },
-          { text: "Update shift" }
-        ]
-        // middleware: queryData
-      }
-    },
-    {
-      path: "/shifts/create",
-      name: "createShift",
-      component: ViewShiftForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Calendar",
-            to: { path: "/" },
-            exact: true
-          },
-          { text: "New shift" }
-        ]
-        // middleware: queryData
-      }
-    },
-    {
-      path: "/shifts/",
-      name: "shiftList",
-      component: ViewShiftList,
-      meta: {
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/contracts/create",
-      name: "createContract",
-      component: ViewContractForm,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Contracts",
-            to: { path: "/contracts/" },
-            exact: true
-          },
-          { text: "New contract" }
-        ]
-      }
-      // middleware: queryData
-    },
-    {
-      path: "/contracts/:uuid/edit",
-      name: "editContract",
-      component: ViewContractForm,
-      props: true,
-      meta: {
-        breadcrumb: [
-          {
-            text: "Contracts",
-            to: { path: "/contracts/" },
-            exact: true
-          },
-          { text: "Update contract" }
-        ]
-      }
-      // middleware: queryData
-    },
-    {
-      path: "/contracts/",
-      name: "contractList",
-      component: ViewContractList,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
-    },
-    {
-      path: "/select/",
-      name: "contractSelect",
-      component: ViewContractList,
-      meta: {
-        breadcrumb: null,
-        middleware: getUserData
-      }
-    },
-    {
-      path: "/clock",
-      name: "clockInOut",
-      component: ViewClockInOut,
-      meta: {
-        breadcrumb: null
-        // middleware: queryData
-      }
-    },
-    {
-      path: "/report",
-      name: "reportList",
-      component: ViewReportList,
-      meta: {
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/changePassword",
-      name: "changePassword",
-      component: ViewChangePassword
-    },
-    {
-      path: "/help",
-      name: "help",
-      component: ViewHelp,
-      meta: {
-        public: true,
-        breadcrumb: null
-      }
-    },
-    {
-      path: "/debug",
-      name: "debug",
-      component: ViewDebug,
-      meta: {
-        breadcrumb: null
+        onlyWhenLoggedOut: true
       }
     }
   ]

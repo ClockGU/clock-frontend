@@ -16,12 +16,13 @@ const getters = {
 };
 
 const actions = {
-  LOGIN({ commit }, { email, password }) {
+  LOGIN({ commit, dispatch }, { email, password }) {
     return AuthService.login(email, password).then(response => {
       log("AuthVuex.login: resolved");
       commit("LOGIN", response.data);
       ApiService.setHeader(response.data.access);
 
+      dispatch("GET_USER", null, { root: true });
       // Redirect the user to the page he first tried to visit or to the home view
       router.push(
         router.history.current.query.redirect || { name: "contractSelect" }
@@ -40,6 +41,7 @@ const actions = {
     // If this is the first time the refreshToken has been called, make a request
     // otherwise return the same promise to the caller
     if (state.refreshTokenPromise !== null) {
+      log("Returning pending token promise");
       return state.refreshTokenPromise;
     }
 
@@ -58,7 +60,13 @@ const actions = {
       .catch(error => {
         return Promise.reject(error);
       })
-      .finally(() => commit("SET_REFRESH_TOKEN_PROMISE", null));
+      .finally(() => {
+        log(
+          "%c [TOKEN] Resetting token promise!",
+          "background: #222; color: #bada55"
+        );
+        commit("SET_REFRESH_TOKEN_PROMISE", null);
+      });
   }
 };
 

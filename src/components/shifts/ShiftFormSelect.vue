@@ -6,7 +6,7 @@
     item-text="text"
     item-value="value"
     return-object
-    outlined
+    filled
     @input="$emit('input', $event)"
   >
   </v-select>

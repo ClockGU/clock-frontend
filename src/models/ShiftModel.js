@@ -1,8 +1,7 @@
-import { is } from "ramda";
+import is from "ramda/src/is";
 import {
   differenceInMinutes,
   isFuture,
-  isToday,
   format,
   getDate,
   getMonth,
@@ -21,9 +20,9 @@ function defaultValueTime(type) {
   return today;
 }
 
-const SHIFT_TYPES = [
-  { text: "Shift", value: "st" },
-  { text: "Sick", value: "sk" },
+export const SHIFT_TYPES = [
+  { text: "Normal shift", value: "st" },
+  { text: "Sick leave", value: "sk" },
   { text: "Vacation", value: "vn" }
 ];
 
@@ -78,8 +77,9 @@ export class Shift {
   }
 
   get reviewed() {
-    if (isToday(this.start)) return true;
-
+    // Shifts that are in the future (this.start >= new Date()) are
+    // marked as "was_reviewed=False", because they did not happen yet
+    // and need to be reviewed by the user later.
     return !isFuture(this.start);
   }
 

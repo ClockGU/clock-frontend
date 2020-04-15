@@ -7,7 +7,8 @@ const state = {
 };
 
 const getters = {
-  loading: () => state.status === "loading"
+  loading: state => state.status === "loading",
+  reports: state => state.reports
 };
 
 const mutations = {

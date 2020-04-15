@@ -1,194 +1,144 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-sheet>
-        <v-toolbar flat color="white">
-          <v-btn
-            outlined
-            class="mr-4"
-            data-cy="calendar-today"
-            @click="setToday"
-          >
-            Today
-          </v-btn>
-          <v-btn fab text small data-cy="calendar-previous-month" @click="prev">
-            <v-icon small>{{ icons.mdiChevronLeft }}</v-icon>
-          </v-btn>
-          <v-btn fab text small data-cy="calendar-next-month" @click="next">
-            <v-icon small>{{ icons.mdiChevronRight }}</v-icon>
-          </v-btn>
-          <v-toolbar-title data-cy="calendar-title">
-            {{ title }}
-          </v-toolbar-title>
-          <div class="flex-grow-1"></div>
-          <v-menu bottom right>
-            <template v-slot:activator="{ on }">
-              <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
-                <span>{{ typeToLabel[type] }}</span>
-                <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
-              </v-btn>
-            </template>
-            <v-list data-cy="calendar-type-select">
-              <v-list-item
-                data-cy="calendar-type-select-day"
-                @click="type = 'day'"
-              >
-                <v-list-item-title>Day</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                data-cy="calendar-type-select-week"
-                @click="type = 'week'"
-              >
-                <v-list-item-title>Week</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                data-cy="calendar-type-select-month"
-                @click="type = 'month'"
-              >
-                <v-list-item-title>Month</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                data-cy="calendar-type-select-4days"
-                @click="type = '4day'"
-              >
-                <v-list-item-title>4 days</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-toolbar>
-      </v-sheet>
-      <v-sheet height="600">
-        <slot />
-        <v-calendar
-          ref="calendar"
-          v-model="focus"
-          color="primary lighten-2"
-          event-name="duration"
-          :events="events"
-          :event-color="getEventColor"
-          :event-margin-bottom="3"
-          :now="today"
-          :type="type"
-          :weekdays="weekdays"
-          :interval-format="intervalFormat"
-          @click:event="handleEventClick"
-          @click:more="viewDay"
-          @click:date="viewDay"
-          @change="updateRange"
-        ></v-calendar>
-        <v-menu
-          v-model="selectedOpen"
-          :close-on-content-click="false"
-          :activator="selectedElement"
-          offset-x
-        >
-          <v-card
-            color="grey lighten-4"
-            min-width="350px"
-            flat
-            data-cy="calendar-selected-event"
-          >
-            <v-toolbar :color="selectedEvent.color" dark>
-              <v-btn icon @click="selectedOpen = false">
-                <v-icon>{{ icons.mdiClose }}</v-icon>
-              </v-btn>
-              <v-toolbar-title data-cy="calendar-selected-event-type">
-                Type: {{ selectedEvent.type }}
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-card-text data-cy="calendar-selected-event-text">
-              <h2 class="title primary-text">
-                {{ selectedEvent.selectedEventDuration }} on
-                {{ selectedEvent.start | formatDate }}
-              </h2>
-              From {{ selectedEvent.start | formatTime }} until
-              {{ selectedEvent.end | formatTime }}
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                text
-                color="primary"
-                :to="{
-                  name: 'editShift',
-                  params: { uuid: selectedEvent.uuid }
-                }"
-                :disabled="selectedEvent.exported"
-                data-cy="calendar-selected-event-edit"
-              >
-                Edit
-              </v-btn>
-              <v-btn
-                text
-                :disabled="selectedEvent.exported"
-                data-cy="calendar-selected-event-delete"
-                @click="confirmDelete(selectedEvent.uuid)"
-              >
-                Delete
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </v-sheet>
-    </v-col>
+  <div style="height: 100%">
+    <v-sheet>
+      <v-row align="center" height="100px" flat color="white" class="px-4">
+        <v-col cols="8" md="4" offset-md="1" sm="5" order="1">
+          <CalendarNavigationButtons
+            @today="setToday"
+            @next="next"
+            @prev="prev"
+          />
+        </v-col>
 
-    <TheDialog v-if="dialog" @close="dialog = false">
-      <template v-slot:content>
-        <v-card data-cy="calendar-delete-shift-dialog">
-          <v-card-title class="headline"
-            >You sure you want to delete this shift?</v-card-title
-          >
-          <v-card-text>
-            <p>
-              This action is not reversible.
-            </p>
+        <v-col cols="6" sm="4" order="3" order-sm="2">
+          <span data-cy="calendar-title">
+            {{ title }}
+          </span>
+        </v-col>
+
+        <v-col cols="4" sm="3" order="2" order-sm="3">
+          <CalendarTypeSelect v-model="type" />
+        </v-col>
+      </v-row>
+    </v-sheet>
+    <v-sheet :height="$vuetify.breakpoint.xsOnly ? '84%' : '92%'">
+      <v-calendar
+        ref="calendar"
+        v-model="focus"
+        color="primary lighten-2"
+        event-name="duration"
+        :events="events"
+        :event-color="getEventColor"
+        :event-margin-bottom="3"
+        :now="today"
+        :type="type"
+        :weekdays="weekdays"
+        :interval-format="intervalFormat"
+        @click:event="handleEventClick"
+        @click:more="viewDay"
+        @click:date="viewDay"
+        @change="updateRange"
+      ></v-calendar>
+
+      <v-menu
+        v-model="selectedOpen"
+        :close-on-content-click="false"
+        :activator="selectedElement"
+        offset-x
+      >
+        <v-card
+          color="grey lighten-4"
+          min-width="350px"
+          flat
+          data-cy="calendar-selected-event"
+        >
+          <v-toolbar :color="selectedEvent.color" dark>
+            <v-btn icon @click="selectedOpen = false">
+              <v-icon>{{ icons.mdiClose }}</v-icon>
+            </v-btn>
+            <v-toolbar-title data-cy="calendar-selected-event-type">
+              Type: {{ selectedEvent.type }}
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text data-cy="calendar-selected-event-text">
+            <h2 class="title primary-text">
+              {{ selectedEvent.selectedEventDuration }} on
+              {{ selectedEvent.start | formatDate }}
+            </h2>
+            From {{ selectedEvent.start | formatTime }} until
+            {{ selectedEvent.end | formatTime }}
           </v-card-text>
           <v-card-actions>
             <v-btn
-              color="error"
               text
-              data-cy="calendar-delete-shift-confirm"
-              @click="destroy"
+              color="primary"
+              :disabled="selectedEvent.exported"
+              data-cy="calendar-selected-event-edit"
+              @click="editShift(selectedEvent.uuid)"
             >
-              Delete
+              Edit
             </v-btn>
-            <v-btn
-              text
-              data-cy="calendar-delete-shift-cancel"
-              @click="dialog = false"
-            >
-              Cancel
-            </v-btn>
+
+            <ConfirmationDialog @confirm="destroy(selectedEvent.uuid)">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  text
+                  :disabled="selectedEvent.exported"
+                  data-cy="calendar-selected-event-delete"
+                  v-on="on"
+                >
+                  Delete
+                </v-btn>
+              </template>
+
+              <template v-slot:title>Delete shift?</template>
+
+              <template v-slot:text>
+                Are you sure you want to delete the shift? This action is
+                permanent.
+              </template>
+            </ConfirmationDialog>
           </v-card-actions>
         </v-card>
-      </template>
-    </TheDialog>
-  </v-row>
+      </v-menu>
+
+      <FormDialog
+        v-if="showFormDialog"
+        entity-name="shift"
+        :entity="shiftEntity"
+        :now="shiftNow"
+        @close="closeFormDialog"
+        @refresh="$emit('refresh')"
+      />
+
+      <the-fab :to="null" :click="newShift" />
+    </v-sheet>
+  </div>
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
-import { mapState } from "vuex";
-
-// import { getRouterProps } from "@/utils/date";
-
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift";
+import { handleApiError } from "@/utils/interceptors";
 
-import TheDialog from "@/components/TheDialog";
+import FormDialog from "@/components/FormDialog";
+import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
+import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
-import {
-  mdiChevronLeft,
-  mdiChevronRight,
-  mdiArrowDown,
-  mdiClose
-} from "@mdi/js";
-import { handleApiError } from "../../utils/interceptors";
+import { format, parseISO } from "date-fns";
+import { mdiClose, mdiPlus } from "@mdi/js";
+import { mapState } from "vuex";
 
 export default {
   name: "Calendar",
   components: {
-    TheDialog
+    CalendarNavigationButtons,
+    CalendarTypeSelect,
+    ConfirmationDialog,
+    FormDialog
   },
   filters: {
     formatDate(date, formatString = "do MMMM yyyy") {
@@ -212,21 +162,12 @@ export default {
   },
   data: () => ({
     icons: {
-      mdiChevronLeft: mdiChevronLeft,
-      mdiChevronRight: mdiChevronRight,
-      mdiArrowDown: mdiArrowDown,
-      mdiClose: mdiClose
+      mdiClose: mdiClose,
+      mdiPlus
     },
-    dialog: false,
     today: format(new Date(), "yyyy-MM-dd"),
     focus: null,
     type: "month",
-    typeToLabel: {
-      month: "Month",
-      week: "Week",
-      day: "Day",
-      "4day": "4 Days"
-    },
     start: null,
     end: null,
     selectedEvent: {},
@@ -235,9 +176,23 @@ export default {
     weekdays: [1, 2, 3, 4, 5, 6, 0],
     eventClicks: 0,
     doubleClickTimer: null,
-    doubleClickDelay: 500
+    doubleClickDelay: 500,
+    shiftEntity: null,
+    showFormDialog: false
   }),
   computed: {
+    shiftNow() {
+      const now = new Date();
+      const [year, month, day] = this.focus.split("-");
+
+      return new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day),
+        now.getHours(),
+        now.getMinutes()
+      );
+    },
     visibleShifts() {
       return this.shifts.filter(
         shift => shift.contract === this.$store.state.selectedContract.uuid
@@ -309,11 +264,25 @@ export default {
     })
   },
   mounted() {
-    this.focus = this.initialFocus;
-    this.type = this.initialType;
     this.$refs.calendar.checkChange();
   },
+  created() {
+    this.focus = this.initialFocus;
+    this.type = this.initialType;
+  },
   methods: {
+    editShift(uuid) {
+      const shift = this.visibleShifts.find(shift => shift.uuid === uuid);
+      this.shiftEntity = new Shift(shift);
+      this.showFormDialog = true;
+    },
+    newShift() {
+      this.showFormDialog = true;
+    },
+    closeFormDialog() {
+      this.showFormDialog = false;
+      this.shiftEntity = null;
+    },
     handleEventClick({ nativeEvent, event }) {
       this.eventClicks++;
       this.showEvent({ nativeEvent, event });
@@ -334,35 +303,24 @@ export default {
       return interval.time;
     },
     colorMap(event) {
-      if (event.type.value === "st") return "primary lighten-2";
-      if (event.type.value === "sk") return "grey";
-      if (event.type.value === "vn") return "green lighten-1";
+      return SHIFT_TYPE_COLORS[event.type.value];
+    },
+    async destroy(uuid) {
+      this.selectedOpen = false;
 
-      return "red";
-    },
-    confirmDelete(uuid) {
-      this.dialog = true;
-      this.uuid = uuid;
-    },
-    async destroy() {
-      ShiftService.delete(this.uuid)
+      ShiftService.delete(uuid)
         .then(() => {
           const remainingShifts = this.shifts.filter(
-            shift => shift.uuid !== this.uuid
+            shift => shift.uuid !== uuid
           );
 
           this.$store.dispatch("shift/setShifts", remainingShifts);
         })
-        .catch(handleApiError)
-        .finally(() => {
-          this.dialog = false;
-          this.uuid = null;
-        });
+        .catch(handleApiError);
     },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
-      // this.$store.dispatch("calendar/setType", "day");
     },
     getEventColor(event) {
       return event.color;
@@ -396,8 +354,13 @@ export default {
       this.start = start;
       this.end = end;
 
+      const [year, month, day] = format(this.shiftNow, "yyyy-MM-dd").split("-");
+
       // Tell parent component the range updated
-      this.$emit("updateRange", { type: this.type, start });
+      this.$emit("updateRange", {
+        type: this.type,
+        start: { day, month, year }
+      });
     },
     nth(d) {
       return d > 3 && d < 21

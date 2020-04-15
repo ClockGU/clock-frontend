@@ -1,51 +1,19 @@
 <template>
-  <div>
-    <Calendar
-      :initial-focus="focus"
-      :initial-type="type"
-      @updateRange="updateRange"
-    >
-      <v-fade-transition v-if="loading">
-        <v-overlay absolute color="#036358">
-          <v-progress-circular indeterminate size="32"></v-progress-circular>
-        </v-overlay>
-      </v-fade-transition>
-    </Calendar>
-
-    <portal to="fab">
-      <v-btn
-        absolute
-        dark
-        fab
-        top
-        right
-        color="pink"
-        data-cy="calendar-create-button"
-        :to="{ name: 'createShift', params: { now: now } }"
-      >
-        <v-icon>{{ icons.mdiPlus }}</v-icon>
-      </v-btn>
-    </portal>
-  </div>
+  <Calendar
+    :initial-focus="focus"
+    :initial-type="type"
+    @updateRange="updateRange"
+    @refresh="refresh"
+  >
+  </Calendar>
 </template>
 
 <script>
 import Calendar from "@/components/calendar/Calendar";
-import { createHelpers } from "vuex-map-fields";
 
 import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
-
-const { mapFields: mapContractFields } = createHelpers({
-  getterType: "contract/getField",
-  mutationType: "contract/updateField"
-});
-
-const { mapFields: mapShiftFields } = createHelpers({
-  getterType: "shift/getField",
-  mutationType: "shift/updateField"
-});
 
 export default {
   name: "ViewCalendar",
@@ -63,7 +31,7 @@ export default {
     },
     month: {
       type: String,
-      default: String(new Date().getUTCMonth() + 1)
+      default: String(new Date().getUTCMonth())
     },
     day: {
       type: String,
@@ -77,30 +45,41 @@ export default {
     };
   },
   computed: {
-    ...mapContractFields(["contracts"]),
-    ...mapShiftFields(["shifts"]),
-    ...mapGetters({ loading: "shift/loading" }),
+    ...mapGetters({
+      contracts: "contract/contracts",
+      loading: "shift/loading",
+      shifts: "shift/shifts"
+    }),
     focus() {
       return `${this.year}-${this.month}-${this.day}`;
     },
     date() {
-      return new Date(Date.UTC(this.year, this.month - 1, this.day));
+      return new Date(
+        Date.UTC(
+          parseInt(this.year),
+          parseInt(this.month) - 1,
+          parseInt(this.day)
+        )
+      );
     },
     start() {
       return this.date.toISOString().slice(0, 10);
     }
   },
   mounted() {
-    this.$store.dispatch("shift/queryShifts");
-    this.$store.dispatch("contract/queryContracts");
+    this.refresh();
   },
   methods: {
+    refresh() {
+      this.$store.dispatch("shift/queryShifts");
+      this.$store.dispatch("contract/queryContracts");
+    },
     updateRange({ type, start: { day, month, year } }) {
       this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
 
       // Update router parameters to reflect the calendar range
       this.$router
-        .push({
+        .replace({
           name: "calendar",
           params: {
             type: type,

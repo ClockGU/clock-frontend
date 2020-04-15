@@ -1,235 +1,67 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="mini && !isMobile"
-      :permanent="!isMobile"
-      app
-      class="grey lighten-4"
-    >
-      <v-list data-cy="menu-list">
-        <v-list-item v-if="isLoggedIn">
-          <v-list-item-avatar color="blue" size="24">
-            <span class="white--text">{{ firstLetter }}</span>
-          </v-list-item-avatar>
+    <TheNavigationDrawer
+      class="hidden-md-and-up"
+      :drawer="drawer"
+      @closeDrawer="drawer = false"
+    />
 
-          <v-list-item-content>{{ name }}</v-list-item-content>
-        </v-list-item>
+    <TheAppBar @toggle="toggleDrawer" />
+    <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
 
-        <v-list-item
-          v-for="link in visibleLinks"
-          :key="link.text"
-          exact
-          :to="link.to"
-        >
-          <v-list-item-action>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-item-action>
+    <router-view></router-view>
 
-          <v-list-item-content>{{ link.text }}</v-list-item-content>
-        </v-list-item>
-
-        <v-list-item
-          v-if="isLoggedIn"
-          data-cy="menu-logout"
-          @click="logoutDialog = true"
-        >
-          <v-list-item-action>
-            <v-icon>{{ icons.mdiLock }}</v-icon>
-          </v-list-item-action>
-
-          <v-list-item-content>Logout</v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-app-bar app dark color="blue" absolute text>
-      <v-app-bar-nav-icon @click="toggleDrawer()">
-        <v-icon v-if="!isMobile && !mini">{{ icons.mdiChevronLeft }}</v-icon>
-        <v-icon v-else-if="!isMobile && mini">{{
-          icons.mdiChevronRight
-        }}</v-icon>
-        <v-icon v-else>{{ icons.mdiMenu }}</v-icon>
-      </v-app-bar-nav-icon>
-      <!-- <portal-target name="toolbar"></portal-target> -->
-      <template v-if="showSelectContractButton">
-        <v-btn
-          data-cy="select-contract-button"
-          text
-          :to="{ path: '/select/' }"
-          exact
-        >
-          {{ selectedContract.name }}
-        </v-btn>
-        <ClockInOutButton
-          v-if="showClockInOutButton"
-          :selected-contract="selectedContract"
-          :clocked-shift="clockedShift"
-        />
-      </template>
-    </v-app-bar>
-
-    <v-content>
-      <v-container fluid>
-        <!-- <v-breadcrumbs
-          v-if="breadcrumbList !== null"
-          :items="breadcrumbList"
-          divider=">"
-        ></v-breadcrumbs> -->
-        <router-view></router-view>
-
-        <TheDialog v-if="logoutDialog" @close="logoutDialog = false">
-          <template v-slot:content>
-            <LogoutForm @close="logoutDialog = false" />
-          </template>
-        </TheDialog>
-      </v-container>
-      <portal-target name="dialog"></portal-target>
-      <portal-target name="fab"></portal-target>
-    </v-content>
+    <portal-target name="dialog"></portal-target>
 
     <TheSnackbar />
-    <v-footer color="blue lighten-1" inset absolute app>
-      <span class="white--text">&copy; 2019</span>
-    </v-footer>
+    <TheFooter />
   </v-app>
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
+import TheAppBar from "@/components/TheAppBar";
+import TheNavigationToolbar from "@/components/TheNavigationToolbar";
+import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
-import LogoutForm from "@/components/LogoutForm";
-import ClockInOutButton from "@/components/ClockInOutButton";
+import TheFooter from "@/components/TheFooter";
+
+import { handleApiError } from "@/utils/interceptors";
+
 import { mapGetters } from "vuex";
 
-import {
-  mdiHome,
-  mdiFileDocument,
-  mdiLock,
-  mdiTextboxPassword,
-  mdiChevronLeft,
-  mdiChevronRight,
-  mdiMenu,
-  mdiHelp,
-  mdiFormatListNumbered,
-  mdiFileChart
-} from "@mdi/js";
-
 export default {
-  components: { ClockInOutButton, TheDialog, TheSnackbar, LogoutForm },
+  components: {
+    TheAppBar,
+    TheNavigationToolbar,
+    TheNavigationDrawer,
+    TheSnackbar,
+    TheFooter
+  },
   data: () => ({
-    drawer: false,
-    mini: true,
-    logoutDialog: false,
-    icons: {
-      mdiLock: mdiLock,
-      mdiChevronLeft: mdiChevronLeft,
-      mdiChevronRight: mdiChevronRight,
-      mdiMenu: mdiMenu
-    },
-    links: [
-      {
-        text: "Home",
-        to: { name: "c" },
-        icon: mdiHome,
-        loggedOut: true
-      },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
-        loggedOut: false
-      },
-      {
-        text: "Contracts",
-        to: { name: "contractList" },
-        icon: mdiFileDocument,
-        loggedOut: false
-      },
-      {
-        text: "Report",
-        to: { name: "reportList" },
-        icon: mdiFileChart,
-        loggedOut: false
-      },
-      {
-        text: "Password",
-        to: { name: "changePassword" },
-        icon: mdiTextboxPassword,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
-      }
-    ]
-    // breadcrumbList: null
+    drawer: false
   }),
   computed: {
-    showClockInOutButton() {
-      return this.clockedShift !== undefined;
-    },
-    showSelectContractButton() {
-      return this.$store.state.selectedContract !== null;
-    },
-    selectedContract() {
-      if (this.$store.state.selectedContract === null) return;
-
-      return this.$store.state.selectedContract;
-    },
-    name() {
-      return this.$store.state.user.first_name;
-    },
-    firstLetter() {
-      if (this.$store.state.user.first_name.length === 0) return "";
-
-      return this.$store.state.user.first_name.substring(0, 1);
-    },
-    visibleLinks() {
-      if (this.isLoggedIn && this.$store.state.selectedContract !== null) {
-        return this.links;
-      }
-
-      if (this.$store.state.selectedContract === null && this.isLoggedIn) {
-        return this.links.filter(
-          link => link.withoutContract === true || link.loggedOut === true
-        );
-      }
-
-      return this.links.filter(link => link.loggedOut === true);
-    },
-    isMobile() {
-      return this.$vuetify.breakpoint.name === "xs";
-    },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn"
-    }),
-    clockedShift() {
-      return this.$store.state.shift.clockedShift;
-    }
+    })
   },
   watch: {
-    $route() {
-      // this.breadcrumbList = this.$route.meta.breadcrumb;
-
-      if (!this.isLoggedIn) return;
-      this.$store.dispatch("shift/queryClockedShift");
+    $route(to, from) {
+      if (to.name === from.name) return;
+      this.loadClockedShift();
     }
   },
-  mounted() {
+  created() {
     if (!this.isLoggedIn) return;
-    this.$store.dispatch("shift/queryClockedShift");
+    this.$store.dispatch("GET_USER");
   },
   methods: {
+    loadClockedShift() {
+      if (!this.isLoggedIn) return;
+      this.$store.dispatch("clock/GET_CLOCKED_SHIFT").catch(handleApiError);
+    },
     toggleDrawer() {
-      if (this.isMobile) {
-        this.drawer = !this.drawer;
-      } else {
-        this.mini = !this.mini;
-      }
+      this.drawer = !this.drawer;
     }
   }
 };
