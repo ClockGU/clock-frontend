@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "export VUE_APP_SENTRY_RELEASE=$(git rev-parse HEAD) && vue-cli-service build && bash scripts/sentry-release.sh",
+    "build": "vue-cli-service build",
+    "release": "export VUE_APP_SENTRY_RELEASE=$(git rev-parse HEAD) && vue-cli-service build && bash scripts/sentry-release.sh",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
