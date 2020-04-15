@@ -1,6 +1,6 @@
 <template>
   <v-card :elevation="$vuetify.breakpoint.mdAndUp ? 0 : null">
-    <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'pa-0' : ''">
+    <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
       You can request and download all information saved by you. The download is
       provided in JSON.
     </v-card-text>
