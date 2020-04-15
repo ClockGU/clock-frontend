@@ -86,11 +86,9 @@
 import { mapGetters } from "vuex";
 
 import {
-  // mdiChevronLeft,
-  // mdiChevronRight,
   mdiChevronDown,
   mdiMenu,
-  mdiTextboxPassword,
+  mdiAccount,
   mdiHelp,
   mdiLock,
   mdiFileDocument
@@ -103,8 +101,6 @@ export default {
   components: { LogoutDialog },
   data: () => ({
     icons: {
-      // mdiChevronLeft: mdiChevronLeft,
-      // mdiChevronRight: mdiChevronRight,
       mdiMenu,
       mdiChevronDown,
       mdiLock
@@ -116,9 +112,9 @@ export default {
         icon: mdiFileDocument
       },
       {
-        text: "Password",
-        to: { name: "changePassword" },
-        icon: mdiTextboxPassword,
+        text: "Settings",
+        to: { name: "settings" },
+        icon: mdiAccount,
         loggedOut: false,
         withoutContract: true
       },

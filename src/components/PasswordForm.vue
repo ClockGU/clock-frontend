@@ -1,23 +1,7 @@
 <template>
   <v-form>
-    <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
-      <portal-target name="card-toolbar"></portal-target>
-
-      <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
-        <v-toolbar slot-scope="{ action }" :elevation="0">
-          <v-app-bar-nav-icon
-            v-if="$vuetify.breakpoint.smAndDown"
-            icon
-            @click="action"
-          ></v-app-bar-nav-icon>
-
-          <v-toolbar-title>
-            Change password
-          </v-toolbar-title>
-        </v-toolbar>
-      </portal>
-
-      <v-card-text>
+    <v-card :elevation="$vuetify.breakpoint.mdAndUp ? 0 : null">
+      <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'pa-0' : ''">
         <v-fade-transition>
           <v-overlay v-if="loading" absolute color="#036358">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -68,7 +52,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" :disabled="!valid" text @click.native="submit">
-          Update password
+          Submit
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -87,7 +71,7 @@ const newPasswordEqualsRepeatPassword = (value, vm) =>
 const repeatPasswordEqualsNewPassword = (value, vm) => value === vm.newPassword;
 
 export default {
-  name: "ViewChangePassword",
+  name: "PasswordForm",
   mixins: [validationMixin],
   validations: {
     passwords: {
