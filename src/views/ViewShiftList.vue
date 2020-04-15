@@ -97,7 +97,7 @@
       <placeholder
         v-if="!loading && shiftsOfContract.length === 0"
         data-cy="shift-list-empty-placeholder"
-        component="UndrawWorkTime"
+        name="UndrawWorkTime"
       >
         You have not created any shifts yet. Get to work!
       </placeholder>

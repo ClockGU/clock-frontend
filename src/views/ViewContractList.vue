@@ -64,7 +64,7 @@
       <placeholder
         v-if="!loading && contracts.length === 0"
         data-cy="contract-list-empty-placeholder"
-        component="UndrawContentCreator"
+        name="UndrawContentCreator"
       >
         Start using Clock by creating your first contract!
       </placeholder>
