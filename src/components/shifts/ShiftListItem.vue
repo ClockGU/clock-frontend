@@ -1,15 +1,18 @@
 <template>
-  <v-list-item @click="click">
+  <v-list-item :disabled="item.exported" @click="click">
     <template v-slot:default="{ active }">
       <v-list-item-action v-if="editable">
-        <v-checkbox :disabled="!editable" :value="active"></v-checkbox>
+        <v-checkbox
+          :disabled="!editable || item.exported"
+          :value="active"
+        ></v-checkbox>
       </v-list-item-action>
 
       <v-list-item-content>
         <v-list-item-title>
           {{ item.date.start | formatDay }}
         </v-list-item-title>
-        <v-list-item-subtitle class="text--primary">
+        <v-list-item-subtitle :class="item.exported ? '' : 'text--primary'">
           {{ item.date.start | formatTime }} -
           {{ item.date.end | formatTime }}
           ({{ item.representationalDuration("hm") }})
