@@ -4,7 +4,7 @@
       <p><slot></slot></p>
     </v-row>
     <v-row justify="center">
-      <component :is="undrawComponent" height="200" />
+      <component :is="component" height="200" />
     </v-row>
   </v-container>
 </template>
@@ -19,15 +19,18 @@ export default {
       type: Number || String,
       default: 200
     },
-    component: {
+    name: {
       type: String,
       required: true
     }
   },
-  computed: {
-    undrawComponent() {
-      return UndrawFactory.get(this.component);
-    }
+  data: () => ({
+    component: null
+  }),
+  created() {
+    UndrawFactory.get(this.name).then(resolvedComponent => {
+      this.component = resolvedComponent["default"];
+    });
   }
 };
 </script>
