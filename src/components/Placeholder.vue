@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { UndrawFactory } from "@/factories/undrawFactory";
+
 export default {
   name: "Placeholder",
   props: {
@@ -24,7 +26,7 @@ export default {
   },
   computed: {
     undrawComponent() {
-      return () => import(`vue-undraw/${this.component}.vue`);
+      return UndrawFactory.get(this.component);
     }
   }
 };
