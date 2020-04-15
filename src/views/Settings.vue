@@ -27,8 +27,17 @@
           Password
         </v-tab>
 
+        <v-tab>
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          GDPR
+        </v-tab>
+
         <v-tab-item>
           <PasswordForm />
+        </v-tab-item>
+
+        <v-tab-item>
+          <GDPR />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -36,15 +45,16 @@
 </template>
 
 <script>
-import { mdiTextboxPassword } from "@mdi/js";
+import { mdiFileAccount, mdiTextboxPassword } from "@mdi/js";
 
 import PasswordForm from "@/components/PasswordForm";
+import GDPR from "@/components/GDPR";
 
 export default {
   name: "Settings",
-  components: { PasswordForm },
+  components: { PasswordForm, GDPR },
   data: () => ({
-    icons: { mdiTextboxPassword }
+    icons: { mdiFileAccount, mdiTextboxPassword }
   })
 };
 </script>
