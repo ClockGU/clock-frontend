@@ -99,7 +99,7 @@ import { mdiDelete, mdiClose } from "@mdi/js";
 
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
-import { ServiceFactory } from "@/utils/serviceFactory";
+import { ServiceFactory } from "@/factories/serviceFactory";
 
 export default {
   name: "FormDialog",
