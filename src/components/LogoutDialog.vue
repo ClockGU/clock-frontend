@@ -24,8 +24,9 @@ export default {
   components: { ConfirmationDialog },
   methods: {
     logout() {
-      this.$store.dispatch("auth/LOGOUT");
-      this.$store.dispatch("unsetContract");
+      this.$store.dispatch("auth/LOGOUT").then(() => {
+        this.$store.dispatch("unsetContract");
+      });
     }
   }
 };
