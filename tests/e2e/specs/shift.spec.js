@@ -3,8 +3,8 @@ describe("ShiftForm", () => {
     before(() => {
       cy.clock(Date.UTC(2019, 10, 20, 10));
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json");
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/shifts/", "fixture:shifts.json");
 
       cy.login();
       cy.selectContract();
@@ -90,7 +90,7 @@ describe("ShiftForm", () => {
       cy.server();
       cy.route({
         method: "POST",
-        url: "/api/shifts/",
+        url: "/shifts/",
         response: {},
         status: 204
       });
@@ -107,8 +107,8 @@ describe("ShiftForm", () => {
 
     it("edit a shift", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/shifts/", "fixture:shifts.json");
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
 
       cy.visit(
         "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
@@ -137,8 +137,8 @@ describe("ShiftForm", () => {
 
     it("has a delete button", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/shifts/", "fixture:shifts.json");
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
 
       cy.visit(
         "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
@@ -149,8 +149,8 @@ describe("ShiftForm", () => {
 
     it("cannot edit shift in an exported report", () => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-      cy.route("GET", "/api/shifts/", [
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/shifts/", [
         {
           id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
           tags: [],
@@ -179,7 +179,7 @@ describe("ShiftForm", () => {
 
     it("shows an error when trying to save an exported shift", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/", [
+      cy.route("GET", "/shifts/", [
         {
           id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
           tags: [],
@@ -196,7 +196,7 @@ describe("ShiftForm", () => {
       ]);
       cy.route(
         "PATCH",
-        "/api/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/",
+        "/shifts/6e4d3cad-681c-4b3f-b328-dc49be3d6f53/",
         {
           detail:
             "Eine Schicht die bereits exportiert wurde darf nicht modifiziert werden."
@@ -217,7 +217,7 @@ describe("ShiftForm", () => {
 
     it("shows an error when trying to edit a stale shift", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/", [
+      cy.route("GET", "/shifts/", [
         {
           id: "6e4d3cad-681c-4b3f-b328-dc49be3d6f53",
           tags: [],
@@ -249,8 +249,8 @@ describe("ShiftForm", () => {
   context("deleting a shift", () => {
     before(() => {
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/shifts/", "fixture:shifts.json");
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
 
       cy.login();
       cy.selectContract();
@@ -285,7 +285,7 @@ describe("ShiftForm", () => {
       cy.clock(time, ["Date"]);
 
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+      cy.route("GET", "/shifts/", "fixture:shifts.json").as("shifts");
 
       cy.login();
       cy.selectContract();
@@ -298,8 +298,8 @@ describe("ShiftForm", () => {
         cy.wait("@shifts");
 
         const remainingShifts = shifts.slice(1);
-        cy.route("GET", "/api/shifts/", remainingShifts).as("remainingShifts");
-        cy.route("DELETE", "/api/shifts/**", {});
+        cy.route("GET", "/shifts/", remainingShifts).as("remainingShifts");
+        cy.route("DELETE", "/shifts/**", {});
 
         cy.get("[data-cy=shift-form-delete-button]").click();
         cy.get("[data-cy=delete-confirm]").click();
@@ -316,16 +316,16 @@ describe("returns to correct previous view", () => {
     cy.clock(time, ["Date"]);
 
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+    cy.route("GET", "/shifts/", "fixture:shifts.json").as("shifts");
     cy.route({
       method: "POST",
-      url: "/api/shifts/",
+      url: "/shifts/",
       response: {},
       status: 204
     });
     cy.route({
       method: "PATCH",
-      url: "/api/shifts/**",
+      url: "/shifts/**",
       response: {},
       status: 204
     });

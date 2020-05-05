@@ -15,7 +15,7 @@ function mapApiResponse(response) {
   };
 }
 
-const BASE_URL = "/api/shifts/";
+const BASE_URL = "/shifts/";
 
 const ShiftService = {
   create: function(data) {

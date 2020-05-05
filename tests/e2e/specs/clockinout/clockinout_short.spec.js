@@ -3,9 +3,9 @@ describe("ClockInOut with short shifts", () => {
     const time = new Date(2019, 10, 20, 10).getTime();
     cy.clock(time, ["Date"]);
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_short.json");
 
     cy.login();
     cy.selectContract();
@@ -34,10 +34,10 @@ describe("ClockInOut with short shifts", () => {
     cy.server();
     cy.route(
       "DELETE",
-      "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       {}
     );
-    cy.route("POST", "/api/shifts/", {});
+    cy.route("POST", "/shifts/", {});
 
     cy.get("[data-cy=clock-in-out-button]").click();
     cy.get("[data-cy=short-save]").click();
@@ -49,7 +49,7 @@ describe("ClockInOut with short shifts", () => {
     cy.server();
     cy.route(
       "DELETE",
-      "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       {}
     );
     cy.get("[data-cy=clock-in-out-button]").click();
@@ -62,7 +62,7 @@ describe("ClockInOut with short shifts", () => {
     cy.server();
     cy.route({
       method: "DELETE",
-      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      url: "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       body: { detail: "Not found." },
       status: 404
     });

@@ -23,7 +23,7 @@ describe("Views", () => {
   context("logged in user has not selected contract", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
 
       cy.login();
     });
@@ -51,7 +51,7 @@ describe("Views", () => {
   context("logged in user has selected contract", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+      cy.route("GET", "/contracts/", "fixture:contracts.json");
 
       cy.login();
       cy.selectContract();

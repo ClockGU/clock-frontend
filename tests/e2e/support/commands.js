@@ -38,7 +38,7 @@ Cypress.Commands.add("progressContractForm", () => {
 Cypress.Commands.add("createContract", () => {
   cy.request({
     method: "POST",
-    url: "http://localhost:8000/api/contracts/",
+    url: "http://localhost:8000/contracts/",
     auth: {
       bearer: accessToken
     },
@@ -58,7 +58,7 @@ Cypress.Commands.add("createContract", () => {
 Cypress.Commands.add("deleteContract", () => {
   cy.request({
     method: "DELETE",
-    url: `http://localhost:8000/api/contracts/${contractUUID}/`,
+    url: `http://localhost:8000/contracts/${contractUUID}/`,
     auth: {
       bearer: accessToken
     }

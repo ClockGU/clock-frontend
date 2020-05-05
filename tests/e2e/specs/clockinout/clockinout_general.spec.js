@@ -1,15 +1,15 @@
 describe("when no shifts are clocked", () => {
   beforeEach(() => {
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
     cy.route({
       method: "GET",
-      url: "/api/clockedinshifts/",
+      url: "/clockedinshifts/",
       data: {},
       status: 404
     });
-    cy.route("POST", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route("POST", "/clockedinshifts/", "fixture:clockin_short.json");
 
     cy.login();
     cy.selectContract();
@@ -37,10 +37,10 @@ describe("when no shifts are clocked", () => {
     cy.server();
     cy.route(
       "DELETE",
-      "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       {}
     );
-    cy.route("POST", "/api/shifts/", {});
+    cy.route("POST", "/shifts/", {});
     const time = new Date(2019, 10, 20, 10).getTime();
     cy.clock(time, ["Date"]);
 
@@ -66,16 +66,16 @@ describe("when a shift was already clocked before loading the page", () => {
     cy.clock(time, ["Date"]);
 
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("POST", "/api/shifts/", {});
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("POST", "/shifts/", {});
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_short.json");
     cy.route(
       "DELETE",
-      "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       {}
     );
-    cy.route("POST", "/api/clockedinshifts/", {});
+    cy.route("POST", "/clockedinshifts/", {});
 
     cy.visit("http://localhost:8080");
     cy.tick(1000);
@@ -91,7 +91,7 @@ describe("when a shift was already clocked before loading the page", () => {
     cy.server();
     cy.route({
       method: "DELETE",
-      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      url: "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       body: { detail: "Not found." },
       status: 404
     });
@@ -111,20 +111,20 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
     cy.clock(time, ["Date"]);
 
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("POST", "/api/shifts/", {});
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("POST", "/shifts/", {});
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
     cy.route(
       "DELETE",
-      "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       {}
     );
-    cy.route("POST", "/api/clockedinshifts/", {});
+    cy.route("POST", "/clockedinshifts/", {});
   });
 
   it("starts a new clock when it was started after loading the current page", () => {
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_short.json");
     cy.visit("http://localhost:8080");
     cy.tick(1000);
     cy.wait(100);
@@ -139,7 +139,7 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
 
   it("replaces clock when it was started after loading the current page", () => {
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_short.json");
 
     cy.visit("http://localhost:8080");
     cy.tick(1000);
@@ -153,7 +153,7 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
     cy.get("[data-cy=clock-in-out-button]").should("contain", "00h11m01s");
 
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", {
+    cy.route("GET", "/clockedinshifts/", {
       id: "deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd",
       started: "2019-11-20T08:00:00.00000+01:00",
       created_at: "2019-11-20T08:00:00.00000+01:00",
@@ -171,7 +171,7 @@ describe("handles clock-actions in other browser sessions accordingly", () => {
     cy.server();
     cy.route(
       "GET",
-      "/api/clockedinshifts/",
+      "/clockedinshifts/",
       { detail: "Not found." },
       { status: 404 }
     ).as("clockedShift");
@@ -203,7 +203,7 @@ describe("forces to change contract when a shift is clocked outside the current 
   });
   it("shows an undismissable dialog informing the user what is going to happen", () => {
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", {
+    cy.route("GET", "/clockedinshifts/", {
       id: "deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd",
       started: "2019-11-20T08:00:00.00000+01:00",
       created_at: "2019-11-20T08:00:00.00000+01:00",
@@ -225,7 +225,7 @@ describe("forces to change contract when a shift is clocked outside the current 
 
   it("redirects the user on button click", () => {
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", {
+    cy.route("GET", "/clockedinshifts/", {
       id: "deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd",
       started: "2019-11-20T08:00:00.00000+01:00",
       created_at: "2019-11-20T08:00:00.00000+01:00",
@@ -244,7 +244,7 @@ describe("forces to change contract when a shift is clocked outside the current 
   ["select", "contracts/create", "help", "changePassword"].forEach(path => {
     it(`allows visiting ${path} page without showing the dialog`, () => {
       cy.server();
-      cy.route("GET", "/api/clockedinshifts/", {
+      cy.route("GET", "/clockedinshifts/", {
         id: "deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd",
         started: "2019-11-20T08:00:00.00000+01:00",
         created_at: "2019-11-20T08:00:00.00000+01:00",
@@ -272,7 +272,7 @@ describe("expired tokens", () => {
     cy.clock(time, ["Date"]);
 
     cy.server();
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_short.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_short.json");
 
     cy.visit("http://localhost:8080/help");
     cy.tick(1000);
@@ -281,10 +281,10 @@ describe("expired tokens", () => {
 
   it("handles an expired refresh token when re-visting the site", () => {
     cy.server();
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
     cy.route({
       method: "GET",
-      url: "/api/shifts/",
+      url: "/shifts/",
       status: 401,
       response: {
         code: "token_not_valid",
@@ -296,7 +296,7 @@ describe("expired tokens", () => {
 
     cy.route({
       method: "GET",
-      url: "/api/shifts/",
+      url: "/shifts/",
       status: 200,
       data: {}
     });
@@ -315,7 +315,7 @@ describe("expired tokens", () => {
     cy.server();
     cy.route({
       method: "DELETE",
-      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      url: "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       status: 401,
       response: {
         code: "token_not_valid",
@@ -331,10 +331,10 @@ describe("expired tokens", () => {
 
   it("handles an expired access token", () => {
     cy.server();
-    cy.route("POST", "/api/shifts/", {});
+    cy.route("POST", "/shifts/", {});
     cy.route({
       method: "DELETE",
-      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      url: "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       status: 401,
       response: {
         code: "token_not_valid",
@@ -346,7 +346,7 @@ describe("expired tokens", () => {
     cy.wait("@tokenExpired");
     cy.route({
       method: "DELETE",
-      url: "/api/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
+      url: "/clockedinshifts/deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd/",
       status: 200,
       response: {}
     });
