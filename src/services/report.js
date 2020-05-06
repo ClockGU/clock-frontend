@@ -37,7 +37,7 @@ function mapApiResponse(response) {
   };
 }
 
-const BASE_URL = "/api/reports/";
+const BASE_URL = "/reports/";
 
 const ReportService = {
   export: async function(uuid) {

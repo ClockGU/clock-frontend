@@ -66,7 +66,7 @@ describe("The private Sidebar", () => {
 
   it("shows links when logged in after selecting a contract", () => {
     cy.server();
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
 
     cy.login();
     cy.selectContract();

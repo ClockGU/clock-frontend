@@ -4,9 +4,9 @@ describe("Visiting calender via specific URLs", () => {
     cy.clock(time, ["Date"]);
 
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("DELETE", "/api/shifts/7d08fa88-8ab3-489f-b20f-06055a1cf939/", {});
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("DELETE", "/shifts/7d08fa88-8ab3-489f-b20f-06055a1cf939/", {});
 
     cy.login();
     cy.selectContract();
@@ -49,9 +49,9 @@ describe("Viewing the calendar", () => {
     cy.clock(time, ["Date"]);
 
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("DELETE", "/api/shifts/7d08fa88-8ab3-489f-b20f-06055a1cf939/", {});
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("DELETE", "/shifts/7d08fa88-8ab3-489f-b20f-06055a1cf939/", {});
 
     cy.login();
     cy.selectContract();

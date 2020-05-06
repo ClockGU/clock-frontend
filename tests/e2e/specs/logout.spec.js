@@ -1,8 +1,8 @@
 describe("Logout Dialog", () => {
   beforeEach(() => {
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
 
     cy.login();
     cy.selectContract();
