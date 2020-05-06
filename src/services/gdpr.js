@@ -1,6 +1,6 @@
 import ApiService from "@/services/api";
 
-const BASE_URL = "/gdpr";
+const BASE_URL = "/gdpr/";
 
 const GDPRService = {
   get: async function() {
