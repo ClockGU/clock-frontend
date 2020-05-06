@@ -10,7 +10,7 @@ function mapApiResponse(response) {
   };
 }
 
-const BASE_URL = "/api/contracts/";
+const BASE_URL = "/contracts/";
 
 const ContractService = {
   create: async function(data) {

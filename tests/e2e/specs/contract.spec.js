@@ -4,7 +4,7 @@ describe("Contracts", () => {
       cy.login();
 
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json", {
+      cy.route("GET", "/contracts/", "fixture:contracts.json", {
         delay: 1000
       }).as("contracts");
 
@@ -38,7 +38,7 @@ describe("Contracts", () => {
 
     it("disables all but one contract, if a shift is clocked", () => {
       cy.server();
-      cy.route("GET", "/api/clockedinshifts/", {
+      cy.route("GET", "/clockedinshifts/", {
         id: "deeb24f7-07ed-45f3-b3ea-9e5452b2c3bd",
         started: "2019-11-20T08:00:00.00000+01:00",
         created_at: "2019-11-20T08:00:00.00000+01:00",
@@ -70,9 +70,7 @@ describe("Contracts", () => {
   context("viewing the list of contracts", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
-        "contracts"
-      );
+      cy.route("GET", "/contracts/", "fixture:contracts.json").as("contracts");
 
       cy.login();
       cy.selectContract();
@@ -148,10 +146,10 @@ describe("Contracts", () => {
         cy.wait("@contracts");
 
         const remainingContracts = contracts.slice(1);
-        cy.route("GET", "/api/contracts/", remainingContracts);
+        cy.route("GET", "/contracts/", remainingContracts);
         cy.route(
           "DELETE",
-          "/api/contracts/178bc9a6-132e-46ab-8fa2-df8e22c229b6/",
+          "/contracts/178bc9a6-132e-46ab-8fa2-df8e22c229b6/",
           {}
         );
 
@@ -179,9 +177,7 @@ describe("Contracts", () => {
   context("editing a contract", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/contracts/", "fixture:contracts.json").as(
-        "contracts"
-      );
+      cy.route("GET", "/contracts/", "fixture:contracts.json").as("contracts");
 
       cy.login();
       cy.selectContract();
@@ -241,7 +237,7 @@ describe("Contracts", () => {
         const remainingContracts = contracts.slice(1);
         const newContracts = [editedContract];
         Array.prototype.push.apply(newContracts, remainingContracts);
-        cy.route("GET", "/api/contracts/", newContracts);
+        cy.route("GET", "/contracts/", newContracts);
 
         cy.get(
           "[data-cy=contract-0] > .mx-auto > [data-cy=contract-actions] > [data-cy=edit]"
@@ -279,7 +275,7 @@ describe("Contracts", () => {
 
     it("shows a banner after adding shifts to the contract", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+      cy.route("GET", "/shifts/", "fixture:shifts.json").as("shifts");
       cy.visit("http://localhost:8080/contracts/");
 
       cy.wait(["@shifts", "@contracts"]);
@@ -335,7 +331,7 @@ describe("Contracts", () => {
       cy.server();
       cy.route({
         method: "POST",
-        url: "/api/contacts/",
+        url: "/contacts/",
         response: {},
         status: 204
       });
@@ -348,7 +344,7 @@ describe("Contracts", () => {
       cy.server();
       cy.route({
         method: "POST",
-        url: "/api/contracts/",
+        url: "/contracts/",
         response: {},
         status: 204
       });

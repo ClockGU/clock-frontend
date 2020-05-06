@@ -1,7 +1,7 @@
 describe("Auth control", () => {
   beforeEach(() => {
     cy.server();
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
 
     cy.login();
     cy.selectContract();
@@ -16,7 +16,7 @@ describe("Auth control", () => {
     cy.server();
     cy.route({
       method: "GET",
-      url: "/api/clockedinshifts/",
+      url: "/clockedinshifts/",
       status: 401,
       response: {
         code: "token_not_valid",

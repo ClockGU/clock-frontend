@@ -3,9 +3,9 @@ describe("when a shift overflows into the next day", () => {
     const time = new Date(2019, 10, 20, 10).getTime();
     cy.clock(time, ["Date"]);
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_overflow.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_overflow.json");
 
     cy.login();
     cy.selectContract();
@@ -55,8 +55,8 @@ describe("when a shift overflows into the next day", () => {
 
   it("can save the pseudo shifts", () => {
     cy.server();
-    cy.route("POST", "/api/shifts/", {});
-    cy.route("DELETE", "/api/shifts/cf9c16d8-5965-4c06-947b-7e860922eafb/", {});
+    cy.route("POST", "/shifts/", {});
+    cy.route("DELETE", "/shifts/cf9c16d8-5965-4c06-947b-7e860922eafb/", {});
     cy.get("[data-cy=save]").click();
     cy.get("[data-cy=review-shift]").should("not.be.visible");
   });
@@ -67,9 +67,9 @@ describe("when the user wants to update the pseudo shifts", () => {
     const time = new Date(2019, 10, 20, 10).getTime();
     cy.clock(time, ["Date"]);
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_overflow.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_overflow.json");
 
     cy.login();
     cy.selectContract();
@@ -162,9 +162,9 @@ describe("when a user wants to discard an overflowing shift", () => {
     const time = new Date(2019, 10, 20, 10).getTime();
     cy.clock(time, ["Date"]);
     cy.server();
-    cy.route("GET", "/api/shifts/", "fixture:shifts.json");
-    cy.route("GET", "/api/contracts/", "fixture:contracts.json");
-    cy.route("GET", "/api/clockedinshifts/", "fixture:clockin_overflow.json");
+    cy.route("GET", "/shifts/", "fixture:shifts.json");
+    cy.route("GET", "/contracts/", "fixture:contracts.json");
+    cy.route("GET", "/clockedinshifts/", "fixture:clockin_overflow.json");
 
     cy.login();
     cy.selectContract();
@@ -194,7 +194,7 @@ describe("when a user wants to discard an overflowing shift", () => {
     cy.server();
     cy.route(
       "DELETE",
-      "/api/clockedinshifts/cf9c16d8-5965-4c06-947b-7e860922eafb/",
+      "/clockedinshifts/cf9c16d8-5965-4c06-947b-7e860922eafb/",
       {}
     );
     cy.get("[data-cy=discard]").click();

@@ -4,19 +4,30 @@
       <v-checkbox
         v-if="editable"
         data-cy="shift-list-toggle-all"
-        :disabled="!editable"
+        :disabled="!editable || hasExportedShifts"
         :value="hasSelectedAllShifts"
         :indeterminate="isIndeterminate"
         @change="toggle"
       ></v-checkbox>
-      <span :class="{ 'ml-6': editable }" data-cy="shift-list-header">
-        <span class="title">
-          {{ title | formatHeader }}
-        </span>
-        <br />
-        Work time sum: {{ totalDuration | minutesToDuration }} /
-        {{ debit | hoursToWorktime }}
-      </span>
+      <v-row class="ml-3">
+        <v-col cols="12" sm="6">
+          <span class="title">
+            {{ title | formatHeader }}
+          </span>
+          <br />
+          Work time sum: {{ totalDuration | minutesToDuration }} /
+          {{ debit | hoursToWorktime }}
+        </v-col>
+
+        <v-col
+          v-if="hasExportedShifts"
+          cols="12"
+          sm="6"
+          class="d-flex align-end flex-column"
+        >
+          <v-chip dark color="green" label>Exported</v-chip>
+        </v-col>
+      </v-row>
     </v-subheader>
 
     <v-list-item-group
@@ -111,6 +122,9 @@ export default {
     },
     isIndeterminate() {
       return this.hasSelectedShifts && !this.hasSelectedAllShifts;
+    },
+    hasExportedShifts() {
+      return this.shifts.map(shift => shift.exported).every(item => !!item);
     }
   },
   watch: {

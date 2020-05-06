@@ -2,7 +2,7 @@ describe("Shift list table", () => {
   context("without existing shifts", () => {
     beforeEach(() => {
       cy.server();
-      cy.route("GET", "/api/shifts/").as("shifts");
+      cy.route("GET", "/shifts/").as("shifts");
 
       cy.login();
       cy.selectContract();
@@ -21,7 +21,7 @@ describe("Shift list table", () => {
   context("with existing shifts", () => {
     before(() => {
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+      cy.route("GET", "/shifts/", "fixture:shifts.json").as("shifts");
 
       cy.login();
       cy.selectContract();
@@ -239,7 +239,7 @@ describe("Shift list table", () => {
 
     it("can delete a shift", () => {
       cy.server();
-      cy.route("GET", "/api/shifts/", "fixture:shifts.json").as("shifts");
+      cy.route("GET", "/shifts/", "fixture:shifts.json").as("shifts");
 
       cy.login();
       cy.selectContract();
@@ -250,8 +250,8 @@ describe("Shift list table", () => {
         cy.wait("@shifts");
 
         const remainingShifts = shifts.slice(1);
-        cy.route("GET", "/api/shifts/", remainingShifts);
-        cy.route("DELETE", "/api/shifts/**", {});
+        cy.route("GET", "/shifts/", remainingShifts);
+        cy.route("DELETE", "/shifts/**", {});
 
         cy.get("[data-cy=shift-list-edit-mode-button]").click();
         cy.get(

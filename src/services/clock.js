@@ -9,7 +9,7 @@ function mapApiResponse(response) {
   };
 }
 
-const BASE_URL = "/api/clockedinshifts/";
+const BASE_URL = "/clockedinshifts/";
 
 const ClockService = {
   create: async function(data) {
