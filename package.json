@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "release": "export VUE_APP_SENTRY_RELEASE=$(git rev-parse HEAD) && vue-cli-service build && bash scripts/sentry-release.sh",
+    "heroku-postbuild": "yarn run release",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
