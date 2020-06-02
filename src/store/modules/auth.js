@@ -16,6 +16,12 @@ const getters = {
 };
 
 const actions = {
+  LOGIN_OAUTH2({ commit, dispatch }, { access_token, refresh_token }) {
+    commit("LOGIN", { access: access_token, refresh: refresh_token });
+
+    ApiService.setHeader(access_token);
+    dispatch("GET_USER", null, { root: true });
+  },
   LOGIN({ commit, dispatch }, { email, password }) {
     return AuthService.login(email, password).then(response => {
       log("AuthVuex.login: resolved");
