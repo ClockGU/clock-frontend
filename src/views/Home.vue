@@ -17,7 +17,11 @@ export default {
     },
     styles() {
       let styles;
-      if (this.$vuetify.breakpoint.smAndDown || this.showingCalendar) {
+      const removePadding =
+        this.$vuetify.breakpoint.smAndDown ||
+        this.showingCalendar ||
+        this.$route.path === "/";
+      if (removePadding) {
         styles = {
           padding: "0"
         };

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
-import { parseJwt } from "@/utils/jwt";
+// import { parseJwt } from "@/utils/jwt";
 
 Vue.use(Router);
 
@@ -15,7 +15,7 @@ const ViewReportList = () => import("@/views/ViewReportList");
 const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
-
+const Landing = () => import("@/views/Landing");
 const Dashboard = () => import("@/components/Dashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 
@@ -27,6 +27,7 @@ const router = new Router({
       path: "/",
       component: Home,
       children: [
+        { path: "/", name: "home", component: Landing, meta: { public: true } },
         {
           path: "/logging-in",
           name: "loggingIn",
