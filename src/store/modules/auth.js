@@ -31,7 +31,8 @@ const actions = {
       dispatch("GET_USER", null, { root: true });
       // Redirect the user to the page he first tried to visit or to the home view
       router.push(
-        router.history.current.query.redirect || { name: "contractSelect" }
+        { name: "dashboard" }
+        // router.history.current.query.redirect || { name: "contractSelect" }
       );
     });
   },
@@ -41,7 +42,7 @@ const actions = {
     commit("LOGOUT");
     // We need to catch errors here. Otherwise we get the "NavigationDuplicated" error.
     // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
-    return router.push("/login").catch(() => {});
+    return router.push("/").catch(() => {});
   },
   REFRESH_TOKEN({ commit, state }) {
     // If this is the first time the refreshToken has been called, make a request

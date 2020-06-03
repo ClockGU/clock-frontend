@@ -17,6 +17,7 @@ const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 
 const Dashboard = () => import("@/components/Dashboard");
+const LoggingIn = () => import("@/views/LoggingIn");
 
 const router = new Router({
   mode: "history",
@@ -26,8 +27,13 @@ const router = new Router({
       path: "/",
       component: Home,
       children: [
+        {
+          path: "/logging-in",
+          name: "loggingIn",
+          component: LoggingIn,
+          meta: { public: true, onlyWhenLoggedOut: true }
+        },
         { path: "/dashboard", name: "dashboard", component: Dashboard },
-        { path: "/", component: Dashboard },
         {
           path: "/help",
           name: "help",
@@ -141,38 +147,38 @@ router.beforeEach(async (to, from, next) => {
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
-  const token = store.getters["auth/accessToken"];
+  // const token = store.getters["auth/accessToken"];
   const loggedIn = store.getters["auth/loggedIn"];
-  const needToRequestNewAccessToken = exp => Date.now >= exp * 1000;
+  // const needToRequestNewAccessToken = exp => Date.now >= exp * 1000;
 
-  // Refresh JWT token
-  if (loggedIn) {
-    // Grab expiry date from JWT
-    const { exp } = parseJwt(token);
+  // // Refresh JWT token
+  // if (loggedIn) {
+  //   // Grab expiry date from JWT
+  //   const { exp } = parseJwt(token);
 
-    // Only request new access token if the old expired
-    if (needToRequestNewAccessToken(exp)) {
-      await store.dispatch("auth/REFRESH_TOKEN");
-    }
-  }
+  //   // Only request new access token if the old expired
+  //   if (needToRequestNewAccessToken(exp)) {
+  //     await store.dispatch("auth/REFRESH_TOKEN");
+  //   }
+  // }
 
-  if (
-    loggedIn &&
-    store.state.selectedContract === null &&
-    to.name !== "contractSelect" &&
-    to.name !== "createContract" &&
-    to.name !== "help" &&
-    to.name !== "changePassword"
-  ) {
-    return next({
-      name: "contractSelect"
-    });
-  }
+  // if (
+  //   loggedIn &&
+  //   store.state.selectedContract === null &&
+  //   to.name !== "contractSelect" &&
+  //   to.name !== "createContract" &&
+  //   to.name !== "help" &&
+  //   to.name !== "changePassword"
+  // ) {
+  //   return next({
+  //     name: "contractSelect"
+  //   });
+  // }
 
   if (!isPublic && !loggedIn) {
     store.dispatch("unsetContract");
     return next({
-      path: "/login"
+      path: "/"
       // query: { redirect: to.fullPath } // Store the full path to redirect the user to after login
     });
   }

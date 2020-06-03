@@ -1,6 +1,6 @@
 import ApiService from "@/services/api";
 
-const REDIRECT_URI = `${process.env.VUE_APP_PUBLIC_URL}/login`;
+const REDIRECT_URI = `${process.env.VUE_APP_PUBLIC_URL}/logging-in`;
 
 const OAuth2Service = {
   get: function() {
