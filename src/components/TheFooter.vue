@@ -1,20 +1,12 @@
 <template>
-  <v-footer color="primary lighten-1" padless>
-    <v-row justify="center" no-gutters>
-      <!-- <v-btn
-        v-for="link in links"
-        :key="link"
-        color="white"
-        text
-        rounded
-        class="my-2"
-      >
-        {{ link }}
-      </v-btn> -->
-      <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
-        {{ new Date().getFullYear() }} — <strong>Clock</strong>
-      </v-col>
-    </v-row>
+  <v-footer color="primary darken-2" dark min-height="72">
+    <v-container>
+      <v-row>
+        <v-col class="text-center text-md-right" cols="12" md="6">
+          Copyright &copy; 2020
+        </v-col>
+      </v-row>
+    </v-container>
   </v-footer>
 </template>
 
