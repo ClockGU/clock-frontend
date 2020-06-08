@@ -54,8 +54,6 @@
 <script>
 import { format } from "date-fns";
 
-import { mapGetters } from "vuex";
-
 import { minutesToHHMM } from "@/utils/time";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
 
@@ -99,15 +97,16 @@ export default {
     shiftsToDelete: {
       type: Array,
       required: true
+    },
+    selectedContract: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({
     selected: []
   }),
   computed: {
-    ...mapGetters({
-      selectedContract: "selectedContract"
-    }),
     debit() {
       return this.selectedContract.hours.toFixed(1);
     },

@@ -1,5 +1,16 @@
 <template>
   <div style="height: 100%">
+    <v-select
+      v-model="selectedContract"
+      :items="contracts"
+      label="Select a contract"
+      hint="Change the contract to see different data"
+      item-text="name"
+      item-value="uuid"
+      persistent-hint
+      solo
+      return-object
+    ></v-select>
     <v-sheet>
       <v-row align="center" height="100px" flat color="white" class="px-4">
         <v-col cols="8" md="4" offset-md="1" sm="5" order="1">
@@ -178,7 +189,8 @@ export default {
     doubleClickTimer: null,
     doubleClickDelay: 500,
     shiftEntity: null,
-    showFormDialog: false
+    showFormDialog: false,
+    selectedContract: null
   }),
   computed: {
     shiftNow() {
@@ -194,8 +206,10 @@ export default {
       );
     },
     visibleShifts() {
+      if (this.selectedContract === null) return [];
+
       return this.shifts.filter(
-        shift => shift.contract === this.$store.state.selectedContract.uuid
+        shift => shift.contract === this.selectedContract.uuid
       );
     },
     title() {
@@ -265,6 +279,8 @@ export default {
   },
   mounted() {
     this.$refs.calendar.checkChange();
+
+    this.selectedContract = this.contracts[0];
   },
   created() {
     this.focus = this.initialFocus;

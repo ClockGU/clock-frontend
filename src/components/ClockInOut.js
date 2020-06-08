@@ -15,6 +15,10 @@ export default {
     clockedShift: {
       type: Object || null,
       default: null
+    },
+    selectedContract: {
+      type: Object || null,
+      required: true
     }
   },
   computed: {
@@ -24,7 +28,7 @@ export default {
       return { startDate: this.clock.startDate, duration: this.duration };
     },
     contract() {
-      return this.$store.state.selectedContract;
+      return this.selectedContract;
     },
     duration() {
       if (this.clock === null || this.clock.duration === null) return 0;

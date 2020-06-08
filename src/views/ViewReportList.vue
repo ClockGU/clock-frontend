@@ -24,6 +24,17 @@
         </portal>
 
         <v-card-text class="pt-0">
+          <v-select
+            v-model="selectedContract"
+            :items="contracts"
+            label="Select a contract"
+            hint="Change the contract to see different data"
+            item-text="name"
+            item-value="uuid"
+            persistent-hint
+            solo
+            return-object
+          ></v-select>
           <v-row :justify="loading ? 'center' : 'start'">
             <v-col v-if="loading" cols="10" md="6" class="pt-0">
               <v-skeleton-loader
@@ -68,16 +79,22 @@ export default {
     return {
       dialog: false,
       callback: null,
-      hover: false
+      hover: false,
+      selectedContract: null
     };
   },
   computed: {
     ...mapGetters({
       loading: "report/loading",
       reports: "report/reports",
-      shiftsOfContract: "shift/shiftsOfContract",
-      selectedContract: "selectedContract"
+      shifts: "shift/shifts",
+      contracts: "contract/contracts"
     }),
+    shiftsOfContract() {
+      return this.shifts.filter(
+        shift => shift.contract === this.selectedContract.uuid
+      );
+    },
     extendedReports() {
       return this.reportsInContract.map(report => ({
         ...report,
@@ -104,6 +121,8 @@ export default {
     ];
     Promise.all(requests).then(() => {
       this.$store.dispatch("report/list");
+
+      this.selectedContract = this.contracts[0];
     });
   },
   methods: {

@@ -79,6 +79,19 @@
         type="table"
       >
         <div data-cy="shift-lists">
+          <v-select
+            v-model="selectedContract"
+            :items="contracts"
+            :prepend-icon="icons.mdiFileDocumentEditOutline"
+            label="Select a contract"
+            hint="Change the contract to see different data"
+            item-text="name"
+            item-value="uuid"
+            persistent-hint
+            solo
+            return-object
+            @input="sync"
+          ></v-select>
           <ShiftList
             v-for="(shifts, key, i) in shiftsByMonth"
             :key="key"
@@ -88,6 +101,7 @@
             :editable="true"
             :show-divider="i + 1 < numberOfMonths"
             :shifts-to-delete="shiftsToDelete"
+            :selected-contract="selectedContract"
             @newSelection="handleSelection(key, $event)"
             @resetSelection="resetSelection(key)"
           />
@@ -99,7 +113,7 @@
         data-cy="shift-list-empty-placeholder"
         name="UndrawWorkTime"
       >
-        You have not created any shifts yet. Get to work!
+        You have not created any shifts in this contract yet!
       </placeholder>
     </template>
 
@@ -165,15 +179,20 @@ export default {
     shiftsToDelete: [],
     unsortedShifts: [],
     shiftEntity: null,
-    showFormDialog: false
+    showFormDialog: false,
+    selectedContract: null
   }),
   computed: {
     ...mapGetters({
       shifts: "shift/shifts",
       loading: "shift/loading",
-      selectedContract: "selectedContract",
-      shiftsOfContract: "shift/shiftsOfContract"
+      contracts: "contract/contracts"
     }),
+    shiftsOfContract() {
+      return this.shifts.filter(
+        shift => shift.contract === this.selectedContract.uuid
+      );
+    },
     shiftsByMonth() {
       return datesGroupByComponent(this.sortedShifts, "y MM");
     },
@@ -217,14 +236,19 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("contract/queryContracts");
-    this.groupShiftsByMonth();
+    this.sync();
+
+    this.selectedContract = this.contracts[0];
   },
   beforeRouteUpdate(to, from, next) {
-    this.groupShiftsByMonth();
+    this.sync();
     next();
   },
   methods: {
+    async sync() {
+      await this.$store.dispatch("contract/queryContracts");
+      this.groupShiftsByMonth();
+    },
     editShift() {
       this.shiftEntity = new Shift(this.shiftsToDelete[0]);
       this.showFormDialog = true;
