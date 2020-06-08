@@ -1,9 +1,6 @@
 <template>
   <div v-if="initialLoad"></div>
-  <OnboardDialog
-    v-else-if="showOnboardingDialog"
-    @close="showOnboardingDialog = false"
-  />
+  <OnboardDialog v-else-if="showOnboardingDialog" @close="finishOnboarding" />
   <v-container v-else>
     <v-row>
       <v-col cols="12">
@@ -134,18 +131,29 @@ export default {
       return `${creditHours}:${creditMinutes}`;
     }
   },
-  async created() {
-    await this.$store.dispatch("contract/queryContracts");
-    await this.$store.dispatch("shift/queryShifts");
-    await this.$store.dispatch("report/list");
+  created() {
+    this.load();
+  },
+  methods: {
+    async finishOnboarding() {
+      await this.load();
+      this.showOnboardingDialog = false;
+    },
+    async load() {
+      await this.$store.dispatch("contract/queryContracts");
+      await this.$store.dispatch("shift/queryShifts");
+      await this.$store.dispatch("report/list");
 
-    if (this.contracts.length === 0) {
-      this.showOnboardingDialog = true;
-    } else {
-      this.selectedContract = this.contracts[0];
+      if (this.contracts.length === 0) {
+        this.showOnboardingDialog = true;
+      } else {
+        this.selectedContract = this.contracts[0];
+      }
+
+      this.initialLoad = false;
+
+      return Promise.resolve();
     }
-
-    this.initialLoad = false;
   }
 };
 </script>

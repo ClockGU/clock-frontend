@@ -165,7 +165,9 @@ export default {
         })
         .catch(handleApiError)
         .finally(() => {
-          this.loading = false;
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
         });
     }
   }
