@@ -18,7 +18,8 @@
           </h1>
 
           <p>
-            Hier könnte ihr Text stehen.
+            Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder
+            am Computer bearbeiten.
           </p>
 
           <div
@@ -29,8 +30,8 @@
             "
             class="d-flex flex-wrap"
           >
-            <v-btn color="primary" @click="login">
-              Login
+            <v-btn color="primary darken-1" @click="login">
+              Login mit HRZ Account
             </v-btn>
           </div>
         </v-responsive>
