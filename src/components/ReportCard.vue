@@ -59,8 +59,6 @@ import { format, parseISO } from "date-fns";
 import ReportService from "@/services/report";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
-import { mapGetters } from "vuex";
-
 export default {
   name: "ReportCard",
   components: {
@@ -88,9 +86,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentShifts: "shift/currentShifts"
-    }),
     fileName() {
       const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
       return `Report_${date}.pdf`;

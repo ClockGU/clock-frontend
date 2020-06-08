@@ -1,5 +1,5 @@
 <template>
-  <v-list-item :disabled="item.exported" @click="click">
+  <v-list-item :disabled="item.exported || !editable">
     <template v-slot:default="{ active }">
       <v-list-item-action v-if="editable">
         <v-checkbox
