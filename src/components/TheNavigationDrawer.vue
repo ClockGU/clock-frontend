@@ -72,7 +72,7 @@
     <v-divider></v-divider>
 
     <v-list nav dense data-cy="menu-list">
-      <v-list-item v-for="link in visibleLinks" :key="link.text" :to="link.to">
+      <v-list-item v-for="link in links" :key="link.text" :to="link.to">
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-action>
@@ -114,11 +114,6 @@ export default {
       mdiLock
     },
     menuItems: [
-      {
-        text: "Select contract",
-        to: { name: "contractSelect" },
-        icon: mdiFileDocument
-      },
       {
         text: "Settings",
         to: { name: "settings" },
@@ -174,19 +169,6 @@ export default {
       if (this.user === null) return "";
 
       return this.user.first_name.charAt(0);
-    },
-    visibleLinks() {
-      if (this.isLoggedIn && this.selectedContract !== null) {
-        return this.links;
-      }
-
-      if (this.selectedContract === null && this.isLoggedIn) {
-        return this.links.filter(
-          link => link.withoutContract === true || link.loggedOut === true
-        );
-      }
-
-      return this.links.filter(link => link.loggedOut === true);
     },
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
