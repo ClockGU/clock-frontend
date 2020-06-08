@@ -7,7 +7,10 @@
     />
 
     <TheAppBar @toggle="toggleDrawer" />
-    <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
+    <TheNavigationToolbar
+      v-if="isLoggedIn && hasContracts"
+      class="hidden-sm-and-down"
+    />
 
     <router-view></router-view>
 
@@ -42,8 +45,12 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      isLoggedIn: "auth/loggedIn"
-    })
+      isLoggedIn: "auth/loggedIn",
+      contracts: "contract/contracts"
+    }),
+    hasContracts() {
+      return this.contracts.length > 0;
+    }
   },
   watch: {
     $route(to, from) {
