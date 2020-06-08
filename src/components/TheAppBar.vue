@@ -107,11 +107,6 @@ export default {
     },
     menuItems: [
       {
-        text: "Select contract",
-        to: { name: "contractSelect" },
-        icon: mdiFileDocument
-      },
-      {
         text: "Settings",
         to: { name: "settings" },
         icon: mdiAccount,
