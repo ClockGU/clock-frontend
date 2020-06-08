@@ -83,9 +83,9 @@ export default {
           name: "calendar",
           params: {
             type: type,
-            year: year.toString(),
-            month: month.toString(),
-            day: day.toString()
+            year: parseInt(year, 10).toString(),
+            month: parseInt(month, 10).toString(),
+            day: parseInt(day, 10).toString()
           }
         })
         .catch(() => {});
