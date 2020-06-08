@@ -125,6 +125,13 @@ export default {
       return true;
     }
   },
+  watch: {
+    contracts() {
+      if (this.contracts.length < 1) {
+        this.$router.push({ name: "dashboard" });
+      }
+    }
+  },
   mounted() {
     this.refresh();
   },
