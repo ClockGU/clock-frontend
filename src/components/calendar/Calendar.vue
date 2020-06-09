@@ -1,19 +1,20 @@
 <template>
   <div style="height: 100%">
-    <v-select
-      v-model="selectedContract"
-      :items="contracts"
-      label="Select a contract"
-      hint="Change the contract to see different data"
-      item-text="name"
-      item-value="uuid"
-      persistent-hint
-      solo
-      return-object
-    ></v-select>
     <v-sheet>
       <v-row align="center" height="100px" flat color="white" class="px-4">
-        <v-col cols="8" md="4" offset-md="1" sm="5" order="1">
+        <v-col cols="12">
+          <SelectContractFilter
+            :contracts="contracts"
+            :selected-contract="selectedContract"
+          />
+        </v-col>
+        <v-col cols="4" sm="2" order="0" order-sm="0">
+          <v-btn color="primary" text @click="newShift">
+            Add shift
+          </v-btn>
+        </v-col>
+
+        <v-col cols="8" md="4" sm="5" order="1">
           <CalendarNavigationButtons
             @today="setToday"
             @next="next"
@@ -21,7 +22,7 @@
           />
         </v-col>
 
-        <v-col cols="6" sm="4" order="3" order-sm="2">
+        <v-col cols="5" sm="3" order="3" order-sm="2">
           <span data-cy="calendar-title">
             {{ title }}
           </span>
@@ -119,10 +120,8 @@
         :entity="shiftEntity"
         :now="shiftNow"
         @close="closeFormDialog"
-        @refresh="$emit('refresh')"
+        @refresh="refresh"
       />
-
-      <the-fab :to="null" :click="newShift" />
     </v-sheet>
   </div>
 </template>
@@ -133,11 +132,13 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
+import { getNextContractParams } from "@/utils";
 
 import FormDialog from "@/components/FormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { format, parseISO } from "date-fns";
 import { mdiClose, mdiPlus } from "@mdi/js";
@@ -149,7 +150,8 @@ export default {
     CalendarNavigationButtons,
     CalendarTypeSelect,
     ConfirmationDialog,
-    FormDialog
+    FormDialog,
+    SelectContractFilter
   },
   filters: {
     formatDate(date, formatString = "do MMMM yyyy") {
@@ -189,10 +191,14 @@ export default {
     doubleClickTimer: null,
     doubleClickDelay: 500,
     shiftEntity: null,
-    showFormDialog: false,
-    selectedContract: null
+    showFormDialog: false
   }),
   computed: {
+    selectedContract() {
+      const uuid = this.$route.params.contract;
+
+      return this.contracts.find(contract => contract.uuid === uuid);
+    },
     shiftNow() {
       const now = new Date();
       const [year, month, day] = this.focus.split("-");
@@ -277,16 +283,24 @@ export default {
       shifts: state => state.shift.shifts
     })
   },
-  mounted() {
+  async mounted() {
     this.$refs.calendar.checkChange();
 
-    this.selectedContract = this.contracts[0];
+    await this.$store.dispatch("shift/queryShifts");
+    await this.$store.dispatch("contract/queryContracts");
   },
   created() {
     this.focus = this.initialFocus;
     this.type = this.initialType;
   },
   methods: {
+    async refresh({ contract }) {
+      if (this.$route.params.contract !== contract) {
+        await this.$router.replace(
+          getNextContractParams(this.$route, contract)
+        );
+      }
+    },
     editShift(uuid) {
       const shift = this.visibleShifts.find(shift => shift.uuid === uuid);
       this.shiftEntity = new Shift(shift);
