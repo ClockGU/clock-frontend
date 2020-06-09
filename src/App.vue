@@ -8,7 +8,7 @@
 
     <TheAppBar @toggle="toggleDrawer" />
     <TheNavigationToolbar
-      v-if="isLoggedIn && hasContracts"
+      v-if="isLoggedIn && hasContracts && !showOverride"
       class="hidden-sm-and-down"
     />
 
@@ -50,6 +50,9 @@ export default {
     }),
     hasContracts() {
       return this.contracts.length > 0;
+    },
+    showOverride() {
+      return this.$route.name === "imprint" || this.$route.name === "privacy";
     }
   },
   watch: {
