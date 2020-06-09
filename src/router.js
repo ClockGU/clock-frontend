@@ -30,7 +30,12 @@ const router = new Router({
       path: "/",
       component: Home,
       children: [
-        { path: "/", name: "home", component: Landing, meta: { public: true } },
+        {
+          path: "/",
+          name: "home",
+          component: Landing,
+          meta: { public: true, onlyWhenLoggedOut: true }
+        },
         { path: "/onboarding", name: "onboarding", component: Onboarding },
         {
           path: "/impressum",
@@ -227,13 +232,12 @@ router.beforeEach(async (to, from, next) => {
     store.dispatch("unsetContract");
     return next({
       path: "/"
-      // query: { redirect: to.fullPath } // Store the full path to redirect the user to after login
     });
   }
 
   // Do not allow user to visit login page or register page if they are logged in
   if (loggedIn && onlyWhenLoggedOut) {
-    return next("/");
+    return next({ name: "dashboard" });
   }
 
   return next();
