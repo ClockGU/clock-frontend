@@ -16,6 +16,8 @@ const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 const Landing = () => import("@/views/Landing");
+const Imprint = () => import("@/views/Imprint");
+const Privacy = () => import("@/views/Privacy");
 const Dashboard = () => import("@/components/Dashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 
@@ -28,6 +30,18 @@ const router = new Router({
       component: Home,
       children: [
         { path: "/", name: "home", component: Landing, meta: { public: true } },
+        {
+          path: "/impressum",
+          name: "imprint",
+          component: Imprint,
+          meta: { public: true }
+        },
+        {
+          path: "/datenschutz",
+          name: "privacy",
+          component: Privacy,
+          meta: { public: true }
+        },
         {
           path: "/logging-in",
           name: "loggingIn",
@@ -44,13 +58,13 @@ const router = new Router({
           }
         },
         {
-          path: "/:type/:year/:month/:day",
+          path: "/:type/:year/:month/:day/:contract?",
           name: "calendar",
           component: ViewCalendar,
           props: true
         },
         {
-          path: "/shifts/",
+          path: "/shifts/:contract?",
           name: "shiftList",
           component: ViewShiftList
         },
