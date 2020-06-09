@@ -11,7 +11,9 @@ function mapApiResponse(response) {
     note: response.note,
     tags: response.tags,
     exported: response.was_exported,
-    reviewed: response.was_reviewed
+    reviewed: response.was_reviewed,
+    created_at: new Date(response.created_at),
+    modified_at: new Date(response.modified_at)
   };
 }
 

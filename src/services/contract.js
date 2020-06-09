@@ -6,7 +6,9 @@ function mapApiResponse(response) {
     user: response.user,
     name: response.name,
     date: { start: response.start_date, end: response.end_date },
-    hours: response.hours
+    hours: response.hours,
+    created_at: new Date(response.created_at),
+    modified_at: new Date(response.modified_at)
   };
 }
 
