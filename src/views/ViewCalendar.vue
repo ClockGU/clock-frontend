@@ -70,9 +70,9 @@ export default {
     this.refresh();
   },
   methods: {
-    refresh() {
-      this.$store.dispatch("shift/queryShifts");
-      this.$store.dispatch("contract/queryContracts");
+    async refresh() {
+      await this.$store.dispatch("shift/queryShifts");
+      await this.$store.dispatch("contract/queryContracts");
     },
     updateRange({ type, start: { day, month, year } }) {
       this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
