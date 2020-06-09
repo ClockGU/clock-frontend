@@ -1,21 +1,11 @@
 <template>
-  <div v-if="initialLoad"></div>
-  <OnboardDialog v-else-if="showOnboardingDialog" @close="finishOnboarding" />
-  <v-container v-else>
+  <v-container>
     <v-row>
       <v-col cols="12">
-        <v-select
-          v-model="selectedContract"
-          :items="contracts"
-          :prepend-icon="icons.mdiFileDocumentEditOutline"
-          :label="contractLabel"
-          hint="Change the contract to see different data"
-          item-text="name"
-          item-value="uuid"
-          persistent-hint
-          solo
-          return-object
-        ></v-select>
+        <SelectContractFilter
+          :contracts="contracts"
+          :selected-contract="selectedContract"
+        />
       </v-col>
 
       <v-col cols="12" md="6">
@@ -60,11 +50,10 @@
 <script>
 import ClockInOutCard from "@/components/ClockInOutCard";
 import MonthlyProgress from "@/components/MonthlyProgress";
-import OnboardDialog from "@/components/OnboardDialog";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
+import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { Contract } from "@/models/ContractModel";
-import { mdiRecord } from "@mdi/js";
 
 import { format } from "date-fns";
 
@@ -74,16 +63,18 @@ import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "Dashboard",
-  components: { ClockInOutCard, OnboardDialog, MonthlyProgress, ShiftListItem },
+  components: {
+    ClockInOutCard,
+    MonthlyProgress,
+    ShiftListItem,
+    SelectContractFilter
+  },
   data: () => ({
     length: 3,
     step: 0,
-    icons: { mdiRecord },
     entity: new Contract(),
-    showOnboardingDialog: false,
-    initialLoad: true,
-    selectedContract: null,
-    allShiftRouter: { name: "shiftList" }
+    allShiftRouter: { name: "shiftList" },
+    loading: true
   }),
   computed: {
     ...mapGetters({
@@ -92,16 +83,16 @@ export default {
       shifts: "shift/shifts",
       reports: "report/reports"
     }),
+    selectedContract() {
+      const uuid = this.$route.params.contract;
+
+      return this.contracts.find(contract => contract.uuid === uuid);
+    },
     lastFiveShifts() {
       return this.shifts
         .map(shift => new Shift(shift))
         .filter(shift => shift.contract === this.selectedContract.uuid)
         .slice(0, 5);
-    },
-    contractLabel() {
-      return this.selectedContract !== null
-        ? "Selected Contract"
-        : "Select a contract";
     },
     latestReport() {
       const thisMonth = format(new Date(), "yyyy-MM") + "-01";
@@ -132,28 +123,7 @@ export default {
     }
   },
   created() {
-    this.load();
-  },
-  methods: {
-    async finishOnboarding() {
-      await this.load();
-      this.showOnboardingDialog = false;
-    },
-    async load() {
-      await this.$store.dispatch("contract/queryContracts");
-      await this.$store.dispatch("shift/queryShifts");
-      await this.$store.dispatch("report/list");
-
-      if (this.contracts.length === 0) {
-        this.showOnboardingDialog = true;
-      } else {
-        this.selectedContract = this.contracts[0];
-      }
-
-      this.initialLoad = false;
-
-      return Promise.resolve();
-    }
+    this.$store.dispatch("report/list");
   }
 };
 </script>
