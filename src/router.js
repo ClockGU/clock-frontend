@@ -20,6 +20,7 @@ const Imprint = () => import("@/views/Imprint");
 const Privacy = () => import("@/views/Privacy");
 const Dashboard = () => import("@/components/Dashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
+const Onboarding = () => import("@/views/Onboarding");
 
 const router = new Router({
   mode: "history",
@@ -30,6 +31,7 @@ const router = new Router({
       component: Home,
       children: [
         { path: "/", name: "home", component: Landing, meta: { public: true } },
+        { path: "/onboarding", name: "onboarding", component: Onboarding },
         {
           path: "/impressum",
           name: "imprint",
@@ -155,6 +157,24 @@ router.beforeEach((to, from, next) => {
   }
 
   return next();
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.public) return next();
+
+  const shifts = await store.dispatch("shift/queryShifts");
+  const contracts = await store.dispatch("contract/queryContracts");
+
+  // If the user has no contracts, push them to onboarding
+  if (store.state.contract.contracts.length < 1) {
+    // Do not forward to onboarding, while forwarding to onboarding
+    // Removing the next line leads to an infinite loop.
+    if (to.name === "onboarding") return next();
+
+    return next({ name: "onboarding" });
+  }
+
+  next();
 });
 
 router.beforeEach(async (to, from, next) => {

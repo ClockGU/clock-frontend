@@ -155,13 +155,13 @@ export default {
       this.loading = true;
       this.service
         .create(this.contractToSave.toPayload())
-        .then(() => {
-          return this.$store.dispatch("contract/queryContracts");
+        .then(response => {
+          const { uuid: contract } = response;
+
+          this.$router.push({ name: "dashboard", params: { contract } });
         })
         .then(() => {
-          setTimeout(() => {
-            this.closeDialog();
-          }, 200);
+          return this.$store.dispatch("contract/queryContracts");
         })
         .catch(handleApiError)
         .finally(() => {
