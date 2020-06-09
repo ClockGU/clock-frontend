@@ -17,7 +17,7 @@
         <v-col cols="10">
           <span class="d-block">{{ debit | formattedTime }} per month</span>
           <span class="d-block">{{ credit | formattedTime }} worked</span>
-          <span class="d-block" :class="remainingColor">
+          <span class="d-block body-2 font-weight-black">
             {{ printRemaining }}
           </span>
         </v-col>
@@ -83,18 +83,6 @@ export default {
       }
 
       return `${hoursLeft}:${minutesLeft}`;
-    },
-    remainingColor() {
-      let color = "error";
-
-      if (this.progress > 30) {
-        color = "warning";
-      }
-
-      if (this.totalMinutesLeft < 0) {
-        color = "success";
-      }
-      return `${color}--text`;
     },
     printRemaining() {
       let remainingTime = this.remainingTime;
