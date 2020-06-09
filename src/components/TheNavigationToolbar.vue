@@ -5,7 +5,6 @@
         v-for="item in links"
         :key="item.text"
         :to="item.to"
-        exact
         :ripple="false"
       >
         <v-icon left>{{ item.icon }}</v-icon>
