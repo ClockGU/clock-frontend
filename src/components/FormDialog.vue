@@ -171,7 +171,7 @@ export default {
       this.service
         .update(this.toSave.toPayload(), this.toSave.uuid)
         .then(() => {
-          this.$emit("refresh");
+          this.$emit("refresh", { contract: this.toSave.contract });
         })
         .then(() => {
           this.closeDialog();
@@ -182,7 +182,7 @@ export default {
       this.service
         .create(this.toSave.toPayload())
         .then(() => {
-          this.$emit("refresh");
+          this.$emit("refresh", { contract: this.toSave.contract });
         })
         .then(() => {
           this.closeDialog();
