@@ -16,6 +16,7 @@
 
 <script>
 import OAuth2Service from "@/services/oauth2";
+import { getContractWithLastActivity } from "@/utils";
 
 export default {
   name: "LoggingIn",
@@ -34,8 +35,23 @@ export default {
 
     const response = await OAuth2Service.post(code);
 
-    this.$store.dispatch("auth/LOGIN_OAUTH2", response.data);
-    this.$router.push({ name: "dashboard" });
+    await this.$store.dispatch("auth/LOGIN_OAUTH2", response.data);
+
+    // TODO: We get some weird error if we do not redirect to a concrete
+    // dashboard view with a set contract param
+    const shifts = await this.$store.dispatch("shift/queryShifts");
+    const contracts = await this.$store.dispatch("contract/queryContracts");
+
+    if (contracts.length < 1) {
+      return this.$router.push({ name: "onboarding" });
+    }
+
+    const uuid = getContractWithLastActivity({ shifts, contracts });
+
+    this.$router.push({
+      name: "dashboard",
+      params: { contract: uuid }
+    });
   }
 };
 </script>

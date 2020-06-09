@@ -21,6 +21,8 @@ const actions = {
 
     ApiService.setHeader(access_token);
     dispatch("GET_USER", null, { root: true });
+
+    return Promise.resolve();
   },
   LOGIN({ commit, dispatch }, { email, password }) {
     return AuthService.login(email, password).then(response => {
