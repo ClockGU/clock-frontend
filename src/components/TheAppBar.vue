@@ -85,14 +85,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import {
-  mdiChevronDown,
-  mdiMenu,
-  mdiAccount,
-  mdiHelp,
-  mdiLock,
-  mdiFileDocument
-} from "@mdi/js";
+import { mdiChevronDown, mdiMenu, mdiAccount, mdiHelp, mdiLock } from "@mdi/js";
 
 import LogoutDialog from "@/components/LogoutDialog";
 
