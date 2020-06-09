@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
-// import { parseJwt } from "@/utils/jwt";
+import { getContractWithLastActivity, getNextContractParams } from "@/utils";
 
 Vue.use(Router);
 
@@ -50,7 +50,6 @@ const router = new Router({
           component: LoggingIn,
           meta: { public: true, onlyWhenLoggedOut: true }
         },
-        { path: "/dashboard", name: "dashboard", component: Dashboard },
         {
           path: "/help",
           name: "help",
@@ -58,6 +57,11 @@ const router = new Router({
           meta: {
             public: true
           }
+        },
+        {
+          path: "/dashboard/:contract?",
+          name: "dashboard",
+          component: Dashboard
         },
         {
           path: "/:type/:year/:month/:day/:contract?",
@@ -92,7 +96,7 @@ const router = new Router({
           component: ViewContractList
         },
         {
-          path: "/report",
+          path: "/reports/:contract?",
           name: "reportList",
           component: ViewReportList
         },
@@ -172,6 +176,15 @@ router.beforeEach(async (to, from, next) => {
     if (to.name === "onboarding") return next();
 
     return next({ name: "onboarding" });
+  }
+
+  // If we match a route that requires a contrat to be set
+  // but the user did not set one, we get the contract with
+  // the latest activity
+  const contractRoutes = ["dashboard", "shiftList", "reportList", "calendar"];
+  if (contractRoutes.includes(to.name) && to.params.contract === undefined) {
+    const uuid = getContractWithLastActivity({ shifts, contracts });
+    return next(getNextContractParams(to, uuid));
   }
 
   next();
