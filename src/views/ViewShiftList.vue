@@ -79,19 +79,15 @@
         type="table"
       >
         <div data-cy="shift-lists">
-          <v-select
-            v-model="selectedContract"
-            :items="contracts"
-            :prepend-icon="icons.mdiFileDocumentEditOutline"
-            label="Select a contract"
-            hint="Change the contract to see different data"
-            item-text="name"
-            item-value="uuid"
-            persistent-hint
-            solo
-            return-object
-            @input="sync"
-          ></v-select>
+          <SelectContractFilter
+            :contracts="contracts"
+            :selected-contract="selectedContract"
+          />
+
+          <v-btn color="primary" text @click="newShift">
+            Add shift
+          </v-btn>
+
           <ShiftList
             v-for="(shifts, key, i) in shiftsByMonth"
             :key="key"
@@ -123,10 +119,8 @@
         entity-name="shift"
         :entity="shiftEntity"
         @close="closeFormDialog"
-        @refresh="groupShiftsByMonth"
+        @refresh="refresh"
       />
-
-      <the-fab :to="null" :click="newShift" />
     </template>
   </base-layout>
 </template>
@@ -135,6 +129,7 @@
 import ShiftList from "@/components/shifts/ShiftList";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import FormDialog from "@/components/FormDialog";
+import SelectContractFilter from "@/components/SelectContractFilter";
 import { Shift } from "@/models/ShiftModel";
 
 import { mapGetters } from "vuex";
@@ -154,13 +149,15 @@ import ShiftService from "@/services/shift";
 import { handleApiError } from "@/utils/interceptors";
 
 import { datesGroupByComponent } from "@/utils/shift";
+import { getNextContractParams } from "@/utils";
 
 export default {
   name: "ViewShiftList",
   components: {
     ConfirmationDialog,
     ShiftList,
-    FormDialog
+    FormDialog,
+    SelectContractFilter
   },
   data: () => ({
     editable: false,
@@ -179,8 +176,7 @@ export default {
     shiftsToDelete: [],
     unsortedShifts: [],
     shiftEntity: null,
-    showFormDialog: false,
-    selectedContract: null
+    showFormDialog: false
   }),
   computed: {
     ...mapGetters({
@@ -188,6 +184,11 @@ export default {
       loading: "shift/loading",
       contracts: "contract/contracts"
     }),
+    selectedContract() {
+      const uuid = this.$route.params.contract;
+
+      return this.contracts.find(contract => contract.uuid === uuid);
+    },
     shiftsOfContract() {
       return this.shifts.filter(
         shift => shift.contract === this.selectedContract.uuid
@@ -236,17 +237,15 @@ export default {
     }
   },
   created() {
-    this.sync();
-
-    this.selectedContract = this.contracts[0];
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.sync();
-    next();
+    this.groupShiftsByMonth();
   },
   methods: {
-    async sync() {
-      await this.$store.dispatch("contract/queryContracts");
+    async refresh({ contract }) {
+      if (this.$route.params.contract !== contract) {
+        await this.$router.replace(
+          getNextContractParams(this.$route, contract)
+        );
+      }
       this.groupShiftsByMonth();
     },
     editShift() {

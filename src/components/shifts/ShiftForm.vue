@@ -229,7 +229,7 @@ export default {
     this.shift = this.uuid === null ? this.initializeForm() : this.entity;
 
     if (!this.shift.contract) {
-      this.shift.contract = this.selectedContract.uuid;
+      this.shift.contract = this.$route.params.contract;
     }
   },
   methods: {
