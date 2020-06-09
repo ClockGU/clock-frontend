@@ -33,6 +33,11 @@
         </v-col>
 
         <template v-if="!loading && editMode">
+          <v-col cols="12">
+            <v-btn color="primary" text @click="newContract">
+              Add contract
+            </v-btn>
+          </v-col>
           <template v-for="(contract, i) in contracts">
             <v-col :key="contract.uuid" cols="12" md="6">
               <ContractListCard
@@ -78,8 +83,6 @@
         @close="contractEntity = null"
         @refresh="refresh"
       />
-
-      <the-fab :to="null" :click="newContract" />
     </template>
   </base-layout>
 </template>
