@@ -165,17 +165,16 @@ export default {
     ]
   }),
   computed: {
+    ...mapGetters({
+      isLoggedIn: "auth/loggedIn",
+      user: "user",
+      userLoading: "userLoading"
+    }),
     firstLetter() {
       if (this.user === null) return "";
 
       return this.user.first_name.charAt(0);
-    },
-    ...mapGetters({
-      isLoggedIn: "auth/loggedIn",
-      selectedContract: "selectedContract",
-      user: "user",
-      userLoading: "userLoading"
-    })
+    }
   },
   methods: {
     closeDrawer(value) {
