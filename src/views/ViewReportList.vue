@@ -24,17 +24,10 @@
         </portal>
 
         <v-card-text class="pt-0">
-          <v-select
-            v-model="selectedContract"
-            :items="contracts"
-            label="Select a contract"
-            hint="Change the contract to see different data"
-            item-text="name"
-            item-value="uuid"
-            persistent-hint
-            solo
-            return-object
-          ></v-select>
+          <SelectContractFilter
+            :contracts="contracts"
+            :selected-contract="selectedContract"
+          />
           <v-row :justify="loading ? 'center' : 'start'">
             <v-col v-if="loading" cols="10" md="6" class="pt-0">
               <v-skeleton-loader
@@ -65,6 +58,7 @@
 
 <script>
 import ReportCard from "@/components/ReportCard";
+import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { datesGroupByComponent } from "@/utils/shift";
 
@@ -73,14 +67,14 @@ import { mapGetters } from "vuex";
 export default {
   name: "ViewReportList",
   components: {
-    ReportCard
+    ReportCard,
+    SelectContractFilter
   },
   data() {
     return {
       dialog: false,
       callback: null,
-      hover: false,
-      selectedContract: null
+      hover: false
     };
   },
   computed: {
@@ -90,6 +84,11 @@ export default {
       shifts: "shift/shifts",
       contracts: "contract/contracts"
     }),
+    selectedContract() {
+      const uuid = this.$route.params.contract;
+
+      return this.contracts.find(contract => contract.uuid === uuid);
+    },
     shiftsOfContract() {
       return this.shifts.filter(
         shift => shift.contract === this.selectedContract.uuid
@@ -114,16 +113,10 @@ export default {
       return datesGroupByComponent(this.shiftsOfContract, "y MM");
     }
   },
-  created() {
-    const requests = [
-      this.$store.dispatch("contract/queryContracts"),
-      this.$store.dispatch("shift/queryShifts")
-    ];
-    Promise.all(requests).then(() => {
-      this.$store.dispatch("report/list");
-
-      this.selectedContract = this.contracts[0];
-    });
+  async created() {
+    await this.$store.dispatch("contract/queryContracts");
+    await this.$store.dispatch("shift/queryShifts");
+    await this.$store.dispatch("report/list");
   },
   methods: {
     checkExported(date) {
