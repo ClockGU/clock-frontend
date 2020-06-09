@@ -21,6 +21,7 @@ const Privacy = () => import("@/views/Privacy");
 const Dashboard = () => import("@/components/Dashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
+const NotFound = () => import("@/views/NotFound");
 
 const router = new Router({
   mode: "history",
@@ -30,6 +31,11 @@ const router = new Router({
       path: "/",
       component: Home,
       children: [
+        {
+          path: "/404",
+          name: "404",
+          component: NotFound
+        },
         {
           path: "/",
           name: "home",
@@ -183,10 +189,22 @@ router.beforeEach(async (to, from, next) => {
     return next({ name: "onboarding" });
   }
 
+  const contractRoutes = ["dashboard", "shiftList", "reportList", "calendar"];
+  const contractMatch = contracts.find(
+    contract => contract.uuid === to.params.contract
+  );
+  // Redirect to 404 page we are looking for a contract that does not exist
+  if (
+    to.params.contract !== undefined &&
+    contractRoutes.includes(to.name) &&
+    !contractMatch
+  ) {
+    return next({ name: "404" });
+  }
+
   // If we match a route that requires a contrat to be set
   // but the user did not set one, we get the contract with
   // the latest activity
-  const contractRoutes = ["dashboard", "shiftList", "reportList", "calendar"];
   if (contractRoutes.includes(to.name) && to.params.contract === undefined) {
     const uuid = getContractWithLastActivity({ shifts, contracts });
     return next(getNextContractParams(to, uuid));
