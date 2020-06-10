@@ -13,7 +13,7 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link to="/dashboard" tag="span" style="cursor: pointer">
+        <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
           <v-img
             width="96px"
             height="32px"
