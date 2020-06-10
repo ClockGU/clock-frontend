@@ -149,6 +149,7 @@ export default {
     refresh() {
       this.$store.dispatch("shift/queryShifts");
       this.$store.dispatch("contract/queryContracts");
+      this.$store.dispatch("report/list");
     },
     editContract(uuid) {
       const contract = this.contracts.find(contract => contract.uuid === uuid);
