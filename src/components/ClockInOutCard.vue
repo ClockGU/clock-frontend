@@ -17,7 +17,16 @@
       <v-window v-model="window">
         <v-window-item :key="0">
           <ClockInOutCardClock
-            :actions="{ data, duration, status, start, pause, destroy, save }"
+            :actions="{
+              data,
+              clockedContract,
+              duration,
+              status,
+              start,
+              pause,
+              destroy,
+              save
+            }"
             @updateWindow="window += $event"
           />
         </v-window-item>
@@ -38,6 +47,8 @@
 import ClockInOut from "@/components/ClockInOut";
 import ClockInOutCardClock from "@/components/ClockInOutCardClock";
 import ClockInOutCardForm from "@/components/ClockInOutCardForm";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "ClockInOutCard",
@@ -60,6 +71,18 @@ export default {
     return {
       window: 0
     };
+  },
+  computed: {
+    ...mapGetters({
+      contracts: "contract/contracts"
+    }),
+    clockedContract() {
+      if (this.clockedShift === null) return this.selectedContract;
+
+      return this.contracts.find(
+        contract => contract.uuid === this.clockedShift.contract
+      );
+    }
   }
 };
 </script>

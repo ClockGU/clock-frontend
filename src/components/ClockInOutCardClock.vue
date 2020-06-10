@@ -33,6 +33,9 @@
           Start a shift
         </span>
         <div v-else class="d-flex flex-column">
+          <div class="font-weight-bold">
+            Contract: {{ clockedContract.name }}
+          </div>
           <div class="font-weight-light">
             {{ actions.data.startDate }}
           </div>
@@ -89,6 +92,8 @@
 import { addSeconds, format, isSameDay } from "date-fns";
 import { mdiDelete, mdiInformation } from "@mdi/js";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "ClockInOutCardClock",
   filters: {
@@ -132,6 +137,14 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      contracts: "contract/contracts"
+    }),
+    clockedContract() {
+      return this.contracts.find(
+        contract => contract.uuid === this.actions.clockedContract.uuid
+      );
+    },
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
