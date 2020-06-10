@@ -7,8 +7,7 @@
     <v-overlay :value="showOverlay" absolute opacity="0.8">
       <v-row justify="center">
         <p>
-          You are clocked into a different contract. To clock out, you need to
-          select this contract.
+          You are clocked into a different contract.
         </p>
         <v-btn color="primary lighten-1" @click="changeContract">
           Change contract
