@@ -122,8 +122,8 @@ export default {
       return `${creditHours}:${creditMinutes}`;
     }
   },
-  created() {
-    this.$store.dispatch("report/list");
+  async created() {
+    await this.$store.dispatch("report/list");
   }
 };
 </script>

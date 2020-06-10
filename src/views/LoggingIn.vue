@@ -41,6 +41,7 @@ export default {
     // dashboard view with a set contract param
     const shifts = await this.$store.dispatch("shift/queryShifts");
     const contracts = await this.$store.dispatch("contract/queryContracts");
+    await this.$store.dispatch("report/list");
 
     if (contracts.length < 1) {
       return this.$router.push({ name: "onboarding" });
