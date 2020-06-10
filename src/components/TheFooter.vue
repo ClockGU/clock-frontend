@@ -9,6 +9,7 @@
         text
         rounded
         class="my-2"
+        @click.native="scrollToTop"
       >
         {{ link.text }}
       </v-btn>
@@ -27,6 +28,11 @@ export default {
       { text: "Datenschutz", to: "privacy" },
       { text: "Impressum", to: "imprint" }
     ]
-  })
+  }),
+  methods: {
+    scrollToTop() {
+      this.$vuetify.goTo("head");
+    }
+  }
 };
 </script>
