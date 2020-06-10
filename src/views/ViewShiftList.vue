@@ -176,7 +176,8 @@ export default {
     shiftsToDelete: [],
     unsortedShifts: [],
     shiftEntity: null,
-    showFormDialog: false
+    showFormDialog: false,
+    ignoreLoading: false
   }),
   beforeRouteLeave(to, from, next) {
     this.ignoreLoading = true;

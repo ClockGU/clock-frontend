@@ -79,7 +79,8 @@ export default {
     return {
       dialog: false,
       callback: null,
-      hover: false
+      hover: false,
+      ignoreLoading: false
     };
   },
   beforeRouteLeave(to, from, next) {
