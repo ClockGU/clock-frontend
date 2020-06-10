@@ -137,7 +137,8 @@ export default {
   watch: {
     contracts() {
       if (this.contracts.length < 1) {
-        this.$router.push({ name: "dashboard" });
+        // TODO change this again to a more sane solution
+        window.location.reload();
       }
     }
   },
@@ -165,12 +166,6 @@ export default {
     },
     async destroy(uuid) {
       ContractService.delete(uuid)
-        .then(() => {
-          if (uuid === this.$store.state.selectedContract.uuid) {
-            this.$store.dispatch("unsetContract");
-            this.$router.push({ name: "contractSelect" });
-          }
-        })
         .catch(handleApiError)
         .finally(() => {
           this.$store.dispatch("contract/queryContracts");
