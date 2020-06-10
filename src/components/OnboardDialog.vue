@@ -12,6 +12,10 @@
         <v-toolbar-title>
           {{ titles[step] }}
         </v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-btn text @click="logout">Logout</v-btn>
       </v-toolbar>
 
       <v-card-text class="pb-0">
@@ -150,6 +154,9 @@ export default {
     },
     closeDialog() {
       this.$emit("close");
+    },
+    logout() {
+      this.$store.dispatch("auth/LOGOUT");
     },
     save() {
       this.loading = true;
