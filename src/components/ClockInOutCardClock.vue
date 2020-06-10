@@ -4,6 +4,18 @@
     :disabled="actions.status === 'saving'"
     :loading="actions.status === 'saving'"
   >
+    <v-overlay :value="showOverlay" absolute opacity="0.8">
+      <v-row justify="center">
+        <p>
+          You are clocked into a different contract. To clock out, you need to
+          select this contract.
+        </p>
+        <v-btn color="primary lighten-1" @click="changeContract">
+          Change contract
+        </v-btn>
+      </v-row>
+    </v-overlay>
+
     <v-toolbar :elevation="0">
       <v-toolbar-title>
         {{
@@ -148,6 +160,17 @@ export default {
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
+    },
+    showOverlay() {
+      return this.$route.params.contract !== this.clockedContract.uuid;
+    }
+  },
+  methods: {
+    changeContract() {
+      this.$router.push({
+        ...this.$route,
+        params: { ...this.$route.params, contract: this.clockedContract.uuid }
+      });
     }
   }
 };
