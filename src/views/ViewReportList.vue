@@ -28,8 +28,13 @@
             :contracts="contracts"
             :selected-contract="selectedContract"
           />
-          <v-row :justify="loading ? 'center' : 'start'">
-            <v-col v-if="loading" cols="10" md="6" class="pt-0">
+          <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
+            <v-col
+              v-if="loading && !ignoreLoading"
+              cols="10"
+              md="6"
+              class="pt-0"
+            >
               <v-skeleton-loader
                 v-if="loading"
                 data-cy="skeleton"
@@ -76,6 +81,11 @@ export default {
       callback: null,
       hover: false
     };
+  },
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
   },
   computed: {
     ...mapGetters({

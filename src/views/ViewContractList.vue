@@ -21,8 +21,8 @@
     </template>
 
     <template v-slot:content>
-      <v-row :justify="loading ? 'center' : 'start'">
-        <v-col v-if="loading" cols="10" md="6">
+      <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
+        <v-col v-if="loading && !ignoreLoading" cols="10" md="6">
           <v-skeleton-loader
             v-if="loading"
             data-cy="skeleton"
@@ -32,7 +32,7 @@
           ></v-skeleton-loader>
         </v-col>
 
-        <template v-if="!loading && editMode">
+        <template v-if="(!loading || ignoreLoading) && editMode">
           <v-col cols="12">
             <v-btn color="primary" text @click="newContract">
               Add contract
@@ -52,7 +52,7 @@
           </template>
         </template>
 
-        <template v-if="!loading && !editMode">
+        <template v-if="(!loading || ignoreLoading) && !editMode">
           <template v-for="(contract, i) in contracts">
             <v-col :key="contract.uuid" cols="12" md="6">
               <ContractListCardSelect
@@ -67,7 +67,7 @@
       </v-row>
 
       <placeholder
-        v-if="!loading && contracts.length === 0"
+        v-if="(!loading || ignoreLoading) && contracts.length === 0"
         data-cy="contract-list-empty-placeholder"
         name="UndrawContentCreator"
       >
@@ -113,8 +113,14 @@ export default {
       icons: {
         mdiPlus: mdiPlus
       },
-      contractEntity: null
+      contractEntity: null,
+      ignoreLoading: false
     };
+  },
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
   },
   computed: {
     ...mapGetters({

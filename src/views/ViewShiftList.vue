@@ -74,7 +74,7 @@
     <template v-slot:content>
       <v-skeleton-loader
         data-cy="shift-list-skeleton"
-        :loading="loading"
+        :loading="loading && !ignoreLoading"
         transition="fade-transition"
         type="table"
       >
@@ -105,7 +105,7 @@
       </v-skeleton-loader>
 
       <placeholder
-        v-if="!loading && shiftsOfContract.length === 0"
+        v-if="(!loading || ignoreLoading) && shiftsOfContract.length === 0"
         data-cy="shift-list-empty-placeholder"
         name="UndrawWorkTime"
       >
@@ -178,6 +178,11 @@ export default {
     shiftEntity: null,
     showFormDialog: false
   }),
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
+  },
   computed: {
     ...mapGetters({
       shifts: "shift/shifts",
