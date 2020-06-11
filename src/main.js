@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueMeta from "vue-meta";
+import VueMatomo from "vue-matomo";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import i18n from "./plugins/i18n";
@@ -26,13 +27,24 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 
+const isProduction = process.env.NODE_ENV === "production" || true;
+
 Vue.use(VueMeta);
+Vue.use(VueMatomo, {
+  host: process.env.VUE_APP_MATOMO_URL,
+  siteId: process.env.VUE_APP_MATOMO_SITE_ID,
+  router: router,
+  requireConsent: false,
+  enableHeartBeatTimer: true,
+  disableCookies: true,
+  debug: !isProduction,
+  domains: process.env.VUE_APP_MATOMO_DOMAINS
+});
 Vue.use(PortalVue);
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 
 // Setup sentry error tracking in production
-const isProduction = process.env.NODE_ENV === "production";
 export const debugLogger = isProduction ? false : true;
 if (isProduction) {
   // Here goes the DSN
