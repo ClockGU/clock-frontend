@@ -28,13 +28,18 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "*",
+      redirect: { name: "404" }
+    },
+    {
       path: "/",
       component: Home,
       children: [
         {
           path: "/404",
           name: "404",
-          component: NotFound
+          component: NotFound,
+          meta: { public: true }
         },
         {
           path: "/",

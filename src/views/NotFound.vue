@@ -26,8 +26,16 @@
         existiert nicht.
 
         <v-row justify="center">
-          <v-btn color="primary" text :to="{ name: 'dashboard' }">
+          <v-btn
+            v-if="isLoggedIn"
+            color="primary"
+            text
+            :to="{ name: 'dashboard' }"
+          >
             Zurück zum Dashboard
+          </v-btn>
+          <v-btn v-else color="primary" text exact :to="{ name: 'home' }">
+            Zurück zur Startseite
           </v-btn>
         </v-row>
       </placeholder>
@@ -37,6 +45,11 @@
 
 <script>
 export default {
-  name: "NotFound"
+  name: "NotFound",
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters["auth/loggedIn"];
+    }
+  }
 };
 </script>
