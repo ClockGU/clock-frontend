@@ -16,6 +16,8 @@
 
     <portal-target name="dialog"></portal-target>
 
+    <FeedbackMenu />
+
     <TheSnackbar />
     <TheFooter />
   </v-app>
@@ -27,6 +29,7 @@ import TheNavigationToolbar from "@/components/TheNavigationToolbar";
 import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
 import TheFooter from "@/components/TheFooter";
+import FeedbackMenu from "@/components/FeedbackMenu";
 
 import { handleApiError } from "@/utils/interceptors";
 
@@ -43,7 +46,8 @@ export default {
     TheNavigationToolbar,
     TheNavigationDrawer,
     TheSnackbar,
-    TheFooter
+    TheFooter,
+    FeedbackMenu
   },
   data: () => ({
     drawer: false
