@@ -3,7 +3,7 @@
     <v-card-title>Monthly progress</v-card-title>
     <v-card-text>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="3">
           <v-progress-circular
             color="primary"
             size="64"
@@ -14,7 +14,7 @@
             {{ printProgress }}%
           </v-progress-circular>
         </v-col>
-        <v-col cols="10">
+        <v-col cols="9">
           <span class="d-block">{{ debit | formattedTime }} per month</span>
           <span class="d-block">{{ credit | formattedTime }} worked</span>
           <span class="d-block body-2 font-weight-black">
