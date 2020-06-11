@@ -71,6 +71,9 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ViewReportList",
+  metaInfo: {
+    title: "Stundenzettel"
+  },
   components: {
     ReportCard,
     SelectContractFilter

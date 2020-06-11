@@ -64,6 +64,9 @@
 
 <script>
 export default {
-  name: "Imprint"
+  name: "Imprint",
+  metaInfo: {
+    title: "Impressum"
+  }
 };
 </script>

@@ -7,6 +7,9 @@ import OnboardDialog from "@/components/OnboardDialog";
 
 export default {
   name: "Onboarding",
+  metaInfo: {
+    title: "Onboarding"
+  },
   components: { OnboardDialog }
   // methods: {
   //   finishOnboarding() {

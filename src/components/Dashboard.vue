@@ -63,6 +63,9 @@ import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "Dashboard",
+  metaInfo: {
+    title: "Dashboard"
+  },
   components: {
     ClockInOutCard,
     MonthlyProgress,

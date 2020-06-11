@@ -33,6 +33,11 @@ import { handleApiError } from "@/utils/interceptors";
 import { mapGetters } from "vuex";
 
 export default {
+  name: "App",
+  metaInfo: {
+    title: "Dein flexibler Stundenzettel",
+    titleTemplate: "Clock - %s"
+  },
   components: {
     TheAppBar,
     TheNavigationToolbar,

@@ -17,6 +17,9 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ViewCalendar",
+  metaInfo: {
+    title: "Kalendar"
+  },
   components: {
     Calendar
   },

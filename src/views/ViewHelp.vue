@@ -39,6 +39,9 @@
 <script>
 export default {
   name: "ViewHelp",
+  metaInfo: {
+    title: "Hilfe"
+  },
   methods: {
     clearAllIntervals() {
       for (let i = 1; i < 10000; i++) {

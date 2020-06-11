@@ -52,6 +52,9 @@ import GDPR from "@/components/GDPR";
 
 export default {
   name: "Settings",
+  metaInfo: {
+    title: "Einstellungen"
+  },
   components: { PasswordForm, GDPR },
   data: () => ({
     icons: { mdiFileAccount, mdiTextboxPassword }

@@ -20,6 +20,9 @@ import { getContractWithLastActivity } from "@/utils";
 
 export default {
   name: "LoggingIn",
+  metaInfo: {
+    title: "Einloggen..."
+  },
   beforeRouteEnter(to, from, next) {
     if (to.query.code === undefined) {
       next({ name: "home" });
