@@ -16,7 +16,7 @@
 
     <portal-target name="dialog"></portal-target>
 
-    <FeedbackMenu />
+    <FeedbackMenu v-if="isLoggedIn" />
 
     <TheSnackbar />
     <TheFooter />
