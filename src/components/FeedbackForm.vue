@@ -1,6 +1,10 @@
 <template>
   <v-card>
+    <v-card-title>Feedback</v-card-title>
     <v-card-text>
+      <p>
+        Send us any feedback you have. We appreciate all comments!
+      </p>
       <v-form>
         <v-text-field
           v-model="name"
