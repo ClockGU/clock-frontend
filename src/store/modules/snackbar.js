@@ -17,6 +17,8 @@ const getters = {
 const actions = {
   setSnack({ commit }, payload) {
     commit("setSnack", payload);
+
+    return Promise.resolve();
   },
   resetSnack({ commit }) {
     commit("resetSnack");
