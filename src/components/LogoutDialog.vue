@@ -1,6 +1,6 @@
 <template>
   <ConfirmationDialog
-    :confirmation-button="{ text: 'Logout', color: 'primary' }"
+    :confirmation-button="{ text: $t('actions.logout'), color: 'primary' }"
     :max-width="280"
     @confirm="logout"
   >
@@ -8,10 +8,10 @@
       <slot name="activator" :on="on"></slot>
     </template>
 
-    <template v-slot:title>You sure you want to logout?</template>
+    <template v-slot:title>{{ $t("logout.title") }}</template>
 
     <template v-slot:text>
-      You can come back later at any time.
+      {{ $t("logout.message") }}
     </template>
   </ConfirmationDialog>
 </template>
