@@ -70,7 +70,7 @@
           "advanced": "Erweiterter Modus",
           "keepBoth": "Erstelle neue Schichten",
           "keepFirst": "Behalte die erste Schicht",
-          "keepSecond": "Behalte die zweite Schicht",
+          "keepSecond": "Behalte die letzte Schicht",
           "label": "Wähle eine Option aus"
         },
         "clockedShift": "Eingestochene Schicht",

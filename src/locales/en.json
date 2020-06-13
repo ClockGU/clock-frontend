@@ -68,9 +68,9 @@
       "problems": {
         "actions": {
           "advanced": "Advaned mode",
-          "keepBoth": "Keep both shifts and split across days",
-          "keepFirst": "Keep first",
-          "keepSecond": "Keep second",
+          "keepBoth": "Create new shifts",
+          "keepFirst": "Keep first shift",
+          "keepSecond": "Keep last shift",
           "label": "Select an action"
         },
         "clockedShift": "Clocked shift",
