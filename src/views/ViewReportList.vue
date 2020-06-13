@@ -18,7 +18,7 @@
             ></v-app-bar-nav-icon>
 
             <v-toolbar-title>
-              Reports
+              {{ $tc("models.report", 2) }}
             </v-toolbar-title>
           </v-toolbar>
         </portal>
