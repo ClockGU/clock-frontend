@@ -1,0 +1,206 @@
+{
+  "actions": {
+    "add": "Hinzufügen",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "change": "Wechseln",
+    "close": "Schließen",
+    "complete": "Abschließen",
+    "continue": "Fortfahren",
+    "delete": "Löschen",
+    "download": "Download",
+    "edit": "Bearbeiten",
+    "logout": "Abmelden",
+    "next": "Weiter",
+    "request": "Anfordern",
+    "reset": "Zurücksetzen",
+    "save": "Speichern",
+    "send": "Absenden",
+    "update": "Aktualisieren"
+  },
+  "app": {
+    "calendar": "Kalender",
+    "contracts": "Verträge",
+    "dashboard": "Dashboard",
+    "debug": "Debug",
+    "gdpr": "DSGVO",
+    "help": "Hilfe",
+    "imprint": "Impressum",
+    "loggingin": "Einloggen...",
+    "logout": "@:actions.logout",
+    "mainTitle": "Dein flexibler Stundenzettel",
+    "notfound": "Nicht gefundaen",
+    "onboarding": "Onboarding",
+    "privacy": "Datenschutz",
+    "reports": "Stundenzettel",
+    "settings": "Einstellungen",
+    "shifts": "Schichten"
+  },
+  "buttons": {
+    "deleteEntity": "{entity} @.lower:actions.delete?",
+    "newEntity": "{entity} @:actions.add"
+  },
+  "calendar": {
+    "day": "Tag",
+    "fourdays": "4 Tage",
+    "month": "Monat",
+    "shiftFromTo": "von {start} bis {end}",
+    "shiftOnDay": "{duration} am {start}",
+    "today": "Heute",
+    "type": "Typ",
+    "week": "Woche"
+  },
+  "contracts": {
+    "disableDateChangeAlert": "Du kannst das Start-/Enddatum des Vertrags nicht mehr anpassen, weil schon eine Schicht existiert.",
+    "empty": "Erstelle deinen ersten Vertrag!",
+    "fromTo": "{start} bis {end}",
+    "hoursPerMonth": "Stunden pro Monat",
+    "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
+    "name": "Benenne deinen Vertrag",
+    "perMonth": "{time} pro Monat"
+  },
+  "dashboard": {
+    "clock": {
+      "changeContract": "Du musst in den richtigen Vertrag wechseln um auszustechen.",
+      "in": "Einstechen",
+      "out": "Ausstechen",
+      "problems": {
+        "actions": {
+          "advanced": "Erweiterter Modus",
+          "keepBoth": "Erstelle neue Schichten",
+          "keepFirst": "Behalte die erste Schicht",
+          "keepSecond": "Behalte die zweite Schicht",
+          "label": "Wähle eine Option aus"
+        },
+        "clockedShift": "Eingestochene Schicht",
+        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausstechen und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne Anfangen.",
+        "messages": {
+          "allSaved": "Alle Schichten wurden gespeichert.",
+          "noSaved": "Es wurden geine Schichten gespeichert.",
+          "singleSaved": "Die Schicht wurde gespeichert.",
+          "success": "Du wurdest augestochen."
+        },
+        "newShifts": "Neue Schichten",
+        "text": "Eine Schicht muss am gleichen Tag enden, an dem sie gestartet ist. Wir müssen deine Schicht deswegen bearbeiten, damit sie diesen Anforderungen entspricht.",
+        "title": "Ungültige Schicht"
+      },
+      "review": "Probleme beheben",
+      "start": "Beginne eine Schicht",
+      "state": {
+        "idle": "Nicht eingestochen",
+        "running": "Eingestochen"
+      }
+    },
+    "emptyActivity": "Du hast in diesem Vetrag noch keine Aktivitäten.",
+    "lastActivity": "Letzte Aktivität",
+    "progress": {
+      "perMonth": "{time} pro Monat",
+      "timeRemaining": "{time} verbleibend",
+      "timeWorked": "{time} gearbeitet",
+      "title": "Fortschritt im aktuellen Monat"
+    },
+    "showAll": "Alle anzeigen"
+  },
+  "dialogs": {
+    "textConfirmDelete": "Bist du sicher, dass du {selectedEntity} @.lower:actions.delete möchtest? @:dialogs.textPermanent",
+    "textPermanent": "Diese Aktion lässt sich nicht rückgängig machen."
+  },
+  "errors": {
+    "contractName": "Der Vertragsname",
+    "durationBiggerZero": "Ein {entity} muss eine Laufzeit größer Null haben.",
+    "hours": "Die Stundenangabe",
+    "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
+    "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
+    "nameRequired": "{name} wird benötigt | {name} werden benötigt",
+    "shiftDateEndAfterStart": "Eine Schicht muss nach ihrem start enden.",
+    "shiftDateEndRequired": "Du musst eine Endzeit festlegen.",
+    "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
+    "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
+    "timeFormat": "Bitte gebe ein gültiges Zeitformat ein (HH:MM)."
+  },
+  "feedback": {
+    "fields": {
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "name": "Name",
+      "topic": "Betreff"
+    },
+    "snackbar": {
+      "error": "Bitte probiere es später erneut.",
+      "success": "Wir haben deine Nachricht erhalten. Vielen Dank!"
+    },
+    "text": "Du hast Feedback an uns? Wir haben ein offenes Ohr!",
+    "title": "Feedback",
+    "topics": {
+      "bug": "Fehler melden",
+      "feature": "Verbesserung vorschlagen",
+      "general": "Allgemein",
+      "question": "Frage"
+    }
+  },
+  "forms": {
+    "selected": "{n} ausgewählt",
+    "titleAdd": "{entity} @.lower:actions.add",
+    "titleUpdate": "{entity} @.lower:actions.update"
+  },
+  "gdpr": {
+    "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
+  },
+  "logout": {
+    "message": "Du kannst jederzeit wiederkommen.",
+    "title": "Möchtest du dich @:actions.logout?"
+  },
+  "models": {
+    "contract": "Vertrag | Verträge",
+    "report": "Stundenzettel | Stundenzettel",
+    "selectedContract": "den ausgewählten Vertrag | die ausgewählten Verträge",
+    "selectedShift": "die ausgewählte Schicht | die ausgewählten Schichten",
+    "shift": "Schicht | Schichten"
+  },
+  "onboarding": {
+    "createContract": {
+      "text": "Bitte gebe deine Vertragsdaten ein.",
+      "title": "{entity} erstellen"
+    },
+    "finished": {
+      "text": "Du hast es geschafft!",
+      "title": "Abschluss"
+    },
+    "underConstruction": {
+      "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen das System schneller zu verbessern. Zögere nicht uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
+      "title": "Im Umbau"
+    },
+    "welcome": {
+      "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir dich einzurichten!",
+      "title": "@:app.onboarding"
+    }
+  },
+  "reports": {
+    "creditDebit": "Haben/Soll: {hours} Stunden",
+    "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
+    "exported": "Exportiert",
+    "generate": "Stundenzettel erstellen",
+    "of": "von"
+  },
+  "selectContract": {
+    "hint": "Ändere den Vertrag um andere Daten zu sehen"
+  },
+  "shifts": {
+    "changeContract": "Zugeordneter Vertrag",
+    "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
+    "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
+    "note": "Notiz",
+    "tags": {
+      "createHint": "Keine Ergebnisse für \"<strong>{search}</strong>\". Drücke <kbd>enter</kbd> um einen neuen Tag zu kreieren.",
+      "label": "Füge Tags hinzu"
+    },
+    "to": "bis",
+    "types": {
+      "label": "In welche Kategorie gehört dieser Eintrag?",
+      "sk": "Krank",
+      "st": "Schicht",
+      "vn": "Urlaub"
+    },
+    "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten."
+  }
+}
