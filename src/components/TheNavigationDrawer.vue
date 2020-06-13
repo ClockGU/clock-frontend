@@ -61,7 +61,7 @@
           <template v-slot:activator="{ on }">
             <v-list-item data-cy="menu-logout" v-on="on">
               <v-list-item-content>
-                <v-list-item-title>Logout</v-list-item-title>
+                <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -112,57 +112,7 @@ export default {
   data: () => ({
     icons: {
       mdiLock
-    },
-    menuItems: [
-      {
-        text: "Settings",
-        to: { name: "settings" },
-        icon: mdiAccount,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
-      }
-    ],
-    links: [
-      {
-        text: "Dashboard",
-        to: { name: "dashboard" },
-        icon: mdiHome,
-        loggedOut: false
-      },
-      {
-        text: "Calendar",
-        to: {
-          name: "calendar",
-          params: { ...getRouterProps("month", new Date()) }
-        },
-        icon: mdiCalendar,
-        loggedOut: false
-      },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
-        loggedOut: false
-      },
-      {
-        text: "Contracts",
-        to: { name: "contractList" },
-        icon: mdiFileDocument,
-        loggedOut: false
-      },
-      {
-        text: "Report",
-        to: { name: "reportList" },
-        icon: mdiFileChart,
-        loggedOut: false
-      }
-    ]
+    }
   }),
   computed: {
     ...mapGetters({
@@ -174,6 +124,60 @@ export default {
       if (this.user === null) return "";
 
       return this.user.first_name.charAt(0);
+    },
+    menuItems() {
+      return [
+        {
+          text: this.$t("app.settings"),
+          to: { name: "settings" },
+          icon: mdiAccount,
+          loggedOut: false,
+          withoutContract: true
+        },
+        {
+          text: this.$t("app.help"),
+          to: { name: "help" },
+          icon: mdiHelp,
+          loggedOut: true
+        }
+      ];
+    },
+    links() {
+      return [
+        {
+          text: this.$t("app.dashboard"),
+          to: { name: "dashboard" },
+          icon: mdiHome,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.calendar"),
+          to: {
+            name: "calendar",
+            params: { ...getRouterProps("month", new Date()) }
+          },
+          icon: mdiCalendar,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.shifts"),
+          to: { name: "shiftList" },
+          icon: mdiFormatListNumbered,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.contracts"),
+          to: { name: "contractList" },
+          icon: mdiFileDocument,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.reports"),
+          to: { name: "reportList" },
+          icon: mdiFileChart,
+          loggedOut: false
+        }
+      ];
     }
   },
   methods: {
