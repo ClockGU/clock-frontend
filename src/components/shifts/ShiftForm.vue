@@ -212,16 +212,6 @@ export default {
         errors.push("A shift must end after it starts.");
 
       return errors;
-    },
-    title() {
-      return this.uuid === null
-        ? this.$t("shifts.add")
-        : this.$t("shifts.update");
-    },
-    saveLabel() {
-      return this.uuid === null
-        ? this.$t("actions.save")
-        : this.$t("actions.update");
     }
   },
   watch: {
