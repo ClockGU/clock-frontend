@@ -17,24 +17,15 @@
     </template>
 
     <template v-slot:title>
-      Settings
+      {{ $t("app.settings") }}
     </template>
 
     <template v-slot:content>
       <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
         <v-tab>
-          <v-icon left>{{ icons.mdiTextboxPassword }}</v-icon>
-          Password
-        </v-tab>
-
-        <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
           GDPR
         </v-tab>
-
-        <v-tab-item>
-          <PasswordForm />
-        </v-tab-item>
 
         <v-tab-item>
           <GDPR />
@@ -45,9 +36,8 @@
 </template>
 
 <script>
-import { mdiFileAccount, mdiTextboxPassword } from "@mdi/js";
+import { mdiFileAccount } from "@mdi/js";
 
-import PasswordForm from "@/components/PasswordForm";
 import GDPR from "@/components/GDPR";
 
 export default {
@@ -57,9 +47,9 @@ export default {
       title: this.$t("app.settings")
     };
   },
-  components: { PasswordForm, GDPR },
+  components: { GDPR },
   data: () => ({
-    icons: { mdiFileAccount, mdiTextboxPassword }
+    icons: { mdiFileAccount }
   })
 };
 </script>
