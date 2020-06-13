@@ -17,3 +17,7 @@ export function getContractWithLastActivity({ shifts, contracts }) {
 export function getNextContractParams(to, uuid) {
   return { ...to, params: { ...to.params, contract: uuid } };
 }
+
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
