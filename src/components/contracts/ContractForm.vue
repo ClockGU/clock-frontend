@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-alert v-if="disableDateChange" data-cy="alert-step-one" type="error">
-      You cannot change the start/end date, after adding shifts to the contract.
+      {{ $t("contracts.disableDateChangeAlert") }}
     </v-alert>
 
     <v-row align="center" justify="start">
@@ -30,8 +30,8 @@
         <v-text-field
           v-model="contract.hours"
           data-cy="input-hours"
-          label="Working hours"
-          hint="HH:mm"
+          :label="$t('contracts.hoursPerMonth')"
+          :hint="$t('contracts.hoursPerMonthSubtitle')"
           :prepend-icon="icons.mdiTimetable"
           return-masked-value
           persistent-hint
@@ -46,7 +46,7 @@
         <v-text-field
           v-model="contract.name"
           data-cy="input-contract"
-          label="Contract name"
+          :label="$t('contracts.name')"
           :error-messages="nameErrors"
           :prepend-icon="icons.mdiFolderInformationOutline"
           filled
@@ -168,23 +168,45 @@ export default {
       const errors = [];
       if (!this.$v.contract.name.$dirty) return errors;
       !this.$v.contract.name.minLength &&
-        errors.push("Name must be at least 2 characters long!");
+        errors.push(
+          this.$t("errors.minLength", {
+            name: this.$t("errors.contractName"),
+            length: 2
+          })
+        );
       !this.$v.contract.name.maxLength &&
-        errors.push("Name cannot be longer than 100 characters!");
+        errors.push(
+          this.$t("errors.maxLength", {
+            name: this.$t("errors.contractName"),
+            length: 100
+          })
+        );
 
-      !this.$v.contract.name.required && errors.push("Name is required");
+      !this.$v.contract.name.required &&
+        errors.push(
+          this.$tc("errors.nameRequired", 1, {
+            name: this.$t("errors.contractName")
+          })
+        );
       return errors;
     },
     hoursErrors() {
       const errors = [];
       if (!this.$v.contract.hours.$dirty) return errors;
-      !this.$v.contract.hours.required && errors.push("Hours is required");
+      !this.$v.contract.hours.required &&
+        errors.push(
+          this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") })
+        );
       !this.$v.contract.hours.validMinutes &&
-        errors.push("Please enter a valid format (HH:MM).");
+        errors.push(this.$t("errors.timeFormat"));
       !this.$v.contract.hours.minLength &&
-        errors.push("Please enter a valid format (HH:MM).");
+        errors.push(this.$t("errors.timeFormat"));
       !this.$v.contract.hours.hoursNotZero &&
-        errors.push("A contract must have a duration.");
+        errors.push(
+          this.$t("errors.durationBiggerZero", {
+            entity: this.$tc("models.contract")
+          })
+        );
 
       return errors;
     }
