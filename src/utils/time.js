@@ -39,3 +39,10 @@ export function startEndHours(date) {
     end
   };
 }
+
+export function hoursToWorktime(value) {
+  const hours = Math.floor(value);
+  const minutes = parseInt((60 * (value - hours)).toFixed(0));
+
+  return `${hours.pad(2)}:${minutes.pad(2)}`;
+}
