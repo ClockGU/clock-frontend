@@ -84,7 +84,7 @@
 
         <v-spacer></v-spacer>
 
-        <ConfirmationDialog @confirm="destroy">
+        <ConfirmationDialog v-if="uuid !== null" @confirm="destroy">
           <template v-slot:activator="{ on }">
             <v-btn
               data-cy="entity-form-delete-button"
