@@ -58,20 +58,15 @@
               :to="item.to"
               router
             >
-              <v-list-item-action>
-                <v-icon small>{{ item.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>{{ item.text }} </v-list-item-content>
+              <v-list-item-content>{{ item.text }}</v-list-item-content>
             </v-list-item>
 
             <LogoutDialog>
               <template v-slot:activator="{ on }">
                 <v-list-item data-cy="menu-logout" v-on="on">
-                  <v-list-item-action>
-                    <v-icon small>{{ icons.mdiLock }} </v-icon>
-                  </v-list-item-action>
-
-                  <v-list-item-content>Logout</v-list-item-content>
+                  <v-list-item-content>
+                    {{ $t("actions.logout") }}
+                  </v-list-item-content>
                 </v-list-item>
               </template>
             </LogoutDialog>
@@ -85,7 +80,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { mdiChevronDown, mdiMenu, mdiAccount, mdiHelp, mdiLock } from "@mdi/js";
+import { mdiChevronDown, mdiMenu } from "@mdi/js";
 
 import LogoutDialog from "@/components/LogoutDialog";
 
@@ -95,24 +90,8 @@ export default {
   data: () => ({
     icons: {
       mdiMenu,
-      mdiChevronDown,
-      mdiLock
-    },
-    menuItems: [
-      {
-        text: "Settings",
-        to: { name: "settings" },
-        icon: mdiAccount,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
-      }
-    ]
+      mdiChevronDown
+    }
   }),
   computed: {
     ...mapGetters({
@@ -122,6 +101,21 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    menuItems() {
+      return [
+        {
+          text: this.$t("app.settings"),
+          to: { name: "settings" },
+          loggedOut: false,
+          withoutContract: true
+        },
+        {
+          text: this.$t("app.help"),
+          to: { name: "help" },
+          loggedOut: true
+        }
+      ];
+    },
     firstLetter() {
       if (this.user === null) return "";
 
