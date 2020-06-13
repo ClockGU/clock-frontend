@@ -7,11 +7,13 @@
         </span>
         <v-spacer></v-spacer>
         <v-chip v-if="exported" outlined color="primary">
-          Exported
+          {{ $t("reports.exported") }}
         </v-chip>
       </v-card-title>
 
-      <v-card-text>Credit/Debit: {{ creditDebit }} hours</v-card-text>
+      <v-card-text>
+        {{ $t("reports.creditDebit", { hours: creditDebit }) }}
+      </v-card-text>
 
       <v-card-actions>
         <v-btn
@@ -27,7 +29,10 @@
 
         <ConfirmationDialog
           v-else
-          :confirmation-button="{ text: 'Continue', color: 'primary' }"
+          :confirmation-button="{
+            text: $t('actions.continue'),
+            color: 'primary'
+          }"
           @confirm="request"
         >
           <template v-slot:activator="{ on }">
@@ -38,15 +43,16 @@
               color="primary"
               v-on="on"
             >
-              Request
+              {{ $t("reports.request") }}
             </v-btn>
           </template>
 
-          <template v-slot:title>Generate report</template>
+          <template v-slot:title>
+            {{ $t("reports.generate") }}
+          </template>
 
           <template v-slot:text>
-            Once you generate the report, you will not be able to add or update
-            shifts in the corresponding month.
+            {{ $t("reports.exportAlert") }}
           </template>
         </ConfirmationDialog>
       </v-card-actions>
@@ -104,7 +110,7 @@ export default {
       return (this.report.duration / 60).toFixed(1);
     },
     creditDebit() {
-      return `${this.credit} of ${this.debit}`;
+      return `${this.credit} ${this.$t("reports.of")} ${this.debit}`;
     }
   },
   methods: {
