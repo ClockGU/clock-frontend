@@ -24,7 +24,7 @@
       <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
         <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
-          GDPR
+          {{ $t("app.gdpr") }}
         </v-tab>
 
         <v-tab-item>
