@@ -21,7 +21,9 @@
 
       <v-col cols="12" md="6">
         <v-card>
-          <v-card-title>Last five shifts</v-card-title>
+          <v-card-title>
+            {{ $t("dashboard.lastActivity") }}
+          </v-card-title>
           <v-card-text>
             <template v-if="lastFiveShifts.length > 0">
               <v-list>
@@ -35,10 +37,12 @@
                   </template>
                 </v-list-item-group>
               </v-list>
-              <v-btn color="success" text :to="allShiftRouter">View all</v-btn>
+              <v-btn color="success" text :to="allShiftRouter">
+                {{ $t("dashboard.showAll") }}
+              </v-btn>
             </template>
             <v-container v-else>
-              You have not clocked any shfits in this contract.
+              {{ $t("dashboard.emptyActivity") }}
             </v-container>
           </v-card-text>
         </v-card>
