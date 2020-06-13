@@ -10,7 +10,7 @@
         </v-col>
         <v-col cols="4" sm="2" order="0" order-sm="0">
           <v-btn color="primary" text @click="newShift">
-            Add shift
+            {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
           </v-btn>
         </v-col>
 
@@ -69,7 +69,14 @@
               <v-icon>{{ icons.mdiClose }}</v-icon>
             </v-btn>
             <v-toolbar-title data-cy="calendar-selected-event-type">
-              Type: {{ selectedEvent.type }}
+              {{ $t("calendar.type") }}:
+              {{
+                $t(
+                  `shifts.types.${
+                    selectedEvent.type === undefined ? "st" : selectedEvent.type
+                  }`
+                )
+              }}
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text data-cy="calendar-selected-event-text">
@@ -88,7 +95,7 @@
               data-cy="calendar-selected-event-edit"
               @click="editShift(selectedEvent.uuid)"
             >
-              Edit
+              {{ $t("actions.edit") }}
             </v-btn>
 
             <ConfirmationDialog @confirm="destroy(selectedEvent.uuid)">
@@ -99,15 +106,22 @@
                   data-cy="calendar-selected-event-delete"
                   v-on="on"
                 >
-                  Delete
+                  {{ $t("actions.delete") }}
                 </v-btn>
               </template>
 
-              <template v-slot:title>Delete shift?</template>
+              <template v-slot:title>
+                {{
+                  $t("buttons.deleteEntity", { entity: $tc("models.shift") })
+                }}
+              </template>
 
               <template v-slot:text>
-                Are you sure you want to delete the shift? This action is
-                permanent.
+                {{
+                  $t(`dialogs.textConfirmDelete`, {
+                    selectedEntity: $tc(`models.selectedShift`)
+                  })
+                }}
               </template>
             </ConfirmationDialog>
           </v-card-actions>
@@ -268,7 +282,7 @@ export default {
           uuid: shift.uuid,
           start: format(shift.date.start, "yyyy-MM-dd HH:mm"),
           end: format(shift.date.end, "yyyy-MM-dd HH:mm"),
-          type: shift.type.text,
+          type: shift.type.value,
           color: this.colorMap(shift),
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
