@@ -22,11 +22,13 @@
 <script>
 export default {
   name: "TheFooter",
-  data: () => ({
-    links: [
-      { text: "Datenschutz", to: "privacy" },
-      { text: "Impressum", to: "imprint" }
-    ]
-  })
+  computed: {
+    links() {
+      return [
+        { text: this.$t("app.privacy"), to: "privacy" },
+        { text: this.$t("app.imprint"), to: "imprint" }
+      ];
+    }
+  }
 };
 </script>
