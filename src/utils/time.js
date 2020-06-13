@@ -46,3 +46,9 @@ export function hoursToWorktime(value) {
 
   return `${hours.pad(2)}:${minutes.pad(2)}`;
 }
+
+export function formattedTime(time) {
+  const [hours, minutes] = time.split(":");
+
+  return `${hours}h${minutes}m`;
+}
