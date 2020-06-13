@@ -15,6 +15,8 @@
 
         <v-spacer></v-spacer>
 
+        <LanguageSwitcher />
+
         <v-btn text @click="logout">
           {{ $t("actions.logout") }}
         </v-btn>
@@ -91,9 +93,11 @@ import ContractForm from "@/components/contracts/ContractForm";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 export default {
   name: "OnboardDialog",
-  components: { ContractForm },
+  components: { ContractForm, LanguageSwitcher },
   props: {
     now: {
       type: Date,
