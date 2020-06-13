@@ -92,7 +92,7 @@
       }
     },
     "emptyActivity": "You have not clocked any shfits in this contract.",
-    "lastActivity": "Letzte Aktivität",
+    "lastActivity": "Last activity",
     "progress": {
       "perMonth": "{time} per month",
       "timeRemaining": "{time} remaining",
