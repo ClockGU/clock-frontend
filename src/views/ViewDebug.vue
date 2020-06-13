@@ -58,8 +58,10 @@ import { subMinutes, subDays } from "date-fns";
 
 export default {
   name: "ViewDebug",
-  metaInfo: {
-    title: "Debug"
+  metaInfo() {
+    return {
+      title: this.$t("app.debug")
+    };
   },
   data: () => ({
     shift: {

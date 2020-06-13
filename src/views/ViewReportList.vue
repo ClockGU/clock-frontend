@@ -71,8 +71,10 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ViewReportList",
-  metaInfo: {
-    title: "Stundenzettel"
+  metaInfo() {
+    return {
+      title: this.$t("app.reports")
+    };
   },
   components: {
     ReportCard,

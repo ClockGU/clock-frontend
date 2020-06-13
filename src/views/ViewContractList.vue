@@ -102,8 +102,10 @@ import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: "ViewContractList",
-  metaInfo: {
-    title: "Verträge"
+  metaInfo() {
+    return {
+      title: this.$t("app.contracts")
+    };
   },
   components: {
     ContractListCard,

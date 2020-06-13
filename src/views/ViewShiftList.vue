@@ -153,8 +153,10 @@ import { getNextContractParams } from "@/utils";
 
 export default {
   name: "ViewShiftList",
-  metaInfo: {
-    title: "Schichten"
+  metaInfo() {
+    return {
+      title: this.$t("app.shifts")
+    };
   },
   components: {
     ConfirmationDialog,

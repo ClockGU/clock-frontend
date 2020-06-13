@@ -20,8 +20,10 @@ import { getContractWithLastActivity } from "@/utils";
 
 export default {
   name: "LoggingIn",
-  metaInfo: {
-    title: "Einloggen..."
+  metaInfo() {
+    return {
+      title: this.$t("app.loggingin")
+    };
   },
   beforeRouteEnter(to, from, next) {
     if (to.query.code === undefined) {

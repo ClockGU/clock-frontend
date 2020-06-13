@@ -52,8 +52,10 @@ import GDPR from "@/components/GDPR";
 
 export default {
   name: "Settings",
-  metaInfo: {
-    title: "Einstellungen"
+  metaInfo() {
+    return {
+      title: this.$t("app.settings")
+    };
   },
   components: { PasswordForm, GDPR },
   data: () => ({
