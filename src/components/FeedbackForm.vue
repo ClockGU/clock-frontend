@@ -1,21 +1,23 @@
 <template>
   <v-card>
-    <v-card-title>Feedback</v-card-title>
+    <v-card-title>
+      {{ $t("feedback.title") }}
+    </v-card-title>
     <v-card-text>
       <p>
-        Send us any feedback you have. We appreciate all comments!
+        {{ $t("feedback.text") }}
       </p>
       <v-form>
         <v-text-field
           v-model="name"
-          label="Name"
+          :label="$t('feedback.fields.name')"
           :error-messages="nameErrors"
           @blur="$v.name.$touch()"
         ></v-text-field>
 
         <v-text-field
           v-model="email"
-          label="E-Mail"
+          :label="$t('feedback.fields.email')"
           :error-messages="emailErrors"
           @blur="$v.email.$touch()"
         ></v-text-field>
@@ -23,12 +25,12 @@
         <v-select
           v-model="topic"
           :items="availableTopics"
-          label="Topic"
+          :label="$t('feedback.fields.topic')"
         ></v-select>
 
         <v-textarea
           v-model="message"
-          label="Message"
+          :label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
           @blur="$v.message.$touch()"
         ></v-textarea>
@@ -37,9 +39,11 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn text @click="close">Cancel</v-btn>
+      <v-btn text @click="close">
+        {{ $t("actions.cancel") }}
+      </v-btn>
       <v-btn color="primary" text :disabled="$v.$invalid" @click="submit">
-        Send
+        {{ $t("actions.send") }}
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -64,13 +68,32 @@ export default {
     name: null,
     email: null,
     message: null,
-    topic: "General",
-    availableTopics: ["Bug report", "Feature request", "Question", "General"]
+    topic: "general"
   }),
   computed: {
     ...mapGetters({
       user: "user"
     }),
+    availableTopics() {
+      return [
+        {
+          text: this.$t("feedback.topics.bug"),
+          value: "bug"
+        },
+        {
+          text: this.$t("feedback.topics.feature"),
+          value: "feature"
+        },
+        {
+          text: this.$t("feedback.topics.question"),
+          value: "question"
+        },
+        {
+          text: this.$t("feedback.topics.general"),
+          value: "general"
+        }
+      ];
+    },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
@@ -132,14 +155,14 @@ export default {
 
       if (response.status === 200) {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: "Message sent. Thank you!",
+          snack: this.$t("feedback.snackbar.success"),
           timeout: 4000,
           color: "success"
         });
         this.close();
       } else {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: "Please try again later.",
+          snack: this.$t("feedback.snackbar.error"),
           timeout: 4000,
           color: "error"
         });
