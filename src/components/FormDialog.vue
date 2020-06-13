@@ -76,7 +76,7 @@
           color="primary"
           @click="uuid === null ? save() : update()"
         >
-          {{ $("actions.save") }}
+          {{ $t("actions.save") }}
         </v-btn>
         <v-btn data-cy="entity-cancel" text @click="closeDialog">
           {{ $t("actions.cancel") }}
