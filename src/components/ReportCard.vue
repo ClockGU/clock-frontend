@@ -43,7 +43,7 @@
               color="primary"
               v-on="on"
             >
-              {{ $t("reports.request") }}
+              {{ $t("actions.request") }}
             </v-btn>
           </template>
 
