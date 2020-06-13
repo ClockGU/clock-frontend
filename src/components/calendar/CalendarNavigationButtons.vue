@@ -6,7 +6,7 @@
       data-cy="calendar-today"
       @click="$emit('today')"
     >
-      Today
+      {{ $t("calendar.today") }}
     </v-btn>
     <v-btn
       fab
