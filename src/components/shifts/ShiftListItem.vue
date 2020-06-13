@@ -25,7 +25,7 @@
             class="my-2"
             :color="typeColor"
           >
-            {{ item.type.text }}
+            {{ $t(`shifts.types.${item.type.value}`) }}
           </v-chip>
 
           <span v-if="item.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
