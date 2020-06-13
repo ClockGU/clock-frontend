@@ -26,19 +26,19 @@
           <v-spacer></v-spacer>
           <v-btn
             data-cy="delete-confirm"
-            :color="confirmationButton.color"
+            :color="confirmationObject.color"
             text
             @click="confirm"
           >
-            {{ confirmationButton.text }}
+            {{ confirmationObject.text }}
           </v-btn>
           <v-btn
             data-cy="delete-cancel"
-            :color="cancelButton.color"
+            :color="cancelObject.color"
             text
             @click="cancel"
           >
-            {{ cancelButton.text }}
+            {{ cancelObject.text }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,7 +57,6 @@ export default {
       type: Object,
       default: () => {
         return {
-          text: "Delete",
           color: "error"
         };
       }
@@ -66,7 +65,6 @@ export default {
       type: Object,
       default: () => {
         return {
-          text: "Cancel",
           color: ""
         };
       }
@@ -79,6 +77,20 @@ export default {
   data: () => ({
     dialog: false
   }),
+  computed: {
+    confirmationObject() {
+      return {
+        text: this.$t("actions.delete"),
+        ...this.confirmationButton
+      };
+    },
+    cancelObject() {
+      return {
+        text: this.$t("actions.cancel"),
+        ...this.cancelButton
+      };
+    }
+  },
   methods: {
     cancel() {
       this.$emit("cancel");
