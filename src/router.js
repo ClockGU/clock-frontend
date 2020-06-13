@@ -135,7 +135,7 @@ const router = new Router({
           component: Settings
         },
         {
-          path: "/debug",
+          path: "/debug/:contract?",
           name: "debug",
           component: ViewDebug
         }
@@ -207,7 +207,13 @@ router.beforeEach(async (to, from, next) => {
     return next({ name: "onboarding" });
   }
 
-  const contractRoutes = ["dashboard", "shiftList", "reportList", "calendar"];
+  const contractRoutes = [
+    "dashboard",
+    "shiftList",
+    "reportList",
+    "calendar",
+    "debug"
+  ];
   const contractMatch = contracts.find(
     contract => contract.uuid === to.params.contract
   );
