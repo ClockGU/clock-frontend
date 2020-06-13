@@ -194,10 +194,10 @@ export default {
 
       (!this.$v.shift.date.start.required ||
         !!this.$v.shift.date.start.biggerThan23) &&
-        errors.push("You must specify a start time.");
+        errors.push(this.$t("errors.shiftDateStartRequired"));
 
       !this.$v.shift.date.start.startBeforeEnd &&
-        errors.push("A shift must start before it ends.");
+        errors.push(this.$t("errors.shiftDateStartBeforeEnd"));
 
       return errors;
     },
@@ -206,10 +206,10 @@ export default {
       if (!this.$v.shift.date.end.$dirty) return errors;
 
       !this.$v.shift.date.end.required &&
-        errors.push("You must specify a start time.");
+        errors.push(this.$t("errors.shiftDateEndRequired"));
 
       !this.$v.shift.date.end.endAfterStart &&
-        errors.push("A shift must end after it starts.");
+        errors.push(this.$t("errors.shiftDateEndAfterStart"));
 
       return errors;
     }
