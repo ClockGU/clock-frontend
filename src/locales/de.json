@@ -34,7 +34,8 @@
     "privacy": "Datenschutz",
     "reports": "Stundenzettel",
     "settings": "Einstellungen",
-    "shifts": "Schichten"
+    "shifts": "Schichten",
+    "language": "Sprache"
   },
   "buttons": {
     "deleteEntity": "{entity} @.lower:actions.delete?",

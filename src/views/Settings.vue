@@ -24,8 +24,17 @@
       <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
         <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          {{ $t("app.language") }}
+        </v-tab>
+
+        <v-tab>
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
           {{ $t("app.gdpr") }}
         </v-tab>
+
+        <v-tab-item>
+          <LanguageSettings />
+        </v-tab-item>
 
         <v-tab-item>
           <GDPR />
@@ -39,6 +48,7 @@
 import { mdiFileAccount } from "@mdi/js";
 
 import GDPR from "@/components/GDPR";
+import LanguageSettings from "@/components/LanguageSettings";
 
 export default {
   name: "Settings",
@@ -47,7 +57,7 @@ export default {
       title: this.$t("app.settings")
     };
   },
-  components: { GDPR },
+  components: { GDPR, LanguageSettings },
   data: () => ({
     icons: { mdiFileAccount }
   })

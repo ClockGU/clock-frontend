@@ -34,7 +34,8 @@
     "privacy": "Privacy",
     "reports": "Report",
     "settings": "Settings",
-    "shifts": "Shift"
+    "shifts": "Shift",
+    "language": "Language"
   },
   "buttons": {
     "deleteEntity": "@:actions.delete {entity}?",
