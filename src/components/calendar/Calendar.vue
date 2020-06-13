@@ -81,11 +81,19 @@
           </v-toolbar>
           <v-card-text data-cy="calendar-selected-event-text">
             <h2 class="title primary-text">
-              {{ selectedEvent.selectedEventDuration }} on
-              {{ selectedEvent.start | formatDate }}
+              {{
+                $t("calendar.shiftOnDay", {
+                  duration: selectedEvent.selectedEventDuration,
+                  start: formatDate(selectedEvent.start)
+                })
+              }}
             </h2>
-            From {{ selectedEvent.start | formatTime }} until
-            {{ selectedEvent.end | formatTime }}
+            {{
+              $t("calendar.shiftFromTo", {
+                start: formatTime(selectedEvent.start),
+                end: formatTime(selectedEvent.end)
+              })
+            }}
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -141,6 +149,7 @@
 </template>
 
 <script>
+import { formatTime, formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
@@ -154,7 +163,7 @@ import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import SelectContractFilter from "@/components/SelectContractFilter";
 
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapState } from "vuex";
 
@@ -166,16 +175,6 @@ export default {
     ConfirmationDialog,
     FormDialog,
     SelectContractFilter
-  },
-  filters: {
-    formatDate(date, formatString = "do MMMM yyyy") {
-      if (date === undefined) return;
-      return format(parseISO(date), formatString);
-    },
-    formatTime(date, formatString = "HH:mm a") {
-      if (date === undefined) return;
-      return format(parseISO(date), formatString);
-    }
   },
   props: {
     initialFocus: {
@@ -308,6 +307,12 @@ export default {
     this.type = this.initialType;
   },
   methods: {
+    formatTime(value) {
+      return formatTime(value);
+    },
+    formatDate(value) {
+      return formatDate(value);
+    },
     async refresh({ contract }) {
       if (this.$route.params.contract !== contract) {
         await this.$router.replace(
