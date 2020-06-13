@@ -8,13 +8,13 @@
             :selected-contract="selectedContract"
           />
         </v-col>
-        <v-col cols="4" sm="2" order="0" order-sm="0">
-          <v-btn color="primary" text @click="newShift">
+        <v-col cols="12">
+          <v-btn color="primary" @click="newShift">
             {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
           </v-btn>
         </v-col>
 
-        <v-col cols="8" md="4" sm="5" order="1">
+        <v-col cols="12" sm="5">
           <CalendarNavigationButtons
             @today="setToday"
             @next="next"
@@ -22,14 +22,14 @@
           />
         </v-col>
 
-        <v-col cols="5" sm="3" order="3" order-sm="2">
+        <v-col cols="12" sm="2" order-sm="3">
+          <CalendarTypeSelect v-model="type" />
+        </v-col>
+
+        <v-col cols="12" sm="5" order-sm="2">
           <span data-cy="calendar-title">
             {{ title }}
           </span>
-        </v-col>
-
-        <v-col cols="4" sm="3" order="2" order-sm="3">
-          <CalendarTypeSelect v-model="type" />
         </v-col>
       </v-row>
     </v-sheet>
