@@ -1,64 +1,53 @@
 <template>
-  <v-row
-    :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
-    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+  <base-layout
+    alternative-portal-target="card-toolbar"
+    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
   >
-    <v-col cols="12" md="8" class="py-0">
-      <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
-        <portal-target name="card-toolbar"></portal-target>
+    <template v-slot:card-top>
+      <portal-target name="card-toolbar"></portal-target>
+    </template>
 
-        <portal
-          :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'"
-        >
-          <v-toolbar slot-scope="{ action }" :elevation="0">
-            <v-app-bar-nav-icon
-              v-if="$vuetify.breakpoint.smAndDown"
-              icon
-              @click="action"
-            ></v-app-bar-nav-icon>
+    <template v-slot:pre-toolbar-title="{ action }">
+      <v-app-bar-nav-icon
+        v-if="$vuetify.breakpoint.smAndDown"
+        icon
+        @click="action"
+      ></v-app-bar-nav-icon>
+    </template>
 
-            <v-toolbar-title>
-              {{ $tc("models.report", 2) }}
-            </v-toolbar-title>
-          </v-toolbar>
-        </portal>
+    <template v-slot:title>
+      {{ $tc("models.report", 2) }}
+    </template>
 
-        <v-card-text class="pt-0">
-          <SelectContractFilter
-            :contracts="contracts"
-            :selected-contract="selectedContract"
-          />
-          <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
-            <v-col
-              v-if="loading && !ignoreLoading"
-              cols="10"
-              md="6"
-              class="pt-0"
-            >
-              <v-skeleton-loader
-                v-if="loading"
-                data-cy="skeleton"
-                type="card"
-                width="90%"
-                :loading="true"
-              ></v-skeleton-loader>
-            </v-col>
+    <template v-slot:content>
+      <SelectContractFilter
+        :contracts="contracts"
+        :selected-contract="selectedContract"
+      />
+      <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
+        <v-col v-if="loading && !ignoreLoading" cols="10" md="6" class="pt-0">
+          <v-skeleton-loader
+            v-if="loading"
+            data-cy="skeleton"
+            type="card"
+            width="90%"
+            :loading="true"
+          ></v-skeleton-loader>
+        </v-col>
 
-            <v-col v-else>
-              <v-row>
-                <ReportCard
-                  v-for="report in sortedReports"
-                  :key="report.uuid"
-                  :report="report"
-                  :exported="report.exported"
-                ></ReportCard>
-              </v-row>
-            </v-col>
+        <v-col v-else>
+          <v-row>
+            <ReportCard
+              v-for="report in sortedReports"
+              :key="report.uuid"
+              :report="report"
+              :exported="report.exported"
+            ></ReportCard>
           </v-row>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+        </v-col>
+      </v-row>
+    </template>
+  </base-layout>
 </template>
 
 <script>
