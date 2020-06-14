@@ -25,14 +25,16 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            v-bind="confirmationObject.attrs"
             data-cy="delete-confirm"
             :color="confirmationObject.color"
             text
-            @click="confirm"
+            @click="confirmationObject.onClickHandler"
           >
             {{ confirmationObject.text }}
           </v-btn>
           <v-btn
+            v-bind="cancelObject.attrs"
             data-cy="delete-cancel"
             :color="cancelObject.color"
             text
@@ -57,7 +59,9 @@ export default {
       type: Object,
       default: () => {
         return {
-          color: "error"
+          color: "error",
+          attrs: {},
+          onClickHandler: null
         };
       }
     },
@@ -65,7 +69,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          color: ""
+          color: "",
+          attrs: {}
         };
       }
     },
@@ -81,7 +86,12 @@ export default {
     confirmationObject() {
       return {
         text: this.$t("actions.delete"),
-        ...this.confirmationButton
+        ...this.confirmationButton,
+        onClickHandler:
+          this.confirmationButton.onClickHandler === null ||
+          this.confirmationButton.onClickHandler === undefined
+            ? this.confirm
+            : this.confirmationButton.onClickHandler
       };
     },
     cancelObject() {
