@@ -90,7 +90,7 @@
             :selected-contract="selectedContract"
           />
 
-          <v-btn color="primary" text @click="newShift">
+          <v-btn color="primary" @click="newShift">
             {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
           </v-btn>
 

@@ -33,7 +33,7 @@
 
         <template v-if="(!loading || ignoreLoading) && editMode">
           <v-col cols="12">
-            <v-btn color="primary" text @click="newContract">
+            <v-btn color="primary" @click="newContract">
               {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
             </v-btn>
           </v-col>
