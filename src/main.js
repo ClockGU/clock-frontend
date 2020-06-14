@@ -11,6 +11,7 @@ import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 import BaseLayout from "@/layouts/BaseLayout";
+import Link from "@/components/base/Link";
 import Placeholder from "@/components/Placeholder";
 
 import "@/assets/main.scss";
@@ -50,6 +51,7 @@ if (isProduction) {
 }
 
 Vue.component("base-layout", BaseLayout);
+Vue.component("base-link", Link);
 Vue.component("placeholder", Placeholder);
 
 new Vue({
