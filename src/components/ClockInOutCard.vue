@@ -15,6 +15,26 @@
       }"
     >
       <v-window v-model="window">
+        <v-overlay
+          :value="showOverlay && !contractExpired"
+          absolute
+          opacity="0.8"
+        >
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <p>
+                  {{ $t("dashboard.clock.changeContract") }}
+                </p>
+              </v-col>
+              <v-col cols="12">
+                <v-btn color="primary lighten-1" @click="changeContract">
+                  {{ $t("actions.change") }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-overlay>
         <v-window-item :key="0">
           <ClockInOutCardClock
             :actions="{
@@ -50,6 +70,8 @@ import ClockInOutCardForm from "@/components/ClockInOutCardForm";
 
 import { mapGetters } from "vuex";
 
+import contractExpiredMixin from "@/mixins/contractExpired";
+
 export default {
   name: "ClockInOutCard",
   components: {
@@ -57,6 +79,7 @@ export default {
     ClockInOutCardClock,
     ClockInOutCardForm
   },
+  mixins: [contractExpiredMixin],
   props: {
     selectedContract: {
       required: true,
@@ -82,6 +105,17 @@ export default {
       return this.contracts.find(
         contract => contract.uuid === this.clockedShift.contract
       );
+    },
+    showOverlay() {
+      return this.$route.params.contract !== this.clockedContract.uuid;
+    }
+  },
+  methods: {
+    changeContract() {
+      this.$router.push({
+        ...this.$route,
+        params: { ...this.$route.params, contract: this.clockedContract.uuid }
+      });
     }
   }
 };

@@ -4,23 +4,6 @@
     :disabled="actions.status === 'saving'"
     :loading="actions.status === 'saving'"
   >
-    <v-overlay :value="showOverlay" absolute opacity="0.8">
-      <v-container>
-        <v-row>
-          <v-col cols="12">
-            <p>
-              {{ $t("dashboard.clock.changeContract") }}
-            </p>
-          </v-col>
-          <v-col cols="12">
-            <v-btn color="primary lighten-1" @click="changeContract">
-              {{ $t("actions.change") }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-overlay>
-
     <v-toolbar :elevation="0">
       <v-toolbar-title>
         {{
@@ -167,17 +150,6 @@ export default {
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
-    },
-    showOverlay() {
-      return this.$route.params.contract !== this.clockedContract.uuid;
-    }
-  },
-  methods: {
-    changeContract() {
-      this.$router.push({
-        ...this.$route,
-        params: { ...this.$route.params, contract: this.clockedContract.uuid }
-      });
     }
   }
 };
