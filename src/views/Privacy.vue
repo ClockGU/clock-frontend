@@ -261,8 +261,10 @@
 <script>
 export default {
   name: "Privacy",
-  metaInfo: {
-    title: "Datenschutz"
+  metaInfo() {
+    return {
+      title: this.$t("app.privacy")
+    };
   }
 };
 </script>

@@ -17,8 +17,10 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ViewCalendar",
-  metaInfo: {
-    title: "Kalendar"
+  metaInfo() {
+    return {
+      title: this.$t("app.calendar")
+    };
   },
   components: {
     Calendar

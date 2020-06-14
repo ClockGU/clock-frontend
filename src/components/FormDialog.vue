@@ -13,7 +13,11 @@
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
         <v-toolbar-title>
-          {{ uuid !== null ? `Update ${entityName}` : `Create ${entityName}` }}
+          {{
+            uuid !== null
+              ? $t("forms.titleUpdate", { entity: $tc(`models.${entityName}`) })
+              : $t("forms.titleAdd", { entity: $tc(`models.${entityName}`) })
+          }}
         </v-toolbar-title>
         <v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
         <v-toolbar-items v-if="$vuetify.breakpoint.smAndDown">
@@ -24,10 +28,20 @@
               </v-btn>
             </template>
 
-            <template v-slot:title>Delete {{ entityName }}?</template>
+            <template v-slot:title>
+              {{
+                $t("buttons.deleteEntity", {
+                  entity: $tc(`models.${entityName}`)
+                })
+              }}
+            </template>
 
             <template v-slot:text>
-              Deleting the {{ entityName }} is a permanent action.
+              {{
+                $t(`dialogs.textConfirmDelete`, {
+                  selectedEntity: $tc(`models.selected${captializedEntityName}`)
+                })
+              }}
             </template>
           </ConfirmationDialog>
 
@@ -36,7 +50,7 @@
             :disabled="!formValid"
             @click="uuid === null ? save() : update()"
           >
-            Save
+            {{ $t("actions.save") }}
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -62,15 +76,15 @@
           color="primary"
           @click="uuid === null ? save() : update()"
         >
-          Save
+          {{ $t("actions.save") }}
         </v-btn>
         <v-btn data-cy="entity-cancel" text @click="closeDialog">
-          Cancel
+          {{ $t("actions.cancel") }}
         </v-btn>
 
         <v-spacer></v-spacer>
 
-        <ConfirmationDialog @confirm="destroy">
+        <ConfirmationDialog v-if="uuid !== null" @confirm="destroy">
           <template v-slot:activator="{ on }">
             <v-btn
               data-cy="entity-form-delete-button"
@@ -78,14 +92,24 @@
               color="error"
               v-on="on"
             >
-              Delete
+              {{ $t("actions.delete") }}
             </v-btn>
           </template>
 
-          <template v-slot:title>Delete {{ entityName }}?</template>
+          <template v-slot:title>
+            {{
+              $t("buttons.deleteEntity", {
+                entity: $tc(`models.${entityName}`)
+              })
+            }}
+          </template>
 
           <template v-slot:text>
-            Deleting the {{ entityName }} is a permanent action.
+            {{
+              $t(`dialogs.textConfirmDelete`, {
+                selectedEntity: $tc(`models.selected${captializedEntityName}`)
+              })
+            }}
           </template>
         </ConfirmationDialog>
       </v-card-actions>
@@ -94,6 +118,7 @@
 </template>
 
 <script>
+import { capitalizeFirstLetter } from "@/utils";
 import { handleApiError } from "@/utils/interceptors";
 import { mdiDelete, mdiClose } from "@mdi/js";
 
@@ -130,6 +155,9 @@ export default {
     service: null
   }),
   computed: {
+    captializedEntityName() {
+      return capitalizeFirstLetter(this.entityName);
+    },
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
     },

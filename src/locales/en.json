@@ -1,0 +1,207 @@
+{
+  "actions": {
+    "add": "Add",
+    "back": "Back",
+    "cancel": "Cancel",
+    "change": "Change",
+    "close": "Close",
+    "complete": "Complete",
+    "continue": "Continue",
+    "delete": "Delete",
+    "download": "Download",
+    "edit": "Edit",
+    "logout": "Logout",
+    "next": "Next",
+    "request": "Request",
+    "reset": "Reset",
+    "save": "Save",
+    "send": "Send",
+    "update": "Update"
+  },
+  "app": {
+    "calendar": "Calendar",
+    "contracts": "Contract",
+    "dashboard": "Dashboard",
+    "debug": "Debug",
+    "gdpr": "GDPR",
+    "help": "Help",
+    "imprint": "Imprint",
+    "loggingin": "Logging in...",
+    "logout": "@:actions.logout",
+    "mainTitle": "Your flexible time sheet",
+    "notfound": "Not found",
+    "onboarding": "Onboarding",
+    "privacy": "Privacy",
+    "reports": "Report",
+    "settings": "Settings",
+    "shifts": "Shift",
+    "language": "Language"
+  },
+  "buttons": {
+    "deleteEntity": "@:actions.delete {entity}?",
+    "newEntity": "@:actions.add {entity}"
+  },
+  "calendar": {
+    "day": "Day",
+    "fourdays": "4 days",
+    "month": "Month",
+    "shiftFromTo": "from {start} until {end}",
+    "shiftOnDay": "{duration} on {start}",
+    "today": "Today",
+    "type": "Type",
+    "week": "Week"
+  },
+  "contracts": {
+    "disableDateChangeAlert": "You cannot change the start/end date, after adding shifts to the contract.",
+    "empty": "Create your first contract!",
+    "fromTo": "{start} until {end}",
+    "hoursPerMonth": "Hours per month",
+    "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
+    "name": "Name your contract",
+    "perMonth": "{time} per month"
+  },
+  "dashboard": {
+    "clock": {
+      "changeContract": "You are clocked into a different contract.",
+      "in": "Clock in",
+      "out": "Clock out",
+      "problems": {
+        "actions": {
+          "advanced": "Advaned mode",
+          "keepBoth": "Create new shifts",
+          "keepFirst": "Keep first shift",
+          "keepSecond": "Keep last shift",
+          "label": "Select an action"
+        },
+        "clockedShift": "Clocked shift",
+        "deletedAll": "You have deleted all staged shifts. You can either clock out, without saving new shifts, or reset your actions.",
+        "messages": {
+          "allSaved": "All shifts were saved.",
+          "noSaved": "No additional shifts were saved",
+          "singleSaved": "The shift was saved.",
+          "success": "You were clocked out."
+        },
+        "newShifts": "New shifts",
+        "text": "A shift must end on the same day it started. Therefore, we will need to split your shift. Make a decision on what to do.",
+        "title": "Invalid shift"
+      },
+      "review": "Review problems",
+      "start": "Start a shift",
+      "state": {
+        "idle": "Clocked out",
+        "running": "Clocked in"
+      }
+    },
+    "emptyActivity": "You have not clocked any shfits in this contract.",
+    "lastActivity": "Last activity",
+    "progress": {
+      "perMonth": "{time} per month",
+      "timeRemaining": "{time} remaining",
+      "timeWorked": "{time} worked",
+      "title": "Monthly progress"
+    },
+    "showAll": "Show all"
+  },
+  "dialogs": {
+    "textConfirmDelete": "Are you sure you want to @.lower:actions.delete {selectedEntity}?. @:dialogs.textPermanent",
+    "textPermanent": "This action is not reversible."
+  },
+  "errors": {
+    "contractName": "The contract name",
+    "durationBiggerZero": "A {entity} must have a duration.",
+    "hours": "The hours",
+    "maxLength": "{name} cannot be longer than {length} characters!",
+    "minLength": "{name} must be at least {length} characters long!",
+    "nameRequired": "{name} is required | {name} are required",
+    "shiftDateEndAfterStart": "A shift must must before it starts.",
+    "shiftDateEndRequired": "You must specify an end time.",
+    "shiftDateStartBeforeEnd": "A shift must start before it ends.",
+    "shiftDateStartRequired": "You must specify a start time.",
+    "timeFormat": "Please enter a valid format (HH:MM)."
+  },
+  "feedback": {
+    "fields": {
+      "email": "E-Mail",
+      "message": "Message",
+      "name": "Name",
+      "topic": "Topic"
+    },
+    "snackbar": {
+      "error": "Please try again later.",
+      "success": "We have received your message. Thank you!"
+    },
+    "text": "Send us any feedback you have. We appreciate all comments!",
+    "title": "Feedback",
+    "topics": {
+      "bug": "Bug report",
+      "feature": "Feature request",
+      "general": "General",
+      "question": "Question"
+    }
+  },
+  "forms": {
+    "selected": "{n} selected",
+    "titleAdd": "@:actions.add {entity}",
+    "titleUpdate": "@:actions.update {entity}"
+  },
+  "gdpr": {
+    "text": "You can request and download all information saved by you. The download is provided in JSON."
+  },
+  "logout": {
+    "message": "You can come back later at any time.",
+    "title": "Are you sure you want to logout?"
+  },
+  "models": {
+    "contract": "contract | contracts",
+    "report": "report | reports",
+    "selectedContract": "the selected contract | the selected contracts",
+    "selectedShift": "the selected shift | the selected shifts",
+    "shift": "shift | shifts"
+  },
+  "onboarding": {
+    "createContract": {
+      "text": "Please fill in your contract details below.",
+      "title": "Create {entity}"
+    },
+    "finished": {
+      "text": "You completed the onboarding!",
+      "title": "Finished"
+    },
+    "underConstruction": {
+      "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to get into contact with us.",
+      "title": "Under construction"
+    },
+    "welcome": {
+      "text": "You are new here, huh? We need to get a few things done, before you can start using Clock. We will guide you through the process!",
+      "title": "@:app.onboarding"
+    }
+  },
+  "reports": {
+    "creditDebit": "Credit/Debit: {creditDebit} hours",
+    "exportAlert": "Once you generate the report, you will not be able to add or update shifts in the corresponding month",
+    "exported": "Exported",
+    "generate": "Generate report",
+    "of": "of"
+  },
+  "selectContract": {
+    "hint": "Change the contract to see different data"
+  },
+  "shifts": {
+    "changeContract": "Selected contract",
+    "dave": "I'm sorry Dave, I'm afraid I can't do that!",
+    "empty": "You have not created any shifts for this contract yet.",
+    "note": "Note",
+    "tags": {
+      "createHint": "No results matching \"<strong>{search}</strong>\". Press <kbd>enter</kbd> to create a new one",
+      "label": "Add tags"
+    },
+    "to": "to",
+    "types": {
+      "label": "What category does this shift fall into?",
+      "sk": "Sick",
+      "st": "Shift",
+      "vn": "Vacation"
+    },
+    "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore."
+  }
+}

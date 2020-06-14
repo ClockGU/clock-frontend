@@ -26,42 +26,44 @@ import {
 
 export default {
   name: "TheNavigationToolbar",
-  data: () => ({
-    links: [
-      {
-        text: "Dashboard",
-        to: { name: "dashboard" },
-        icon: mdiHome,
-        loggedOut: true
-      },
-      {
-        text: "Calendar",
-        to: {
-          name: "calendar",
-          params: { ...getRouterProps("month", new Date()) }
+  computed: {
+    links() {
+      return [
+        {
+          text: this.$t("app.dashboard"),
+          to: { name: "dashboard" },
+          icon: mdiHome,
+          loggedOut: false
         },
-        icon: mdiCalendar,
-        loggedOut: false
-      },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
-        loggedOut: false
-      },
-      {
-        text: "Contracts",
-        to: { name: "contractList" },
-        icon: mdiFileDocument,
-        loggedOut: false
-      },
-      {
-        text: "Report",
-        to: { name: "reportList" },
-        icon: mdiFileChart,
-        loggedOut: false
-      }
-    ]
-  })
+        {
+          text: this.$t("app.calendar"),
+          to: {
+            name: "calendar",
+            params: { ...getRouterProps("month", new Date()) }
+          },
+          icon: mdiCalendar,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.shifts"),
+          to: { name: "shiftList" },
+          icon: mdiFormatListNumbered,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.contracts"),
+          to: { name: "contractList" },
+          icon: mdiFileDocument,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.reports"),
+          to: { name: "reportList" },
+          icon: mdiFileChart,
+          loggedOut: false
+        }
+      ];
+    }
+  }
 };
 </script>

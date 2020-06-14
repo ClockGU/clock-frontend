@@ -46,6 +46,11 @@
 <script>
 export default {
   name: "NotFound",
+  metaInfo() {
+    return {
+      title: this.$t("app.notfound")
+    };
+  },
   computed: {
     isLoggedIn() {
       return this.$store.getters["auth/loggedIn"];

@@ -37,9 +37,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "App",
-  metaInfo: {
-    title: "Dein flexibler Stundenzettel",
-    titleTemplate: "Clock - %s"
+  metaInfo() {
+    return {
+      title: this.$t("app.mainTitle"),
+      titleTemplate: "Clock - %s"
+    };
   },
   components: {
     TheAppBar,

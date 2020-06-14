@@ -9,7 +9,7 @@
   >
     {{ message }}
     <v-btn text @click.native="show = false">
-      Close
+      {{ $t("actions.close") }}
     </v-btn>
   </v-snackbar>
 </template>

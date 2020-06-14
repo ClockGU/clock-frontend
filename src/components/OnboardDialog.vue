@@ -15,35 +15,35 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text @click="logout">Logout</v-btn>
+        <LanguageSwitcher />
+
+        <v-btn text @click="logout">
+          {{ $t("actions.logout") }}
+        </v-btn>
       </v-toolbar>
 
       <v-card-text class="pb-0">
         <v-window v-model="step">
           <v-window-item :value="0">
             <placeholder name="UndrawSubway">
-              Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du
-              ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute
-              und wir helfen dir dich einzurichten!
+              {{ $t("onboarding.welcome.text") }}
             </placeholder>
           </v-window-item>
 
           <v-window-item :value="1">
             <placeholder name="UndrawWorkInProgress">
-              Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback
-              kann uns helfen das System schneller zu verbessern. Zögere nicht
-              uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!
+              {{ $t("onboarding.underConstruction.text") }}
             </placeholder>
           </v-window-item>
 
           <v-window-item :value="2">
-            <p>Please enter your contract details below.</p>
+            <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
           </v-window-item>
 
           <v-window-item :value="3">
             <placeholder name="UndrawFinishLine">
-              Du hast es geschafft!
+              {{ $t("onboarding.finished.text") }}
             </placeholder>
           </v-window-item>
         </v-window>
@@ -51,7 +51,7 @@
 
       <v-card-actions>
         <v-btn :disabled="step == 0" text @click="step--">
-          Back
+          {{ $t("actions.back") }}
         </v-btn>
         <v-spacer></v-spacer>
 
@@ -75,11 +75,11 @@
           text
           @click="step++"
         >
-          Next
+          {{ $t("actions.next") }}
         </v-btn>
-        <v-btn v-else text color="primary" :loading="loading" @click="save"
-          >Submit</v-btn
-        >
+        <v-btn v-else text color="primary" :loading="loading" @click="save">
+          {{ $t("actions.complete") }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -93,9 +93,11 @@ import ContractForm from "@/components/contracts/ContractForm";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 export default {
   name: "OnboardDialog",
-  components: { ContractForm },
+  components: { ContractForm, LanguageSwitcher },
   props: {
     now: {
       type: Date,
@@ -123,17 +125,21 @@ export default {
     contractToSave: null,
     toSave: null,
     service: null,
-    titles: [
-      "Onboarding",
-      "Work in progress",
-      "Create a contract",
-      "You're done!"
-    ],
     loading: false
   }),
   computed: {
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
+    },
+    titles() {
+      return [
+        this.$t("onboarding.welcome.title"),
+        this.$t("onboarding.underConstruction.title"),
+        this.$t("onboarding.createContract.title", {
+          entity: this.$tc("models.contract")
+        }),
+        this.$t("onboarding.finished.title")
+      ];
     }
   },
   created() {

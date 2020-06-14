@@ -7,6 +7,13 @@
     </v-row>
 
     <v-card>
+      <SelectContractFilter
+        :contracts="contracts"
+        :selected-contract="selectedContract"
+      />
+    </v-card>
+
+    <v-card>
       <v-card-title>
         Short shift
       </v-card-title>
@@ -55,23 +62,39 @@
 
 <script>
 import { subMinutes, subDays } from "date-fns";
+import SelectContractFilter from "@/components/SelectContractFilter";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "ViewDebug",
-  metaInfo: {
-    title: "Debug"
+  metaInfo() {
+    return {
+      title: this.$t("app.debug")
+    };
   },
+  components: { SelectContractFilter },
   data: () => ({
     shift: {
       start: null,
       contract: null
     }
   }),
+  computed: {
+    ...mapGetters({
+      contracts: "contract/contracts"
+    }),
+    selectedContract() {
+      const uuid = this.$route.params.contract;
+
+      return this.contracts.find(contract => contract.uuid === uuid);
+    }
+  },
   methods: {
     shortShift() {
       const now = new Date();
       const started = subMinutes(now, 5);
-      const contract = this.$store.state.selectedContract.uuid;
+      const contract = this.selectedContract.uuid;
 
       const shift = { started, contract };
 
@@ -86,7 +109,7 @@ export default {
     overflowShift() {
       const now = new Date();
       const started = subDays(now, 1);
-      const contract = this.$store.state.selectedContract.uuid;
+      const contract = this.selectedContract.uuid;
 
       const shift = { started, contract };
 
@@ -101,7 +124,7 @@ export default {
     veryLongShift() {
       const now = new Date();
       const started = subDays(now, 4);
-      const contract = this.$store.state.selectedContract.uuid;
+      const contract = this.selectedContract.uuid;
 
       const shift = { started, contract };
 

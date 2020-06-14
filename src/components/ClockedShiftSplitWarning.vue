@@ -6,12 +6,13 @@
     data-cy="clicked-shift-split-warning"
   >
     <v-card-text class="pa-0 ma-0">
-      A shift must end on the same day it started. Therefore, we will need to
-      split your shift. Make a decision on what to do.
+      {{ $t("dashboard.clock.problems.text") }}
     </v-card-text>
 
     <v-list class="px-0" data-cy="overflowing-shift">
-      <v-subheader class="px-0">Clocked shift</v-subheader>
+      <v-subheader class="px-0">
+        {{ $t("dashboard.clock.problems.clockedShift") }}
+      </v-subheader>
       <v-list-item two-line class="px-0">
         <v-list-item-content>
           <v-list-item-title data-cy="overflowing-shift-duration">
@@ -33,7 +34,7 @@
             v-model="selected"
             data-cy="select"
             :items="options"
-            label="Select an action"
+            :label="$t('dashboard.clock.problems.actions.label')"
             hide-details
             outlined
             @change="initializePseudoShifts"
@@ -45,11 +46,12 @@
     <v-divider></v-divider>
 
     <v-list class="px-0" data-cy="new-shifts">
-      <v-subheader class="px-0">New shifts</v-subheader>
-      <v-row v-if="pseudoShifts.length === 0" justify="center">
-        You have deleted all staged shifts. You can either clock out, without
-        saving new shifts, or reset your actions.
-      </v-row>
+      <v-subheader class="px-0">
+        {{ $t("dashboard.clock.problems.newShifts") }}
+      </v-subheader>
+      <v-container v-if="pseudoShifts.length === 0" justify="center">
+        {{ $t("dashboard.clock.problems.deletedAll") }}
+      </v-container>
       <v-list-item
         v-for="(shift, i) in pseudoShifts"
         v-else
@@ -74,7 +76,7 @@
               class="my-2"
               :color="typeColor(shift)"
             >
-              {{ shift.type.text }}
+              {{ $t(`shifts.types.${shift.type.value}`) }}
             </v-chip>
 
             <span v-if="shift.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
@@ -107,10 +109,14 @@
 
             <v-list>
               <v-list-item :data-cy="'edit-' + i" @click="editShift(shift)">
-                <v-list-item-title>Edit</v-list-item-title>
+                <v-list-item-title>
+                  {{ $t("actions.edit") }}
+                </v-list-item-title>
               </v-list-item>
               <v-list-item :data-cy="'delete-' + i" @click="remove(shift.uuid)">
-                <v-list-item-title>Delete</v-list-item-title>
+                <v-list-item-title>
+                  {{ $t("actions.delete") }}
+                </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -126,10 +132,14 @@
         color="primary"
         @click="save"
       >
-        {{ pseudoShifts.length > 0 ? "Save" : "Clock out" }}
+        {{
+          pseudoShifts.length > 0
+            ? $t("actions.save")
+            : $t("dashboard.clock.out")
+        }}
       </v-btn>
       <v-btn data-cy="reset" text @click="initializePseudoShifts">
-        Reset
+        {{ $t("actions.reset") }}
       </v-btn>
     </v-card-actions>
 
@@ -179,18 +189,32 @@ export default {
     icons: { mdiDotsVertical },
     timezone: "Europe/Berlin",
     selected: "both",
-    options: [
-      { text: "Keep both shifts and split across days", value: "both" },
-      { text: "Keep first", value: "first" },
-      { text: "Keep second", value: "second" },
-      { text: "Advanced mode", value: "advanced" }
-    ],
     dialogReset: false,
     pseudoShifts: [],
     shiftEntity: null,
     showFormDialog: false
   }),
   computed: {
+    options() {
+      return [
+        {
+          text: this.$t("dashboard.clock.problems.actions.keepBoth"),
+          value: "both"
+        },
+        {
+          text: this.$t("dashboard.clock.problems.actions.keepFirst"),
+          value: "first"
+        },
+        {
+          text: this.$t("dashboard.clock.problems.actions.keepSecond"),
+          value: "second"
+        },
+        {
+          text: this.$t("dashboard.clock.problems.actions.advanced"),
+          value: "advanced"
+        }
+      ];
+    },
     editShiftIndex() {
       if (this.shiftEntity === null) return null;
 

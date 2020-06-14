@@ -30,10 +30,17 @@ export default {
     icons: {
       mdiBriefcaseOutline
     },
-    types: SHIFT_TYPES,
     typeColors: SHIFT_TYPE_COLORS
   }),
   computed: {
+    types() {
+      return SHIFT_TYPES.map(type => {
+        return {
+          text: this.$t(`shifts.types.${type.value}`),
+          value: type.value
+        };
+      });
+    },
     radios: {
       get() {
         return this.value.value;

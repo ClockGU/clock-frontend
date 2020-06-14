@@ -7,8 +7,10 @@ import OnboardDialog from "@/components/OnboardDialog";
 
 export default {
   name: "Onboarding",
-  metaInfo: {
-    title: "Onboarding"
+  metaInfo() {
+    return {
+      title: this.$t("app.onboarding")
+    };
   },
   components: { OnboardDialog }
   // methods: {

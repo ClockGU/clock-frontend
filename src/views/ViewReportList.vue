@@ -18,7 +18,7 @@
             ></v-app-bar-nav-icon>
 
             <v-toolbar-title>
-              Reports
+              {{ $tc("models.report", 2) }}
             </v-toolbar-title>
           </v-toolbar>
         </portal>
@@ -71,8 +71,10 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ViewReportList",
-  metaInfo: {
-    title: "Stundenzettel"
+  metaInfo() {
+    return {
+      title: this.$t("app.reports")
+    };
   },
   components: {
     ReportCard,

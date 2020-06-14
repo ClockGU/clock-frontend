@@ -1,19 +1,28 @@
 <template>
   <v-form>
     <v-overlay v-if="shiftExported" light :dark="false">
-      <v-card data-cy="overlay" class="mx-auto" max-width="300">
+      <v-card
+        data-cy="overlay"
+        class="mx-auto word-break"
+        min-width="400"
+        max-width="500"
+      >
         <v-card-title class="headline">
-          I'm sorry Dave, I'm afraid I can't do that!
+          {{ $t("shifts.dave") }}
         </v-card-title>
 
         <v-card-text>
-          The report for this shift was already exported. You can't edit this
-          shift anymore.
+          {{ $t("shifts.wasExportedAlert") }}
         </v-card-text>
 
         <v-card-actions>
-          <v-btn data-cy="overlay-ack" color="primary" text :to="{ path: '/' }">
-            OK, take me back
+          <v-btn
+            data-cy="overlay-ack"
+            color="primary"
+            text
+            @click="$emit('cancel')"
+          >
+            {{ $t("actions.back") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -35,7 +44,6 @@
           v-model="shift"
           data-cy="shift-start-time"
           :errors="startTimeErrors"
-          label="Start"
           type="start"
           :prepend-icon="$vuetify.breakpoint.smAndDown"
           @update="$v.shift.date.start.$touch() || $v.shift.date.end.$touch()"
@@ -43,7 +51,7 @@
       </v-col>
 
       <v-col cols="1" class="px-0 text-center">
-        to
+        {{ $t("shifts.to") }}
       </v-col>
 
       <v-col cols="5" md="3">
@@ -51,7 +59,6 @@
           v-model="shift"
           data-cy="shift-end-time"
           :errors="endTimeErrors"
-          label="End"
           type="end"
           @update="$v.shift.date.end.$touch() || $v.shift.date.start.$touch()"
         />
@@ -62,7 +69,7 @@
         <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
 
         <v-subheader class="pl-8" style="height: 10px">
-          What category does this shift fall into?
+          {{ $t("shifts.types.label") }}
         </v-subheader>
         <ShiftFormType v-model="shift.type" data-cy="shift-type" />
       </v-col>
@@ -72,13 +79,12 @@
       </v-col>
 
       <v-col cols="12" class="pb-0">
-        <v-subheader class="pl-8">Advanced settings</v-subheader>
         <v-select
           v-model="shift.contract"
           data-cy="shift-contract"
           :items="contracts"
           :prepend-icon="icons.mdiFileDocumentEditOutline"
-          label="Change contract"
+          :label="$t('shifts.changeContract')"
           item-text="name"
           item-value="uuid"
           filled
@@ -188,10 +194,10 @@ export default {
 
       (!this.$v.shift.date.start.required ||
         !!this.$v.shift.date.start.biggerThan23) &&
-        errors.push("You must specify a start time.");
+        errors.push(this.$t("errors.shiftDateStartRequired"));
 
       !this.$v.shift.date.start.startBeforeEnd &&
-        errors.push("A shift must start before it ends.");
+        errors.push(this.$t("errors.shiftDateStartBeforeEnd"));
 
       return errors;
     },
@@ -200,18 +206,12 @@ export default {
       if (!this.$v.shift.date.end.$dirty) return errors;
 
       !this.$v.shift.date.end.required &&
-        errors.push("You must specify a start time.");
+        errors.push(this.$t("errors.shiftDateEndRequired"));
 
       !this.$v.shift.date.end.endAfterStart &&
-        errors.push("A shift must end after it starts.");
+        errors.push(this.$t("errors.shiftDateEndAfterStart"));
 
       return errors;
-    },
-    title() {
-      return this.uuid === null ? "Add shift" : "Update shift";
-    },
-    saveLabel() {
-      return this.uuid === null ? "Save" : "Update";
     }
   },
   watch: {

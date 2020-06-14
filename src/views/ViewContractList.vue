@@ -17,7 +17,7 @@
     </template>
 
     <template v-slot:title>
-      {{ editMode ? "Contracts" : "Select a contract" }}
+      {{ editMode ? $tc("models.contract", 2) : "Select a contract" }}
     </template>
 
     <template v-slot:content>
@@ -35,7 +35,7 @@
         <template v-if="(!loading || ignoreLoading) && editMode">
           <v-col cols="12">
             <v-btn color="primary" text @click="newContract">
-              Add contract
+              {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
             </v-btn>
           </v-col>
           <template v-for="(contract, i) in contracts">
@@ -71,7 +71,7 @@
         data-cy="contract-list-empty-placeholder"
         name="UndrawContentCreator"
       >
-        Start using Clock by creating your first contract!
+        {{ $t("contracts.empty") }}
       </placeholder>
     </template>
 
@@ -102,8 +102,10 @@ import { handleApiError } from "../utils/interceptors";
 
 export default {
   name: "ViewContractList",
-  metaInfo: {
-    title: "Verträge"
+  metaInfo() {
+    return {
+      title: this.$t("app.contracts")
+    };
   },
   components: {
     ContractListCard,

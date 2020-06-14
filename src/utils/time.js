@@ -1,3 +1,5 @@
+import { format, parseISO } from "date-fns";
+
 Number.prototype.pad = function(size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -38,4 +40,27 @@ export function startEndHours(date) {
     start,
     end
   };
+}
+
+export function hoursToWorktime(value) {
+  const hours = Math.floor(value);
+  const minutes = parseInt((60 * (value - hours)).toFixed(0));
+
+  return `${hours.pad(2)}:${minutes.pad(2)}`;
+}
+
+export function formattedTime(time) {
+  const [hours, minutes] = time.split(":");
+
+  return `${hours}h${minutes}m`;
+}
+
+export function formatDate(date, formatString = "do MMMM yyyy") {
+  if (date === undefined) return;
+  return format(parseISO(date), formatString);
+}
+
+export function formatTime(date, formatString = "HH:mm a") {
+  if (date === undefined) return;
+  return format(parseISO(date), formatString);
 }

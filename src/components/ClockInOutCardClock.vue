@@ -5,20 +5,28 @@
     :loading="actions.status === 'saving'"
   >
     <v-overlay :value="showOverlay" absolute opacity="0.8">
-      <v-row justify="center">
-        <p>
-          You are clocked into a different contract.
-        </p>
-        <v-btn color="primary lighten-1" @click="changeContract">
-          Change contract
-        </v-btn>
-      </v-row>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <p>
+              {{ $t("dashboard.clock.changeContract") }}
+            </p>
+          </v-col>
+          <v-col cols="12">
+            <v-btn color="primary lighten-1" @click="changeContract">
+              {{ $t("actions.change") }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-overlay>
 
     <v-toolbar :elevation="0">
       <v-toolbar-title>
         {{
-          actions.status === "running" ? "Shift is running" : "No running shift"
+          actions.status === "running"
+            ? $t("dashboard.clock.state.running")
+            : $t("dashboard.clock.state.idle")
         }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -41,11 +49,11 @@
           v-if="actions.status !== 'running' && actions.status !== 'saving'"
           class="title font-weight-light"
         >
-          Start a shift
+          {{ $t("dashboard.clock.start") }}
         </span>
         <div v-else class="d-flex flex-column">
           <div class="font-weight-bold">
-            Contract: {{ clockedContract.name }}
+            {{ $tc("models.contract") }}: {{ clockedContract.name }}
           </div>
           <div class="font-weight-light">
             {{ actions.data.startDate }}
@@ -64,7 +72,7 @@
           block
           @click="actions.start"
         >
-          Clock in
+          {{ $t("dashboard.clock.in") }}
         </v-btn>
         <v-btn
           v-else-if="
@@ -78,7 +86,7 @@
           text
           @click="actions.save"
         >
-          Clock out
+          {{ $t("dashboard.clock.out") }}
         </v-btn>
         <v-btn
           v-else-if="
@@ -92,7 +100,7 @@
           text
           @click="$emit('updateWindow', 1)"
         >
-          Review problems
+          {{ $t("dashboard.clock.review") }}
         </v-btn>
       </v-slide-x-transition>
     </v-card-text>

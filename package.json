@@ -5,11 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "release": "export VUE_APP_SENTRY_RELEASE=$GIT_REV && vue-cli-service build && bash scripts/sentry-release.sh",
-    "heroku-postbuild": "yarn run release",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "heroku-postbuild": "yarn run release",
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "release": "export VUE_APP_SENTRY_RELEASE=$GIT_REV && vue-cli-service build && bash scripts/sentry-release.sh"
   },
   "dependencies": {
     "@sentry/browser": "5.12.1",
@@ -19,6 +20,7 @@
     "ramda": "0.27.0",
     "uuid": "3.4.0",
     "vue": "2.6.11",
+    "vue-i18n": "^8.17.3",
     "vue-meta": "^2.4.0",
     "vue-router": "3.1.5",
     "vue-undraw": "^2.0.13",
@@ -27,6 +29,7 @@
     "vuex": "3.1.2"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^1.0.0",
     "@mdi/js": "4.9.95",
     "@sentry/webpack-plugin": "1.10.0",
     "@vue/cli-plugin-babel": "4.1.2",
@@ -52,6 +55,7 @@
     "prettier": "1.19.1",
     "sass": "1.25.0",
     "sass-loader": "8.0.2",
+    "vue-cli-plugin-i18n": "~1.0.1",
     "vue-cli-plugin-vuetify": "2.0.4",
     "vue-template-compiler": "2.6.11",
     "vuetify-loader": "1.4.3",

@@ -39,8 +39,10 @@
 <script>
 export default {
   name: "ViewHelp",
-  metaInfo: {
-    title: "Hilfe"
+  metaInfo() {
+    return {
+      title: this.$t("app.help")
+    };
   },
   methods: {
     clearAllIntervals() {

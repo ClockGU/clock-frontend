@@ -8,13 +8,13 @@
             :selected-contract="selectedContract"
           />
         </v-col>
-        <v-col cols="4" sm="2" order="0" order-sm="0">
-          <v-btn color="primary" text @click="newShift">
-            Add shift
+        <v-col cols="12">
+          <v-btn color="primary" @click="newShift">
+            {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
           </v-btn>
         </v-col>
 
-        <v-col cols="8" md="4" sm="5" order="1">
+        <v-col cols="12" sm="5">
           <CalendarNavigationButtons
             @today="setToday"
             @next="next"
@@ -22,14 +22,14 @@
           />
         </v-col>
 
-        <v-col cols="5" sm="3" order="3" order-sm="2">
+        <v-col cols="12" sm="2" order-sm="3">
+          <CalendarTypeSelect v-model="type" />
+        </v-col>
+
+        <v-col cols="12" sm="5" order-sm="2">
           <span data-cy="calendar-title">
             {{ title }}
           </span>
-        </v-col>
-
-        <v-col cols="4" sm="3" order="2" order-sm="3">
-          <CalendarTypeSelect v-model="type" />
         </v-col>
       </v-row>
     </v-sheet>
@@ -69,16 +69,31 @@
               <v-icon>{{ icons.mdiClose }}</v-icon>
             </v-btn>
             <v-toolbar-title data-cy="calendar-selected-event-type">
-              Type: {{ selectedEvent.type }}
+              {{ $t("calendar.type") }}:
+              {{
+                $t(
+                  `shifts.types.${
+                    selectedEvent.type === undefined ? "st" : selectedEvent.type
+                  }`
+                )
+              }}
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text data-cy="calendar-selected-event-text">
             <h2 class="title primary-text">
-              {{ selectedEvent.selectedEventDuration }} on
-              {{ selectedEvent.start | formatDate }}
+              {{
+                $t("calendar.shiftOnDay", {
+                  duration: selectedEvent.selectedEventDuration,
+                  start: formatDate(selectedEvent.start)
+                })
+              }}
             </h2>
-            From {{ selectedEvent.start | formatTime }} until
-            {{ selectedEvent.end | formatTime }}
+            {{
+              $t("calendar.shiftFromTo", {
+                start: formatTime(selectedEvent.start),
+                end: formatTime(selectedEvent.end)
+              })
+            }}
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -88,7 +103,7 @@
               data-cy="calendar-selected-event-edit"
               @click="editShift(selectedEvent.uuid)"
             >
-              Edit
+              {{ $t("actions.edit") }}
             </v-btn>
 
             <ConfirmationDialog @confirm="destroy(selectedEvent.uuid)">
@@ -99,15 +114,22 @@
                   data-cy="calendar-selected-event-delete"
                   v-on="on"
                 >
-                  Delete
+                  {{ $t("actions.delete") }}
                 </v-btn>
               </template>
 
-              <template v-slot:title>Delete shift?</template>
+              <template v-slot:title>
+                {{
+                  $t("buttons.deleteEntity", { entity: $tc("models.shift") })
+                }}
+              </template>
 
               <template v-slot:text>
-                Are you sure you want to delete the shift? This action is
-                permanent.
+                {{
+                  $t(`dialogs.textConfirmDelete`, {
+                    selectedEntity: $tc(`models.selectedShift`)
+                  })
+                }}
               </template>
             </ConfirmationDialog>
           </v-card-actions>
@@ -127,6 +149,7 @@
 </template>
 
 <script>
+import { formatTime, formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
@@ -140,7 +163,7 @@ import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import SelectContractFilter from "@/components/SelectContractFilter";
 
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapState } from "vuex";
 
@@ -152,16 +175,6 @@ export default {
     ConfirmationDialog,
     FormDialog,
     SelectContractFilter
-  },
-  filters: {
-    formatDate(date, formatString = "do MMMM yyyy") {
-      if (date === undefined) return;
-      return format(parseISO(date), formatString);
-    },
-    formatTime(date, formatString = "HH:mm a") {
-      if (date === undefined) return;
-      return format(parseISO(date), formatString);
-    }
   },
   props: {
     initialFocus: {
@@ -268,7 +281,7 @@ export default {
           uuid: shift.uuid,
           start: format(shift.date.start, "yyyy-MM-dd HH:mm"),
           end: format(shift.date.end, "yyyy-MM-dd HH:mm"),
-          type: shift.type.text,
+          type: shift.type.value,
           color: this.colorMap(shift),
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
@@ -294,6 +307,12 @@ export default {
     this.type = this.initialType;
   },
   methods: {
+    formatTime(value) {
+      return formatTime(value);
+    },
+    formatDate(value) {
+      return formatDate(value);
+    },
     async refresh({ contract }) {
       if (this.$route.params.contract !== contract) {
         await this.$router.replace(

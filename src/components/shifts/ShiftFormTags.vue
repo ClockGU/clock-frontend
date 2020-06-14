@@ -5,9 +5,8 @@
     :items="usedTags"
     :search-input.sync="search"
     :hide-no-data="!search"
-    no-data-text="Start typing to search or add a tag."
     hide-selected
-    label="Add a tag"
+    :label="$t('shifts.tags.label')"
     small-chips
     multiple
     filled
@@ -19,9 +18,7 @@
     <template v-slot:no-data>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title>
-            No results matching "<strong>{{ search }}</strong
-            >". Press <kbd>enter</kbd> to create a new one
+          <v-list-item-title v-html="$t('shifts.tags.createHint', { search })">
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

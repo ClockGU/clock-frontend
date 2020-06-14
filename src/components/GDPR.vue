@@ -1,8 +1,7 @@
 <template>
   <v-card :elevation="$vuetify.breakpoint.mdAndUp ? 0 : null">
     <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
-      You can request and download all information saved by you. The download is
-      provided in JSON.
+      {{ $t("gdpr.text") }}
     </v-card-text>
 
     <v-card-actions>
@@ -33,7 +32,9 @@ export default {
   },
   computed: {
     downloadLabel() {
-      return !this.response ? "Request" : "Download";
+      return !this.response
+        ? this.$t("actions.request")
+        : this.$t("actions.download");
     }
   },
   methods: {

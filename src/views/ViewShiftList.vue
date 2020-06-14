@@ -31,7 +31,9 @@
 
     <template v-slot:title>
       {{
-        shiftsToDelete.length ? `${shiftsToDelete.length} selected` : "Shifts"
+        shiftsToDelete.length
+          ? $t("forms.selected", { n: shiftsToDelete.length })
+          : $tc("models.shift", 2)
       }}
     </template>
 
@@ -58,11 +60,16 @@
           </v-scale-transition>
         </template>
 
-        <template v-slot:title>Delete shifts?</template>
+        <template v-slot:title>
+          {{ $t("buttons.deleteEntity", { entity: $tc("models.shift") }) }}
+        </template>
 
         <template v-slot:text>
-          Are you sure you want to delete the selected shifts? This action is
-          permanent.
+          {{
+            $t(`dialogs.textConfirmDelete`, {
+              selectedEntity: $tc(`models.selectedShift`)
+            })
+          }}
         </template>
       </ConfirmationDialog>
 
@@ -85,7 +92,7 @@
           />
 
           <v-btn color="primary" text @click="newShift">
-            Add shift
+            {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
           </v-btn>
 
           <ShiftList
@@ -109,7 +116,7 @@
         data-cy="shift-list-empty-placeholder"
         name="UndrawWorkTime"
       >
-        You have not created any shifts in this contract yet!
+        {{ $t("shifts.empty") }}
       </placeholder>
     </template>
 
@@ -153,8 +160,10 @@ import { getNextContractParams } from "@/utils";
 
 export default {
   name: "ViewShiftList",
-  metaInfo: {
-    title: "Schichten"
+  metaInfo() {
+    return {
+      title: this.$t("app.shifts")
+    };
   },
   components: {
     ConfirmationDialog,
@@ -217,13 +226,6 @@ export default {
     },
     deleteDisabled() {
       return this.shiftsToDelete.length === 0;
-    },
-    deleteLabel() {
-      if (this.deleteDisabled) return "Delete";
-
-      const shift = this.shiftsToDelete.length > 1 ? "shifts" : "shift";
-
-      return `Delete (${this.shiftsToDelete.length} ${shift})`;
     }
   },
   watch: {

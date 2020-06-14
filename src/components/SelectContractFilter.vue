@@ -3,8 +3,7 @@
     :value="selectedContract"
     :items="contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
-    label="Selected contract"
-    hint="Change the contract to see different data"
+    :hint="$t('selectContract.hint')"
     item-text="name"
     item-value="uuid"
     persistent-hint

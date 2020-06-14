@@ -65,8 +65,10 @@
 <script>
 export default {
   name: "Imprint",
-  metaInfo: {
-    title: "Impressum"
+  metaInfo() {
+    return {
+      title: this.$t("app.imprint")
+    };
   }
 };
 </script>
