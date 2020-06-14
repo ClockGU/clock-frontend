@@ -1,8 +1,5 @@
 <template>
-  <ClockInOut
-    :clocked-shift="clockedShift"
-    :selected-contract="selectedContract"
-  >
+  <ClockInOut :selected-contract="selectedContract">
     <template
       v-slot="{
         data,

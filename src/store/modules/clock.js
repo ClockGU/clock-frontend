@@ -26,7 +26,7 @@ const actions = {
 
       commit("CLOCK_SHIFT", payload);
 
-      return response;
+      return Promise.resolve(response);
     });
   },
   DELETE_CLOCKED_SHIFT() {
@@ -35,25 +35,26 @@ const actions = {
   UNCLOCK_SHIFT({ commit }) {
     commit("UNCLOCK_SHIFT");
   },
-  GET_CLOCKED_SHIFT({ commit }) {
+  async GET_CLOCKED_SHIFT({ commit }) {
     state.status = "loading";
-    return ClockService.get()
-      .then(response => {
-        let { data } = response;
-        if (data !== undefined) {
-          data = { ...data, override: true };
-        }
+    try {
+      const response = await ClockService.get();
+      let { data } = response;
 
-        commit("CLOCK_SHIFT", data);
-      })
-      .catch(err => {
-        commit("UNCLOCK_SHIFT");
-
-        return Promise.reject(err);
-      })
-      .finally(() => {
+      if (data === undefined) {
         state.status = "idle";
-      });
+        return Promise.reject();
+      }
+
+      commit("CLOCK_SHIFT", data);
+
+      state.status = "idle";
+      return Promise.resolve(data);
+    } catch (error) {
+      commit("UNCLOCK_SHIFT");
+      state.status = "idle";
+      return Promise.reject(error);
+    }
   }
 };
 
