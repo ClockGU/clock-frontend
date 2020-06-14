@@ -8,7 +8,7 @@
         />
       </v-col>
 
-      <v-card min-width="100%">
+      <v-card min-width="100%" :elevation="0">
         <v-row class="mx-0">
           <v-overlay v-if="contractExpired" absolute :opacity="0.97">
             <v-card max-width="400" color="error" dark>
