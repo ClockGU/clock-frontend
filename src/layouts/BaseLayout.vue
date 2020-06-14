@@ -1,9 +1,10 @@
 <template>
   <v-row
+    class="mx-0"
     :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
     :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
   >
-    <v-col cols="12" md="6" :class="colClasses">
+    <v-col cols="12" md="6" :class="columnClasses">
       <v-card :elevation="cardElevation">
         <slot name="card-top"></slot>
 
@@ -58,6 +59,13 @@ export default {
     toolbarElevation: {
       type: Number,
       default: 0
+    }
+  },
+  computed: {
+    columnClasses() {
+      // px-0 is important! Users can scroll in the x-direction if we do not use
+      // it.
+      return [...this.colClasses, "py-0", "px-0"];
     }
   }
 };

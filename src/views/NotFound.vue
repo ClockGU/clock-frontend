@@ -1,7 +1,6 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    col-classes="py-0"
     :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
   >
     <template v-slot:card-top>
