@@ -94,6 +94,7 @@
     },
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
+    "newShift": { "title": "New shift" },
     "progress": {
       "perMonth": "{time} per month",
       "timeRemaining": "{time} remaining",

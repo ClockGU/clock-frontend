@@ -15,6 +15,10 @@
         />
       </v-col>
 
+      <v-col cols="12" md="6">
+        <DashboardShiftButton @refresh="refresh" />
+      </v-col>
+
       <v-col>
         <MonthlyProgress :debit="debit" :credit="credit" />
       </v-col>
@@ -53,6 +57,7 @@
 
 <script>
 import ClockInOutCard from "@/components/ClockInOutCard";
+import DashboardShiftButton from "@/components/DashboardShiftButton";
 import MonthlyProgress from "@/components/MonthlyProgress";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
 import SelectContractFilter from "@/components/SelectContractFilter";
@@ -72,6 +77,7 @@ export default {
   },
   components: {
     ClockInOutCard,
+    DashboardShiftButton,
     MonthlyProgress,
     ShiftListItem,
     SelectContractFilter
@@ -131,6 +137,13 @@ export default {
   },
   async created() {
     await this.$store.dispatch("report/list");
+  },
+  methods: {
+    async refresh() {
+      await this.$store.dispatch("shift/queryShifts");
+      await this.$store.dispatch("contract/queryContracts");
+      await this.$store.dispatch("report/list");
+    }
   }
 };
 </script>

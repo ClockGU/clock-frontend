@@ -94,6 +94,7 @@
     },
     "emptyActivity": "Du hast in diesem Vetrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivität",
+    "newShift": { "title": "Schicht nachtragen" },
     "progress": {
       "perMonth": "{time} pro Monat",
       "timeRemaining": "{time} verbleibend",
