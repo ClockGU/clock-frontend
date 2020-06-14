@@ -86,6 +86,13 @@
         "title": "Invalid shift"
       },
       "review": "Review problems",
+      "snacks": {
+        "clockedIn": "Clocked in a new shift.",
+        "clockOut": "Clocked out successfully.",
+        "alreadyClockedIn": "You are already clocked in.",
+        "alreadyClockedOut": "You were already clocked out.",
+        "deleted": "Deleted clocked shift."
+      },
       "start": "Start a shift",
       "state": {
         "idle": "Clocked out",

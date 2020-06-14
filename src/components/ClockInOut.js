@@ -129,7 +129,7 @@ export default {
         })
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "Clocked out successfully.",
+            snack: this.$t("dashboard.clock.snacks.clockOut"),
             timeout: 4000,
             color: "success"
           });
@@ -154,7 +154,7 @@ export default {
         .dispatch("clock/GET_CLOCKED_SHIFT")
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "You are already clocked in.",
+            snack: this.$t("dashboard.clock.snacks.alreadyClockedIn"),
             timeout: 4000,
             color: "warning"
           });
@@ -172,7 +172,7 @@ export default {
         .then(() => this.clock.start())
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "Clocked in a new shift.",
+            snack: this.$t("dashboard.clock.snacks.clockedIn"),
             timeout: 4000,
             color: "success"
           });
@@ -208,7 +208,7 @@ export default {
           this.clock = null;
 
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "You were already clocked out.",
+            snack: this.$t("dashboard.clock.snacks.alreadyClockedOut"),
             timeout: 4000,
             color: "warning"
           });
@@ -220,7 +220,7 @@ export default {
 
           if (snackbar) {
             this.$store.dispatch("snackbar/setSnack", {
-              snack: "Deleted clocked shift.",
+              snack: this.$t("dashboard.clock.snacks.deleted"),
               timeout: 4000,
               color: "success"
             });

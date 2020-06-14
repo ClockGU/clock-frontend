@@ -86,6 +86,13 @@
         "title": "Ungültige Schicht"
       },
       "review": "Probleme beheben",
+      "snacks": {
+        "clockedIn": "Du wurdest erfolgreich eingeclockt.",
+        "clockOut": "Du wurdest erfolgreich ausgeclockt.",
+        "alreadyClockedIn": "Du bist schon eingeclockt.",
+        "alreadyClockedOut": "Du warst schon ausgeclockt.",
+        "deleted": "Die geclockte Schicht wurde entfernt."
+      },
       "start": "Beginne eine Schicht",
       "state": {
         "idle": "Nicht eingestochen",
