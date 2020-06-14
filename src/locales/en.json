@@ -19,6 +19,7 @@
     "update": "Update"
   },
   "app": {
+    "account": "Account",
     "calendar": "Calendar",
     "contracts": "Contract",
     "dashboard": "Dashboard",
@@ -124,16 +125,18 @@
     "hours": "The hours",
     "maxLength": "{name} cannot be longer than {length} characters!",
     "minLength": "{name} must be at least {length} characters long!",
+    "matchEmail": "The emails do not match.",
     "nameRequired": "{name} is required | {name} are required",
     "shiftDateEndAfterStart": "A shift must must before it starts.",
     "shiftDateEndRequired": "You must specify an end time.",
     "shiftDateStartBeforeEnd": "A shift must start before it ends.",
     "shiftDateStartRequired": "You must specify a start time.",
-    "timeFormat": "Please enter a valid format (HH:MM)."
+    "timeFormat": "Please enter a valid format (HH:MM).",
+    "validEmail": "Must be valid email."
   },
   "feedback": {
     "fields": {
-      "email": "E-Mail",
+      "email": "Email",
       "message": "Message",
       "name": "Name",
       "topic": "Topic"
@@ -204,6 +207,14 @@
   },
   "selectContract": {
     "hint": "Change the contract to see different data"
+  },
+  "settings": {
+    "account": {
+      "dialogTitle": "@:actions.delete @:app.account",
+      "dialogText": "Please enter your email address {email} to confirm.",
+      "text": "You can delete you account at any time. This will purge all the data we keep on record for you. Please remember, that this action is permanent and not reversible. You can create a new account afterwards.",
+      "tryAgainLater": "Please try again later."
+    }
   },
   "shifts": {
     "changeContract": "Selected contract",

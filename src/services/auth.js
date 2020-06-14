@@ -8,6 +8,10 @@ const AuthService = {
     return ApiService.post("/auth/jwt/create/", { email, password });
   },
 
+  deleteAccount: () => {
+    return ApiService.delete("/auth/users/me");
+  },
+
   /**
    * Change current to the new password.
    **/

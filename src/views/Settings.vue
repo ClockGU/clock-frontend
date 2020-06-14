@@ -31,12 +31,21 @@
           {{ $t("app.gdpr") }}
         </v-tab>
 
+        <v-tab>
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          {{ $t("app.account") }}
+        </v-tab>
+
         <v-tab-item>
           <LanguageSettings />
         </v-tab-item>
 
         <v-tab-item>
           <GDPR />
+        </v-tab-item>
+
+        <v-tab-item>
+          <DeleteAccount />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -46,6 +55,7 @@
 <script>
 import { mdiFileAccount } from "@mdi/js";
 
+import DeleteAccount from "@/components/DeleteAccount";
 import GDPR from "@/components/GDPR";
 import LanguageSettings from "@/components/LanguageSettings";
 
@@ -56,7 +66,7 @@ export default {
       title: this.$t("app.settings")
     };
   },
-  components: { GDPR, LanguageSettings },
+  components: { DeleteAccount, GDPR, LanguageSettings },
   data: () => ({
     icons: { mdiFileAccount }
   })

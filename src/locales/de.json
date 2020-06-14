@@ -19,6 +19,7 @@
     "update": "Aktualisieren"
   },
   "app": {
+    "account": "Account",
     "calendar": "Kalender",
     "contracts": "Verträge",
     "dashboard": "Dashboard",
@@ -124,12 +125,14 @@
     "hours": "Die Stundenangabe",
     "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
+    "matchEmail": "Die E-Mail Adresse ist nicht korrekt.",
     "nameRequired": "{name} wird benötigt | {name} werden benötigt",
     "shiftDateEndAfterStart": "Eine Schicht muss nach ihrem start enden.",
     "shiftDateEndRequired": "Du musst eine Endzeit festlegen.",
     "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
     "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
-    "timeFormat": "Bitte gebe ein gültiges Zeitformat ein (HH:MM)."
+    "timeFormat": "Bitte gebe ein gültiges Zeitformat ein (HH:MM).",
+    "validEmail": "Diese E-Mail Adresse ist ungültig."
   },
   "feedback": {
     "fields": {
@@ -204,6 +207,14 @@
   },
   "selectContract": {
     "hint": "Ändere den Vertrag um andere Daten zu sehen"
+  },
+  "settings": {
+    "account": {
+      "dialogTitle": "@:app.account @.lower:actions.delete?",
+      "dialogText": "Gib zur Bestätigung bitte deine E-Mail Adresse {email} ein.",
+      "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können. Du kannst nachträglich einen neuen Account anlegen.",
+      "tryAgainLater": "Bitte probiere es zu einem späteren Zeitpunkt nochmal."
+    }
   },
   "shifts": {
     "changeContract": "Zugeordneter Vertrag",
