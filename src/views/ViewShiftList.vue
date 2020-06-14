@@ -90,9 +90,13 @@
             :selected-contract="selectedContract"
           />
 
-          <v-btn color="primary" @click="newShift">
+          <v-btn color="primary" :disabled="contractExpired" @click="newShift">
             {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
           </v-btn>
+
+          <v-alert v-if="contractExpired" type="error" class="mt-6">
+            {{ $t("dashboard.contractExpired.text") }}
+          </v-alert>
 
           <ShiftList
             v-for="(shifts, key, i) in shiftsByMonth"
@@ -100,7 +104,7 @@
             :data-cy="'shift-list-' + key"
             :title="key"
             :shifts="shifts"
-            :editable="true"
+            :editable="!contractExpired"
             :show-divider="i + 1 < numberOfMonths"
             :shifts-to-delete="shiftsToDelete"
             :selected-contract="selectedContract"
@@ -157,6 +161,8 @@ import { handleApiError } from "@/utils/interceptors";
 import { datesGroupByComponent } from "@/utils/shift";
 import { getNextContractParams } from "@/utils";
 
+import contractExpiredMixin from "@/mixins/contractExpired";
+
 export default {
   name: "ViewShiftList",
   metaInfo() {
@@ -170,6 +176,7 @@ export default {
     FormDialog,
     SelectContractFilter
   },
+  mixins: [contractExpiredMixin],
   data: () => ({
     editable: false,
     icons: {

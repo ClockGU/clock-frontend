@@ -8,20 +8,35 @@
         />
       </v-col>
 
-      <v-col cols="12" md="6">
-        <ClockInOutCard
-          :clocked-shift="clockedShift"
-          :selected-contract="selectedContract"
-        />
-      </v-col>
+      <v-card min-width="100%">
+        <v-row class="mx-0">
+          <v-overlay v-if="contractExpired" absolute :opacity="0.97">
+            <v-card max-width="400" color="error" dark>
+              <v-card-title>
+                {{ $t("dashboard.contractExpired.title") }}
+              </v-card-title>
 
-      <v-col cols="12" md="6">
-        <DashboardShiftButton @refresh="refresh" />
-      </v-col>
+              <v-card-text>
+                {{ $t("dashboard.contractExpired.text") }}
+              </v-card-text>
+            </v-card>
+          </v-overlay>
+          <v-col cols="12" md="6">
+            <ClockInOutCard
+              :clocked-shift="clockedShift"
+              :selected-contract="selectedContract"
+            />
+          </v-col>
 
-      <v-col>
-        <MonthlyProgress :debit="debit" :credit="credit" />
-      </v-col>
+          <v-col cols="12" md="6">
+            <DashboardShiftButton @refresh="refresh" />
+          </v-col>
+
+          <v-col>
+            <MonthlyProgress :debit="debit" :credit="credit" />
+          </v-col>
+        </v-row>
+      </v-card>
 
       <v-col cols="12" md="6">
         <v-card>
@@ -70,6 +85,8 @@ import { mapGetters } from "vuex";
 
 import { Shift } from "@/models/ShiftModel";
 
+import contractExpiredMixin from "@/mixins/contractExpired";
+
 export default {
   name: "Dashboard",
   metaInfo: {
@@ -82,6 +99,7 @@ export default {
     ShiftListItem,
     SelectContractFilter
   },
+  mixins: [contractExpiredMixin],
   data: () => ({
     length: 3,
     step: 0,

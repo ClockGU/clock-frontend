@@ -92,6 +92,10 @@
         "running": "Eingestochen"
       }
     },
+    "contractExpired": {
+      "title": "Vertrag abgelaufen",
+      "text": "Du kannst mit Schichten in einem abgelaufenem Vertrag nicht interagieren. Wechsel in einen anderen Vertrag oder erstelle einen neuen."
+    },
     "emptyActivity": "Du hast in diesem Vetrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivität",
     "newShift": { "title": "Schicht nachtragen" },
