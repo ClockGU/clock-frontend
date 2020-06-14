@@ -5,7 +5,7 @@
     max-width="600"
     persistent
     no-click-animation
-    @keydown.esc="closeDialog"
+    retain-focus
   >
     <v-card>
       <v-toolbar flat>
@@ -170,6 +170,18 @@ export default {
     this.loadService();
     // Make a copy of the entity we will save.
     this.toSave = this.entity;
+
+    const close = e => {
+      const ESC = 27;
+      if (e.keyCode !== ESC) return;
+      this.closeDialog();
+    };
+    // Close the modal when the
+    // user presses the ESC key.
+    document.addEventListener("keyup", close);
+    this.$on("hook:destroyed", () => {
+      document.removeEventListener("keyup", close);
+    });
   },
   methods: {
     loadService() {

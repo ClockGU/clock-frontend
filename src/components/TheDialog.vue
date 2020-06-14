@@ -55,6 +55,19 @@ export default {
       this.dialog = false;
     }
   },
+  created() {
+    const close = e => {
+      const ESC = 27;
+      if (e.keyCode !== ESC) return;
+      this.closeDialog();
+    };
+    // Close the modal when the
+    // user presses the ESC key.
+    document.addEventListener("keyup", close);
+    this.$on("hook:destroyed", () => {
+      document.removeEventListener("keyup", close);
+    });
+  },
   methods: {
     handleClickOutside() {
       if (this.persistent) return;
