@@ -19,7 +19,7 @@ const actions = {
   LOGIN_OAUTH2({ commit, dispatch }, { access_token, refresh_token }) {
     commit("LOGIN", { access: access_token, refresh: refresh_token });
 
-    ApiService.setHeader(access_token);
+    ApiService.setAccessToken(access_token);
     dispatch("GET_USER", null, { root: true });
 
     return Promise.resolve();
@@ -28,7 +28,7 @@ const actions = {
     return AuthService.login(email, password).then(response => {
       log("AuthVuex.login: resolved");
       commit("LOGIN", response.data);
-      ApiService.setHeader(response.data.access);
+      ApiService.setAccessToken(response.data.access);
 
       dispatch("GET_USER", null, { root: true });
       // Redirect the user to the page he first tried to visit or to the home view
@@ -62,7 +62,7 @@ const actions = {
     return refreshPromise
       .then(response => {
         commit("LOGIN", response.data);
-        ApiService.setHeader(response.data.access);
+        ApiService.setAccessToken(response.data.access);
 
         return Promise.resolve(response);
       })

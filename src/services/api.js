@@ -1,5 +1,7 @@
 import axios from "axios";
 import store from "@/store";
+import i18n from "@/plugins/i18n";
+
 import {
   handleGenericError,
   handleLogout,
@@ -14,14 +16,19 @@ const ApiService = {
 
   init(baseURL) {
     axios.defaults.baseURL = baseURL;
+    axios.defaults.headers.common["Accept-Language"] = i18n.locale || "de";
   },
 
-  setHeader(accessToken) {
+  setHeader(header, value) {
     return new Promise(resolve => {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      axios.defaults.headers.common[header] = value;
 
       resolve();
     });
+  },
+
+  setAccessToken(accessToken) {
+    this.setHeader("Authorization", `Bearer ${accessToken}`);
   },
 
   removeHeader() {

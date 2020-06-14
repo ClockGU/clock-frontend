@@ -23,7 +23,7 @@ ApiService.mountInterceptor();
 const isLoggedIn = store.getters["auth/loggedIn"];
 if (isLoggedIn) {
   const accessToken = store.getters["auth/accessToken"];
-  ApiService.setHeader(accessToken);
+  ApiService.setAccessToken(accessToken);
 }
 
 Vue.use(VueMeta);
