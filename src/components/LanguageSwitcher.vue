@@ -36,6 +36,8 @@
 
 <script>
 import { mdiChevronDown, mdiTranslate } from "@mdi/js";
+import ApiService from "@/services/api";
+
 export default {
   name: "LanguageSwitcher",
   data: () => ({
@@ -59,6 +61,9 @@ export default {
       if (this.$i18n.locale === locale) return;
 
       this.$i18n.locale = locale;
+
+      // Update locale for API requests
+      ApiService.setHeader("Accept-Language", locale);
     }
   }
 };
