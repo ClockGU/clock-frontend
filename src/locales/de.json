@@ -144,6 +144,13 @@
       "question": "Frage"
     }
   },
+  "footer": {
+    "acknowledgeGU": {
+      "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
+      "university": "Goethe-Universität Frankfurt",
+      "url": "https://www.uni-frankfurt.de/"
+    }
+  },
   "forms": {
     "selected": "{n} ausgewählt",
     "titleAdd": "{entity} @.lower:actions.add",

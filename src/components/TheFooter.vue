@@ -12,8 +12,26 @@
       >
         {{ link.text }}
       </v-btn>
-      <v-col class="primary lighten-1 py-4 text-center white--text" cols="12">
-        {{ new Date().getFullYear() }} — <strong>Clock</strong>
+      <v-col class="primary lighten-1 text-center white--text" cols="12">
+        <v-row justify="center">
+          <v-col cols="10">
+            <p>
+              &copy; {{ new Date().getFullYear() }} — <strong>Clock</strong>
+            </p>
+            <i18n path="footer.acknowledgeGU.text" tag="p">
+              <template v-slot:link>
+                <base-link
+                  class="text-no-wrap"
+                  :href="$t('footer.acknowledgeGU.url')"
+                >
+                  <template v-slot:text>{{
+                    $t("footer.acknowledgeGU.university")
+                  }}</template>
+                </base-link>
+              </template>
+            </i18n>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-footer>
