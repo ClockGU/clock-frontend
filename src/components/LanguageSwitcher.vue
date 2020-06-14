@@ -7,12 +7,7 @@
     transition="slide-y-transition"
   >
     <template v-slot:activator="{ attrs, on }">
-      <v-btn
-        class="text-capitalize hidden-xs-only"
-        text
-        v-bind="attrs"
-        v-on="on"
-      >
+      <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">
         <v-icon :left="$vuetify.breakpoint.mdAndUp">
           {{ icons.mdiTranslate }}
         </v-icon>
