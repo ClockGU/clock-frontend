@@ -255,6 +255,8 @@
       Opt-Out-Cookie abgelegt, was zur Folge hat, dass durch Matomo keine Daten
       mehr erhoben werden.
     </p>
+
+    <iframe :src="iframeURL"></iframe>
   </v-container>
 </template>
 
@@ -265,6 +267,19 @@ export default {
     return {
       title: this.$t("app.privacy")
     };
+  },
+  computed: {
+    iframeURL() {
+      return `${process.env.VUE_APP_MATOMO_URL}index.php?module=CoreAdminHome&action=optOut&language=${this.$i18n.locale}`;
+    }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+iframe {
+  border: 0;
+  height: 280px;
+  width: 100%;
+}
+</style>
