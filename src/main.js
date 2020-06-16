@@ -27,26 +27,28 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 
-const isProduction = process.env.NODE_ENV === "production" || true;
+const isProduction = process.env.NODE_ENV === "production";
 
 Vue.use(VueMeta);
-Vue.use(VueMatomo, {
-  host: process.env.VUE_APP_MATOMO_URL,
-  siteId: process.env.VUE_APP_MATOMO_SITE_ID,
-  router: router,
-  requireConsent: false,
-  enableHeartBeatTimer: true,
-  disableCookies: true,
-  debug: !isProduction,
-  domains: process.env.VUE_APP_MATOMO_DOMAINS
-});
 Vue.use(PortalVue);
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 
-// Setup sentry error tracking in production
 export const debugLogger = isProduction ? false : true;
 if (isProduction) {
+  // Matomo
+  Vue.use(VueMatomo, {
+    host: process.env.VUE_APP_MATOMO_URL,
+    siteId: process.env.VUE_APP_MATOMO_SITE_ID,
+    router: router,
+    requireConsent: false,
+    enableHeartBeatTimer: true,
+    disableCookies: true,
+    debug: !isProduction,
+    domains: process.env.VUE_APP_MATOMO_DOMAINS
+  });
+
+  // Setup sentry error tracking in production
   // Here goes the DSN
   Sentry.init({
     dsn: process.env.VUE_APP_SENTRY_DSN,
