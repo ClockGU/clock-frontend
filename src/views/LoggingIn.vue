@@ -9,7 +9,7 @@
       ></v-progress-circular>
     </v-row>
     <v-row class="mt-10" justify="center">
-      Logging in...
+      {{ $t("app.loggingin") }}
     </v-row>
   </v-container>
 </template>
