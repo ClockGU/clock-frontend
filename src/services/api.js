@@ -2,12 +2,6 @@ import axios from "axios";
 import store from "@/store";
 import i18n from "@/plugins/i18n";
 
-import {
-  handleGenericError,
-  handleLogout,
-  handleNetworkError,
-  handleTokenRefresh
-} from "@/utils/interceptors";
 import { log } from "@/utils/log";
 
 const ApiService = {
@@ -67,34 +61,54 @@ const ApiService = {
         log("_interceptor: resolved");
         return response;
       },
-      error => {
+      async error => {
         log("_interceptor: rejected");
-        const isLoggedIn = store.getters["auth/loggedIn"];
-        const isNetworkError = error.message == "Network Error";
 
-        // We cannot reach the backend :(
-        if (isNetworkError) {
-          return handleNetworkError(error);
+        const { data, status } = error.response;
+
+        if (
+          status === 404 &&
+          error.response.config.url === "/clockedinshifts/"
+        ) {
+          return Promise.resolve({ ...error, response: { data: [] } });
         }
 
-        // The error is not 401, so we should handle it and show it to the user.
-        if (error.request.status != 401) {
-          return handleGenericError(error);
+        const tokenNotValid = data.code === "token_not_valid";
+        const accessTokenExpired =
+          data.detail === "Given token not valid for any token type";
+        const refreshTokenExpired =
+          data.detail === "Token is invalid or expired";
+
+        if (tokenNotValid && accessTokenExpired) {
+          return store.dispatch("auth/REFRESH_TOKEN").then(response => {
+            const { access: accessToken } = response.data;
+            const { config: originalRequest } = error;
+
+            // Set new access token
+            originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+
+            // Retry the request
+            log("retrying request");
+            return this.customRequest({
+              ...originalRequest,
+              headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+              }
+            }).catch(async () => {
+              await store.dispatch("auth/LOGOUT");
+
+              return;
+            });
+          });
         }
 
-        // Only proceed if we are logged in
-        if (!isLoggedIn) return;
+        if (tokenNotValid && refreshTokenExpired) {
+          await store.dispatch("auth/LOGOUT");
 
-        // Logout if refresh token is expired
-        const isRefreshTokenExpired =
-          error.response.code === "token_not_valid" &&
-          error.response.detail === "Token is invalid or expired";
-        if (isRefreshTokenExpired) {
-          return handleLogout(error);
+          return Promise.reject(error);
         }
 
-        // Try to refresh the access token
-        return handleTokenRefresh(error, this.customRequest);
+        return error;
       }
     );
   },
