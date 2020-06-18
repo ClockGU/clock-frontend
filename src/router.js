@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
 import { getContractWithLastActivity, getNextContractParams } from "@/utils";
+import { parseJwt } from "@/utils/jwt";
 
 Vue.use(Router);
 
@@ -193,10 +194,57 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeEach(async (to, from, next) => {
+  const isPublic = to.matched.some(record => record.meta.public);
+  const onlyWhenLoggedOut = to.matched.some(
+    record => record.meta.onlyWhenLoggedOut
+  );
+  const token = store.getters["auth/accessToken"];
+  const loggedIn = store.getters["auth/loggedIn"];
+  const needToRequestNewAccessToken = exp => Date.now() >= exp * 1000;
+
+  // // Refresh JWT token
+  if (loggedIn) {
+    // Grab expiry date from JWT
+    const { exp } = parseJwt(token);
+
+    // Only request new access token if the old expired
+    if (needToRequestNewAccessToken(exp)) {
+      try {
+        await store.dispatch("auth/REFRESH_TOKEN");
+      } catch (error) {
+        await store.dispatch("auth/LOGOUT");
+      }
+    }
+  }
+
+  if (!isPublic && !loggedIn) {
+    store.dispatch("unsetContract");
+    return next({
+      path: "/"
+    });
+  }
+
+  // Do not allow user to visit login page or register page if they are logged in
+  if (loggedIn && onlyWhenLoggedOut) {
+    return next({ name: "dashboard" });
+  }
+
+  return next();
+});
+
+router.beforeEach(async (to, from, next) => {
   if (to.meta.public) return next();
 
-  const shifts = await store.dispatch("shift/queryShifts");
-  const contracts = await store.dispatch("contract/queryContracts");
+  if (to.query.poll !== undefined && to.query.poll === false) {
+    return next();
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  const [shifts, contracts, reports] = await Promise.all([
+    store.dispatch("shift/queryShifts"),
+    store.dispatch("contract/queryContracts"),
+    store.dispatch("report/list")
+  ]);
 
   // If the user has no contracts, push them to onboarding
   if (store.state.contract.contracts.length < 1) {
@@ -235,54 +283,6 @@ router.beforeEach(async (to, from, next) => {
   }
 
   next();
-});
-
-router.beforeEach(async (to, from, next) => {
-  const isPublic = to.matched.some(record => record.meta.public);
-  const onlyWhenLoggedOut = to.matched.some(
-    record => record.meta.onlyWhenLoggedOut
-  );
-  // const token = store.getters["auth/accessToken"];
-  const loggedIn = store.getters["auth/loggedIn"];
-  // const needToRequestNewAccessToken = exp => Date.now >= exp * 1000;
-
-  // // Refresh JWT token
-  // if (loggedIn) {
-  //   // Grab expiry date from JWT
-  //   const { exp } = parseJwt(token);
-
-  //   // Only request new access token if the old expired
-  //   if (needToRequestNewAccessToken(exp)) {
-  //     await store.dispatch("auth/REFRESH_TOKEN");
-  //   }
-  // }
-
-  // if (
-  //   loggedIn &&
-  //   store.state.selectedContract === null &&
-  //   to.name !== "contractSelect" &&
-  //   to.name !== "createContract" &&
-  //   to.name !== "help" &&
-  //   to.name !== "changePassword"
-  // ) {
-  //   return next({
-  //     name: "contractSelect"
-  //   });
-  // }
-
-  if (!isPublic && !loggedIn) {
-    store.dispatch("unsetContract");
-    return next({
-      path: "/"
-    });
-  }
-
-  // Do not allow user to visit login page or register page if they are logged in
-  if (loggedIn && onlyWhenLoggedOut) {
-    return next({ name: "dashboard" });
-  }
-
-  return next();
 });
 
 export default router;
