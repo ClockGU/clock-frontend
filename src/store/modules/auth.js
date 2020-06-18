@@ -46,7 +46,7 @@ const actions = {
     // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
     return router.push("/").catch(() => {});
   },
-  REFRESH_TOKEN({ commit, state }) {
+  async REFRESH_TOKEN({ commit, state }) {
     // If this is the first time the refreshToken has been called, make a request
     // otherwise return the same promise to the caller
     if (state.refreshTokenPromise !== null) {
@@ -54,28 +54,22 @@ const actions = {
       return state.refreshTokenPromise;
     }
 
-    const refreshPromise = AuthService.refreshToken(state.refreshToken);
-    commit("SET_REFRESH_TOKEN_PROMISE", refreshPromise);
-
     // Wait for the AuthService.refreshToken() to resolve. On success set the token and clear promise
     // Clear the promise on error as well.
-    return refreshPromise
-      .then(response => {
-        commit("LOGIN", response.data);
-        ApiService.setAccessToken(response.data.access);
+    try {
+      const promise = AuthService.refreshToken(state.refreshToken);
+      commit("SET_REFRESH_TOKEN_PROMISE", promise);
 
-        return Promise.resolve(response);
-      })
-      .catch(error => {
-        return Promise.reject(error);
-      })
-      .finally(() => {
-        log(
-          "%c [TOKEN] Resetting token promise!",
-          "background: #222; color: #bada55"
-        );
-        commit("SET_REFRESH_TOKEN_PROMISE", null);
-      });
+      const response = await promise;
+      commit("LOGIN", response.data);
+      ApiService.setAccessToken(response.data.access);
+
+      commit("SET_REFRESH_TOKEN_PROMISE", null);
+      return Promise.resolve(response);
+    } catch (error) {
+      commit("SET_REFRESH_TOKEN_PROMISE", null);
+      return Promise.reject(error);
+    }
   }
 };
 
