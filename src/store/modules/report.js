@@ -29,9 +29,11 @@ const actions = {
   },
   async list({ commit }) {
     state.status = "loading";
-    await ReportService.list()
+    return ReportService.list()
       .then(response => {
         commit("set", response.data);
+
+        return response.data;
       })
       .catch(handleApiError)
       .finally(() => {
