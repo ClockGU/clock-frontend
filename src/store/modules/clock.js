@@ -39,17 +39,16 @@ const actions = {
     state.status = "loading";
     try {
       const response = await ClockService.get();
-      let { data } = response;
 
-      if (data === undefined) {
+      if (response.data === undefined) {
         state.status = "idle";
         return Promise.reject();
       }
 
-      commit("CLOCK_SHIFT", data);
+      commit("CLOCK_SHIFT", response.data);
 
       state.status = "idle";
-      return Promise.resolve(data);
+      return Promise.resolve(response.data);
     } catch (error) {
       commit("UNCLOCK_SHIFT");
       state.status = "idle";
