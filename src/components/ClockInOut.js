@@ -1,6 +1,7 @@
 import { parseISO } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
+import { log } from "@/utils/log";
 
 export default {
   name: "ClockInOut",
@@ -51,8 +52,6 @@ export default {
     }
   },
   destroyed() {
-    if (this.clock === null) return;
-
     this.stop();
   },
   methods: {
@@ -90,6 +89,8 @@ export default {
           color: "success"
         });
       } catch (error) {
+        if (error.response && error.response.status === 401) return;
+
         this.reset();
       }
       this.saving = false;
@@ -107,7 +108,8 @@ export default {
           timeout: 4000,
           color: "warning"
         });
-      } catch (e) {
+      } catch (error) {
+        if (error.response && error.response.status === 401) return;
         // No shift is clocked in. Do the deed!
         const date = new Date();
         this.clock = new ClockModel({ startDate: date });
@@ -125,8 +127,9 @@ export default {
           timeout: 4000,
           color: "success"
         });
+      } finally {
+        this.saving = false;
       }
-      this.saving = false;
     },
     unpause() {
       this.clock.start();
@@ -138,9 +141,14 @@ export default {
       this.clock.toggle();
     },
     stop() {
-      this.clock.stop();
-      this.clock = null;
-      this.clockedShift = null;
+      try {
+        this.clock.stop();
+      } catch (error) {
+        log("Tried to destroy clock, while it was already destroyed.");
+      } finally {
+        this.clock = null;
+        this.clockedShift = null;
+      }
     },
     async reset(snackbar = true) {
       this.pause();
@@ -158,6 +166,8 @@ export default {
           });
         }
       } catch (error) {
+        if (error.response && error.response.status === 401) return;
+
         this.clock.resetInterval();
         this.clock = null;
 
