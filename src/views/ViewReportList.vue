@@ -92,7 +92,7 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find(contract => contract.uuid === uuid) || {};
     },
     shiftsOfContract() {
       return this.shifts.filter(
