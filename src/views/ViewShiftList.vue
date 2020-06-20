@@ -254,7 +254,7 @@ export default {
     }
   },
   created() {
-    this.groupShiftsByMonth();
+    this.unsortedShifts = this.shiftsOfContract;
   },
   methods: {
     async refresh({ contract }) {
@@ -281,9 +281,9 @@ export default {
     async destroy() {
       const promises = [];
       try {
-      for (const shift of this.shiftsToDelete) {
+        for (const shift of this.shiftsToDelete) {
           promises.push(ShiftService.delete(shift.uuid));
-      }
+        }
 
         await Promise.all(promises);
         this.groupShiftsByMonth();

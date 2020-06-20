@@ -146,9 +146,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.refresh();
-  },
   methods: {
     refresh() {
       this.$store.dispatch("shift/queryShifts");
@@ -172,7 +169,7 @@ export default {
     async destroy(uuid) {
       try {
         await ContractService.delete(uuid);
-          this.$store.dispatch("contract/queryContracts");
+        this.$store.dispatch("contract/queryContracts");
       } catch (error) {
         // TODO: Set error state in component
         log(error);

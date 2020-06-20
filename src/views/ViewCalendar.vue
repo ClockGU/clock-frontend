@@ -71,9 +71,6 @@ export default {
       return this.date.toISOString().slice(0, 10);
     }
   },
-  mounted() {
-    this.refresh();
-  },
   methods: {
     async refresh() {
       await this.$store.dispatch("shift/queryShifts");

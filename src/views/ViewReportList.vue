@@ -118,11 +118,6 @@ export default {
       return datesGroupByComponent(this.shiftsOfContract, "y MM");
     }
   },
-  async created() {
-    await this.$store.dispatch("contract/queryContracts");
-    await this.$store.dispatch("shift/queryShifts");
-    await this.$store.dispatch("report/list");
-  },
   methods: {
     checkExported(date) {
       const [year, month] = date.slice(0, 7).split("-");

@@ -300,9 +300,6 @@ export default {
   },
   async mounted() {
     this.$refs.calendar.checkChange();
-
-    await this.$store.dispatch("shift/queryShifts");
-    await this.$store.dispatch("contract/queryContracts");
   },
   created() {
     this.focus = this.initialFocus;
@@ -361,11 +358,11 @@ export default {
 
       try {
         await ShiftService.delete(uuid);
-          const remainingShifts = this.shifts.filter(
-            shift => shift.uuid !== uuid
-          );
+        const remainingShifts = this.shifts.filter(
+          shift => shift.uuid !== uuid
+        );
 
-          this.$store.dispatch("shift/setShifts", remainingShifts);
+        this.$store.dispatch("shift/setShifts", remainingShifts);
       } catch (error) {
         // TODO: Set error state for component;
         log(error);

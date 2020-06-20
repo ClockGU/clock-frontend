@@ -153,9 +153,6 @@ export default {
       return `${creditHours}:${creditMinutes}`;
     }
   },
-  async created() {
-    await this.$store.dispatch("report/list");
-  },
   methods: {
     async refresh() {
       await this.$store.dispatch("shift/queryShifts");

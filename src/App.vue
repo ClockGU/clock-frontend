@@ -31,8 +31,6 @@ import TheSnackbar from "@/components/TheSnackbar";
 import TheFooter from "@/components/TheFooter";
 import FeedbackMenu from "@/components/FeedbackMenu";
 
-import { handleApiError } from "@/utils/interceptors";
-
 import { mapGetters } from "vuex";
 
 export default {
@@ -66,21 +64,11 @@ export default {
       return this.$route.name === "imprint" || this.$route.name === "privacy";
     }
   },
-  watch: {
-    $route(to, from) {
-      if (to.name === from.name) return;
-      this.loadClockedShift();
-    }
-  },
   created() {
     if (!this.isLoggedIn) return;
-    this.$store.dispatch("GET_USER");
+    this.$store.dispatch("GET_USER").catch(() => {});
   },
   methods: {
-    loadClockedShift() {
-      if (!this.isLoggedIn) return;
-      this.$store.dispatch("clock/GET_CLOCKED_SHIFT").catch(handleApiError);
-    },
     toggleDrawer() {
       this.drawer = !this.drawer;
     }
