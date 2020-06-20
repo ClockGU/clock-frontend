@@ -78,28 +78,52 @@ const ApiService = {
           data.detail === "Given token not valid for any token type";
         const refreshTokenExpired =
           data.detail === "Token is invalid or expired";
+        const isArrayBuffer = data instanceof ArrayBuffer;
 
-        if (tokenNotValid && accessTokenExpired) {
-          return store.dispatch("auth/REFRESH_TOKEN").then(response => {
-            const { access: accessToken } = response.data;
-            const { config: originalRequest } = error;
+        if (
+          (tokenNotValid && accessTokenExpired) ||
+          (error.response.status === 401 && isArrayBuffer)
+        ) {
+          return store
+            .dispatch("auth/REFRESH_TOKEN")
+            .then(response => {
+              const { access: accessToken } = response.data;
+              const { config: originalRequest } = error;
 
-            // Set new access token
-            originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+              // Set new access token
+              originalRequest.headers[
+                "Authorization"
+              ] = `Bearer ${accessToken}`;
 
-            // Retry the request
-            log("retrying request");
-            return this.customRequest({
-              ...originalRequest,
-              headers: {
-                "Content-Type": "application/json;charset=UTF-8"
+              // Retry the request
+              log("retrying request");
+              return this.customRequest({
+                ...originalRequest,
+                headers: isArrayBuffer
+                  ? {}
+                  : {
+                      "Content-Type": "application/json;charset=UTF-8"
+                    },
+                responseType: isArrayBuffer ? "arraybuffer" : undefined
+              }).catch(error => {
+                // If the retried request fails, reject the Promise
+                return Promise.reject(error);
+              });
+            })
+            .catch(async error => {
+              // Now that the token refresh Promise failed, check that the
+              // reponse status is 401 (UNAUTHORIZED). If it is, logout the
+              // user, because we could not get a new refresh token for them.
+              //
+              // In any other case, just reject the Promise and let the caller
+              // handle it. Here, the retried request from above succeeded, but
+              // returned a non 2xx/401 response. This does not mean, that we
+              // need to logout the user!
+              if (error.response.status === 401) {
+                await store.dispatch("auth/LOGOUT");
               }
-            }).catch(async () => {
-              await store.dispatch("auth/LOGOUT");
-
-              return;
+              return Promise.reject(error);
             });
-          });
         }
 
         if (tokenNotValid && refreshTokenExpired) {
@@ -107,8 +131,7 @@ const ApiService = {
 
           return Promise.reject(error);
         }
-
-        return error;
+        return Promise.reject(error);
       }
     );
   },
