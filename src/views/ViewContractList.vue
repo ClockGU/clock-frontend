@@ -97,7 +97,7 @@ import ContractService from "@/services/contract";
 import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
-import { handleApiError } from "../utils/interceptors";
+import { log } from "@/utils/log";
 
 export default {
   name: "ViewContractList",
@@ -170,11 +170,13 @@ export default {
       return this.clockedShift.contract !== uuid;
     },
     async destroy(uuid) {
-      ContractService.delete(uuid)
-        .catch(handleApiError)
-        .finally(() => {
+      try {
+        await ContractService.delete(uuid);
           this.$store.dispatch("contract/queryContracts");
-        });
+      } catch (error) {
+        // TODO: Set error state in component
+        log(error);
+      }
     }
   }
 };
