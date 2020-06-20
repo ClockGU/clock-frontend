@@ -30,7 +30,7 @@
             "
             class="d-flex flex-wrap"
           >
-            <v-btn color="primary darken-1" @click="login">
+            <v-btn color="primary darken-1" @click="login" :loading="loading">
               Login mit HRZ Account
             </v-btn>
           </div>
@@ -41,11 +41,14 @@
 </template>
 
 <script>
+import { log } from "@/utils/log";
 import OAuth2Service from "@/services/oauth2";
 
 export default {
   name: "SectionHero",
-
+  data: () => ({
+    loading: false
+  }),
   provide: {
     theme: { isDark: true }
   },
@@ -59,10 +62,27 @@ export default {
   },
   methods: {
     async login() {
-      const response = await OAuth2Service.get();
-      const { authorization_url } = response.data;
+      this.loading = true;
+      try {
+        // TODO: Add timeout
+        const response = await OAuth2Service.get();
+        const { authorization_url } = response.data;
 
-      window.location = authorization_url;
+        window.location = authorization_url;
+      } catch (error) {
+        // TODO: Put component into error state
+        await this.$store.dispatch("snackbar/setSnack", {
+          snack: this.$t("feedback.snackbar.error"),
+          timeout: 4000,
+          color: "error"
+        });
+
+        log(error);
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 5000);
+      }
     }
   }
 };
