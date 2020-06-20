@@ -17,7 +17,7 @@
 
       <v-card-actions>
         <v-btn
-          v-if="pdfResponse"
+          v-if="pdf !== null"
           :loading="loading"
           :outlined="loading"
           text
@@ -87,17 +87,14 @@ export default {
   },
   data() {
     return {
-      pdfResponse: null,
+      pdf: null,
       loading: false
     };
   },
   computed: {
     fileName() {
       const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
-      return `Report_${date}.pdf`;
-    },
-    downloadLabel() {
-      return !this.pdfResponse ? "Request" : "Download";
+      return `${this.$i18n.t("app.reports")}_${date}.pdf`;
     },
     debit() {
       const contract = this.$store.state.contract.contracts.find(
@@ -115,23 +112,29 @@ export default {
   },
   methods: {
     download() {
-      let link = document.createElement("a");
-      link.href = window.URL.createObjectURL(
-        new Blob([this.pdfResponse], { type: "application/pdf" })
-      );
-      link.download = this.fileName;
-
-      document.body.appendChild(link);
+      const link = document.createElement("a");
+      link.setAttribute("href", `data:application/pdf;base64,${this.pdf}`);
+      link.setAttribute("download", this.fileName);
       link.click();
-      document.body.removeChild(link);
     },
     async request() {
       this.loading = true;
-      const { data } = await ReportService.export(this.report.uuid);
-      this.pdfResponse = data;
-      this.loading = false;
-
-      this.$store.dispatch("shift/queryShifts");
+      try {
+        const response = await ReportService.get(this.report.uuid);
+        this.pdf = Buffer.from(response.data, "binary").toString("base64");
+      } catch (error) {
+        if (error.response.status === 401) return;
+        // TODO: Set error state in component
+        const uint8array = new Uint8Array(error.response.data);
+        const decoded = JSON.parse(new TextDecoder().decode(uint8array));
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: decoded.message,
+          timeout: 4000,
+          color: "error"
+        });
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
