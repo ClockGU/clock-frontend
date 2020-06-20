@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { log } from "@/utils/log";
 import GDPRService from "@/services/gdpr";
 
 export default {
@@ -32,7 +33,7 @@ export default {
   },
   computed: {
     downloadLabel() {
-      return !this.response
+      return this.response === null
         ? this.$t("actions.request")
         : this.$t("actions.download");
     }
@@ -47,21 +48,24 @@ export default {
       this.request();
     },
     download() {
-      let link = document.createElement("a");
-      link.href = window.URL.createObjectURL(
-        new Blob([this.response], { type: "application/pdf" })
+      const link = document.createElement("a");
+      const encoded = encodeURIComponent(
+        JSON.stringify(this.response.data, null, 2)
       );
-      link.download = this.filename;
-
-      document.body.appendChild(link);
+      link.setAttribute("href", `data:text/json;charset=utf-8,${encoded}`);
+      link.setAttribute("download", this.filename);
       link.click();
-      document.body.removeChild(link);
     },
     async request() {
       this.loading = true;
-      const { data } = await GDPRService.get();
-      this.response = data;
-      this.loading = false;
+      try {
+        this.response = await GDPRService.get();
+      } catch (error) {
+        // TODO: set error state in component
+        log(error);
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
