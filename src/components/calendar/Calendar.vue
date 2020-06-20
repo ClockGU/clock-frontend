@@ -156,7 +156,7 @@ import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 import ShiftService from "@/services/shift";
-import { handleApiError } from "@/utils/interceptors";
+import { log } from "@/utils/log";
 import { getNextContractParams } from "@/utils";
 
 import FormDialog from "@/components/FormDialog";
@@ -359,15 +359,17 @@ export default {
     async destroy(uuid) {
       this.selectedOpen = false;
 
-      ShiftService.delete(uuid)
-        .then(() => {
+      try {
+        await ShiftService.delete(uuid);
           const remainingShifts = this.shifts.filter(
             shift => shift.uuid !== uuid
           );
 
           this.$store.dispatch("shift/setShifts", remainingShifts);
-        })
-        .catch(handleApiError);
+      } catch (error) {
+        // TODO: Set error state for component;
+        log(error);
+      }
     },
     viewDay({ date }) {
       this.focus = date;
