@@ -151,16 +151,16 @@ export default {
         message: this.message
       };
 
-      const response = await FeedbackService.post(feedback);
+      try {
+        await FeedbackService.post(feedback);
 
-      if (response.status === 200) {
         await this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("feedback.snackbar.success"),
           timeout: 4000,
           color: "success"
         });
         this.close();
-      } else {
+      } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("feedback.snackbar.error"),
           timeout: 4000,
