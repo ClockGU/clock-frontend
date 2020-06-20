@@ -156,7 +156,7 @@ import {
 } from "@mdi/js";
 
 import ShiftService from "@/services/shift";
-import { handleApiError } from "@/utils/interceptors";
+import { log } from "@/utils/log";
 
 import { datesGroupByComponent } from "@/utils/shift";
 import { getNextContractParams } from "@/utils";
@@ -278,20 +278,26 @@ export default {
       this.showFormDialog = false;
       this.shiftEntity = null;
     },
-    destroy() {
+    async destroy() {
       const promises = [];
+      try {
       for (const shift of this.shiftsToDelete) {
-        promises.push(ShiftService.delete(shift.uuid).catch(handleApiError));
+          promises.push(ShiftService.delete(shift.uuid));
       }
 
-      Promise.all(promises).finally(() => {
+        await Promise.all(promises);
         this.groupShiftsByMonth();
         this.dialog = false;
         this.editable = false;
 
         this.shiftsToDelete = [];
         this.toDelete = null;
-      });
+      } catch (error) {
+        // TODO: Set error state for component & allow user to reload page
+        // We usually should end up here, if we are already logging out.
+        // But a proper error state could mitigate further issues.
+        log(error);
+      }
     },
     groupShiftsByMonth() {
       return this.$store.dispatch("shift/queryShifts").then(() => {
