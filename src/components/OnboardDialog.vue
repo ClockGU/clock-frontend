@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { handleApiError } from "@/utils/interceptors";
+import { log } from "@/utils/log";
 import { mdiDelete, mdiClose, mdiRecord } from "@mdi/js";
 
 import ContractForm from "@/components/contracts/ContractForm";
@@ -164,24 +164,23 @@ export default {
     logout() {
       this.$store.dispatch("auth/LOGOUT");
     },
-    save() {
+    async save() {
       this.loading = true;
-      this.service
-        .create(this.contractToSave.toPayload())
-        .then(response => {
-          const { uuid: contract } = response;
-
-          this.$router.push({ name: "dashboard", params: { contract } });
-        })
-        .then(() => {
-          return this.$store.dispatch("contract/queryContracts");
-        })
-        .catch(handleApiError)
-        .finally(() => {
-          setTimeout(() => {
-            this.loading = false;
-          }, 500);
-        });
+      try {
+        const response = await this.service.create(
+          this.contractToSave.toPayload()
+        );
+        const { uuid: contract } = response;
+        await this.$store.dispatch("contract/queryContracts");
+        this.$router.push({ name: "dashboard", params: { contract } });
+      } catch (error) {
+        // TODO: Set error state
+        log(error);
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      }
     }
   }
 };
