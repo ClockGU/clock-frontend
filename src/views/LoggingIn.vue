@@ -16,7 +16,6 @@
 
 <script>
 import OAuth2Service from "@/services/oauth2";
-import { getContractWithLastActivity } from "@/utils";
 
 export default {
   name: "LoggingIn",
@@ -38,26 +37,24 @@ export default {
     // Replace the history entry to remove the auth code form the browser address bar
     window.history.replaceState({}, null, "/");
 
-    const response = await OAuth2Service.post(code);
+    try {
+      const response = await OAuth2Service.post(code);
+      await this.$store.dispatch("auth/LOGIN_OAUTH2", response.data);
 
-    await this.$store.dispatch("auth/LOGIN_OAUTH2", response.data);
+      this.$router
+        .push({
+          name: "dashboard"
+        })
+        .catch(() => {});
+    } catch (error) {
+      this.$store.dispatch("snackbar/setSnack", {
+        snack:
+          "Something went wrong with the login. Please contact the support, if this keeps happening.",
+        color: "error"
+      });
 
-    // TODO: We get some weird error if we do not redirect to a concrete
-    // dashboard view with a set contract param
-    const shifts = await this.$store.dispatch("shift/queryShifts");
-    const contracts = await this.$store.dispatch("contract/queryContracts");
-    await this.$store.dispatch("report/list");
-
-    if (contracts.length < 1) {
-      return this.$router.push({ name: "onboarding" });
+      this.$store.dispatch("auth/LOGOUT").catch(() => {});
     }
-
-    const uuid = getContractWithLastActivity({ shifts, contracts });
-
-    this.$router.push({
-      name: "dashboard",
-      params: { contract: uuid }
-    });
   }
 };
 </script>
