@@ -53,8 +53,11 @@ export default {
       const match = this.locales.find(
         locale => locale.locale === this.$i18n.locale
       );
-      return match.name;
+      return match.name || this.locales[0].name;
     }
+  },
+  created() {
+    console.log(this.$i18n.locale);
   },
   methods: {
     switchLocale(locale) {
