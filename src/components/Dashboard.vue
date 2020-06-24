@@ -87,6 +87,8 @@ import { Shift } from "@/models/ShiftModel";
 
 import contractExpiredMixin from "@/mixins/contractExpired";
 
+import { log } from "@/utils/log";
+
 export default {
   name: "Dashboard",
   metaInfo: {
@@ -155,9 +157,15 @@ export default {
   },
   methods: {
     async refresh() {
-      await this.$store.dispatch("shift/queryShifts");
-      await this.$store.dispatch("contract/queryContracts");
-      await this.$store.dispatch("report/list");
+      try {
+        await Promise.all([
+          this.$store.dispatch("shift/queryShifts"),
+          this.$store.dispatch("contract/queryContracts"),
+          this.$store.dispatch("report/list")
+        ]);
+      } catch (error) {
+        log(error);
+      }
     }
   }
 };
