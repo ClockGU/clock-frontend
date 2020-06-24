@@ -4,26 +4,9 @@ import store from "@/store";
 import { getContractWithLastActivity, getNextContractParams } from "@/utils";
 import { parseJwt } from "@/utils/jwt";
 import { log } from "@/utils/log";
+import { routes } from "./routes";
 
 Vue.use(Router);
-
-const Home = () => import("@/views/Home");
-const ViewLogin = () => import("@/views/ViewLogin");
-const ViewCalendar = () => import("@/views/ViewCalendar.vue");
-const ViewShiftList = () => import("@/views/ViewShiftList");
-const ViewContractForm = () => import("@/views/ViewContractForm");
-const ViewContractList = () => import("@/views/ViewContractList");
-const ViewReportList = () => import("@/views/ViewReportList");
-const ViewHelp = () => import("@/views/ViewHelp");
-const Settings = () => import("@/views/Settings");
-const ViewDebug = () => import("@/views/ViewDebug");
-const Landing = () => import("@/views/Landing");
-const Imprint = () => import("@/views/Imprint");
-const Privacy = () => import("@/views/Privacy");
-const Dashboard = () => import("@/components/Dashboard");
-const LoggingIn = () => import("@/views/LoggingIn");
-const Onboarding = () => import("@/views/Onboarding");
-const NotFound = () => import("@/views/NotFound");
 
 const router = new Router({
   mode: "history",
@@ -41,118 +24,7 @@ const router = new Router({
       return { x: 0, y: 0 };
     }
   },
-  routes: [
-    {
-      path: "*",
-      redirect: { name: "404" }
-    },
-    {
-      path: "/",
-      component: Home,
-      children: [
-        {
-          path: "/404",
-          name: "404",
-          component: NotFound,
-          meta: { public: true }
-        },
-        {
-          path: "/",
-          name: "home",
-          component: Landing,
-          meta: { public: true, onlyWhenLoggedOut: true }
-        },
-        { path: "/onboarding", name: "onboarding", component: Onboarding },
-        {
-          path: "/impressum",
-          name: "imprint",
-          component: Imprint,
-          meta: { public: true }
-        },
-        {
-          path: "/datenschutz",
-          name: "privacy",
-          component: Privacy,
-          meta: { public: true }
-        },
-        {
-          path: "/logging-in",
-          name: "loggingIn",
-          component: LoggingIn,
-          meta: { public: true, onlyWhenLoggedOut: true }
-        },
-        {
-          path: "/help",
-          name: "help",
-          component: ViewHelp,
-          meta: {
-            public: true
-          }
-        },
-        {
-          path: "/dashboard/:contract?",
-          name: "dashboard",
-          component: Dashboard
-        },
-        {
-          path: "/:type/:year/:month/:day/:contract?",
-          name: "calendar",
-          component: ViewCalendar,
-          props: true
-        },
-        {
-          path: "/shifts/:contract?",
-          name: "shiftList",
-          component: ViewShiftList
-        },
-        {
-          path: "/contracts/create",
-          name: "createContract",
-          component: ViewContractForm
-        },
-        {
-          path: "/contracts/:uuid/edit",
-          name: "editContract",
-          component: ViewContractForm,
-          props: true
-        },
-        {
-          path: "/contracts/",
-          name: "contractList",
-          component: ViewContractList
-        },
-        {
-          path: "/select/",
-          name: "contractSelect",
-          component: ViewContractList
-        },
-        {
-          path: "/reports/:contract?",
-          name: "reportList",
-          component: ViewReportList
-        },
-        {
-          path: "/settings",
-          name: "settings",
-          component: Settings
-        },
-        {
-          path: "/debug/:contract?",
-          name: "debug",
-          component: ViewDebug
-        }
-      ]
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: ViewLogin,
-      meta: {
-        public: true,
-        onlyWhenLoggedOut: true
-      }
-    }
-  ]
+  routes: routes
 });
 
 // Creates a `nextMiddleware()` function which not only
