@@ -147,10 +147,16 @@ export default {
     }
   },
   methods: {
-    refresh() {
-      this.$store.dispatch("shift/queryShifts");
-      this.$store.dispatch("contract/queryContracts");
-      this.$store.dispatch("report/list");
+    async refresh() {
+      try {
+        await Promise.all([
+          this.$store.dispatch("shift/queryShifts"),
+          this.$store.dispatch("contract/queryContracts"),
+          this.$store.dispatch("report/list")
+        ]);
+      } catch (error) {
+        log(error);
+      }
     },
     editContract(uuid) {
       const contract = this.contracts.find(contract => contract.uuid === uuid);
