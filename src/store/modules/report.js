@@ -1,5 +1,4 @@
 import ReportService from "@/services/report";
-import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   reports: [],
@@ -29,16 +28,16 @@ const actions = {
   },
   async list({ commit }) {
     state.status = "loading";
-    return ReportService.list()
-      .then(response => {
-        commit("set", response.data);
+    try {
+      const response = await ReportService.list();
+      commit("set", response.data);
 
-        return response.data;
-      })
-      .catch(handleApiError)
-      .finally(() => {
-        state.status = "idle";
-      });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    } finally {
+      state.status = "idle";
+    }
   }
 };
 

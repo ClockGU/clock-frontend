@@ -1,6 +1,5 @@
 import ShiftService from "@/services/shift";
 import { isThisMonth, parseISO } from "date-fns";
-import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   shifts: [],
@@ -93,16 +92,16 @@ const actions = {
   },
   async queryShifts({ commit }) {
     state.status = "loading";
-    return ShiftService.list()
-      .then(response => {
-        commit("setShifts", response.data);
+    try {
+      const response = await ShiftService.list();
+      commit("setShifts", response.data);
 
-        return response.data;
-      })
-      .catch(handleApiError)
-      .finally(() => {
-        state.status = "idle";
-      });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    } finally {
+      state.status = "idle";
+    }
   }
 };
 

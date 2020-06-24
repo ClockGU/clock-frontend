@@ -1,5 +1,4 @@
 import ContractService from "@/services/contract";
-import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   contracts: [],
@@ -46,16 +45,16 @@ const actions = {
   },
   async queryContracts({ commit }) {
     state.status = "loading";
-    return ContractService.list()
-      .then(response => {
-        commit("setContracts", response.data);
+    try {
+      const response = await ContractService.list();
+      commit("setContracts", response.data);
 
-        return response.data;
-      })
-      .catch(handleApiError)
-      .finally(() => {
-        state.status = "idle";
-      });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    } finally {
+      state.status = "idle";
+    }
   }
 };
 
