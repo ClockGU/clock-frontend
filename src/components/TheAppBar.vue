@@ -121,9 +121,6 @@ export default {
 
       return this.user.first_name.charAt(0);
     },
-    showClockInOutButton() {
-      return this.clockedShift !== undefined;
-    },
     showSelectContractButton() {
       return this.selectedContract !== null;
     }
