@@ -44,7 +44,10 @@ const actions = {
     commit("LOGOUT");
     // We need to catch errors here. Otherwise we get the "NavigationDuplicated" error.
     // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
-    return router.push("/").catch(() => {});
+    return router.push({ name: "home" }).catch(error => {
+      log("Experienced error while logging out: ", error);
+      return Promise.reject(error);
+    });
   },
   async REFRESH_TOKEN({ commit, state }) {
     // If this is the first time the refreshToken has been called, make a request
