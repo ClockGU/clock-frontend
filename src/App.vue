@@ -33,7 +33,7 @@ import FeedbackMenu from "@/components/FeedbackMenu";
 
 import { log } from "@/utils/log";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "App",
@@ -55,6 +55,7 @@ export default {
     drawer: false
   }),
   computed: {
+    ...mapState(["locale"]),
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
       contracts: "contract/contracts"
@@ -67,6 +68,7 @@ export default {
     }
   },
   async created() {
+    this.$store.dispatch("changeLocale", this.locale);
     if (!this.isLoggedIn) return;
     try {
       const { data } = await this.$store.dispatch("GET_USER");

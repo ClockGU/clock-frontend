@@ -18,6 +18,7 @@ export default {
     async update(locale) {
       try {
         await AuthService.updateSettings({ language: locale });
+        this.$store.dispatch("changeLocale", locale);
       } catch (error) {
         log(error);
       }
