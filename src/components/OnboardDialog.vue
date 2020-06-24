@@ -39,6 +39,27 @@
           <v-window-item :value="2">
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
+
+            <h1>
+              {{ $t("onboarding.personnelNumber.title") }}
+            </h1>
+            <span>
+              {{ $t("onboarding.personnelNumber.text") }}
+            </span>
+            <v-row align="center" justify="start">
+              <v-col cols="12" md="5">
+                <v-text-field
+                  v-model="personnelNumber"
+                  :label="$t('onboarding.personnelNumber.label')"
+                  :hint="$t('onboarding.personnelNumber.hint')"
+                  :prepend-icon="icons.mdiFileDocument"
+                  return-masked-value
+                  persistent-hint
+                  required
+                  filled
+                />
+              </v-col>
+            </v-row>
           </v-window-item>
 
           <v-window-item :value="3">
@@ -87,12 +108,12 @@
 
 <script>
 import { log } from "@/utils/log";
-import { mdiDelete, mdiClose, mdiRecord } from "@mdi/js";
+import { mdiDelete, mdiFileDocument, mdiClose, mdiRecord } from "@mdi/js";
 
 import ContractForm from "@/components/contracts/ContractForm";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
-
+import AuthService from "@/services/auth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
@@ -118,6 +139,7 @@ export default {
     contractFormValid: false,
     dialog: true,
     icons: {
+      mdiFileDocument,
       mdiDelete,
       mdiClose,
       mdiRecord
@@ -125,7 +147,8 @@ export default {
     contractToSave: null,
     toSave: null,
     service: null,
-    loading: false
+    loading: false,
+    personnelNumber: null
   }),
   computed: {
     serviceRepository() {
@@ -170,6 +193,10 @@ export default {
         const response = await this.service.create(
           this.contractToSave.toPayload()
         );
+        await AuthService.updateSettings({
+          language: this.$i18n.locale,
+          personal_number: this.personnelNumber
+        });
         const { uuid: contract } = response;
         await this.$store.dispatch("contract/queryContracts");
         this.$router.push({ name: "dashboard", params: { contract } });

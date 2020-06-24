@@ -37,6 +37,10 @@ const AuthService = {
     return ApiService.post("/auth/jwt/refresh", { refresh: refreshToken });
   },
 
+  updateSettings: settings => {
+    return ApiService.patch("/auth/users/me/", settings);
+  },
+
   /**
    * Logout the current user by removing the token from storage.
    *

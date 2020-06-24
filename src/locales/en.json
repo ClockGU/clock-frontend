@@ -190,6 +190,12 @@
       "text": "You completed the onboarding!",
       "title": "Finished"
     },
+    "personnelNumber": {
+      "text": "You can fill in the below data at a point later in time.",
+      "title": "Optional",
+      "hint": "You can find your personnel number on your contract.",
+      "label": "Personnel number"
+    },
     "underConstruction": {
       "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to get into contact with us.",
       "title": "Under construction"
