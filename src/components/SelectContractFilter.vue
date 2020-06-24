@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { log } from "@/utils/log";
 import { mdiRecord } from "@mdi/js";
 
 export default {
@@ -35,10 +36,14 @@ export default {
     changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;
 
-      this.$router.push({
-        ...this.$route.name,
-        params: { ...this.$route.name.params, contract: uuid }
-      });
+      this.$router
+        .push({
+          ...this.$route.name,
+          params: { ...this.$route.name.params, contract: uuid }
+        })
+        .catch(error => {
+          log("Experienced an error while trying to change contracts: ", error);
+        });
     }
   }
 };
