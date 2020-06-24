@@ -3,6 +3,7 @@ import Router from "vue-router";
 import store from "@/store";
 import { getContractWithLastActivity, getNextContractParams } from "@/utils";
 import { parseJwt } from "@/utils/jwt";
+import { log } from "@/utils/log";
 
 Vue.use(Router);
 
@@ -212,16 +213,16 @@ router.beforeEach(async (to, from, next) => {
       try {
         await store.dispatch("auth/REFRESH_TOKEN");
       } catch (error) {
-        await store.dispatch("auth/LOGOUT");
+        await store.dispatch("auth/LOGOUT").catch(error => {
+          log("Experienced error while logging out in router: ", error);
+        });
+        return next({ name: "home" });
       }
     }
   }
 
   if (!isPublic && !loggedIn) {
-    store.dispatch("unsetContract");
-    return next({
-      path: "/"
-    });
+    return next({ name: "home" });
   }
 
   // Do not allow user to visit login page or register page if they are logged in
@@ -239,50 +240,55 @@ router.beforeEach(async (to, from, next) => {
     return next();
   }
 
-  // eslint-disable-next-line no-unused-vars
-  const [shifts, contracts, reports] = await Promise.all([
-    store.dispatch("shift/queryShifts"),
-    store.dispatch("contract/queryContracts"),
-    store.dispatch("report/list")
-  ]);
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const [shifts, contracts, reports] = await Promise.all([
+      store.dispatch("shift/queryShifts"),
+      store.dispatch("contract/queryContracts"),
+      store.dispatch("report/list")
+    ]);
 
-  // If the user has no contracts, push them to onboarding
-  if (store.state.contract.contracts.length < 1) {
-    // Do not forward to onboarding, while forwarding to onboarding
-    // Removing the next line leads to an infinite loop.
-    if (to.name === "onboarding") return next();
+    // If the user has no contracts, push them to onboarding
+    if (store.state.contract.contracts.length < 1) {
+      // Do not forward to onboarding, while forwarding to onboarding
+      // Removing the next line leads to an infinite loop.
+      if (to.name === "onboarding") return next();
 
-    return next({ name: "onboarding" });
+      return next({ name: "onboarding" });
+    }
+
+    const contractRoutes = [
+      "dashboard",
+      "shiftList",
+      "reportList",
+      "calendar",
+      "debug"
+    ];
+    const contractMatch = contracts.find(
+      contract => contract.uuid === to.params.contract
+    );
+    // Redirect to 404 page we are looking for a contract that does not exist
+    if (
+      to.params.contract !== undefined &&
+      contractRoutes.includes(to.name) &&
+      !contractMatch
+    ) {
+      return next({ name: "404" });
+    }
+
+    // If we match a route that requires a contrat to be set
+    // but the user did not set one, we get the contract with
+    // the latest activity
+    if (contractRoutes.includes(to.name) && to.params.contract === undefined) {
+      const uuid = getContractWithLastActivity({ shifts, contracts });
+      return next(getNextContractParams(to, uuid));
+    }
+
+    next();
+  } catch (error) {
+    log(error);
+    return;
   }
-
-  const contractRoutes = [
-    "dashboard",
-    "shiftList",
-    "reportList",
-    "calendar",
-    "debug"
-  ];
-  const contractMatch = contracts.find(
-    contract => contract.uuid === to.params.contract
-  );
-  // Redirect to 404 page we are looking for a contract that does not exist
-  if (
-    to.params.contract !== undefined &&
-    contractRoutes.includes(to.name) &&
-    !contractMatch
-  ) {
-    return next({ name: "404" });
-  }
-
-  // If we match a route that requires a contrat to be set
-  // but the user did not set one, we get the contract with
-  // the latest activity
-  if (contractRoutes.includes(to.name) && to.params.contract === undefined) {
-    const uuid = getContractWithLastActivity({ shifts, contracts });
-    return next(getNextContractParams(to, uuid));
-  }
-
-  next();
 });
 
 export default router;
