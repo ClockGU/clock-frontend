@@ -20,9 +20,9 @@ const actions = {
     commit("LOGIN", { access: access_token, refresh: refresh_token });
 
     ApiService.setAccessToken(access_token);
-    dispatch("GET_USER", null, { root: true });
+    const response = dispatch("GET_USER", null, { root: true });
 
-    return Promise.resolve();
+    return Promise.resolve(response);
   },
   LOGIN({ commit, dispatch }, { email, password }) {
     return AuthService.login(email, password).then(response => {

@@ -39,7 +39,11 @@ export default {
 
     try {
       const response = await OAuth2Service.post(code);
-      await this.$store.dispatch("auth/LOGIN_OAUTH2", response.data);
+      const { data } = await this.$store.dispatch(
+        "auth/LOGIN_OAUTH2",
+        response.data
+      );
+      this.$i18n.locale = data.language || "de";
 
       this.$router
         .push({

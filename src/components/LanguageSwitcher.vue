@@ -64,6 +64,8 @@ export default {
 
       // Update locale for API requests
       ApiService.setHeader("Accept-Language", locale);
+
+      this.$emit("updateLocale", locale);
     }
   }
 };

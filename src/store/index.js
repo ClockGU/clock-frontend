@@ -37,6 +37,8 @@ export default new Vuex.Store({
       return AuthService.getUser()
         .then(response => {
           commit("SET_USER", response.data);
+
+          return Promise.resolve(response);
         })
         .finally(() => {
           state.userLoading = false;
