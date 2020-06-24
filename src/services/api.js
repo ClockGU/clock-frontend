@@ -120,14 +120,24 @@ const ApiService = {
               // returned a non 2xx/401 response. This does not mean, that we
               // need to logout the user!
               if (error.response.status === 401) {
-                await store.dispatch("auth/LOGOUT");
+                await store.dispatch("auth/LOGOUT").catch(error => {
+                  log(
+                    "Experienced error while logging out in refreshToken-refresh catch: ",
+                    error
+                  );
+                });
               }
               return Promise.reject(error);
             });
         }
 
         if (tokenNotValid && refreshTokenExpired) {
-          await store.dispatch("auth/LOGOUT");
+          await store.dispatch("auth/LOGOUT").catch(error => {
+            log(
+              "Experienced error while logging out due to expired refreshToken: ",
+              error
+            );
+          });
 
           return Promise.reject(error);
         }
