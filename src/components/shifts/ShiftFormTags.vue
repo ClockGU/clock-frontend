@@ -18,7 +18,15 @@
     <template v-slot:no-data>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title v-html="$t('shifts.tags.createHint', { search })">
+          <v-list-item-title>
+            <i18n path="shifts.tags.createHint" tag="span">
+              <template v-slot:search>
+                <strong>{{ search }}</strong>
+              </template>
+              <template v-slot:enter>
+                <kbd>{{ $t("app.enterKey") }}</kbd>
+              </template>
+            </i18n>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

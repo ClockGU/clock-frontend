@@ -36,7 +36,8 @@
     "reports": "Stundenzettel",
     "settings": "Einstellungen",
     "shifts": "Schichten",
-    "language": "Sprache"
+    "language": "Sprache",
+    "enterKey": "Eingabetaste"
   },
   "buttons": {
     "deleteEntity": "{entity} @.lower:actions.delete?",
@@ -222,7 +223,7 @@
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
     "note": "Notiz",
     "tags": {
-      "createHint": "Keine Ergebnisse für \"<strong>{search}</strong>\". Drücke <kbd>enter</kbd> um einen neuen Tag zu kreieren.",
+      "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
       "label": "Füge Tags hinzu"
     },
     "to": "bis",

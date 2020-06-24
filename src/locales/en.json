@@ -36,7 +36,8 @@
     "reports": "Report",
     "settings": "Settings",
     "shifts": "Shift",
-    "language": "Language"
+    "language": "Language",
+    "enterKey": "enter"
   },
   "buttons": {
     "deleteEntity": "@:actions.delete {entity}?",
@@ -222,7 +223,7 @@
     "empty": "You have not created any shifts for this contract yet.",
     "note": "Note",
     "tags": {
-      "createHint": "No results matching \"<strong>{search}</strong>\". Press <kbd>enter</kbd> to create a new one",
+      "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"
     },
     "to": "to",
