@@ -5,7 +5,7 @@
       :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
       :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
     >
-      <v-col cols="12" md="6" :class="colClasses">
+      <v-col cols="12" md="6" :class="colClasses" class="px-0">
         <v-card :elevation="cardElevation">
           <slot name="card-top"></slot>
 
@@ -33,7 +33,7 @@
             </v-toolbar>
           </portal>
 
-          <v-card-text>
+          <v-card-text class="px-0">
             <slot name="content"></slot>
           </v-card-text>
         </v-card>
