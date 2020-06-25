@@ -221,6 +221,9 @@
       "dialogText": "Gib zur Bestätigung bitte deine E-Mail Adresse {email} ein.",
       "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können. Du kannst nachträglich einen neuen Account anlegen.",
       "tryAgainLater": "Bitte probiere es zu einem späteren Zeitpunkt nochmal."
+    },
+    "language": {
+      "text": "Die Spracheinstellung wird sofort wirksam."
     }
   },
   "shifts": {

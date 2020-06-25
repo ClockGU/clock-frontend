@@ -221,6 +221,9 @@
       "dialogText": "Please enter your email address {email} to confirm.",
       "text": "You can delete you account at any time. This will purge all the data we keep on record for you. Please remember, that this action is permanent and not reversible. You can create a new account afterwards.",
       "tryAgainLater": "Please try again later."
+    },
+    "language": {
+      "text": "Changing the language will take effect immediately."
     }
   },
   "shifts": {
