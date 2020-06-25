@@ -8,12 +8,12 @@
   >
     <template v-slot:activator="{ attrs, on }">
       <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">
+        <v-icon :left="$vuetify.breakpoint.smAndUp">
           {{ icons.mdiTranslate }}
         </v-icon>
 
         <span
-          class="subtitle-1 text-capitalize font-weight-light hidden-sm-and-down"
+          class="subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
           v-text="selectedLocale"
         />
         <v-icon class="hidden-sm-and-down" right>
@@ -55,9 +55,6 @@ export default {
       );
       return match.name || this.locales[0].name;
     }
-  },
-  created() {
-    console.log(this.$i18n.locale);
   },
   methods: {
     switchLocale(locale) {
