@@ -20,7 +20,7 @@
     </template>
 
     <template v-slot:content>
-      <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
+      <v-tabs vertical class="tabs">
         <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
           {{ $t("app.language") }}
@@ -72,3 +72,9 @@ export default {
   })
 };
 </script>
+
+<style lang="scss" scoped>
+div.tabs [role="tab"] {
+  justify-content: flex-start;
+}
+</style>
