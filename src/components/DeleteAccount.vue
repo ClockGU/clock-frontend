@@ -1,5 +1,5 @@
 <template>
-  <v-card :loading="loading">
+  <v-card :loading="loading" elevation="0">
     <v-card-title>{{ $t("settings.account.dialogTitle") }}</v-card-title>
 
     <v-card-text>
