@@ -193,10 +193,11 @@ export default {
         const response = await this.service.create(
           this.contractToSave.toPayload()
         );
-        await AuthService.updateSettings({
-          language: this.$i18n.locale,
-          personal_number: this.personnelNumber
-        });
+        const userData = { language: this.$i18n.locale };
+        if (this.personnelNumber) {
+          userData.personal_number = this.personnelNumber;
+        }
+        await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         await this.$store.dispatch("contract/queryContracts");
         this.$router.push({ name: "dashboard", params: { contract } });
