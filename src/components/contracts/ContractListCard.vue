@@ -56,7 +56,7 @@
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
-import { hoursToWorktime } from "@/utils/time";
+import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ContractListCard",
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     worktime() {
-      return hoursToWorktime(this.contract.hours);
+      return minutesToHHMM(this.contract.minutes);
     }
   }
 };

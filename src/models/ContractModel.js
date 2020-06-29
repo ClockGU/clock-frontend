@@ -14,13 +14,15 @@ export class Contract {
     uuid = null,
     user = null,
     name = null,
-    hours = null,
+    minutes = null,
     date = { start: null, end: null }
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
     this.name = is(String, name) ? name : null;
-    this.hours = is(Number, hours) ? this.hoursToWorktime(hours) : null;
+    this.worktime = is(Number, minutes)
+      ? this.minutesToWorktime(minutes)
+      : null;
     this.date = {
       start: is(Date, new Date(date.start))
         ? date.start
@@ -56,21 +58,21 @@ export class Contract {
   }
 
   get hoursInMinutes() {
-    const [hours, minutes] = this.hours.split(":");
+    const [hours, minutes] = this.worktime.split(":");
 
     return hours * 60 + minutes;
   }
 
-  worktimeToHours() {
-    let [hours, minutes] = this.hours.split(":");
-    hours = parseFloat(hours) + parseFloat((minutes / 60).toFixed(2));
+  worktimeToMinutes() {
+    let [hours, minutes] = this.worktime.split(":");
+    minutes = parseFloat(hours) * 60 + parseFloat(minutes);
 
-    return hours;
+    return minutes;
   }
 
-  hoursToWorktime(value) {
-    const hours = Math.floor(value);
-    const minutes = parseInt((60 * (value - hours)).toFixed(0));
+  minutesToWorktime(value) {
+    const hours = Math.floor(value / 60);
+    const minutes = value % 60;
 
     return `${hours.pad(2)}:${minutes.pad(2)}`;
   }
@@ -78,7 +80,7 @@ export class Contract {
   toPayload() {
     return {
       name: this.name,
-      hours: this.worktimeToHours(),
+      minutes: this.worktimeToMinutes(),
       start_date: this.start,
       end_date: this.end
     };

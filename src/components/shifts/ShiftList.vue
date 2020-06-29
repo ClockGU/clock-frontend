@@ -16,7 +16,7 @@
           </span>
           <br />
           Work time sum: {{ totalDuration | minutesToDuration }} /
-          {{ debit | hoursToWorktime }}
+          {{ debit | minutesToWorktime }}
         </v-col>
 
         <v-col
@@ -69,9 +69,9 @@ export default {
     minutesToDuration(value) {
       return minutesToHHMM(value);
     },
-    hoursToWorktime(value) {
-      const hours = Math.floor(value);
-      const minutes = parseInt((60 * (value - hours)).toFixed(0));
+    minutesToWorktime(value) {
+      const hours = Math.floor(value / 60);
+      const minutes = value % 60;
 
       return `${hours.pad(2)}:${minutes.pad(2)}`;
     }
@@ -108,7 +108,7 @@ export default {
   }),
   computed: {
     debit() {
-      return this.selectedContract.hours.toFixed(1);
+      return this.selectedContract.minutes;
     },
     totalDuration() {
       return this.shifts.reduce((acc, current) => acc + current.duration, 0);

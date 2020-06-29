@@ -88,6 +88,7 @@ import { Shift } from "@/models/ShiftModel";
 import contractExpiredMixin from "@/mixins/contractExpired";
 
 import { log } from "@/utils/log";
+import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "Dashboard",
@@ -136,7 +137,7 @@ export default {
       );
     },
     debit() {
-      return `${this.selectedContract.hours}:00`;
+      return minutesToHHMM(this.selectedContract.minutes);
     },
     credit() {
       if (this.reports.length < 1) return "00:00";

@@ -12,7 +12,7 @@
       </v-card-title>
 
       <v-card-text>
-        {{ $t("reports.creditDebit", { hours: creditDebit }) }}
+        {{ $t("reports.creditDebit", { creditDebit }) }}
       </v-card-text>
 
       <v-card-actions>
@@ -65,6 +65,8 @@ import { format, parseISO } from "date-fns";
 import ReportService from "@/services/report";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
+import { minutesToHHMM } from "@/utils/time";
+
 export default {
   name: "ReportCard",
   components: {
@@ -101,10 +103,10 @@ export default {
         contract => contract.uuid === this.report.contract
       );
 
-      return contract.hours.toFixed(1);
+      return minutesToHHMM(contract.minutes);
     },
     credit() {
-      return (this.report.duration / 60).toFixed(1);
+      return minutesToHHMM(this.report.duration);
     },
     creditDebit() {
       return `${this.credit} ${this.$t("reports.of")} ${this.debit}`;

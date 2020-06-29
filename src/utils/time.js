@@ -36,6 +36,10 @@ export function startEndHours(date) {
     start.setHours(hour - 1);
   }
 
+  // Reset seconds to 0.
+  start.setSeconds(0);
+  end.setSeconds(0);
+
   return {
     start,
     end

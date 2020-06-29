@@ -28,17 +28,17 @@
 
       <v-col cols="12">
         <v-text-field
-          v-model="contract.hours"
-          data-cy="input-hours"
+          v-model="contract.worktime"
+          data-cy="input-worktime"
           :label="$t('contracts.hoursPerMonth')"
           :hint="$t('contracts.hoursPerMonthSubtitle')"
           :prepend-icon="icons.mdiTimetable"
           return-masked-value
           persistent-hint
           required
-          :error-messages="hoursErrors"
+          :error-messages="worktimeErrors"
           filled
-          @blur="hoursUpdated"
+          @blur="worktimeUpdated"
         />
       </v-col>
 
@@ -68,8 +68,8 @@ import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import { mdiTimetable, mdiFolderInformationOutline } from "@mdi/js";
 
-const hoursNotZero = value => value !== "00:00";
-const validMinutes = value => {
+const worktimeNotZero = value => value !== "00:00";
+const validWorktime = value => {
   try {
     return value.split(":")[1] <= parseInt(59);
   } catch {
@@ -89,7 +89,12 @@ export default {
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) },
-      hours: { required, hoursNotZero, validMinutes, minLength: minLength(5) }
+      worktime: {
+        required,
+        worktimeNotZero,
+        validWorktime,
+        minLength: minLength(5)
+      }
     }
   },
   props: {
@@ -110,10 +115,10 @@ export default {
   computed: {
     valid() {
       if (
-        this.hoursErrors.length > 0 ||
+        this.worktimeErrors.length > 0 ||
         this.nameErrors.length > 0 ||
         this.contract.name === null ||
-        this.contract.hours === null
+        this.contract.worktime === null
       ) {
         return false;
       }
@@ -134,7 +139,7 @@ export default {
           start: format(startOfMonth(new Date()), "yyyy-MM-dd"),
           end: format(endOfMonth(new Date()), "yyyy-MM-dd")
         },
-        hours: null
+        worktime: null
       });
     },
     startDate: {
@@ -190,18 +195,20 @@ export default {
         );
       return errors;
     },
-    hoursErrors() {
+    worktimeErrors() {
       const errors = [];
-      if (!this.$v.contract.hours.$dirty) return errors;
-      !this.$v.contract.hours.required &&
+      if (!this.$v.contract.worktime.$dirty) return errors;
+      !this.$v.contract.worktime.required &&
         errors.push(
-          this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") })
+          this.$tc("errors.nameRequired", 1, {
+            name: this.$t("errors.worktime")
+          })
         );
-      !this.$v.contract.hours.validMinutes &&
+      !this.$v.contract.worktime.validWorktime &&
         errors.push(this.$t("errors.timeFormat"));
-      !this.$v.contract.hours.minLength &&
+      !this.$v.contract.worktime.minLength &&
         errors.push(this.$t("errors.timeFormat"));
-      !this.$v.contract.hours.hoursNotZero &&
+      !this.$v.contract.worktime.worktimeNotZero &&
         errors.push(
           this.$t("errors.durationBiggerZero", {
             entity: this.$tc("models.contract")
@@ -223,8 +230,8 @@ export default {
     this.contract = this.uuid === null ? this.initialData : this.entity;
   },
   methods: {
-    hoursUpdated() {
-      this.$v.contract.hours.$touch();
+    worktimeUpdated() {
+      this.$v.contract.worktime.$touch();
       this.$emit("update", { contract: this.contract, valid: this.valid });
     }
   }
