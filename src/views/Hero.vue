@@ -30,7 +30,7 @@
             "
             class="d-flex flex-wrap"
           >
-            <v-btn color="primary darken-1" @click="login" :loading="loading">
+            <v-btn color="primary darken-1" :loading="loading" @click="login">
               Login mit HRZ Account
             </v-btn>
           </div>
