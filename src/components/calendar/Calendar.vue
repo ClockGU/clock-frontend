@@ -33,9 +33,15 @@
             <CalendarTypeSelect v-model="type" />
           </v-col>
 
-          <v-col class="px-0" cols="12" sm="4" order-sm="2">
+          <v-col
+            v-if="$refs.calendar"
+            class="px-0"
+            cols="12"
+            sm="4"
+            order-sm="2"
+          >
             <span data-cy="calendar-title">
-              {{ title }}
+              {{ $refs.calendar.title }}
             </span>
           </v-col>
         </v-row>
@@ -239,40 +245,6 @@ export default {
         shift => shift.contract === this.selectedContract.uuid
       );
     },
-    title() {
-      const { start, end } = this;
-      if (!start || !end) {
-        return "";
-      }
-
-      const startMonth = this.monthFormatter(start);
-      const endMonth = this.monthFormatter(end);
-      const suffixMonth = startMonth === endMonth ? "" : endMonth;
-
-      const startYear = start.year;
-      const endYear = end.year;
-      const suffixYear = startYear === endYear ? "" : endYear;
-
-      const startDay = start.day + this.nth(start.day);
-      const endDay = end.day + this.nth(end.day);
-
-      switch (this.type) {
-        case "month":
-          return `${startMonth} ${startYear}`;
-        case "week":
-        case "4day":
-          return `${startMonth} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`;
-        case "day":
-          return `${startMonth} ${startDay} ${startYear}`;
-      }
-      return "";
-    },
-    monthFormatter() {
-      return this.$refs.calendar.getFormatter({
-        timeZone: "UTC",
-        month: "long"
-      });
-    },
     events() {
       return this.visibleShifts.map(item => {
         const shift = new Shift(item);
@@ -347,10 +319,11 @@ export default {
       } else {
         clearTimeout(this.doubleClickTimer);
         this.eventClicks = 0;
-        this.$router.push({
-          name: "editShift",
-          params: { uuid: event.uuid }
-        });
+        // this.editShift(event.uuid);
+        // this.$router.push({
+        //   name: "editShift",
+        //   params: { uuid: event.uuid }
+        // });
       }
     },
     intervalFormat(interval) {
