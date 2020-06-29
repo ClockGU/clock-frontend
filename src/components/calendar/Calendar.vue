@@ -1,21 +1,27 @@
 <template>
-  <div style="height: 100%">
+  <v-container class="pb-0" style="height: 100%">
     <v-sheet>
       <v-container>
-        <v-row align="center" height="100px" flat color="white">
-          <v-col cols="12">
+        <v-row
+          align="center"
+          justify="space-between"
+          height="100px"
+          flat
+          color="white"
+        >
+          <v-col class="px-0" cols="12">
             <SelectContractFilter
               :contracts="contracts"
               :selected-contract="selectedContract"
             />
           </v-col>
-          <v-col cols="12">
+          <v-col class="px-0" cols="12">
             <v-btn color="primary" @click="newShift">
               {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
             </v-btn>
           </v-col>
 
-          <v-col cols="12" sm="5">
+          <v-col class="px-0" cols="12" sm="5">
             <CalendarNavigationButtons
               @today="setToday"
               @next="next"
@@ -23,11 +29,11 @@
             />
           </v-col>
 
-          <v-col cols="12" sm="2" order-sm="3">
+          <v-col class="px-0" cols="12" sm="3" order-sm="3">
             <CalendarTypeSelect v-model="type" />
           </v-col>
 
-          <v-col cols="12" sm="5" order-sm="2">
+          <v-col class="px-0" cols="12" sm="4" order-sm="2">
             <span data-cy="calendar-title">
               {{ title }}
             </span>
@@ -35,7 +41,7 @@
         </v-row>
       </v-container>
     </v-sheet>
-    <v-sheet :height="$vuetify.breakpoint.xsOnly ? '84%' : '92%'">
+    <v-sheet height="600px">
       <v-calendar
         ref="calendar"
         v-model="focus"
@@ -147,7 +153,7 @@
         @refresh="refresh"
       />
     </v-sheet>
-  </div>
+  </v-container>
 </template>
 
 <script>

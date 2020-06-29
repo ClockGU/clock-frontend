@@ -1,11 +1,17 @@
 <template>
-  <Calendar
-    :initial-focus="focus"
-    :initial-type="type"
-    @updateRange="updateRange"
-    @refresh="refresh"
-  >
-  </Calendar>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <Calendar
+          :initial-focus="focus"
+          :initial-type="type"
+          @updateRange="updateRange"
+          @refresh="refresh"
+        >
+        </Calendar>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
