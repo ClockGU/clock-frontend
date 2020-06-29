@@ -206,7 +206,7 @@
     }
   },
   "reports": {
-    "creditDebit": "Haben/Soll: {hours} Stunden",
+    "creditDebit": "Haben/Soll: {creditDebit} Stunden",
     "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
     "exported": "Exportiert",
     "generate": "Stundenzettel erstellen",
