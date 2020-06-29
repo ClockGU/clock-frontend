@@ -11,7 +11,7 @@
       ></v-checkbox>
       <v-row class="ml-3">
         <v-col cols="12" sm="6">
-          <span class="title">
+          <span class="text-h6">
             {{ title | formatHeader }}
           </span>
           <br />

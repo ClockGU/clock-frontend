@@ -82,7 +82,7 @@
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text data-cy="calendar-selected-event-text">
-            <h2 class="title primary-text">
+            <h2 class="text-h6 primary-text">
               {{
                 $t("calendar.shiftOnDay", {
                   duration: selectedEvent.selectedEventDuration,

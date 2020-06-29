@@ -45,7 +45,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title class="title">
+            <v-list-item-title class="text-h6">
               {{ user.first_name }}
             </v-list-item-title>
           </v-list-item-content>

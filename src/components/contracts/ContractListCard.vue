@@ -1,13 +1,13 @@
 <template>
   <v-card class="mx-auto" max-width="350" outlined>
     <v-card-title>
-      <span class="primary--text subtitle-2">
+      <span class="primary--text text-subtitle-2">
         {{ $t("contracts.perMonth", { time: worktime }) }}
       </span>
     </v-card-title>
 
     <v-card-text>
-      <h2 class="title primary-text">{{ contract.name }}</h2>
+      <h2 class="text-h6 primary-text">{{ contract.name }}</h2>
       {{
         $t("contracts.fromTo", {
           start: contract.date.start,

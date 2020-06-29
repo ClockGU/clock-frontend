@@ -30,7 +30,7 @@
       <v-row justify="center">
         <span
           v-if="actions.status !== 'running' && actions.status !== 'saving'"
-          class="title font-weight-light"
+          class="text-h6 font-weight-light"
         >
           {{ $t("dashboard.clock.start") }}
         </span>
@@ -41,7 +41,7 @@
           <div class="font-weight-light">
             {{ actions.data.startDate }}
           </div>
-          <div class="title font-weight-light text-center">
+          <div class="text-h6 font-weight-light text-center">
             {{ actions.duration | toTime }}
           </div>
         </div>

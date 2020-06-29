@@ -13,7 +13,7 @@
         </v-icon>
 
         <span
-          class="subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
+          class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
           v-text="selectedLocale"
         />
         <v-icon class="hidden-sm-and-down" right>

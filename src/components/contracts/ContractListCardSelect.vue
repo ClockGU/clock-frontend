@@ -10,13 +10,13 @@
         @click="selectContract(contract)"
       >
         <v-card-title>
-          <span class="primary--text subtitle-2">
+          <span class="primary--text text-subtitle-2">
             {{ contract.hours | hoursToWorktime }} per month
           </span>
         </v-card-title>
 
         <v-card-text>
-          <h2 class="title primary-text">{{ contract.name }}</h2>
+          <h2 class="text-h6 primary-text">{{ contract.name }}</h2>
           {{ contract.date.start | toDate }} until
           {{ contract.date.end | toDate }}
         </v-card-text>

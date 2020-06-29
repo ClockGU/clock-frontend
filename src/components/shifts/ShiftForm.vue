@@ -7,7 +7,7 @@
         min-width="400"
         max-width="500"
       >
-        <v-card-title class="headline">
+        <v-card-title class="text-h5">
           {{ $t("shifts.dave") }}
         </v-card-title>
 

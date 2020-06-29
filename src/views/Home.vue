@@ -1,11 +1,11 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
 
     <portal-target name="fab"></portal-target>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

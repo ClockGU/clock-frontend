@@ -13,7 +13,7 @@
           max-width="700"
           width="100%"
         >
-          <h1 class="display-1 font-weight-black mb-4">
+          <h1 class="text-1 font-weight-black mb-4">
             Bringe deine Stundenzettel unter Kontrolle
           </h1>
 
