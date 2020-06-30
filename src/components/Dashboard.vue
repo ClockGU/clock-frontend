@@ -79,8 +79,6 @@ import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { Contract } from "@/models/ContractModel";
 
-import { format } from "date-fns";
-
 import { mapGetters } from "vuex";
 
 import { Shift } from "@/models/ShiftModel";
@@ -129,12 +127,13 @@ export default {
         .slice(0, 5);
     },
     latestReport() {
-      const thisMonth = format(new Date(), "yyyy-MM") + "-01";
-      return this.reports.find(
-        report =>
-          report.date === thisMonth &&
-          report.contract === this.selectedContract.uuid
-      );
+      const reports = this.reports
+        .filter(report => report.contract === this.selectedContract.uuid)
+        .sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+
+      return reports.pop();
     },
     debit() {
       return minutesToHHMM(this.selectedContract.minutes);
