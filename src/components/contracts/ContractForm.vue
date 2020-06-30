@@ -201,7 +201,7 @@ export default {
       !this.$v.contract.worktime.required &&
         errors.push(
           this.$tc("errors.nameRequired", 1, {
-            name: this.$t("errors.worktime")
+            name: this.$t("errors.hours")
           })
         );
       !this.$v.contract.worktime.validWorktime &&
