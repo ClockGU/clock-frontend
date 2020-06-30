@@ -102,6 +102,8 @@
           {{ $t("actions.complete") }}
         </v-btn>
       </v-card-actions>
+
+      <FeedbackMenu />
     </v-card>
   </v-dialog>
 </template>
@@ -111,6 +113,7 @@ import { log } from "@/utils/log";
 import { mdiDelete, mdiFileDocument, mdiClose, mdiRecord } from "@mdi/js";
 
 import ContractForm from "@/components/contracts/ContractForm";
+import FeedbackMenu from "@/components/FeedbackMenu";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 import AuthService from "@/services/auth";
@@ -118,7 +121,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
-  components: { ContractForm, LanguageSwitcher },
+  components: { ContractForm, LanguageSwitcher, FeedbackMenu },
   props: {
     now: {
       type: Date,
