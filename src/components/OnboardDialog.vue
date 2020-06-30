@@ -47,7 +47,7 @@
               {{ $t("onboarding.personnelNumber.text") }}
             </span>
             <v-row align="center" justify="start">
-              <v-col cols="12" md="5">
+              <v-col cols="12" md="12">
                 <v-text-field
                   v-model="personnelNumber"
                   :label="$t('onboarding.personnelNumber.label')"
