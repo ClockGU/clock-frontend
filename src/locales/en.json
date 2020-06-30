@@ -14,6 +14,7 @@
     "next": "Next",
     "request": "Request",
     "reset": "Reset",
+    "resolve": "Resolve",
     "save": "Save",
     "send": "Send",
     "update": "Update"
@@ -108,6 +109,11 @@
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
     "newShift": { "title": "New shift" },
+    "overlaps": {
+      "description": "We found one instance of overlapping shifts. | We found {n} instances of overlapping shifts.",
+      "nProblems": "Problems found",
+      "noProblems": "There are no problems with your shifts."
+    },
     "progress": {
       "perMonth": "{time} per month",
       "timeRemaining": "{time} remaining",

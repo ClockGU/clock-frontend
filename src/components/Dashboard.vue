@@ -38,6 +38,10 @@
         </v-row>
       </v-card>
 
+      <v-col cols="12">
+        <DashboardConflicts :shifts="shifts" />
+      </v-col>
+
       <v-col cols="12" md="6">
         <v-card>
           <v-card-title>
@@ -76,6 +80,7 @@ import DashboardShiftButton from "@/components/DashboardShiftButton";
 import MonthlyProgress from "@/components/MonthlyProgress";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
 import SelectContractFilter from "@/components/SelectContractFilter";
+import DashboardConflicts from "@/components/DashboardConflicts";
 
 import { Contract } from "@/models/ContractModel";
 
@@ -98,7 +103,8 @@ export default {
     DashboardShiftButton,
     MonthlyProgress,
     ShiftListItem,
-    SelectContractFilter
+    SelectContractFilter,
+    DashboardConflicts
   },
   mixins: [contractExpiredMixin],
   data: () => ({
