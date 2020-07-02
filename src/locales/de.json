@@ -30,7 +30,7 @@
     "loggingin": "Einloggen...",
     "logout": "@:actions.logout",
     "mainTitle": "Dein flexibler Stundenzettel",
-    "notfound": "Nicht gefundaen",
+    "notfound": "Nicht gefunden",
     "onboarding": "Onboarding",
     "privacy": "Datenschutz",
     "reports": "Stundenzettel",
@@ -64,9 +64,9 @@
   },
   "dashboard": {
     "clock": {
-      "changeContract": "Du musst in den richtigen Vertrag wechseln um auszustechen.",
-      "in": "Einstechen",
-      "out": "Ausstechen",
+      "changeContract": "Du musst in den richtigen Vertrag wechseln, um auszuclocken.",
+      "in": "Einclocken",
+      "out": "Ausclocken",
       "problems": {
         "actions": {
           "advanced": "Erweiterter Modus",
@@ -75,13 +75,13 @@
           "keepSecond": "Behalte die letzte Schicht",
           "label": "Wähle eine Option aus"
         },
-        "clockedShift": "Eingestochene Schicht",
-        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausstechen und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne Anfangen.",
+        "clockedShift": "Geclockte Schicht",
+        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne Anfangen.",
         "messages": {
           "allSaved": "Alle Schichten wurden gespeichert.",
-          "noSaved": "Es wurden geine Schichten gespeichert.",
+          "noSaved": "Es wurden keine Schichten gespeichert.",
           "singleSaved": "Die Schicht wurde gespeichert.",
-          "success": "Du wurdest augestochen."
+          "success": "Du wurdest ausgeclockt."
         },
         "newShifts": "Neue Schichten",
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie gestartet ist. Wir müssen deine Schicht deswegen bearbeiten, damit sie diesen Anforderungen entspricht.",
@@ -97,13 +97,13 @@
       },
       "start": "Beginne eine Schicht",
       "state": {
-        "idle": "Nicht eingestochen",
-        "running": "Eingestochen"
+        "idle": "Nicht eingeclockt",
+        "running": "Eingeclockt"
       }
     },
     "contractExpired": {
       "title": "Vertrag abgelaufen",
-      "text": "Du kannst mit Schichten in einem abgelaufenem Vertrag nicht interagieren. Wechsel in einen anderen Vertrag oder erstelle einen neuen."
+      "text": "Du kannst mit Schichten in einem abgelaufenem Vertrag nicht interagieren. Wechsele in einen anderen Vertrag oder erstelle einen neuen."
     },
     "emptyActivity": "Du hast in diesem Vetrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivität",
@@ -128,11 +128,11 @@
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
     "matchEmail": "Die E-Mail Adresse ist nicht korrekt.",
     "nameRequired": "{name} wird benötigt | {name} werden benötigt",
-    "shiftDateEndAfterStart": "Eine Schicht muss nach ihrem start enden.",
+    "shiftDateEndAfterStart": "Eine Schicht muss nach ihrem Start enden.",
     "shiftDateEndRequired": "Du musst eine Endzeit festlegen.",
     "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
     "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
-    "timeFormat": "Bitte gebe ein gültiges Zeitformat ein (HH:MM).",
+    "timeFormat": "Bitte gib ein gültiges Zeitformat ein (HH:MM).",
     "validEmail": "Diese E-Mail Adresse ist ungültig."
   },
   "feedback": {
@@ -183,7 +183,7 @@
   },
   "onboarding": {
     "createContract": {
-      "text": "Bitte gebe deine Vertragsdaten ein.",
+      "text": "Bitte gib deine Vertragsdaten ein.",
       "title": "{entity} erstellen"
     },
     "finished": {
@@ -197,11 +197,11 @@
       "label": "Personalnummer"
     },
     "underConstruction": {
-      "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen das System schneller zu verbessern. Zögere nicht uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
+      "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System schneller zu verbessern. Zögere nicht, uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
       "title": "Im Umbau"
     },
     "welcome": {
-      "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir dich einzurichten!",
+      "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
     }
   },
@@ -213,13 +213,13 @@
     "of": "von"
   },
   "selectContract": {
-    "hint": "Ändere den Vertrag um andere Daten zu sehen"
+    "hint": "Ändere den Vertrag, um andere Daten zu sehen"
   },
   "settings": {
     "account": {
       "dialogTitle": "@:app.account @.lower:actions.delete?",
       "dialogText": "Gib zur Bestätigung bitte deine E-Mail Adresse {email} ein.",
-      "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können. Du kannst nachträglich einen neuen Account anlegen.",
+      "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten, die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können! Du kannst jederzeit wieder einen neuen (leeren) Account anlegen.",
       "tryAgainLater": "Bitte probiere es zu einem späteren Zeitpunkt nochmal."
     },
     "language": {
