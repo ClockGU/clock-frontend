@@ -64,9 +64,9 @@
   },
   "dashboard": {
     "clock": {
-      "changeContract": "Du musst in den richtigen Vertrag wechseln um auszustechen.",
-      "in": "Einstechen",
-      "out": "Ausstechen",
+      "changeContract": "Du musst in den richtigen Vertrag wechseln um auszuclocken.",
+      "in": "Einclocken",
+      "out": "Ausclocken",
       "problems": {
         "actions": {
           "advanced": "Erweiterter Modus",
@@ -75,13 +75,13 @@
           "keepSecond": "Behalte die letzte Schicht",
           "label": "Wähle eine Option aus"
         },
-        "clockedShift": "Eingestochene Schicht",
-        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausstechen und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne Anfangen.",
+        "clockedShift": "Geclockte Schicht",
+        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne Anfangen.",
         "messages": {
           "allSaved": "Alle Schichten wurden gespeichert.",
           "noSaved": "Es wurden geine Schichten gespeichert.",
           "singleSaved": "Die Schicht wurde gespeichert.",
-          "success": "Du wurdest augestochen."
+          "success": "Du wurdest ausgeclockt."
         },
         "newShifts": "Neue Schichten",
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie gestartet ist. Wir müssen deine Schicht deswegen bearbeiten, damit sie diesen Anforderungen entspricht.",
@@ -97,8 +97,8 @@
       },
       "start": "Beginne eine Schicht",
       "state": {
-        "idle": "Nicht eingestochen",
-        "running": "Eingestochen"
+        "idle": "Nicht eingeclockt",
+        "running": "Eingeclockt"
       }
     },
     "contractExpired": {
