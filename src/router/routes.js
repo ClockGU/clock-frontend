@@ -16,6 +16,7 @@ const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
 const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
+const Reporting = () => import("@/views/Reporting");
 
 export const routes = [
   {
@@ -26,6 +27,10 @@ export const routes = [
     path: "/",
     component: Home,
     children: [
+      {
+        path: "/reporting",
+        component: Reporting
+      },
       {
         path: "/404",
         name: "404",

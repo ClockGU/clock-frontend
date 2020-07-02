@@ -27,7 +27,18 @@
           Download
         </v-btn>
 
-        <ConfirmationDialog
+        <v-btn
+          v-else
+          :loading="loading"
+          :outlined="loading"
+          text
+          color="primary"
+          @click="request"
+        >
+          {{ $t("actions.request") }}
+        </v-btn>
+
+        <!-- <ConfirmationDialog
           v-else
           :confirmation-button="{
             text: $t('actions.continue'),
@@ -54,7 +65,7 @@
           <template v-slot:text>
             {{ $t("reports.exportAlert") }}
           </template>
-        </ConfirmationDialog>
+        </ConfirmationDialog> -->
       </v-card-actions>
     </v-card>
   </v-col>
@@ -63,15 +74,15 @@
 <script>
 import { format, parseISO } from "date-fns";
 import ReportService from "@/services/report";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+// import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ReportCard",
-  components: {
-    ConfirmationDialog
-  },
+  // components: {
+  //   ConfirmationDialog
+  // },
   filters: {
     formatDate(date) {
       return format(parseISO(date), "MMMM yyyy");
