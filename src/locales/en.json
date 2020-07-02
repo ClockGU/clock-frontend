@@ -55,7 +55,7 @@
     "week": "Week"
   },
   "contracts": {
-    "disableDateChangeAlert": "You cannot change the start/end date, after adding shifts to the contract.",
+    "disableDateChangeAlert": "You cannot change the start/end date after adding shifts to the contract.",
     "empty": "Create your first contract!",
     "fromTo": "{start} until {end}",
     "hoursPerMonth": "Hours per month",
@@ -70,7 +70,7 @@
       "out": "Clock out",
       "problems": {
         "actions": {
-          "advanced": "Advaned mode",
+          "advanced": "Advanced mode",
           "keepBoth": "Create new shifts",
           "keepFirst": "Keep first shift",
           "keepSecond": "Keep last shift",
@@ -127,7 +127,7 @@
     "textPermanent": "This action is not reversible."
   },
   "errors": {
-    "contractName": "The contract name",
+    "contractName": "Contract name",
     "durationBiggerZero": "A {entity} must have a duration.",
     "hours": "The hours",
     "maxLength": "{name} cannot be longer than {length} characters!",
@@ -203,7 +203,7 @@
       "label": "Personnel number"
     },
     "underConstruction": {
-      "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to get into contact with us.",
+      "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to contact us.",
       "title": "Under construction"
     },
     "welcome": {
@@ -225,7 +225,7 @@
     "account": {
       "dialogTitle": "@:actions.delete @:app.account",
       "dialogText": "Please enter your email address {email} to confirm.",
-      "text": "You can delete you account at any time. This will purge all the data we keep on record for you. Please remember, that this action is permanent and not reversible. You can create a new account afterwards.",
+      "text": "You can delete you account at any time. This will purge all the data we keep on record for you. Please remember that this action is permanent and not reversible! You can create a new account afterwards.",
       "tryAgainLater": "Please try again later."
     },
     "language": {
