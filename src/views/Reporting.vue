@@ -99,6 +99,7 @@
 import DataFilter from "@/components/DataFilter";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import ReportCard from "@/components/ReportCard";
+import { log } from "@/utils/log";
 export default {
   name: "Reporting",
   components: { DataFilter, DashboardConflicts, ReportCard },
@@ -109,7 +110,7 @@ export default {
   }),
   methods: {
     json(data) {
-      console.log(JSON.stringify(data, null, 2));
+      log(JSON.stringify(data, null, 2));
     },
     finalize() {
       alert("Das ist jetzt aber nicht final.");
