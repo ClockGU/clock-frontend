@@ -1,11 +1,11 @@
 <template>
-  <div v-if="overlappingShifts.length > 0">
+  <div v-if="lengthAllOverlaps > 0">
     <v-row>
-      <v-btn :disabled="index < 1" @click="index--">Previous</v-btn>
+      <v-btn :disabled="index < 1" @click="prev">Previous</v-btn>
       <v-spacer></v-spacer>
-      <span>{{ index + 1 }} / {{ overlappingShifts.length }}</span>
+      <span>{{ index + 1 }} / {{ lengthAllOverlaps }}</span>
       <v-spacer></v-spacer>
-      <v-btn :disabled="index == overlappingShifts.length - 1" @click="index++">
+      <v-btn :disabled="index == lengthAllOverlaps - 1" @click="next">
         Next
       </v-btn>
     </v-row>
@@ -16,7 +16,7 @@
       type="category"
       category-show-all
       :categories="categories"
-      :events="overlap"
+      :events="events"
       @click:event="handleEventClick"
     ></v-calendar>
 
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { format } from "date-fns";
 import { getOverlappingShifts } from "@/utils/shift";
 import { mapGetters } from "vuex";
 
@@ -56,28 +57,29 @@ export default {
     ...mapGetters({
       shifts: "shift/shifts"
     }),
-    overlappingShifts() {
+    allOverlappingShifts() {
       return getOverlappingShifts(this.shifts).sort((a, b) => {
-        return new Date(a.modified_at) - new Date(b.modified_at);
+        return new Date(a[0].date.start) - new Date(b[1].date.start);
       });
     },
-    overlap() {
-      if (this.overlappingShifts.length < 1) return [];
-
-      const currentOverlap = this.overlappingShifts[this.index].map(
-        (shift, index) => {
-          return {
-            name: `Shift ${index + 1}`,
-            start: new Date(shift.date.start),
-            end: new Date(shift.date.end),
-            category: this.categories[1],
-            timed: true,
-            uuid: shift.uuid
-          };
-        }
-      );
-      const overlappingId = currentOverlap.map(shift => shift.uuid);
-      const otherShifts = this.shifts
+    lengthAllOverlaps() {
+      return this.allOverlappingShifts.length;
+    },
+    focussedOverlap() {
+      return this.allOverlappingShifts[this.index].map((shift, index) => {
+        return {
+          name: `Shift ${index + 1}`,
+          start: new Date(shift.date.start),
+          end: new Date(shift.date.end),
+          category: this.categories[1],
+          timed: true,
+          uuid: shift.uuid
+        };
+      });
+    },
+    otherShifts() {
+      const overlappingId = this.focussedOverlap.map(shift => shift.uuid);
+      return this.shifts
         .filter(shift => !overlappingId.includes(shift.uuid))
         .map(shift => {
           return {
@@ -89,8 +91,19 @@ export default {
             uuid: shift.uuid
           };
         });
+    },
+    events() {
+      if (this.allOverlappingShifts.length < 1) return [];
 
-      return [...currentOverlap, ...otherShifts];
+      return [...this.focussedOverlap, ...this.otherShifts];
+    }
+  },
+  watch: {
+    index: {
+      handler: function() {
+        this.focus = format(this.focussedOverlap[0].end, "yyyy-MM-dd");
+      },
+      immediate: true
     }
   },
   methods: {
@@ -116,10 +129,10 @@ export default {
       this.focus = "";
     },
     prev() {
-      this.$refs.calendar.prev();
+      this.index -= 1;
     },
     next() {
-      this.$refs.calendar.next();
+      this.index += 1;
     }
   }
 };
