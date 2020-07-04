@@ -8,9 +8,11 @@
     :timeout="timeout"
   >
     {{ message }}
-    <v-btn text @click.native="show = false">
-      {{ $t("actions.close") }}
-    </v-btn>
+    <template v-slot:action="{ attrs }">
+      <v-btn text v-bind="attrs" @click.native="show = false">
+        {{ $t("actions.close") }}
+      </v-btn>
+    </template>
   </v-snackbar>
 </template>
 
