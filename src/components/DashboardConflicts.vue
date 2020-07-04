@@ -1,12 +1,8 @@
 <template>
-  <v-card
-    v-if="overlappingShifts.length < 1"
-    color="success"
-    class="white--text"
-  >
+  <v-card v-if="overlappingShifts.length < 1">
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
-        <v-icon x-large>{{ icons.mdiCheckBold }}</v-icon>
+        <v-icon class="green--text" x-large>{{ icons.mdiCheckBold }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
         {{ $t("dashboard.overlaps.noProblems") }}
@@ -15,20 +11,21 @@
   </v-card>
 
   <v-card v-else>
-    <v-card-title>
-      {{ $t("dashboard.overlaps.nProblems") }}
-    </v-card-title>
-
-    <v-card-text>
-      {{
-        $tc("dashboard.overlaps.description", overlappingShifts.length, {
-          n: overlappingShifts.length
-        })
-      }}
-    </v-card-text>
+    <v-row align="center">
+      <v-col cols="2" xs="2" offset="1">
+        <v-icon class="red--text" x-large>{{ icons.mdiAlert }}</v-icon>
+      </v-col>
+      <v-col cols="8" xs="10">
+        {{
+          $tc("dashboard.overlaps.description", overlappingShifts.length, {
+            n: overlappingShifts.length
+          })
+        }}
+      </v-col>
+    </v-row>
 
     <v-card-actions>
-      <v-btn color="primary" text :to="{ name: 'shiftList' }">
+      <v-btn color="error" text block :to="{ name: 'shiftList' }">
         {{ $t("actions.resolve") }}
       </v-btn>
     </v-card-actions>
@@ -36,7 +33,7 @@
 </template>
 
 <script>
-import { mdiCheckBold } from "@mdi/js";
+import { mdiAlert, mdiCheckBold } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 
 export default {
@@ -49,6 +46,7 @@ export default {
   },
   data: () => ({
     icons: {
+      mdiAlert,
       mdiCheckBold
     }
   }),
