@@ -1,4 +1,4 @@
-import { parseISO } from "date-fns";
+import { differenceInSeconds, parseISO } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
@@ -65,35 +65,48 @@ export default {
           this.clockedShift.date === undefined
             ? this.clockedShift.started
             : this.clockedShift.date.start;
+        const endDate = new Date();
 
-        const data = {
-          date: {
-            start: startDate,
-            end: new Date()
-          },
-          contract: this.clockedShift.contract,
-          type: { value: "st", text: "Shift" }
-        };
+        if (differenceInSeconds(endDate, new Date(startDate)) < 60) {
+          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+          this.stop();
 
-        const payload = new Shift(data).toPayload();
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: this.$t("dashboard.clock.snacks.shiftTooShort"),
+            timeout: 4000,
+            color: "warning"
+          });
+        } else {
+          const data = {
+            date: {
+              start: startDate,
+              end: endDate
+            },
+            contract: this.clockedShift.contract,
+            type: { value: "st", text: "Shift" }
+          };
 
-        await this.$store.dispatch("shift/CREATE_SHIFT", payload);
-        await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
-        this.$store.dispatch("clock/UNCLOCK_SHIFT");
+          const payload = new Shift(data).toPayload();
+          await this.$store.dispatch("shift/CREATE_SHIFT", payload);
+          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+          this.$store.dispatch("clock/UNCLOCK_SHIFT");
 
-        this.stop();
+          this.stop();
 
-        this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("dashboard.clock.snacks.clockOut"),
-          timeout: 4000,
-          color: "success"
-        });
+          this.$store.dispatch("snackbar/setSnack", {
+            snack: this.$t("dashboard.clock.snacks.clockOut"),
+            timeout: 4000,
+            color: "success"
+          });
+        }
       } catch (error) {
         if (error.response && error.response.status === 401) return;
 
         this.reset();
+      } finally {
+        this.saving = false;
       }
-      this.saving = false;
     },
     async start() {
       this.saving = true;

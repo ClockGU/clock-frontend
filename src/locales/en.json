@@ -94,7 +94,8 @@
         "clockOut": "Clocked out successfully.",
         "alreadyClockedIn": "You are already clocked in.",
         "alreadyClockedOut": "You were already clocked out.",
-        "deleted": "Deleted clocked shift."
+        "deleted": "Deleted clocked shift.",
+        "shiftTooShort": "Shifts shorter than a minute are not saved."
       },
       "start": "Start a shift",
       "state": {

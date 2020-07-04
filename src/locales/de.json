@@ -94,7 +94,8 @@
         "clockOut": "Du wurdest erfolgreich ausgeclockt.",
         "alreadyClockedIn": "Du bist schon eingeclockt.",
         "alreadyClockedOut": "Du warst schon ausgeclockt.",
-        "deleted": "Die geclockte Schicht wurde entfernt."
+        "deleted": "Die geclockte Schicht wurde entfernt.",
+        "shiftTooShort": "Schichten mit einer Dauer von weniger als einer Minute werden nicht gespeichert."
       },
       "start": "Beginne eine Schicht",
       "state": {
