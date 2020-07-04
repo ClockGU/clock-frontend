@@ -64,6 +64,7 @@ const actions = {
   CREATE_SHIFT({ dispatch }, payload) {
     return ShiftService.create(payload).then(() => {
       dispatch("queryShifts");
+      dispatch("report/list", null, { root: true });
     });
   },
   addShift({ commit }, payload) {
