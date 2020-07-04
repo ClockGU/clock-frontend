@@ -93,9 +93,6 @@ export default {
       return [...currentOverlap, ...otherShifts];
     }
   },
-  mounted() {
-    this.$refs.calendar.checkChange();
-  },
   methods: {
     async refresh() {
       await this.$store.dispatch("shift/queryShifts");
