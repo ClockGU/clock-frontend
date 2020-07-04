@@ -181,11 +181,11 @@
     "title": "Are you sure you want to logout?"
   },
   "models": {
-    "contract": "contract | contracts",
-    "report": "report | reports",
+    "contract": "Contract | Contracts",
+    "report": "Report | Reports",
     "selectedContract": "the selected contract | the selected contracts",
     "selectedShift": "the selected shift | the selected shifts",
-    "shift": "shift | shifts"
+    "shift": "Shift | Shifts"
   },
   "onboarding": {
     "createContract": {
