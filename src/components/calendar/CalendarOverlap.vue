@@ -17,6 +17,7 @@
       category-show-all
       :categories="categories"
       :events="events"
+      :event-color="getEventColor"
       @click:event="handleEventClick"
     ></v-calendar>
 
@@ -73,7 +74,8 @@ export default {
           end: new Date(shift.date.end),
           category: this.categories[1],
           timed: true,
-          uuid: shift.uuid
+          uuid: shift.uuid,
+          color: index === 0 ? "green" : "red"
         };
       });
     },
@@ -88,7 +90,8 @@ export default {
             end: new Date(shift.date.end),
             category: this.categories[0],
             timed: true,
-            uuid: shift.uuid
+            uuid: shift.uuid,
+            color: "grey"
           };
         });
     },
