@@ -25,7 +25,7 @@
     </v-row>
 
     <v-card-actions>
-      <v-btn color="error" text block :to="{ name: 'shiftList' }">
+      <v-btn color="error" text block :to="{ path: '/overlap' }">
         {{ $t("actions.resolve") }}
       </v-btn>
     </v-card-actions>

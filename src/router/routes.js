@@ -17,6 +17,7 @@ const Onboarding = () => import("@/views/Onboarding");
 const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
 const Reporting = () => import("@/views/Reporting");
+const CalendarOverlap = () => import("@/components/calendar/CalendarOverlap");
 
 export const routes = [
   {
@@ -27,6 +28,10 @@ export const routes = [
     path: "/",
     component: Home,
     children: [
+      {
+        path: "/overlap",
+        component: CalendarOverlap
+      },
       {
         path: "/reporting",
         component: Reporting
