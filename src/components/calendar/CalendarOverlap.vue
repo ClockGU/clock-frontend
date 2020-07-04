@@ -1,5 +1,5 @@
 <template>
-  <div v-if="overlappingShifts.length > 1">
+  <div v-if="overlappingShifts.length > 0">
     <v-row>
       <v-btn :disabled="index < 1" @click="index--">Previous</v-btn>
       <v-spacer></v-spacer>
