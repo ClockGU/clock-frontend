@@ -1,93 +1,102 @@
 <template>
-  <v-col cols="12" sm="6" md="4">
-    <v-card outlined>
-      <v-card-title>
-        <span>
-          {{ report.date | formatDate }}
-        </span>
-        <v-spacer></v-spacer>
-        <v-chip v-if="exported" outlined color="primary">
-          {{ $t("reports.exported") }}
-        </v-chip>
-      </v-card-title>
+  <v-card outlined>
+    <v-card-title>
+      <span>
+        {{ report.date | formatDate }}
+      </span>
+      <v-spacer></v-spacer>
+      <v-chip v-if="exported" outlined color="primary">
+        {{ $t("reports.exported") }}
+      </v-chip>
+    </v-card-title>
 
-      <v-card-text>
-        {{ $t("reports.creditDebit", { creditDebit }) }}
-      </v-card-text>
+    <v-card-text>
+      {{ $t("reports.creditDebit", { creditDebit }) }}
+    </v-card-text>
 
-      <v-card-actions>
-        <v-btn
-          v-if="pdf !== null"
-          :loading="loading"
-          :outlined="loading"
-          text
-          color="primary"
-          @click="download"
-        >
-          Download
-        </v-btn>
-
-        <v-btn
-          v-else
-          :loading="loading"
-          :outlined="loading"
-          text
-          color="primary"
-          @click="request"
-        >
-          {{ $t("actions.request") }}
-        </v-btn>
-
-        <!-- <ConfirmationDialog
-          v-else
-          :confirmation-button="{
-            text: $t('actions.continue'),
-            color: 'primary'
-          }"
-          @confirm="request"
-        >
-          <template v-slot:activator="{ on }">
+    <v-card-actions class="px-1">
+      <v-container>
+        <v-row align="center">
+          <v-col cols="8">
+            <span class="subtitle-2">
+              Generate and download your Stundenzettel
+            </span>
+          </v-col>
+          <v-col cols="4">
             <v-btn
+              v-if="!pdf"
               :loading="loading"
               :outlined="loading"
-              text
               color="primary"
-              v-on="on"
+              @click="request"
             >
               {{ $t("actions.request") }}
             </v-btn>
-          </template>
 
-          <template v-slot:title>
-            {{ $t("reports.generate") }}
-          </template>
+            <v-btn
+              v-else
+              :loading="loading"
+              :outlined="loading"
+              color="primary"
+              @click="download"
+            >
+              Download
+            </v-btn>
+          </v-col>
+        </v-row>
 
-          <template v-slot:text>
-            {{ $t("reports.exportAlert") }}
-          </template>
-        </ConfirmationDialog> -->
-      </v-card-actions>
-    </v-card>
-  </v-col>
+        <v-row align="center">
+          <v-col cols="8">
+            <span class="subtitle-2">
+              Lock the month
+            </span>
+          </v-col>
+
+          <v-col cols="4">
+            <ConfirmationDialog @confirm="lock">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  :disabled="lockDisabled"
+                  :text="!lockDisabled"
+                  :color="!lockDisabled ? 'orange' : ''"
+                  v-on="on"
+                >
+                  {{ isLockable ? "Lock" : "Locked" }}
+                </v-btn>
+              </template>
+
+              <template v-slot:title>
+                Test
+              </template>
+
+              <template v-slot:text>
+                ASD
+              </template>
+            </ConfirmationDialog>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 import { format, parseISO } from "date-fns";
 import ReportService from "@/services/report";
-// import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ContractService from "@/services/contract";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
+import { log } from "@/utils/log";
 import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ReportCard",
-  // components: {
-  //   ConfirmationDialog
-  // },
   filters: {
     formatDate(date) {
       return format(parseISO(date), "MMMM yyyy");
     }
   },
+  components: { ConfirmationDialog },
   props: {
     exported: {
       type: Boolean,
@@ -96,6 +105,10 @@ export default {
     report: {
       type: Object,
       required: true
+    },
+    isLockable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -126,6 +139,9 @@ export default {
     },
     creditDebit() {
       return `${this.credit} ${this.$t("reports.of")} ${this.debit}`;
+    },
+    lockDisabled() {
+      return !this.pdf || !this.isLockable;
     }
   },
   methods: {
@@ -152,6 +168,21 @@ export default {
         });
       } finally {
         this.loading = false;
+      }
+    },
+    async lock() {
+      try {
+        const date = this.report.date.slice(0, 7);
+        const [year, month] = date.split("-");
+        await ContractService.lock({
+          uuid: this.report.contract,
+          year,
+          month
+        });
+
+        this.$emit("locked");
+      } catch (error) {
+        log(error);
       }
     }
   }

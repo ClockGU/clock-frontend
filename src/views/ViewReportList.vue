@@ -125,7 +125,7 @@ export default {
       if (!(key in this.shiftsByMonth)) return false;
 
       const shifts = this.shiftsByMonth[key];
-      const exported = shifts.map(shift => shift.exported);
+      const exported = shifts.map(shift => shift.locked);
       return exported.every(x => x);
     }
   }

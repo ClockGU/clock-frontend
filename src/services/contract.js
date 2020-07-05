@@ -84,6 +84,9 @@ const ContractService = {
           reject(error);
         });
     });
+  },
+  lock: async function({ uuid, month, year }) {
+    return ApiService.post(`${BASE_URL}${uuid}/${month}/${year}/lock/`);
   }
 };
 

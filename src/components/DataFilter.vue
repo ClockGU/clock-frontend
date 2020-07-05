@@ -49,8 +49,30 @@ export default {
       shiftsVuex: "shift/shifts",
       reportsVuex: "report/reports"
     }),
+    isCurrentMonthLocked() {
+      return this.lockedMonths
+        .filter(month => Object.values(month)[0] === true)
+        .map(month => Object.keys(month)[0])
+        .includes(this.date);
+    },
     firstUnlockedMonth() {
-      return Object.keys(this.lockedMonths[0])[0];
+      const allLocked = this.lockedMonths
+        .map(month => Object.entries(month)[0][1])
+        .every(item => item === true);
+
+      if (allLocked) {
+        console.log(Object.entries(this.lockedMonths)[0]);
+        return this.lockedMonths.map(month => Object.keys(month)[0])[
+          this.lockedMonths.length - 1
+        ];
+      }
+
+      return Object.entries(
+        this.lockedMonths.find(month => {
+          const entries = Object.entries(month)[0];
+          return entries[1] === false;
+        })
+      )[0][0];
     },
     lockedMonths() {
       return this.reports.map(report => {
@@ -105,6 +127,8 @@ export default {
         date: this.date,
         hasNextMonth: () => this.hasNextMonth,
         hasPrevMonth: () => this.hasPrevMonth,
+        isCurrentMonthLocked: this.isCurrentMonthLocked,
+        firstUnlockedMonth: this.firstUnlockedMonth,
         nextMonth: this.nextMonth,
         prevMonth: this.prevMonth,
         months: this.months,
@@ -132,7 +156,7 @@ export default {
     }
   },
   async created() {
-    this.setDate(this.date);
+    this.setDate(this.firstUnlockedMonth);
     try {
       await Promise.all([
         this.$store.dispatch("shift/queryShifts"),
