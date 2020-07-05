@@ -120,7 +120,9 @@ export default {
       if (this.reports.length < 1) return "00:00";
 
       let creditHours = String(Math.floor(this.latestReport.duration / 60));
-      let creditMinutes = String(Math.floor(this.latestReport.duration % 60));
+      let creditMinutes = String(
+        Math.abs(Math.floor(this.latestReport.duration % 60))
+      );
 
       if (creditHours.length < 2) {
         creditHours = "0" + creditHours;
