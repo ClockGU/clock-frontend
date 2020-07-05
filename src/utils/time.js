@@ -26,11 +26,15 @@ export function timedeltaToMinutes(timedelta) {
 }
 
 export function minutesToHHMM(min, format) {
+  const sign = min < 0 ? "-" : "";
+
   min = Math.abs(min);
   const hours = Math.floor(min / 60).pad(2);
   const minutes = (min % 60).pad(2);
 
-  return format === "hm" ? `${hours}h ${minutes}m` : `${hours}:${minutes}`;
+  return format === "hm"
+    ? `${sign}${hours}h ${minutes}m`
+    : `${sign}${hours}:${minutes}`;
 }
 
 export function startEndHours(date) {
