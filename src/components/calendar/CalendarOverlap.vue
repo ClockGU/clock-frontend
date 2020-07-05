@@ -1,7 +1,7 @@
 <template>
   <v-card v-if="lengthAllOverlaps > 0">
     <v-toolbar flat>
-      <v-btn v-if="$vuetify.breakpoint.smAndDown" icon @click="$emit('close')">
+      <v-btn icon @click="$emit('close')">
         <v-icon>{{ icons.mdiClose }}</v-icon>
       </v-btn>
       <v-toolbar-title>Resolving {{ month }}</v-toolbar-title>
