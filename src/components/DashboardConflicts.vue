@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { format } from "date-fns";
 import { mdiAlert, mdiCheckBold } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap";
@@ -58,7 +59,7 @@ export default {
   props: {
     month: {
       type: String,
-      required: true
+      default: format(new Date(), "yyyy-MM")
     },
     shifts: {
       type: Array,
