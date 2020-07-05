@@ -1,25 +1,36 @@
 <template>
-  <div v-if="lengthAllOverlaps > 0">
-    <v-row>
-      <v-btn :disabled="index < 1" @click="prev">Previous</v-btn>
-      <v-spacer></v-spacer>
-      <span>{{ index + 1 }} / {{ lengthAllOverlaps }}</span>
-      <v-spacer></v-spacer>
-      <v-btn :disabled="index == lengthAllOverlaps - 1" @click="next">
-        Next
+  <v-card v-if="lengthAllOverlaps > 0">
+    <v-toolbar flat>
+      <v-btn v-if="$vuetify.breakpoint.smAndDown" icon @click="$emit('close')">
+        <v-icon>{{ icons.mdiClose }}</v-icon>
       </v-btn>
-    </v-row>
-    <v-calendar
-      ref="calendar"
-      v-model="focus"
-      color="primary"
-      type="category"
-      category-show-all
-      :categories="categories"
-      :events="events"
-      :event-color="getEventColor"
-      @click:event="handleEventClick"
-    ></v-calendar>
+      <v-toolbar-title>Resolving {{ month }}</v-toolbar-title>
+    </v-toolbar>
+
+    <v-card-text>
+      <v-row align="center" justify="center">
+        <v-btn :disabled="index < 1" text @click="prev">
+          <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
+        </v-btn>
+
+        <span>{{ index + 1 }} / {{ lengthAllOverlaps }}</span>
+
+        <v-btn :disabled="index == lengthAllOverlaps - 1" text @click="next">
+          <v-icon>{{ icons.mdiChevronRight }}</v-icon>
+        </v-btn>
+      </v-row>
+      <v-calendar
+        ref="calendar"
+        v-model="focus"
+        color="primary"
+        type="category"
+        category-show-all
+        :categories="categories"
+        :events="events"
+        :event-color="getEventColor"
+        @click:event="handleEventClick"
+      ></v-calendar>
+    </v-card-text>
 
     <FormDialog
       v-if="showForm"
@@ -28,7 +39,7 @@
       @close="closeFormDialog"
       @refresh="refresh"
     />
-  </div>
+  </v-card>
   <v-card v-else>
     <placeholder name="UndrawEmpty">
       There are no overlapping shifts. You're good!
@@ -39,7 +50,7 @@
 <script>
 import { format } from "date-fns";
 import { getOverlappingShifts } from "@/utils/shift";
-import { mapGetters } from "vuex";
+import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
 import { Shift } from "@/models/ShiftModel";
 import FormDialog from "@/components/FormDialog";
@@ -47,7 +58,22 @@ import FormDialog from "@/components/FormDialog";
 export default {
   name: "CalendarOverlap",
   components: { FormDialog },
+  props: {
+    month: {
+      type: String,
+      required: true
+    },
+    shifts: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({
+    icons: {
+      mdiClose,
+      mdiChevronLeft,
+      mdiChevronRight
+    },
     index: 0,
     showForm: false,
     shiftEntity: null,
@@ -55,9 +81,6 @@ export default {
     categories: ["All shift", "Overlapping shift"]
   }),
   computed: {
-    ...mapGetters({
-      shifts: "shift/shifts"
-    }),
     allOverlappingShifts() {
       return getOverlappingShifts(this.shifts).sort((a, b) => {
         return new Date(a[0].date.start) - new Date(b[1].date.start);
