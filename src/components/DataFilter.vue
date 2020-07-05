@@ -61,7 +61,6 @@ export default {
         .every(item => item === true);
 
       if (allLocked) {
-        console.log(Object.entries(this.lockedMonths)[0]);
         return this.lockedMonths.map(month => Object.keys(month)[0])[
           this.lockedMonths.length - 1
         ];
