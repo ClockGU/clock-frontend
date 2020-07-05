@@ -105,7 +105,7 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { format, isAfter, isBefore } from "date-fns";
+import { format, isAfter, isBefore, isSameDay } from "date-fns";
 
 import { startEndHours } from "@/utils/time";
 
@@ -252,8 +252,10 @@ export default {
       // Do nothing if current date is inside the
       // selected contract
       if (
-        isBefore(new Date(contractStart), this.shift.date.start) &&
-        isAfter(new Date(contractEnd), this.shift.date.end)
+        (isBefore(new Date(contractStart), this.shift.date.start) &&
+          isAfter(new Date(contractEnd), this.shift.date.end)) ||
+        isSameDay(new Date(contractStart), this.shift.date.start) ||
+        isSameDay(new Date(contractEnd), this.shift.date.end)
       ) {
         return;
       }
