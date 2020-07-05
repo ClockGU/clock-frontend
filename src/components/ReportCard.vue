@@ -2,7 +2,7 @@
   <v-card outlined>
     <v-card-title>
       <span>
-        {{ report.date | formatDate }}
+        Zusammenfassung
       </span>
       <v-spacer></v-spacer>
       <v-chip v-if="exported" outlined color="primary">
@@ -11,25 +11,16 @@
     </v-card-title>
 
     <v-card-text>
-      <v-row>
-        <v-col>Monatliche Sollarbeitszeit</v-col>
-        <v-col>{{ debit }}</v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>Diesen Monat erarbeitet</v-col>
-        <v-col>{{ timeWorked }}</v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>Übertrag aus dem letzten Monat</v-col>
-        <v-col>{{ carryover | minutesToHHMM }}</v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>Aktuelles Zeitguthaben</v-col>
-        <v-col>{{ credit }}</v-col>
-      </v-row>
+      <v-simple-table>
+        <template v-slot:default>
+          <tbody>
+            <tr v-for="row in rows" :key="row.name">
+              <td>{{ row.name }}</td>
+              <td>{{ row.value }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-card-text>
 
     <v-card-actions class="px-1">
@@ -118,14 +109,6 @@ export default {
   filters: {
     formatDate(date) {
       return format(parseISO(date), "MMMM yyyy");
-    },
-    minutesToHHMM(value) {
-      let formatted = minutesToHHMM(value);
-
-      if (value < 0) {
-        formatted = `-${formatted}`;
-      }
-      return formatted;
     }
   },
   components: { ConfirmationDialog },
@@ -162,15 +145,33 @@ export default {
     };
   },
   computed: {
+    rows() {
+      return [
+        {
+          name: "Übertrag aus dem letzten Monat",
+          value: minutesToHHMM(this.carryover)
+        },
+        {
+          name: "Monatliche Arbeitszeit",
+          value: minutesToHHMM(this.debit)
+        },
+        {
+          name: "Geleistete Arbeitszeit",
+          value: minutesToHHMM(this.timeWorked)
+        },
+        {
+          name: "Übertrag Folgemonat",
+          value: minutesToHHMM(this.report.duration)
+        }
+      ];
+    },
     timeWorked() {
-      const reduced = this.shifts.reduce((acc, cur) => {
+      return this.shifts.reduce((acc, cur) => {
         const dateA = new Date(cur.date.start);
         const dateB = new Date(cur.date.end);
 
         return acc + differenceInMinutes(dateB, dateA);
       }, 0);
-
-      return minutesToHHMM(reduced);
     },
     fileName() {
       const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
@@ -181,18 +182,7 @@ export default {
         contract => contract.uuid === this.report.contract
       );
 
-      return minutesToHHMM(contract.minutes);
-    },
-    credit() {
-      let credit = minutesToHHMM(this.report.duration);
-
-      if (this.report.duration < 0) {
-        credit = `-${credit}`;
-      }
-      return credit;
-    },
-    creditDebit() {
-      return `${this.credit} ${this.$t("reports.of")} ${this.debit}`;
+      return contract.minutes;
     },
     lockDisabled() {
       return !this.pdf || !this.isLockable;
