@@ -134,6 +134,7 @@ router.beforeEach(async (to, from, next) => {
       "shiftList",
       "reportList",
       "calendar",
+      "reporting",
       "debug"
     ];
     const contractMatch = contracts.find(

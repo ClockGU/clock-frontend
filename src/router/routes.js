@@ -33,7 +33,8 @@ export const routes = [
         component: CalendarOverlap
       },
       {
-        path: "/reporting",
+        path: "/reporting/:contract?",
+        name: "reporting",
         component: Reporting
       },
       {
