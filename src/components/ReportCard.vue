@@ -30,11 +30,6 @@
         <v-col>Aktuelles Zeitguthaben</v-col>
         <v-col>{{ credit }}</v-col>
       </v-row>
-
-      <v-row>
-        <v-col>Übertrag Folgemonat</v-col>
-        <v-col>{{ carryNextMonth | minutesToHHMM }}</v-col>
-      </v-row>
     </v-card-text>
 
     <v-card-actions class="px-1">
@@ -167,9 +162,6 @@ export default {
     };
   },
   computed: {
-    carryNextMonth() {
-      return 0;
-    },
     timeWorked() {
       const reduced = this.shifts.reduce((acc, cur) => {
         const dateA = new Date(cur.date.start);
