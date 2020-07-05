@@ -11,44 +11,152 @@
 </template>
 
 <script>
-import { min, max, format } from "date-fns";
+import {
+  min,
+  max,
+  addMonths,
+  format,
+  isBefore,
+  isAfter,
+  subMonths,
+  isSameMonth
+} from "date-fns";
+
 import { log } from "@/utils/log";
+
+import { mapGetters } from "vuex";
+
 export default {
   name: "DataFilter",
+  props: {
+    contract: {
+      type: Object,
+      required: true
+    },
+    date: {
+      type: String,
+      default: () => format(new Date(), "yyyy-MM")
+    }
+  },
   data: () => ({
     error: false,
-    loading: true,
-    data: null
+    loading: true
   }),
-  async created() {
-    try {
-      const [shifts, contracts, reports] = await Promise.all([
-        this.$store.dispatch("shift/queryShifts"),
-        this.$store.dispatch("contract/queryContracts"),
-        this.$store.dispatch("report/list")
-      ]);
+  computed: {
+    ...mapGetters({
+      clockedShift: "clock/clockedShift",
+      contractsVuex: "contract/contracts",
+      shiftsVuex: "shift/shifts",
+      reportsVuex: "report/reports"
+    }),
+    firstUnlockedMonth() {
+      return Object.keys(this.lockedMonths[0])[0];
+    },
+    lockedMonths() {
+      return this.reports.map(report => {
+        const reportDate = new Date(report.date);
+        const stringDate = format(reportDate, "yyyy-MM");
 
-      const months = reports.map(report => report.date.slice(0, 7));
-      const dates = reports.map(report => new Date(report.date));
+        const shifts = this.shifts.filter(shift =>
+          isSameMonth(new Date(shift.date.start), reportDate)
+        );
+        // We need to return `false` if there are not saved shifts. The
+        // `.every()` call below returns `true` for an empty list otherwise.
+        if (shifts.length < 1)
+          return {
+            [stringDate]: false
+          };
 
-      this.data = {
-        shifts,
-        contracts,
-        reports,
-        months: {
-          months,
-          min: format(min(dates), "yyyy-MM-dd"),
-          max: format(max(dates), "yyyy-MM-dds")
-        },
+        // Check if all `locked` properties are true
+        return {
+          [stringDate]: shifts
+            .map(shift => shift.locked)
+            .every(val => val === true)
+        };
+      });
+    },
+    reports() {
+      return this.reportsVuex.filter(
+        report => report.contract === this.contract.uuid
+      );
+    },
+    shifts() {
+      return this.shiftsVuex.filter(
+        shift => shift.contract === this.contract.uuid
+      );
+    },
+    dates() {
+      return this.reports.map(report => new Date(report.date));
+    },
+    months() {
+      const months = this.reports.map(report => report.date.slice(0, 7));
+
+      return {
+        months,
+        min: format(min(this.dates), "yyyy-MM-dd"),
+        max: format(max(this.dates), "yyyy-MM-dd"),
         allowedMonths: value => {
           return months.includes(value);
         }
       };
+    },
+    data() {
+      return {
+        date: this.date,
+        hasNextMonth: () => this.hasNextMonth,
+        hasPrevMonth: () => this.hasPrevMonth,
+        nextMonth: this.nextMonth,
+        prevMonth: this.prevMonth,
+        months: this.months,
+        contracts: this.contracts,
+        shifts: this.shifts.filter(
+          shift => shift.date.start.slice(0, 7) === this.date
+        ),
+        report: this.reports.find(
+          report => report.date.slice(0, 7) === this.date
+        )
+      };
+    },
+    hasNextMonth() {
+      return isAfter(new Date(this.data.months.max), new Date(this.data.date));
+    },
+    hasPrevMonth() {
+      return isBefore(new Date(this.data.months.min), new Date(this.data.date));
+    }
+  },
+  watch: {
+    firstUnlockedMonth: function(newValue, oldValue) {
+      if (newValue === oldValue) return;
+
+      this.setDate(newValue);
+    }
+  },
+  async created() {
+    this.setDate(this.date);
+    try {
+      await Promise.all([
+        this.$store.dispatch("shift/queryShifts"),
+        this.$store.dispatch("contract/queryContracts"),
+        this.$store.dispatch("report/list")
+      ]);
     } catch (error) {
       log(error);
       this.error = true;
     } finally {
       this.loading = false;
+    }
+  },
+  methods: {
+    setDate(value) {
+      this.$emit("update", value);
+    },
+    nextMonth() {
+      const nextMonth = addMonths(new Date(this.data.date), 1);
+      this.setDate(format(nextMonth, "yyyy-MM"));
+    },
+    prevMonth() {
+      const prevMonth = subMonths(new Date(this.data.date), 1);
+      this.setDate(format(prevMonth, "yyyy-MM"));
     }
   }
 };
