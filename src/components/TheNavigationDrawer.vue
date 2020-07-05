@@ -173,7 +173,7 @@ export default {
         },
         {
           text: this.$t("app.reports"),
-          to: { name: "reportList" },
+          to: { name: "reporting" },
           icon: mdiFileChart,
           loggedOut: false
         }

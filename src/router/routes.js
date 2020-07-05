@@ -4,7 +4,6 @@ const ViewCalendar = () => import("@/views/ViewCalendar.vue");
 const ViewShiftList = () => import("@/views/ViewShiftList");
 const ViewContractForm = () => import("@/views/ViewContractForm");
 const ViewContractList = () => import("@/views/ViewContractList");
-const ViewReportList = () => import("@/views/ViewReportList");
 const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
@@ -17,7 +16,6 @@ const Onboarding = () => import("@/views/Onboarding");
 const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
 const Reporting = () => import("@/views/Reporting");
-const CalendarOverlap = () => import("@/components/calendar/CalendarOverlap");
 
 export const routes = [
   {
@@ -28,15 +26,6 @@ export const routes = [
     path: "/",
     component: Home,
     children: [
-      {
-        path: "/overlap",
-        component: CalendarOverlap
-      },
-      {
-        path: "/reporting/:contract?",
-        name: "reporting",
-        component: Reporting
-      },
       {
         path: "/404",
         name: "404",
@@ -121,8 +110,8 @@ export const routes = [
       },
       {
         path: "/reports/:contract?",
-        name: "reportList",
-        component: ViewReportList
+        name: "reporting",
+        component: Reporting
       },
       {
         path: "/settings",
