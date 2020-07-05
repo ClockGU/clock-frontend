@@ -8,6 +8,23 @@ Number.prototype.pad = function(size) {
   return s;
 };
 
+export function timedeltaToMinutes(timedelta) {
+  const splitTimedelta = timedelta.split(" ");
+  let days = 0;
+  let timeString = splitTimedelta[0];
+
+  if (splitTimedelta.length == 2) {
+    [days, timeString] = splitTimedelta;
+  }
+  // eslint-disable-next-line no-unused-vars
+  const [hours, minutes, seconds] = timeString
+    .split(":")
+    .map(item => parseInt(item));
+  days = parseInt(days);
+
+  return (days * 24 + hours) * 60 + minutes;
+}
+
 export function minutesToHHMM(min, format) {
   min = Math.abs(min);
   const hours = Math.floor(min / 60).pad(2);
