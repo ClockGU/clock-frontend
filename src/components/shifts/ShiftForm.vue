@@ -169,7 +169,7 @@ export default {
       selectedContract: "selectedContract"
     }),
     shiftExported() {
-      return this.shift.exported;
+      return this.shift.locked;
     },
     tags() {
       return this.shift.tags.join(", ");

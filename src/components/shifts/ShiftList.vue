@@ -123,7 +123,7 @@ export default {
       return this.hasSelectedShifts && !this.hasSelectedAllShifts;
     },
     hasExportedShifts() {
-      return this.shifts.map(shift => shift.exported).every(item => !!item);
+      return this.shifts.map(shift => shift.locked).every(item => !!item);
     }
   },
   watch: {
