@@ -59,7 +59,7 @@ export default {
     const close = e => {
       const ESC = 27;
       if (e.keyCode !== ESC) return;
-      this.closeDialog();
+      this.$emit("close");
     };
     // Close the modal when the
     // user presses the ESC key.
