@@ -9,6 +9,7 @@ Number.prototype.pad = function(size) {
 };
 
 export function minutesToHHMM(min, format) {
+  min = Math.abs(min);
   const hours = Math.floor(min / 60).pad(2);
   const minutes = (min % 60).pad(2);
 

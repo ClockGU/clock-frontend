@@ -117,7 +117,12 @@ export default {
       return minutesToHHMM(contract.minutes);
     },
     credit() {
-      return minutesToHHMM(this.report.duration);
+      let credit = minutesToHHMM(this.report.duration);
+
+      if (this.report.duration < 0) {
+        credit = `-${credit}`;
+      }
+      return credit;
     },
     creditDebit() {
       return `${this.credit} ${this.$t("reports.of")} ${this.debit}`;
