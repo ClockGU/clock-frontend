@@ -61,8 +61,11 @@
             <ReportCard
               :key="data.report.uuid"
               :report="data.report"
-              :exported="data.report.exported"
+              :exported="data.isCurrentMonthLocked"
               :is-lockable="!data.isCurrentMonthLocked"
+              :is-first-unlocked-month="data.firstUnlockedMonth === date"
+              :shifts="data.shifts"
+              :carryover="data.carryover()"
               @locked="refresh"
             ></ReportCard>
           </template>

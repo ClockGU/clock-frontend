@@ -11,7 +11,30 @@
     </v-card-title>
 
     <v-card-text>
-      {{ $t("reports.creditDebit", { creditDebit }) }}
+      <v-row>
+        <v-col>Monatliche Sollarbeitszeit</v-col>
+        <v-col>{{ debit }}</v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>Diesen Monat erarbeitet</v-col>
+        <v-col>{{ timeWorked }}</v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>Übertrag aus dem letzten Monat</v-col>
+        <v-col>{{ carryover | minutesToHHMM }}</v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>Aktuelles Zeitguthaben</v-col>
+        <v-col>{{ credit }}</v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>Übertrag Folgemonat</v-col>
+        <v-col>{{ carryNextMonth | minutesToHHMM }}</v-col>
+      </v-row>
     </v-card-text>
 
     <v-card-actions class="px-1">
@@ -27,6 +50,7 @@
               v-if="!pdf"
               :loading="loading"
               :outlined="loading"
+              :disabled="!isFirstUnlockedMonth && !exported"
               color="primary"
               @click="request"
             >
@@ -53,7 +77,10 @@
           </v-col>
 
           <v-col cols="4">
-            <ConfirmationDialog @confirm="lock">
+            <ConfirmationDialog
+              :confirmation-button="{ text: 'Confirm', color: 'error' }"
+              @confirm="lock"
+            >
               <template v-slot:activator="{ on }">
                 <v-btn
                   :disabled="lockDisabled"
@@ -66,11 +93,13 @@
               </template>
 
               <template v-slot:title>
-                Test
+                Lock month?
               </template>
 
               <template v-slot:text>
-                ASD
+                When you lock the month, you will not be able to edit its
+                shifts. This will allow you to export the Stundenzettel of the
+                next month.
               </template>
             </ConfirmationDialog>
           </v-col>
@@ -81,7 +110,7 @@
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
+import { format, parseISO, differenceInMinutes } from "date-fns";
 import ReportService from "@/services/report";
 import ContractService from "@/services/contract";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
@@ -94,6 +123,14 @@ export default {
   filters: {
     formatDate(date) {
       return format(parseISO(date), "MMMM yyyy");
+    },
+    minutesToHHMM(value) {
+      let formatted = minutesToHHMM(value);
+
+      if (value < 0) {
+        formatted = `-${formatted}`;
+      }
+      return formatted;
     }
   },
   components: { ConfirmationDialog },
@@ -109,6 +146,18 @@ export default {
     isLockable: {
       type: Boolean,
       default: false
+    },
+    shifts: {
+      type: Array,
+      required: true
+    },
+    carryover: {
+      type: Number,
+      required: true
+    },
+    isFirstUnlockedMonth: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
@@ -118,6 +167,19 @@ export default {
     };
   },
   computed: {
+    carryNextMonth() {
+      return 0;
+    },
+    timeWorked() {
+      const reduced = this.shifts.reduce((acc, cur) => {
+        const dateA = new Date(cur.date.start);
+        const dateB = new Date(cur.date.end);
+
+        return acc + differenceInMinutes(dateB, dateA);
+      }, 0);
+
+      return minutesToHHMM(reduced);
+    },
     fileName() {
       const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
       return `${this.$i18n.t("app.reports")}_${date}.pdf`;
