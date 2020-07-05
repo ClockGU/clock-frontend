@@ -10,7 +10,7 @@ function mapApiResponse(response) {
     type: response.type,
     note: response.note,
     tags: response.tags,
-    exported: response.was_exported,
+    locked: response.locked,
     reviewed: response.was_reviewed,
     created_at: new Date(response.created_at),
     modified_at: new Date(response.modified_at)
