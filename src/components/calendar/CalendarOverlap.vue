@@ -91,14 +91,15 @@ export default {
     },
     focussedOverlap() {
       return this.allOverlappingShifts[this.index].map((shift, index) => {
+        const labels = ["A", "B"];
         return {
-          name: `Shift ${index + 1}`,
+          name: `(${labels[index]}) ` + this.$t(`shifts.types.${shift.type}`),
           start: new Date(shift.date.start),
           end: new Date(shift.date.end),
           category: this.categories[1],
           timed: true,
           uuid: shift.uuid,
-          color: index === 0 ? "green" : "red"
+          color: index === 0 ? "grey" : "orange"
         };
       });
     },
@@ -108,13 +109,13 @@ export default {
         .filter(shift => !overlappingId.includes(shift.uuid))
         .map(shift => {
           return {
-            name: `Shift`,
+            name: this.$t(`shifts.types.${shift.type}`),
             start: new Date(shift.date.start),
             end: new Date(shift.date.end),
             category: this.categories[0],
             timed: true,
             uuid: shift.uuid,
-            color: "grey"
+            color: "primary"
           };
         });
     },
