@@ -20,6 +20,7 @@
     <v-date-picker
       v-model="date"
       :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
+      :max="max"
       :min="min"
       no-title
       @click:date="menu = false"
@@ -46,6 +47,10 @@ export default {
     contract: {
       type: Object,
       required: true
+    },
+    max: {
+      type: String,
+      default: null
     },
     min: {
       type: String,

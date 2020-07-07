@@ -1,13 +1,18 @@
 <template>
   <v-form>
-    <v-alert v-if="disableDateChange" data-cy="alert-step-one" type="error">
-      {{ $t("contracts.disableDateChangeAlert") }}
+    <v-alert
+      v-if="firstShiftOfContract !== null"
+      data-cy="alert-step-one"
+      type="info"
+    >
+      {{ $t("contracts.disableDateChangeInfo") }}
     </v-alert>
 
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="startDate"
+          :max="firstShiftOfContract"
           :contract="contract"
           type="start"
         />
@@ -20,8 +25,8 @@
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="endDate"
+          :min="lastShiftOfContract"
           :contract="contract"
-          :min="startDate"
           type="end"
         />
       </v-col>
@@ -68,6 +73,8 @@ import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import { mdiTimetable, mdiFolderInformationOutline } from "@mdi/js";
 
+import { mapGetters } from "vuex";
+
 const worktimeNotZero = value => value !== "00:00";
 const validWorktime = value => {
   try {
@@ -113,6 +120,30 @@ export default {
   }),
 
   computed: {
+    ...mapGetters({
+      shifts: "shift/shifts"
+    }),
+    sortedShifts() {
+      const shifts = this.shifts.filter(
+        shift => shift.contract === this.entity.uuid
+      );
+      return shifts.sort((a, b) => {
+        return new Date(a.date.start) - new Date(b.date.start);
+      });
+    },
+    lastShiftOfContract() {
+      if (this.sortedShifts.length < 1) return this.startDate;
+
+      return format(
+        new Date(this.sortedShifts[this.sortedShifts.length - 1].date.start),
+        "yyyy-MM-dd"
+      );
+    },
+    firstShiftOfContract() {
+      if (this.sortedShifts.length < 1) return null;
+
+      return format(new Date(this.sortedShifts[0].date.start), "yyyy-MM-dd");
+    },
     valid() {
       if (
         this.worktimeErrors.length > 0 ||
@@ -124,13 +155,6 @@ export default {
       }
 
       return true;
-    },
-    disableDateChange() {
-      return (
-        this.$store.state.shift.shifts.filter(
-          shift => shift.contract === this.contract.uuid
-        ).length > 0
-      );
     },
     initialData() {
       return new Contract({

@@ -55,7 +55,7 @@
     "week": "Woche"
   },
   "contracts": {
-    "disableDateChangeAlert": "Du kannst das Start-/Enddatum des Vertrags nicht mehr anpassen, weil schon eine Schicht existiert.",
+    "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags bis an die erste bzw. letze Schicht ranholen. Dabei muss das Startdatum vor der ersten und das Enddatum nach der letzten Schicht liegen.",
     "empty": "Erstelle deinen ersten Vertrag!",
     "fromTo": "{start} bis {end}",
     "hoursPerMonth": "Stunden pro Monat",

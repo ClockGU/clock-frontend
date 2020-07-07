@@ -55,7 +55,7 @@
     "week": "Week"
   },
   "contracts": {
-    "disableDateChangeAlert": "You cannot change the start/end date after adding shifts to the contract.",
+    "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
     "empty": "Create your first contract!",
     "fromTo": "{start} until {end}",
     "hoursPerMonth": "Hours per month",
