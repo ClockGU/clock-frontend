@@ -36,6 +36,8 @@ export default {
     changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;
 
+      this.$emit("update");
+
       this.$router
         .push({
           ...this.$route.name,

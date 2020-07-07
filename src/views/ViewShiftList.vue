@@ -88,6 +88,7 @@
           <SelectContractFilter
             :contracts="contracts"
             :selected-contract="selectedContract"
+              @update="resetSelections"
           />
 
           <v-btn color="primary" :disabled="contractExpired" @click="newShift">
@@ -286,8 +287,7 @@ export default {
         this.dialog = false;
         this.editable = false;
 
-        this.shiftsToDelete = [];
-        this.toDelete = null;
+        this.resetSelections();
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
         // We usually should end up here, if we are already logging out.
@@ -310,6 +310,10 @@ export default {
       // eslint-disable-next-line no-unused-vars
       const { [key]: value, ...withoutRemoved } = this.toDelete;
       this.toDelete = { ...withoutRemoved };
+    },
+    resetSelections() {
+      this.shiftsToDelete = [];
+      this.toDelete = null;
     },
     toggleEdit() {
       this.editable = !this.editable;
