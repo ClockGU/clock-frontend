@@ -60,95 +60,11 @@
         :type="type"
         :weekdays="weekdays"
         :interval-format="intervalFormat"
-        @click:event="handleEventClick"
+        @click:event="editShift"
         @click:more="viewDay"
         @click:date="viewDay"
         @change="updateRange"
       ></v-calendar>
-
-      <v-menu
-        v-model="selectedOpen"
-        :close-on-content-click="false"
-        :activator="selectedElement"
-        offset-x
-      >
-        <v-card
-          color="grey lighten-4"
-          min-width="350px"
-          flat
-          data-cy="calendar-selected-event"
-        >
-          <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn icon @click="selectedOpen = false">
-              <v-icon>{{ icons.mdiClose }}</v-icon>
-            </v-btn>
-            <v-toolbar-title data-cy="calendar-selected-event-type">
-              {{ $t("calendar.type") }}:
-              {{
-                $t(
-                  `shifts.types.${
-                    selectedEvent.type === undefined ? "st" : selectedEvent.type
-                  }`
-                )
-              }}
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-card-text data-cy="calendar-selected-event-text">
-            <h2 class="text-h6 primary-text">
-              {{
-                $t("calendar.shiftOnDay", {
-                  duration: selectedEvent.selectedEventDuration,
-                  start: formatDate(selectedEvent.start)
-                })
-              }}
-            </h2>
-            {{
-              $t("calendar.shiftFromTo", {
-                start: formatTime(selectedEvent.start),
-                end: formatTime(selectedEvent.end)
-              })
-            }}
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              text
-              color="primary"
-              :disabled="selectedEvent.exported"
-              data-cy="calendar-selected-event-edit"
-              @click="editShift(selectedEvent.uuid)"
-            >
-              {{ $t("actions.edit") }}
-            </v-btn>
-
-            <ConfirmationDialog @confirm="destroy(selectedEvent.uuid)">
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  text
-                  :disabled="selectedEvent.exported"
-                  data-cy="calendar-selected-event-delete"
-                  v-on="on"
-                >
-                  {{ $t("actions.delete") }}
-                </v-btn>
-              </template>
-
-              <template v-slot:title>
-                {{
-                  $t("buttons.deleteEntity", { entity: $tc("models.shift") })
-                }}
-              </template>
-
-              <template v-slot:text>
-                {{
-                  $t(`dialogs.textConfirmDelete`, {
-                    selectedEntity: $tc(`models.selectedShift`)
-                  })
-                }}
-              </template>
-            </ConfirmationDialog>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
 
       <FormDialog
         v-if="showFormDialog"
@@ -167,14 +83,11 @@ import { formatTime, formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
-import ShiftService from "@/services/shift";
-import { log } from "@/utils/log";
 import { getNextContractParams } from "@/utils";
 
 import FormDialog from "@/components/FormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
 import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { format } from "date-fns";
@@ -186,7 +99,6 @@ export default {
   components: {
     CalendarNavigationButtons,
     CalendarTypeSelect,
-    ConfirmationDialog,
     FormDialog,
     SelectContractFilter
   },
@@ -296,9 +208,11 @@ export default {
           getNextContractParams(this.$route, contract)
         );
       }
+
+      this.$emit("refresh");
     },
-    editShift(uuid) {
-      const shift = this.visibleShifts.find(shift => shift.uuid === uuid);
+    editShift({ event }) {
+      const shift = this.visibleShifts.find(shift => shift.uuid === event.uuid);
       this.shiftEntity = new Shift(shift);
       this.showFormDialog = true;
     },
@@ -309,43 +223,11 @@ export default {
       this.showFormDialog = false;
       this.shiftEntity = null;
     },
-    handleEventClick({ nativeEvent, event }) {
-      this.eventClicks++;
-      this.showEvent({ nativeEvent, event });
-      if (this.eventClicks === 1) {
-        this.timer = setTimeout(() => {
-          this.eventClicks = 0;
-        }, this.doubleClickDelay);
-      } else {
-        clearTimeout(this.doubleClickTimer);
-        this.eventClicks = 0;
-        // this.editShift(event.uuid);
-        // this.$router.push({
-        //   name: "editShift",
-        //   params: { uuid: event.uuid }
-        // });
-      }
-    },
     intervalFormat(interval) {
       return interval.time;
     },
     colorMap(event) {
       return SHIFT_TYPE_COLORS[event.type.value];
-    },
-    async destroy(uuid) {
-      this.selectedOpen = false;
-
-      try {
-        await ShiftService.delete(uuid);
-        const remainingShifts = this.shifts.filter(
-          shift => shift.uuid !== uuid
-        );
-
-        this.$store.dispatch("shift/setShifts", remainingShifts);
-      } catch (error) {
-        // TODO: Set error state for component;
-        log(error);
-      }
     },
     viewDay({ date }) {
       this.focus = date;
@@ -363,22 +245,6 @@ export default {
     next() {
       this.$refs.calendar.next();
     },
-    showEvent({ nativeEvent, event }) {
-      const open = () => {
-        this.selectedEvent = event;
-        this.selectedElement = nativeEvent.target;
-        setTimeout(() => (this.selectedOpen = true), 10);
-      };
-
-      if (this.selectedOpen) {
-        this.selectedOpen = false;
-        setTimeout(open, 10);
-      } else {
-        open();
-      }
-
-      nativeEvent.stopPropagation();
-    },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
@@ -390,11 +256,6 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
-    },
-    nth(d) {
-      return d > 3 && d < 21
-        ? "th"
-        : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
     }
   }
 };
