@@ -250,5 +250,9 @@
       "vn": "Urlaub"
     },
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten."
+  },
+  "snackbar": {
+    "success": "Die Aktion wurde durchgeführt.",
+    "error": "Bitte probiere es später erneut."
   }
 }

@@ -33,6 +33,11 @@
 
         <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          {{ $t("onboarding.personnelNumber.label") }}
+        </v-tab>
+
+        <v-tab>
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
           {{ $t("app.account") }}
         </v-tab>
 
@@ -42,6 +47,10 @@
 
         <v-tab-item>
           <GDPR />
+        </v-tab-item>
+
+        <v-tab-item>
+          <PersonellNumberForm />
         </v-tab-item>
 
         <v-tab-item>
@@ -57,6 +66,7 @@ import { mdiFileAccount } from "@mdi/js";
 
 import DeleteAccount from "@/components/DeleteAccount";
 import GDPR from "@/components/GDPR";
+import PersonellNumberForm from "@/components/PersonellNumberForm";
 import LanguageSettings from "@/components/LanguageSettings";
 
 export default {
@@ -66,7 +76,7 @@ export default {
       title: this.$t("app.settings")
     };
   },
-  components: { DeleteAccount, GDPR, LanguageSettings },
+  components: { DeleteAccount, GDPR, PersonellNumberForm, LanguageSettings },
   data: () => ({
     icons: { mdiFileAccount }
   })

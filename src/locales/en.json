@@ -250,5 +250,9 @@
       "vn": "Vacation"
     },
     "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore."
+  },
+  "snackbar": {
+    "success": "The action was completed.",
+    "error": "Please try again later."
   }
 }
