@@ -200,7 +200,7 @@ export default {
       this.service
         .delete(this.toSave.uuid)
         .then(() => {
-          this.$emit("refresh");
+          this.$emit("refresh", { contract: this.toSave.contract });
         })
         .catch(handleApiError)
         .finally(() => {
