@@ -25,6 +25,12 @@
 
       <v-spacer></v-spacer>
 
+      <template v-if="showLoggedOutButtons">
+        <ButtonGoetheOAuth text>
+          Login
+        </ButtonGoetheOAuth>
+      </template>
+
       <v-skeleton-loader
         v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
         :loading="userLoading"
@@ -83,10 +89,11 @@ import { mapGetters } from "vuex";
 import { mdiChevronDown, mdiMenu } from "@mdi/js";
 
 import LogoutDialog from "@/components/LogoutDialog";
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
 
 export default {
   name: "TheAppBar",
-  components: { LogoutDialog },
+  components: { ButtonGoetheOAuth, LogoutDialog },
   data: () => ({
     icons: {
       mdiMenu,
@@ -101,6 +108,9 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    showLoggedOutButtons() {
+      return !this.isLoggedIn && this.$route.name !== "loggingIn";
+    },
     menuItems() {
       return [
         {
