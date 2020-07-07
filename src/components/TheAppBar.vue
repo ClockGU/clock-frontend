@@ -26,6 +26,8 @@
       <v-spacer></v-spacer>
 
       <template v-if="showLoggedOutButtons">
+        <v-btn text :to="{ name: 'faq' }">FAQ</v-btn>
+
         <ButtonGoetheOAuth text>
           Login
         </ButtonGoetheOAuth>

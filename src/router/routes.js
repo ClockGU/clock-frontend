@@ -14,6 +14,7 @@ const Privacy = () => import("@/views/Privacy");
 const Dashboard = () => import("@/components/Dashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
+const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
 
 export const routes = [
@@ -36,6 +37,12 @@ export const routes = [
         name: "home",
         component: Landing,
         meta: { public: true, onlyWhenLoggedOut: true }
+      },
+      {
+        path: "/faq",
+        name: "faq",
+        component: FAQ,
+        meta: { public: true }
       },
       { path: "/onboarding", name: "onboarding", component: Onboarding },
       {
