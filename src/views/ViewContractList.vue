@@ -1,8 +1,5 @@
 <template>
-  <base-layout
-    alternative-portal-target="card-toolbar"
-    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
-  >
+  <base-layout alternative-portal-target="card-toolbar">
     <template v-slot:card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>

@@ -54,7 +54,7 @@ export default {
     },
     cardElevation: {
       type: Number,
-      default: null
+      default: 0
     },
     colClasses: {
       type: String,

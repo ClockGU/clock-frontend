@@ -1,13 +1,7 @@
 <template>
-  <base-layout
-    alternative-portal-target="card-toolbar"
-    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
-  >
+  <base-layout alternative-portal-target="card-toolbar">
     <template v-slot:card-top>
-      <portal-target
-        v-if="shiftsOfContract.length !== 0"
-        name="card-toolbar"
-      ></portal-target>
+      <portal-target name="card-toolbar"></portal-target>
     </template>
 
     <template v-slot:pre-toolbar-title="{ action }">
@@ -24,8 +18,6 @@
       >
         <v-icon>{{ icons.mdiClose }}</v-icon>
       </v-btn>
-
-      <v-btn v-else icon disabled></v-btn>
     </template>
 
     <template v-slot:title>
@@ -71,10 +63,6 @@
           }}
         </template>
       </ConfirmationDialog>
-
-      <v-btn icon>
-        <v-icon>{{ icons.mdiDotsVertical }}</v-icon>
-      </v-btn>
     </template>
 
     <template v-slot:content>
@@ -84,35 +72,45 @@
         transition="fade-transition"
         type="table"
       >
-        <div data-cy="shift-lists">
-          <SelectContractFilter
-            :contracts="contracts"
-            :selected-contract="selectedContract"
+        <v-container data-cy="shift-lists">
+          <v-row class="py-2">
+            <SelectContractFilter
+              :contracts="contracts"
+              :selected-contract="selectedContract"
               @update="resetSelections"
-          />
+            />
+          </v-row>
 
-          <v-btn color="primary" :disabled="contractExpired" @click="newShift">
-            {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
-          </v-btn>
+          <v-row class="pb-6">
+            <v-btn
+              color="primary"
+              :disabled="contractExpired"
+              @click="newShift"
+            >
+              {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
+            </v-btn>
+          </v-row>
 
           <v-alert v-if="contractExpired" type="error" class="mt-6">
             {{ $t("dashboard.contractExpired.text") }}
           </v-alert>
 
-          <ShiftList
-            v-for="(shifts, key, i) in shiftsByMonth"
-            :key="key"
-            :data-cy="'shift-list-' + key"
-            :title="key"
-            :shifts="shifts"
-            :editable="!contractExpired"
-            :show-divider="i + 1 < numberOfMonths"
-            :shifts-to-delete="shiftsToDelete"
-            :selected-contract="selectedContract"
-            @newSelection="handleSelection(key, $event)"
-            @resetSelection="resetSelection(key)"
-          />
-        </div>
+          <v-row>
+            <ShiftList
+              v-for="(shifts, key, i) in shiftsByMonth"
+              :key="key"
+              :data-cy="'shift-list-' + key"
+              :title="key"
+              :shifts="shifts"
+              :editable="!contractExpired"
+              :show-divider="i + 1 < numberOfMonths"
+              :shifts-to-delete="shiftsToDelete"
+              :selected-contract="selectedContract"
+              @newSelection="handleSelection(key, $event)"
+              @resetSelection="resetSelection(key)"
+            />
+          </v-row>
+        </v-container>
       </v-skeleton-loader>
 
       <placeholder
@@ -152,7 +150,6 @@ import {
   mdiPencilOff,
   mdiClose,
   mdiExportVariant,
-  mdiDotsVertical,
   mdiMenu
 } from "@mdi/js";
 
@@ -188,7 +185,6 @@ export default {
       mdiPencilOff,
       mdiClose,
       mdiExportVariant,
-      mdiDotsVertical,
       mdiMenu
     },
     toDelete: null, // We do not want to watch this object, so we use a slightly different solution,
