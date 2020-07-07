@@ -10,6 +10,10 @@
 
       <v-card min-width="100%" :elevation="0">
         <v-row class="mx-0">
+          <v-col cols="12">
+            <DashboardWelcome />
+          </v-col>
+
           <v-overlay v-if="contractExpired" absolute :opacity="0.97">
             <v-card max-width="400" color="error" dark>
               <v-card-title>
@@ -56,6 +60,7 @@ import MonthlyProgress from "@/components/MonthlyProgress";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import DashboardLastActivity from "@/components/DashboardLastActivity";
+import DashboardWelcome from "@/components/DashboardWelcome";
 
 import { Contract } from "@/models/ContractModel";
 
@@ -75,10 +80,10 @@ export default {
     ClockInOutCard,
     DashboardShiftButton,
     MonthlyProgress,
-
     SelectContractFilter,
     DashboardConflicts,
-    DashboardLastActivity
+    DashboardLastActivity,
+    DashboardWelcome
   },
   mixins: [contractExpiredMixin],
   data: () => ({
