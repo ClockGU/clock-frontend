@@ -21,9 +21,9 @@ export default {
 
 <style lang="scss" scoped>
 .link {
-  border-bottom: 2px solid #f3d40a;
+  border-bottom: 2px solid #82b1ff;
   border-bottom-width: 50%;
-  background: linear-gradient(#f3d40a, #f3d40a 100%) bottom no-repeat;
+  background: linear-gradient(#82b1ff, #82b1ff 100%) bottom no-repeat;
   background-size: 100% 0;
   transition: background-size 0.1s;
   text-decoration: unset;
