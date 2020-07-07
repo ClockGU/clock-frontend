@@ -32,19 +32,19 @@
             <DashboardShiftButton @refresh="refresh" />
           </v-col>
 
-          <v-col>
+          <v-col cols="12" md="6">
             <MonthlyProgress :debit="debit" :credit="credit" />
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <DashboardConflicts :shifts="shifts" />
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <DashboardLastActivity />
           </v-col>
         </v-row>
       </v-card>
-
-      <v-col cols="12">
-        <DashboardConflicts :shifts="shifts" />
-      </v-col>
-
-      <v-col cols="12" md="6">
-        <DashboardLastActivity />
-      </v-col>
     </v-row>
   </v-container>
 </template>
