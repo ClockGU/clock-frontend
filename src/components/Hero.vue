@@ -30,9 +30,9 @@
             "
             class="d-flex flex-wrap"
           >
-            <v-btn color="primary darken-1" :loading="loading" @click="login">
+            <ButtonGoetheOAuth>
               Login mit HRZ Account
-            </v-btn>
+            </ButtonGoetheOAuth>
           </div>
         </v-responsive>
       </v-container>
@@ -43,9 +43,11 @@
 <script>
 import { log } from "@/utils/log";
 import OAuth2Service from "@/services/oauth2";
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
 
 export default {
   name: "SectionHero",
+  components: { ButtonGoetheOAuth },
   data: () => ({
     loading: false
   }),
