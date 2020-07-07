@@ -7,7 +7,7 @@
       transition="slide-y-transition"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-sheet class="py-2 red darken-2" dark v-bind="attrs" v-on="on">
+        <v-sheet class="py-2 orange darken-2" dark v-bind="attrs" v-on="on">
           <v-icon v-if="$vuetify.breakpoint.smAndDown" class="mx-2">
             {{ icons.mdiHelp }}
           </v-icon>
