@@ -22,7 +22,7 @@
                   class="text-no-wrap"
                   :href="$t('footer.acknowledgeGU.url')"
                 >
-                  <template v-slot:text>{{
+                  <template v-slot:default>{{
                     $t("footer.acknowledgeGU.university")
                   }}</template>
                 </base-link>

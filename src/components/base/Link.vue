@@ -3,7 +3,7 @@
     class="link blue-grey--text text--darken-4 font-weight-medium"
     :href="href"
   >
-    <slot name="text"></slot>
+    <slot></slot>
   </a>
 </template>
 
