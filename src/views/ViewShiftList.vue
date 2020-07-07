@@ -192,7 +192,6 @@ export default {
     },
     toDelete: null, // We do not want to watch this object, so we use a slightly different solution,
     shiftsToDelete: [],
-    unsortedShifts: [],
     shiftEntity: null,
     showFormDialog: false,
     ignoreLoading: false
@@ -225,7 +224,7 @@ export default {
       return Object.keys(this.shiftsByMonth).length;
     },
     sortedShifts() {
-      const unsorted = [...this.unsortedShifts];
+      const unsorted = [...this.shiftsOfContract];
       return unsorted.sort((a, b) => {
         return new Date(b.date.start) - new Date(a.date.start);
       });
@@ -252,9 +251,6 @@ export default {
       },
       deep: true
     }
-  },
-  created() {
-    this.unsortedShifts = this.shiftsOfContract;
   },
   methods: {
     async refresh({ contract }) {
@@ -286,7 +282,7 @@ export default {
         }
 
         await Promise.all(promises);
-        this.groupShiftsByMonth();
+        await this.groupShiftsByMonth();
         this.dialog = false;
         this.editable = false;
 
@@ -299,10 +295,8 @@ export default {
         log(error);
       }
     },
-    groupShiftsByMonth() {
-      return this.$store.dispatch("shift/queryShifts").then(() => {
-        this.unsortedShifts = this.shiftsOfContract;
-      });
+    async groupShiftsByMonth() {
+      return await this.$store.dispatch("shift/queryShifts");
     },
     handleSelection(key, event) {
       // Initialize, if this is our first time
