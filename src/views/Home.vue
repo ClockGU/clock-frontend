@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    <v-alert v-if="staging" type="warning" dark>HELLO</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
@@ -28,6 +29,9 @@ export default {
       }
 
       return styles;
+    },
+    staging() {
+      return process.VUE_APP_ENV === "staging";
     }
   }
 };
