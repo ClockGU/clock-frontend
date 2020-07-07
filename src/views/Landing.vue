@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Hero from "@/views/Hero";
+import Hero from "@/components/Hero";
 import HeroPlaceholder from "@/components/HeroPlaceholder";
 
 export default {
