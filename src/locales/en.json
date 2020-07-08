@@ -53,7 +53,13 @@
     "shiftOnDay": "{duration} on {start}",
     "today": "Today",
     "type": "Type",
-    "week": "Week"
+    "week": "Week",
+    "overlap": {
+      "resolving": "Resolving",
+      "none": "There are no overlapping shifts. You're good!",
+      "all": "All Shifts",
+      "overlap": "Overlapping shifts"
+    }
   },
   "contracts": {
     "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",

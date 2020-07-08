@@ -53,7 +53,13 @@
     "shiftOnDay": "{duration} am {start}",
     "today": "Heute",
     "type": "Typ",
-    "week": "Woche"
+    "week": "Woche",
+    "overlap": {
+      "resolving": "Konflikte beheben",
+      "none": "Es gibt keine überlappenden Schichten - Sieht gut aus!",
+      "all": "Alle Schichten",
+      "overlap": "Überlappende Schichten"
+    }
   },
   "contracts": {
     "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags bis an die erste bzw. letze Schicht ranholen. Dabei muss das Startdatum vor der ersten und das Enddatum nach der letzten Schicht liegen.",

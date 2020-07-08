@@ -4,7 +4,9 @@
       <v-btn icon @click="$emit('close')">
         <v-icon>{{ icons.mdiClose }}</v-icon>
       </v-btn>
-      <v-toolbar-title>Resolving {{ month }}</v-toolbar-title>
+      <v-toolbar-title
+        >{{ $t.("calendar.overlap.resolving") }} {{ month }}</v-toolbar-title
+      >
     </v-toolbar>
 
     <v-card-text>
@@ -42,7 +44,7 @@
   </v-card>
   <v-card v-else>
     <placeholder name="UndrawEmpty">
-      There are no overlapping shifts. You're good!
+      {{ $t("calendar.overlap.none") }}
     </placeholder>
   </v-card>
 </template>
@@ -78,7 +80,10 @@ export default {
     showForm: false,
     shiftEntity: null,
     focus: "",
-    categories: ["All shift", "Overlapping shift"]
+    categories: [
+      this.$t("calendar.overlap.all"),
+      this.$t("calendar.overlap.overlap")
+    ]
   }),
   computed: {
     allOverlappingShifts() {
