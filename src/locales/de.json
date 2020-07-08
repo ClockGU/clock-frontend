@@ -192,7 +192,17 @@
   "hero": {
     "slogan": "Bring Deine Stundenzettel unter Kontrolle",
     "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
-    "login": "Login mit HRZ Account"
+    "login": "Login mit HRZ Account",
+    "landing": {
+      "blurb1": {
+        "title": "Start-and-Go! Einfach arbeiten.",
+        "text": "Mit dem Clock-Button kannst du deine aktuelle Zeiterfassung einfach starten und den Browser schließen. Sobald deine Arbeit beendet ist kannst du auf einem beliebigen Gerät ausclocken."
+      },
+      "blurb2": {
+        "title": "Vergessen zu clocken? Kein Problem!",
+        "text": "Vergangene Arbeitszeiten lassen sich ohne Probleme nachtragen. Ebenso kannst du schon eingetragene Zeiten ändern oder ganz löschen. Du bestimmst, welche Zeiten eingetragen sind und welche nicht!"
+      }
+    }
   },
   "logout": {
     "message": "Du kannst jederzeit wiederkommen.",

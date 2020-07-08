@@ -190,9 +190,19 @@
     "text": "You can request and download all information saved by you. The download is provided in JSON."
   },
   "hero": {
-    "slogan": "Master your timesheets",
-    "text": "Clock allows you to easily edit your timesheets on your mobile or PC.",
-    "login": "Login with HRZ Account"
+    "slogan": "Master your time sheets",
+    "text": "Clock allows you to easily edit your time sheets on your mobile device or PC.",
+    "login": "Login with HRZ Account",
+    "landing": {
+      "blurb1": {
+        "title": "Start-and-Go! Just do your work.",
+        "text": "Simply start your shift with the clock button and close your browser. You can clock out on any device later if your work is done."
+      },
+      "blurb2": {
+        "title": "Forgot to clock? No problem!",
+        "text": "Past shifts can easily be added. All shifts can be edited or even deleted - you decide which shifts will be printed on your time sheet!"
+      }
+    }
   },
   "logout": {
     "message": "You can come back later at any time.",
