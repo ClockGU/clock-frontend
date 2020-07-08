@@ -8,11 +8,33 @@ Number.prototype.pad = function(size) {
   return s;
 };
 
+export function timedeltaToMinutes(timedelta) {
+  const splitTimedelta = timedelta.split(" ");
+  let days = 0;
+  let timeString = splitTimedelta[0];
+
+  if (splitTimedelta.length == 2) {
+    [days, timeString] = splitTimedelta;
+  }
+  // eslint-disable-next-line no-unused-vars
+  const [hours, minutes, seconds] = timeString
+    .split(":")
+    .map(item => parseInt(item));
+  days = parseInt(days);
+
+  return (days * 24 + hours) * 60 + minutes;
+}
+
 export function minutesToHHMM(min, format) {
+  const sign = min < 0 ? "-" : "";
+
+  min = Math.abs(min);
   const hours = Math.floor(min / 60).pad(2);
   const minutes = (min % 60).pad(2);
 
-  return format === "hm" ? `${hours}h ${minutes}m` : `${hours}:${minutes}`;
+  return format === "hm"
+    ? `${sign}${hours}h ${minutes}m`
+    : `${sign}${hours}:${minutes}`;
 }
 
 export function startEndHours(date) {

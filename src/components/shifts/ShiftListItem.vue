@@ -1,9 +1,9 @@
 <template>
-  <v-list-item :disabled="item.exported || !editable">
+  <v-list-item :disabled="item.locked || !editable">
     <template v-slot:default="{ active }">
       <v-list-item-action v-if="editable">
         <v-checkbox
-          :disabled="!editable || item.exported"
+          :disabled="!editable || item.locked"
           :value="active"
         ></v-checkbox>
       </v-list-item-action>
@@ -12,7 +12,7 @@
         <v-list-item-title>
           {{ item.date.start | formatDay }}
         </v-list-item-title>
-        <v-list-item-subtitle :class="item.exported ? '' : 'text--primary'">
+        <v-list-item-subtitle :class="item.locked ? '' : 'text--primary'">
           {{ item.date.start | formatTime }} -
           {{ item.date.end | formatTime }}
           ({{ item.representationalDuration("hm") }})

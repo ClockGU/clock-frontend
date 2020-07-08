@@ -178,7 +178,7 @@ export default {
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
           contract: contract,
-          exported: shift.exported
+          locked: shift.locked
         };
       });
     },

@@ -13,7 +13,7 @@ describe("Contracts.js", () => {
       uuid: null,
       user: null,
       name: null,
-      hours: null,
+      worktime: null,
       date: date
     });
   });
@@ -23,33 +23,33 @@ describe("Contracts.js", () => {
       uuid: "1234",
       user: "user",
       name: "name",
-      hours: 40,
       date: date
     };
 
     const output = {
       ...data,
-      hours: "40:00"
+      worktime: "40:00"
     };
 
-    const obj = new Contract(data);
-    expect(obj).toEqual(output);
+    expect(new Contract({ ...data, minutes: 2400 })).toEqual(output);
   });
 
-  it("converts hours user input / API response back and forth correctly", () => {
-    const data = {
+  it("converts worktime user input / API response back and forth correctly", () => {
+    let data = {
       uuid: "1234",
       user: "user",
       name: "name",
-      hours: 40.5,
       date: date
     };
 
-    expect(new Contract(data)).toEqual({ ...data, hours: "40:30" });
-
-    expect(new Contract({ ...data, hours: 0.25 })).toEqual({
+    expect(new Contract({ ...data, minutes: 600 })).toEqual({
       ...data,
-      hours: "00:15"
+      worktime: "10:00"
+    });
+
+    expect(new Contract({ ...data, minutes: 50 })).toEqual({
+      ...data,
+      worktime: "00:50"
     });
   });
 

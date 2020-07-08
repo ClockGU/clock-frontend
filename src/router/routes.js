@@ -4,7 +4,6 @@ const ViewCalendar = () => import("@/views/ViewCalendar.vue");
 const ViewShiftList = () => import("@/views/ViewShiftList");
 const ViewContractForm = () => import("@/views/ViewContractForm");
 const ViewContractList = () => import("@/views/ViewContractList");
-const ViewReportList = () => import("@/views/ViewReportList");
 const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
@@ -16,6 +15,7 @@ const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
 const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
+const Reporting = () => import("@/views/Reporting");
 
 export const routes = [
   {
@@ -110,8 +110,8 @@ export const routes = [
       },
       {
         path: "/reports/:contract?",
-        name: "reportList",
-        component: ViewReportList
+        name: "reporting",
+        component: Reporting
       },
       {
         path: "/settings",

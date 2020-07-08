@@ -6,7 +6,8 @@ const repositories = {
   UndrawFinishLine: () => import("vue-undraw/UndrawFinishLine"),
   UndrawDigitalNomad: () => import("vue-undraw/UndrawDigitalNomad"),
   UndrawSynchronize: () => import("vue-undraw/UndrawSynchronize"),
-  UndrawBlankCanvas: () => import("vue-undraw/UndrawBlankCanvas")
+  UndrawBlankCanvas: () => import("vue-undraw/UndrawBlankCanvas"),
+  UndrawEmpty: () => import("vue-undraw/UndrawEmpty")
 };
 
 export const UndrawFactory = {

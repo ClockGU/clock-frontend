@@ -35,7 +35,7 @@ export class Shift {
     type = null,
     note = null,
     tags = null,
-    exported = null
+    locked = null
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
@@ -53,7 +53,7 @@ export class Shift {
       : SHIFT_TYPES.find(item => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.exported = exported === null ? false : exported;
+    this.locked = locked === null ? false : locked;
   }
 
   get start() {
@@ -120,7 +120,7 @@ export class Shift {
       stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
       duration: this.representationalDuration,
       was_reviewed: this.reviewed,
-      was_exported: this.exported
+      locked: this.locked
     };
   }
 }

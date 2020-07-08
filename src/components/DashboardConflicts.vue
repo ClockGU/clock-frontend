@@ -25,26 +25,49 @@
     </v-row>
 
     <v-card-actions>
-      <v-btn color="error" text block :to="{ name: 'shiftList' }">
+      <v-btn color="error" text block @click="dialog = true">
         {{ $t("actions.resolve") }}
       </v-btn>
     </v-card-actions>
+
+    <v-dialog
+      v-model="dialog"
+      :fullscreen="$vuetify.breakpoint.smAndDown"
+      max-width="600"
+      persistent
+      no-click-animation
+      @keydown.esc="dialog = false"
+    >
+      <CalendarOverlap
+        :shifts="shifts"
+        :month="month"
+        @close="dialog = false"
+      />
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
+import { format } from "date-fns";
 import { mdiAlert, mdiCheckBold } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
+import CalendarOverlap from "@/components/calendar/CalendarOverlap";
 
 export default {
   name: "DashboardConflicts",
+  components: { CalendarOverlap },
   props: {
+    month: {
+      type: String,
+      default: format(new Date(), "yyyy-MM")
+    },
     shifts: {
       type: Array,
       required: true
     }
   },
   data: () => ({
+    dialog: false,
     icons: {
       mdiAlert,
       mdiCheckBold

@@ -217,7 +217,8 @@
     "exportAlert": "Once you generate the report, you will not be able to add or update shifts in the corresponding month",
     "exported": "Exported",
     "generate": "Generate report",
-    "of": "of"
+    "of": "of",
+    "personnelNumberMissing": "Please add your personnel number in your user settings."
   },
   "selectContract": {
     "hint": "Change the contract to see different data"

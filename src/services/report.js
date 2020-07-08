@@ -1,18 +1,5 @@
 import ApiService from "@/services/api";
-
-function timedeltaToMinutes(timedelta) {
-  const splitTimedelta = timedelta.split(" ");
-  let days = 0;
-  let timeString = splitTimedelta[0];
-
-  if (splitTimedelta.length == 2) {
-    [days, timeString] = splitTimedelta;
-  }
-  // eslint-disable-next-line no-unused-vars
-  const [hours, minutes, seconds] = timeString.split(":");
-
-  return (parseInt(days) * 24 * 60 + parseInt(hours)) * 60 + parseInt(minutes);
-}
+import { timedeltaToMinutes } from "@/utils/time";
 
 function mapApiResponse(response) {
   return {
