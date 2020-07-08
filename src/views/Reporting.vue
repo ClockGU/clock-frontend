@@ -20,46 +20,7 @@
           @update="updateDate"
         >
           <template #default="{ data }">
-            <v-row justify="center">
-              <v-btn
-                :disabled="!data.hasPrevMonth()"
-                text
-                @click="data.prevMonth"
-              >
-                <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
-              </v-btn>
-
-              <v-menu
-                v-model="dateMenu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn text v-bind="attrs" v-on="on">
-                    {{ date }}
-                  </v-btn>
-                </template>
-                <v-date-picker
-                  :value="date"
-                  :allowed-dates="data.months.allowedMonths"
-                  :min="data.months.min"
-                  :max="data.months.max"
-                  type="month"
-                  @input="updateDate($event)"
-                ></v-date-picker>
-              </v-menu>
-
-              <v-btn
-                :disabled="!data.hasNextMonth()"
-                text
-                @click="data.nextMonth"
-              >
-                <v-icon>{{ icons.mdiChevronRight }}</v-icon>
-              </v-btn>
-            </v-row>
+            <MonthSwitcher :data="data" :date="date" @update="updateDate" />
 
             <DashboardConflicts :shifts="data.shifts" :month="data.date" />
 
@@ -80,9 +41,8 @@
 </template>
 
 <script>
-import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
-
 import DataFilter from "@/components/DataFilter";
+import MonthSwitcher from "@/components/MonthSwitcher";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ReportCard from "@/components/ReportCard";
@@ -92,14 +52,13 @@ export default {
   name: "Reporting",
   components: {
     DataFilter,
+    MonthSwitcher,
     DashboardConflicts,
     ReportCard,
     SelectContractFilter
   },
   data: () => ({
-    dateMenu: false,
-    date: "2020-07",
-    icons: { mdiChevronLeft, mdiChevronRight }
+    date: "2020-07"
   }),
   computed: {
     ...mapGetters({
