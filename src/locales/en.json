@@ -189,6 +189,11 @@
   "gdpr": {
     "text": "You can request and download all information saved by you. The download is provided in JSON."
   },
+  "hero": {
+    "slogan": "Master your timesheets",
+    "text": "Clock allows you to easily edit your timesheets on your mobile or PC.",
+    "login": "Login with HRZ Account"
+  },
   "logout": {
     "message": "You can come back later at any time.",
     "title": "Are you sure you want to logout?"

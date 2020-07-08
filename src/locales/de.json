@@ -189,6 +189,11 @@
   "gdpr": {
     "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
   },
+  "hero": {
+    "slogan": "Bring Deine Stundenzettel unter Kontrolle",
+    "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
+    "login": "Login mit HRZ Account"
+  },
   "logout": {
     "message": "Du kannst jederzeit wiederkommen.",
     "title": "Möchtest du dich @:actions.logout?"
