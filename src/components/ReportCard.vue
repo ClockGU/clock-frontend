@@ -147,10 +147,10 @@ export default {
   computed: {
     rows() {
       return [
-        {
-          name: "Übertrag aus dem letzten Monat",
-          value: minutesToHHMM(this.carryover)
-        },
+        // {
+        //   name: "Übertrag aus dem letzten Monat",
+        //   value: minutesToHHMM(this.carryover)
+        // },
         {
           name: "Monatliche Arbeitszeit",
           value: minutesToHHMM(this.debit)
@@ -158,11 +158,11 @@ export default {
         {
           name: "Geleistete Arbeitszeit",
           value: minutesToHHMM(this.timeWorked)
-        },
-        {
-          name: "Übertrag Folgemonat",
-          value: minutesToHHMM(this.report.duration)
         }
+        // {
+        //   name: "Übertrag Folgemonat",
+        //   value: minutesToHHMM(this.report.duration)
+        // }
       ];
     },
     timeWorked() {
