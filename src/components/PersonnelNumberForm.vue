@@ -87,6 +87,8 @@ export default {
           personal_number: this.personnelNumber
         });
 
+        await this.$store.dispatch("GET_USER");
+
         this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("snackbar.success"),
           timeout: 4000,
