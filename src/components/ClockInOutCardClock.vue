@@ -39,10 +39,10 @@
             {{ $tc("models.contract") }}: {{ clockedContract.name }}
           </div>
           <div class="font-weight-light">
-            {{ actions.data.startDate }}
+            {{ actions.data.startDate | formatDate }}
           </div>
           <div class="text-h6 font-weight-light text-center">
-            {{ actions.duration | toTime }}
+            {{ actions.duration | toHHMM }}
           </div>
         </div>
       </v-row>
@@ -99,6 +99,9 @@ import { mapGetters } from "vuex";
 export default {
   name: "ClockInOutCardClock",
   filters: {
+    formatDate(date) {
+      return format(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
+    },
     toTime(seconds) {
       let string = "";
 
@@ -124,6 +127,11 @@ export default {
       if (string === "") return "00 secs";
 
       return string;
+    },
+    toHHMM(seconds) {
+      const date = addSeconds(new Date(1970, 1, 1), seconds);
+
+      return format(date, "HH:mm:ss");
     }
   },
   inheritAttrs: false,
