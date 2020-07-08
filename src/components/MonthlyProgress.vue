@@ -56,7 +56,6 @@ export default {
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
     },
     totalMinutesPerMonth() {
-      console.log(this.azkData);
       const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
 
       return parseInt(debitHours) * 60 + parseInt(debitMinutes);
