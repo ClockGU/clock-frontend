@@ -31,7 +31,7 @@ export default {
       return styles;
     },
     staging() {
-      return process.VUE_APP_ENV === "staging";
+      return process.env.VUE_APP_ENV === "staging";
     }
   }
 };
