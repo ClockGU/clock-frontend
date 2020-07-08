@@ -112,7 +112,10 @@ export default {
       return this.contracts.find(contract => contract.uuid === uuid);
     },
     personnelNumberMissing() {
-      return !this.$store.state.user.personal_number;
+      return (
+        !this.$store.state.user.personal_number &&
+        this.$store.state.user.personal_number !== undefined
+      );
     }
   },
   methods: {
