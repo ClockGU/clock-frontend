@@ -2,6 +2,11 @@
   <v-container>
     <v-row>
       <v-col cols="12">
+        <v-alert v-if="personnelNumberMissing" type="warning">
+          {{ $t("reports.personnelNumberMissing") }}
+        </v-alert>
+      </v-col>
+      <v-col cols="12">
         <SelectContractFilter
           :contracts="contracts"
           :selected-contract="selectedContract"
@@ -105,6 +110,9 @@ export default {
       const uuid = this.$route.params.contract;
 
       return this.contracts.find(contract => contract.uuid === uuid);
+    },
+    personnelNumberMissing() {
+      return !this.$store.state.user.personal_number;
     }
   },
   methods: {

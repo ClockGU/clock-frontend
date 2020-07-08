@@ -217,7 +217,8 @@
     "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
     "exported": "Exportiert",
     "generate": "Stundenzettel erstellen",
-    "of": "von"
+    "of": "von",
+    "personnelNumberMissing": "Bitte füge deine Personalnummer in den Einstellungen hinzu."
   },
   "selectContract": {
     "hint": "Ändere den Vertrag, um andere Daten zu sehen"
