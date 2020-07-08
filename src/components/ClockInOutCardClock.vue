@@ -100,6 +100,7 @@ export default {
   name: "ClockInOutCardClock",
   filters: {
     formatDate(date) {
+      if (date === undefined) return "";
       return format(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
     },
     toTime(seconds) {
