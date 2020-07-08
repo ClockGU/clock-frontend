@@ -4,8 +4,8 @@
       {{ $t("dashboard.progress.title") }}
     </v-card-title>
     <v-card-text>
-      <v-row>
-        <v-col cols="3">
+      <v-row align="center" justify="space-between">
+        <v-col cols="2">
           <v-progress-circular
             color="primary"
             size="64"
@@ -17,21 +17,16 @@
           </v-progress-circular>
         </v-col>
         <v-col cols="9">
-          <span class="d-block">
-            {{
-              $t("dashboard.progress.perMonth", { time: formattedTime(debit) })
-            }}
-          </span>
-          <span class="d-block">
-            {{
-              $t("dashboard.progress.timeWorked", {
-                time: formattedTime(credit)
-              })
-            }}
-          </span>
-          <span class="d-block body-2 font-weight-black">
-            {{ printRemaining }}
-          </span>
+          <v-simple-table>
+            <template v-slot:default>
+              <tbody>
+                <tr v-for="row in azkData" :key="row.name">
+                  <td>{{ row.name }}</td>
+                  <td>{{ row.value }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-col>
       </v-row>
     </v-card-text>
@@ -44,12 +39,8 @@ import { formattedTime } from "@/utils/time";
 export default {
   name: "MonthlyProgress",
   props: {
-    credit: {
-      type: String,
-      required: true
-    },
-    debit: {
-      type: String,
+    azkData: {
+      type: Array,
       required: true
     }
   },
@@ -65,42 +56,15 @@ export default {
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
     },
     totalMinutesPerMonth() {
-      const [debitHours, debitMinutes] = this.debit.split(":");
+      console.log(this.azkData);
+      const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
 
       return parseInt(debitHours) * 60 + parseInt(debitMinutes);
     },
     totalMinutesWorked() {
-      const [creditHours, creditMinutes] = this.credit.split(":");
+      const [creditHours, creditMinutes] = this.azkData[2].value.split(":");
 
       return parseInt(creditHours) * 60 + parseInt(creditMinutes);
-    },
-    totalMinutesLeft() {
-      return this.totalMinutesPerMonth - this.totalMinutesWorked;
-    },
-    remainingTime() {
-      let hoursLeft = String(Math.floor(this.totalMinutesLeft / 60));
-      let minutesLeft = String(this.totalMinutesLeft % 60);
-
-      if (hoursLeft.length < 2) {
-        hoursLeft = "0" + hoursLeft;
-      }
-
-      if (minutesLeft.length < 2) {
-        minutesLeft = "0" + minutesLeft;
-      }
-
-      return `${hoursLeft}:${minutesLeft}`;
-    },
-    printRemaining() {
-      let remainingTime = this.remainingTime;
-
-      if (this.totalMinutesLeft < 0) {
-        remainingTime = "00:00";
-      }
-
-      return this.$t("dashboard.progress.timeRemaining", {
-        time: remainingTime
-      });
     }
   },
   methods: {

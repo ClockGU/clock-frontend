@@ -37,7 +37,7 @@
           </v-col>
 
           <v-col cols="12" md="6">
-            <MonthlyProgress :debit="debit" :credit="credit" />
+            <MonthlyProgress :azk-data="azkData" />
           </v-col>
 
           <v-col cols="12" md="6">
@@ -113,26 +113,25 @@ export default {
 
       return reports.pop();
     },
-    debit() {
-      return minutesToHHMM(this.selectedContract.minutes);
-    },
-    credit() {
-      if (this.reports.length < 1) return "00:00";
-
-      let creditHours = String(Math.floor(this.latestReport.duration / 60));
-      let creditMinutes = String(
-        Math.abs(Math.floor(this.latestReport.duration % 60))
-      );
-
-      if (creditHours.length < 2) {
-        creditHours = "0" + creditHours;
-      }
-
-      if (creditMinutes.length < 2) {
-        creditMinutes = "0" + creditMinutes;
-      }
-
-      return `${creditHours}:${creditMinutes}`;
+    azkData() {
+      return [
+        {
+          name: "Übertrag aus dem letzten Monat",
+          value: this.latestReport.carryover.prev
+        },
+        {
+          name: "Monatliche Arbeitszeit",
+          value: minutesToHHMM(this.selectedContract.minutes)
+        },
+        {
+          name: "Geleistete Arbeitszeit",
+          value: this.latestReport.net_worktime
+        },
+        {
+          name: "Übertrag Folgemonat",
+          value: this.latestReport.carryover.next
+        }
+      ];
     }
   },
   methods: {
