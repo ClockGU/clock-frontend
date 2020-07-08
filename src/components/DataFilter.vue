@@ -124,7 +124,6 @@ export default {
     data() {
       return {
         date: this.date,
-        carryover: () => this.carryover,
         hasNextMonth: () => this.hasNextMonth,
         hasPrevMonth: () => this.hasPrevMonth,
         isCurrentMonthLocked: this.isCurrentMonthLocked,
@@ -152,13 +151,6 @@ export default {
 
       const monthIndex = this.months.months.indexOf(this.date);
       return this.months.months[monthIndex - 1];
-    },
-    carryover() {
-      if (!this.hasPrevMonth) return 0;
-
-      return this.reports.find(
-        report => report.date.slice(0, 7) === this.previousMonth
-      ).duration;
     }
   },
   watch: {

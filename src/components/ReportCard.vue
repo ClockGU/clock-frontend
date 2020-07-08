@@ -129,10 +129,6 @@ export default {
       type: Array,
       required: true
     },
-    carryover: {
-      type: Number,
-      required: true
-    },
     isFirstUnlockedMonth: {
       type: Boolean,
       required: true
