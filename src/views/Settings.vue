@@ -50,7 +50,7 @@
         </v-tab-item>
 
         <v-tab-item>
-          <PersonellNumberForm />
+          <PersonnelNumberForm />
         </v-tab-item>
 
         <v-tab-item>
@@ -66,7 +66,7 @@ import { mdiFileAccount } from "@mdi/js";
 
 import DeleteAccount from "@/components/DeleteAccount";
 import GDPR from "@/components/GDPR";
-import PersonellNumberForm from "@/components/PersonellNumberForm";
+import PersonnelNumberForm from "@/components/PersonnelNumberForm";
 import LanguageSettings from "@/components/LanguageSettings";
 
 export default {
@@ -76,7 +76,7 @@ export default {
       title: this.$t("app.settings")
     };
   },
-  components: { DeleteAccount, GDPR, PersonellNumberForm, LanguageSettings },
+  components: { DeleteAccount, GDPR, PersonnelNumberForm, LanguageSettings },
   data: () => ({
     icons: { mdiFileAccount }
   })
