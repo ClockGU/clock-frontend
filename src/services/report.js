@@ -7,6 +7,11 @@ function mapApiResponse(response) {
     contract: response.contract,
     duration: timedeltaToMinutes(response.worktime),
     worktime: response.worktime,
+    carryover: {
+      prev: response.carry_over_last_month,
+      next: response.carry_over_next_month
+    },
+    net_worktime: response.net_worktime,
     date: response.month_year,
     exported: false
   };
