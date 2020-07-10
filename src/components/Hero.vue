@@ -15,7 +15,6 @@
         >
           <h1 class="text-1 font-weight-black mb-4">
             {{ $t("hero.slogan") }}
-            Bringe deine Stundenzettel unter Kontrolle
           </h1>
 
           <p>
