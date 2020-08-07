@@ -5,7 +5,7 @@
         <v-icon>{{ icons.mdiClose }}</v-icon>
       </v-btn>
       <v-toolbar-title
-        >{{ $t.("calendar.overlap.resolving") }} {{ month }}</v-toolbar-title
+        >{{ $t("calendar.overlap.resolving") }} {{ month }}</v-toolbar-title
       >
     </v-toolbar>
 
