@@ -61,7 +61,12 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
     "name": "Name your contract",
-    "perMonth": "{time} per month"
+    "perMonth": "{time} per month",
+    "carryover": {
+      "checkboxLabel": "Carryover work time from previous month",
+      "dateLabel": "Carryover into this month",
+      "minutesLabel": "Carryover as HH:MM"
+    }
   },
   "dashboard": {
     "clock": {

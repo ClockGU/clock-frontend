@@ -61,7 +61,12 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
     "name": "Benenne deinen Vertrag",
-    "perMonth": "{time} pro Monat"
+    "perMonth": "{time} pro Monat",
+    "carryover": {
+      "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
+      "dateLabel": "Übertrag in diesen Monat",
+      "minutesLabel": "Übertrag als HH:MM"
+    }
   },
   "dashboard": {
     "clock": {
