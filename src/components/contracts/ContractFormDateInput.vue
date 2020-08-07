@@ -89,11 +89,11 @@ export default {
   methods: {
     allowedStartDates(val) {
       const day = parseInt(val.split("-")[2], 10);
-      return day === 1 || day === 15;
+      return day === 1 || day === 16;
     },
     allowedEndDates(val) {
       const day = parseInt(val.split("-")[2], 10);
-      return day === 14 || isLastDayOfMonth(parseISO(val));
+      return day === 15 || isLastDayOfMonth(parseISO(val));
     }
   }
 };
