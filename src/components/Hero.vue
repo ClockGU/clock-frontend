@@ -14,12 +14,11 @@
           width="100%"
         >
           <h1 class="text-1 font-weight-black mb-4">
-            Bringe deine Stundenzettel unter Kontrolle
+            {{ $t("hero.slogan") }}
           </h1>
 
           <p>
-            Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder
-            am Computer bearbeiten.
+            {{ $t("hero.text") }}
           </p>
 
           <div
@@ -31,7 +30,7 @@
             class="d-flex flex-wrap"
           >
             <ButtonGoetheOAuth>
-              Login mit HRZ Account
+              {{ $t("hero.login") }}
             </ButtonGoetheOAuth>
           </div>
         </v-responsive>

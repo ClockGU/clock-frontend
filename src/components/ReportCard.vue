@@ -2,7 +2,7 @@
   <v-card outlined>
     <v-card-title>
       <span>
-        Zusammenfassung
+        {{ $t("reports.summary") }}
       </span>
       <v-spacer></v-spacer>
       <v-chip v-if="exported" outlined color="primary">
@@ -28,7 +28,7 @@
         <v-row align="center">
           <v-col cols="8">
             <span class="subtitle-2">
-              Generate and download your Stundenzettel
+              {{ $t("reports.generate") }}
             </span>
           </v-col>
           <v-col cols="4">
@@ -50,7 +50,7 @@
               color="primary"
               @click="download"
             >
-              Download
+              {{ $t("actions.download") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -58,13 +58,16 @@
         <v-row align="center">
           <v-col cols="8">
             <span class="subtitle-2">
-              Lock the month
+              {{ $t("reports.lock.label") }}
             </span>
           </v-col>
 
           <v-col cols="4">
             <ConfirmationDialog
-              :confirmation-button="{ text: 'Confirm', color: 'error' }"
+              :confirmation-button="{
+                text: $t('actions.confirm'),
+                color: 'error'
+              }"
               @confirm="lock"
             >
               <template v-slot:activator="{ on }">
@@ -74,18 +77,20 @@
                   :color="!lockDisabled ? 'orange' : ''"
                   v-on="on"
                 >
-                  {{ isLockable ? "Lock" : "Locked" }}
+                  {{
+                    isLockable
+                      ? $t("reports.lock.lock")
+                      : $t("reports.lock.locked")
+                  }}
                 </v-btn>
               </template>
 
               <template v-slot:title>
-                Lock month?
+                {{ $t("reports.lock.confirm") }}
               </template>
 
               <template v-slot:text>
-                When you lock the month, you will not be able to edit its
-                shifts. This will allow you to export the Stundenzettel of the
-                next month.
+                {{ $t("reports.lock.message") }}
               </template>
             </ConfirmationDialog>
           </v-col>
@@ -144,19 +149,19 @@ export default {
     rows() {
       return [
         {
-          name: "Übertrag aus dem letzten Monat",
+          name: this.$t("reports.carryoverLast"),
           value: this.report.carryover.prev
         },
         {
-          name: "Monatliche Arbeitszeit",
+          name: this.$t("reports.debit"),
           value: minutesToHHMM(this.debit)
         },
         {
-          name: "Geleistete Arbeitszeit",
+          name: this.$t("reports.timeWorked"),
           value: this.report.net_worktime
-        },
+        }
         {
-          name: "Übertrag Folgemonat",
+          name: this.$t("reports.carryoverNext"),
           value: this.report.carryover.next
         }
       ];

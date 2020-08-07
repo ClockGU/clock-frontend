@@ -6,6 +6,7 @@
     "change": "Wechseln",
     "close": "Schließen",
     "complete": "Abschließen",
+    "confirm": "Bestätigen",
     "continue": "Fortfahren",
     "delete": "Löschen",
     "download": "Download",
@@ -52,7 +53,13 @@
     "shiftOnDay": "{duration} am {start}",
     "today": "Heute",
     "type": "Typ",
-    "week": "Woche"
+    "week": "Woche",
+    "overlap": {
+      "resolving": "Konflikte beheben",
+      "none": "Es gibt keine überlappenden Schichten - Sieht gut aus!",
+      "all": "Alle Schichten",
+      "overlap": "Überlappende Schichten"
+    }
   },
   "contracts": {
     "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags bis an die erste bzw. letze Schicht ranholen. Dabei muss das Startdatum vor der ersten und das Enddatum nach der letzten Schicht liegen.",
@@ -182,6 +189,21 @@
   "gdpr": {
     "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
   },
+  "hero": {
+    "slogan": "Bring Deine Stundenzettel unter Kontrolle",
+    "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
+    "login": "Login mit HRZ Account",
+    "landing": {
+      "blurb1": {
+        "title": "Start-and-Go! Einfach arbeiten.",
+        "text": "Mit dem Clock-Button kannst du deine aktuelle Zeiterfassung einfach starten und den Browser schließen. Sobald deine Arbeit beendet ist kannst du auf einem beliebigen Gerät ausclocken."
+      },
+      "blurb2": {
+        "title": "Vergessen zu clocken? Kein Problem!",
+        "text": "Vergangene Arbeitszeiten lassen sich ohne Probleme nachtragen. Ebenso kannst du schon eingetragene Zeiten ändern oder ganz löschen. Du bestimmst, welche Zeiten eingetragen sind und welche nicht!"
+      }
+    }
+  },
   "logout": {
     "message": "Du kannst jederzeit wiederkommen.",
     "title": "Möchtest du dich @:actions.logout?"
@@ -219,11 +241,22 @@
   },
   "reports": {
     "creditDebit": "Haben/Soll: {creditDebit} Stunden",
+    "debit": "Monthly hours",
+    "timeWorked": "Time worked",
+    "carryoverLast": "Übertrag vom letzten Monat",
+    "carryoverNext": "Übertrag in den nächsten Monat",
     "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
     "exported": "Exportiert",
     "generate": "Stundenzettel erstellen",
     "of": "von",
-    "personnelNumberMissing": "Bitte füge deine Personalnummer in den Einstellungen hinzu."
+    "personnelNumberMissing": "Bitte füge deine Personalnummer in den Einstellungen hinzu.",
+    "summary": "Zusammenfassung",
+    "lock": {
+      "lock": "Sperren",
+      "label": "Diesen Monat sperren",
+      "confirm": "Diesen Monat sperren?",
+      "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Nach dem Sperren kannst Du den Stundenzettel des nächsten Monats exportieren."
+    }
   },
   "selectContract": {
     "hint": "Ändere den Vertrag, um andere Daten zu sehen"

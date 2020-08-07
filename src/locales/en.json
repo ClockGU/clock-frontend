@@ -6,6 +6,7 @@
     "change": "Change",
     "close": "Close",
     "complete": "Complete",
+    "confirm": "Confirm",
     "continue": "Continue",
     "delete": "Delete",
     "download": "Download",
@@ -52,7 +53,13 @@
     "shiftOnDay": "{duration} on {start}",
     "today": "Today",
     "type": "Type",
-    "week": "Week"
+    "week": "Week",
+    "overlap": {
+      "resolving": "Resolving",
+      "none": "There are no overlapping shifts. You're good!",
+      "all": "All Shifts",
+      "overlap": "Overlapping shifts"
+    }
   },
   "contracts": {
     "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
@@ -182,6 +189,21 @@
   "gdpr": {
     "text": "You can request and download all information saved by you. The download is provided in JSON."
   },
+  "hero": {
+    "slogan": "Master your time sheets",
+    "text": "Clock allows you to easily edit your time sheets on your mobile device or PC.",
+    "login": "Login with HRZ Account",
+    "landing": {
+      "blurb1": {
+        "title": "Start-and-Go! Just do your work.",
+        "text": "Simply start your shift with the clock button and close your browser. You can clock out on any device later if your work is done."
+      },
+      "blurb2": {
+        "title": "Forgot to clock? No problem!",
+        "text": "Past shifts can easily be added. All shifts can be edited or even deleted - you decide which shifts will be printed on your time sheet!"
+      }
+    }
+  },
   "logout": {
     "message": "You can come back later at any time.",
     "title": "Are you sure you want to logout?"
@@ -219,11 +241,23 @@
   },
   "reports": {
     "creditDebit": "Credit/Debit: {creditDebit} hours",
+    "debit": "Monthly hours",
+    "timeWorked": "Time worked",
+    "carryoverLast": "Carryover from last month",
+    "carryoverNext": "Carryover to next month",
     "exportAlert": "Once you generate the report, you will not be able to add or update shifts in the corresponding month",
     "exported": "Exported",
     "generate": "Generate report",
     "of": "of",
-    "personnelNumberMissing": "Please add your personnel number in your user settings."
+    "personnelNumberMissing": "Please add your personnel number in your user settings.",
+    "summary": "Summary",
+    "lock": {
+      "lock": "Lock",
+      "locked": "Locked",
+      "label": "Lock this month",
+      "confirm": "Lock this month?",
+      "message": "After locking this month, you will not be able to edit its shifts. This will allow you to export the report of the following month."      
+    }
   },
   "selectContract": {
     "hint": "Change the contract to see different data"
