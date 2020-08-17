@@ -262,6 +262,21 @@ export default {
         const date = new Date(year, month - 1, day, 0, 0);
         this.contract.start = format(date, "yyyy-MM-dd");
 
+        // Update the carryoverTargetDate to the contract start, if we do not
+        // want to carry over anything
+        if (!this.carryover) {
+          this.contract.carryoverTargetDate = format(
+            startOfMonth(parseISO(this.contract.start)),
+            "yyyy-MM-dd"
+          );
+        }
+
+        // Update the carryoverTargetDate if we move the start month beyond the
+        // previous value
+        if (isAfter(date, parseISO(this.contract.carryoverTargetDate))) {
+          this.contract.carryoverTargetDate = format(date, "yyyy-MM-dd");
+        }
+
         if (isAfter(date, parseISO(this.contract.end))) {
           this.contract.end = format(endOfMonth(date), "yyyy-MM-dd");
         }
