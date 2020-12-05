@@ -1,9 +1,10 @@
-import { isPast, parseISO } from "date-fns";
+// import { isPast, parseISO } from "date-fns";
 
 export default {
   computed: {
     contractExpired() {
-      return isPast(parseISO(this.selectedContract.date.end));
+      return false;
+      // return isPast(parseISO(this.selectedContract.date.end));
     }
   }
 };
