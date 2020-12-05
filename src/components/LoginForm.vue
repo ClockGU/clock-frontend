@@ -59,7 +59,6 @@
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
-import { handleApiError } from "@/utils/interceptors";
 
 export default {
   name: "LoginForm",
@@ -99,15 +98,31 @@ export default {
     async submit() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
+
+      try {
       this.loading = true;
 
-      this.$store
-        .dispatch("auth/LOGIN", {
+        const { data } = await this.$store.dispatch("auth/LOGIN", {
           email: this.email.toLowerCase(),
           password: this.password
+        });
+
+        this.$i18n.locale = data.language || "de";
+
+        this.$router
+          .push({
+            name: "dashboard"
         })
-        .catch(handleApiError)
-        .finally(() => (this.loading = false));
+          .catch(() => {});
+      } catch (error) {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack:
+            "Something went wrong with the login. Please contact the support, if this keeps happening.",
+          color: "error"
+        });
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
