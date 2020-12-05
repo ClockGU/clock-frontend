@@ -159,7 +159,7 @@ import { log } from "@/utils/log";
 import { datesGroupByComponent } from "@/utils/shift";
 import { getNextContractParams } from "@/utils";
 
-import contractExpiredMixin from "@/mixins/contractExpired";
+// import contractExpiredMixin from "@/mixins/contractExpired";
 
 export default {
   name: "ViewShiftList",
@@ -174,7 +174,7 @@ export default {
     FormDialog,
     SelectContractFilter
   },
-  mixins: [contractExpiredMixin],
+  // mixins: [contractExpiredMixin],
   data: () => ({
     editable: false,
     icons: {
@@ -204,6 +204,9 @@ export default {
       loading: "shift/loading",
       contracts: "contract/contracts"
     }),
+    contractExpired() {
+      return false;
+    },
     selectedContract() {
       const uuid = this.$route.params.contract;
 
