@@ -41,7 +41,7 @@
             autocomplete="email"
             :error-messages="emailErrors"
             @blur="$v.email.$touch()"
-            @keyup.enter="submit"
+            @keyup.enter="destroy"
           ></v-text-field>
         </template>
       </ConfirmationDialog>
