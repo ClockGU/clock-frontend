@@ -94,8 +94,13 @@ export default {
     lengthAllOverlaps() {
       return this.allOverlappingShifts.length;
     },
+    currentOverlap() {
+      return this.allOverlappingShifts[this.index] === undefined
+        ? []
+        : this.allOverlappingShifts[this.index];
+    },
     focussedOverlap() {
-      return this.allOverlappingShifts[this.index].map((shift, index) => {
+      return this.currentOverlap.map((shift, index) => {
         const labels = ["A", "B"];
         return {
           name: `(${labels[index]}) ` + this.$t(`shifts.types.${shift.type}`),
