@@ -10,7 +10,7 @@
         @change="toggle"
       ></v-checkbox>
       <v-row class="ml-3">
-        <v-col cols="12" sm="6">
+        <v-col cols="12">
           <span class="text-h6">
             {{ title | formatHeader }}
           </span>
