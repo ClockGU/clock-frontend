@@ -35,6 +35,7 @@
     "notfound": "Nicht gefunden",
     "onboarding": "Onboarding",
     "privacy": "Datenschutz",
+    "privacyagreement": "Datenschutzerklärung",
     "reports": "Stundenzettel",
     "settings": "Einstellungen",
     "shifts": "Schichten",
@@ -238,6 +239,10 @@
       "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
     }
+  },
+  "privacyagreement": {
+    "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
+    "checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme den Bedingungen zu."
   },
   "reports": {
     "creditDebit": "Haben/Soll: {creditDebit} Stunden",

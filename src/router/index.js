@@ -163,4 +163,42 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
+router.beforeEach(async (to, from, next) => {
+  const loggedIn = store.getters["auth/loggedIn"];
+
+  if (!loggedIn) {
+    return next();
+  }
+
+  // Check if the user has accepted the data privacy agreement
+  const WHITELISTED_PAGES = [
+    "onboarding",
+    "imprint",
+    "privacy",
+    "privacyagreement"
+  ];
+  const hasAcceptedPrivacyAgreement = store.state.user.dsgvo_accepted;
+  const canVisitWithoutPrivacyAgreement = name =>
+    WHITELISTED_PAGES.includes(name);
+
+  // User has already agreed to the privacy agreement
+  if (hasAcceptedPrivacyAgreement) {
+    // User tries to access the privacy agreement form again
+    if (to.name === "privacyagreement") {
+      return next({ name: "dashboard" });
+    }
+
+    // Let the user pass to whatever page they want to visit
+    return next();
+  }
+
+  // User can visit the page without acknowledging the privacy agreement
+  if (canVisitWithoutPrivacyAgreement(to.name)) {
+    return next();
+  }
+
+  // Redirect to the privacy agreement form
+  return next({ name: "privacyagreement" });
+});
+
 export default router;

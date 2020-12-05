@@ -35,6 +35,7 @@
     "notfound": "Not found",
     "onboarding": "Onboarding",
     "privacy": "Privacy",
+    "privacyagreement": "Privacy agreement",
     "reports": "Report",
     "settings": "Settings",
     "shifts": "Shift",
@@ -239,6 +240,10 @@
       "title": "@:app.onboarding"
     }
   },
+  "privacyagreement": {
+    "text": "You have to accept the {privacyAgreement} before using Clock.",
+    "checkbox": "I have read and agree with the privacy policy."
+  },
   "reports": {
     "creditDebit": "Credit/Debit: {creditDebit} hours",
     "debit": "Monthly hours",
@@ -256,7 +261,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
-      "message": "After locking this month, you will not be able to edit its shifts. This will allow you to export the report of the following month."      
+      "message": "After locking this month, you will not be able to edit its shifts. This will allow you to export the report of the following month."
     }
   },
   "selectContract": {

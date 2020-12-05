@@ -16,6 +16,7 @@ const Onboarding = () => import("@/views/Onboarding");
 const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
 const Reporting = () => import("@/views/Reporting");
+const PrivacyAgreement = () => import("@/views/PrivacyAgreement");
 
 export const routes = [
   {
@@ -122,6 +123,11 @@ export const routes = [
         path: "/debug/:contract?",
         name: "debug",
         component: ViewDebug
+      },
+      {
+        path: "/privacyagreement",
+        name: "privacyagreement",
+        component: PrivacyAgreement
       }
     ]
   },
