@@ -100,7 +100,7 @@ export default {
       if (this.$v.$invalid) return;
 
       try {
-      this.loading = true;
+        this.loading = true;
 
         const { data } = await this.$store.dispatch("auth/LOGIN", {
           email: this.email.toLowerCase(),
@@ -112,7 +112,7 @@ export default {
         this.$router
           .push({
             name: "dashboard"
-        })
+          })
           .catch(() => {});
       } catch (error) {
         this.$store.dispatch("snackbar/setSnack", {
