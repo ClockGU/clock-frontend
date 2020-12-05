@@ -31,7 +31,10 @@ export default {
       return [
         {
           text: this.$t("app.dashboard"),
-          to: { name: "dashboard" },
+          to: {
+            name: "dashboard",
+            params: { contract: this.$route.params.contract }
+          },
           icon: mdiHome,
           loggedOut: false
         },
@@ -39,26 +42,38 @@ export default {
           text: this.$t("app.calendar"),
           to: {
             name: "calendar",
-            params: { ...getRouterProps("month", new Date()) }
+            params: {
+              ...getRouterProps("month", new Date()),
+              contract: this.$route.params.contract
+            }
           },
           icon: mdiCalendar,
           loggedOut: false
         },
         {
           text: this.$t("app.shifts"),
-          to: { name: "shiftList" },
+          to: {
+            name: "shiftList",
+            params: { contract: this.$route.params.contract }
+          },
           icon: mdiFormatListNumbered,
           loggedOut: false
         },
         {
           text: this.$t("app.contracts"),
-          to: { name: "contractList" },
+          to: {
+            name: "contractList",
+            params: { contract: this.$route.params.contract }
+          },
           icon: mdiFileDocument,
           loggedOut: false
         },
         {
           text: this.$t("app.reports"),
-          to: { name: "reporting" },
+          to: {
+            name: "reporting",
+            params: { contract: this.$route.params.contract }
+          },
           icon: mdiFileChart,
           loggedOut: false
         }
