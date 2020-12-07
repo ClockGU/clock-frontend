@@ -1,10 +1,10 @@
 <template>
   <v-dialog
     v-model="dialog"
-    v-click-outside="closeDialog"
     :fullscreen="$vuetify.breakpoint.smAndDown"
     max-width="600"
     no-click-animation
+    persistent
     retain-focus
   >
     <v-card>
