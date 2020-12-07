@@ -46,6 +46,15 @@ function nextFactory(context, middleware, index) {
   };
 }
 
+// Force reload the page when we try to reload a non-existent chunk. This should
+// only happen after an update, if the previous chunk was cached by the users
+// browser.
+router.onError(error => {
+  if (/loading chunk \d* failed./i.test(error.message)) {
+    window.location.reload();
+  }
+});
+
 router.beforeEach((to, from, next) => {
   if (to.meta.middleware) {
     const middleware = Array.isArray(to.meta.middleware)
