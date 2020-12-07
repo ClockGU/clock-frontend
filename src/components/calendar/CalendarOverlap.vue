@@ -79,13 +79,15 @@ export default {
     index: 0,
     showForm: false,
     shiftEntity: null,
-    focus: "",
-    categories: [
-      this.$t("calendar.overlap.all"),
-      this.$t("calendar.overlap.overlap")
-    ]
+    focus: ""
   }),
   computed: {
+    categories() {
+      return [
+        this.$t("calendar.overlap.all"),
+        this.$t("calendar.overlap.overlap")
+      ];
+    },
     allOverlappingShifts() {
       return getOverlappingShifts(this.shifts).sort((a, b) => {
         return new Date(a[0].date.start) - new Date(b[1].date.start);
