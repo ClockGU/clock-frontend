@@ -253,6 +253,10 @@
     "exportAlert": "Once you generate the report, you will not be able to add or update shifts in the corresponding month",
     "exported": "Exported",
     "generate": "Generate report",
+    "hints": {
+      "request": "You can request and subsequently download your months report for review. You cannot request a report for the current month before locking the report for previous month of the same contract.",
+      "lock": "You can only lock the month after generating the report for review."
+    },
     "of": "of",
     "personnelNumberMissing": "Please add your personnel number in your user settings.",
     "summary": "Summary",

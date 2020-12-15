@@ -28,8 +28,10 @@
         <v-row align="center">
           <v-col cols="8">
             <span class="subtitle-2">
-              {{ $t("reports.generate") }}
+              1. {{ $t("reports.generate") }}
             </span>
+
+            <p class="caption">{{ $t("reports.hints.request") }}</p>
           </v-col>
           <v-col cols="4">
             <v-btn
@@ -58,8 +60,10 @@
         <v-row align="center">
           <v-col cols="8">
             <span class="subtitle-2">
-              {{ $t("reports.lock.label") }}
+              2. {{ $t("reports.lock.label") }}
             </span>
+
+            <p class="caption">{{ $t("reports.hints.lock") }}</p>
           </v-col>
 
           <v-col cols="4">

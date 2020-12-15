@@ -253,6 +253,10 @@
     "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
     "exported": "Exportiert",
     "generate": "Stundenzettel erstellen",
+    "hints": {
+      "request": "Du kannst deinen Stundenzettel zur Ansicht anfordern und runterladen. Bevor du den Stundenzettel für diesen Monat generieren kannst, musst du den vorherigen Monat sperren.",
+      "lock": "Du kannst diesen Monat erst sperren nachdem du deinen Stundenzettel generiert hast."
+    },
     "of": "von",
     "personnelNumberMissing": "Bitte füge deine Personalnummer in den Einstellungen hinzu.",
     "summary": "Zusammenfassung",
