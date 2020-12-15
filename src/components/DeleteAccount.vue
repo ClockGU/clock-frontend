@@ -6,6 +6,9 @@
       <p>
         {{ $t("settings.account.text") }}
       </p>
+    </v-card-text>
+
+    <v-card-actions>
       <ConfirmationDialog
         :confirmation-button="{
           attrs: { disabled: $v.$invalid },
@@ -45,7 +48,7 @@
           ></v-text-field>
         </template>
       </ConfirmationDialog>
-    </v-card-text>
+    </v-card-actions>
   </v-card>
 </template>
 
