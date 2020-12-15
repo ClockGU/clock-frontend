@@ -1,5 +1,5 @@
 <template>
-  <v-card :elevation="$vuetify.breakpoint.mdAndUp ? 0 : null">
+  <v-card :elevation="0">
     <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
       {{ $t("settings.language.text") }}
     </v-card-text>
