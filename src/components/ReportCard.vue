@@ -16,7 +16,7 @@
           <tbody>
             <tr v-for="row in rows" :key="row.name">
               <td>{{ row.name }}</td>
-              <td>{{ row.value }}</td>
+              <td class="text-right">{{ row.value }}</td>
             </tr>
           </tbody>
         </template>
