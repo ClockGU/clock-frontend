@@ -66,7 +66,7 @@
 
       <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
-        <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
+        <ShiftFormNote v-model="shift.note" data-cy="shift-note" />
 
         <v-subheader class="pl-8" style="height: 10px">
           {{ $t("shifts.types.label") }}
@@ -98,7 +98,7 @@
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
-import ShiftFormInput from "@/components/shifts/ShiftFormInput";
+import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 
 import { Shift } from "@/models/ShiftModel";
@@ -122,7 +122,7 @@ export default {
   components: {
     ShiftFormDateInput,
     ShiftFormTimeInput,
-    ShiftFormInput,
+    ShiftFormNote,
     ShiftFormType,
     ShiftFormTags
   },
