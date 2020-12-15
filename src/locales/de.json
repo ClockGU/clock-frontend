@@ -21,6 +21,7 @@
     "save": "Speichern",
     "search": "Suchen",
     "send": "Absenden",
+    "showall": "Alle anzeigen",
     "update": "Aktualisieren"
   },
   "app": {
@@ -35,6 +36,7 @@
     "loggingin": "Einloggen...",
     "logout": "@:actions.logout",
     "mainTitle": "Dein flexibler Stundenzettel",
+    "news": "Neuigkeiten",
     "notfound": "Nicht gefunden",
     "onboarding": "Onboarding",
     "privacy": "Datenschutz",
@@ -211,6 +213,9 @@
   "logout": {
     "message": "Du kannst jederzeit wiederkommen.",
     "title": "Möchtest du dich @:actions.logout?"
+  },
+  "news": {
+    "noNews": "Es gibt keine Neuigkeiten."
   },
   "models": {
     "contract": "Vertrag | Verträge",

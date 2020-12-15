@@ -21,6 +21,7 @@
     "save": "Save",
     "search": "Search",
     "send": "Send",
+    "showall": "Show all",
     "update": "Update"
   },
   "app": {
@@ -35,6 +36,7 @@
     "loggingin": "Logging in...",
     "logout": "@:actions.logout",
     "mainTitle": "Your flexible time sheet",
+    "news": "News",
     "notfound": "Not found",
     "onboarding": "Onboarding",
     "privacy": "Privacy",
@@ -211,6 +213,9 @@
   "logout": {
     "message": "You can come back later at any time.",
     "title": "Are you sure you want to logout?"
+  },
+  "news": {
+    "noNews": "No news to show."
   },
   "models": {
     "contract": "Contract | Contracts",

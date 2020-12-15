@@ -8,9 +8,9 @@
     />
 
     <template v-else>
-      <v-card-title>Neuigkeiten</v-card-title>
+      <v-card-title>{{ $t("app.news") }}</v-card-title>
 
-      <v-card-text v-if="noMessages">Es gibt keine Neuigkeiten.</v-card-text>
+      <v-card-text v-if="noMessages">{{ $t("news.noNews") }}</v-card-text>
 
       <MessageList v-else :messages="lastThreeMessages" />
 
@@ -32,7 +32,7 @@
                     <v-icon>{{ icons.mdiClose }}</v-icon>
                   </v-btn>
               <v-toolbar-title>
-                Neuigkeiten
+                {{ $t("app.news") }}
               </v-toolbar-title>
             </v-toolbar>
 
