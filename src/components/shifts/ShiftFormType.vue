@@ -1,6 +1,5 @@
 <template>
   <v-row align="end" class="pl-4">
-    <v-icon>{{ icons.mdiBriefcaseOutline }}</v-icon>
     <v-radio-group v-model="radios" row hide-details dense>
       <v-radio
         v-for="type in types"
@@ -8,6 +7,7 @@
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"
+        :prepend-icon="icons.mdiBriefcaseOutline"
       ></v-radio>
     </v-radio-group>
   </v-row>
