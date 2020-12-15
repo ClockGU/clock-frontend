@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-text-field
         :value="formattedDate"
         readonly

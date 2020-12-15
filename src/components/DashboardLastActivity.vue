@@ -46,8 +46,8 @@ export default {
     }),
     lastShifts() {
       return this.shifts
-        .map(shift => new Shift(shift))
-        .filter(shift => shift.contract === this.selectedContract.uuid)
+        .map((shift) => new Shift(shift))
+        .filter((shift) => shift.contract === this.selectedContract.uuid)
         .sort((a, b) => {
           return new Date(b.date.end) - new Date(a.date.end);
         })
@@ -56,7 +56,7 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     }
   }
 };

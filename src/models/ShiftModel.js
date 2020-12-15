@@ -50,7 +50,7 @@ export class Shift {
     this.contract = is(String, contract) ? contract : null;
     this.type = is(Object, type)
       ? type
-      : SHIFT_TYPES.find(item => item.value === type);
+      : SHIFT_TYPES.find((item) => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
     this.locked = locked === null ? false : locked;

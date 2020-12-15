@@ -60,7 +60,7 @@
         <v-btn
           v-else-if="
             !overflowedShift &&
-              (actions.status === 'running' || actions.status === 'saving')
+            (actions.status === 'running' || actions.status === 'saving')
           "
           key="clock-out"
           :disabled="actions.status === 'saving'"
@@ -74,7 +74,7 @@
         <v-btn
           v-else-if="
             overflowedShift &&
-              (actions.status === 'running' || actions.status === 'saving')
+            (actions.status === 'running' || actions.status === 'saving')
           "
           key="review-problems"
           :disabled="actions.status === 'saving'"
@@ -153,7 +153,7 @@ export default {
     }),
     clockedContract() {
       return this.contracts.find(
-        contract => contract.uuid === this.actions.clockedContract.uuid
+        (contract) => contract.uuid === this.actions.clockedContract.uuid
       );
     },
     overflowedShift() {

@@ -11,5 +11,5 @@ const repositories = {
 };
 
 export const UndrawFactory = {
-  get: name => repositories[name]()
+  get: (name) => repositories[name]()
 };

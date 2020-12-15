@@ -6,11 +6,11 @@
     @close="cancel"
     @click:outside="cancel"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <v-card data-cy="delete-dialog">
         <v-card-title>
           <span class="text-h5">

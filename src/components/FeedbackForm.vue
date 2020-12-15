@@ -117,7 +117,7 @@ export default {
   mounted() {
     this.initialize();
 
-    const close = e => {
+    const close = (e) => {
       const ESC = 27;
       if (e.keyCode !== ESC) return;
       this.close();

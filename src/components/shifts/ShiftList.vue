@@ -123,18 +123,18 @@ export default {
       return this.hasSelectedShifts && !this.hasSelectedAllShifts;
     },
     hasExportedShifts() {
-      return this.shifts.map(shift => shift.locked).every(item => !!item);
+      return this.shifts.map((shift) => shift.locked).every((item) => !!item);
     }
   },
   watch: {
-    shiftsToDelete: function(newValue, oldValue) {
+    shiftsToDelete: function (newValue, oldValue) {
       if (oldValue === undefined) return;
       if (newValue.length > 0) return;
       if (this.selected.length === 0) return;
 
       this.deselectAll();
     },
-    editable: function(newValue, oldValue) {
+    editable: function (newValue, oldValue) {
       // noop if oldValue is undefined (=component just initialized)
       if (oldValue === undefined) return;
 
@@ -143,7 +143,7 @@ export default {
         this.deselectAll();
       }
     },
-    selected: function(newValue, oldValue) {
+    selected: function (newValue, oldValue) {
       // If we did not just initialize and the length is zero: reset
       if (oldValue.length !== 0 && newValue.length === 0) {
         this.$emit("resetSelection");

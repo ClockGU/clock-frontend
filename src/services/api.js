@@ -14,7 +14,7 @@ const ApiService = {
   },
 
   setHeader(header, value) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       axios.defaults.headers.common[header] = value;
 
       resolve();
@@ -57,11 +57,11 @@ const ApiService = {
   mountInterceptor() {
     log("Mounting interceptor");
     this._401interceptor = axios.interceptors.response.use(
-      response => {
+      (response) => {
         log("_interceptor: resolved");
         return response;
       },
-      async error => {
+      async (error) => {
         log("_interceptor: rejected");
 
         const { data, status } = error.response;
@@ -86,7 +86,7 @@ const ApiService = {
         ) {
           return store
             .dispatch("auth/REFRESH_TOKEN")
-            .then(response => {
+            .then((response) => {
               const { access: accessToken } = response.data;
               const { config: originalRequest } = error;
 
@@ -105,12 +105,12 @@ const ApiService = {
                       "Content-Type": "application/json;charset=UTF-8"
                     },
                 responseType: isArrayBuffer ? "arraybuffer" : undefined
-              }).catch(error => {
+              }).catch((error) => {
                 // If the retried request fails, reject the Promise
                 return Promise.reject(error);
               });
             })
-            .catch(async error => {
+            .catch(async (error) => {
               // Now that the token refresh Promise failed, check that the
               // reponse status is 401 (UNAUTHORIZED). If it is, logout the
               // user, because we could not get a new refresh token for them.
@@ -120,7 +120,7 @@ const ApiService = {
               // returned a non 2xx/401 response. This does not mean, that we
               // need to logout the user!
               if (error.response.status === 401) {
-                await store.dispatch("auth/LOGOUT").catch(error => {
+                await store.dispatch("auth/LOGOUT").catch((error) => {
                   log(
                     "Experienced error while logging out in refreshToken-refresh catch: ",
                     error
@@ -132,7 +132,7 @@ const ApiService = {
         }
 
         if (tokenNotValid && refreshTokenExpired) {
-          await store.dispatch("auth/LOGOUT").catch(error => {
+          await store.dispatch("auth/LOGOUT").catch((error) => {
             log(
               "Experienced error while logging out due to expired refreshToken: ",
               error

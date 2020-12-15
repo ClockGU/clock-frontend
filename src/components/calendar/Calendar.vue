@@ -136,7 +136,7 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     },
     shiftNow() {
       const now = new Date();
@@ -154,14 +154,14 @@ export default {
       if (this.selectedContract === null) return [];
 
       return this.shifts.filter(
-        shift => shift.contract === this.selectedContract.uuid
+        (shift) => shift.contract === this.selectedContract.uuid
       );
     },
     events() {
-      return this.visibleShifts.map(item => {
+      return this.visibleShifts.map((item) => {
         const shift = new Shift(item);
         const contract = new Contract(
-          this.contracts.find(contract => contract.id === shift.contract)
+          this.contracts.find((contract) => contract.id === shift.contract)
         );
 
         const duration =
@@ -183,9 +183,9 @@ export default {
       });
     },
     ...mapState({
-      contracts: state => state.contract.contracts,
-      locale: state => state.calendar.locale,
-      shifts: state => state.shift.shifts
+      contracts: (state) => state.contract.contracts,
+      locale: (state) => state.calendar.locale,
+      shifts: (state) => state.shift.shifts
     })
   },
   async mounted() {
@@ -212,7 +212,9 @@ export default {
       this.$emit("refresh");
     },
     editShift({ event }) {
-      const shift = this.visibleShifts.find(shift => shift.uuid === event.uuid);
+      const shift = this.visibleShifts.find(
+        (shift) => shift.uuid === event.uuid
+      );
       this.shiftEntity = new Shift(shift);
       this.showFormDialog = true;
     },

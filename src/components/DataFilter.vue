@@ -51,34 +51,34 @@ export default {
     }),
     isCurrentMonthLocked() {
       return this.lockedMonths
-        .filter(month => Object.values(month)[0] === true)
-        .map(month => Object.keys(month)[0])
+        .filter((month) => Object.values(month)[0] === true)
+        .map((month) => Object.keys(month)[0])
         .includes(this.date);
     },
     firstUnlockedMonth() {
       const allLocked = this.lockedMonths
-        .map(month => Object.entries(month)[0][1])
-        .every(item => item === true);
+        .map((month) => Object.entries(month)[0][1])
+        .every((item) => item === true);
 
       if (allLocked) {
-        return this.lockedMonths.map(month => Object.keys(month)[0])[
+        return this.lockedMonths.map((month) => Object.keys(month)[0])[
           this.lockedMonths.length - 1
         ];
       }
 
       return Object.entries(
-        this.lockedMonths.find(month => {
+        this.lockedMonths.find((month) => {
           const entries = Object.entries(month)[0];
           return entries[1] === false;
         })
       )[0][0];
     },
     lockedMonths() {
-      return this.reports.map(report => {
+      return this.reports.map((report) => {
         const reportDate = new Date(report.date);
         const stringDate = format(reportDate, "yyyy-MM");
 
-        const shifts = this.shifts.filter(shift =>
+        const shifts = this.shifts.filter((shift) =>
           isSameMonth(new Date(shift.date.start), reportDate)
         );
         // We need to return `false` if there are not saved shifts. The
@@ -91,32 +91,32 @@ export default {
         // Check if all `locked` properties are true
         return {
           [stringDate]: shifts
-            .map(shift => shift.locked)
-            .every(val => val === true)
+            .map((shift) => shift.locked)
+            .every((val) => val === true)
         };
       });
     },
     reports() {
       return this.reportsVuex.filter(
-        report => report.contract === this.contract.uuid
+        (report) => report.contract === this.contract.uuid
       );
     },
     shifts() {
       return this.shiftsVuex.filter(
-        shift => shift.contract === this.contract.uuid
+        (shift) => shift.contract === this.contract.uuid
       );
     },
     dates() {
-      return this.reports.map(report => new Date(report.date));
+      return this.reports.map((report) => new Date(report.date));
     },
     months() {
-      const months = this.reports.map(report => report.date.slice(0, 7));
+      const months = this.reports.map((report) => report.date.slice(0, 7));
 
       return {
         months,
         min: format(min(this.dates), "yyyy-MM-dd"),
         max: format(max(this.dates), "yyyy-MM-dd"),
-        allowedMonths: value => {
+        allowedMonths: (value) => {
           return months.includes(value);
         }
       };
@@ -133,10 +133,10 @@ export default {
         months: this.months,
         contracts: this.contracts,
         shifts: this.shifts.filter(
-          shift => shift.date.start.slice(0, 7) === this.date
+          (shift) => shift.date.start.slice(0, 7) === this.date
         ),
         report: this.reports.find(
-          report => report.date.slice(0, 7) === this.date
+          (report) => report.date.slice(0, 7) === this.date
         )
       };
     },
@@ -154,7 +154,7 @@ export default {
     }
   },
   watch: {
-    firstUnlockedMonth: function(newValue, oldValue) {
+    firstUnlockedMonth: function (newValue, oldValue) {
       if (newValue === oldValue) return;
 
       this.setDate(newValue);

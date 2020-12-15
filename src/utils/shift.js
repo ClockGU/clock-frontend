@@ -9,7 +9,7 @@ function prepare({ start, end }) {
 }
 
 export function datesGroupByComponent(dates, token) {
-  return dates.reduce(function(val, obj) {
+  return dates.reduce(function (val, obj) {
     let comp = format(parseISO(obj["date"]["start"]), token);
     (val[comp] = val[comp] || []).push(new Shift(obj));
     return val;

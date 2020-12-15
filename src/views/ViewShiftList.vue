@@ -1,10 +1,10 @@
 <template>
   <base-layout alternative-portal-target="card-toolbar">
-    <template v-slot:card-top>
+    <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>
 
-    <template v-slot:pre-toolbar-title="{ action }">
+    <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown && !shiftsToDelete.length"
         icon
@@ -20,7 +20,7 @@
       </v-btn>
     </template>
 
-    <template v-slot:title>
+    <template #title>
       {{
         shiftsToDelete.length
           ? $t("forms.selected", { n: shiftsToDelete.length })
@@ -28,7 +28,7 @@
       }}
     </template>
 
-    <template v-slot:post-toolbar-title>
+    <template #post-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-scale-transition>
@@ -43,7 +43,7 @@
       </v-scale-transition>
 
       <ConfirmationDialog @confirm="destroy">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-scale-transition>
             <v-btn v-if="!deleteDisabled" key="delete" icon v-on="on">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
@@ -51,11 +51,11 @@
           </v-scale-transition>
         </template>
 
-        <template v-slot:title>
+        <template #title>
           {{ $t("buttons.deleteEntity", { entity: $tc("models.shift") }) }}
         </template>
 
-        <template v-slot:text>
+        <template #text>
           {{
             $t(`dialogs.textConfirmDelete`, {
               selectedEntity: $tc(`models.selectedShift`)
@@ -65,7 +65,7 @@
       </ConfirmationDialog>
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <v-skeleton-loader
         data-cy="shift-list-skeleton"
         :loading="loading && !ignoreLoading"
@@ -122,7 +122,7 @@
       </placeholder>
     </template>
 
-    <template v-slot:extra-content>
+    <template #extra-content>
       <FormDialog
         v-if="showFormDialog"
         entity-name="shift"
@@ -174,6 +174,11 @@ export default {
     FormDialog,
     SelectContractFilter
   },
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
+  },
   // mixins: [contractExpiredMixin],
   data: () => ({
     editable: false,
@@ -193,11 +198,6 @@ export default {
     showFormDialog: false,
     ignoreLoading: false
   }),
-  beforeRouteLeave(to, from, next) {
-    this.ignoreLoading = true;
-
-    next();
-  },
   computed: {
     ...mapGetters({
       shifts: "shift/shifts",
@@ -210,11 +210,11 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     },
     shiftsOfContract() {
       return this.shifts.filter(
-        shift => shift.contract === this.selectedContract.uuid
+        (shift) => shift.contract === this.selectedContract.uuid
       );
     },
     shiftsByMonth() {
@@ -235,14 +235,14 @@ export default {
   },
   watch: {
     toDelete: {
-      handler: function(value) {
+      handler: function (value) {
         if (value === null) return;
 
         const arr = [];
 
-        Object.entries(value).forEach(entry => {
+        Object.entries(value).forEach((entry) => {
           const [key, indices] = entry;
-          indices.forEach(index => {
+          indices.forEach((index) => {
             arr.push(this.shiftsByMonth[key][index]);
           });
         });

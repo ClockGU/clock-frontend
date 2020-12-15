@@ -10,7 +10,7 @@ module.exports = {
     disableHostCheck: true
   },
 
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     if (
       process.env.NODE_ENV === "production" ||
       process.env.NODE_ENV === "staging"

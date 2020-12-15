@@ -112,13 +112,9 @@ describe("when the user wants to update the pseudo shifts", () => {
   });
 
   it("can keep the first only", () => {
-    cy.get("div")
-      .contains("Keep both shifts and split across days")
-      .click();
+    cy.get("div").contains("Keep both shifts and split across days").click();
 
-    cy.get("div")
-      .contains("Keep first")
-      .click();
+    cy.get("div").contains("Keep first").click();
 
     cy.get("[data-cy=new-shift-duration-0]").should("contain", "08h 59m");
     cy.get("[data-cy=new-shift-dates-0]").should(
@@ -130,13 +126,9 @@ describe("when the user wants to update the pseudo shifts", () => {
   });
 
   it("can keep the second only", () => {
-    cy.get("div")
-      .contains("Keep both shifts and split across days")
-      .click();
+    cy.get("div").contains("Keep both shifts and split across days").click();
 
-    cy.get("div")
-      .contains("Keep second")
-      .click();
+    cy.get("div").contains("Keep second").click();
 
     cy.get("[data-cy=new-shift-duration-0]").should("contain", "10h 00m");
     cy.get("[data-cy=new-shift-dates-0]").should(
@@ -150,9 +142,7 @@ describe("when the user wants to update the pseudo shifts", () => {
     cy.get("[data-cy=options-0]").click();
     cy.wait(500);
     cy.get("[data-cy=edit-0]").click();
-    cy.get("[data-cy=end]")
-      .clear()
-      .type("18:00");
+    cy.get("[data-cy=end]").clear().type("18:00");
     cy.get("[data-cy=shift-save]").click();
   });
 });

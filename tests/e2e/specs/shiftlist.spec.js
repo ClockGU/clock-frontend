@@ -98,15 +98,9 @@ describe("Shift list table", () => {
         .find(".v-list-item__content")
         .as("novemberShifts");
 
-      cy.get("@novemberShifts")
-        .eq(0)
-        .should("contain", "Wednesday, 27th");
-      cy.get("@novemberShifts")
-        .eq(1)
-        .should("contain", "Tuesday, 26th");
-      cy.get("@novemberShifts")
-        .eq(2)
-        .should("contain", "Monday, 25th");
+      cy.get("@novemberShifts").eq(0).should("contain", "Wednesday, 27th");
+      cy.get("@novemberShifts").eq(1).should("contain", "Tuesday, 26th");
+      cy.get("@novemberShifts").eq(2).should("contain", "Monday, 25th");
     });
 
     it("shows the edit mode button", () => {
@@ -127,7 +121,7 @@ describe("Shift list table", () => {
       cy.get('[data-cy="shift-lists"]')
         .find("input")
         .should("have.length", 7)
-        .each($el => {
+        .each(($el) => {
           cy.wrap($el).should("have.attr", "value", "false");
         });
     });
@@ -180,12 +174,8 @@ describe("Shift list table", () => {
       cy.get(
         '[data-cy="shift-list-2019 10"] > [data-cy=shift-list-group] > [data-cy=shift-list-item-1] > .v-list-item__action > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple'
       ).click();
-      cy.get("@checkboxes")
-        .first()
-        .should("have.attr", "value", "true");
-      cy.get("@checkboxes")
-        .last()
-        .should("have.attr", "value", "false");
+      cy.get("@checkboxes").first().should("have.attr", "value", "true");
+      cy.get("@checkboxes").last().should("have.attr", "value", "false");
       cy.get("[data-cy=shift-list-delete-button]")
         .should("contain", "Delete (2 shifts)")
         .should("not.have.attr", "disabled");
@@ -193,12 +183,8 @@ describe("Shift list table", () => {
       cy.get(
         '[data-cy="shift-list-2019 10"] > .v-subheader > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple'
       ).click();
-      cy.get("@checkboxes")
-        .first()
-        .should("have.attr", "value", "true");
-      cy.get("@checkboxes")
-        .last()
-        .should("have.attr", "value", "true");
+      cy.get("@checkboxes").first().should("have.attr", "value", "true");
+      cy.get("@checkboxes").last().should("have.attr", "value", "true");
       cy.get("[data-cy=shift-list-delete-button]")
         .should("contain", "Delete (3 shifts)")
         .should("not.have.attr", "disabled");
@@ -206,12 +192,8 @@ describe("Shift list table", () => {
       cy.get(
         '[data-cy="shift-list-2019 10"] > .v-subheader > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple'
       ).click();
-      cy.get("@checkboxes")
-        .first()
-        .should("have.attr", "value", "false");
-      cy.get("@checkboxes")
-        .last()
-        .should("have.attr", "value", "false");
+      cy.get("@checkboxes").first().should("have.attr", "value", "false");
+      cy.get("@checkboxes").last().should("have.attr", "value", "false");
       cy.get("[data-cy=shift-list-delete-button]")
         .should("contain", "Delete (1 shift)")
         .should("not.have.attr", "disabled");
@@ -246,7 +228,7 @@ describe("Shift list table", () => {
 
       cy.visit("http://localhost:8080/shifts");
 
-      cy.fixture("shifts.json").then(shifts => {
+      cy.fixture("shifts.json").then((shifts) => {
         cy.wait("@shifts");
 
         const remainingShifts = shifts.slice(1);

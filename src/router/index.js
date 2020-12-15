@@ -49,7 +49,7 @@ function nextFactory(context, middleware, index) {
 // Force reload the page when we try to reload a non-existent chunk. This should
 // only happen after an update, if the previous chunk was cached by the users
 // browser.
-router.onError(error => {
+router.onError((error) => {
   if (/loading chunk \d* failed./i.test(error.message)) {
     window.location.reload();
   }
@@ -76,13 +76,13 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeEach(async (to, from, next) => {
-  const isPublic = to.matched.some(record => record.meta.public);
+  const isPublic = to.matched.some((record) => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
-    record => record.meta.onlyWhenLoggedOut
+    (record) => record.meta.onlyWhenLoggedOut
   );
   const token = store.getters["auth/accessToken"];
   const loggedIn = store.getters["auth/loggedIn"];
-  const needToRequestNewAccessToken = exp => Date.now() >= exp * 1000;
+  const needToRequestNewAccessToken = (exp) => Date.now() >= exp * 1000;
 
   // // Refresh JWT token
   if (loggedIn) {
@@ -94,7 +94,7 @@ router.beforeEach(async (to, from, next) => {
       try {
         await store.dispatch("auth/REFRESH_TOKEN");
       } catch (error) {
-        await store.dispatch("auth/LOGOUT").catch(error => {
+        await store.dispatch("auth/LOGOUT").catch((error) => {
           log("Experienced error while logging out in router: ", error);
         });
         return next({ name: "home" });
@@ -146,7 +146,7 @@ router.beforeEach(async (to, from, next) => {
       "debug"
     ];
     const contractMatch = contracts.find(
-      contract => contract.uuid === to.params.contract
+      (contract) => contract.uuid === to.params.contract
     );
     // Redirect to 404 page we are looking for a contract that does not exist
     if (
@@ -187,7 +187,7 @@ router.beforeEach(async (to, from, next) => {
     "privacyagreement"
   ];
   const hasAcceptedPrivacyAgreement = store.state.user.dsgvo_accepted;
-  const canVisitWithoutPrivacyAgreement = name =>
+  const canVisitWithoutPrivacyAgreement = (name) =>
     WHITELISTED_PAGES.includes(name);
 
   // User has already agreed to the privacy agreement

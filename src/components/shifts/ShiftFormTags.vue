@@ -15,15 +15,15 @@
     @input="$emit('input', $event)"
     @change="search = null"
   >
-    <template v-slot:no-data>
+    <template #no-data>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
             <i18n path="shifts.tags.createHint" tag="span">
-              <template v-slot:search>
+              <template #search>
                 <strong>{{ search }}</strong>
               </template>
-              <template v-slot:enter>
+              <template #enter>
                 <kbd>{{ $t("app.enterKey") }}</kbd>
               </template>
             </i18n>
@@ -31,7 +31,7 @@
         </v-list-item-content>
       </v-list-item>
     </template>
-    <template v-slot:selection="{ attrs, item, selected }">
+    <template #selection="{ attrs, item, selected }">
       <v-chip
         v-bind="attrs"
         :input-value="selected"
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     remove(item) {
-      this.model = this.model.filter(chip => chip !== item);
+      this.model = this.model.filter((chip) => chip !== item);
       this.$emit("input", this.model);
     }
   }

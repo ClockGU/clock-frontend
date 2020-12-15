@@ -43,7 +43,7 @@ export default {
           ...this.$route.name,
           params: { ...this.$route.name.params, contract: uuid }
         })
-        .catch(error => {
+        .catch((error) => {
           log("Experienced an error while trying to change contracts: ", error);
         });
     }

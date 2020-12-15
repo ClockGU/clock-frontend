@@ -4,13 +4,13 @@
     :max-width="280"
     @confirm="logout"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
 
-    <template v-slot:title>{{ $t("logout.title") }}</template>
+    <template #title>{{ $t("logout.title") }}</template>
 
-    <template v-slot:text>
+    <template #text>
       {{ $t("logout.message") }}
     </template>
   </ConfirmationDialog>

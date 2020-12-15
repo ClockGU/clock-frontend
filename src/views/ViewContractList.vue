@@ -1,10 +1,10 @@
 <template>
   <base-layout alternative-portal-target="card-toolbar">
-    <template v-slot:card-top>
+    <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>
 
-    <template v-slot:pre-toolbar-title="{ action }">
+    <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown"
         icon
@@ -12,11 +12,11 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template v-slot:title>
+    <template #title>
       {{ editMode ? $tc("models.contract", 2) : "Select a contract" }}
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
         <v-col v-if="loading && !ignoreLoading" cols="10" md="6">
           <v-skeleton-loader
@@ -71,7 +71,7 @@
       </placeholder>
     </template>
 
-    <template v-slot:extra-content>
+    <template #extra-content>
       <FormDialog
         v-if="contractEntity !== null"
         entity-name="contract"
@@ -108,6 +108,11 @@ export default {
     ContractListCardSelect,
     FormDialog
   },
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
+  },
   data() {
     return {
       dialog: false,
@@ -117,11 +122,6 @@ export default {
       contractEntity: null,
       ignoreLoading: false
     };
-  },
-  beforeRouteLeave(to, from, next) {
-    this.ignoreLoading = true;
-
-    next();
   },
   computed: {
     ...mapGetters({
@@ -156,7 +156,9 @@ export default {
       }
     },
     editContract(uuid) {
-      const contract = this.contracts.find(contract => contract.uuid === uuid);
+      const contract = this.contracts.find(
+        (contract) => contract.uuid === uuid
+      );
       this.contractEntity = new Contract(contract);
     },
     newContract() {

@@ -28,7 +28,7 @@ export default {
     component: null
   }),
   created() {
-    UndrawFactory.get(this.name).then(resolvedComponent => {
+    UndrawFactory.get(this.name).then((resolvedComponent) => {
       this.component = resolvedComponent["default"];
     });
   }

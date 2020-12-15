@@ -6,7 +6,7 @@
       :nudge-width="400"
       transition="slide-y-transition"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-sheet
           class="py-2 orange darken-2 rounded-t"
           dark

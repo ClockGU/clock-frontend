@@ -1,6 +1,6 @@
 <template>
   <v-list-item :disabled="item.locked || !editable">
-    <template v-slot:default="{ active }">
+    <template #default="{ active }">
       <v-list-item-action v-if="editable">
         <v-checkbox
           :disabled="!editable || item.locked"

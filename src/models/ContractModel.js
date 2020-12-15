@@ -2,7 +2,7 @@ import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
-Number.prototype.pad = function(size) {
+Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
     s = "0" + s;

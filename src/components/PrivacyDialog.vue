@@ -24,7 +24,7 @@
 
       <v-card-text class="pb-0">
         <i18n path="privacyagreement.text" tag="p">
-          <template v-slot:privacyAgreement>
+          <template #privacyAgreement>
             <router-link :to="{ name: 'privacy' }">{{
               $t("app.privacyagreement")
             }}</router-link>

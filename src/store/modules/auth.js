@@ -10,9 +10,9 @@ const state = {
 };
 
 const getters = {
-  loggedIn: state => state.accessToken !== null,
-  accessToken: state => state.accessToken,
-  refreshToken: state => state.refreshToken
+  loggedIn: (state) => state.accessToken !== null,
+  accessToken: (state) => state.accessToken,
+  refreshToken: (state) => state.refreshToken
 };
 
 const actions = {
@@ -40,7 +40,7 @@ const actions = {
     commit("LOGOUT");
     // We need to catch errors here. Otherwise we get the "NavigationDuplicated" error.
     // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
-    return router.push({ name: "home" }).catch(error => {
+    return router.push({ name: "home" }).catch((error) => {
       log("Experienced error while logging out: ", error);
       return Promise.reject(error);
     });

@@ -6,7 +6,7 @@
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
   >
-    <template v-slot:activator="{ attrs, on }">
+    <template #activator="{ attrs, on }">
       <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">
         <v-icon :left="$vuetify.breakpoint.smAndUp">
           {{ icons.mdiTranslate }}
@@ -51,7 +51,7 @@ export default {
   computed: {
     selectedLocale() {
       const match = this.locales.find(
-        locale => locale.locale === this.$i18n.locale
+        (locale) => locale.locale === this.$i18n.locale
       );
       return match.name || this.locales[0].name;
     }

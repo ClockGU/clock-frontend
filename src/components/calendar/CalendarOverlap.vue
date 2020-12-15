@@ -116,10 +116,10 @@ export default {
       });
     },
     otherShifts() {
-      const overlappingId = this.focussedOverlap.map(shift => shift.uuid);
+      const overlappingId = this.focussedOverlap.map((shift) => shift.uuid);
       return this.shifts
-        .filter(shift => !overlappingId.includes(shift.uuid))
-        .map(shift => {
+        .filter((shift) => !overlappingId.includes(shift.uuid))
+        .map((shift) => {
           return {
             name: this.$t(`shifts.types.${shift.type}`),
             start: new Date(shift.date.start),
@@ -139,7 +139,7 @@ export default {
   },
   watch: {
     index: {
-      handler: function() {
+      handler: function () {
         this.focus = format(this.focussedOverlap[0].end, "yyyy-MM-dd");
       },
       immediate: true
@@ -153,7 +153,7 @@ export default {
       this.editShift(event.event.uuid);
     },
     editShift(uuid) {
-      const shift = this.shifts.find(shift => shift.uuid === uuid);
+      const shift = this.shifts.find((shift) => shift.uuid === uuid);
       this.shiftEntity = new Shift(shift);
       this.showForm = true;
     },

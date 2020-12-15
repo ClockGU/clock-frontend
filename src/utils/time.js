@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
 
-Number.prototype.pad = function(size) {
+Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
     s = "0" + s;
@@ -19,7 +19,7 @@ export function timedeltaToMinutes(timedelta) {
   // eslint-disable-next-line no-unused-vars
   const [hours, minutes, seconds] = timeString
     .split(":")
-    .map(item => parseInt(item));
+    .map((item) => parseInt(item));
   days = parseInt(days);
 
   return (days * 24 + hours) * 60 + minutes;

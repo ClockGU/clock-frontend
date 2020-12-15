@@ -12,7 +12,7 @@ function mapApiResponse(response) {
 const BASE_URL = "/clockedinshifts/";
 
 const ClockService = {
-  create: async function(data) {
+  create: async function (data) {
     const requestData = {
       method: "post",
       url: BASE_URL,
@@ -21,31 +21,31 @@ const ClockService = {
 
     return new Promise((resolve, reject) => {
       return ApiService.customRequest(requestData)
-        .then(response => {
+        .then((response) => {
           const shift = mapApiResponse(response.data);
 
           return resolve(shift);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  get: async function() {
+  get: async function () {
     return new Promise((resolve, reject) => {
       return ApiService.get(BASE_URL)
-        .then(response => {
+        .then((response) => {
           const shift = mapApiResponse(response.data);
           const newResponse = { ...response, shift };
 
           return resolve(newResponse);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  delete: async function(uuid) {
+  delete: async function (uuid) {
     return ApiService.delete(`${BASE_URL}${uuid}/`);
   }
 };

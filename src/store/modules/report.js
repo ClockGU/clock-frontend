@@ -6,13 +6,13 @@ const state = {
 };
 
 const getters = {
-  loading: state => state.status === "loading",
-  reports: state => state.reports
+  loading: (state) => state.status === "loading",
+  reports: (state) => state.reports
 };
 
 const mutations = {
   delete(state, payload) {
-    state.reports = state.reports.filter(report => report.uuid !== payload);
+    state.reports = state.reports.filter((report) => report.uuid !== payload);
   },
   set(state, payload) {
     state.reports = payload;

@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-text-field
         v-model="data"
         :data-time-value="data"
@@ -165,7 +165,7 @@ export default {
     // When dynamically adapt the end time, when we change the start time, then
     // we also need to set `this.data` like we do in created().
     "value.date": {
-      handler: function() {
+      handler: function () {
         // Do nothing if we are editing the start time.
         if (this.type === "start") return;
 

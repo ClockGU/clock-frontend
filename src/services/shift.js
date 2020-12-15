@@ -20,58 +20,58 @@ function mapApiResponse(response) {
 const BASE_URL = "/shifts/";
 
 const ShiftService = {
-  create: function(data) {
+  create: function (data) {
     return ApiService.post(BASE_URL, { ...data });
   },
-  get: async function(uuid) {
+  get: async function (uuid) {
     return new Promise((resolve, reject) => {
       return ApiService.get(BASE_URL + `${uuid}`)
-        .then(response => {
+        .then((response) => {
           const shift = mapApiResponse(response.data);
           // TODO: we might need to use `{ ...response, data: shift }` here!?
           const newResponse = { ...response, shift };
 
           return resolve(newResponse);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  list: async function() {
+  list: async function () {
     return new Promise((resolve, reject) => {
       ApiService.get(BASE_URL)
-        .then(response => {
-          const data = response.data.map(item => mapApiResponse(item));
+        .then((response) => {
+          const data = response.data.map((item) => mapApiResponse(item));
           const newResponse = { ...response, data };
           resolve(newResponse);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  update: async function(data, uuid) {
+  update: async function (data, uuid) {
     return new Promise((resolve, reject) => {
       return ApiService.patch(`${BASE_URL}${uuid}/`, data)
-        .then(response => {
+        .then((response) => {
           const shift = mapApiResponse(response.data);
           store.dispatch("shift/updateShift", shift);
 
           return resolve(shift);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  delete: async function(uuid) {
+  delete: async function (uuid) {
     return new Promise((resolve, reject) => {
       return ApiService.delete(`${BASE_URL}${uuid}/`)
-        .then(response => {
+        .then((response) => {
           return resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

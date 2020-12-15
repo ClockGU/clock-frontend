@@ -22,9 +22,7 @@ describe("The public Sidebar", () => {
   });
 
   it("shows icons and text when extended", () => {
-    cy.get("header")
-      .find("button")
-      .click();
+    cy.get("header").find("button").click();
     cy.contains("div", "Home").should("be.visible");
   });
 
@@ -36,7 +34,7 @@ describe("The public Sidebar", () => {
 
     cy.get("[data-cy=menu-list]")
       .find(".v-list-item__content")
-      .each($el => {
+      .each(($el) => {
         expect(PUBLIC_LINKS.indexOf($el[0].innerText)).to.not.equal(-1);
       });
   });
@@ -57,7 +55,7 @@ describe("The private Sidebar", () => {
 
     cy.get("[data-cy=menu-list]")
       .find(".v-list-item__content")
-      .each($el => {
+      .each(($el) => {
         expect(
           PARTIALLY_LOGGED_IN_LINKS.indexOf($el[0].innerText)
         ).to.not.equal(-1);
@@ -82,7 +80,7 @@ describe("The private Sidebar", () => {
 
     cy.get("[data-cy=menu-list]")
       .find(".v-list-item__content")
-      .each($el => {
+      .each(($el) => {
         expect(LOGGED_IN_LINKS.indexOf($el[0].innerText)).to.not.equal(-1);
       });
   });

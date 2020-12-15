@@ -18,7 +18,7 @@
         </v-col>
         <v-col cols="9">
           <v-simple-table>
-            <template v-slot:default>
+            <template #default>
               <tbody>
                 <tr v-for="row in azkData" :key="row.name">
                   <td>{{ row.name }}</td>

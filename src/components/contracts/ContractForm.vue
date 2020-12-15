@@ -89,7 +89,7 @@
           offset-y
           min-width="290px"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-text-field
               v-model="carryoverTargetDate"
               :label="$t('contracts.carryover.dateLabel')"
@@ -131,15 +131,15 @@ import {
 
 import { mapGetters } from "vuex";
 
-const worktimeNotZero = value => value !== "00:00";
-const validWorktime = value => {
+const worktimeNotZero = (value) => value !== "00:00";
+const validWorktime = (value) => {
   try {
     return value.split(":")[1] <= parseInt(59);
   } catch {
     return false;
   }
 };
-const validCarryoverMinutes = value => {
+const validCarryoverMinutes = (value) => {
   return /^(-?)([0-9][0-9]):[0-5][0-9]$/.test(value);
 };
 
@@ -206,7 +206,7 @@ export default {
     },
     sortedShifts() {
       const shifts = this.shifts.filter(
-        shift => shift.contract === this.entity.uuid
+        (shift) => shift.contract === this.entity.uuid
       );
       return shifts.sort((a, b) => {
         return new Date(a.date.start) - new Date(b.date.start);
@@ -363,7 +363,7 @@ export default {
   },
   watch: {
     contract: {
-      handler: function() {
+      handler: function () {
         this.$emit("update", { contract: this.contract, valid: this.valid });
       },
       deep: true

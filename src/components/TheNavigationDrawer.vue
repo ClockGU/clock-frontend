@@ -31,7 +31,7 @@
     </v-skeleton-loader>
     <v-list v-else>
       <v-list-group no-action>
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-avatar>
             <v-avatar
               size="32px"
@@ -58,7 +58,7 @@
         </v-list-item>
 
         <LogoutDialog>
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <v-list-item data-cy="menu-logout" v-on="on">
               <v-list-item-content>
                 <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>

@@ -3,11 +3,11 @@
     alternative-portal-target="card-toolbar"
     :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
   >
-    <template v-slot:card-top>
+    <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>
 
-    <template v-slot:pre-toolbar-title="{ action }">
+    <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown"
         icon
@@ -15,11 +15,11 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template v-slot:title>
+    <template #title>
       {{ $t("app.settings") }}
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <v-tabs vertical class="tabs">
         <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>

@@ -99,7 +99,7 @@
           :data-cy="'options-' + i"
         >
           <v-menu offset-y>
-            <template v-slot:activator="{ on }">
+            <template #activator="{ on }">
               <v-btn icon v-on="on">
                 <v-icon color="grey lighten-1">
                   {{ icons.mdiDotsVertical }}
@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import uuid from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
 import { mdiDotsVertical } from "@mdi/js";
 const { utcToZonedTime, format } = require("date-fns-tz");
@@ -219,7 +219,7 @@ export default {
       if (this.shiftEntity === null) return null;
 
       return this.pseudoShifts.findIndex(
-        shift => shift.uuid === this.shiftEntity.uuid
+        (shift) => shift.uuid === this.shiftEntity.uuid
       );
     },
     separateDays() {
@@ -267,7 +267,7 @@ export default {
     },
     remove(uuid) {
       this.pseudoShifts = this.pseudoShifts.filter(
-        shift => shift.uuid !== uuid
+        (shift) => shift.uuid !== uuid
       );
     },
     editShift(shift) {
@@ -280,7 +280,7 @@ export default {
     },
     save() {
       this.disabled = true;
-      const shiftPromises = this.pseudoShifts.map(shift =>
+      const shiftPromises = this.pseudoShifts.map((shift) =>
         ShiftService.create(shift.toPayload())
       );
 
@@ -297,7 +297,7 @@ export default {
       start = utcToZonedTime(start, this.timezone);
       const shift = new Shift({
         ...this.shift,
-        uuid: uuid(),
+        uuid: uuidv4(),
         date: { start: start, end: endOfDay(start) }
       });
 
@@ -308,7 +308,7 @@ export default {
       end = utcToZonedTime(end, this.timezone);
       const shift = new Shift({
         ...this.shift,
-        uuid: uuid(),
+        uuid: uuidv4(),
         date: { start: startOfDay(end), end: end }
       });
 
@@ -323,10 +323,10 @@ export default {
         1,
         this.separateDays.length - 1
       );
-      const newShifts = middleShifts.map(date => {
+      const newShifts = middleShifts.map((date) => {
         return new Shift({
           ...this.shift,
-          uuid: uuid(),
+          uuid: uuidv4(),
           date: {
             start: startOfDay(date),
             end: endOfDay(date)

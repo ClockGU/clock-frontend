@@ -25,7 +25,7 @@ const AuthService = {
   /**
    * Retrieve data about logged in user from API.
    */
-  getUser: async function() {
+  getUser: async function () {
     const url = "/auth/users/me/";
     return ApiService.get(url);
   },
@@ -33,11 +33,11 @@ const AuthService = {
   /**
    * Refresh the access token.
    **/
-  refreshToken: refreshToken => {
+  refreshToken: (refreshToken) => {
     return ApiService.post("/auth/jwt/refresh", { refresh: refreshToken });
   },
 
-  updateSettings: settings => {
+  updateSettings: (settings) => {
     return ApiService.patch("/auth/users/me/", settings);
   },
 

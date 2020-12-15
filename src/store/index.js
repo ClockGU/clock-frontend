@@ -27,9 +27,9 @@ export default new Vuex.Store({
     userLoading: false
   },
   getters: {
-    selectedContract: state => state.selectedContract,
-    user: state => state.user,
-    userLoading: state => state.userLoading
+    selectedContract: (state) => state.selectedContract,
+    user: (state) => state.user,
+    userLoading: (state) => state.userLoading
   },
   actions: {
     changeLocale({ commit }, locale) {
@@ -42,7 +42,7 @@ export default new Vuex.Store({
     GET_USER({ commit, dispatch, state }) {
       state.userLoading = true;
       return AuthService.getUser()
-        .then(response => {
+        .then((response) => {
           commit("SET_USER", response.data);
           dispatch("changeLocale", response.data.language);
 

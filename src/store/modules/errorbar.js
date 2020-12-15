@@ -5,13 +5,13 @@ const defaultState = {
 };
 
 const state = {
-  snackbar: {
+  errorbar: {
     ...defaultState
   }
 };
 
 const getters = {
-  snack: (status) => status.snackbar.snack
+  snack: (status) => status.errorbar.snack
 };
 
 const actions = {
@@ -27,10 +27,10 @@ const actions = {
 
 const mutations = {
   setSnack(state, payload) {
-    state.snackbar = { ...state.snackbar, ...payload };
+    state.errorbar = { ...state.errorbar, ...payload };
   },
   resetSnack(state) {
-    state.snackbar = defaultState;
+    state.errorbar = defaultState;
   }
 };
 

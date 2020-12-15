@@ -12,7 +12,7 @@
       offset-y
       min-width="290px"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-btn text v-bind="attrs" v-on="on">
           {{ date }}
         </v-btn>
@@ -51,11 +51,6 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiChevronLeft, mdiChevronRight }
-  }),
-  methods: {
-    updateDate(value) {
-      this.date = value;
-    }
-  }
+  })
 };
 </script>

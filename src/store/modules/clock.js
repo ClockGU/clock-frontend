@@ -6,8 +6,8 @@ const state = {
 };
 
 const getters = {
-  clockedShift: state => state.clockedShift,
-  loading: state => state.status === "loading"
+  clockedShift: (state) => state.clockedShift,
+  loading: (state) => state.status === "loading"
 };
 
 const mutations = {
@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
   CLOCK_SHIFT({ commit }, payload) {
-    return ClockService.create(payload).then(response => {
+    return ClockService.create(payload).then((response) => {
       payload.id = response.uuid;
 
       commit("CLOCK_SHIFT", payload);

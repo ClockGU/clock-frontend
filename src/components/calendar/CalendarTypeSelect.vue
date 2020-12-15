@@ -1,6 +1,6 @@
 <template>
   <v-menu bottom right>
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
         <span>{{ valueName }}</span>
         <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
@@ -45,7 +45,7 @@ export default {
       ];
     },
     valueName() {
-      return this.types.find(item => item.value === this.value).text;
+      return this.types.find((item) => item.value === this.value).text;
     }
   }
 };

@@ -9,18 +9,18 @@ const state = {
 };
 
 const getters = {
-  shifts: state => state.shifts,
-  stagedShift: state => state.stagedShift,
-  pseudoShifts: state => state.pseudoShifts,
-  currentShifts: state =>
-    state.shifts.filter(shift => isThisMonth(parseISO(shift.date.start))),
+  shifts: (state) => state.shifts,
+  stagedShift: (state) => state.stagedShift,
+  pseudoShifts: (state) => state.pseudoShifts,
+  currentShifts: (state) =>
+    state.shifts.filter((shift) => isThisMonth(parseISO(shift.date.start))),
   shiftsOfContract: (state, getters, rootState) =>
     state.shifts.filter(
-      shift => shift.contract === rootState.selectedContract.uuid
+      (shift) => shift.contract === rootState.selectedContract.uuid
     ),
-  loading: state => state.status === "loading",
-  usedTags: state =>
-    state.shifts.reduce(function(a, b) {
+  loading: (state) => state.status === "loading",
+  usedTags: (state) =>
+    state.shifts.reduce(function (a, b) {
       return a.concat(b.tags);
     }, [])
 };
@@ -31,22 +31,22 @@ const mutations = {
   },
   updateShift(state, payload) {
     state.shifts = [
-      ...state.shifts.filter(shift => shift.uuid !== payload.uuid),
+      ...state.shifts.filter((shift) => shift.uuid !== payload.uuid),
       payload
     ];
   },
   updatePseudoShift(state, payload) {
     state.pseudoShifts = [
-      ...state.pseudoShifts.filter(shift => shift.uuid !== payload.uuid),
+      ...state.pseudoShifts.filter((shift) => shift.uuid !== payload.uuid),
       payload
     ];
   },
   deleteShift(state, payload) {
-    state.shifts = state.shifts.filter(shift => shift.uuid !== payload);
+    state.shifts = state.shifts.filter((shift) => shift.uuid !== payload);
   },
   deletePseudoShift(state, payload) {
     state.pseudoShifts = state.pseudoShifts.filter(
-      shift => shift.uuid !== payload
+      (shift) => shift.uuid !== payload
     );
   },
   setShifts(state, payload) {

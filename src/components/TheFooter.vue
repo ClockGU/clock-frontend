@@ -17,12 +17,12 @@
           <v-col cols="10">
             <p>&copy; {{ new Date().getFullYear() }} Clock</p>
             <i18n path="footer.acknowledgeGU.text" tag="p">
-              <template v-slot:link>
+              <template #link>
                 <base-link
                   class="text-no-wrap"
                   :href="$t('footer.acknowledgeGU.url')"
                 >
-                  <template v-slot:default>{{
+                  <template #default>{{
                     $t("footer.acknowledgeGU.university")
                   }}</template>
                 </base-link>

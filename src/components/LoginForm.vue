@@ -5,9 +5,7 @@
 
       <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
         <v-toolbar :elevation="0">
-          <v-toolbar-title>
-            Login Form
-          </v-toolbar-title>
+          <v-toolbar-title> Login Form </v-toolbar-title>
         </v-toolbar>
       </portal>
 

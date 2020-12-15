@@ -61,9 +61,7 @@ describe("Viewing the calendar", () => {
 
   context("general", () => {
     it("has an create shift button", () => {
-      cy.get("[data-cy=calendar-create-button]")
-        .should("be.visible")
-        .click();
+      cy.get("[data-cy=calendar-create-button]").should("be.visible").click();
       cy.url().should("contain", "/shifts/create");
     });
   });
@@ -84,7 +82,7 @@ describe("Viewing the calendar", () => {
         .should("have.length", "4");
     });
 
-    ["day", "month", "week", "4days"].forEach(type => {
+    ["day", "month", "week", "4days"].forEach((type) => {
       const titles = {
         day: "November 20th 2019",
         month: "November 2019",

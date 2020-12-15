@@ -176,7 +176,7 @@ export default {
     },
     contract() {
       return new Contract(
-        this.contracts.find(contract => contract.uuid === this.shift.contract)
+        this.contracts.find((contract) => contract.uuid === this.shift.contract)
       );
     },
     valid() {

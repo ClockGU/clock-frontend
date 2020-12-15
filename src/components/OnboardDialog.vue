@@ -80,7 +80,7 @@
           <v-item
             v-for="n in titles.length"
             :key="`btn-${n}`"
-            v-slot:default="{ active, toggle }"
+            v-slot="{ active, toggle }"
           >
             <v-btn :input-value="active" icon @click="toggle">
               <v-icon>{{ icons.mdiRecord }}</v-icon>
@@ -180,7 +180,7 @@ export default {
       this.contractFormValid = event.valid;
     },
     loadService() {
-      this.serviceRepository.serviceLoader().then(service => {
+      this.serviceRepository.serviceLoader().then((service) => {
         this.service = service["default"];
       });
     },

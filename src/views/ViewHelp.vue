@@ -10,9 +10,7 @@
           @click="action"
         ></v-app-bar-nav-icon>
 
-        <v-toolbar-title>
-          Help
-        </v-toolbar-title>
+        <v-toolbar-title> Help </v-toolbar-title>
       </v-toolbar>
     </portal>
 

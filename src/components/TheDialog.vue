@@ -9,7 +9,7 @@
     @keydown.esc="$emit('close')"
     @input="$emit('input', false)"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
 
@@ -44,19 +44,19 @@ export default {
     };
   },
   watch: {
-    dialog: function(value) {
+    dialog: function (value) {
       if (!value) return;
 
       this.$emit("input", value);
     },
-    value: function(value) {
+    value: function (value) {
       if (value) return;
 
       this.dialog = false;
     }
   },
   created() {
-    const close = e => {
+    const close = (e) => {
       const ESC = 27;
       if (e.keyCode !== ESC) return;
       this.$emit("close");

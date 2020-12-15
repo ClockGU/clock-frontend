@@ -14,9 +14,7 @@
     </v-card>
 
     <v-card>
-      <v-card-title>
-        Short shift
-      </v-card-title>
+      <v-card-title> Short shift </v-card-title>
 
       <v-card-text>
         Create a short shift, that is exactly 5 minutes long. Will prompt the
@@ -29,9 +27,7 @@
     </v-card>
 
     <v-card>
-      <v-card-title>
-        Overflow shift
-      </v-card-title>
+      <v-card-title> Overflow shift </v-card-title>
 
       <v-card-text>
         Create a overflow shift, that starts on one day and ends on the other.
@@ -44,9 +40,7 @@
     </v-card>
 
     <v-card>
-      <v-card-title>
-        Very long shift
-      </v-card-title>
+      <v-card-title> Very long shift </v-card-title>
 
       <v-card-text>
         Create a very long shift, spanning multiple days. Will prompt the "shift
@@ -87,7 +81,7 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     }
   },
   methods: {

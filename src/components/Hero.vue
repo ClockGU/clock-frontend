@@ -47,12 +47,12 @@ import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
 export default {
   name: "SectionHero",
   components: { ButtonGoetheOAuth },
-  data: () => ({
-    loading: false
-  }),
   provide: {
     theme: { isDark: true }
   },
+  data: () => ({
+    loading: false
+  }),
 
   computed: {
     minHeight() {

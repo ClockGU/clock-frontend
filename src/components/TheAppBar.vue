@@ -28,9 +28,7 @@
       <template v-if="showLoggedOutButtons">
         <v-btn text :to="{ name: 'faq' }">FAQ</v-btn>
 
-        <ButtonGoetheOAuth text>
-          Login
-        </ButtonGoetheOAuth>
+        <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
 
       <v-skeleton-loader
@@ -39,7 +37,7 @@
         type="avatar"
       >
         <v-menu offset-y>
-          <template v-slot:activator="{ on }" class="ml-4">
+          <template #activator="{ on }" class="ml-4">
             <div class="d-flex align-center" v-on="on">
               <v-avatar
                 size="30px"
@@ -70,7 +68,7 @@
             </v-list-item>
 
             <LogoutDialog>
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-list-item data-cy="menu-logout" v-on="on">
                   <v-list-item-content>
                     {{ $t("actions.logout") }}

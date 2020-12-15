@@ -9,7 +9,7 @@ Cypress.Commands.add("login", () => {
       email: "cypress@example.com",
       password: "cypress"
     }
-  }).then(response => {
+  }).then((response) => {
     accessToken = response.body.access;
 
     window.localStorage.setItem(
@@ -50,7 +50,7 @@ Cypress.Commands.add("createContract", () => {
       name: "ABC",
       start_date: "2019-11-01"
     }
-  }).then(response => {
+  }).then((response) => {
     contractUUID = response.body.id;
   });
 });

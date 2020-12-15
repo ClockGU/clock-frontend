@@ -22,18 +22,14 @@
       60629 Frankfurt<br />
       Telefon: +49-69-798-0 | Fax: +49-69-798-18383<br />
       Internet:
-      <a href="https://www.uni-frankfurt.de/">
-        https://www.uni-frankfurt.de
-      </a>
+      <a href="https://www.uni-frankfurt.de/"> https://www.uni-frankfurt.de </a>
     </p>
 
     <p>
       Bei Anfragen oder Beschwerden zum Datenschutz können Sie sich mit den
       Datenschutz­beauftragten der Goethe-Universität in Verbindung setzen.
     </p>
-    <h2>
-      Kontaktdaten der Datenschutzbeauftragten
-    </h2>
+    <h2>Kontaktdaten der Datenschutzbeauftragten</h2>
 
     <p>
       Johann Wolfgang Goethe-Universität Frankfurt am Main<br />
@@ -47,9 +43,7 @@
       </a>
     </p>
 
-    <h2>
-      Rechte und Beschwerdemöglichkeiten
-    </h2>
+    <h2>Rechte und Beschwerdemöglichkeiten</h2>
 
     <p>
       Sie haben das Recht, sich bei datenschutzrechtlichen Problemen bei der
@@ -73,21 +67,11 @@
     Ihrer gespeicherten personen­bezogenen Daten:
 
     <ul class="mb-4">
-      <li>
-        Recht auf Auskunft,
-      </li>
-      <li>
-        Recht auf Berichtigung oder Löschung,
-      </li>
-      <li>
-        Recht auf Einschränkung der Verarbeitung,
-      </li>
-      <li>
-        Recht auf Widerruf Ihrer Einwilligung,
-      </li>
-      <li>
-        Recht auf Widerspruch gegen die Verarbeitung,
-      </li>
+      <li>Recht auf Auskunft,</li>
+      <li>Recht auf Berichtigung oder Löschung,</li>
+      <li>Recht auf Einschränkung der Verarbeitung,</li>
+      <li>Recht auf Widerruf Ihrer Einwilligung,</li>
+      <li>Recht auf Widerspruch gegen die Verarbeitung,</li>
       <li>
         Recht auf Datenübertragbarkeit, in einer gängigen, strukturierten und
         maschinenlesbaren Form (ab dem 25. Mai 2018).
@@ -107,9 +91,7 @@
       Art der gespeicherten Daten, Zweck und Rechtsgrundlagen, Löschungsfristen
     </h2>
 
-    <h3>
-      Zweck und Dauer der Erfassung
-    </h3>
+    <h3>Zweck und Dauer der Erfassung</h3>
 
     <p>
       Wir verarbeiten und speichern Ihre personenbezogenen Daten nur für den
@@ -123,9 +105,7 @@
       beeinträchtigt und eine Löschung wegen der besonderen Art der Speicherung
       keinen unverhältnismäßig hohen Aufwand verursacht.
     </p>
-    <h3>
-      Umgang mit personenbezogenen Daten
-    </h3>
+    <h3>Umgang mit personenbezogenen Daten</h3>
 
     <p>
       Personenbezogene Daten sind Informationen, mit deren Hilfe eine natürliche
@@ -158,9 +138,7 @@
       Regelungen erhoben und verarbeitet.
     </p>
 
-    <h3>
-      Logdaten
-    </h3>
+    <h3>Logdaten</h3>
 
     <p>
       Wenn Sie unsere Website aufrufen, erheben wir Daten, die für uns technisch
@@ -193,9 +171,7 @@
       kommen.
     </p>
 
-    <h3>
-      Cookies
-    </h3>
+    <h3>Cookies</h3>
 
     <p>
       Cookies sind kleine Dateien, die es ermöglichen, auf Ihrem Zugriffsgerät
@@ -230,9 +206,7 @@
       Tag.
     </p>
 
-    <h3>
-      Matomo
-    </h3>
+    <h3>Matomo</h3>
 
     <p>
       Unsere Website verwendet Matomo. Dabei handelt es sich um einen

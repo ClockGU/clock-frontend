@@ -21,6 +21,11 @@ import ShiftService from "@/services/shift";
 export default {
   name: "ViewShiftForm",
   components: { ShiftForm },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.prevRoute = from;
+    });
+  },
   props: {
     now: {
       type: Date,
@@ -37,11 +42,6 @@ export default {
       endpoint: null,
       prevRoute: null
     };
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.prevRoute = from;
-    });
   },
   computed: {
     redirectTo() {
@@ -79,7 +79,7 @@ export default {
     }
   },
   async created() {
-    this.endpoint = data =>
+    this.endpoint = (data) =>
       this.uuid === null
         ? ShiftService.create(data.toPayload())
         : ShiftService.update(data.toPayload(), this.uuid);
@@ -87,8 +87,8 @@ export default {
     Promise.all([
       this.$store.dispatch("shift/queryShifts"),
       this.$store.dispatch("contract/queryContracts")
-    ]).then(values => {
-      const entity = values[0].find(shift => shift.uuid === this.uuid);
+    ]).then((values) => {
+      const entity = values[0].find((shift) => shift.uuid === this.uuid);
       if (entity !== undefined) {
         this.entity = new Shift(entity);
       } else {

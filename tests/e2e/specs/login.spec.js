@@ -46,9 +46,7 @@ describe("Login Page", () => {
 
   it("has a button to make password visible", () => {
     cy.get(".v-input__append-inner").click();
-    cy.get("input[type=text]")
-      .get("#password")
-      .type("cypress");
+    cy.get("input[type=text]").get("#password").type("cypress");
 
     cy.get(".v-input__append-inner").click();
     cy.get("input[type=password]").get("#password");

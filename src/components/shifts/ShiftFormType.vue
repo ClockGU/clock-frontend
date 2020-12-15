@@ -34,7 +34,7 @@ export default {
   }),
   computed: {
     types() {
-      return SHIFT_TYPES.map(type => {
+      return SHIFT_TYPES.map((type) => {
         return {
           text: this.$t(`shifts.types.${type.value}`),
           value: type.value
@@ -46,7 +46,7 @@ export default {
         return this.value.value;
       },
       set(value) {
-        const selected = this.types.find(type => type.value === value);
+        const selected = this.types.find((type) => type.value === value);
         this.$emit("input", selected);
       }
     }

@@ -2,18 +2,18 @@
   <div>
     <Hero />
     <HeroPlaceholder name="UndrawSynchronize">
-      <template v-slot:title>
+      <template #title>
         {{ $t("hero.landing.blurb1.title") }}
       </template>
-      <template v-slot:content>
+      <template #content>
         {{ $t("hero.landing.blurb1.text") }}
       </template>
     </HeroPlaceholder>
     <HeroPlaceholder name="UndrawDigitalNomad" rtl>
-      <template v-slot:title>
+      <template #title>
         {{ $t("hero.landing.blurb2.title") }}
       </template>
-      <template v-slot:content>
+      <template #content>
         {{ $t("hero.landing.blurb2.text") }}
       </template>
     </HeroPlaceholder>

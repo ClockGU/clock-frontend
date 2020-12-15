@@ -14,19 +14,19 @@
         }"
         @cancel="resetForm"
       >
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn text color="error" v-on="on">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>
 
-        <template v-slot:title>
+        <template #title>
           {{ $t("settings.account.dialogTitle") }}
         </template>
 
-        <template v-slot:text>
+        <template #text>
           <i18n path="settings.account.dialogText" tag="span">
-            <template v-slot:email>
+            <template #email>
               <strong>{{ user.email }}</strong>
             </template>
           </i18n>
@@ -65,7 +65,7 @@ export default {
     email: {
       required,
       email,
-      sameAs: sameAs(function() {
+      sameAs: sameAs(function () {
         return this.user.email;
       })
     }

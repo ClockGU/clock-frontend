@@ -1,9 +1,7 @@
 <template>
   <v-container>
     <h1>Impressum</h1>
-    <p>
-      Angaben gemäß § 5 TMG
-    </p>
+    <p>Angaben gemäß § 5 TMG</p>
     <p>
       Johann Wolfgang Goethe-Universität Frankfurt am Main<br />
       Theodor-W.-Adorno-Platz 1<br />
@@ -11,9 +9,7 @@
       E-Mail: GeoMat Team<br />
     </p>
 
-    <h2>
-      Ansprechpartner
-    </h2>
+    <h2>Ansprechpartner</h2>
 
     <p>
       Bertram Bühner, Zentrum Naturwissenschaften<br />
@@ -23,13 +19,9 @@
       </a>
     </p>
 
-    <h2>
-      Haftungsausschluss
-    </h2>
+    <h2>Haftungsausschluss</h2>
 
-    <h3>
-      Haftung für Links
-    </h3>
+    <h3>Haftung für Links</h3>
 
     <p>
       Diese Web-App enthält Links zu externen Webseiten Dritter, auf deren
@@ -44,9 +36,7 @@
       Rechtsverletzungen werden wir derartige Links umgehend entfernen.
     </p>
 
-    <h3>
-      Urheberrecht
-    </h3>
+    <h3>Urheberrecht</h3>
 
     <p>
       Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen

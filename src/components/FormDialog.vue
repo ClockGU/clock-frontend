@@ -22,13 +22,13 @@
         <v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
         <v-toolbar-items v-if="$vuetify.breakpoint.smAndDown">
           <ConfirmationDialog @confirm="destroy">
-            <template v-slot:activator="{ on }">
+            <template #activator="{ on }">
               <v-btn v-if="uuid !== null" icon v-on="on">
                 <v-icon>{{ icons.mdiDelete }}</v-icon>
               </v-btn>
             </template>
 
-            <template v-slot:title>
+            <template #title>
               {{
                 $t("buttons.deleteEntity", {
                   entity: $tc(`models.${entityName}`)
@@ -36,7 +36,7 @@
               }}
             </template>
 
-            <template v-slot:text>
+            <template #text>
               {{
                 $t(`dialogs.textConfirmDelete`, {
                   selectedEntity: $tc(`models.selected${captializedEntityName}`)
@@ -85,7 +85,7 @@
         <v-spacer></v-spacer>
 
         <ConfirmationDialog v-if="uuid !== null" @confirm="destroy">
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <v-btn
               data-cy="entity-form-delete-button"
               text
@@ -96,7 +96,7 @@
             </v-btn>
           </template>
 
-          <template v-slot:title>
+          <template #title>
             {{
               $t("buttons.deleteEntity", {
                 entity: $tc(`models.${entityName}`)
@@ -104,7 +104,7 @@
             }}
           </template>
 
-          <template v-slot:text>
+          <template #text>
             {{
               $t(`dialogs.textConfirmDelete`, {
                 selectedEntity: $tc(`models.selected${captializedEntityName}`)
@@ -171,7 +171,7 @@ export default {
     // Make a copy of the entity we will save.
     this.toSave = this.entity;
 
-    const close = e => {
+    const close = (e) => {
       const ESC = 27;
       if (e.keyCode !== ESC) return;
       this.closeDialog();
@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     loadService() {
-      this.serviceRepository.serviceLoader().then(service => {
+      this.serviceRepository.serviceLoader().then((service) => {
         this.service = service["default"];
       });
     },

@@ -24,9 +24,7 @@
           <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="save">
-            Save
-          </v-btn>
+          <v-btn text @click="save"> Save </v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
@@ -96,7 +94,7 @@ export default {
     // Make a copy of the shift we will save.
     this.shiftToSave = this.shiftEntity;
 
-    const close = e => {
+    const close = (e) => {
       const ESC = 27;
       if (e.keyCode !== ESC) return;
       this.closeMainDialog();

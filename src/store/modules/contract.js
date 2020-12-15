@@ -6,8 +6,8 @@ const state = {
 };
 
 const getters = {
-  contracts: state => state.contracts,
-  loading: state => state.status === "loading"
+  contracts: (state) => state.contracts,
+  loading: (state) => state.status === "loading"
 };
 
 const mutations = {
@@ -16,13 +16,13 @@ const mutations = {
   },
   updateContract(state, payload) {
     state.contracts = [
-      ...state.contracts.filter(contract => contract.uuid !== payload.uuid),
+      ...state.contracts.filter((contract) => contract.uuid !== payload.uuid),
       payload
     ];
   },
   deleteContract(state, payload) {
     state.contracts = state.contracts.filter(
-      contract => contract.uuid !== payload
+      (contract) => contract.uuid !== payload
     );
   },
   setContracts(state, payload) {

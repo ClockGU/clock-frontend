@@ -12,7 +12,7 @@
 
     <v-card-text>
       <v-simple-table>
-        <template v-slot:default>
+        <template #default>
           <tbody>
             <tr v-for="row in rows" :key="row.name">
               <td>{{ row.name }}</td>
@@ -70,7 +70,7 @@
               }"
               @confirm="lock"
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-btn
                   :disabled="lockDisabled"
                   :text="!lockDisabled"
@@ -85,11 +85,11 @@
                 </v-btn>
               </template>
 
-              <template v-slot:title>
+              <template #title>
                 {{ $t("reports.lock.confirm") }}
               </template>
 
-              <template v-slot:text>
+              <template #text>
                 {{ $t("reports.lock.message") }}
               </template>
             </ConfirmationDialog>
@@ -180,7 +180,7 @@ export default {
     },
     debit() {
       const contract = this.$store.state.contract.contracts.find(
-        contract => contract.uuid === this.report.contract
+        (contract) => contract.uuid === this.report.contract
       );
 
       return contract.minutes;

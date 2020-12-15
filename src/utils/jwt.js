@@ -1,4 +1,4 @@
-export const parseJwt = token => {
+export const parseJwt = (token) => {
   /* Decode JWT token.
   Source: https://stackoverflow.com/a/38552302
   */
@@ -8,7 +8,7 @@ export const parseJwt = token => {
     Buffer.from(base64, "base64")
       .toString()
       .split("")
-      .map(c => {
+      .map((c) => {
         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
       })
       .join("")

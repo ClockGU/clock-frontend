@@ -3,11 +3,11 @@
     alternative-portal-target="card-toolbar"
     :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
   >
-    <template v-slot:card-top>
+    <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>
 
-    <template v-slot:pre-toolbar-title="{ action }">
+    <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown"
         icon
@@ -15,11 +15,11 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template v-slot:title>
+    <template #title>
       {{ $tc("models.report", 2) }}
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <SelectContractFilter
         :contracts="contracts"
         :selected-contract="selectedContract"
@@ -69,6 +69,11 @@ export default {
     ReportCard,
     SelectContractFilter
   },
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
+  },
   data() {
     return {
       dialog: false,
@@ -76,11 +81,6 @@ export default {
       hover: false,
       ignoreLoading: false
     };
-  },
-  beforeRouteLeave(to, from, next) {
-    this.ignoreLoading = true;
-
-    next();
   },
   computed: {
     ...mapGetters({
@@ -92,22 +92,22 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find(contract => contract.uuid === uuid) || {};
+      return this.contracts.find((contract) => contract.uuid === uuid) || {};
     },
     shiftsOfContract() {
       return this.shifts.filter(
-        shift => shift.contract === this.selectedContract.uuid
+        (shift) => shift.contract === this.selectedContract.uuid
       );
     },
     extendedReports() {
-      return this.reportsInContract.map(report => ({
+      return this.reportsInContract.map((report) => ({
         ...report,
         exported: this.checkExported(report.date)
       }));
     },
     reportsInContract() {
       return this.reports.filter(
-        report => report.contract === this.selectedContract.uuid
+        (report) => report.contract === this.selectedContract.uuid
       );
     },
     sortedReports() {
@@ -125,8 +125,8 @@ export default {
       if (!(key in this.shiftsByMonth)) return false;
 
       const shifts = this.shiftsByMonth[key];
-      const exported = shifts.map(shift => shift.locked);
-      return exported.every(x => x);
+      const exported = shifts.map((shift) => shift.locked);
+      return exported.every((x) => x);
     }
   }
 };

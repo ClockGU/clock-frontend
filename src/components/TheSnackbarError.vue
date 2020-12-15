@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "TheSnackbar",
+  name: "TheSnackbarError",
   data() {
     return {
       show: false,
@@ -31,19 +31,19 @@ export default {
     show: function (value) {
       if (value) return;
 
-      this.$store.dispatch("snackbar/resetSnack");
+      this.$store.dispatch("errorbar/resetSnack");
     }
   },
   created: function () {
     this.$store.watch(
-      (state, getters) => getters["snackbar/snack"],
+      (state, getters) => getters["errorbar/snack"],
       () => {
-        const { snackbar } = this.$store.state.snackbar;
-        if (!snackbar.snack) return;
+        const { errorbar } = this.$store.state.errorbar;
+        if (!errorbar.snack) return;
 
-        this.message = snackbar.snack;
-        this.color = snackbar.color;
-        this.timeout = snackbar.timeout;
+        this.message = errorbar.snack;
+        this.color = errorbar.color;
+        this.timeout = errorbar.timeout;
         this.show = true;
       }
     );

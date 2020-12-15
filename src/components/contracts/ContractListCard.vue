@@ -27,13 +27,13 @@
       </v-btn>
 
       <ConfirmationDialog @confirm="$emit('delete')">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn text data-cy="delete" v-on="on">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>
 
-        <template v-slot:title>
+        <template #title>
           {{
             $t("buttons.deleteEntity", {
               entity: $tc(`models.contract`)
@@ -41,7 +41,7 @@
           }}
         </template>
 
-        <template v-slot:text>
+        <template #text>
           {{
             $t(`dialogs.textConfirmDelete`, {
               selectedEntity: $tc(`models.selectedContract`)

@@ -1,7 +1,7 @@
 <template>
   <ClockInOut :selected-contract="selectedContract">
     <template
-      v-slot="{
+      #default="{
         data,
         duration,
         status,
@@ -80,7 +80,7 @@ export default {
   props: {
     selectedContract: {
       required: true,
-      validator: prop => typeof prop === "object" || prop === null
+      validator: (prop) => typeof prop === "object" || prop === null
     },
     clockedShift: {
       type: Object,
@@ -100,7 +100,7 @@ export default {
       if (this.clockedShift === null) return this.selectedContract;
 
       return this.contracts.find(
-        contract => contract.uuid === this.clockedShift.contract
+        (contract) => contract.uuid === this.clockedShift.contract
       );
     },
     showOverlay() {

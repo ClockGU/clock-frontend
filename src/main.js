@@ -64,14 +64,14 @@ if (isProduction) {
   });
 }
 
-Vue.component("base-layout", BaseLayout);
-Vue.component("base-link", Link);
-Vue.component("placeholder", Placeholder);
+Vue.component("BaseLayout", BaseLayout);
+Vue.component("BaseLink", Link);
+Vue.component("Placeholder", Placeholder);
 
 new Vue({
   vuetify,
   router,
   store,
   i18n,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount("#app");

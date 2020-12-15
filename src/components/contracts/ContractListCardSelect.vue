@@ -1,6 +1,6 @@
 <template>
   <v-hover>
-    <template v-slot:default="{ hover }">
+    <template #default="{ hover }">
       <v-card
         class="mx-auto"
         max-width="350"
