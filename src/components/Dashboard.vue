@@ -10,7 +10,7 @@
 
       <v-card min-width="100%" :elevation="0">
         <v-row class="mx-0">
-          <v-col cols="12">
+          <v-col cols="12" order="-10">
             <DashboardWelcome />
           </v-col>
 
@@ -25,22 +25,26 @@
               </v-card-text>
             </v-card>
           </v-overlay>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" order="0" order-md="0">
             <ClockInOutCard
               :clocked-shift="clockedShift"
               :selected-contract="selectedContract"
             />
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" order="1" order-md="1">
+            <DashboardMessageList />
+          </v-col>
+
+          <v-col cols="12" md="6" order="2">
             <DashboardShiftButton @refresh="refresh" />
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" order="3">
             <MonthlyProgress :azk-data="azkData" />
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" order="4">
             <DataFilter :date="date" :contract="selectedContract">
               <template #default="{ data }">
                 <DashboardConflicts :shifts="data.shifts" />
@@ -48,7 +52,7 @@
             </DataFilter>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" order="5">
             <DashboardLastActivity />
           </v-col>
         </v-row>
@@ -62,6 +66,7 @@ import { localizedFormat } from "@/utils/date";
 
 import ClockInOutCard from "@/components/ClockInOutCard";
 import DashboardShiftButton from "@/components/DashboardShiftButton";
+import DashboardMessageList from "@/components/DashboardMessageList";
 import MonthlyProgress from "@/components/MonthlyProgress";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import DashboardConflicts from "@/components/DashboardConflicts";
@@ -87,6 +92,7 @@ export default {
     ClockInOutCard,
     DashboardShiftButton,
     DataFilter,
+    DashboardMessageList,
     MonthlyProgress,
     SelectContractFilter,
     DashboardConflicts,
