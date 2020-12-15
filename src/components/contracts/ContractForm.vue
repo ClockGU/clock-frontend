@@ -26,6 +26,7 @@
         <ContractFormDateInput
           v-model="endDate"
           :min="lastShiftOfContract"
+          :max="maxEndDate"
           :contract="contract"
           type="end"
         />
@@ -119,7 +120,7 @@
 import { Contract } from "@/models/ContractModel";
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 
-import { format, startOfMonth, endOfMonth, isAfter, parseISO } from "date-fns";
+import { addMonths, format, startOfMonth, endOfMonth, isAfter, parseISO } from "date-fns";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
@@ -370,7 +371,18 @@ export default {
     }
   },
   created() {
-    this.contract = this.uuid === null ? this.initialData : this.entity;
+    if (this.uuid === null) {
+      // We are creating a new contract. We do not need to set a maximal end
+      // date.
+      this.contract = this.initialData;
+      this.maxEndDate = null;
+    } else {
+      // We are updating an existing contract. The latest end date is in six
+      // months.
+      this.contract = this.entity;
+      const currentEndDate = parseISO(this.entity.date.end);
+      this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
+    }
 
     if (this.contract.carryoverMinutes !== "00:00") {
       this.carryover = true;
