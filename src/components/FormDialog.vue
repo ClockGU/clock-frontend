@@ -4,8 +4,8 @@
     :fullscreen="$vuetify.breakpoint.smAndDown"
     max-width="600"
     no-click-animation
-    persistent
     retain-focus
+    @click:outside="closeDialog"
   >
     <v-card>
       <v-toolbar flat>
