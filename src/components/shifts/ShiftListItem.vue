@@ -48,7 +48,7 @@
 <script>
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
-import { format } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 import FormDialog from "@/components/FormDialog";
 
@@ -57,13 +57,13 @@ export default {
   components: { FormDialog },
   filters: {
     formatDay(date) {
-      return format(date, "EEEE',' do");
+      return localizedFormat(date, "EEEE',' do MMMM yyyy");
     },
     formatDate(date) {
-      return format(date, "dd'.'MM'.' HH':'mm");
+      return localizedFormat(date, "dd'.'MM'.' HH':'mm");
     },
     formatTime(date) {
-      return format(date, "HH':'mm");
+      return localizedFormat(date, "HH':'mm");
     }
   },
   props: {

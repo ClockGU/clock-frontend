@@ -120,7 +120,15 @@
 import { Contract } from "@/models/ContractModel";
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 
-import { addMonths, format, startOfMonth, endOfMonth, isAfter, parseISO } from "date-fns";
+import {
+  addMonths,
+  format,
+  startOfMonth,
+  endOfMonth,
+  isAfter,
+  parseISO
+} from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
@@ -148,7 +156,7 @@ export default {
   name: "ContractForm",
   filters: {
     formatDate(date) {
-      return format(parseISO(date), "yyyy-MM-dd");
+      return localizedFormat(parseISO(date), "yyyy-MM-dd");
     }
   },
   components: { ContractFormDateInput },
@@ -240,13 +248,13 @@ export default {
       return true;
     },
     initialData() {
-      const startDate = format(startOfMonth(new Date()), "yyyy-MM-dd");
+      const startDate = localizedFormat(startOfMonth(new Date()), "yyyy-MM-dd");
 
       return new Contract({
         name: null,
         date: {
           start: startDate,
-          end: format(endOfMonth(new Date()), "yyyy-MM-dd")
+          end: localizedFormat(endOfMonth(new Date()), "yyyy-MM-dd")
         },
         carryoverTargetDate: startDate,
         carryoverMinutes: 0,
@@ -255,13 +263,13 @@ export default {
     },
     startDate: {
       get() {
-        return format(parseISO(this.contract.start), "yyyy-MM-dd");
+        return localizedFormat(parseISO(this.contract.start), "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
 
         const date = new Date(year, month - 1, day, 0, 0);
-        this.contract.start = format(date, "yyyy-MM-dd");
+        this.contract.start = localizedFormat(date, "yyyy-MM-dd");
 
         // Update the carryoverTargetDate to the contract start, if we do not
         // want to carry over anything
@@ -279,17 +287,17 @@ export default {
         }
 
         if (isAfter(date, parseISO(this.contract.end))) {
-          this.contract.end = format(endOfMonth(date), "yyyy-MM-dd");
+          this.contract.end = localizedFormat(endOfMonth(date), "yyyy-MM-dd");
         }
       }
     },
     endDate: {
       get() {
-        return format(parseISO(this.contract.end), "yyyy-MM-dd");
+        return localizedFormat(parseISO(this.contract.end), "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        this.contract.end = format(
+        this.contract.end = localizedFormat(
           new Date(year, month - 1, day, 0, 0),
           "yyyy-MM-dd"
         );

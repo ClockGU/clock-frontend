@@ -56,6 +56,7 @@
         :events="events"
         :event-color="getEventColor"
         :event-margin-bottom="3"
+        :locale="locale"
         :now="today"
         :type="type"
         :weekdays="weekdays"
@@ -90,7 +91,7 @@ import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationB
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import SelectContractFilter from "@/components/SelectContractFilter";
 
-import { format } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapState } from "vuex";
 
@@ -105,7 +106,7 @@ export default {
   props: {
     initialFocus: {
       type: String,
-      default: () => format(new Date(), "yyyy-MM-dd")
+      default: () => localizedFormat(new Date(), "yyyy-MM-dd")
     },
     initialType: {
       type: String,
@@ -117,7 +118,7 @@ export default {
       mdiClose: mdiClose,
       mdiPlus
     },
-    today: format(new Date(), "yyyy-MM-dd"),
+    today: localizedFormat(new Date(), "yyyy-MM-dd"),
     focus: null,
     type: "month",
     start: null,
@@ -171,8 +172,8 @@ export default {
 
         return {
           uuid: shift.uuid,
-          start: format(shift.date.start, "yyyy-MM-dd HH:mm"),
-          end: format(shift.date.end, "yyyy-MM-dd HH:mm"),
+          start: localizedFormat(shift.date.start, "yyyy-MM-dd HH:mm"),
+          end: localizedFormat(shift.date.end, "yyyy-MM-dd HH:mm"),
           type: shift.type.value,
           color: this.colorMap(shift),
           duration: duration,
@@ -184,7 +185,7 @@ export default {
     },
     ...mapState({
       contracts: (state) => state.contract.contracts,
-      locale: (state) => state.calendar.locale,
+      locale: (state) => state.locale,
       shifts: (state) => state.shift.shifts
     })
   },
@@ -251,7 +252,10 @@ export default {
       this.start = start;
       this.end = end;
 
-      const [year, month, day] = format(this.shiftNow, "yyyy-MM-dd").split("-");
+      const [year, month, day] = localizedFormat(
+        this.shiftNow,
+        "yyyy-MM-dd"
+      ).split("-");
 
       // Tell parent component the range updated
       this.$emit("updateRange", {

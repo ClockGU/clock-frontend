@@ -1,12 +1,17 @@
+import { currentLocale } from "@/plugins/i18n";
 import {
   addDays,
   subDays,
   addWeeks,
   subWeeks,
   addMonths,
-  subMonths
-  // format
+  subMonths,
+  format
 } from "date-fns";
+
+export const localizedFormat = (date, fmt, options = {}) => {
+  return format(date, fmt, { ...options, ...currentLocale });
+};
 
 export const getToday = () => {
   return new Date().toLocaleDateString();

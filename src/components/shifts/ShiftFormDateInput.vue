@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { Shift } from "@/models/ShiftModel";
 
 import { mdiCalendar } from "@mdi/js";
@@ -63,19 +63,19 @@ export default {
   }),
   computed: {
     formattedDate() {
-      return format(this.value.date.start, "eee dd',' yyyy");
+      return localizedFormat(this.value.date.start, "eee dd',' yyyy");
     },
     date: {
       get() {
-        return format(this.value.date.start, "yyyy-MM-dd");
+        return localizedFormat(this.value.date.start, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        const [startHours, startMinutes] = format(
+        const [startHours, startMinutes] = localizedFormat(
           this.value.date.start,
           "HH:mm"
         ).split(":");
-        const [endHours, endMinutes] = format(
+        const [endHours, endMinutes] = localizedFormat(
           this.value.date.end,
           "HH:mm"
         ).split(":");

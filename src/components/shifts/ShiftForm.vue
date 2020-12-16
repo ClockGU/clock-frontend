@@ -105,8 +105,8 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { format, isAfter, isBefore, isSameDay } from "date-fns";
-
+import { isAfter, isBefore, isSameDay } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
 
 import { validationMixin } from "vuelidate";
@@ -128,10 +128,10 @@ export default {
   },
   filters: {
     formatDate(date) {
-      return format(date, "yyyy-MM-dd");
+      return localizedFormat(date, "yyyy-MM-dd");
     },
     formatTime(date) {
-      return format(date, "HH:mm");
+      return localizedFormat(date, "HH:mm");
     }
   },
   mixins: [validationMixin],
@@ -215,11 +215,11 @@ export default {
     }
   },
   watch: {
-    "shift.contract": function() {
+    "shift.contract": function () {
       this.setStartDate();
     },
     shift: {
-      handler: function() {
+      handler: function () {
         this.$emit("update", { shift: this.shift, valid: this.valid });
       },
       deep: true

@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import DataFilter from "@/components/DataFilter";
 import FormDialog from "@/components/FormDialog";
@@ -154,7 +154,7 @@ export default {
   },
   data: () => ({
     icons: { mdiCheck, mdiClose, mdiDelete, mdiMagnify, mdiPencil },
-    date: format(new Date(), "yyyy-MM"),
+    date: localizedFormat(new Date(), "yyyy-MM"),
     loading: false,
     shiftEntity: null,
     showFormDialog: false,
@@ -260,9 +260,9 @@ export default {
       const shiftModel = new Shift(shift);
 
       return {
-        date: format(shiftModel.date.start, "EEEE',' do"),
-        start: format(shiftModel.date.start, "HH:mm"),
-        end: format(shiftModel.date.end, "HH:mm"),
+        date: localizedFormat(shiftModel.date.start, "EEEE',' do' 'MMMM"),
+        start: localizedFormat(shiftModel.date.start, "HH:mm"),
+        end: localizedFormat(shiftModel.date.end, "HH:mm"),
         duration: shiftModel.representationalDuration(),
         type: this.$t(`shifts.types.${shiftModel.type.value}`),
         reviewed: shiftModel.reviewed,

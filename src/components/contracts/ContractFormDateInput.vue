@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { format, parseISO, isLastDayOfMonth } from "date-fns";
-
+import { parseISO, isLastDayOfMonth } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 
 export default {
@@ -77,7 +77,7 @@ export default {
       return this.icons.mdiCalendarArrowLeft;
     },
     formattedDate() {
-      return format(parseISO(this.value), "eee do MMM yyyy");
+      return localizedFormat(parseISO(this.value), "eee do MMM yyyy");
     },
     date: {
       get() {

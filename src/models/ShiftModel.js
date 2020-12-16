@@ -2,7 +2,6 @@ import is from "ramda/src/is";
 import {
   differenceInMinutes,
   isFuture,
-  format,
   getDate,
   getMonth,
   getYear,
@@ -10,6 +9,7 @@ import {
   setMonth,
   setYear
 } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
@@ -116,8 +116,12 @@ export class Shift {
       type: this.type.value,
       note: this.note,
       uuid: this.uuid,
-      started: format(this.start, "yyyy-MM-dd HH:mm:ssXXX"),
-      stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
+      started: localizedFormat(this.start, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
+      stopped: localizedFormat(this.end, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
       duration: this.representationalDuration,
       was_reviewed: this.reviewed,
       locked: this.locked

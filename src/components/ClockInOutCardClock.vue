@@ -91,8 +91,10 @@
 </template>
 
 <script>
-import { addSeconds, format, isSameDay } from "date-fns";
+import { addSeconds, isSameDay } from "date-fns";
 import { mdiDelete, mdiInformation } from "@mdi/js";
+
+import { localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 
@@ -101,16 +103,16 @@ export default {
   filters: {
     formatDate(date) {
       if (date === undefined) return "";
-      return format(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
+      return localizedFormat(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
     },
     toTime(seconds) {
       let string = "";
 
       const date = addSeconds(new Date(1970, 1, 1), seconds);
       const days = Math.floor(seconds / (60 * 60 * 24));
-      const hours = format(date, "HH");
-      const minutes = format(date, "mm");
-      const sec = format(date, "ss");
+      const hours = localizedFormat(date, "HH");
+      const minutes = localizedFormat(date, "mm");
+      const sec = localizedFormat(date, "ss");
 
       if (days > 0) {
         string += `${days} days, `;
@@ -132,7 +134,7 @@ export default {
     toHHMM(seconds) {
       const date = addSeconds(new Date(1970, 1, 1), seconds);
 
-      return format(date, "HH:mm:ss");
+      return localizedFormat(date, "HH:mm:ss");
     }
   },
   inheritAttrs: false,

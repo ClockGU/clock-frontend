@@ -52,8 +52,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
-
+import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
 
@@ -64,7 +63,7 @@ export default {
       const [year, month] = text.split(" ");
       const date = new Date(year, month - 1, 1);
 
-      return format(date, "MMMM yyyy");
+      return localizedFormat(date, "MMMM yyyy");
     },
     minutesToDuration(value) {
       return minutesToHHMM(value);

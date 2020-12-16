@@ -37,6 +37,7 @@
 <script>
 import { mdiChevronDown, mdiTranslate } from "@mdi/js";
 import ApiService from "@/services/api";
+import { switchDateFnsLocale } from "@/plugins/i18n";
 
 export default {
   name: "LanguageSwitcher",
@@ -61,6 +62,12 @@ export default {
       if (this.$i18n.locale === locale) return;
 
       this.$i18n.locale = locale;
+
+      // Update date-fns locale
+      switchDateFnsLocale(locale);
+
+      // Update Vuetify settings
+      this.$vuetify.lang.current = locale;
 
       // Update locale for API requests
       ApiService.setHeader("Accept-Language", locale);

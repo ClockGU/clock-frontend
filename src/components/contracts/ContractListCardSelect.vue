@@ -26,13 +26,14 @@
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "ContractListCardSelect",
   filters: {
     toDate(date) {
-      return format(parseISO(date), "yyyy-MM-dd");
+      return localizedFormat(parseISO(date), "yyyy-MM-dd");
     },
     hoursToWorktime(value) {
       const hours = Math.floor(value);

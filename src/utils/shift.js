@@ -1,5 +1,6 @@
 import { Shift } from "@/models/ShiftModel";
-import { areIntervalsOverlapping, format, parseISO } from "date-fns";
+import { areIntervalsOverlapping, parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 function prepare({ start, end }) {
   return {
@@ -9,8 +10,8 @@ function prepare({ start, end }) {
 }
 
 export function datesGroupByComponent(dates, token) {
-  return dates.reduce(function (val, obj) {
-    let comp = format(parseISO(obj["date"]["start"]), token);
+  return dates.reduce(function(val, obj) {
+    let comp = localizedFormat(parseISO(obj["date"]["start"]), token);
     (val[comp] = val[comp] || []).push(new Shift(obj));
     return val;
   }, {});

@@ -15,13 +15,13 @@ import {
   min,
   max,
   addMonths,
-  format,
   isBefore,
   isAfter,
   subMonths,
   isSameMonth
 } from "date-fns";
 
+import { localizedFormat } from "@/utils/date";
 import { log } from "@/utils/log";
 
 import { mapGetters } from "vuex";
@@ -35,7 +35,7 @@ export default {
     },
     date: {
       type: String,
-      default: () => format(new Date(), "yyyy-MM")
+      default: () => localizedFormat(new Date(), "yyyy-MM")
     },
     // Allow the consumer to pass a function that post processes the shifts
     shiftFn: {
@@ -92,7 +92,7 @@ export default {
     lockedMonths() {
       return this.reports.map((report) => {
         const reportDate = new Date(report.date);
-        const stringDate = format(reportDate, "yyyy-MM");
+        const stringDate = localizedFormat(reportDate, "yyyy-MM");
 
         const shifts = this.shifts.filter((shift) =>
           isSameMonth(new Date(shift.date.start), reportDate)
@@ -130,8 +130,8 @@ export default {
 
       return {
         months,
-        min: format(min(this.dates), "yyyy-MM-dd"),
-        max: format(max(this.dates), "yyyy-MM-dd"),
+        min: localizedFormat(min(this.dates), "yyyy-MM-dd"),
+        max: localizedFormat(max(this.dates), "yyyy-MM-dd"),
         allowedMonths: (value) => {
           return months.includes(value);
         }
@@ -207,11 +207,11 @@ export default {
     },
     nextMonth() {
       const nextMonth = addMonths(new Date(this.data.date), 1);
-      this.setDate(format(nextMonth, "yyyy-MM"));
+      this.setDate(localizedFormat(nextMonth, "yyyy-MM"));
     },
     prevMonth() {
       const prevMonth = subMonths(new Date(this.data.date), 1);
-      this.setDate(format(prevMonth, "yyyy-MM"));
+      this.setDate(localizedFormat(prevMonth, "yyyy-MM"));
     }
   }
 };

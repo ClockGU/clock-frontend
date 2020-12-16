@@ -1,4 +1,5 @@
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 Number.prototype.pad = function (size) {
   var s = String(this);
@@ -83,10 +84,10 @@ export function formattedTime(time) {
 
 export function formatDate(date, formatString = "do MMMM yyyy") {
   if (date === undefined) return;
-  return format(parseISO(date), formatString);
+  return localizedFormat(parseISO(date), formatString);
 }
 
 export function formatTime(date, formatString = "HH:mm a") {
   if (date === undefined) return;
-  return format(parseISO(date), formatString);
+  return localizedFormat(parseISO(date), formatString);
 }

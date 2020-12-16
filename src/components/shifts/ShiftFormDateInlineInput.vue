@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { Shift } from "@/models/ShiftModel";
 
 export default {
@@ -34,15 +34,15 @@ export default {
   computed: {
     date: {
       get() {
-        return format(this.value.date.start, "yyyy-MM-dd");
+        return localizedFormat(this.value.date.start, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        const [startHours, startMinutes] = format(
+        const [startHours, startMinutes] = localizedFormat(
           this.value.date.start,
           "HH:mm"
         ).split(":");
-        const [endHours, endMinutes] = format(
+        const [endHours, endMinutes] = localizedFormat(
           this.value.date.end,
           "HH:mm"
         ).split(":");

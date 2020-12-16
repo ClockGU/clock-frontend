@@ -10,8 +10,8 @@
       <h2 class="text-h6 primary-text">{{ contract.name }}</h2>
       {{
         $t("contracts.fromTo", {
-          start: contract.date.start,
-          end: contract.date.end
+          start: startDate,
+          end: endDate
         })
       }}
     </v-card-text>
@@ -55,8 +55,13 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-
+import { parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+
+function formatDate(date) {
+  return localizedFormat(parseISO(date), "do MMMM yyyy");
+}
 
 export default {
   name: "ContractListCard",
@@ -68,6 +73,12 @@ export default {
     }
   },
   computed: {
+    endDate() {
+      return formatDate(this.contract.date.end);
+    },
+    startDate() {
+      return formatDate(this.contract.date.start);
+    },
     worktime() {
       return minutesToHHMM(this.contract.minutes);
     }

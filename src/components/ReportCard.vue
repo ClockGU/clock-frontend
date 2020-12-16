@@ -27,9 +27,7 @@
       <v-container>
         <v-row align="center">
           <v-col cols="8">
-            <span class="subtitle-2">
-              1. {{ $t("reports.generate") }}
-            </span>
+            <span class="subtitle-2"> 1. {{ $t("reports.generate") }} </span>
 
             <p class="caption">{{ $t("reports.hints.request") }}</p>
           </v-col>
@@ -59,9 +57,7 @@
 
         <v-row align="center">
           <v-col cols="8">
-            <span class="subtitle-2">
-              2. {{ $t("reports.lock.label") }}
-            </span>
+            <span class="subtitle-2"> 2. {{ $t("reports.lock.label") }} </span>
 
             <p class="caption">{{ $t("reports.hints.lock") }}</p>
           </v-col>
@@ -105,7 +101,8 @@
 </template>
 
 <script>
-import { format, parseISO, differenceInMinutes } from "date-fns";
+import { parseISO, differenceInMinutes } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import ReportService from "@/services/report";
 import ContractService from "@/services/contract";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
@@ -117,7 +114,7 @@ export default {
   name: "ReportCard",
   filters: {
     formatDate(date) {
-      return format(parseISO(date), "MMMM yyyy");
+      return localizedFormat(parseISO(date), "MMMM yyyy");
     }
   },
   components: { ConfirmationDialog },
@@ -179,8 +176,11 @@ export default {
       }, 0);
     },
     fileName() {
-      const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
+      const date = localizedFormat(parseISO(this.report.date), "MMMM'_'yyyy");
       return `${this.$i18n.t("app.reports")}_${date}.pdf`;
+    },
+    downloadLabel() {
+      return !this.pdfResponse ? "Request" : "Download";
     },
     debit() {
       const contract = this.$store.state.contract.contracts.find(

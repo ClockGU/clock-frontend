@@ -43,6 +43,7 @@ import {
   setMinutes
   // subMinutes
 } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { Shift } from "@/models/ShiftModel";
 
 import { mdiClockOutline } from "@mdi/js";
@@ -95,12 +96,12 @@ export default {
   computed: {
     time: {
       get() {
-        return format(this.value.date[this.type], "HH:mm");
+        return localizedFormat(this.value.date[this.type], "HH:mm");
       },
       set(val) {
         // User deleted all input or invalidated the input completely
         if (!validHourMinute(val)) {
-          this.data = format(this.value.date[this.type], "HH:mm");
+          this.data = localizedFormat(this.value.date[this.type], "HH:mm");
           return;
         }
 
@@ -108,7 +109,7 @@ export default {
         const oldDuration = this.value.duration % 1440;
 
         // Grab year, month and day from date entry
-        const [year, month, day] = format(
+        const [year, month, day] = localizedFormat(
           this.value.date[this.type],
           "yyyy-MM-dd"
         ).split("-");
@@ -177,6 +178,7 @@ export default {
   },
   created() {
     this.initialize();
+    this.data = localizedFormat(this.value.date[this.type], "HH:mm");
   },
   methods: {
     initialize() {

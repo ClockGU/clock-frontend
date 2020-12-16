@@ -14,7 +14,7 @@
     >
       <template #activator="{ on, attrs }">
         <v-btn text v-bind="attrs" v-on="on">
-          {{ date }}
+          {{ formattedDate }}
         </v-btn>
       </template>
       <v-date-picker
@@ -35,6 +35,8 @@
 
 <script>
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import { parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "MonthSwitcher",
@@ -51,6 +53,11 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiChevronLeft, mdiChevronRight }
-  })
+  }),
+  computed: {
+    formattedDate() {
+      return localizedFormat(parseISO(this.date), "MMMM yyyy");
+    }
+  }
 };
 </script>
