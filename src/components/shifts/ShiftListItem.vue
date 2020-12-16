@@ -1,48 +1,47 @@
 <template>
-  <v-list-item :disabled="item.locked || !editable">
-    <template #default="{ active }">
-      <v-list-item-action v-if="editable">
-        <v-checkbox
-          :disabled="!editable || item.locked"
-          :value="active"
-        ></v-checkbox>
-      </v-list-item-action>
+  <v-list-item @click="openDialog">
+    <v-list-item-content>
+      <v-list-item-title>
+        {{ item.date.start | formatDay }}
+      </v-list-item-title>
+      <v-list-item-subtitle :class="item.locked ? '' : 'text--primary'">
+        {{ item.date.start | formatTime }} -
+        {{ item.date.end | formatTime }}
+        ({{ item.representationalDuration("hm") }})
+      </v-list-item-subtitle>
+      <v-list-item-subtitle>
+        <v-chip
+          data-cy="shift-list-item-type"
+          outlined
+          small
+          class="my-2"
+          :color="typeColor"
+        >
+          {{ $t(`shifts.types.${item.type.value}`) }}
+        </v-chip>
 
-      <v-list-item-content>
-        <v-list-item-title>
-          {{ item.date.start | formatDay }}
-        </v-list-item-title>
-        <v-list-item-subtitle :class="item.locked ? '' : 'text--primary'">
-          {{ item.date.start | formatTime }} -
-          {{ item.date.end | formatTime }}
-          ({{ item.representationalDuration("hm") }})
-        </v-list-item-subtitle>
-        <v-list-item-subtitle>
-          <v-chip
-            data-cy="shift-list-item-type"
-            outlined
-            small
-            class="my-2"
-            :color="typeColor"
-          >
-            {{ $t(`shifts.types.${item.type.value}`) }}
-          </v-chip>
+        <span v-if="item.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
 
-          <span v-if="item.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
+        <v-chip
+          v-for="(tag, i) in item.tags"
+          :key="tag"
+          :data-cy="'shift-list-item-tag-' + i"
+          outlined
+          small
+          class="my-2"
+        >
+          {{ tag }}
+        </v-chip>
+      </v-list-item-subtitle>
+    </v-list-item-content>
 
-          <v-chip
-            v-for="(tag, i) in item.tags"
-            :key="tag"
-            :data-cy="'shift-list-item-tag-' + i"
-            outlined
-            small
-            class="my-2"
-          >
-            {{ tag }}
-          </v-chip>
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </template>
+    <FormDialog
+      v-if="dialog"
+      entity-name="shift"
+      :entity="shiftEntity"
+      @close="closeDialog"
+      @refresh="$emit('refresh')"
+    />
   </v-list-item>
 </template>
 
@@ -51,8 +50,11 @@ import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
 import { format } from "date-fns";
 
+import FormDialog from "@/components/FormDialog";
+
 export default {
   name: "ShiftListItem",
+  components: { FormDialog },
   filters: {
     formatDay(date) {
       return format(date, "EEEE',' do");
@@ -74,6 +76,10 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    dialog: false,
+    shiftEntity: null
+  }),
   computed: {
     typeColor() {
       return SHIFT_TYPE_COLORS[this.item.type.value];
@@ -87,6 +93,14 @@ export default {
         name: "editShift",
         params: { uuid: this.item.uuid }
       });
+    },
+    closeDialog() {
+      this.shiftEntity = null;
+      this.dialog = false;
+    },
+    openDialog() {
+      this.shiftEntity = this.item;
+      this.dialog = true;
     }
   }
 };
