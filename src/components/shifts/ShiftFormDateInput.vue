@@ -6,14 +6,15 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on }">
+    <template #activator="{ on, attrs }">
       <v-text-field
-        :value="formattedDate"
+        v-model="formattedDate"
         readonly
         filled
         dense
         hide-details
         :prepend-icon="icons.mdiCalendar"
+        v-bind="attrs"
         v-on="on"
       ></v-text-field>
     </template>
@@ -22,6 +23,7 @@
       no-title
       :min="min"
       :max="max"
+      :first-day-of-week="1"
       @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
