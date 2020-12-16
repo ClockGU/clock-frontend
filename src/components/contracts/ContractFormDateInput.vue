@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on }">
+    <template #activator="{ on, attrs }">
       <v-text-field
         :value="formattedDate"
         readonly
@@ -14,12 +14,14 @@
         dense
         hide-details
         :prepend-icon="icon"
+        v-bind="attrs"
         v-on="on"
       ></v-text-field>
     </template>
     <v-date-picker
       v-model="date"
       :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
+      :first-day-of-week="1"
       :max="max"
       :min="min"
       no-title
