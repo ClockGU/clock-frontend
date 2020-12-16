@@ -1,7 +1,8 @@
 const Home = () => import("@/views/Home");
 const ViewLogin = () => import("@/views/ViewLogin");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
-const ViewShiftList = () => import("@/views/ViewShiftList");
+// const ViewShiftList = () => import("@/views/ViewShiftList");
+const Shifts = () => import("@/views/Shifts");
 const ViewContractForm = () => import("@/views/ViewContractForm");
 const ViewContractList = () => import("@/views/ViewContractList");
 const ViewHelp = () => import("@/views/ViewHelp");
@@ -86,7 +87,7 @@ export const routes = [
       {
         path: "/shifts/:contract?",
         name: "shiftList",
-        component: ViewShiftList
+        component: Shifts
       },
       {
         path: "/contracts/create",

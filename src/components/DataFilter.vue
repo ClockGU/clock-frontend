@@ -36,6 +36,17 @@ export default {
     date: {
       type: String,
       default: () => format(new Date(), "yyyy-MM")
+    },
+    // Allow the consumer to pass a function that post processes the shifts
+    shiftFn: {
+      type: Function,
+      default: (shift) => shift
+    },
+    // Set the date to the first unlocked month. Only required by the Reports
+    // view
+    useUlockedMonths: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -49,6 +60,12 @@ export default {
       shiftsVuex: "shift/shifts",
       reportsVuex: "report/reports"
     }),
+    lastMonth() {
+      // Retrieve the last available month
+      return this.lockedMonths.map((month) => Object.keys(month)[0])[
+        this.lockedMonths.length - 1
+      ];
+    },
     isCurrentMonthLocked() {
       return this.lockedMonths
         .filter((month) => Object.values(month)[0] === true)
@@ -60,10 +77,9 @@ export default {
         .map((month) => Object.entries(month)[0][1])
         .every((item) => item === true);
 
+      // If all months are locked, we look at the latest available month
       if (allLocked) {
-        return this.lockedMonths.map((month) => Object.keys(month)[0])[
-          this.lockedMonths.length - 1
-        ];
+        return this.lastMonth();
       }
 
       return Object.entries(
@@ -121,6 +137,13 @@ export default {
         }
       };
     },
+    processShifts() {
+      // Postprocess the shifts before returning them in the scoped slot
+      const filteredShifts = this.shifts.filter(
+        (shift) => shift.date.start.slice(0, 7) === this.date
+      );
+      return filteredShifts.map(this.shiftFn);
+    },
     data() {
       return {
         date: this.date,
@@ -132,9 +155,7 @@ export default {
         prevMonth: this.prevMonth,
         months: this.months,
         contracts: this.contracts,
-        shifts: this.shifts.filter(
-          (shift) => shift.date.start.slice(0, 7) === this.date
-        ),
+        shifts: this.processShifts,
         report: this.reports.find(
           (report) => report.date.slice(0, 7) === this.date
         )
@@ -154,14 +175,19 @@ export default {
     }
   },
   watch: {
-    firstUnlockedMonth: function (newValue, oldValue) {
+    contract: function (newValue, oldValue) {
       if (newValue === oldValue) return;
 
-      this.setDate(newValue);
+      const date = this.useUlockedMonths
+        ? this.firstUnlockedMonth
+        : this.lastMonth;
+      this.setDate(date);
     }
   },
   async created() {
-    this.setDate(this.firstUnlockedMonth);
+    if (this.useUlockedMonths) {
+      this.setDate(this.firstUnlockedMonth);
+    }
     try {
       await Promise.all([
         this.$store.dispatch("shift/queryShifts"),

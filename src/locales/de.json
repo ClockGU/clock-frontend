@@ -1,5 +1,6 @@
 {
   "actions": {
+    "actions": "Aktionen",
     "add": "Hinzufügen",
     "back": "Zurück",
     "cancel": "Abbrechen",
@@ -282,6 +283,8 @@
     }
   },
   "shifts": {
+    "assignContract": "Vertrag zuweisen",
+    "assignContractDialog": "Weise die ausgewählten Schichten einem Vertrag zu.",
     "changeContract": "Zugeordneter Vertrag",
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
@@ -302,5 +305,12 @@
   "snackbar": {
     "success": "Die Aktion wurde durchgeführt.",
     "error": "Bitte probiere es später erneut."
+  },
+  "time": {
+    "date": "Datum",
+    "start": "Start",
+    "end": "Ende",
+    "duration": "Dauer",
+    "reviewed": "Überprüft"
   }
 }

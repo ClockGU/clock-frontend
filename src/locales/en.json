@@ -1,5 +1,6 @@
 {
   "actions": {
+    "actions": "actions",
     "add": "Add",
     "back": "Back",
     "cancel": "Cancel",
@@ -283,6 +284,8 @@
     }
   },
   "shifts": {
+    "assignContract": "Assign contract",
+    "assignContractDialog": "Choose a contract to assign the selected shifts to.",
     "changeContract": "Selected contract",
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",
@@ -303,5 +306,12 @@
   "snackbar": {
     "success": "The action was completed.",
     "error": "Please try again later."
+  },
+  "time": {
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "duration": "Duration",
+    "reviewed": "Reviewed"
   }
 }

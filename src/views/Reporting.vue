@@ -17,6 +17,7 @@
         <DataFilter
           :date="date"
           :contract="selectedContract"
+          use-locked-months
           @update="updateDate"
         >
           <template #default="{ data }">
