@@ -78,6 +78,10 @@ export default {
     ConfirmationDialog
   },
   props: {
+    loading: {
+      type: Boolean,
+      required: true
+    },
     search: {
       type: String,
       default: ""

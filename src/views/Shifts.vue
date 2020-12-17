@@ -33,6 +33,7 @@
 
               <ShiftsTable
                 :shifts="data.reviewedShifts"
+                :loading="loading"
                 :search="reviewedSearch"
                 @edit="editShift"
                 @refresh="refresh"
