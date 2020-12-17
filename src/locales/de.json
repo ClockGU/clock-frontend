@@ -17,6 +17,7 @@
     "request": "Anfordern",
     "reset": "Zurücksetzen",
     "resolve": "Beheben",
+    "review": "Überprüfen",
     "save": "Speichern",
     "search": "Suchen",
     "send": "Absenden",
@@ -290,9 +291,14 @@
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
     "note": {
-    "note": "Notiz",
+      "note": "Notiz",
       "label": "Schreibe eine Notiz"
     },
+    "review": {
+      "title": "Schichten überprüfen",
+      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
+    },
+    "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
     "tags": {
       "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
       "label": "Füge Tags hinzu"

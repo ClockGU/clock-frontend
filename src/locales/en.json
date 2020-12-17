@@ -17,6 +17,7 @@
     "request": "Request",
     "reset": "Reset",
     "resolve": "Resolve",
+    "review": "Review",
     "save": "Save",
     "search": "Search",
     "send": "Send",
@@ -291,9 +292,14 @@
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",
     "note": {
-    "note": "Note",
+      "note": "Note",
       "label": "Write a note for yourself"
     },
+    "review": {
+      "title": "Review shifts",
+      "text": "I confirm that all selected shifts have taken place."
+    },
+    "reviewed": "The shift has taken place. I reviewed the data for correctness.",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"

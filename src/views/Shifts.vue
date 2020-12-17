@@ -32,9 +32,9 @@
               <MonthSwitcher :data="data" :date="date" @update="updateDate" />
 
               <ShiftsTable
-                :shifts="data.reviewedShifts"
+                :shifts="data.pastShifts"
                 :loading="loading"
-                :search="reviewedSearch"
+                :search="pastSearch"
                 @edit="editShift"
                 @refresh="refresh"
               >
@@ -48,6 +48,7 @@
                       <v-col v-if="selected.length > 0" cols="12" sm="3">
                         <ShiftBulkActions
                           :shifts="selected"
+                          can-review
                           @refresh="refresh"
                         />
                       </v-col>
@@ -62,7 +63,7 @@
                         md="3"
                       >
                         <v-text-field
-                          v-model="reviewedSearch"
+                          v-model="pastSearch"
                           :append-icon="icons.mdiMagnify"
                           :label="$t('actions.search')"
                           dense
@@ -81,9 +82,9 @@
               </ShiftsTable>
 
               <ShiftsTable
-                :shifts="data.unreviewedShifts"
+                :shifts="data.futureShifts"
                 :loading="loading"
-                :search="unreviewedSearch"
+                :search="futureSearch"
                 @edit="editShift"
                 @refresh="refresh"
               >
@@ -111,7 +112,7 @@
                         md="3"
                       >
                         <v-text-field
-                          v-model="unreviewedSearch"
+                          v-model="futureSearch"
                           :append-icon="icons.mdiMagnify"
                           :label="$t('actions.search')"
                           dense
@@ -174,8 +175,8 @@ export default {
     loading: false,
     shiftEntity: null,
     showFormDialog: false,
-    reviewedSearch: "",
-    unreviewedSearch: ""
+    pastSearch: "",
+    futureSearch: ""
   }),
   computed: {
     ...mapGetters({

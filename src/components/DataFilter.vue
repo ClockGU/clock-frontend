@@ -12,14 +12,18 @@
 
 <script>
 import {
+  addMonths,
+  isAfter,
+  isBefore,
+  isFuture,
+  isPast,
+  isSameMonth,
   min,
   max,
-  addMonths,
-  isBefore,
-  isAfter,
-  subMonths,
-  isSameMonth
+  parseISO,
+  subMonths
 } from "date-fns";
+import is from "ramda/src/is";
 
 import { localizedFormat } from "@/utils/date";
 import { log } from "@/utils/log";
@@ -124,6 +128,34 @@ export default {
           return new Date(b.date.end) - new Date(a.date.end);
         });
     },
+    futureShifts() {
+      return this.processShifts.filter((shift) => {
+        // If we do not process the shifts we need to access `shift.date`.
+        // Otherwise we need to access `shift.shift.date`.
+        let date =
+          shift.shift === undefined ? shift.date.start : shift.shift.date.start;
+
+        if (is(String, date)) {
+          date = parseISO(date);
+        }
+
+        return isFuture(date);
+      });
+    },
+    pastShifts() {
+      return this.processShifts.filter((shift) => {
+        // If we do not process the shifts we need to access `shift.date`.
+        // Otherwise we need to access `shift.shift.date`.
+        let date =
+          shift.shift === undefined ? shift.date.start : shift.shift.date.start;
+
+        if (is(String, date)) {
+          date = parseISO(date);
+        }
+
+        return isPast(date);
+      });
+    },
     reviewedShifts() {
       return this.processShifts.filter((shift) => shift.reviewed === true);
     },
@@ -164,8 +196,8 @@ export default {
         months: this.months,
         contracts: this.contracts,
         shifts: this.processShifts,
-        reviewedShifts: this.reviewedShifts,
-        unreviewedShifts: this.unreviewedShifts,
+        futureShifts: this.futureShifts,
+        pastShifts: this.pastShifts,
         report: this.reports.find(
           (report) => report.date.slice(0, 7) === this.date
         )

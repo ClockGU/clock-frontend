@@ -1,7 +1,6 @@
 import is from "ramda/src/is";
 import {
   differenceInMinutes,
-  isFuture,
   getDate,
   getMonth,
   getYear,
@@ -35,6 +34,7 @@ export class Shift {
     type = null,
     note = null,
     tags = null,
+    reviewed = null,
     locked = null
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
@@ -53,6 +53,7 @@ export class Shift {
       : SHIFT_TYPES.find((item) => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
+    this.reviewed = reviewed === null ? false : reviewed;
     this.locked = locked === null ? false : locked;
   }
 
@@ -74,13 +75,6 @@ export class Shift {
 
   get duration() {
     return differenceInMinutes(this.end, this.start);
-  }
-
-  get reviewed() {
-    // Shifts that are in the future (this.start >= new Date()) are
-    // marked as "was_reviewed=False", because they did not happen yet
-    // and need to be reviewed by the user later.
-    return !isFuture(this.start);
   }
 
   representationalDuration(format = "") {

@@ -4,6 +4,18 @@
       <v-btn text v-bind="attrs" v-on="on">{{ $t("actions.actions") }}</v-btn>
     </template>
     <v-list>
+      <ShiftBulkActionsDialogReview
+        v-if="canReview"
+        :shifts="shifts"
+        @reset="$emit('refresh')"
+      >
+        <template #activator="{ on }">
+          <v-list-item v-on="on">
+            <v-list-item-title>{{ $t("actions.review") }}</v-list-item-title>
+          </v-list-item>
+        </template>
+      </ShiftBulkActionsDialogReview>
+
       <ShiftBulkActionsDialogAssignContract
         :shifts="shifts"
         @reset="$emit('refresh')"
@@ -31,6 +43,7 @@
 <script>
 import ShiftBulkActionsDialogAssignContract from "@/components/ShiftBulkActionsDialogAssignContract";
 import ShiftBulkActionsDialogDelete from "@/components/ShiftBulkActionsDialogDelete";
+import ShiftBulkActionsDialogReview from "@/components/ShiftBulkActionsDialogReview";
 
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
@@ -39,9 +52,14 @@ export default {
   name: "ShiftBulkActions",
   components: {
     ShiftBulkActionsDialogAssignContract,
-    ShiftBulkActionsDialogDelete
+    ShiftBulkActionsDialogDelete,
+    ShiftBulkActionsDialogReview
   },
   props: {
+    canReview: {
+      type: Boolean,
+      default: false
+    },
     shifts: {
       type: Array,
       required: true

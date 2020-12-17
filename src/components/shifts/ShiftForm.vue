@@ -90,6 +90,14 @@
           item-value="uuid"
           filled
         ></v-select>
+
+        <v-checkbox
+          v-model="shift.reviewed"
+          :disabled="startsInFuture"
+          :prepend-icon="icons.mdiProgressCheck"
+          :label="$t('shifts.reviewed')"
+          class="mt-0 pt-0"
+        ></v-checkbox>
       </v-col>
     </v-row>
   </v-form>
@@ -106,7 +114,7 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { isAfter, isBefore, isSameDay } from "date-fns";
+import { isAfter, isBefore, isFuture, isSameDay } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
 
@@ -116,7 +124,7 @@ import { required } from "vuelidate/lib/validators";
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
-import { mdiFileDocumentEditOutline } from "@mdi/js";
+import { mdiFileDocumentEditOutline, mdiProgressCheck } from "@mdi/js";
 
 export default {
   name: "ShiftForm",
@@ -159,7 +167,7 @@ export default {
     }
   },
   data: () => ({
-    icons: { mdiFileDocumentEditOutline },
+    icons: { mdiFileDocumentEditOutline, mdiProgressCheck },
     dialog: false,
     select: null,
     shift: null
@@ -171,6 +179,9 @@ export default {
     }),
     shiftExported() {
       return this.shift.locked;
+    },
+    startsInFuture() {
+      return isFuture(this.shift.date.start);
     },
     tags() {
       return this.shift.tags.join(", ");
@@ -220,8 +231,15 @@ export default {
       this.setStartDate();
     },
     shift: {
-      handler: function () {
+      handler: function (newValue, oldValue) {
+        // Don't do anything when we set `this.shifts` initially.
+        if (oldValue === null) return;
+
         this.$emit("update", { shift: this.shift, valid: this.valid });
+
+        // When updating the shift, check if we have to unreview the shift. A
+        // shift starting in the future cannot be set to `was_reviewed=true`.
+        this.handleReviewBox();
       },
       deep: true
     }
@@ -234,6 +252,13 @@ export default {
     }
   },
   methods: {
+    handleReviewBox() {
+      if (this.startsInFuture) {
+        this.shift.reviewed = false;
+      } else {
+        this.shift.reviewed = true;
+      }
+    },
     initializeForm() {
       return new Shift({
         date: { ...startEndHours(this.now) },
