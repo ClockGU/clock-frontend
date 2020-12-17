@@ -118,9 +118,11 @@ export default {
       );
     },
     shifts() {
-      return this.shiftsVuex.filter(
-        (shift) => shift.contract === this.contract.uuid
-      );
+      return this.shiftsVuex
+        .filter((shift) => shift.contract === this.contract.uuid)
+        .sort((a, b) => {
+          return new Date(b.date.end) - new Date(a.date.end);
+        });
     },
     dates() {
       return this.reports.map((report) => new Date(report.date));
