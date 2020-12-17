@@ -30,6 +30,7 @@
         :categories="categories"
         :events="events"
         :event-color="getEventColor"
+        :locale="locale"
         @click:event="handleEventClick"
       ></v-calendar>
     </v-card-text>
@@ -50,12 +51,15 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { localizedFormat } from "@/utils/date";
 import { getOverlappingShifts } from "@/utils/shift";
 import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
 import { Shift } from "@/models/ShiftModel";
 import FormDialog from "@/components/FormDialog";
+
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "CalendarOverlap",
@@ -82,6 +86,12 @@ export default {
     focus: ""
   }),
   computed: {
+    ...mapGetters({
+      contracts: "contract/contracts"
+    }),
+    ...mapState({
+      locale: "locale"
+    }),
     categories() {
       return [
         this.$t("calendar.overlap.all"),
@@ -104,14 +114,19 @@ export default {
     focussedOverlap() {
       return this.currentOverlap.map((shift, index) => {
         const labels = ["A", "B"];
+        const contract = this.contracts.find(
+          (contract) => contract.uuid === shift.contract
+        );
         return {
-          name: `(${labels[index]}) ` + this.$t(`shifts.types.${shift.type}`),
+          name:
+            `(${labels[index]}, ${contract.name}) ` +
+            this.$t(`shifts.types.${shift.type}`),
           start: new Date(shift.date.start),
           end: new Date(shift.date.end),
           category: this.categories[1],
           timed: true,
           uuid: shift.uuid,
-          color: index === 0 ? "grey" : "orange"
+          color: SHIFT_TYPE_COLORS[shift.type]
         };
       });
     },
@@ -140,7 +155,7 @@ export default {
   watch: {
     index: {
       handler: function () {
-        this.focus = format(this.focussedOverlap[0].end, "yyyy-MM-dd");
+        this.focus = localizedFormat(this.focussedOverlap[0].end, "yyyy-MM-dd");
       },
       immediate: true
     }
