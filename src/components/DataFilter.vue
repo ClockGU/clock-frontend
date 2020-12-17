@@ -124,6 +124,12 @@ export default {
           return new Date(b.date.end) - new Date(a.date.end);
         });
     },
+    reviewedShifts() {
+      return this.processShifts.filter((shift) => shift.reviewed === true);
+    },
+    unreviewedShifts() {
+      return this.processShifts.filter((shift) => shift.reviewed === false);
+    },
     dates() {
       return this.reports.map((report) => new Date(report.date));
     },
@@ -158,6 +164,8 @@ export default {
         months: this.months,
         contracts: this.contracts,
         shifts: this.processShifts,
+        reviewedShifts: this.reviewedShifts,
+        unreviewedShifts: this.unreviewedShifts,
         report: this.reports.find(
           (report) => report.date.slice(0, 7) === this.date
         )

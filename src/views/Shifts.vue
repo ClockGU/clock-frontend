@@ -26,89 +26,58 @@
                       }}
                     </v-btn>
                   </v-col>
-
-                  <v-col>
-                    <ShiftBulkActions
-                      v-if="selected.length > 0"
-                      :shifts="selected"
-                      @refresh="refresh"
-                    />
-                  </v-col>
-
-                  <v-spacer></v-spacer>
-
-                  <v-col cols="4">
-                    <v-text-field
-                      v-model="search"
-                      :append-icon="icons.mdiMagnify"
-                      label="Search"
-                      single-line
-                      hide-details
-                      width="200"
-                    ></v-text-field>
-                  </v-col>
                 </v-row>
               </v-toolbar>
 
               <MonthSwitcher :data="data" :date="date" @update="updateDate" />
 
-              <v-data-table
-                v-model="selected"
-                :headers="headers"
-                :items="data.shifts"
-                :search="search"
-                :loading="loading"
-                item-key="uuid"
-                show-select
+              <ShiftsTable
+                :shifts="data.reviewedShifts"
+                :search="reviewedSearch"
+                @edit="editShift"
+                @refresh="refresh"
               >
-                <!-- eslint-disable-next-line -->
-                <template #item.reviewed="{ item }">
-                  <v-icon v-if="item.reviewed" color="green">
-                    {{ icons.mdiCheck }}
-                  </v-icon>
+                <template #head="{ selected }">
+                  <v-card-title>
+                    <v-row>
+                      <v-col cols="12" md="5">
+                        <span>Abgeschlossene Schichten</span>
+                      </v-col>
 
-                  <v-icon v-else color="red">
-                    {{ icons.mdiClose }}
-                  </v-icon>
+                      <v-col v-if="selected.length > 0" cols="12" sm="3">
+                        <ShiftBulkActions
+                          :shifts="selected"
+                          @refresh="refresh"
+                        />
+                      </v-col>
+
+                      <v-spacer></v-spacer>
+
+                      <v-col
+                        cols="12"
+                        sm="5"
+                        :offset-sm="selected.length > 0 ? 0 : 7"
+                        offset-md="0"
+                        md="3"
+                      >
+                        <v-text-field
+                          v-model="reviewedSearch"
+                          :append-icon="icons.mdiMagnify"
+                          :label="$t('actions.search')"
+                          dense
+                          hide-details
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-card-title>
+
+                  <v-card-text>
+                    Alle Schichten die du abgeschlossen hast. Alle Schichten die
+                    ursprünglich nicht für die Zukunft geplant wurden werden als
+                    "Überprüft" markiert.
+                  </v-card-text>
                 </template>
-
-                <!-- eslint-disable-next-line -->
-                <template v-slot:item.actions="{ item }">
-                  <v-btn text @click="editShift(item.shift)">
-                    <v-icon>
-                      {{ icons.mdiPencil }}
-                    </v-icon>
-                  </v-btn>
-
-                  <ConfirmationDialog @confirm="destroySingleShift(item)">
-                    <template #activator="{ on }">
-                      <v-scale-transition>
-                        <v-btn text v-on="on">
-                          <v-icon>
-                            {{ icons.mdiDelete }}
-                          </v-icon>
-                        </v-btn>
-                      </v-scale-transition>
-                    </template>
-
-                    <template #title>
-                      {{
-                        $t("buttons.deleteEntity", {
-                          entity: $tc("models.shift")
-                        })
-                      }}
-                    </template>
-
-                    <template #text>
-                      {{
-                        $t(`dialogs.textConfirmDelete`, {
-                          selectedEntity: $tc(`models.selectedShift`)
-                        })
-                      }}
-                    </template>
-                  </ConfirmationDialog>
-                </template>
-              </v-data-table>
+              </ShiftsTable>
             </v-card>
           </template>
         </DataFilter>
@@ -127,85 +96,40 @@
 
 <script>
 import { localizedFormat } from "@/utils/date";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
 import DataFilter from "@/components/DataFilter";
 import FormDialog from "@/components/FormDialog";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ShiftBulkActions from "@/components/ShiftBulkActions";
+import ShiftsTable from "@/components/shifts/ShiftsTable";
 
 import { mapGetters } from "vuex";
 import { Shift } from "@/models/ShiftModel";
 
-import ShiftService from "@/services/shift";
-import { log } from "@/utils/log";
-
-import { mdiCheck, mdiClose, mdiDelete, mdiMagnify, mdiPencil } from "@mdi/js";
+import { mdiMagnify } from "@mdi/js";
 
 export default {
   name: "Shifts",
   components: {
-    ConfirmationDialog,
     DataFilter,
     FormDialog,
     MonthSwitcher,
     SelectContractFilter,
-    ShiftBulkActions
+    ShiftBulkActions,
+    ShiftsTable
   },
   data: () => ({
-    icons: { mdiCheck, mdiClose, mdiDelete, mdiMagnify, mdiPencil },
+    icons: { mdiMagnify },
     date: localizedFormat(new Date(), "yyyy-MM"),
     loading: false,
     shiftEntity: null,
     showFormDialog: false,
-    search: "",
-    selected: []
+    reviewedSearch: ""
   }),
   computed: {
     ...mapGetters({
       contracts: "contract/contracts"
     }),
-    headers() {
-      return [
-        {
-          text: this.$t("time.date"),
-          align: "start",
-          sortable: true,
-          value: "date"
-        },
-        {
-          text: this.$t("time.start"),
-          align: "start",
-          sortable: true,
-          value: "start"
-        },
-        {
-          text: this.$t("time.end"),
-          align: "start",
-          sortable: true,
-          value: "end"
-        },
-        {
-          text: this.$t("time.duration"),
-          align: "start",
-          sortable: true,
-          value: "duration"
-        },
-        {
-          text: this.$t("calendar.type"),
-          align: "start",
-          sortable: false,
-          value: "type"
-        },
-        {
-          text: this.$t("time.reviewed"),
-          align: "start",
-          sortable: true,
-          value: "reviewed"
-        },
-        { text: this.$t("actions.actions"), value: "actions", sortable: false }
-      ];
-    },
     selectedContract() {
       const uuid = this.$route.params.contract;
 
@@ -226,36 +150,6 @@ export default {
 
       this.refresh();
     },
-    async destroy() {
-      const promises = [];
-      try {
-        for (const shift of this.selected) {
-          promises.push(ShiftService.delete(shift.uuid));
-        }
-
-        await Promise.all(promises);
-
-        this.refresh();
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      }
-    },
-    async destroySingleShift(shift) {
-      try {
-        await ShiftService.delete(shift.uuid);
-
-        // this.dialog = false;
-        this.refresh();
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      }
-    },
     processShifts(shift) {
       const shiftModel = new Shift(shift);
 
@@ -274,9 +168,6 @@ export default {
     updateDate(value) {
       this.date = value;
     },
-    resetSelection() {
-      this.selected = [];
-    },
     async refresh() {
       this.loading = true;
 
@@ -286,7 +177,6 @@ export default {
         this.$store.dispatch("report/list")
       ]);
 
-      this.resetSelection();
       this.loading = false;
     }
   }
