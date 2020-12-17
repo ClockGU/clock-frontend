@@ -1,13 +1,12 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 
-import { de } from "date-fns/locale";
-import { en } from "date-fns/locale";
+import { de, enUS as en } from "date-fns/locale";
 
 Vue.use(VueI18n);
 
 const LOCALES = { de, en };
-export const switchDateFnsLocale = locale => {
+export const switchDateFnsLocale = (locale) => {
   currentLocale.locale = LOCALES[locale];
 };
 export const currentLocale = Vue.observable({ locale: de });
