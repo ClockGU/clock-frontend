@@ -66,9 +66,10 @@
 
       <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
+
         <ShiftFormNote v-model="shift.note" data-cy="shift-note" />
 
-        <v-subheader class="pl-8" style="height: 10px">
+        <v-subheader class="pl-8">
           {{ $t("shifts.types.label") }}
         </v-subheader>
         <ShiftFormType v-model="shift.type" data-cy="shift-type" />

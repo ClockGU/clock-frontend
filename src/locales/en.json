@@ -290,7 +290,10 @@
     "changeContract": "Selected contract",
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",
+    "note": {
     "note": "Note",
+      "label": "Write a note for yourself"
+    },
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"

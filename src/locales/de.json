@@ -289,7 +289,10 @@
     "changeContract": "Zugeordneter Vertrag",
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
+    "note": {
     "note": "Notiz",
+      "label": "Schreibe eine Notiz"
+    },
     "tags": {
       "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
       "label": "Füge Tags hinzu"

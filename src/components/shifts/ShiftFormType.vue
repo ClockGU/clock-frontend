@@ -5,6 +5,7 @@
       row
       hide-details
       dense
+      class="mt-0 pt-0"
       :prepend-icon="icons.mdiBriefcaseOutline"
     >
       <v-radio
