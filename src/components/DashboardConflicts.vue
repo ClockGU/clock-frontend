@@ -33,7 +33,7 @@
     <v-dialog
       v-model="dialog"
       :fullscreen="$vuetify.breakpoint.smAndDown"
-      max-width="600"
+      max-width="1200"
       persistent
       no-click-animation
       @keydown.esc="dialog = false"
