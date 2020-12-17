@@ -78,6 +78,55 @@
                   </v-card-text>
                 </template>
               </ShiftsTable>
+
+              <ShiftsTable
+                :shifts="data.unreviewedShifts"
+                :loading="loading"
+                :search="unreviewedSearch"
+                @edit="editShift"
+                @refresh="refresh"
+              >
+                <template #head="{ selected }">
+                  <v-card-title>
+                    <v-row>
+                      <v-col cols="12" md="5">
+                        <span>Geplante Schichten</span>
+                      </v-col>
+
+                      <v-col v-if="selected.length > 0" cols="12" sm="3">
+                        <ShiftBulkActions
+                          :shifts="selected"
+                          @refresh="refresh"
+                        />
+                      </v-col>
+
+                      <v-spacer></v-spacer>
+
+                      <v-col
+                        cols="12"
+                        sm="5"
+                        :offset-sm="selected.length > 0 ? 0 : 7"
+                        offset-md="0"
+                        md="3"
+                      >
+                        <v-text-field
+                          v-model="unreviewedSearch"
+                          :append-icon="icons.mdiMagnify"
+                          :label="$t('actions.search')"
+                          dense
+                          hide-details
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-card-title>
+
+                  <v-card-text>
+                    Alle deine geplanten Schichten und unbestätigten Schichten.
+                    Sobald du eine geplante Schicht abgeschlossen hast kannst du
+                    diese hier überprüfen.
+                  </v-card-text>
+                </template>
+              </ShiftsTable>
             </v-card>
           </template>
         </DataFilter>
@@ -124,7 +173,8 @@ export default {
     loading: false,
     shiftEntity: null,
     showFormDialog: false,
-    reviewedSearch: ""
+    reviewedSearch: "",
+    unreviewedSearch: ""
   }),
   computed: {
     ...mapGetters({
