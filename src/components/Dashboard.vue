@@ -41,7 +41,11 @@
           </v-col>
 
           <v-col cols="12" md="6">
-            <DashboardConflicts :shifts="shifts" />
+            <DataFilter :date="date" :contract="selectedContract">
+              <template #default="{ data }">
+                <DashboardConflicts :shifts="data.shifts" />
+              </template>
+            </DataFilter>
           </v-col>
 
           <v-col cols="12" md="6">
@@ -54,6 +58,8 @@
 </template>
 
 <script>
+import { localizedFormat } from "@/utils/date";
+
 import ClockInOutCard from "@/components/ClockInOutCard";
 import DashboardShiftButton from "@/components/DashboardShiftButton";
 import MonthlyProgress from "@/components/MonthlyProgress";
@@ -61,6 +67,7 @@ import SelectContractFilter from "@/components/SelectContractFilter";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import DashboardLastActivity from "@/components/DashboardLastActivity";
 import DashboardWelcome from "@/components/DashboardWelcome";
+import DataFilter from "@/components/DataFilter";
 
 import { Contract } from "@/models/ContractModel";
 
@@ -79,6 +86,7 @@ export default {
   components: {
     ClockInOutCard,
     DashboardShiftButton,
+    DataFilter,
     MonthlyProgress,
     SelectContractFilter,
     DashboardConflicts,
@@ -87,6 +95,7 @@ export default {
   },
   mixins: [contractExpiredMixin],
   data: () => ({
+    date: localizedFormat(new Date(), "yyyy-MM"),
     length: 3,
     step: 0,
     entity: new Contract(),
