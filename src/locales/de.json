@@ -294,6 +294,31 @@
       "note": "Notiz",
       "label": "Schreibe eine Notiz"
     },
+    "repeating": {
+      "checkboxLabel": "Wiederholen",
+      "dialog": {
+        "activator": "Geplanten Schichten anzeigen",
+        "text": "Die folgenden Schichten werden zusätzlich geplant:",
+        "title": "Geplante Schichten"
+      },
+      "frequencyLabel": "Wie häufig soll die Schicht wiederholt werden?",
+      "frequencies": {
+        "daily": "Täglich",
+        "monthly": "Monatlich am {dayOfMonth}",
+        "weekdays": "An Wochentagen (Mo-Fr)",
+        "weekends": "An Wochenenden (Sa-So)",
+        "weekly": "Wöchentlich am {weekday}"
+      },
+      "interval": {
+        "label": "Im Intervall von {number} wiederholen.",
+        "hint": "Es wird zusätzlich eine Schicht geplant. | Es werden zusätzlich {number} Schichten geplant."
+      },
+      "repeatUntil": {
+        "title": "Bis wann sollen die Schichten wiederholt werden?",
+        "contractDate": "Bis zum Vertragsende",
+        "customDate": "Enddatum definieren"
+      }
+    },
     "review": {
       "title": "Schichten überprüfen",
       "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."

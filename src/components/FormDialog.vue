@@ -125,6 +125,7 @@ import { mdiDelete, mdiClose } from "@mdi/js";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
+import { log } from "@/utils/log";
 
 export default {
   name: "FormDialog",
@@ -190,7 +191,12 @@ export default {
       });
     },
     updateData(event) {
-      this.toSave = event[this.entityName];
+      if (this.entityName === "shift" && event.scheduledShifts !== undefined) {
+        this.toSave = [event[this.entityName], ...event.scheduledShifts];
+      } else {
+        this.toSave = event[this.entityName];
+      }
+
       this.formValid = event.valid;
     },
     closeDialog() {
@@ -207,27 +213,57 @@ export default {
           this.closeDialog();
         });
     },
-    update() {
-      this.service
-        .update(this.toSave.toPayload(), this.toSave.uuid)
-        .then(() => {
-          this.$emit("refresh", { contract: this.toSave.contract });
-        })
-        .then(() => {
-          this.closeDialog();
-        })
-        .catch(handleApiError);
+    async update() {
+      let entityToSave = this.toSave;
+      const isAnArray = Array.isArray(entityToSave);
+      if (!isAnArray) {
+        entityToSave = [this.toSave];
+      }
+
+      const promises = [];
+
+      try {
+        for (const i in entityToSave) {
+          const shift = entityToSave[i];
+          const method = i == 0 ? "update" : "create";
+          promises.push(this.service[method](shift.toPayload(), shift.uuid));
+        }
+
+        await Promise.all(promises);
+
+        this.$emit("refresh", { contract: entityToSave[0].contract });
+        this.closeDialog();
+      } catch (error) {
+        // TODO: Set error state for component & allow user to reload page
+        // We usually should end up here, if we are already logging out.
+        // But a proper error state could mitigate further issues.
+        log(error);
+      }
     },
-    save() {
-      this.service
-        .create(this.toSave.toPayload())
-        .then(() => {
-          this.$emit("refresh", { contract: this.toSave.contract });
-        })
-        .then(() => {
-          this.closeDialog();
-        })
-        .catch(handleApiError);
+    async save() {
+      let entityToSave = this.toSave;
+      const isAnArray = Array.isArray(entityToSave);
+      if (!isAnArray) {
+        entityToSave = [this.toSave];
+      }
+
+      const promises = [];
+
+      try {
+        for (const shift of entityToSave) {
+          promises.push(this.service.create(shift.toPayload(), shift.uuid));
+        }
+
+        await Promise.all(promises);
+
+        this.$emit("refresh", { contract: entityToSave[0].contract });
+        this.closeDialog();
+      } catch (error) {
+        // TODO: Set error state for component & allow user to reload page
+        // We usually should end up here, if we are already logging out.
+        // But a proper error state could mitigate further issues.
+        log(error);
+      }
     }
   }
 };

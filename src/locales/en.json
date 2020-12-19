@@ -295,6 +295,31 @@
       "note": "Note",
       "label": "Write a note for yourself"
     },
+    "repeating": {
+      "checkboxLabel": "Repeat",
+      "dialog": {
+        "activator": "Show scheduled shifts",
+        "text": "The following {numberOfShifts} will be scheduled:",
+        "title": "Repeating shifts"
+      },
+      "frequencyLabel": "How often should we repeat the shift?",
+      "frequencies": {
+        "daily": "Daily",
+        "monthly": "Every month on {dayOfMonth}",
+        "weekdays": "On weekdays (Mon-Fri)",
+        "weekends": "On weekends (Sat-Sun)",
+        "weekly": "Every week on {weekday}"
+      },
+      "interval": {
+        "label": "Repeat every {number} intervals.",
+        "hint": "One shift will be scheduled. | This will schedule {number} shifts."
+      },
+      "repeatUntil": {
+        "title": "When should we stop repeating the shift?",
+        "contractDate": "Until the end of the contract",
+        "customDate": "Let me set an end date myself"
+      }
+    },
     "review": {
       "title": "Review shifts",
       "text": "I confirm that all selected shifts have taken place."

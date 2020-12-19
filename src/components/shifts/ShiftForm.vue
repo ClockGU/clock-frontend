@@ -65,6 +65,26 @@
       </v-col>
 
       <v-col cols="12">
+        <v-checkbox
+          v-model="showRepeat"
+          :label="$t('shifts.repeating.checkboxLabel')"
+          :prepend-icon="icons.mdiRepeat"
+        ></v-checkbox>
+
+        <v-expand-transition hide-on-leave>
+          <ShiftFormRepeat
+            v-if="showRepeat"
+            :contract-end-date="contractEndDate"
+            :date="shiftStart"
+            :shift="shift"
+            @update="setScheduledShifts"
+          />
+        </v-expand-transition>
+
+        <v-divider />
+      </v-col>
+
+      <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
 
         <ShiftFormNote v-model="shift.note" data-cy="shift-note" />
@@ -109,6 +129,7 @@ import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
+import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
@@ -124,7 +145,11 @@ import { required } from "vuelidate/lib/validators";
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
-import { mdiFileDocumentEditOutline, mdiProgressCheck } from "@mdi/js";
+import {
+  mdiFileDocumentEditOutline,
+  mdiProgressCheck,
+  mdiRepeat
+} from "@mdi/js";
 
 export default {
   name: "ShiftForm",
@@ -133,7 +158,8 @@ export default {
     ShiftFormTimeInput,
     ShiftFormNote,
     ShiftFormType,
-    ShiftFormTags
+    ShiftFormTags,
+    ShiftFormRepeat
   },
   filters: {
     formatDate(date) {
@@ -167,16 +193,24 @@ export default {
     }
   },
   data: () => ({
-    icons: { mdiFileDocumentEditOutline, mdiProgressCheck },
+    icons: { mdiFileDocumentEditOutline, mdiProgressCheck, mdiRepeat },
     dialog: false,
     select: null,
-    shift: null
+    shift: null,
+    showRepeat: false,
+    scheduledShifts: []
   }),
   computed: {
     ...mapGetters({
       contracts: "contract/contracts",
       selectedContract: "selectedContract"
     }),
+    contractEndDate() {
+      return this.contract.date.end;
+    },
+    shiftStart() {
+      return localizedFormat(this.shift.date.start, "yyyy-MM-dd");
+    },
     shiftExported() {
       return this.shift.locked;
     },
@@ -231,10 +265,7 @@ export default {
       this.setStartDate();
     },
     shift: {
-      handler: function (newValue, oldValue) {
-        // Don't do anything when we set `this.shifts` initially.
-        if (oldValue === null) return;
-
+      handler: function () {
         this.$emit("update", { shift: this.shift, valid: this.valid });
 
         // When updating the shift, check if we have to unreview the shift. A
@@ -242,6 +273,13 @@ export default {
         this.handleReviewBox();
       },
       deep: true
+    },
+    scheduledShifts() {
+      this.$emit("update", {
+        shift: this.shift,
+        scheduledShifts: this.scheduledShifts,
+        valid: this.valid
+      });
     }
   },
   created() {
@@ -252,6 +290,9 @@ export default {
     }
   },
   methods: {
+    setScheduledShifts(shifts) {
+      this.scheduledShifts = shifts;
+    },
     handleReviewBox() {
       if (this.startsInFuture) {
         this.shift.reviewed = false;

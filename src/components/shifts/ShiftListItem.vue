@@ -1,10 +1,10 @@
 <template>
-  <v-list-item @click="openDialog">
+  <v-list-item @click="editable ? openDialog : () => {}">
     <v-list-item-content>
       <v-list-item-title>
         {{ item.date.start | formatDay }}
       </v-list-item-title>
-      <v-list-item-subtitle :class="item.locked ? '' : 'text--primary'">
+      <v-list-item-subtitle class="text--primary">
         {{ item.date.start | formatTime }} -
         {{ item.date.end | formatTime }}
         ({{ item.representationalDuration("hm") }})
@@ -86,14 +86,6 @@ export default {
     }
   },
   methods: {
-    click() {
-      if (this.editable) return;
-
-      this.$router.push({
-        name: "editShift",
-        params: { uuid: this.item.uuid }
-      });
-    },
     closeDialog() {
       this.shiftEntity = null;
       this.dialog = false;
