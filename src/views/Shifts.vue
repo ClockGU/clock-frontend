@@ -38,7 +38,7 @@
                 @edit="editShift"
                 @refresh="refresh"
               >
-                <template #head="{ selected }">
+                <template #head="{ destroyFn, selected }">
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
@@ -47,6 +47,7 @@
 
                       <v-col v-if="selected.length > 0" cols="12" sm="3">
                         <ShiftBulkActions
+                          :destroy-fn="destroyFn"
                           :shifts="selected"
                           can-review
                           @refresh="refresh"
@@ -88,7 +89,7 @@
                 @edit="editShift"
                 @refresh="refresh"
               >
-                <template #head="{ selected }">
+                <template #head="{ destroyFn, selected }">
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
@@ -98,6 +99,7 @@
                       <v-col v-if="selected.length > 0" cols="12" sm="3">
                         <ShiftBulkActions
                           :shifts="selected"
+                          :destroy-fn="destroyFn"
                           @refresh="refresh"
                         />
                       </v-col>

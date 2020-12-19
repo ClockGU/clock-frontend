@@ -29,7 +29,7 @@
         </template>
       </ShiftBulkActionsDialogAssignContract>
 
-      <ShiftBulkActionsDialogDelete @destroy="destroy">
+      <ShiftBulkActionsDialogDelete @destroy="destroyFn">
         <template #activator="{ on }">
           <v-list-item v-on="on">
             <v-list-item-title>{{ $t("actions.delete") }}</v-list-item-title>
@@ -45,9 +45,6 @@ import ShiftBulkActionsDialogAssignContract from "@/components/ShiftBulkActionsD
 import ShiftBulkActionsDialogDelete from "@/components/ShiftBulkActionsDialogDelete";
 import ShiftBulkActionsDialogReview from "@/components/ShiftBulkActionsDialogReview";
 
-import ShiftService from "@/services/shift";
-import { log } from "@/utils/log";
-
 export default {
   name: "ShiftBulkActions",
   components: {
@@ -56,6 +53,12 @@ export default {
     ShiftBulkActionsDialogReview
   },
   props: {
+    // We need to pass a destroy function, because we cannot reset the
+    // `this.selected` in `ShiftsTable.vue` otherwise.
+    destroyFn: {
+      type: Function,
+      required: true
+    },
     canReview: {
       type: Boolean,
       default: false
@@ -63,26 +66,6 @@ export default {
     shifts: {
       type: Array,
       required: true
-    }
-  },
-  methods: {
-    async destroy() {
-      const promises = [];
-
-      try {
-        for (const shift of this.shifts) {
-          promises.push(ShiftService.delete(shift.uuid));
-        }
-
-        await Promise.all(promises);
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      } finally {
-        this.$emit("refresh");
-      }
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="head" :selected="selected"></slot>
+    <slot name="head" :destroy-fn="destroy" :selected="selected"></slot>
 
     <v-data-table
       v-model="selected"
@@ -127,10 +127,10 @@ export default {
         // But a proper error state could mitigate further issues.
         log(error);
       }
+    },
+    reset() {
+      this.selected = [];
     }
-  },
-  reset() {
-    this.selected = [];
   }
 };
 </script>
