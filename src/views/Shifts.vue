@@ -50,6 +50,7 @@
                           :destroy-fn="destroyFn"
                           :shifts="selected"
                           can-review
+                          @edit="editShift"
                           @refresh="refresh"
                         />
                       </v-col>
@@ -100,6 +101,7 @@
                         <ShiftBulkActions
                           :shifts="selected"
                           :destroy-fn="destroyFn"
+                          @edit="editShift"
                           @refresh="refresh"
                         />
                       </v-col>

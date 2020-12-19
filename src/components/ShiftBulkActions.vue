@@ -1,9 +1,18 @@
 <template>
   <v-menu offset-y :close-on-click="true" :close-on-content-click="true">
     <template #activator="{ on, attrs }">
-      <v-btn text v-bind="attrs" v-on="on">{{ $t("actions.actions") }}</v-btn>
+      <v-btn color="primary" text v-bind="attrs" v-on="on">
+        {{ $t("actions.actions") }}
+      </v-btn>
     </template>
     <v-list>
+      <v-list-item
+        v-if="shifts.length < 2"
+        @click="$emit('edit', shifts[0].shift)"
+      >
+        <v-list-item-title>{{ $t("actions.edit") }}</v-list-item-title>
+      </v-list-item>
+
       <ShiftBulkActionsDialogReview
         v-if="canReview"
         :shifts="shifts"
