@@ -205,6 +205,9 @@ export default {
       contracts: "contract/contracts",
       selectedContract: "selectedContract"
     }),
+    isNewShift() {
+      return this.uuid === null;
+    },
     contractEndDate() {
       return this.contract.date.end;
     },
@@ -264,13 +267,17 @@ export default {
     "shift.contract": function () {
       this.setStartDate();
     },
-    shift: {
+    "shift.date": {
       handler: function () {
-        this.$emit("update", { shift: this.shift, valid: this.valid });
-
         // When updating the shift, check if we have to unreview the shift. A
         // shift starting in the future cannot be set to `was_reviewed=true`.
         this.handleReviewBox();
+      },
+      deep: true
+    },
+    shift: {
+      handler: function () {
+        this.$emit("update", { shift: this.shift, valid: this.valid });
       },
       deep: true
     },
@@ -283,7 +290,7 @@ export default {
     }
   },
   created() {
-    this.shift = this.uuid === null ? this.initializeForm() : this.entity;
+    this.shift = this.isNewShift ? this.initializeForm() : this.entity;
 
     if (!this.shift.contract) {
       this.shift.contract = this.$route.params.contract;
@@ -294,11 +301,16 @@ export default {
       this.scheduledShifts = shifts;
     },
     handleReviewBox() {
-      if (this.startsInFuture) {
-        this.shift.reviewed = false;
-      } else {
+      if (this.isNewShift && !this.startsInFuture) {
         this.shift.reviewed = true;
+      } else {
+        this.shift.reviewed = false;
       }
+      // if (this.startsInFuture) {
+      // this.shift.reviewed = false;
+      // } else {
+      // this.shift.reviewed = true;
+      // }
     },
     initializeForm() {
       return new Shift({
