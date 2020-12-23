@@ -14,7 +14,9 @@ describe("Contracts.js", () => {
       user: null,
       name: null,
       worktime: null,
-      date: date
+      date: date,
+      carryoverMinutes: "00:00",
+      carryoverTargetDate: new Date(2020, 8, 31, 0)
     });
   });
 
@@ -23,7 +25,9 @@ describe("Contracts.js", () => {
       uuid: "1234",
       user: "user",
       name: "name",
-      date: date
+      date: date,
+      carryoverMinutes: "00:00",
+      carryoverTargetDate: new Date(2020, 8, 31, 0)
     };
 
     const output = {
@@ -39,7 +43,9 @@ describe("Contracts.js", () => {
       uuid: "1234",
       user: "user",
       name: "name",
-      date: date
+      date: date,
+      carryoverMinutes: "00:00",
+      carryoverTargetDate: new Date(2020, 8, 31, 0)
     };
 
     expect(new Contract({ ...data, minutes: 600 })).toEqual({
