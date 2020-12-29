@@ -44,21 +44,11 @@ import {
   // subMinutes
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
+import { validateTimeInput } from "@/utils/time";
+
 import { Shift } from "@/models/ShiftModel";
 
 import { mdiClockOutline } from "@mdi/js";
-
-function validHourMinute(value) {
-  let hour, minute;
-
-  try {
-    [hour, minute] = value.split(":");
-  } catch (error) {
-    return false;
-  }
-
-  return Number.isInteger(parseInt(hour)) && Number.isInteger(parseInt(minute));
-}
 
 export default {
   name: "ShiftFormTimeInput",
@@ -99,8 +89,11 @@ export default {
         return localizedFormat(this.value.date[this.type], "HH:mm");
       },
       set(val) {
-        // User deleted all input or invalidated the input completely
-        if (!validHourMinute(val)) {
+        let hours, minutes;
+
+        try {
+          [hours, minutes] = validateTimeInput(val).split(":");
+        } catch {
           this.data = localizedFormat(this.value.date[this.type], "HH:mm");
           return;
         }
@@ -113,29 +106,11 @@ export default {
           this.value.date[this.type],
           "yyyy-MM-dd"
         ).split("-");
-        let [hours, minutes] = val.split(":");
 
         // Normalize hours to double digits
-        if (parseInt(hours) < 10 && hours.length < 2) {
-          hours = `0${hours}`;
-        }
         // Normalize minutes to double digits
-        if (parseInt(minutes) < 10 && minutes.length < 2) {
-          // Append zero after number, if we stay below 60
-          if (parseInt(`${minutes}0`) < 60) {
-            minutes = `${minutes}0`;
-          } else {
-            minutes = `0${minutes}`;
-          }
-        }
 
         // Manually reset hours and minutes to valid values
-        if (parseInt(hours) > 23) {
-          hours = 23;
-        }
-        if (parseInt(minutes) > 59) {
-          minutes = 59;
-        }
 
         const date = new Date(year, month - 1, day, hours, minutes);
 
