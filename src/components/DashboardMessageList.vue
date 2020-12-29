@@ -90,7 +90,6 @@ export default {
       try {
         const { data } = await MessageService.get();
         this.messages = data.map((item) => {
-          console.log(item);
           return {
             ...item,
             date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
