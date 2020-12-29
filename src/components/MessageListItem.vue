@@ -10,7 +10,7 @@
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-list-item-action-text v-text="message.distance"></v-list-item-action-text>
+      <v-list-item-action-text v-text="message.date"></v-list-item-action-text>
     </v-list-item-action>
   </v-list-item>
 </template>
@@ -24,5 +24,5 @@ export default {
       required: true
     }
   }
-}
+};
 </script>

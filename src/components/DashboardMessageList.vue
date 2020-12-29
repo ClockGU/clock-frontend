@@ -16,34 +16,32 @@
 
       <v-card-actions v-if="!noMessages">
         <TheDialog
-        v-model="dialog"
-        :persistent="false"
-        :fullscreen="$vuetify.breakpoint.smAndDown"
-        :max-width="800"
-      >
-        <template #activator="{ on }">
-          <v-btn text color="primary" block v-on="on">Alle anzeigen</v-btn>
-        </template>
+          v-model="dialog"
+          :persistent="false"
+          :fullscreen="$vuetify.breakpoint.smAndDown"
+          :max-width="800"
+        >
+          <template #activator="{ on }">
+            <v-btn text color="primary" block v-on="on">Alle anzeigen</v-btn>
+          </template>
 
-        <template #content>
-          <v-card>
-            <v-toolbar flat>
-              <v-btn icon @click="dialog = false">
-                    <v-icon>{{ icons.mdiClose }}</v-icon>
-                  </v-btn>
-              <v-toolbar-title>
-                {{ $t("app.news") }}
-              </v-toolbar-title>
-            </v-toolbar>
+          <template #content>
+            <v-card>
+              <v-toolbar flat>
+                <v-btn icon @click="dialog = false">
+                  <v-icon>{{ icons.mdiClose }}</v-icon>
+                </v-btn>
+                <v-toolbar-title>
+                  {{ $t("app.news") }}
+                </v-toolbar-title>
+              </v-toolbar>
 
-
-            <v-card-text>
-              <MessageList :messages="messages" />
-            </v-card-text>
-          </v-card>
-        </template>
-      </TheDialog>
-
+              <v-card-text>
+                <MessageList :messages="messages" />
+              </v-card-text>
+            </v-card>
+          </template>
+        </TheDialog>
       </v-card-actions>
     </template>
   </v-card>
@@ -55,6 +53,9 @@ import MessageService from "@/services/message";
 
 import TheDialog from "@/components/TheDialog";
 import MessageList from "@/components/MessageList";
+
+import { parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 import { mdiClose } from "@mdi/js";
 
@@ -70,7 +71,7 @@ export default {
     icons: {
       mdiClose
     },
-    messages: [],
+    messages: []
   }),
   computed: {
     lastThreeMessages() {
@@ -87,14 +88,21 @@ export default {
     async request() {
       this.loading = true;
       try {
-        this.messages = await MessageService.get();
+        const { data } = await MessageService.get();
+        this.messages = data.map((item) => {
+          console.log(item);
+          return {
+            ...item,
+            date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
+          };
+        });
       } catch (error) {
-        this.messages = []
+        this.messages = [];
         log(error);
       } finally {
         this.loading = false;
       }
     }
   }
-}
+};
 </script>

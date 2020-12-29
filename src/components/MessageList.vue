@@ -1,12 +1,13 @@
 <template>
   <v-list two-line subheader>
     <template v-for="(message, index) in messages">
-      <MessageListItem :key="message.title" :message="message" @show="showMessage" />
+      <MessageListItem
+        :key="message.title"
+        :message="message"
+        @show="showMessage"
+      />
 
-      <v-divider
-        v-if="index < messages.length - 1"
-        :key="index"
-      ></v-divider>
+      <v-divider v-if="index < messages.length - 1" :key="index"></v-divider>
     </template>
 
     <v-dialog v-if="dialog" v-model="dialog" @click:outside="closeMessage">
@@ -16,20 +17,20 @@
             <v-icon>{{ icons.mdiClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>
-            {{ message.title }}
+            {{ visibleMessage.title }}
           </v-toolbar-title>
           <v-spacer />
-          {{ message.distance }}
+          {{ visibleMessage.date }}
         </v-toolbar>
 
-        <v-card-text>{{ message.text }}</v-card-text>
+        <v-card-text>{{ visibleMessage.text }}</v-card-text>
       </v-card>
     </v-dialog>
   </v-list>
 </template>
 
 <script>
-import MessageListItem from "@/components/MessageListItem"
+import MessageListItem from "@/components/MessageListItem";
 import { mdiClose } from "@mdi/js";
 
 export default {
@@ -44,17 +45,17 @@ export default {
   data: () => ({
     dialog: false,
     icons: { mdiClose },
-    message: null,
+    visibleMessage: null
   }),
   methods: {
     closeMessage() {
-      this.message = null;
+      this.visibleMessage = null;
       this.dialog = false;
     },
     showMessage(message) {
-      this.message = message;
-      this.dialog = true
+      this.visibleMessage = message;
+      this.dialog = true;
     }
   }
-}
+};
 </script>
