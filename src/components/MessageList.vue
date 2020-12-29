@@ -2,7 +2,7 @@
   <v-list two-line subheader>
     <template v-for="(message, index) in messages">
       <MessageListItem
-        :key="message.title"
+        :key="message.id"
         :message="message"
         @show="showMessage"
       />
