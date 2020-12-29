@@ -89,12 +89,14 @@ export default {
       this.loading = true;
       try {
         const { data } = await MessageService.get();
-        this.messages = data.map((item) => {
-          return {
-            ...item,
-            date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
-          };
-        });
+        this.messages = data
+          .map((item) => {
+            return {
+              ...item,
+              date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
+            };
+          })
+          .sort((a, b) => b.id - a.id);
       } catch (error) {
         this.messages = [];
         log(error);
