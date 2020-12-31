@@ -11,6 +11,7 @@ function mapApiResponse(response) {
       prev: response.carry_over_last_month,
       next: response.carry_over_next_month
     },
+    debit_worktime: response.debit_worktime,
     net_worktime: response.net_worktime,
     date: response.month_year,
     exported: false

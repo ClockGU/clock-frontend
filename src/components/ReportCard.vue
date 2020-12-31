@@ -108,7 +108,6 @@ import ContractService from "@/services/contract";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { log } from "@/utils/log";
-import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ReportCard",
@@ -155,7 +154,7 @@ export default {
         },
         {
           name: this.$t("reports.debit"),
-          value: minutesToHHMM(this.debit)
+          value: this.report.debit_worktime
         },
         {
           name: this.$t("reports.timeWorked"),
@@ -184,7 +183,7 @@ export default {
     },
     debit() {
       const contract = this.$store.state.contract.contracts.find(
-        (contract) => contract.uuid === this.report.contract
+        contract => contract.uuid === this.report.contract
       );
 
       return contract.minutes;

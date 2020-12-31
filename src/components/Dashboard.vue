@@ -81,7 +81,6 @@ import { mapGetters } from "vuex";
 import contractExpiredMixin from "@/mixins/contractExpired";
 
 import { log } from "@/utils/log";
-import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "Dashboard",
@@ -117,11 +116,11 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
 
-      return this.contracts.find((contract) => contract.uuid === uuid);
+      return this.contracts.find(contract => contract.uuid === uuid);
     },
     latestReport() {
       const reports = this.reports
-        .filter((report) => report.contract === this.selectedContract.uuid)
+        .filter(report => report.contract === this.selectedContract.uuid)
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
@@ -136,7 +135,7 @@ export default {
         },
         {
           name: "Monatliche Arbeitszeit",
-          value: minutesToHHMM(this.selectedContract.minutes)
+          value: this.latestReport.debit_worktime
         },
         {
           name: "Geleistete Arbeitszeit",
