@@ -36,7 +36,7 @@ This set up requires a valid Goethe University Frankfurt HRZ account. The main l
 ```bash
 VUE_APP_API_URL=http://localhost:8000
 VUE_APP_PUBLIC_URL=https://preview.clock.uni-frankfurt.de
-VUE_APP_ALLOWED_HOST=preview.clock.uni-frankfurt.de
+VUE_APP_ALLOWED_HOST=.uni-frankfurt.de
 VUE_APP_I18N_LOCALE=de
 VUE_APP_I18N_FALLBACK_LOCALE=en
 VUE_APP_MATOMO_URL=https://piwik.rz.uni-frankfurt.de/piwik/
