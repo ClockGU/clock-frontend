@@ -1,9 +1,10 @@
-import { isPast, parseISO } from "date-fns";
+import { endOfDay, isPast, parseISO } from "date-fns";
 
 export default {
   computed: {
     contractExpired() {
-      return isPast(parseISO(this.selectedContract.date.end));
+      const date = endOfDay(parseISO(this.selectedContract.date.end));
+      return isPast(date);
     }
   }
 };
