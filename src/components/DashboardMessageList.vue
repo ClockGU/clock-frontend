@@ -12,7 +12,7 @@
 
       <v-card-text v-if="noMessages">{{ $t("news.noNews") }}</v-card-text>
 
-      <MessageList v-else :messages="lastThreeMessages" />
+      <MessageList v-else :messages="lastMessage" />
 
       <v-card-actions v-if="!noMessages">
         <TheDialog
@@ -74,8 +74,8 @@ export default {
     messages: []
   }),
   computed: {
-    lastThreeMessages() {
-      return this.messages.slice(0, 3);
+    lastMessage() {
+      return this.messages.slice(0, 1);
     },
     noMessages() {
       return this.messages.length < 1;
@@ -90,7 +90,7 @@ export default {
       try {
         const { data } = await MessageService.get();
         this.messages = data
-          .map((item) => {
+          .map(item => {
             return {
               ...item,
               date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
