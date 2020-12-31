@@ -17,6 +17,8 @@ import Placeholder from "@/components/Placeholder";
 
 import "@/assets/main.scss";
 
+import { log } from "@/utils/log";
+
 // Initialize ApiService
 ApiService.init(process.env.VUE_APP_API_URL);
 ApiService.mountInterceptor();
@@ -55,10 +57,15 @@ if (isProduction) {
     integrations: [new Integrations.Vue({ Vue, attachProps: true })],
     environment: process.env.VUE_APP_ENV,
     beforeSend(event) {
-      // Check if it is an exception, and if so, show the report dialog
+      // Check if it is an exception, and if so, log the error and redirect the
+      // user to a 404 page.
+
       if (event.exception) {
-        Sentry.showReportDialog({ eventId: event.event_id });
+        log(event);
+
+        router.push({ name: "404" });
       }
+
       return event;
     }
   });
