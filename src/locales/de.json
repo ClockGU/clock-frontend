@@ -68,7 +68,7 @@
     }
   },
   "contracts": {
-    "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags bis an die erste bzw. letze Schicht ranholen. Dabei muss das Startdatum vor der ersten und das Enddatum nach der letzten Schicht liegen.",
+    "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben. Das Startdatum muss vor der ersten und das Enddatum nach der letzten Schicht liegen.",
     "empty": "Erstelle deinen ersten Vertrag!",
     "fromTo": "{start} bis {end}",
     "hoursPerMonth": "Stunden pro Monat",
@@ -89,13 +89,13 @@
       "problems": {
         "actions": {
           "advanced": "Erweiterter Modus",
-          "keepBoth": "Erstelle neue Schichten",
+          "keepBoth": "Erstelle alle neue Schichten",
           "keepFirst": "Behalte die erste Schicht",
           "keepSecond": "Behalte die letzte Schicht",
           "label": "Wähle eine Option aus"
         },
         "clockedShift": "Geclockte Schicht",
-        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne Anfangen.",
+        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne anfangen.",
         "messages": {
           "allSaved": "Alle Schichten wurden gespeichert.",
           "noSaved": "Es wurden keine Schichten gespeichert.",
@@ -103,7 +103,7 @@
           "success": "Du wurdest ausgeclockt."
         },
         "newShifts": "Neue Schichten",
-        "text": "Eine Schicht muss am gleichen Tag enden, an dem sie gestartet ist. Wir müssen deine Schicht deswegen bearbeiten, damit sie diesen Anforderungen entspricht.",
+        "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
         "title": "Ungültige Schicht"
       },
       "review": "Probleme beheben",
@@ -262,7 +262,7 @@
     "exported": "Exportiert",
     "generate": "Stundenzettel erstellen",
     "hints": {
-      "request": "Du kannst deinen Stundenzettel zur Ansicht anfordern und runterladen. Bevor du den Stundenzettel für diesen Monat generieren kannst, musst du den vorherigen Monat sperren.",
+      "request": "Du kannst deinen Stundenzettel zur Ansicht anfordern und herunterladen. Bevor du den Stundenzettel für diesen Monat generieren kannst, musst du den vorherigen Monat sperren.",
       "lock": "Du kannst diesen Monat erst sperren nachdem du deinen Stundenzettel generiert hast."
     },
     "of": "von",
@@ -276,7 +276,7 @@
     }
   },
   "selectContract": {
-    "hint": "Ändere den Vertrag, um andere Daten zu sehen"
+    "hint": "Wechsle den Vertrag, um andere Daten zu sehen"
   },
   "settings": {
     "account": {
