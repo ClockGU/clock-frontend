@@ -17,6 +17,8 @@
     "@sentry/integrations": "5.29.0",
     "babel-plugin-transform-require-context": "^0.1.1",
     "date-fns": "2.16.1",
+    "dompurify": "^2.2.6",
+    "marked": "^1.2.7",
     "portal-vue": "2.1.7",
     "ramda": "0.27.1",
     "rrule": "^2.6.6",

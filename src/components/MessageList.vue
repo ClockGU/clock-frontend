@@ -23,7 +23,8 @@
           {{ visibleMessage.date }}
         </v-toolbar>
 
-        <v-card-text>{{ visibleMessage.text }}</v-card-text>
+        <MessageListText :text="visibleMessage.text" />
+
       </v-card>
     </v-dialog>
   </v-list>
@@ -31,11 +32,13 @@
 
 <script>
 import MessageListItem from "@/components/MessageListItem";
+import MessageListText from "@/components/MessageListText";
+
 import { mdiClose } from "@mdi/js";
 
 export default {
   name: "MessageList",
-  components: { MessageListItem },
+  components: { MessageListItem, MessageListText },
   props: {
     messages: {
       type: Array,

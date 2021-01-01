@@ -5,7 +5,7 @@
 
       <v-list-item-subtitle
         class="text--primary"
-        v-text="message.text"
+        v-text="text"
       ></v-list-item-subtitle>
     </v-list-item-content>
 
@@ -16,12 +16,21 @@
 </template>
 
 <script>
+const marked = require("marked");
+
+const stripHTML = (string) => string.replace(/(<([^>]+)>)/gi, "");
+
 export default {
   name: "MessageListItem",
   props: {
     message: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    text() {
+      return stripHTML(marked(this.message.text));
     }
   }
 };
