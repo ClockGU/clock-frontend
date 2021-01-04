@@ -130,19 +130,19 @@ export default {
     azkData() {
       return [
         {
-          name: "Übertrag aus dem letzten Monat",
+          name: this.$t("reports.carryoverLast"),
           value: this.latestReport.carryover.prev
         },
         {
-          name: "Monatliche Arbeitszeit",
+          name: this.$t("reports.debit"),
           value: this.latestReport.debit_worktime
         },
         {
-          name: "Geleistete Arbeitszeit",
+          name: this.$t("reports.timeWorked"),
           value: this.latestReport.net_worktime
         },
         {
-          name: "Übertrag Folgemonat",
+          name: this.$t("reports.carryoverNext"),
           value: this.latestReport.carryover.next
         }
       ];
