@@ -255,8 +255,8 @@
   "reports": {
     "creditDebit": "Haben/Soll: {creditDebit} Stunden",
     "debit": "Monatliche Arbeitszeit",
-    "timeWorked": "Gearbeitete Stunden",
-    "carryoverLast": "Übertrag vom letzten Monat",
+    "timeWorked": "Geleistete Arbeitszeit",
+    "carryoverLast": "Übertrag aus dem letzten Monat",
     "carryoverNext": "Übertrag in den nächsten Monat",
     "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
     "exported": "Exportiert",
