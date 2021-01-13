@@ -1,5 +1,5 @@
 <template>
-  <v-list-item @click="editable ? openDialog : () => {}">
+  <v-list-item @click="editable ? openDialog() : () => {}">
     <v-list-item-content>
       <v-list-item-title>
         {{ item.date.start | formatDay }}
