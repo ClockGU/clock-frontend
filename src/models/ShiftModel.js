@@ -29,7 +29,7 @@ export class Shift {
   constructor({
     uuid = null,
     user = null,
-    date = { start: null, end: null },
+    date = { start: null, end: null, mod: null},
     contract = null,
     type = null,
     note = null,
@@ -45,7 +45,10 @@ export class Shift {
         : defaultValueTime("start"),
       end: is(Date, new Date(date.end))
         ? new Date(date.end)
-        : defaultValueTime("end")
+        : defaultValueTime("end"),
+      mod: is(Date, new Date(date.mod))
+        ? new Date(date.mod)
+        : defaultValueTime("mod")
     };
     this.contract = is(String, contract) ? contract : null;
     this.type = is(Object, type)
@@ -67,6 +70,10 @@ export class Shift {
 
   get end() {
     return this.date.end;
+  }
+
+  get mod() {
+    return this.date.mod;
   }
 
   set end(value) {
