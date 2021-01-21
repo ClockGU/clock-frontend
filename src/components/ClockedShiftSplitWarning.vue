@@ -236,7 +236,8 @@ export default {
     this.shift = new Shift({
       ...this.clockedShift,
       date: { start: this.clockedShift.started, end: new Date() },
-      type: "st"
+      type: "st",
+      reviewed: true
     });
 
     this.initializePseudoShifts();
@@ -298,7 +299,7 @@ export default {
       const shift = new Shift({
         ...this.shift,
         uuid: uuidv4(),
-        date: { start: start, end: endOfDay(start) }
+        date: { start: start, end: endOfDay(start) },
       });
 
       return [shift];
