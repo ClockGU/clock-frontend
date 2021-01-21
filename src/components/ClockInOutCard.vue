@@ -13,19 +13,22 @@
     >
       <v-window v-model="window">
         <v-overlay
-          :value="showOverlay && !contractExpired"
+          :value="showOverlay"
           absolute
-          opacity="0.8"
-        >
+          :opacity="contractExpired ? 1.0 : 0.9"
+          >
           <v-container>
             <v-row>
               <v-col cols="12">
                 <p>
-                  {{ $t("dashboard.clock.changeContract") }}
+                  {{ contractExpired ? $t("dashboard.clock.contractExpired") : $t("dashboard.clock.contractInactive") }}
                 </p>
               </v-col>
-              <v-col cols="12">
-                <v-btn color="primary lighten-1" @click="changeContract">
+              <v-col v-if="contracts.length > 1 && clockedShift" cols="12">
+                <v-btn 
+                  color="primary lighten-1"
+                  @click="changeContract"
+                >
                   {{ $t("actions.change") }}
                 </v-btn>
               </v-col>
@@ -104,7 +107,7 @@ export default {
       );
     },
     showOverlay() {
-      return this.$route.params.contract !== this.clockedContract.uuid;
+      return (this.$route.params.contract !== this.clockedContract.uuid) || this.contractExpired
     }
   },
   methods: {

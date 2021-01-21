@@ -14,17 +14,6 @@
             <DashboardWelcome />
           </v-col>
 
-          <v-overlay v-if="contractExpired" absolute :opacity="0.97">
-            <v-card max-width="400" color="error" dark>
-              <v-card-title>
-                {{ $t("dashboard.contractExpired.title") }}
-              </v-card-title>
-
-              <v-card-text>
-                {{ $t("dashboard.contractExpired.text") }}
-              </v-card-text>
-            </v-card>
-          </v-overlay>
           <v-col cols="12" md="6" order="0" order-md="0">
             <ClockInOutCard
               :clocked-shift="clockedShift"

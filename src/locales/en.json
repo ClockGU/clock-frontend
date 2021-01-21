@@ -83,7 +83,8 @@
   },
   "dashboard": {
     "clock": {
-      "changeContract": "You are clocked into a different contract.",
+      "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
+      "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {

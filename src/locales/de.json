@@ -83,7 +83,8 @@
   },
   "dashboard": {
     "clock": {
-      "changeContract": "Du musst in den richtigen Vertrag wechseln, um auszuclocken.",
+      "contractInactive": "Du bist nicht im derzeit ausgewählten Vertrag eingeclockt. Du musst den Vertrag wechseln, um auszuclocken.",
+      "contractExpired": "Der ausgewählte Vertrag ist abgelaufen. Du kannst auf diesem Vertrag keine Schichten mehr clocken.",
       "in": "Einclocken",
       "out": "Ausclocken",
       "problems": {
@@ -127,7 +128,7 @@
     },
     "emptyActivity": "Du hast in diesem Vetrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivität",
-    "newShift": { "title": "Schicht nachtragen" },
+    "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
       "description": "Es wurde eine Überschneidung von Schichten gefunden. Du musst dieses Problem vor dem Export deines Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
       "nProblems": "Probleme gefunden",
