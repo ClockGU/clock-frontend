@@ -30,6 +30,7 @@
 
         <v-textarea
           v-model="message"
+          rows="3"
           :label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
           @blur="$v.message.$touch()"
