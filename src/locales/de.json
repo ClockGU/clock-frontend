@@ -74,6 +74,7 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
     "name": "Benenne deinen Vertrag",
+    "expired" : "(Vertrag abgelaufen)",
     "perMonth": "{time} pro Monat",
     "carryover": {
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",

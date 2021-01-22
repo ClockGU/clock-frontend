@@ -74,6 +74,7 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
     "name": "Name your contract",
+    "expired" : "(Contract expired)",
     "perMonth": "{time} per month",
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
