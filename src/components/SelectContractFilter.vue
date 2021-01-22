@@ -9,6 +9,7 @@
     persistent-hint
     solo
     return-object
+    :background-color="contractExpired ? 'grey lighten-2' : undefined"
     @input="changeContract"
   ></v-select>
 </template>
