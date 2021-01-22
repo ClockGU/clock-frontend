@@ -67,8 +67,6 @@ import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
 
-import contractExpiredMixin from "@/mixins/contractExpired";
-
 import { log } from "@/utils/log";
 
 export default {
@@ -87,7 +85,6 @@ export default {
     DashboardLastActivity,
     DashboardWelcome
   },
-  mixins: [contractExpiredMixin],
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
     length: 3,
@@ -104,7 +101,6 @@ export default {
     }),
     selectedContract() {
       const uuid = this.$route.params.contract;
-
       return this.contracts.find(contract => contract.uuid === uuid);
     },
     latestReport() {

@@ -122,10 +122,6 @@
         "running": "Clocked in"
       }
     },
-    "contractExpired": {
-      "title": "The contract expired",
-      "text": "You cannot interact with shifts in an expired contract. Change into a different one or add a new contract."
-    },
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
     "newShift": { "title": "New shift" },
@@ -278,7 +274,8 @@
     }
   },
   "selectContract": {
-    "hint": "Change the contract to see different data"
+    "hint": "Change the contract to see different data.",
+    "hintExpired" : "This contract has expired. Change the contract to see different data."
   },
   "settings": {
     "account": {

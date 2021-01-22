@@ -122,11 +122,7 @@
         "running": "Eingeclockt"
       }
     },
-    "contractExpired": {
-      "title": "Vertrag abgelaufen",
-      "text": "Du kannst mit Schichten in einem abgelaufenem Vertrag nicht interagieren. Wechsele in einen anderen Vertrag oder erstelle einen neuen."
-    },
-    "emptyActivity": "Du hast in diesem Vetrag noch keine Aktivitäten.",
+    "emptyActivity": "Du hast in diesem Vertrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivität",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
@@ -277,7 +273,8 @@
     }
   },
   "selectContract": {
-    "hint": "Wechsle den Vertrag, um andere Daten zu sehen"
+    "hint": "Wechsle den Vertrag, um andere Daten zu sehen",
+    "hintExpired" : "Der ausgewählte Vertrag ist abgelaufen. Wechsle den Vertrag, um andere Daten zu sehen"
   },
   "settings": {
     "account": {
