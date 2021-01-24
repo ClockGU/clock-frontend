@@ -41,7 +41,7 @@ export default {
     lastShifts() {
       return this.shifts
         .map((shift) => new Shift(shift))
-        .filter((shift) => shift.contract === this.selectedContract.uuid) //&& shift.reviewed
+        .filter((shift) => (shift.contract === this.selectedContract.uuid) && (shift.end < new Date()))
         .sort((a, b) => {
           return new Date(b.date.end) - new Date(a.date.end);
         })
