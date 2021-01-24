@@ -42,7 +42,7 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>Abgeschlossene Schichten</span>
+                        <span>{{ $t("shifts.table.reviewedTitle") }}</span>
                       </v-col>
 
                       <v-col v-if="selected.length > 0" cols="12" sm="3">
@@ -76,9 +76,7 @@
                   </v-card-title>
 
                   <v-card-text>
-                    Alle Schichten die du abgeschlossen hast. Alle Schichten die
-                    ursprünglich nicht für die Zukunft geplant wurden werden als
-                    "Überprüft" markiert.
+                    {{ $t("shifts.table.reviewedHint") }}
                   </v-card-text>
                 </template>
               </ShiftsTable>
@@ -94,7 +92,7 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>Geplante Schichten</span>
+                        <span>{{ $t("shifts.table.plannedTitle") }}</span>
                       </v-col>
 
                       <v-col v-if="selected.length > 0" cols="12" sm="3">
@@ -127,9 +125,7 @@
                   </v-card-title>
 
                   <v-card-text>
-                    Alle deine geplanten Schichten und unbestätigten Schichten.
-                    Sobald du eine geplante Schicht abgeschlossen hast kannst du
-                    diese hier überprüfen.
+                    {{ $t("shifts.table.plannedHint") }}
                   </v-card-text>
                 </template>
               </ShiftsTable>
