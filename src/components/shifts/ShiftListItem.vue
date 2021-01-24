@@ -19,6 +19,7 @@
         >
           {{ $t(`shifts.types.${item.type.value}`) }}
         </v-chip>
+        {{ !item.reviewed ? $t("dashboard.notYetReviewed") : "" }}
 
         <span v-if="item.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
 

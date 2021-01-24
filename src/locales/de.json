@@ -124,7 +124,7 @@
       }
     },
     "emptyActivity": "Du hast in diesem Vertrag noch keine Aktivitäten.",
-    "lastActivity": "Letzte Aktivität",
+    "lastActivity": "Letzte Aktivitäten",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
       "description": "Es wurde eine Überschneidung von Schichten gefunden. Du musst dieses Problem vor dem Export deines Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
@@ -137,7 +137,8 @@
       "timeWorked": "{time} gearbeitet",
       "title": "Fortschritt im aktuellen Monat"
     },
-    "showAll": "Alle anzeigen"
+    "showAll": "Alle anzeigen",
+    "notYetReviewed": "noch nicht überprüft"
   },
   "dialogs": {
     "textConfirmDelete": "Bist du sicher, dass du {selectedEntity} @.lower:actions.delete möchtest? @:dialogs.textPermanent",

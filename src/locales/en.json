@@ -137,7 +137,8 @@
       "timeWorked": "{time} worked",
       "title": "Monthly progress"
     },
-    "showAll": "Show all"
+    "showAll": "Show all",
+    "notYetReviewed": "not yet reviewed"
   },
   "dialogs": {
     "textConfirmDelete": "Are you sure you want to @.lower:actions.delete {selectedEntity}?. @:dialogs.textPermanent",
