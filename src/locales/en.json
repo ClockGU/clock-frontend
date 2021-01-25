@@ -343,10 +343,10 @@
     },
     "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
     "table" : {
-      "reviewedTitle" : "Finalized shifts",
-      "reviewedHint" : "All clocked shifts and shifts not planned for a future date are automatically marked as \"reviewed\".",
+      "reviewedTitle" : "Past shifts",
+      "reviewedHint" : "Clocked shifts and shifts manually entered in the past dates are consideres as \"reviewed\" automatically.",
       "plannedTitle" : "Planned shifts",
-      "plannedHint": "All future shifts and past shifts that need to be reviewed."
+      "plannedHint": "All future shifts."
     }    
   },
   "snackbar": {

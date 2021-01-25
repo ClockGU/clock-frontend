@@ -342,10 +342,10 @@
     },
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table" : {
-      "reviewedTitle" : "Abgeschlossene Schichten",
-      "reviewedHint" : "Alle Schichten die du abgeschlossen hast. Geclockte oder nicht für die Zukunft geplante Schichten werden automatisch als \"überprüft\" markiert.",
+      "reviewedTitle" : "Vergangene Schichten",
+      "reviewedHint" : "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten automatisch als \"überprüft\".",
       "plannedTitle" : "Geplante Schichten",
-      "plannedHint": "Alle deine geplanten und unbestätigten Schichten. Sobald du eine geplante Schicht tatsächlich gearbeitet hast kannst du diese hier überprüfen."
+      "plannedHint": "Alle in der Zukunft liegenden Schichten."
     }
   },
   "snackbar": {
