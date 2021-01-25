@@ -110,7 +110,7 @@
           item-value="uuid"
           filled
         ></v-select>
-
+      {{shift.reviewed}}
         <v-checkbox
           v-model="shift.reviewed"
           :disabled="startsInFuture"
@@ -141,6 +141,7 @@ import { startEndHours } from "@/utils/time";
 
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+//import { log } from "@/utils/log"
 
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
@@ -273,7 +274,7 @@ export default {
         // shift starting in the future cannot be set to `was_reviewed=true`.
         this.handleReviewBox();
       },
-      deep: true
+      deep: true,
     },
     shift: {
       handler: function () {
@@ -304,7 +305,7 @@ export default {
       if (this.isNewShift && !this.startsInFuture) {
         this.shift.reviewed = true;
       } else {
-        this.shift.reviewed = false;
+        this.shift.reviewed == true ? true : false;
       }
       // if (this.startsInFuture) {
       // this.shift.reviewed = false;
