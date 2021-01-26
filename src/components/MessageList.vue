@@ -6,11 +6,10 @@
         :message="message"
         @show="showMessage"
       />
-
       <v-divider v-if="index < messages.length - 1" :key="index"></v-divider>
     </template>
 
-    <v-dialog v-if="dialog" v-model="dialog" @click:outside="closeMessage">
+    <v-dialog v-if="dialog" v-model="dialog" :max-width="900" @click:outside="closeMessage">
       <v-card>
         <v-toolbar flat>
           <v-btn icon @click="dialog = false">
