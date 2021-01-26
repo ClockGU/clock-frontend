@@ -98,7 +98,7 @@ export default {
           })
           //sort by valid_from date or ID (= message last entered)
           //.sort((a, b) => new Date(a.date) - new Date(b.date));
-          .sort((a, b) => (a.id - b.id));
+          .sort((a, b) => (b.id - a.id));
 
       } catch (error) {
         this.messages = [];
