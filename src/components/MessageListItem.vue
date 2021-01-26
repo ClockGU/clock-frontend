@@ -2,15 +2,16 @@
   <v-list-item v-bind="$attrs" @click="$emit('show', message)">
     <v-list-item-content>
       <v-list-item-title>
-         {{message.title}}
-           <v-chip
-           v-if="message.type == 'CL'"
+        {{message.title}} |
+        <v-chip
+          v-if="message.type == 'CL'"
           outlined
           small
           class="my-2"
+          color="warning"
         >
-        Changelog
-          </v-chip>
+          Changelog
+        </v-chip>
       </v-list-item-title>
       
       <v-list-item-subtitle

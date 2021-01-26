@@ -16,7 +16,16 @@
             <v-icon>{{ icons.mdiClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>
-            {{ visibleMessage.title }}
+            {{ visibleMessage.title }} |
+            <v-chip
+              v-if="visibleMessage.type == 'CL'" 
+              outlined 
+              small 
+              class="my-2"
+              color="warning"
+            >
+              Changelog
+            </v-chip>
           </v-toolbar-title>
           <v-spacer />
           {{ visibleMessage.date }}
