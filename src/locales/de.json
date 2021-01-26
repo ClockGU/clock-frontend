@@ -214,6 +214,7 @@
     "title": "Möchtest du dich @:actions.logout?"
   },
   "news": {
+    "showAll" : "Alle anzeigen",
     "noNews": "Es gibt keine Neuigkeiten."
   },
   "models": {

@@ -214,7 +214,8 @@
     "title": "Are you sure you want to logout?"
   },
   "news": {
-    "noNews": "No news to show."
+    "showAll" : "Show all",
+    "noNews": "No news to display."
   },
   "models": {
     "contract": "Contract | Contracts",

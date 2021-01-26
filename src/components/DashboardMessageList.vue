@@ -22,7 +22,7 @@
           :max-width="800"
         >
           <template #activator="{ on }">
-            <v-btn text color="primary" block v-on="on">Alle anzeigen</v-btn>
+            <v-btn text color="primary" block v-on="on">{{ $t("news.showAll")}}</v-btn>
           </template>
 
           <template #content>
