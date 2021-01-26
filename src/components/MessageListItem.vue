@@ -2,7 +2,9 @@
   <v-list-item v-bind="$attrs" @click="$emit('show', message)">
     <v-list-item-content>
       <v-list-item-title>
-        {{message.title}} |
+        {{message.type == 'CL' 
+          ? message.title + ' | '
+          : message.title}}
         <v-chip
           v-if="message.type == 'CL'"
           outlined
