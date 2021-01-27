@@ -71,6 +71,7 @@
     "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
     "empty": "Create your first contract!",
     "fromTo": "{start} until {end}",
+    "to": "to",
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
     "name": "Name your contract",

@@ -25,7 +25,7 @@
       </v-col>
 
       <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2" class="text-center">
-        to
+        {{ $t("contracts.to") }}
       </v-col>
 
       <v-col cols="12" md="5">

@@ -71,11 +71,12 @@
     "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben. Das Startdatum muss vor der ersten und das Enddatum nach der letzten Schicht liegen.",
     "empty": "Erstelle deinen ersten Vertrag!",
     "fromTo": "{start} bis {end}",
+    "to": "bis",
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
     "name": "Benenne deinen Vertrag",
     "expired" : "(Vertrag abgelaufen)",
-    "expiredVerbose" : "Dieser Vertrag ist abgelaufen. Du kannst noch Schichten editieren und Stundenzettel exportieren.",
+    "expiredVerbose" : "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "perMonth": "{time} pro Monat",
     "carryover": {
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
