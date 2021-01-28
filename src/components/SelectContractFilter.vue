@@ -12,7 +12,7 @@
     :background-color="contractExpired ? 'grey lighten-2' : undefined"
     @input="changeContract"
   >  <template #item="contract">
-    {{ contract.item.name + (cExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+    {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
   </template>
   </v-select>
 
