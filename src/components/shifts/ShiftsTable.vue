@@ -1,7 +1,6 @@
 <template>
   <div>
     <slot name="head" :destroy-fn="destroy" :selected="selected"></slot>
-
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -12,13 +11,16 @@
       show-select
     >
       <!-- eslint-disable-next-line -->
-      <template #item.reviewed="{ item }">
-        <v-icon v-if="item.reviewed" color="green">
-          {{ icons.mdiCheck }}
-        </v-icon>
+      <template #item.type="{ item }">
+        <v-chip outlined small :color="colors[item.shift.type.value]">
+          {{ item.type }}
+        </v-chip>
+      </template>
 
-        <v-icon v-else color="red">
-          {{ icons.mdiClose }}
+      <!-- eslint-disable-next-line -->
+      <template #item.reviewed="{ item }">
+        <v-icon :color="item.reviewed ? 'green' : 'red'">
+          {{ item.reviewed ? icons.mdiCheck : icons.mdiClose }}
         </v-icon>
       </template>
 
@@ -71,6 +73,7 @@ import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
 
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
+import { SHIFT_TYPE_COLORS } from '@/utils/colors';
 
 export default {
   name: "ShiftsTable",
@@ -89,11 +92,12 @@ export default {
     shifts: {
       type: Array,
       required: true
-    }
+    },
   },
   data: () => ({
     icons: { mdiCheck, mdiClose, mdiDelete, mdiPencil },
     headers: SHIFT_TABLE_HEADERS,
+    colors: SHIFT_TYPE_COLORS,
     selected: []
   }),
   methods: {
