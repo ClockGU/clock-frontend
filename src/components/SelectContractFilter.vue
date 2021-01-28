@@ -11,7 +11,11 @@
     return-object
     :background-color="contractExpired ? 'grey lighten-2' : undefined"
     @input="changeContract"
-  ></v-select>
+  >  <template #item="contract">
+    {{ contract.item.name + (cExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+  </template>
+  </v-select>
+
 </template>
 
 <script>
