@@ -8,7 +8,7 @@
       {{ $t("contracts.disableDateChangeInfo") }}
     </v-alert>
     <v-alert
-      v-if="specificContractExpired"
+      v-if="specificContractExpired(contract)"
       data-cy="alert-step-one"
       type="warning"
     >
