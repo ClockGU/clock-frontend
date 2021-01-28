@@ -37,5 +37,8 @@ export const SHIFT_TABLE_HEADERS = [
     sortable: true,
     value: "reviewed"
   },
-  { text: i18n.t("actions.actions"), value: "actions", sortable: false }
+  { text: i18n.t("actions.actions"), 
+    value: "actions",
+    align: "center",
+    sortable: false }
 ];
