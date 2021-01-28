@@ -112,7 +112,7 @@
         ></v-select>
         <v-checkbox
           v-model="shift.reviewed"
-          :disabled="startsInFuture"
+          :disabled="startsInFuture || shift.reviewed"
           :prepend-icon="icons.mdiProgressCheck"
           :label="$t('shifts.reviewed')"
           class="mt-0 pt-0"
