@@ -4,13 +4,14 @@
       {{ $t("dashboard.progress.title") }}
     </v-card-title>
     <v-card-text>
-      <v-row align="center" justify="space-between">
-        <v-col cols="2">
+      <v-row align="center" justify="space-around">
+        <v-col cols="2" align="center">
           <v-progress-circular
             color="primary"
             size="64"
             width="6"
             rotate="270"
+            class="pa-2"
             :value="progress"
           >
             {{ printProgress }}%
@@ -22,7 +23,7 @@
               <tbody>
                 <tr v-for="row in azkData" :key="row.name">
                   <td>{{ row.name }}</td>
-                  <td>{{ row.value }}</td>
+                  <td align="right">{{ row.value }}</td>
                 </tr>
               </tbody>
             </template>

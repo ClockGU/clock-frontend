@@ -7,7 +7,7 @@
       <template v-if="lastShifts.length > 0">
         <v-list>
           <template v-for="shift in lastShifts">
-            <ShiftListItem :key="shift.uuid" :editable="false" :item="shift" />
+            <ShiftListItem :key="shift.uuid" :editable="true" :item="shift" />
           </template>
         </v-list>
         <v-btn color="success" text :to="allShiftRouter">
@@ -41,7 +41,7 @@ export default {
     lastShifts() {
       return this.shifts
         .map((shift) => new Shift(shift))
-        .filter((shift) => shift.contract === this.selectedContract.uuid)
+        .filter((shift) => (shift.contract === this.selectedContract.uuid) && (shift.end < new Date()))
         .sort((a, b) => {
           return new Date(b.date.end) - new Date(a.date.end);
         })

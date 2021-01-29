@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-alert v-if="staging" type="warning" dark>HELLO</v-alert>
+    <v-alert v-if="staging" type="warning" dark>Staging</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>

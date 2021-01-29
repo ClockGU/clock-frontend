@@ -71,9 +71,12 @@
     "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
     "empty": "Create your first contract!",
     "fromTo": "{start} until {end}",
+    "to": "to",
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
     "name": "Name your contract",
+    "expired" : "(Contract expired)",
+    "expiredVerbose" : "This contract has expired. You can still edit shifts and export reports.",
     "perMonth": "{time} per month",
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
@@ -83,7 +86,8 @@
   },
   "dashboard": {
     "clock": {
-      "changeContract": "You are clocked into a different contract.",
+      "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
+      "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {
@@ -121,10 +125,6 @@
         "running": "Clocked in"
       }
     },
-    "contractExpired": {
-      "title": "The contract expired",
-      "text": "You cannot interact with shifts in an expired contract. Change into a different one or add a new contract."
-    },
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
     "newShift": { "title": "New shift" },
@@ -139,7 +139,8 @@
       "timeWorked": "{time} worked",
       "title": "Monthly progress"
     },
-    "showAll": "Show all"
+    "showAll": "Show all",
+    "notYetReviewed": "not yet reviewed"
   },
   "dialogs": {
     "textConfirmDelete": "Are you sure you want to @.lower:actions.delete {selectedEntity}?. @:dialogs.textPermanent",
@@ -215,7 +216,8 @@
     "title": "Are you sure you want to logout?"
   },
   "news": {
-    "noNews": "No news to show."
+    "showAll" : "Show all",
+    "noNews": "No news to display."
   },
   "models": {
     "contract": "Contract | Contracts",
@@ -277,7 +279,8 @@
     }
   },
   "selectContract": {
-    "hint": "Change the contract to see different data"
+    "hint": "Change the contract to see different data.",
+    "hintExpired" : "This contract has expired. Change the contract to see different data."
   },
   "settings": {
     "account": {
@@ -341,7 +344,13 @@
       "st": "Shift",
       "vn": "Vacation"
     },
-    "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore."
+    "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
+    "table" : {
+      "reviewedTitle" : "Past shifts",
+      "reviewedHint" : "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
+      "plannedTitle" : "Scheduled shifts",
+      "plannedHint": "All shifts scheduled for the future."
+    }    
   },
   "snackbar": {
     "success": "The action was completed.",

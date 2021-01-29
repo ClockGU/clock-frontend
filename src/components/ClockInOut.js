@@ -84,7 +84,8 @@ export default {
               end: endDate
             },
             contract: this.clockedShift.contract,
-            type: { value: "st", text: "Shift" }
+            type: { value: "st", text: "Shift" },
+            reviewed: true
           };
 
           const payload = new Shift(data).toPayload();

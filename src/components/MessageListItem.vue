@@ -1,8 +1,21 @@
 <template>
   <v-list-item v-bind="$attrs" @click="$emit('show', message)">
     <v-list-item-content>
-      <v-list-item-title v-text="message.title"></v-list-item-title>
-
+      <v-list-item-title>
+        {{message.type == 'CL' 
+          ? message.title + ' | '
+          : message.title}}
+        <v-chip
+          v-if="message.type == 'CL'"
+          outlined
+          small
+          class="my-2"
+          color="warning"
+        >
+          Changelog
+        </v-chip>
+      </v-list-item-title>
+      
       <v-list-item-subtitle
         class="text--primary"
         v-text="text"

@@ -110,10 +110,9 @@
           item-value="uuid"
           filled
         ></v-select>
-
         <v-checkbox
           v-model="shift.reviewed"
-          :disabled="startsInFuture"
+          :disabled="startsInFuture || shift.reviewed"
           :prepend-icon="icons.mdiProgressCheck"
           :label="$t('shifts.reviewed')"
           class="mt-0 pt-0"
@@ -273,7 +272,7 @@ export default {
         // shift starting in the future cannot be set to `was_reviewed=true`.
         this.handleReviewBox();
       },
-      deep: true
+      deep: true,
     },
     shift: {
       handler: function () {
@@ -301,16 +300,11 @@ export default {
       this.scheduledShifts = shifts;
     },
     handleReviewBox() {
-      if (this.isNewShift && !this.startsInFuture) {
-        this.shift.reviewed = true;
-      } else {
-        this.shift.reviewed = false;
+      if (this.isNewShift){
+        this.startsInFuture ? 
+          this.shift.reviewed = false 
+          : this.shift.reviewed = true
       }
-      // if (this.startsInFuture) {
-      // this.shift.reviewed = false;
-      // } else {
-      // this.shift.reviewed = true;
-      // }
     },
     initializeForm() {
       return new Shift({

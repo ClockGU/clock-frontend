@@ -6,18 +6,28 @@
         :message="message"
         @show="showMessage"
       />
-
       <v-divider v-if="index < messages.length - 1" :key="index"></v-divider>
     </template>
 
-    <v-dialog v-if="dialog" v-model="dialog" @click:outside="closeMessage">
+    <v-dialog v-if="dialog" v-model="dialog" :max-width="900" @click:outside="closeMessage">
       <v-card>
         <v-toolbar flat>
           <v-btn icon @click="dialog = false">
             <v-icon>{{ icons.mdiClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>
-            {{ visibleMessage.title }}
+            {{ visibleMessage.type == "CL" 
+              ? visibleMessage.title + " | " 
+              : visibleMessage.title }}
+            <v-chip
+              v-if="visibleMessage.type == 'CL'" 
+              outlined 
+              small 
+              class="my-2"
+              color="warning"
+            >
+             Changelog
+            </v-chip>
           </v-toolbar-title>
           <v-spacer />
           {{ visibleMessage.date }}

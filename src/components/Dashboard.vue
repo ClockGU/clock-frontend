@@ -14,17 +14,6 @@
             <DashboardWelcome />
           </v-col>
 
-          <v-overlay v-if="contractExpired" absolute :opacity="0.97">
-            <v-card max-width="400" color="error" dark>
-              <v-card-title>
-                {{ $t("dashboard.contractExpired.title") }}
-              </v-card-title>
-
-              <v-card-text>
-                {{ $t("dashboard.contractExpired.text") }}
-              </v-card-text>
-            </v-card>
-          </v-overlay>
           <v-col cols="12" md="6" order="0" order-md="0">
             <ClockInOutCard
               :clocked-shift="clockedShift"
@@ -78,8 +67,6 @@ import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
 
-import contractExpiredMixin from "@/mixins/contractExpired";
-
 import { log } from "@/utils/log";
 
 export default {
@@ -98,7 +85,6 @@ export default {
     DashboardLastActivity,
     DashboardWelcome
   },
-  mixins: [contractExpiredMixin],
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
     length: 3,
@@ -115,7 +101,6 @@ export default {
     }),
     selectedContract() {
       const uuid = this.$route.params.contract;
-
       return this.contracts.find(contract => contract.uuid === uuid);
     },
     latestReport() {
@@ -130,19 +115,19 @@ export default {
     azkData() {
       return [
         {
-          name: "Übertrag aus dem letzten Monat",
+          name: this.$t("reports.carryoverLast"),
           value: this.latestReport.carryover.prev
         },
         {
-          name: "Monatliche Arbeitszeit",
+          name: this.$t("reports.debit"),
           value: this.latestReport.debit_worktime
         },
         {
-          name: "Geleistete Arbeitszeit",
+          name: this.$t("reports.timeWorked"),
           value: this.latestReport.net_worktime
         },
         {
-          name: "Übertrag Folgemonat",
+          name: this.$t("reports.carryoverNext"),
           value: this.latestReport.carryover.next
         }
       ];

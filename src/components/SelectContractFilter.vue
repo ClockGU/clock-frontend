@@ -3,22 +3,30 @@
     :value="selectedContract"
     :items="contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
-    :hint="$t('selectContract.hint')"
+    :hint="contractExpired ? $t('selectContract.hintExpired') : $t('selectContract.hint')"
     item-text="name"
     item-value="uuid"
     persistent-hint
     solo
     return-object
+    :background-color="contractExpired ? 'grey lighten-2' : undefined"
     @input="changeContract"
-  ></v-select>
+  >  <template #item="contract">
+    {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+  </template>
+  </v-select>
+
 </template>
 
 <script>
 import { log } from "@/utils/log";
 import { mdiRecord } from "@mdi/js";
 
+import contractExpiredMixin from "@/mixins/contractExpired";
+
 export default {
   name: "SelectContractFilter",
+  mixins: [contractExpiredMixin],
   props: {
     contracts: {
       type: Array,

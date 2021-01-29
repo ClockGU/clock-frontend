@@ -7,7 +7,13 @@
     >
       {{ $t("contracts.disableDateChangeInfo") }}
     </v-alert>
-
+    <v-alert
+      v-if="specificContractExpired(contract)"
+      data-cy="alert-step-one"
+      type="warning"
+    >
+      {{ $t("contracts.expiredVerbose") }}
+    </v-alert>
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ContractFormDateInput
@@ -19,7 +25,7 @@
       </v-col>
 
       <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2" class="text-center">
-        to
+        {{ $t("contracts.to") }}
       </v-col>
 
       <v-col cols="12" md="5">
@@ -130,6 +136,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validationMixin } from "vuelidate";
+import contractExpiredMixin from "@/mixins/contractExpired";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
   mdiCalendar,
@@ -160,7 +167,7 @@ export default {
     }
   },
   components: { ContractFormDateInput },
-  mixins: [validationMixin],
+  mixins: [contractExpiredMixin, validationMixin],
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) },
@@ -186,7 +193,7 @@ export default {
     entity: {
       type: Object,
       default: null
-    }
+    },
   },
   data: () => ({
     icons: {

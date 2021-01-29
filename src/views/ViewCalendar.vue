@@ -90,6 +90,7 @@ export default {
         .replace({
           name: "calendar",
           params: {
+            contract: this.$route.params.contract,
             type: type,
             year: parseInt(year, 10).toString(),
             month: parseInt(month, 10).toString(),

@@ -22,7 +22,7 @@
           :max-width="800"
         >
           <template #activator="{ on }">
-            <v-btn text color="primary" block v-on="on">Alle anzeigen</v-btn>
+            <v-btn text color="primary" block v-on="on">{{ $t("news.showAll")}}</v-btn>
           </template>
 
           <template #content>
@@ -75,7 +75,7 @@ export default {
   }),
   computed: {
     lastMessage() {
-      return this.messages.slice(0, 1);
+      return this.messages.slice(0,1)
     },
     noMessages() {
       return this.messages.length < 1;
@@ -96,7 +96,10 @@ export default {
               date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
             };
           })
-          .sort((a, b) => b.id - a.id);
+          //sort by valid_from date or ID (= message last entered)
+          //.sort((a, b) => new Date(a.date) - new Date(b.date));
+          .sort((a, b) => (b.id - a.id));
+
       } catch (error) {
         this.messages = [];
         log(error);
