@@ -4,16 +4,20 @@
     :items="contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="contractExpired ? $t('selectContract.hintExpired') : $t('selectContract.hint')"
-    item-text="name"
     item-value="uuid"
     persistent-hint
     solo
     return-object
     :background-color="contractExpired ? 'grey lighten-2' : undefined"
     @input="changeContract"
-  >  <template #item="contract">
-    {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
-  </template>
+  > 
+    <template #selection="contract">
+      {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+    </template>
+  
+    <template #item="contract">
+      {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+    </template>
   </v-select>
 
 </template>
@@ -40,6 +44,11 @@ export default {
   data: () => ({
     icons: { mdiRecord }
   }),
+  computed: {
+    xyz() {
+      return "hugo"
+    }
+  },
   methods: {
     changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;
