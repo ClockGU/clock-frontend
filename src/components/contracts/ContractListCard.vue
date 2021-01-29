@@ -58,8 +58,6 @@ import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { parseISO, endOfDay, isPast } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
-//import {log} from "@/utils/log";
-//import contractExpired from '@/mixins/contractExpired';
 
 function formatDate(date) {
   return localizedFormat(parseISO(date), "do MMMM yyyy");
