@@ -2,17 +2,15 @@
   <v-list-item v-bind="$attrs" @click="$emit('show', message)">
     <v-list-item-content>
       <v-list-item-title>
-        {{message.type == 'CL' 
-          ? message.title + ' | '
-          : message.title}}
+        {{ message.title }}
         <v-chip
-          v-if="message.type == 'CL'"
+          v-if="message.type !== ''"
           outlined
           small
-          class="my-2"
-          color="warning"
+          class="ma-2"
+          :color="typeColor(message)"
         >
-          Changelog
+          {{ typeTag(message) }}
         </v-chip>
       </v-list-item-title>
       
@@ -29,6 +27,8 @@
 </template>
 
 <script>
+import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
+import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 const marked = require("marked");
 
 const stripHTML = (string) => string.replace(/(<([^>]+)>)/gi, "");
@@ -45,6 +45,14 @@ export default {
     text() {
       return stripHTML(marked(this.message.text));
     }
+  },
+  methods: {
+    typeColor(message) {
+      return MESSAGE_TYPE_COLORS[message.type];
+    },
+    typeTag(message) {
+      return MESSAGE_TYPE_TAGS[message.type];
+    },
   }
 };
 </script>

@@ -43,3 +43,9 @@ export const SHIFT_TABLE_HEADERS = [
     sortable: false
   }
 ];
+
+export const MESSAGE_TYPE_TAGS = {
+  CL: "Changelog",
+  NO: "",
+  SE: "Update"
+};

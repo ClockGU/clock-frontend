@@ -31,8 +31,6 @@
           {{ tag }}
         </v-chip>
 
-        <span v-if="!item.reviewed">&nbsp;|&nbsp;</span>
-
         <v-chip
           v-if="!item.reviewed"
           data-cy="shift-list-item-type"
