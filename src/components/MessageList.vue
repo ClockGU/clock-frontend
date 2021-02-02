@@ -16,17 +16,15 @@
             <v-icon>{{ icons.mdiClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>
-            {{ visibleMessage.type == "CL" 
-              ? visibleMessage.title + " | " 
-              : visibleMessage.title }}
+            {{ visibleMessage.title }}
             <v-chip
-              v-if="visibleMessage.type == 'CL'" 
+              v-if="typeTag(visibleMessage) !== ''" 
               outlined 
               small 
-              class="my-2"
-              color="warning"
+              class="ma-2"
+              :color="typeColor(visibleMessage)"
             >
-             Changelog
+             {{ typeTag(visibleMessage) }}
             </v-chip>
           </v-toolbar-title>
           <v-spacer />
@@ -43,7 +41,8 @@
 <script>
 import MessageListItem from "@/components/MessageListItem";
 import MessageListText from "@/components/MessageListText";
-
+import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
+import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { mdiClose } from "@mdi/js";
 
 export default {
@@ -61,6 +60,12 @@ export default {
     visibleMessage: null
   }),
   methods: {
+    typeColor(message) {
+      return MESSAGE_TYPE_COLORS[message.type];
+    },
+    typeTag(message) {
+      return MESSAGE_TYPE_TAGS[message.type];
+    },
     closeMessage() {
       this.visibleMessage = null;
       this.dialog = false;
