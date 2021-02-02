@@ -63,7 +63,9 @@ export default {
   }),
   computed: {
     formattedDate() {
-      return localizedFormat(this.value.date.start, "eee dd',' yyyy");
+      //perhaps not ideal, but most users will be DE
+      //TODO check date-fns documentation
+      return localizedFormat(this.value.date.start, "eee, dd.MM.yyyy");
     },
     date: {
       get() {

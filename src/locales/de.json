@@ -305,7 +305,7 @@
     "repeating": {
       "checkboxLabel": "Wiederholen",
       "dialog": {
-        "activator": "Geplanten Schichten anzeigen",
+        "activator": "Geplante Schichten anzeigen",
         "text": "Die folgenden Schichten werden zusätzlich geplant:",
         "title": "Geplante Schichten"
       },

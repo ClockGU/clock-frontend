@@ -19,9 +19,6 @@
         >
           {{ $t(`shifts.types.${item.type.value}`) }}
         </v-chip>
-        {{ !item.reviewed ? $t("dashboard.notYetReviewed") : "" }}
-
-        <span v-if="item.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
 
         <v-chip
           v-for="(tag, i) in item.tags"
@@ -29,9 +26,22 @@
           :data-cy="'shift-list-item-tag-' + i"
           outlined
           small
-          class="my-2"
+          class="ma-1"
         >
           {{ tag }}
+        </v-chip>
+
+        <span v-if="!item.reviewed">&nbsp;|&nbsp;</span>
+
+        <v-chip
+          v-if="!item.reviewed"
+          data-cy="shift-list-item-type"
+          outlined
+          small
+          class="ma-1"
+          color="warning"
+        >
+          {{ $t("dashboard.notYetReviewed") }}
         </v-chip>
       </v-list-item-subtitle>
     </v-list-item-content>

@@ -167,15 +167,24 @@ export default {
     },
     months() {
       const months = this.reports.map((report) => report.date.slice(0, 7));
-
-      return {
-        months,
-        min: localizedFormat(min(this.dates), "yyyy-MM-dd"),
-        max: localizedFormat(max(this.dates), "yyyy-MM-dd"),
-        allowedMonths: (value) => {
-          return months.includes(value);
+      if(this.$route.path.includes("shifts")) {
+        return {
+          months,
+          min: localizedFormat(parseISO(this.contract.date.start), "yyyy-MM"),
+          max: localizedFormat(parseISO(this.contract.date.end), "yyyy-MM"),
+          allowedMonths: hugo => parseInt(hugo.split('-')[1], 10)
+        };
+      }
+      else {
+        return {
+          months,
+          min: localizedFormat(min(this.dates), "yyyy-MM-dd"),
+          max: localizedFormat(max(this.dates), "yyyy-MM-dd"),
+          allowedMonths: (value) => {
+            return months.includes(value);
+          }
         }
-      };
+      }
     },
     processShifts() {
       // Postprocess the shifts before returning them in the scoped slot
