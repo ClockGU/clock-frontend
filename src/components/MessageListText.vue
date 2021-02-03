@@ -3,6 +3,9 @@
   <v-card-text v-html="sanitizedHTML"></v-card-text>
 </template>
 
+
+
+
 <script>
 import DOMPurify from 'dompurify';
 const marked = require("marked");
@@ -29,3 +32,14 @@ export default {
   }
 }
 </script>
+
+<style>
+
+  h4 {
+    padding-top: 1.5em;
+    padding-bottom: 0.5em;
+    font-size: larger;
+  }
+
+
+</style>
