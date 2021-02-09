@@ -104,7 +104,14 @@
           "allSaved": "All shifts were saved.",
           "noSaved": "No additional shifts were saved",
           "singleSaved": "The shift was saved.",
-          "success": "You were clocked out."
+          "success": "You were clocked out.",
+          "label": {
+            "notice": "",
+            "update": "Update",
+            "changelog": "Changelog",
+            "warning": "Warning",
+            "tip": "Tip"
+          }
         },
         "newShifts": "New shifts",
         "text": "A shift must end on the same day it started. Therefore, we will need to split your shift. Make a decision on what to do.",
@@ -217,7 +224,14 @@
   },
   "news": {
     "showAll" : "Show all",
-    "noNews": "No news to display."
+    "noNews": "No news to display.",
+    "label": {
+      "notice": "",
+      "update": "Update",
+      "changelog": "Changelog",
+      "warning": "Warning",
+      "tip": "Tip"
+    }
   },
   "models": {
     "contract": "Contract | Contracts",

@@ -1,10 +1,10 @@
 <template>
-  <v-list-item v-bind="$attrs" @click="$emit('show', message)">
+  <v-list-item v-bind="$attrs" three-line @click="$emit('show', message)">
     <v-list-item-content>
       <v-list-item-title>
-        {{ message.title }}
+        {{ message.title}}
         <v-chip
-          v-if="message.type !== ''"
+          v-if="typeTag(message) !== ''"
           outlined
           small
           class="ma-2"

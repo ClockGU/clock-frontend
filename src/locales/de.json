@@ -217,7 +217,14 @@
   },
   "news": {
     "showAll" : "Alle anzeigen",
-    "noNews": "Es gibt keine Neuigkeiten."
+    "noNews": "Es gibt keine Neuigkeiten.",
+    "label": {
+      "notice": "",
+      "update": "Update",
+      "changelog": "Changelog",
+      "warning": "Achtung",
+      "tip": "Hinweis"
+    }
   },
   "models": {
     "contract": "Vertrag | Verträge",
