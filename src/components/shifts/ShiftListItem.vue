@@ -25,7 +25,6 @@
           :key="tag"
           :data-cy="'shift-list-item-tag-' + i"
           filled
-          label
           small
           class="ma-2"
         >
