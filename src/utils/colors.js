@@ -1,5 +1,5 @@
 export const SHIFT_TYPE_COLORS = {
-  st: "primary lighten-2",
+  st: "primary",
   sk: "grey",
   vn: "green lighten-1"
 };

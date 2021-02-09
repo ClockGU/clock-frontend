@@ -51,7 +51,7 @@
       <v-calendar
         ref="calendar"
         v-model="focus"
-        color="primary lighten-2"
+        color="primary lighten-1"
         event-name="duration"
         :events="events"
         :event-color="getEventColor"
@@ -178,6 +178,7 @@ export default {
           color: this.colorMap(shift),
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
+          reviewed: shift.reviewed,
           contract: contract,
           locked: shift.locked
         };
@@ -237,7 +238,7 @@ export default {
       this.type = "day";
     },
     getEventColor(event) {
-      return event.color;
+      return event.reviewed ? event.color + " lighten-1" : event.color + " lighten-3";
     },
     setToday() {
       this.focus = this.today;
