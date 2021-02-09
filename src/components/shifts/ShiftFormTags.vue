@@ -7,7 +7,7 @@
     :hide-no-data="!search"
     hide-selected
     :label="$t('shifts.tags.label')"
-    small-chips
+    chips
     multiple
     filled
     clearable
@@ -19,7 +19,10 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
-            <i18n path="shifts.tags.createHint" tag="span">
+            <i18n 
+              path="shifts.tags.createHint"
+              tag="span"
+            >
               <template #search>
                 <strong>{{ search }}</strong>
               </template>
@@ -33,6 +36,7 @@
     </template>
     <template #selection="{ attrs, item, selected }">
       <v-chip
+        class="mt-2 ml-0"
         v-bind="attrs"
         :input-value="selected"
         close

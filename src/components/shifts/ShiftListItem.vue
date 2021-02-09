@@ -24,9 +24,10 @@
           v-for="(tag, i) in item.tags"
           :key="tag"
           :data-cy="'shift-list-item-tag-' + i"
-          outlined
+          filled
+          label
           small
-          class="ma-1"
+          class="ma-2"
         >
           {{ tag }}
         </v-chip>
