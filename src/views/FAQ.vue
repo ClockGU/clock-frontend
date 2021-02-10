@@ -1,23 +1,27 @@
 <template>
   <v-container>
-    <h1>FAQ</h1>
-    <v-expansion-panels accordion>
-      <v-expansion-panel v-for="(item, i) in items" :key="i">
-        <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
-        <v-expansion-panel-content>
-          {{ item.text }}
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-row>
+      <v-col cols="12">    
+        <h1>{{$t("app.faq")}}</h1>
+        <v-expansion-panels accordion>
+          <v-expansion-panel v-for="(item, i) in items" :key="i">
+            <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              {{ item.text }}
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
 
-    <p class="mt-8">
-      Weitere Informationen findest du in unserem
-      <base-link href="https://clockgu.gitbook.io/clock-benutzerhandbuch"
-        >Benutzerhandbuch</base-link
-      >.
-    </p>
+        <p class="mt-8">
+          Weitere Informationen findest du in unserem
+          <base-link href="https://clockgu.gitbook.io/clock-benutzerhandbuch"
+            >Benutzerhandbuch</base-link
+          >.
+        </p>
+      </v-col>
+    </v-row>
   </v-container>
-</template>
+</template>  
 
 <script>
 export default {

@@ -26,7 +26,7 @@
       <v-spacer></v-spacer>
 
       <template v-if="showLoggedOutButtons">
-        <v-btn text :to="{ name: 'faq' }">FAQ</v-btn>
+        <v-btn text :to="{ name: 'faq' }">{{$t("app.faq")}}</v-btn>
 
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
@@ -120,7 +120,12 @@ export default {
           withoutContract: true
         },
         {
-          text: this.$t("app.help"),
+          text: "FAQ",
+          to: { name: "faq" },
+          loggedOut: true
+        },
+        {
+          text: this.$t("app.reset"),
           to: { name: "help" },
           loggedOut: true
         }
