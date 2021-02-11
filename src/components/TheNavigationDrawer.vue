@@ -135,7 +135,13 @@ export default {
           withoutContract: true
         },
         {
-          text: this.$t("app.help"),
+          text: "FAQ",
+          to: { name: "faq" },
+          icon: mdiHelp,
+          loggedOut: true
+        },
+        {
+          text: this.$t("app.reset"),
           to: { name: "help" },
           icon: mdiHelp,
           loggedOut: true

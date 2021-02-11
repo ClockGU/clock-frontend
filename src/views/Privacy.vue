@@ -82,9 +82,9 @@
       Zur Geltungsmachung dieser Rechte wenden Sie sich an<br />
 
       Bertram Bühner<br />
-      Zentrum Naturwissenschaften<br />
-      Max-von-Laue-Straße 9 | D-60438 Frankfurt am Main<br />
-      buehner(at)starkerstart.uni-frankfurt.de<br />
+      Bereich Human Resources<br />
+      Theodor-W.-Adorno-Platz 1 | D-60323 Frankfurt am Main<br />
+      buehner(at)em.uni-frankfurt.de<br />
     </p>
 
     <h2>

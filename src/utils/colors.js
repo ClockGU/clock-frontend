@@ -1,11 +1,13 @@
 export const SHIFT_TYPE_COLORS = {
-  st: "primary lighten-2",
+  st: "primary",
   sk: "grey",
   vn: "green lighten-1"
 };
 
 export const MESSAGE_TYPE_COLORS = {
   CL: "warning",
-  SE: "green lighten-1",
-  CO: "grey lighten-1"
+  NO: "grey-lighten-1",
+  UD: "green lighten-1",
+  WN: "error",
+  TP: "primary lighten-2"
 };

@@ -1,37 +1,40 @@
 <template>
-  <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
-    <portal-target name="card-toolbar"></portal-target>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+          <portal-target name="card-toolbar"></portal-target>
 
-    <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
-      <v-toolbar slot-scope="{ action }" :elevation="0">
-        <v-app-bar-nav-icon
-          v-if="$vuetify.breakpoint.smAndDown"
-          icon
-          @click="action"
-        ></v-app-bar-nav-icon>
+          <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+            <v-toolbar slot-scope="{ action }" :elevation="0">
+              <v-app-bar-nav-icon
+                v-if="$vuetify.breakpoint.smAndDown"
+                icon
+                @click="action"
+              ></v-app-bar-nav-icon>
 
-        <v-toolbar-title> Help </v-toolbar-title>
-      </v-toolbar>
-    </portal>
+              <v-toolbar-title>{{ $t("help.title") }}</v-toolbar-title>
+            </v-toolbar>
+          </portal>
 
-    <v-card-text>
-      <span>
-        If you are experiencing problems, you can reset the app to its factory
-        settings. You will be logged out
-      </span>
+          <v-card-text>
+            <span>
+              {{ $t("help.blurb1") }}
+            </span>
+            <p>
+              <strong>
+                {{ $t("help.blurb2") }}
+              </strong>
+            </p>
+          </v-card-text>
 
-      <p>
-        <strong>
-          This will NOT delete any of your data. All your shifts and contracts
-          will remain untouched.
-        </strong>
-      </p>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-btn color="error" text @click="reset">Reset</v-btn>
-    </v-card-actions>
-  </v-card>
+          <v-card-actions>
+            <v-btn color="error" text @click="reset">{{ $t("actions.reset") }}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

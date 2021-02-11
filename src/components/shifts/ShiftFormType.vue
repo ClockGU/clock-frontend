@@ -1,5 +1,5 @@
 <template>
-  <v-row align="end" class="pl-4">
+  <v-row align="end" class="pl-3">
     <v-radio-group
       v-model="radios"
       row
@@ -11,6 +11,7 @@
       <v-radio
         v-for="type in types"
         :key="type.value"
+        class="ml-0"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"

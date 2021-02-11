@@ -31,6 +31,8 @@
     "dashboard": "Dashboard",
     "debug": "Debug",
     "gdpr": "DSGVO",
+    "reset": "Zurücksetzen",
+    "faq": "FAQ",
     "help": "Hilfe",
     "imprint": "Impressum",
     "loggingin": "Einloggen...",
@@ -196,6 +198,11 @@
   "gdpr": {
     "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
   },
+  "help": {
+    "title": "App zurücksetzen",
+    "blurb1": "Wenn es bei der Benutzung von Clock Probleme gibt, kannst Du die App auf die Grundeinstellungen zurücksetzen. Du wirst dabei ausgeloggt.",
+    "blurb2": "Es werden KEINE Daten gelöscht, alle Schichten und Verträge bleiben unberührt."
+  },
   "hero": {
     "slogan": "Bring Deine Stundenzettel unter Kontrolle",
     "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
@@ -217,7 +224,14 @@
   },
   "news": {
     "showAll" : "Alle anzeigen",
-    "noNews": "Es gibt keine Neuigkeiten."
+    "noNews": "Es gibt keine Neuigkeiten.",
+    "label": {
+      "notice": "",
+      "update": "Update",
+      "changelog": "Changelog",
+      "warning": "Achtung",
+      "tip": "Hinweis"
+    }
   },
   "models": {
     "contract": "Vertrag | Verträge",

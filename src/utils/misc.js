@@ -37,7 +37,8 @@ export const SHIFT_TABLE_HEADERS = [
     sortable: true,
     value: "reviewed"
   },
-  { text: i18n.t("actions.actions"), 
+  { 
+    text: i18n.t("actions.actions"), 
     value: "actions",
     align: "center",
     sortable: false
@@ -45,7 +46,9 @@ export const SHIFT_TABLE_HEADERS = [
 ];
 
 export const MESSAGE_TYPE_TAGS = {
-  CL: "Changelog",
-  NO: "",
-  SE: "Update"
+  CL: i18n.t("news.label.changelog"),
+  NO: i18n.t("news.label.notice"),
+  UD: i18n.t("news.label.update"),
+  WN: i18n.t("news.label.warning"),
+  TP: i18n.t("news.label.tip")
 };
