@@ -1,0 +1,6 @@
+Dockerfile
+yarn.lock
+.*
+
+/docker
+/dev
