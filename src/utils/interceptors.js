@@ -3,7 +3,7 @@ import { log } from "@/utils/log";
 
 const errorProperties = ["detail", "non_field_errors"];
 
-const ignoreClockedShiftNotFound = function(error) {
+const ignoreClockedShiftNotFound = function (error) {
   return (
     error.config.url.includes("clockedinshifts") &&
     error.response.status === 404 &&
@@ -11,7 +11,7 @@ const ignoreClockedShiftNotFound = function(error) {
   );
 };
 
-const sessionExpiredSnack = function() {
+const sessionExpiredSnack = function () {
   store.dispatch("snackbar/setSnack", {
     snack: "Your session has expired.",
     timeout: 10000,
@@ -19,13 +19,13 @@ const sessionExpiredSnack = function() {
   });
 };
 
-export const handleApiError = function(error) {
+export const handleApiError = function (error) {
   log("handleApiError called:", error);
 
   return {};
 };
 
-export const handleLogout = function(error) {
+export const handleLogout = function (error) {
   log("handleLogout called:", error);
 
   store.dispatch("auth/LOGOUT");
@@ -35,7 +35,7 @@ export const handleLogout = function(error) {
   return Promise.reject(error);
 };
 
-export const handleNetworkError = function(error) {
+export const handleNetworkError = function (error) {
   log("handleNetworkError called:", error);
 
   store.dispatch("snackbar/setSnack", {
@@ -47,7 +47,7 @@ export const handleNetworkError = function(error) {
   return Promise.reject(error);
 };
 
-export const handleGenericError = function(error) {
+export const handleGenericError = function (error) {
   if (ignoreClockedShiftNotFound(error)) {
     log("ignoring clockedShiftNotFound");
 
@@ -81,11 +81,11 @@ export const handleGenericError = function(error) {
   return Promise.reject(error);
 };
 
-export const handleTokenRefresh = async function(error, requestFn) {
+export const handleTokenRefresh = async function (error, requestFn) {
   log("handling tokenRefresh");
   return store
     .dispatch("auth/REFRESH_TOKEN")
-    .then(response => {
+    .then((response) => {
       const { access: accessToken } = response.data;
       const { config: originalRequest } = error;
 
@@ -101,7 +101,7 @@ export const handleTokenRefresh = async function(error, requestFn) {
         }
       });
     })
-    .catch(error => {
+    .catch((error) => {
       if (error.response.status !== 401) {
         log("ignoring non-401 error");
 

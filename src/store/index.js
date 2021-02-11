@@ -11,11 +11,14 @@ import contract from "@/store/modules/contract";
 import snackbar from "@/store/modules/snackbar";
 import report from "@/store/modules/report";
 
+import i18n, { selectedLocale } from "@/plugins/i18n";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     loadingData: true,
+    locale: selectedLocale,
     user: {
       first_name: ""
     },
@@ -24,19 +27,26 @@ export default new Vuex.Store({
     userLoading: false
   },
   getters: {
-    selectedContract: state => state.selectedContract,
-    user: state => state.user,
-    userLoading: state => state.userLoading
+    selectedContract: (state) => state.selectedContract,
+    user: (state) => state.user,
+    userLoading: (state) => state.userLoading
   },
   actions: {
+    changeLocale({ commit }, locale) {
+      i18n.locale = locale;
+      commit("updateLocale", locale);
+    },
     toggleBackend({ commit }) {
       commit("toggleBackend");
     },
-    GET_USER({ commit, state }) {
+    GET_USER({ commit, dispatch, state }) {
       state.userLoading = true;
       return AuthService.getUser()
-        .then(response => {
+        .then((response) => {
           commit("SET_USER", response.data);
+          dispatch("changeLocale", response.data.language);
+
+          return Promise.resolve(response);
         })
         .finally(() => {
           state.userLoading = false;
@@ -59,6 +69,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    updateLocale(state, locale) {
+      state.locale = locale;
+    },
     SET_USER(state, payload) {
       state.user = payload;
     },
@@ -92,7 +105,7 @@ export default new Vuex.Store({
   plugins: [
     createPersistedState({
       key: "clock1.0",
-      paths: ["auth.accessToken", "auth.refreshToken", "selectedContract"]
+      paths: ["auth.accessToken", "auth.refreshToken", "locale"]
     })
   ]
 });

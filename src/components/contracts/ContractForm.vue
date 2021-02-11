@@ -1,44 +1,56 @@
 <template>
   <v-form>
-    <v-alert v-if="disableDateChange" data-cy="alert-step-one" type="error">
-      You cannot change the start/end date, after adding shifts to the contract.
+    <v-alert
+      v-if="firstShiftOfContract !== null"
+      data-cy="alert-step-one"
+      type="info"
+    >
+      {{ $t("contracts.disableDateChangeInfo") }}
     </v-alert>
-
+    <v-alert
+      v-if="specificContractExpired(contract)"
+      data-cy="alert-step-one"
+      type="warning"
+    >
+      {{ $t("contracts.expiredVerbose") }}
+    </v-alert>
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="startDate"
+          :max="firstShiftOfContract"
           :contract="contract"
           type="start"
         />
       </v-col>
 
       <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2" class="text-center">
-        to
+        {{ $t("contracts.to") }}
       </v-col>
 
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="endDate"
+          :min="lastShiftOfContract"
+          :max="maxEndDate"
           :contract="contract"
-          :min="startDate"
           type="end"
         />
       </v-col>
 
       <v-col cols="12">
         <v-text-field
-          v-model="contract.hours"
-          data-cy="input-hours"
-          label="Working hours"
-          hint="HH:mm"
+          v-model="contract.worktime"
+          data-cy="input-worktime"
+          :label="$t('contracts.hoursPerMonth')"
+          :hint="$t('contracts.hoursPerMonthSubtitle')"
           :prepend-icon="icons.mdiTimetable"
           return-masked-value
           persistent-hint
           required
-          :error-messages="hoursErrors"
+          :error-messages="worktimeErrors"
           filled
-          @blur="hoursUpdated"
+          @blur="worktimeUpdated"
         />
       </v-col>
 
@@ -46,7 +58,7 @@
         <v-text-field
           v-model="contract.name"
           data-cy="input-contract"
-          label="Contract name"
+          :label="$t('contracts.name')"
           :error-messages="nameErrors"
           :prepend-icon="icons.mdiFolderInformationOutline"
           filled
@@ -54,6 +66,57 @@
           required
           @blur="$v.contract.name.$touch()"
         />
+      </v-col>
+
+      <v-col cols="12">
+        <v-checkbox
+          v-model="carryover"
+          :label="$t('contracts.carryover.checkboxLabel')"
+        ></v-checkbox>
+
+        <v-text-field
+          v-if="carryover"
+          v-model="contract.carryoverMinutes"
+          :prepend-icon="icons.mdiCalendarClock"
+          :label="$t('contracts.carryover.minutesLabel')"
+          :error-messages="carryoverMinutesErrors"
+          maxlength="6"
+          required
+          filled
+          @blur="carryoverMinutesUpdated"
+        >
+        </v-text-field>
+
+        <v-menu
+          v-if="carryover"
+          v-model="carryoverDateMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template #activator="{ on, attrs }">
+            <v-text-field
+              v-model="carryoverTargetDate"
+              :label="$t('contracts.carryover.dateLabel')"
+              :prepend-icon="icons.mdiCalendar"
+              readonly
+              filled
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+
+          <v-date-picker
+            v-model="contract.carryoverTargetDate"
+            type="month"
+            :show-current="false"
+            :min="carryoverMinimalDate"
+            :max="carryoverMaximalDate"
+            @input="carryoverDateMenu = false"
+          ></v-date-picker>
+        </v-menu>
       </v-col>
     </v-row>
   </v-form>
@@ -63,33 +126,63 @@
 import { Contract } from "@/models/ContractModel";
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 
-import { format, startOfMonth, endOfMonth, isAfter, parseISO } from "date-fns";
+import {
+  addMonths,
+  format,
+  startOfMonth,
+  endOfMonth,
+  isAfter,
+  parseISO
+} from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { validationMixin } from "vuelidate";
+import contractExpiredMixin from "@/mixins/contractExpired";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
-import { mdiTimetable, mdiFolderInformationOutline } from "@mdi/js";
+import {
+  mdiCalendar,
+  mdiCalendarClock,
+  mdiTimetable,
+  mdiFolderInformationOutline
+} from "@mdi/js";
 
-const hoursNotZero = value => value !== "00:00";
-const validMinutes = value => {
+import { mapGetters } from "vuex";
+
+const worktimeNotZero = (value) => value !== "00:00";
+const validWorktime = (value) => {
   try {
     return value.split(":")[1] <= parseInt(59);
   } catch {
     return false;
   }
 };
+const validCarryoverMinutes = (value) => {
+  return /^(-?)([0-9][0-9]):[0-5][0-9]$/.test(value);
+};
 
 export default {
   name: "ContractForm",
   filters: {
     formatDate(date) {
-      return format(parseISO(date), "yyyy-MM-dd");
+      return localizedFormat(parseISO(date), "yyyy-MM-dd");
     }
   },
   components: { ContractFormDateInput },
-  mixins: [validationMixin],
+  mixins: [contractExpiredMixin, validationMixin],
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) },
-      hours: { required, hoursNotZero, validMinutes, minLength: minLength(5) }
+      carryoverMinutes: {
+        required,
+        validCarryoverMinutes,
+        minLength: minLength(5),
+        maxLength: maxLength(6)
+      },
+      worktime: {
+        required,
+        worktimeNotZero,
+        validWorktime,
+        minLength: minLength(5)
+      }
     }
   },
   props: {
@@ -100,65 +193,118 @@ export default {
     entity: {
       type: Object,
       default: null
-    }
+    },
   },
   data: () => ({
-    icons: { mdiFolderInformationOutline, mdiTimetable },
-    contract: null
+    icons: {
+      mdiFolderInformationOutline,
+      mdiTimetable,
+      mdiCalendar,
+      mdiCalendarClock
+    },
+    contract: null,
+    carryover: false,
+    carryoverDateMenu: false
   }),
 
   computed: {
+    ...mapGetters({
+      shifts: "shift/shifts"
+    }),
+    carryoverMinimalDate() {
+      return this.contract.date.start;
+    },
+    carryoverMaximalDate() {
+      return this.contract.date.end;
+    },
+    carryoverTargetDate() {
+      return format(parseISO(this.contract.carryoverTargetDate), "MMMM yyyy");
+    },
+    sortedShifts() {
+      const shifts = this.shifts.filter(
+        (shift) => shift.contract === this.entity.uuid
+      );
+      return shifts.sort((a, b) => {
+        return new Date(a.date.start) - new Date(b.date.start);
+      });
+    },
+    lastShiftOfContract() {
+      if (this.sortedShifts.length < 1) return this.startDate;
+
+      return format(
+        new Date(this.sortedShifts[this.sortedShifts.length - 1].date.start),
+        "yyyy-MM-dd"
+      );
+    },
+    firstShiftOfContract() {
+      if (this.sortedShifts.length < 1) return null;
+
+      return format(new Date(this.sortedShifts[0].date.start), "yyyy-MM-dd");
+    },
     valid() {
       if (
-        this.hoursErrors.length > 0 ||
+        this.worktimeErrors.length > 0 ||
         this.nameErrors.length > 0 ||
         this.contract.name === null ||
-        this.contract.hours === null
+        this.contract.worktime === null ||
+        this.carryoverMinutesErrors.length > 0
       ) {
         return false;
       }
 
       return true;
     },
-    disableDateChange() {
-      return (
-        this.$store.state.shift.shifts.filter(
-          shift => shift.contract === this.contract.uuid
-        ).length > 0
-      );
-    },
     initialData() {
+      const startDate = localizedFormat(startOfMonth(new Date()), "yyyy-MM-dd");
+
       return new Contract({
         name: null,
         date: {
-          start: format(startOfMonth(new Date()), "yyyy-MM-dd"),
-          end: format(endOfMonth(new Date()), "yyyy-MM-dd")
+          start: startDate,
+          end: localizedFormat(endOfMonth(new Date()), "yyyy-MM-dd")
         },
-        hours: null
+        carryoverTargetDate: startDate,
+        carryoverMinutes: 0,
+        worktime: null
       });
     },
     startDate: {
       get() {
-        return format(parseISO(this.contract.start), "yyyy-MM-dd");
+        return localizedFormat(parseISO(this.contract.start), "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
 
         const date = new Date(year, month - 1, day, 0, 0);
-        this.contract.start = format(date, "yyyy-MM-dd");
+        this.contract.start = localizedFormat(date, "yyyy-MM-dd");
+
+        // Update the carryoverTargetDate to the contract start, if we do not
+        // want to carry over anything
+        if (!this.carryover) {
+          this.contract.carryoverTargetDate = format(
+            startOfMonth(parseISO(this.contract.start)),
+            "yyyy-MM-dd"
+          );
+        }
+
+        // Update the carryoverTargetDate if we move the start month beyond the
+        // previous value
+        if (isAfter(date, parseISO(this.contract.carryoverTargetDate))) {
+          this.contract.carryoverTargetDate = format(date, "yyyy-MM-dd");
+        }
 
         if (isAfter(date, parseISO(this.contract.end))) {
-          this.contract.end = format(endOfMonth(date), "yyyy-MM-dd");
+          this.contract.end = localizedFormat(endOfMonth(date), "yyyy-MM-dd");
         }
       }
     },
     endDate: {
       get() {
-        return format(parseISO(this.contract.end), "yyyy-MM-dd");
+        return localizedFormat(parseISO(this.contract.end), "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        this.contract.end = format(
+        this.contract.end = localizedFormat(
           new Date(year, month - 1, day, 0, 0),
           "yyyy-MM-dd"
         );
@@ -168,41 +314,102 @@ export default {
       const errors = [];
       if (!this.$v.contract.name.$dirty) return errors;
       !this.$v.contract.name.minLength &&
-        errors.push("Name must be at least 2 characters long!");
+        errors.push(
+          this.$t("errors.minLength", {
+            name: this.$t("errors.contractName"),
+            length: 2
+          })
+        );
       !this.$v.contract.name.maxLength &&
-        errors.push("Name cannot be longer than 100 characters!");
+        errors.push(
+          this.$t("errors.maxLength", {
+            name: this.$t("errors.contractName"),
+            length: 100
+          })
+        );
 
-      !this.$v.contract.name.required && errors.push("Name is required");
+      !this.$v.contract.name.required &&
+        errors.push(
+          this.$tc("errors.nameRequired", 1, {
+            name: this.$t("errors.contractName")
+          })
+        );
       return errors;
     },
-    hoursErrors() {
+    worktimeErrors() {
       const errors = [];
-      if (!this.$v.contract.hours.$dirty) return errors;
-      !this.$v.contract.hours.required && errors.push("Hours is required");
-      !this.$v.contract.hours.validMinutes &&
-        errors.push("Please enter a valid format (HH:MM).");
-      !this.$v.contract.hours.minLength &&
-        errors.push("Please enter a valid format (HH:MM).");
-      !this.$v.contract.hours.hoursNotZero &&
-        errors.push("A contract must have a duration.");
+      if (!this.$v.contract.worktime.$dirty) return errors;
+      !this.$v.contract.worktime.required &&
+        errors.push(
+          this.$tc("errors.nameRequired", 1, {
+            name: this.$t("errors.hours")
+          })
+        );
+      !this.$v.contract.worktime.validWorktime &&
+        errors.push(this.$t("errors.timeFormat"));
+      !this.$v.contract.worktime.minLength &&
+        errors.push(this.$t("errors.timeFormat"));
+      !this.$v.contract.worktime.worktimeNotZero &&
+        errors.push(
+          this.$t("errors.durationBiggerZero", {
+            entity: this.$tc("models.contract")
+          })
+        );
+
+      return errors;
+    },
+    carryoverMinutesErrors() {
+      const errors = [];
+      if (!this.$v.contract.carryoverMinutes.$dirty) return errors;
+      !this.$v.contract.carryoverMinutes.required &&
+        errors.push(
+          this.$tc("errors.nameRequired", 1, {
+            name: this.$t("errors.hours")
+          })
+        );
+      !this.$v.contract.carryoverMinutes.minLength &&
+        errors.push(this.$t("errors.timeFormat"));
+      !this.$v.contract.carryoverMinutes.maxLength &&
+        errors.push(this.$t("errors.timeFormat"));
+      !this.$v.contract.carryoverMinutes.validCarryoverMinutes &&
+        errors.push(this.$t("errors.timeFormat"));
 
       return errors;
     }
   },
   watch: {
     contract: {
-      handler: function() {
+      handler: function () {
         this.$emit("update", { contract: this.contract, valid: this.valid });
       },
       deep: true
     }
   },
   created() {
-    this.contract = this.uuid === null ? this.initialData : this.entity;
+    if (this.uuid === null) {
+      // We are creating a new contract. We do not need to set a maximal end
+      // date.
+      this.contract = this.initialData;
+      this.maxEndDate = null;
+    } else {
+      // We are updating an existing contract. The latest end date is in six
+      // months.
+      this.contract = this.entity;
+      const currentEndDate = parseISO(this.entity.date.end);
+      this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
+    }
+
+    if (this.contract.carryoverMinutes !== "00:00") {
+      this.carryover = true;
+    }
   },
   methods: {
-    hoursUpdated() {
-      this.$v.contract.hours.$touch();
+    worktimeUpdated() {
+      this.$v.contract.worktime.$touch();
+      this.$emit("update", { contract: this.contract, valid: this.valid });
+    },
+    carryoverMinutesUpdated() {
+      this.$v.contract.carryoverMinutes.$touch();
       this.$emit("update", { contract: this.contract, valid: this.valid });
     }
   }

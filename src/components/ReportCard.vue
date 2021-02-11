@@ -1,76 +1,122 @@
 <template>
-  <v-col cols="12" sm="6" md="4">
-    <v-card outlined>
-      <v-card-title>
-        <span>
-          {{ report.date | formatDate }}
-        </span>
-        <v-spacer></v-spacer>
-        <v-chip v-if="exported" outlined color="primary">
-          Exported
-        </v-chip>
-      </v-card-title>
+  <v-card outlined>
+    <v-card-title>
+      <span>
+        {{ $t("reports.summary") }}
+      </span>
+      <v-spacer></v-spacer>
+      <v-chip v-if="exported" outlined color="primary">
+        {{ $t("reports.exported") }}
+      </v-chip>
+    </v-card-title>
 
-      <v-card-text>Credit/Debit: {{ creditDebit }} hours</v-card-text>
+    <v-card-text>
+      <v-simple-table>
+        <template #default>
+          <tbody>
+            <tr v-for="row in rows" :key="row.name">
+              <td>{{ row.name }}</td>
+              <td class="text-right">{{ row.value }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-card-text>
 
-      <v-card-actions>
-        <v-btn
-          v-if="pdfResponse"
-          :loading="loading"
-          :outlined="loading"
-          text
-          color="primary"
-          @click="download"
-        >
-          Download
-        </v-btn>
+    <v-card-actions class="px-1">
+      <v-container>
+        <v-row align="center">
+          <v-col cols="8">
+            <span class="subtitle-2"> 1. {{ $t("reports.generate") }} </span>
 
-        <ConfirmationDialog
-          v-else
-          :confirmation-button="{ text: 'Continue', color: 'primary' }"
-          @confirm="request"
-        >
-          <template v-slot:activator="{ on }">
+            <p class="caption">{{ $t("reports.hints.request") }}</p>
+          </v-col>
+          <v-col cols="4">
             <v-btn
+              v-if="!pdf"
               :loading="loading"
               :outlined="loading"
-              text
+              :disabled="!isFirstUnlockedMonth && !exported"
               color="primary"
-              v-on="on"
+              @click="request"
             >
-              Request
+              {{ $t("actions.request") }}
             </v-btn>
-          </template>
 
-          <template v-slot:title>Generate report</template>
+            <v-btn
+              v-else
+              :loading="loading"
+              :outlined="loading"
+              color="primary"
+              @click="download"
+            >
+              {{ $t("actions.download") }}
+            </v-btn>
+          </v-col>
+        </v-row>
 
-          <template v-slot:text>
-            Once you generate the report, you will not be able to add or update
-            shifts in the corresponding month.
-          </template>
-        </ConfirmationDialog>
-      </v-card-actions>
-    </v-card>
-  </v-col>
+        <v-row align="center">
+          <v-col cols="8">
+            <span class="subtitle-2"> 2. {{ $t("reports.lock.label") }} </span>
+
+            <p class="caption">{{ $t("reports.hints.lock") }}</p>
+          </v-col>
+
+          <v-col cols="4">
+            <ConfirmationDialog
+              :confirmation-button="{
+                text: $t('actions.confirm'),
+                color: 'error'
+              }"
+              @confirm="lock"
+            >
+              <template #activator="{ on }">
+                <v-btn
+                  :disabled="lockDisabled"
+                  :text="!lockDisabled"
+                  :color="!lockDisabled ? 'orange' : ''"
+                  v-on="on"
+                >
+                  {{
+                    isLockable
+                      ? $t("reports.lock.lock")
+                      : $t("reports.lock.locked")
+                  }}
+                </v-btn>
+              </template>
+
+              <template #title>
+                {{ $t("reports.lock.confirm") }}
+              </template>
+
+              <template #text>
+                {{ $t("reports.lock.message") }}
+              </template>
+            </ConfirmationDialog>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
+import { parseISO, differenceInMinutes } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import ReportService from "@/services/report";
+import ContractService from "@/services/contract";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
-import { mapGetters } from "vuex";
+import { log } from "@/utils/log";
 
 export default {
   name: "ReportCard",
-  components: {
-    ConfirmationDialog
-  },
   filters: {
     formatDate(date) {
-      return format(parseISO(date), "MMMM yyyy");
+      return localizedFormat(parseISO(date), "MMMM yyyy");
     }
   },
+  components: { ConfirmationDialog },
   props: {
     exported: {
       type: Boolean,
@@ -79,21 +125,58 @@ export default {
     report: {
       type: Object,
       required: true
+    },
+    isLockable: {
+      type: Boolean,
+      default: false
+    },
+    shifts: {
+      type: Array,
+      required: true
+    },
+    isFirstUnlockedMonth: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
     return {
-      pdfResponse: null,
+      pdf: null,
       loading: false
     };
   },
   computed: {
-    ...mapGetters({
-      currentShifts: "shift/currentShifts"
-    }),
+    rows() {
+      return [
+        {
+          name: this.$t("reports.carryoverLast"),
+          value: this.report.carryover.prev
+        },
+        {
+          name: this.$t("reports.debit"),
+          value: this.report.debit_worktime
+        },
+        {
+          name: this.$t("reports.timeWorked"),
+          value: this.report.net_worktime
+        },
+        {
+          name: this.$t("reports.carryoverNext"),
+          value: this.report.carryover.next
+        }
+      ];
+    },
+    timeWorked() {
+      return this.shifts.reduce((acc, cur) => {
+        const dateA = new Date(cur.date.start);
+        const dateB = new Date(cur.date.end);
+
+        return acc + differenceInMinutes(dateB, dateA);
+      }, 0);
+    },
     fileName() {
-      const date = format(parseISO(this.report.date), "MMMM'_'yyyy");
-      return `Report_${date}.pdf`;
+      const date = localizedFormat(parseISO(this.report.date), "MMMM'_'yyyy");
+      return `${this.$i18n.t("app.reports")}_${date}.pdf`;
     },
     downloadLabel() {
       return !this.pdfResponse ? "Request" : "Download";
@@ -103,34 +186,52 @@ export default {
         contract => contract.uuid === this.report.contract
       );
 
-      return contract.hours.toFixed(1);
+      return contract.minutes;
     },
-    credit() {
-      return (this.report.duration / 60).toFixed(1);
-    },
-    creditDebit() {
-      return `${this.credit} of ${this.debit}`;
+    lockDisabled() {
+      return !this.pdf || !this.isLockable;
     }
   },
   methods: {
     download() {
-      let link = document.createElement("a");
-      link.href = window.URL.createObjectURL(
-        new Blob([this.pdfResponse], { type: "application/pdf" })
-      );
-      link.download = this.fileName;
-
-      document.body.appendChild(link);
+      const link = document.createElement("a");
+      link.setAttribute("href", `data:application/pdf;base64,${this.pdf}`);
+      link.setAttribute("download", this.fileName);
       link.click();
-      document.body.removeChild(link);
     },
     async request() {
       this.loading = true;
-      const { data } = await ReportService.export(this.report.uuid);
-      this.pdfResponse = data;
-      this.loading = false;
+      try {
+        const response = await ReportService.get(this.report.uuid);
+        this.pdf = Buffer.from(response.data, "binary").toString("base64");
+      } catch (error) {
+        if (error.response.status === 401) return;
+        // TODO: Set error state in component
+        const uint8array = new Uint8Array(error.response.data);
+        const decoded = JSON.parse(new TextDecoder().decode(uint8array));
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: decoded.message,
+          timeout: 4000,
+          color: "error"
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    async lock() {
+      try {
+        const date = this.report.date.slice(0, 7);
+        const [year, month] = date.split("-");
+        await ContractService.lock({
+          uuid: this.report.contract,
+          year,
+          month
+        });
 
-      this.$store.dispatch("shift/queryShifts");
+        this.$emit("locked");
+      } catch (error) {
+        log(error);
+      }
     }
   }
 };

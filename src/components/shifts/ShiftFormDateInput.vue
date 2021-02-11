@@ -6,14 +6,15 @@
     transition="scale-transition"
     offset-y
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on, attrs }">
       <v-text-field
-        :value="formattedDate"
+        v-model="formattedDate"
         readonly
         filled
         dense
         hide-details
         :prepend-icon="icons.mdiCalendar"
+        v-bind="attrs"
         v-on="on"
       ></v-text-field>
     </template>
@@ -22,13 +23,14 @@
       no-title
       :min="min"
       :max="max"
+      :first-day-of-week="1"
       @click:date="menu = false"
     ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
-import { format } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { Shift } from "@/models/ShiftModel";
 
 import { mdiCalendar } from "@mdi/js";
@@ -61,19 +63,21 @@ export default {
   }),
   computed: {
     formattedDate() {
-      return format(this.value.date.start, "eee dd',' yyyy");
+      //perhaps not ideal, but most users will be DE
+      //TODO check date-fns documentation
+      return localizedFormat(this.value.date.start, "eee, dd.MM.yyyy");
     },
     date: {
       get() {
-        return format(this.value.date.start, "yyyy-MM-dd");
+        return localizedFormat(this.value.date.start, "yyyy-MM-dd");
       },
       set(val) {
         const [year, month, day] = val.split("-");
-        const [startHours, startMinutes] = format(
+        const [startHours, startMinutes] = localizedFormat(
           this.value.date.start,
           "HH:mm"
         ).split(":");
-        const [endHours, endMinutes] = format(
+        const [endHours, endMinutes] = localizedFormat(
           this.value.date.end,
           "HH:mm"
         ).split(":");

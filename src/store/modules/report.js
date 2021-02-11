@@ -1,5 +1,4 @@
 import ReportService from "@/services/report";
-import { handleApiError } from "@/utils/interceptors";
 
 const state = {
   reports: [],
@@ -7,13 +6,13 @@ const state = {
 };
 
 const getters = {
-  loading: state => state.status === "loading",
-  reports: state => state.reports
+  loading: (state) => state.status === "loading",
+  reports: (state) => state.reports
 };
 
 const mutations = {
   delete(state, payload) {
-    state.reports = state.reports.filter(report => report.uuid !== payload);
+    state.reports = state.reports.filter((report) => report.uuid !== payload);
   },
   set(state, payload) {
     state.reports = payload;
@@ -29,14 +28,16 @@ const actions = {
   },
   async list({ commit }) {
     state.status = "loading";
-    await ReportService.list()
-      .then(response => {
-        commit("set", response.data);
-      })
-      .catch(handleApiError)
-      .finally(() => {
-        state.status = "idle";
-      });
+    try {
+      const response = await ReportService.list();
+      commit("set", response.data);
+
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    } finally {
+      state.status = "idle";
+    }
   }
 };
 

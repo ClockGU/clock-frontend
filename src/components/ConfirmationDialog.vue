@@ -6,14 +6,14 @@
     @close="cancel"
     @click:outside="cancel"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <v-card data-cy="delete-dialog">
         <v-card-title>
-          <span class="headline">
+          <span class="text-h5">
             <slot name="title"></slot>
           </span>
         </v-card-title>
@@ -25,20 +25,22 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            v-bind="confirmationObject.attrs"
             data-cy="delete-confirm"
-            :color="confirmationButton.color"
+            :color="confirmationObject.color"
             text
-            @click="confirm"
+            @click="confirmationObject.onClickHandler"
           >
-            {{ confirmationButton.text }}
+            {{ confirmationObject.text }}
           </v-btn>
           <v-btn
+            v-bind="cancelObject.attrs"
             data-cy="delete-cancel"
-            :color="cancelButton.color"
+            :color="cancelObject.color"
             text
             @click="cancel"
           >
-            {{ cancelButton.text }}
+            {{ cancelObject.text }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,8 +59,9 @@ export default {
       type: Object,
       default: () => {
         return {
-          text: "Delete",
-          color: "error"
+          color: "error",
+          attrs: {},
+          onClickHandler: null
         };
       }
     },
@@ -66,8 +69,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          text: "Cancel",
-          color: ""
+          color: "",
+          attrs: {}
         };
       }
     },
@@ -79,6 +82,25 @@ export default {
   data: () => ({
     dialog: false
   }),
+  computed: {
+    confirmationObject() {
+      return {
+        text: this.$t("actions.delete"),
+        ...this.confirmationButton,
+        onClickHandler:
+          this.confirmationButton.onClickHandler === null ||
+          this.confirmationButton.onClickHandler === undefined
+            ? this.confirm
+            : this.confirmationButton.onClickHandler
+      };
+    },
+    cancelObject() {
+      return {
+        text: this.$t("actions.cancel"),
+        ...this.cancelButton
+      };
+    }
+  },
   methods: {
     cancel() {
       this.$emit("cancel");

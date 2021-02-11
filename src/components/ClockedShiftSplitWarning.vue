@@ -6,12 +6,13 @@
     data-cy="clicked-shift-split-warning"
   >
     <v-card-text class="pa-0 ma-0">
-      A shift must end on the same day it started. Therefore, we will need to
-      split your shift. Make a decision on what to do.
+      {{ $t("dashboard.clock.problems.text") }}
     </v-card-text>
 
     <v-list class="px-0" data-cy="overflowing-shift">
-      <v-subheader class="px-0">Clocked shift</v-subheader>
+      <v-subheader class="px-0">
+        {{ $t("dashboard.clock.problems.clockedShift") }}
+      </v-subheader>
       <v-list-item two-line class="px-0">
         <v-list-item-content>
           <v-list-item-title data-cy="overflowing-shift-duration">
@@ -33,7 +34,7 @@
             v-model="selected"
             data-cy="select"
             :items="options"
-            label="Select an action"
+            :label="$t('dashboard.clock.problems.actions.label')"
             hide-details
             outlined
             @change="initializePseudoShifts"
@@ -45,11 +46,12 @@
     <v-divider></v-divider>
 
     <v-list class="px-0" data-cy="new-shifts">
-      <v-subheader class="px-0">New shifts</v-subheader>
-      <v-row v-if="pseudoShifts.length === 0" justify="center">
-        You have deleted all staged shifts. You can either clock out, without
-        saving new shifts, or reset your actions.
-      </v-row>
+      <v-subheader class="px-0">
+        {{ $t("dashboard.clock.problems.newShifts") }}
+      </v-subheader>
+      <v-container v-if="pseudoShifts.length === 0" justify="center">
+        {{ $t("dashboard.clock.problems.deletedAll") }}
+      </v-container>
       <v-list-item
         v-for="(shift, i) in pseudoShifts"
         v-else
@@ -74,7 +76,7 @@
               class="my-2"
               :color="typeColor(shift)"
             >
-              {{ shift.type.text }}
+              {{ $t(`shifts.types.${shift.type.value}`) }}
             </v-chip>
 
             <span v-if="shift.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
@@ -97,7 +99,7 @@
           :data-cy="'options-' + i"
         >
           <v-menu offset-y>
-            <template v-slot:activator="{ on }">
+            <template #activator="{ on }">
               <v-btn icon v-on="on">
                 <v-icon color="grey lighten-1">
                   {{ icons.mdiDotsVertical }}
@@ -107,10 +109,14 @@
 
             <v-list>
               <v-list-item :data-cy="'edit-' + i" @click="editShift(shift)">
-                <v-list-item-title>Edit</v-list-item-title>
+                <v-list-item-title>
+                  {{ $t("actions.edit") }}
+                </v-list-item-title>
               </v-list-item>
               <v-list-item :data-cy="'delete-' + i" @click="remove(shift.uuid)">
-                <v-list-item-title>Delete</v-list-item-title>
+                <v-list-item-title>
+                  {{ $t("actions.delete") }}
+                </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -126,10 +132,14 @@
         color="primary"
         @click="save"
       >
-        {{ pseudoShifts.length > 0 ? "Save" : "Clock out" }}
+        {{
+          pseudoShifts.length > 0
+            ? $t("actions.save")
+            : $t("dashboard.clock.out")
+        }}
       </v-btn>
       <v-btn data-cy="reset" text @click="initializePseudoShifts">
-        Reset
+        {{ $t("actions.reset") }}
       </v-btn>
     </v-card-actions>
 
@@ -144,7 +154,7 @@
 </template>
 
 <script>
-import uuid from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
 import { mdiDotsVertical } from "@mdi/js";
 const { utcToZonedTime, format } = require("date-fns-tz");
@@ -179,23 +189,37 @@ export default {
     icons: { mdiDotsVertical },
     timezone: "Europe/Berlin",
     selected: "both",
-    options: [
-      { text: "Keep both shifts and split across days", value: "both" },
-      { text: "Keep first", value: "first" },
-      { text: "Keep second", value: "second" },
-      { text: "Advanced mode", value: "advanced" }
-    ],
     dialogReset: false,
     pseudoShifts: [],
     shiftEntity: null,
     showFormDialog: false
   }),
   computed: {
+    options() {
+      return [
+        {
+          text: this.$t("dashboard.clock.problems.actions.keepBoth"),
+          value: "both"
+        },
+        {
+          text: this.$t("dashboard.clock.problems.actions.keepFirst"),
+          value: "first"
+        },
+        {
+          text: this.$t("dashboard.clock.problems.actions.keepSecond"),
+          value: "second"
+        },
+        {
+          text: this.$t("dashboard.clock.problems.actions.advanced"),
+          value: "advanced"
+        }
+      ];
+    },
     editShiftIndex() {
       if (this.shiftEntity === null) return null;
 
       return this.pseudoShifts.findIndex(
-        shift => shift.uuid === this.shiftEntity.uuid
+        (shift) => shift.uuid === this.shiftEntity.uuid
       );
     },
     separateDays() {
@@ -212,7 +236,8 @@ export default {
     this.shift = new Shift({
       ...this.clockedShift,
       date: { start: this.clockedShift.started, end: new Date() },
-      type: "st"
+      type: "st",
+      reviewed: true
     });
 
     this.initializePseudoShifts();
@@ -243,7 +268,7 @@ export default {
     },
     remove(uuid) {
       this.pseudoShifts = this.pseudoShifts.filter(
-        shift => shift.uuid !== uuid
+        (shift) => shift.uuid !== uuid
       );
     },
     editShift(shift) {
@@ -256,7 +281,7 @@ export default {
     },
     save() {
       this.disabled = true;
-      const shiftPromises = this.pseudoShifts.map(shift =>
+      const shiftPromises = this.pseudoShifts.map((shift) =>
         ShiftService.create(shift.toPayload())
       );
 
@@ -273,8 +298,8 @@ export default {
       start = utcToZonedTime(start, this.timezone);
       const shift = new Shift({
         ...this.shift,
-        uuid: uuid(),
-        date: { start: start, end: endOfDay(start) }
+        uuid: uuidv4(),
+        date: { start: start, end: endOfDay(start) },
       });
 
       return [shift];
@@ -284,7 +309,7 @@ export default {
       end = utcToZonedTime(end, this.timezone);
       const shift = new Shift({
         ...this.shift,
-        uuid: uuid(),
+        uuid: uuidv4(),
         date: { start: startOfDay(end), end: end }
       });
 
@@ -299,10 +324,10 @@ export default {
         1,
         this.separateDays.length - 1
       );
-      const newShifts = middleShifts.map(date => {
+      const newShifts = middleShifts.map((date) => {
         return new Shift({
           ...this.shift,
-          uuid: uuid(),
+          uuid: uuidv4(),
           date: {
             start: startOfDay(date),
             end: endOfDay(date)

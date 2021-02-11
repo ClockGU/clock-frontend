@@ -29,14 +29,9 @@ describe("ShiftForm", () => {
     });
 
     it("requires the start time to be before the end time", () => {
-      cy.get("[data-cy=start]")
-        .clear()
-        .type("10:00");
+      cy.get("[data-cy=start]").clear().type("10:00");
 
-      cy.get("[data-cy=end]")
-        .clear()
-        .type("08:00")
-        .blur();
+      cy.get("[data-cy=end]").clear().type("08:00").blur();
 
       cy.get(
         "[data-cy=shift-start-time] > .v-input > .v-input__control > .v-text-field__details > .v-messages > .v-messages__wrapper > .v-messages__message"
@@ -60,9 +55,7 @@ describe("ShiftForm", () => {
         .should("eq", 2);
 
       cy.get(":nth-child(2) > .v-chip__content > .v-icon").click();
-      cy.get(".v-chip")
-        .its("length")
-        .should("eq", 1);
+      cy.get(".v-chip").its("length").should("eq", 1);
     });
 
     it("has an enabled cancel button", () => {
@@ -294,7 +287,7 @@ describe("ShiftForm", () => {
         "http://localhost:8080/shifts/dac0ea17-e0d5-43dd-8032-bba8ac41f43c/edit"
       );
 
-      cy.fixture("shifts.json").then(shifts => {
+      cy.fixture("shifts.json").then((shifts) => {
         cy.wait("@shifts");
 
         const remainingShifts = shifts.slice(1);

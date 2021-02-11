@@ -11,7 +11,7 @@ describe("Views", () => {
     });
 
     ["select", "shifts", "contracts", "changePassword", "report"].forEach(
-      path => {
+      (path) => {
         it(`disallows visiting ${path} page`, () => {
           cy.visit(`http://localhost:8080/${path}`);
           cy.url().should("contain", "/login");
@@ -33,14 +33,14 @@ describe("Views", () => {
       cy.url().should("contain", "/");
     });
 
-    ["select", "help", "changePassword"].forEach(path => {
+    ["select", "help", "changePassword"].forEach((path) => {
       it(`allows visiting ${path} page`, () => {
         cy.visit(`http://localhost:8080/${path}`);
         cy.url().should("contain", `/${path}`);
       });
     });
 
-    ["login", "shifts", "contracts", "report"].forEach(path => {
+    ["login", "shifts", "contracts", "report"].forEach((path) => {
       it(`disallows visiting ${path} page`, () => {
         cy.visit(`http://localhost:8080/${path}`);
         cy.url().should("contain", "/select");
@@ -69,7 +69,7 @@ describe("Views", () => {
       "shifts",
       "contracts",
       "report"
-    ].forEach(path => {
+    ].forEach((path) => {
       it(`allows visiting ${path} page`, () => {
         cy.visit(`http://localhost:8080/${path}`);
         cy.url().should("contain", `/${path}`);

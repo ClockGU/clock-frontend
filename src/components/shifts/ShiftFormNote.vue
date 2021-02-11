@@ -1,7 +1,7 @@
 <template>
   <v-textarea
     :value="value"
-    label="Note"
+    :label="$t('shifts.note.label')"
     filled
     :prepend-icon="icons.mdiNoteOutline"
     @input="$emit('input', $event)"

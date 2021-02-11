@@ -5,9 +5,7 @@
 
       <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
         <v-toolbar :elevation="0">
-          <v-toolbar-title>
-            Login Form
-          </v-toolbar-title>
+          <v-toolbar-title> Login Form </v-toolbar-title>
         </v-toolbar>
       </portal>
 
@@ -59,7 +57,6 @@
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
-import { handleApiError } from "@/utils/interceptors";
 
 export default {
   name: "LoginForm",
@@ -99,15 +96,31 @@ export default {
     async submit() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.loading = true;
 
-      this.$store
-        .dispatch("auth/LOGIN", {
+      try {
+        this.loading = true;
+
+        const { data } = await this.$store.dispatch("auth/LOGIN", {
           email: this.email.toLowerCase(),
           password: this.password
-        })
-        .catch(handleApiError)
-        .finally(() => (this.loading = false));
+        });
+
+        this.$i18n.locale = data.language || "de";
+
+        this.$router
+          .push({
+            name: "dashboard"
+          })
+          .catch(() => {});
+      } catch (error) {
+        this.$store.dispatch("snackbar/setSnack", {
+          snack:
+            "Something went wrong with the login. Please contact the support, if this keeps happening.",
+          color: "error"
+        });
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };

@@ -36,8 +36,8 @@ export default {
   async created() {
     const contracts = this.$store.state.contract.contracts;
 
-    const entity = contracts.find(contract => contract.uuid === this.uuid);
-    this.endpoint = data =>
+    const entity = contracts.find((contract) => contract.uuid === this.uuid);
+    this.endpoint = (data) =>
       this.uuid === null
         ? ContractService.create(data.toPayload())
         : ContractService.update(data.toPayload(), this.uuid);

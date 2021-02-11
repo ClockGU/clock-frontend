@@ -1,20 +1,20 @@
-import { parseISO } from "date-fns";
-import is from "ramda/src/is";
+import { differenceInSeconds, parseISO } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
-import { handleApiError } from "@/utils/interceptors";
+import { log } from "@/utils/log";
 
 export default {
   name: "ClockInOut",
   data: () => ({
     clock: null,
     reselectContract: null,
-    saving: false
+    saving: false,
+    clockedShift: null
   }),
   props: {
-    clockedShift: {
+    selectedContract: {
       type: Object || null,
-      default: null
+      required: true
     }
   },
   computed: {
@@ -24,7 +24,7 @@ export default {
       return { startDate: this.clock.startDate, duration: this.duration };
     },
     contract() {
-      return this.$store.state.selectedContract;
+      return this.selectedContract;
     },
     duration() {
       if (this.clock === null || this.clock.duration === null) return 0;
@@ -36,144 +36,114 @@ export default {
       if (this.clock === null) return "idle";
       if (this.clock.interval) return "running";
       if (this.clock.startDate && !this.clock.interval) return "paused";
-    },
-    startDate() {
-      const date =
-        this.clockedShift.started === undefined
-          ? this.clockedShift.start
-          : this.clockedShift.started;
-
-      return is(Date, date) ? date : parseISO(date);
     }
   },
-  watch: {
-    clockedShift: function(newValue, oldValue) {
-      // We stopped or reset the clock. Make sure to cleanup everything.
-      // This also takes care of some edge-case with the below code.
-      if (newValue === null) {
-        if (this.clock !== null) this.stop();
-        return;
-      }
-
-      // We performed a query and retrieved a new clocked shift.
-      // If a clock is already running, stop it.
-      // And always start a new clock.
-      const clockedInADifferentSession =
-        newValue.override !== undefined && newValue.override;
-      if (
-        clockedInADifferentSession ||
-        (oldValue !== null &&
-          JSON.stringify(newValue) === JSON.stringify(oldValue))
-      ) {
-        if (this.clock !== null) this.stop();
-        this.start();
-
-        // Redirect to contract selection screen
-        const clockedIntoDifferentContract =
-          newValue.contract !== this.contract.uuid;
-        const allowedRoutes = [
-          "contractSelect",
-          "createContract",
-          "help",
-          "changePassword",
-          "debug"
-        ];
-        const currentRouteInAllowedRoutes =
-          allowedRoutes.indexOf(this.$route.name) > -1;
-        if (clockedIntoDifferentContract && !currentRouteInAllowedRoutes) {
-          this.redirectToContractSelection();
-        }
-      }
+  async created() {
+    try {
+      // Only start the clock if there is a clockedShift when mounting the component.
+      this.clockedShift = await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
+      this.clock = new ClockModel({
+        startDate: parseISO(this.clockedShift.started)
+      });
+      this.clock.start();
+    } catch (error) {
+      // Do nothing if there is no clocked shift
+      return;
     }
-  },
-  mounted() {
-    // Do nothing if there is no clocked shift
-    if (this.clockedShift === null) return;
-
-    // Only start the clock if there is a clockedShift when mounting the component.
-    this.start();
   },
   destroyed() {
-    if (this.clock === null) return;
-
     this.stop();
   },
   methods: {
-    save() {
-      this.pause();
-      this.$store
-        .dispatch("clock/GET_CLOCKED_SHIFT")
-        .then(() => {
-          this.saving = true;
-        })
-        .then(() => {
-          const data = {
-            date: {
-              start: this.clockedShift.started,
-              end: new Date()
-            },
-            contract: this.clockedShift.contract,
-            type: { value: "st", text: "Shift" }
-          };
-          return new Shift(data).toPayload();
-        })
-        .then(shift => {
-          return this.$store.dispatch("shift/CREATE_SHIFT", shift);
-        })
-        .then(() => {
-          return this.reset(false);
-        })
-        .then(() => {
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: "Clocked out successfully.",
-            timeout: 4000,
-            color: "success"
-          });
-        })
-        .catch(error => {
-          this.unpause();
-          handleApiError(error);
-        })
-        .finally(() => {
-          this.saving = false;
-        });
-    },
-    start() {
-      // If we retrieve a clockedShift from the API, start the local clock
-      if (this.clockedShift !== null) {
-        this.clock = new ClockModel({ startDate: this.startDate });
-        this.clock.start();
-        return;
-      }
+    async save() {
+      this.saving = true;
+      try {
+        this.pause();
+        await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
 
-      return this.$store
-        .dispatch("clock/GET_CLOCKED_SHIFT")
-        .then(() => {
+        const startDate =
+          this.clockedShift.date === undefined
+            ? this.clockedShift.started
+            : this.clockedShift.date.start;
+        const endDate = new Date();
+
+        if (differenceInSeconds(endDate, new Date(startDate)) < 60) {
+          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+          this.stop();
+
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "You are already clocked in.",
+            snack: this.$t("dashboard.clock.snacks.shiftTooShort"),
             timeout: 4000,
             color: "warning"
           });
-        })
-        .catch(() => {
-          // No shift is clocked in. Do the deed!
-          const date = new Date();
-          this.clock = new ClockModel({ startDate: date });
-          const shift = {
-            started: date,
-            contract: this.contract.uuid
+        } else {
+          const data = {
+            date: {
+              start: startDate,
+              end: endDate
+            },
+            contract: this.clockedShift.contract,
+            type: { value: "st", text: "Shift" },
+            reviewed: true
           };
-          return this.$store.dispatch("clock/CLOCK_SHIFT", { ...shift });
-        })
-        .then(() => this.clock.start())
-        .then(() => {
+
+          const payload = new Shift(data).toPayload();
+          await this.$store.dispatch("shift/CREATE_SHIFT", payload);
+          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+
+          this.stop();
+
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "Clocked in a new shift.",
+            snack: this.$t("dashboard.clock.snacks.clockOut"),
             timeout: 4000,
             color: "success"
           });
-        })
-        .catch(handleApiError);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) return;
+
+        this.reset();
+      } finally {
+        this.saving = false;
+      }
+    },
+    async start() {
+      this.saving = true;
+      try {
+        this.clockedShift = await this.$store.dispatch(
+          "clock/GET_CLOCKED_SHIFT"
+        );
+        this.clock = new ClockModel({ startDate: this.clockedShift.startDate });
+        this.clock.start();
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: this.$t("dashboard.clock.snacks.alreadyClockedIn"),
+          timeout: 4000,
+          color: "warning"
+        });
+      } catch (error) {
+        if (error.response && error.response.status === 401) return;
+        // No shift is clocked in. Do the deed!
+        const date = new Date();
+        this.clock = new ClockModel({ startDate: date });
+        const shift = {
+          started: date,
+          contract: this.contract.uuid
+        };
+
+        this.clockedShift = await this.$store.dispatch("clock/CLOCK_SHIFT", {
+          ...shift
+        });
+        this.clock.start();
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: this.$t("dashboard.clock.snacks.clockedIn"),
+          timeout: 4000,
+          color: "success"
+        });
+      } finally {
+        this.saving = false;
+      }
     },
     unpause() {
       this.clock.start();
@@ -185,43 +155,45 @@ export default {
       this.clock.toggle();
     },
     stop() {
-      this.clock.stop();
-      this.clock = null;
+      try {
+        this.clock.stop();
+      } catch (error) {
+        log("Tried to destroy clock, while it was already destroyed.");
+      } finally {
+        this.clock = null;
+        this.clockedShift = null;
+      }
     },
-    reset(snackbar = true) {
+    async reset(snackbar = true) {
       this.pause();
-      return this.$store
-        .dispatch("clock/GET_CLOCKED_SHIFT")
-        .then(() => {
-          this.saving = true;
-          return this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
-        })
-        .then(() => {
-          this.stop();
-        })
-        .catch(() => {
-          this.clock.resetInterval();
-          this.clock = null;
+      this.saving = true;
+      try {
+        await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
+        await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+        this.stop();
 
+        if (snackbar) {
           this.$store.dispatch("snackbar/setSnack", {
-            snack: "You were already clocked out.",
+            snack: this.$t("dashboard.clock.snacks.deleted"),
             timeout: 4000,
-            color: "warning"
+            color: "success"
           });
-        })
-        .finally(() => {
-          this.saving = false;
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) return;
 
-          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+        this.clock.resetInterval();
+        this.clock = null;
 
-          if (snackbar) {
-            this.$store.dispatch("snackbar/setSnack", {
-              snack: "Deleted clocked shift.",
-              timeout: 4000,
-              color: "success"
-            });
-          }
+        this.$store.dispatch("snackbar/setSnack", {
+          snack: this.$t("dashboard.clock.snacks.alreadyClockedOut"),
+          timeout: 4000,
+          color: "warning"
         });
+      }
+      this.$store.dispatch("clock/UNCLOCK_SHIFT");
+
+      this.saving = false;
     },
     redirectToContractSelection() {
       this.reselectContract = () => {

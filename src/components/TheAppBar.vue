@@ -13,7 +13,7 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link to="/dashboard" tag="span" style="cursor: pointer">
+        <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
           <v-img
             width="96px"
             height="32px"
@@ -25,13 +25,19 @@
 
       <v-spacer></v-spacer>
 
+      <template v-if="showLoggedOutButtons">
+        <v-btn text :to="{ name: 'faq' }">{{$t("app.faq")}}</v-btn>
+
+        <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
+      </template>
+
       <v-skeleton-loader
         v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
         :loading="userLoading"
         type="avatar"
       >
         <v-menu offset-y>
-          <template v-slot:activator="{ on }" class="ml-4">
+          <template #activator="{ on }" class="ml-4">
             <div class="d-flex align-center" v-on="on">
               <v-avatar
                 size="30px"
@@ -58,20 +64,15 @@
               :to="item.to"
               router
             >
-              <v-list-item-action>
-                <v-icon small>{{ item.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>{{ item.text }} </v-list-item-content>
+              <v-list-item-content>{{ item.text }}</v-list-item-content>
             </v-list-item>
 
             <LogoutDialog>
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-list-item data-cy="menu-logout" v-on="on">
-                  <v-list-item-action>
-                    <v-icon small>{{ icons.mdiLock }} </v-icon>
-                  </v-list-item-action>
-
-                  <v-list-item-content>Logout</v-list-item-content>
+                  <v-list-item-content>
+                    {{ $t("actions.logout") }}
+                  </v-list-item-content>
                 </v-list-item>
               </template>
             </LogoutDialog>
@@ -85,46 +86,19 @@
 <script>
 import { mapGetters } from "vuex";
 
-import {
-  mdiChevronDown,
-  mdiMenu,
-  mdiAccount,
-  mdiHelp,
-  mdiLock,
-  mdiFileDocument
-} from "@mdi/js";
+import { mdiChevronDown, mdiMenu } from "@mdi/js";
 
 import LogoutDialog from "@/components/LogoutDialog";
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
 
 export default {
   name: "TheAppBar",
-  components: { LogoutDialog },
+  components: { ButtonGoetheOAuth, LogoutDialog },
   data: () => ({
     icons: {
       mdiMenu,
-      mdiChevronDown,
-      mdiLock
-    },
-    menuItems: [
-      {
-        text: "Select contract",
-        to: { name: "contractSelect" },
-        icon: mdiFileDocument
-      },
-      {
-        text: "Settings",
-        to: { name: "settings" },
-        icon: mdiAccount,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
-      }
-    ]
+      mdiChevronDown
+    }
   }),
   computed: {
     ...mapGetters({
@@ -134,13 +108,33 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    showLoggedOutButtons() {
+      return !this.isLoggedIn && this.$route.name !== "loggingIn";
+    },
+    menuItems() {
+      return [
+        {
+          text: this.$t("app.settings"),
+          to: { name: "settings" },
+          loggedOut: false,
+          withoutContract: true
+        },
+        {
+          text: "FAQ",
+          to: { name: "faq" },
+          loggedOut: true
+        },
+        {
+          text: this.$t("app.reset"),
+          to: { name: "help" },
+          loggedOut: true
+        }
+      ];
+    },
     firstLetter() {
       if (this.user === null) return "";
 
       return this.user.first_name.charAt(0);
-    },
-    showClockInOutButton() {
-      return this.clockedShift !== undefined;
     },
     showSelectContractButton() {
       return this.selectedContract !== null;

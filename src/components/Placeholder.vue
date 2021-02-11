@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
-      <p><slot></slot></p>
-    </v-row>
-    <v-row justify="center">
       <component :is="component" height="200" />
+    </v-row>
+    <v-row justify="center" class="mt-6">
+      <p><slot></slot></p>
     </v-row>
   </v-container>
 </template>
@@ -28,7 +28,7 @@ export default {
     component: null
   }),
   created() {
-    UndrawFactory.get(this.name).then(resolvedComponent => {
+    UndrawFactory.get(this.name).then((resolvedComponent) => {
       this.component = resolvedComponent["default"];
     });
   }

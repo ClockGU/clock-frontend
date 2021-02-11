@@ -11,12 +11,14 @@ const state = {
 };
 
 const getters = {
-  snack: status => status.snackbar.snack
+  snack: (status) => status.snackbar.snack
 };
 
 const actions = {
   setSnack({ commit }, payload) {
     commit("setSnack", payload);
+
+    return Promise.resolve();
   },
   resetSnack({ commit }) {
     commit("resetSnack");

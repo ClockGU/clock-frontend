@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on, attrs }">
       <v-text-field
         :value="formattedDate"
         readonly
@@ -14,12 +14,15 @@
         dense
         hide-details
         :prepend-icon="icon"
+        v-bind="attrs"
         v-on="on"
       ></v-text-field>
     </template>
     <v-date-picker
       v-model="date"
       :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
+      :first-day-of-week="1"
+      :max="max"
       :min="min"
       no-title
       @click:date="menu = false"
@@ -28,8 +31,8 @@
 </template>
 
 <script>
-import { format, parseISO, isLastDayOfMonth } from "date-fns";
-
+import { parseISO, isLastDayOfMonth } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 
 export default {
@@ -46,6 +49,10 @@ export default {
     contract: {
       type: Object,
       required: true
+    },
+    max: {
+      type: String,
+      default: null
     },
     min: {
       type: String,
@@ -70,7 +77,7 @@ export default {
       return this.icons.mdiCalendarArrowLeft;
     },
     formattedDate() {
-      return format(parseISO(this.value), "eee do MMM yyyy");
+      return localizedFormat(parseISO(this.value), "eee do MMM yyyy");
     },
     date: {
       get() {
@@ -84,11 +91,11 @@ export default {
   methods: {
     allowedStartDates(val) {
       const day = parseInt(val.split("-")[2], 10);
-      return day === 1 || day === 15;
+      return day === 1 || day === 16;
     },
     allowedEndDates(val) {
       const day = parseInt(val.split("-")[2], 10);
-      return day === 14 || isLastDayOfMonth(parseISO(val));
+      return day === 15 || isLastDayOfMonth(parseISO(val));
     }
   }
 };

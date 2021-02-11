@@ -1,14 +1,10 @@
 <template>
-  <base-layout
-    alternative-portal-target="card-toolbar"
-    col-classes="py-0"
-    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
-  >
-    <template v-slot:card-top>
+  <base-layout alternative-portal-target="card-toolbar">
+    <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>
 
-    <template v-slot:pre-toolbar-title="{ action }">
+    <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown"
         icon
@@ -16,13 +12,13 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template v-slot:title>
-      {{ editMode ? "Contracts" : "Select a contract" }}
+    <template #title>
+      {{ editMode ? $tc("models.contract", 2) : "Select a contract" }}
     </template>
 
-    <template v-slot:content>
-      <v-row :justify="loading ? 'center' : 'start'">
-        <v-col v-if="loading" cols="10" md="6">
+    <template #content>
+      <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
+        <v-col v-if="loading && !ignoreLoading" cols="10" md="6">
           <v-skeleton-loader
             v-if="loading"
             data-cy="skeleton"
@@ -32,7 +28,12 @@
           ></v-skeleton-loader>
         </v-col>
 
-        <template v-if="!loading && editMode">
+        <template v-if="(!loading || ignoreLoading) && editMode">
+          <v-col cols="12">
+            <v-btn color="primary" @click="newContract">
+              {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
+            </v-btn>
+          </v-col>
           <template v-for="(contract, i) in contracts">
             <v-col :key="contract.uuid" cols="12" md="6">
               <ContractListCard
@@ -47,7 +48,7 @@
           </template>
         </template>
 
-        <template v-if="!loading && !editMode">
+        <template v-if="(!loading || ignoreLoading) && !editMode">
           <template v-for="(contract, i) in contracts">
             <v-col :key="contract.uuid" cols="12" md="6">
               <ContractListCardSelect
@@ -62,15 +63,15 @@
       </v-row>
 
       <placeholder
-        v-if="!loading && contracts.length === 0"
+        v-if="(!loading || ignoreLoading) && contracts.length === 0"
         data-cy="contract-list-empty-placeholder"
         name="UndrawContentCreator"
       >
-        Start using Clock by creating your first contract!
+        {{ $t("contracts.empty") }}
       </placeholder>
     </template>
 
-    <template v-slot:extra-content>
+    <template #extra-content>
       <FormDialog
         v-if="contractEntity !== null"
         entity-name="contract"
@@ -78,8 +79,6 @@
         @close="contractEntity = null"
         @refresh="refresh"
       />
-
-      <the-fab :to="null" :click="newContract" />
     </template>
   </base-layout>
 </template>
@@ -95,14 +94,24 @@ import ContractService from "@/services/contract";
 import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
-import { handleApiError } from "../utils/interceptors";
+import { log } from "@/utils/log";
 
 export default {
   name: "ViewContractList",
+  metaInfo() {
+    return {
+      title: this.$t("app.contracts")
+    };
+  },
   components: {
     ContractListCard,
     ContractListCardSelect,
     FormDialog
+  },
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
   },
   data() {
     return {
@@ -110,7 +119,8 @@ export default {
       icons: {
         mdiPlus: mdiPlus
       },
-      contractEntity: null
+      contractEntity: null,
+      ignoreLoading: false
     };
   },
   computed: {
@@ -125,16 +135,30 @@ export default {
       return true;
     }
   },
-  mounted() {
-    this.refresh();
+  watch: {
+    contracts() {
+      if (this.contracts.length < 1) {
+        // TODO change this again to a more sane solution
+        window.location.reload();
+      }
+    }
   },
   methods: {
-    refresh() {
-      this.$store.dispatch("shift/queryShifts");
-      this.$store.dispatch("contract/queryContracts");
+    async refresh() {
+      try {
+        await Promise.all([
+          this.$store.dispatch("shift/queryShifts"),
+          this.$store.dispatch("contract/queryContracts"),
+          this.$store.dispatch("report/list")
+        ]);
+      } catch (error) {
+        log(error);
+      }
     },
     editContract(uuid) {
-      const contract = this.contracts.find(contract => contract.uuid === uuid);
+      const contract = this.contracts.find(
+        (contract) => contract.uuid === uuid
+      );
       this.contractEntity = new Contract(contract);
     },
     newContract() {
@@ -148,17 +172,13 @@ export default {
       return this.clockedShift.contract !== uuid;
     },
     async destroy(uuid) {
-      ContractService.delete(uuid)
-        .then(() => {
-          if (uuid === this.$store.state.selectedContract.uuid) {
-            this.$store.dispatch("unsetContract");
-            this.$router.push({ name: "contractSelect" });
-          }
-        })
-        .catch(handleApiError)
-        .finally(() => {
-          this.$store.dispatch("contract/queryContracts");
-        });
+      try {
+        await ContractService.delete(uuid);
+        this.$store.dispatch("contract/queryContracts");
+      } catch (error) {
+        // TODO: Set error state in component
+        log(error);
+      }
     }
   }
 };

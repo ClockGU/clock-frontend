@@ -7,9 +7,14 @@
     </v-row>
 
     <v-card>
-      <v-card-title>
-        Short shift
-      </v-card-title>
+      <SelectContractFilter
+        :contracts="contracts"
+        :selected-contract="selectedContract"
+      />
+    </v-card>
+
+    <v-card>
+      <v-card-title> Short shift </v-card-title>
 
       <v-card-text>
         Create a short shift, that is exactly 5 minutes long. Will prompt the
@@ -22,9 +27,7 @@
     </v-card>
 
     <v-card>
-      <v-card-title>
-        Overflow shift
-      </v-card-title>
+      <v-card-title> Overflow shift </v-card-title>
 
       <v-card-text>
         Create a overflow shift, that starts on one day and ends on the other.
@@ -37,9 +40,7 @@
     </v-card>
 
     <v-card>
-      <v-card-title>
-        Very long shift
-      </v-card-title>
+      <v-card-title> Very long shift </v-card-title>
 
       <v-card-text>
         Create a very long shift, spanning multiple days. Will prompt the "shift
@@ -55,20 +56,39 @@
 
 <script>
 import { subMinutes, subDays } from "date-fns";
+import SelectContractFilter from "@/components/SelectContractFilter";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "ViewDebug",
+  metaInfo() {
+    return {
+      title: this.$t("app.debug")
+    };
+  },
+  components: { SelectContractFilter },
   data: () => ({
     shift: {
       start: null,
       contract: null
     }
   }),
+  computed: {
+    ...mapGetters({
+      contracts: "contract/contracts"
+    }),
+    selectedContract() {
+      const uuid = this.$route.params.contract;
+
+      return this.contracts.find((contract) => contract.uuid === uuid);
+    }
+  },
   methods: {
     shortShift() {
       const now = new Date();
       const started = subMinutes(now, 5);
-      const contract = this.$store.state.selectedContract.uuid;
+      const contract = this.selectedContract.uuid;
 
       const shift = { started, contract };
 
@@ -83,7 +103,7 @@ export default {
     overflowShift() {
       const now = new Date();
       const started = subDays(now, 1);
-      const contract = this.$store.state.selectedContract.uuid;
+      const contract = this.selectedContract.uuid;
 
       const shift = { started, contract };
 
@@ -98,7 +118,7 @@ export default {
     veryLongShift() {
       const now = new Date();
       const started = subDays(now, 4);
-      const contract = this.$store.state.selectedContract.uuid;
+      const contract = this.selectedContract.uuid;
 
       const shift = { started, contract };
 

@@ -1,8 +1,8 @@
 import is from "ramda/src/is";
-import { differenceInCalendarDays } from "date-fns";
+import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
 
-Number.prototype.pad = function(size) {
+Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
     s = "0" + s;
@@ -14,13 +14,17 @@ export class Contract {
     uuid = null,
     user = null,
     name = null,
-    hours = null,
-    date = { start: null, end: null }
+    minutes = null,
+    date = { start: null, end: null },
+    carryoverTargetDate = null,
+    carryoverMinutes = 0
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
     this.name = is(String, name) ? name : null;
-    this.hours = is(Number, hours) ? this.hoursToWorktime(hours) : null;
+    this.worktime = is(Number, minutes)
+      ? this.minutesToWorktime(minutes)
+      : null;
     this.date = {
       start: is(Date, new Date(date.start))
         ? date.start
@@ -29,6 +33,13 @@ export class Contract {
         ? date.end
         : defaultContractDate({ type: "end" })
     };
+    this.carryoverTargetDate =
+      is(Date, new Date(carryoverTargetDate)) && carryoverTargetDate !== null
+        ? carryoverTargetDate
+        : startOfMonth(defaultContractDate({ type: "start" }));
+    this.carryoverMinutes = is(Number, carryoverMinutes)
+      ? this.minutesToWorktime(carryoverMinutes)
+      : "00:00";
   }
 
   get start() {
@@ -56,31 +67,58 @@ export class Contract {
   }
 
   get hoursInMinutes() {
-    const [hours, minutes] = this.hours.split(":");
+    const [hours, minutes] = this.worktime.split(":");
 
     return hours * 60 + minutes;
   }
 
-  worktimeToHours() {
-    let [hours, minutes] = this.hours.split(":");
-    hours = parseFloat(hours) + parseFloat((minutes / 60).toFixed(2));
+  timeToMinutes(time) {
+    let negative = false;
+    let [hours, minutes] = time.split(":");
 
-    return hours;
+    // Is the time negative?
+    if (hours.indexOf("-") === 0) {
+      hours = hours.slice(1);
+      negative = true;
+    }
+
+    minutes = parseFloat(hours) * 60 + parseFloat(minutes);
+
+    if (negative) {
+      minutes = minutes * -1;
+    }
+
+    return minutes;
   }
 
-  hoursToWorktime(value) {
-    const hours = Math.floor(value);
-    const minutes = parseInt((60 * (value - hours)).toFixed(0));
+  minutesToWorktime(value) {
+    let sign = "";
 
-    return `${hours.pad(2)}:${minutes.pad(2)}`;
+    if (value < 0) {
+      sign = "-";
+    }
+    const positiveValue = Math.abs(value);
+
+    const hours = Math.floor(positiveValue / 60);
+    const minutes = positiveValue % 60;
+
+    return `${sign}${hours.pad(2)}:${minutes.pad(2)}`;
+  }
+
+  convertCarryoverTargetDate() {
+    const targetDate = new Date(this.carryoverTargetDate);
+
+    return format(startOfMonth(targetDate), "yyyy-MM-dd");
   }
 
   toPayload() {
     return {
       name: this.name,
-      hours: this.worktimeToHours(),
+      minutes: this.timeToMinutes(this.worktime),
       start_date: this.start,
-      end_date: this.end
+      end_date: this.end,
+      carryover_target_date: this.convertCarryoverTargetDate(),
+      initial_carryover_minutes: this.timeToMinutes(this.carryoverMinutes)
     };
   }
 }

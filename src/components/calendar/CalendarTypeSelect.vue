@@ -1,6 +1,6 @@
 <template>
   <v-menu bottom right>
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
         <span>{{ valueName }}</span>
         <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
@@ -22,13 +22,6 @@
 <script>
 import { mdiArrowDown } from "@mdi/js";
 
-const CALENDAR_TYPES = {
-  month: "Month",
-  week: "Week",
-  day: "Day",
-  "4day": "4 Days"
-};
-
 export default {
   name: "CalendarTypeSelect",
   props: {
@@ -40,17 +33,19 @@ export default {
   data: () => ({
     icons: {
       mdiArrowDown
-    },
-    types: [
-      { text: "Day", value: "day" },
-      { text: "Week", value: "week" },
-      { text: "Month", value: "month" },
-      { text: "4 Days", value: "4day" }
-    ]
+    }
   }),
   computed: {
+    types() {
+      return [
+        { text: this.$t("calendar.day"), value: "day" },
+        { text: this.$t("calendar.week"), value: "week" },
+        { text: this.$t("calendar.month"), value: "month" },
+        { text: this.$t("calendar.fourdays"), value: "4day" }
+      ];
+    },
     valueName() {
-      return CALENDAR_TYPES[this.value];
+      return this.types.find((item) => item.value === this.value).text;
     }
   }
 };

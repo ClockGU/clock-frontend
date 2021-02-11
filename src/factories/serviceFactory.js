@@ -10,5 +10,5 @@ const repositories = {
 };
 
 export const ServiceFactory = {
-  get: name => repositories[name]
+  get: (name) => repositories[name]
 };

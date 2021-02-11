@@ -1,8 +1,15 @@
 const repositories = {
   UndrawContentCreator: () => import("vue-undraw/UndrawContentCreator"),
-  UndrawWorkTime: () => import("vue-undraw/UndrawWorkTime")
+  UndrawWorkTime: () => import("vue-undraw/UndrawWorkTime"),
+  UndrawSubway: () => import("vue-undraw/UndrawSubway"),
+  UndrawWorkInProgress: () => import("vue-undraw/UndrawUnderConstruction"),
+  UndrawFinishLine: () => import("vue-undraw/UndrawFinishLine"),
+  UndrawDigitalNomad: () => import("vue-undraw/UndrawDigitalNomad"),
+  UndrawSynchronize: () => import("vue-undraw/UndrawSynchronize"),
+  UndrawBlankCanvas: () => import("vue-undraw/UndrawBlankCanvas"),
+  UndrawEmpty: () => import("vue-undraw/UndrawEmpty")
 };
 
 export const UndrawFactory = {
-  get: name => repositories[name]()
+  get: (name) => repositories[name]()
 };

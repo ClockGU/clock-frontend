@@ -3,7 +3,9 @@
     v-model="mainDialog"
     :fullscreen="$vuetify.breakpoint.smAndDown"
     max-width="600"
-    @click:outside="closeMainDialog"
+    persistent
+    no-click-animation
+    retain-focus
   >
     <v-card>
       <v-toolbar flat>
@@ -22,9 +24,7 @@
           <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="save">
-            Save
-          </v-btn>
+          <v-btn text @click="save"> Save </v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
@@ -93,6 +93,18 @@ export default {
   created() {
     // Make a copy of the shift we will save.
     this.shiftToSave = this.shiftEntity;
+
+    const close = (e) => {
+      const ESC = 27;
+      if (e.keyCode !== ESC) return;
+      this.closeMainDialog();
+    };
+    // Close the modal when the
+    // user presses the ESC key.
+    document.addEventListener("keyup", close);
+    this.$on("hook:destroyed", () => {
+      document.removeEventListener("keyup", close);
+    });
   },
   methods: {
     updateData(event) {

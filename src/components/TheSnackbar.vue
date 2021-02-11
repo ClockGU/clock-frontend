@@ -8,9 +8,11 @@
     :timeout="timeout"
   >
     {{ message }}
-    <v-btn text @click.native="show = false">
-      Close
-    </v-btn>
+    <template #action="{ attrs }">
+      <v-btn text v-bind="attrs" @click.native="show = false">
+        {{ $t("actions.close") }}
+      </v-btn>
+    </template>
   </v-snackbar>
 </template>
 
@@ -26,13 +28,13 @@ export default {
     };
   },
   watch: {
-    show: function(value) {
+    show: function (value) {
       if (value) return;
 
       this.$store.dispatch("snackbar/resetSnack");
     }
   },
-  created: function() {
+  created: function () {
     this.$store.watch(
       (state, getters) => getters["snackbar/snack"],
       () => {

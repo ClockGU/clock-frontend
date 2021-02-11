@@ -7,7 +7,9 @@
     <v-toolbar :elevation="0">
       <v-toolbar-title>
         {{
-          actions.status === "running" ? "Shift is running" : "No running shift"
+          actions.status === "running"
+            ? $t("dashboard.clock.state.running")
+            : $t("dashboard.clock.state.idle")
         }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -28,16 +30,19 @@
       <v-row justify="center">
         <span
           v-if="actions.status !== 'running' && actions.status !== 'saving'"
-          class="title font-weight-light"
+          class="text-h6 font-weight-light"
         >
-          Start a shift
+          {{ $t("dashboard.clock.start") }}
         </span>
         <div v-else class="d-flex flex-column">
-          <div class="font-weight-light">
-            {{ actions.data.startDate }}
+          <div class="font-weight-bold">
+            {{ $tc("models.contract") }}: {{ clockedContract.name }}
           </div>
-          <div class="title font-weight-light text-center">
-            {{ actions.duration | toTime }}
+          <div class="font-weight-light">
+            {{ actions.data.startDate | formatDate }}
+          </div>
+          <div class="text-h6 font-weight-light text-center">
+            {{ actions.duration | toHHMM }}
           </div>
         </div>
       </v-row>
@@ -50,12 +55,12 @@
           block
           @click="actions.start"
         >
-          Clock in
+          {{ $t("dashboard.clock.in") }}
         </v-btn>
         <v-btn
           v-else-if="
             !overflowedShift &&
-              (actions.status === 'running' || actions.status === 'saving')
+            (actions.status === 'running' || actions.status === 'saving')
           "
           key="clock-out"
           :disabled="actions.status === 'saving'"
@@ -64,12 +69,12 @@
           text
           @click="actions.save"
         >
-          Clock out
+          {{ $t("dashboard.clock.out") }}
         </v-btn>
         <v-btn
           v-else-if="
             overflowedShift &&
-              (actions.status === 'running' || actions.status === 'saving')
+            (actions.status === 'running' || actions.status === 'saving')
           "
           key="review-problems"
           :disabled="actions.status === 'saving'"
@@ -78,7 +83,7 @@
           text
           @click="$emit('updateWindow', 1)"
         >
-          Review problems
+          {{ $t("dashboard.clock.review") }}
         </v-btn>
       </v-slide-x-transition>
     </v-card-text>
@@ -86,20 +91,28 @@
 </template>
 
 <script>
-import { addSeconds, format, isSameDay } from "date-fns";
+import { addSeconds, isSameDay } from "date-fns";
 import { mdiDelete, mdiInformation } from "@mdi/js";
+
+import { localizedFormat } from "@/utils/date";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "ClockInOutCardClock",
   filters: {
+    formatDate(date) {
+      if (date === undefined) return "";
+      return localizedFormat(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
+    },
     toTime(seconds) {
       let string = "";
 
       const date = addSeconds(new Date(1970, 1, 1), seconds);
       const days = Math.floor(seconds / (60 * 60 * 24));
-      const hours = format(date, "HH");
-      const minutes = format(date, "mm");
-      const sec = format(date, "ss");
+      const hours = localizedFormat(date, "HH");
+      const minutes = localizedFormat(date, "mm");
+      const sec = localizedFormat(date, "ss");
 
       if (days > 0) {
         string += `${days} days, `;
@@ -117,6 +130,11 @@ export default {
       if (string === "") return "00 secs";
 
       return string;
+    },
+    toHHMM(seconds) {
+      const date = addSeconds(new Date(1970, 1, 1), seconds);
+
+      return localizedFormat(date, "HH:mm:ss");
     }
   },
   inheritAttrs: false,
@@ -132,6 +150,14 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      contracts: "contract/contracts"
+    }),
+    clockedContract() {
+      return this.contracts.find(
+        (contract) => contract.uuid === this.actions.clockedContract.uuid
+      );
+    },
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);

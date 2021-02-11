@@ -1,11 +1,17 @@
 <template>
-  <Calendar
-    :initial-focus="focus"
-    :initial-type="type"
-    @updateRange="updateRange"
-    @refresh="refresh"
-  >
-  </Calendar>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <Calendar
+          :initial-focus="focus"
+          :initial-type="type"
+          @updateRange="updateRange"
+          @refresh="refresh"
+        >
+        </Calendar>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -17,6 +23,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ViewCalendar",
+  metaInfo() {
+    return {
+      title: this.$t("app.calendar")
+    };
+  },
   components: {
     Calendar
   },
@@ -66,13 +77,10 @@ export default {
       return this.date.toISOString().slice(0, 10);
     }
   },
-  mounted() {
-    this.refresh();
-  },
   methods: {
-    refresh() {
-      this.$store.dispatch("shift/queryShifts");
-      this.$store.dispatch("contract/queryContracts");
+    async refresh() {
+      await this.$store.dispatch("shift/queryShifts");
+      await this.$store.dispatch("contract/queryContracts");
     },
     updateRange({ type, start: { day, month, year } }) {
       this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
@@ -82,10 +90,11 @@ export default {
         .replace({
           name: "calendar",
           params: {
+            contract: this.$route.params.contract,
             type: type,
-            year: year.toString(),
-            month: month.toString(),
-            day: day.toString()
+            year: parseInt(year, 10).toString(),
+            month: parseInt(month, 10).toString(),
+            day: parseInt(day, 10).toString()
           }
         })
         .catch(() => {});

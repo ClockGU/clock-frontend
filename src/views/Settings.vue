@@ -1,14 +1,13 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    col-classes="py-0"
     :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
   >
-    <template v-slot:card-top>
+    <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
     </template>
 
-    <template v-slot:pre-toolbar-title="{ action }">
+    <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown"
         icon
@@ -16,28 +15,46 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template v-slot:title>
-      Settings
+    <template #title>
+      {{ $t("app.settings") }}
     </template>
 
-    <template v-slot:content>
-      <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
+    <template #content>
+      <v-tabs vertical class="tabs">
         <v-tab>
-          <v-icon left>{{ icons.mdiTextboxPassword }}</v-icon>
-          Password
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          {{ $t("app.language") }}
         </v-tab>
 
         <v-tab>
           <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
-          GDPR
+          {{ $t("app.gdpr") }}
+        </v-tab>
+
+        <v-tab>
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          {{ $t("onboarding.personnelNumber.label") }}
+        </v-tab>
+
+        <v-tab>
+          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          {{ $t("app.account") }}
         </v-tab>
 
         <v-tab-item>
-          <PasswordForm />
+          <LanguageSettings />
         </v-tab-item>
 
         <v-tab-item>
           <GDPR />
+        </v-tab-item>
+
+        <v-tab-item>
+          <PersonnelNumberForm />
+        </v-tab-item>
+
+        <v-tab-item>
+          <DeleteAccount />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -45,16 +62,29 @@
 </template>
 
 <script>
-import { mdiFileAccount, mdiTextboxPassword } from "@mdi/js";
+import { mdiFileAccount } from "@mdi/js";
 
-import PasswordForm from "@/components/PasswordForm";
+import DeleteAccount from "@/components/DeleteAccount";
 import GDPR from "@/components/GDPR";
+import PersonnelNumberForm from "@/components/PersonnelNumberForm";
+import LanguageSettings from "@/components/LanguageSettings";
 
 export default {
   name: "Settings",
-  components: { PasswordForm, GDPR },
+  metaInfo() {
+    return {
+      title: this.$t("app.settings")
+    };
+  },
+  components: { DeleteAccount, GDPR, PersonnelNumberForm, LanguageSettings },
   data: () => ({
-    icons: { mdiFileAccount, mdiTextboxPassword }
+    icons: { mdiFileAccount }
   })
 };
 </script>
+
+<style lang="scss" scoped>
+div.tabs [role="tab"] {
+  justify-content: flex-start;
+}
+</style>

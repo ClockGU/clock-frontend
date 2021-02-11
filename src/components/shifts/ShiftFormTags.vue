@@ -5,10 +5,9 @@
     :items="usedTags"
     :search-input.sync="search"
     :hide-no-data="!search"
-    no-data-text="Start typing to search or add a tag."
     hide-selected
-    label="Add a tag"
-    small-chips
+    :label="$t('shifts.tags.label')"
+    chips
     multiple
     filled
     clearable
@@ -16,18 +15,28 @@
     @input="$emit('input', $event)"
     @change="search = null"
   >
-    <template v-slot:no-data>
+    <template #no-data>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
-            No results matching "<strong>{{ search }}</strong
-            >". Press <kbd>enter</kbd> to create a new one
+            <i18n 
+              path="shifts.tags.createHint"
+              tag="span"
+            >
+              <template #search>
+                <strong>{{ search }}</strong>
+              </template>
+              <template #enter>
+                <kbd>{{ $t("app.enterKey") }}</kbd>
+              </template>
+            </i18n>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
-    <template v-slot:selection="{ attrs, item, selected }">
+    <template #selection="{ attrs, item, selected }">
       <v-chip
+        class="mt-2 ml-0"
         v-bind="attrs"
         :input-value="selected"
         close
@@ -67,7 +76,7 @@ export default {
   },
   methods: {
     remove(item) {
-      this.model = this.model.filter(chip => chip !== item);
+      this.model = this.model.filter((chip) => chip !== item);
       this.$emit("input", this.model);
     }
   }

@@ -10,13 +10,13 @@
         @change="toggle"
       ></v-checkbox>
       <v-row class="ml-3">
-        <v-col cols="12" sm="6">
-          <span class="title">
+        <v-col cols="12">
+          <span class="text-h6">
             {{ title | formatHeader }}
           </span>
           <br />
           Work time sum: {{ totalDuration | minutesToDuration }} /
-          {{ debit | hoursToWorktime }}
+          {{ debit | minutesToWorktime }}
         </v-col>
 
         <v-col
@@ -52,10 +52,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
-
-import { mapGetters } from "vuex";
-
+import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
 
@@ -66,14 +63,14 @@ export default {
       const [year, month] = text.split(" ");
       const date = new Date(year, month - 1, 1);
 
-      return format(date, "MMMM yyyy");
+      return localizedFormat(date, "MMMM yyyy");
     },
     minutesToDuration(value) {
       return minutesToHHMM(value);
     },
-    hoursToWorktime(value) {
-      const hours = Math.floor(value);
-      const minutes = parseInt((60 * (value - hours)).toFixed(0));
+    minutesToWorktime(value) {
+      const hours = Math.floor(value / 60);
+      const minutes = value % 60;
 
       return `${hours.pad(2)}:${minutes.pad(2)}`;
     }
@@ -99,17 +96,18 @@ export default {
     shiftsToDelete: {
       type: Array,
       required: true
+    },
+    selectedContract: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({
     selected: []
   }),
   computed: {
-    ...mapGetters({
-      selectedContract: "selectedContract"
-    }),
     debit() {
-      return this.selectedContract.hours.toFixed(1);
+      return this.selectedContract.minutes;
     },
     totalDuration() {
       return this.shifts.reduce((acc, current) => acc + current.duration, 0);
@@ -124,18 +122,18 @@ export default {
       return this.hasSelectedShifts && !this.hasSelectedAllShifts;
     },
     hasExportedShifts() {
-      return this.shifts.map(shift => shift.exported).every(item => !!item);
+      return this.shifts.map((shift) => shift.locked).every((item) => !!item);
     }
   },
   watch: {
-    shiftsToDelete: function(newValue, oldValue) {
+    shiftsToDelete: function (newValue, oldValue) {
       if (oldValue === undefined) return;
       if (newValue.length > 0) return;
       if (this.selected.length === 0) return;
 
       this.deselectAll();
     },
-    editable: function(newValue, oldValue) {
+    editable: function (newValue, oldValue) {
       // noop if oldValue is undefined (=component just initialized)
       if (oldValue === undefined) return;
 
@@ -144,7 +142,7 @@ export default {
         this.deselectAll();
       }
     },
-    selected: function(newValue, oldValue) {
+    selected: function (newValue, oldValue) {
       // If we did not just initialize and the length is zero: reset
       if (oldValue.length !== 0 && newValue.length === 0) {
         this.$emit("resetSelection");

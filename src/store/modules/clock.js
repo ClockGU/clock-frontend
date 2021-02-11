@@ -6,8 +6,8 @@ const state = {
 };
 
 const getters = {
-  clockedShift: state => state.clockedShift,
-  loading: state => state.status === "loading"
+  clockedShift: (state) => state.clockedShift,
+  loading: (state) => state.status === "loading"
 };
 
 const mutations = {
@@ -21,12 +21,12 @@ const mutations = {
 
 const actions = {
   CLOCK_SHIFT({ commit }, payload) {
-    return ClockService.create(payload).then(response => {
+    return ClockService.create(payload).then((response) => {
       payload.id = response.uuid;
 
       commit("CLOCK_SHIFT", payload);
 
-      return response;
+      return Promise.resolve(response);
     });
   },
   DELETE_CLOCKED_SHIFT() {
@@ -35,25 +35,25 @@ const actions = {
   UNCLOCK_SHIFT({ commit }) {
     commit("UNCLOCK_SHIFT");
   },
-  GET_CLOCKED_SHIFT({ commit }) {
+  async GET_CLOCKED_SHIFT({ commit }) {
     state.status = "loading";
-    return ClockService.get()
-      .then(response => {
-        let { data } = response;
-        if (data !== undefined) {
-          data = { ...data, override: true };
-        }
+    try {
+      const response = await ClockService.get();
 
-        commit("CLOCK_SHIFT", data);
-      })
-      .catch(err => {
-        commit("UNCLOCK_SHIFT");
-
-        return Promise.reject(err);
-      })
-      .finally(() => {
+      if (response.data === undefined) {
         state.status = "idle";
-      });
+        return Promise.reject();
+      }
+
+      commit("CLOCK_SHIFT", response.data);
+
+      state.status = "idle";
+      return Promise.resolve(response.data);
+    } catch (error) {
+      commit("UNCLOCK_SHIFT");
+      state.status = "idle";
+      return Promise.reject(error);
+    }
   }
 };
 

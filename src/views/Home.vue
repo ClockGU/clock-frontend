@@ -1,11 +1,12 @@
 <template>
-  <v-content>
+  <v-main>
+    <v-alert v-if="staging" type="warning" dark>Staging</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
 
     <portal-target name="fab"></portal-target>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -17,13 +18,20 @@ export default {
     },
     styles() {
       let styles;
-      if (this.$vuetify.breakpoint.smAndDown || this.showingCalendar) {
+      const removePadding =
+        this.$vuetify.breakpoint.smAndDown ||
+        this.showingCalendar ||
+        this.$route.path === "/";
+      if (removePadding) {
         styles = {
           padding: "0"
         };
       }
 
       return styles;
+    },
+    staging() {
+      return process.env.VUE_APP_ENV === "staging";
     }
   }
 };

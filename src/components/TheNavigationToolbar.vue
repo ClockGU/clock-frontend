@@ -5,7 +5,6 @@
         v-for="item in links"
         :key="item.text"
         :to="item.to"
-        exact
         :ripple="false"
       >
         <v-icon left>{{ item.icon }}</v-icon>
@@ -27,42 +26,59 @@ import {
 
 export default {
   name: "TheNavigationToolbar",
-  data: () => ({
-    links: [
-      {
-        text: "Dashboard",
-        to: { name: "dashboard" },
-        icon: mdiHome,
-        loggedOut: true
-      },
-      {
-        text: "Calendar",
-        to: {
-          name: "calendar",
-          params: { ...getRouterProps("month", new Date()) }
+  computed: {
+    links() {
+      return [
+        {
+          text: this.$t("app.dashboard"),
+          to: {
+            name: "dashboard",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiHome,
+          loggedOut: false
         },
-        icon: mdiCalendar,
-        loggedOut: false
-      },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
-        loggedOut: false
-      },
-      {
-        text: "Contracts",
-        to: { name: "contractList" },
-        icon: mdiFileDocument,
-        loggedOut: false
-      },
-      {
-        text: "Report",
-        to: { name: "reportList" },
-        icon: mdiFileChart,
-        loggedOut: false
-      }
-    ]
-  })
+        {
+          text: this.$t("app.calendar"),
+          to: {
+            name: "calendar",
+            params: {
+              ...getRouterProps("month", new Date()),
+              contract: this.$route.params.contract
+            }
+          },
+          icon: mdiCalendar,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.shifts"),
+          to: {
+            name: "shiftList",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiFormatListNumbered,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.contracts"),
+          to: {
+            name: "contractList",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiFileDocument,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.reports"),
+          to: {
+            name: "reporting",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiFileChart,
+          loggedOut: false
+        }
+      ];
+    }
+  }
 };
 </script>

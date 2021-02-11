@@ -6,14 +6,18 @@ function mapApiResponse(response) {
     user: response.user,
     name: response.name,
     date: { start: response.start_date, end: response.end_date },
-    hours: response.hours
+    minutes: response.minutes,
+    carryoverTargetDate: response.carryover_target_date,
+    carryoverMinutes: response.initial_carryover_minutes,
+    created_at: new Date(response.created_at),
+    modified_at: new Date(response.modified_at)
   };
 }
 
 const BASE_URL = "/contracts/";
 
 const ContractService = {
-  create: async function(data) {
+  create: async function (data) {
     const requestData = {
       method: "post",
       url: BASE_URL,
@@ -22,66 +26,69 @@ const ContractService = {
 
     return new Promise((resolve, reject) => {
       return ApiService.customRequest(requestData)
-        .then(response => {
+        .then((response) => {
           const contract = mapApiResponse(response.data);
 
           return resolve(contract);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  get: async function(uuid) {
+  get: async function (uuid) {
     return new Promise((resolve, reject) => {
       return ApiService.get(BASE_URL + `${uuid}`)
-        .then(response => {
+        .then((response) => {
           const contract = mapApiResponse(response.data);
           const newResponse = { ...response, contract };
 
           return resolve(newResponse);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  list: async function() {
+  list: async function () {
     return new Promise((resolve, reject) => {
       ApiService.get(BASE_URL)
-        .then(response => {
-          const data = response.data.map(item => mapApiResponse(item));
+        .then((response) => {
+          const data = response.data.map((item) => mapApiResponse(item));
           const newResponse = { ...response, data };
           resolve(newResponse);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  update: async function(data, uuid) {
+  update: async function (data, uuid) {
     return new Promise((resolve, reject) => {
       return ApiService.patch(`${BASE_URL}${uuid}/`, data)
-        .then(response => {
+        .then((response) => {
           const contract = mapApiResponse(response.data);
 
           return resolve(contract);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   },
-  delete: async function(uuid) {
+  delete: async function (uuid) {
     return new Promise((resolve, reject) => {
       return ApiService.delete(`${BASE_URL}${uuid}/`)
-        .then(response => {
+        .then((response) => {
           return resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
+  },
+  lock: async function ({ uuid, month, year }) {
+    return ApiService.post(`${BASE_URL}${uuid}/${month}/${year}/lock/`);
   }
 };
 

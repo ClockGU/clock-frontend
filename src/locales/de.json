@@ -1,0 +1,379 @@
+{
+  "actions": {
+    "actions": "Aktionen",
+    "add": "Hinzufügen",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "change": "Wechseln",
+    "close": "Schließen",
+    "complete": "Abschließen",
+    "confirm": "Bestätigen",
+    "continue": "Fortfahren",
+    "delete": "Löschen",
+    "download": "Download",
+    "edit": "Bearbeiten",
+    "logout": "Abmelden",
+    "next": "Weiter",
+    "request": "Anfordern",
+    "reset": "Zurücksetzen",
+    "resolve": "Beheben",
+    "review": "Überprüfen",
+    "save": "Speichern",
+    "search": "Suchen",
+    "send": "Absenden",
+    "showall": "Alle anzeigen",
+    "update": "Aktualisieren"
+  },
+  "app": {
+    "account": "Account",
+    "calendar": "Kalender",
+    "contracts": "Verträge",
+    "dashboard": "Dashboard",
+    "debug": "Debug",
+    "gdpr": "DSGVO",
+    "reset": "Zurücksetzen",
+    "faq": "FAQ",
+    "help": "Hilfe",
+    "imprint": "Impressum",
+    "loggingin": "Einloggen...",
+    "logout": "@:actions.logout",
+    "mainTitle": "Dein flexibler Stundenzettel",
+    "news": "Neuigkeiten",
+    "notfound": "Nicht gefunden",
+    "onboarding": "Onboarding",
+    "privacy": "Datenschutz",
+    "privacyagreement": "Datenschutzerklärung",
+    "reports": "Stundenzettel",
+    "settings": "Einstellungen",
+    "shifts": "Schichten",
+    "language": "Sprache",
+    "enterKey": "Eingabetaste"
+  },
+  "buttons": {
+    "deleteEntity": "{entity} @.lower:actions.delete?",
+    "newEntity": "{entity} @:actions.add"
+  },
+  "calendar": {
+    "day": "Tag",
+    "fourdays": "4 Tage",
+    "month": "Monat",
+    "shiftFromTo": "von {start} bis {end}",
+    "shiftOnDay": "{duration} am {start}",
+    "today": "Heute",
+    "type": "Typ",
+    "week": "Woche",
+    "overlap": {
+      "resolving": "Konflikte beheben",
+      "none": "Es gibt keine überlappenden Schichten - Sieht gut aus!",
+      "all": "Alle Schichten",
+      "overlap": "Überlappende Schichten"
+    }
+  },
+  "contracts": {
+    "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben. Das Startdatum muss vor der ersten und das Enddatum nach der letzten Schicht liegen.",
+    "empty": "Erstelle deinen ersten Vertrag!",
+    "fromTo": "{start} bis {end}",
+    "to": "bis",
+    "hoursPerMonth": "Stunden pro Monat",
+    "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
+    "name": "Benenne deinen Vertrag",
+    "expired" : "(Vertrag abgelaufen)",
+    "expiredVerbose" : "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
+    "perMonth": "{time} pro Monat",
+    "carryover": {
+      "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
+      "dateLabel": "Übertrag in diesen Monat",
+      "minutesLabel": "Übertrag als HH:MM"
+    }
+  },
+  "dashboard": {
+    "clock": {
+      "contractInactive": "Du bist nicht im derzeit ausgewählten Vertrag eingeclockt. Du musst den Vertrag wechseln, um auszuclocken.",
+      "contractExpired": "Der ausgewählte Vertrag ist abgelaufen. Du kannst auf diesem Vertrag keine Schichten mehr clocken.",
+      "in": "Einclocken",
+      "out": "Ausclocken",
+      "problems": {
+        "actions": {
+          "advanced": "Erweiterter Modus",
+          "keepBoth": "Erstelle alle neue Schichten",
+          "keepFirst": "Behalte die erste Schicht",
+          "keepSecond": "Behalte die letzte Schicht",
+          "label": "Wähle eine Option aus"
+        },
+        "clockedShift": "Geclockte Schicht",
+        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne anfangen.",
+        "messages": {
+          "allSaved": "Alle Schichten wurden gespeichert.",
+          "noSaved": "Es wurden keine Schichten gespeichert.",
+          "singleSaved": "Die Schicht wurde gespeichert.",
+          "success": "Du wurdest ausgeclockt."
+        },
+        "newShifts": "Neue Schichten",
+        "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
+        "title": "Ungültige Schicht"
+      },
+      "review": "Probleme beheben",
+      "snacks": {
+        "clockedIn": "Du wurdest erfolgreich eingeclockt.",
+        "clockOut": "Du wurdest erfolgreich ausgeclockt.",
+        "alreadyClockedIn": "Du bist schon eingeclockt.",
+        "alreadyClockedOut": "Du warst schon ausgeclockt.",
+        "deleted": "Die geclockte Schicht wurde entfernt.",
+        "shiftTooShort": "Schichten mit einer Dauer von weniger als einer Minute werden nicht gespeichert."
+      },
+      "start": "Beginne eine Schicht",
+      "state": {
+        "idle": "Nicht eingeclockt",
+        "running": "Eingeclockt"
+      }
+    },
+    "emptyActivity": "Du hast in diesem Vertrag noch keine Aktivitäten.",
+    "lastActivity": "Letzte Aktivitäten",
+    "newShift": { "title": "Schicht eintragen" },
+    "overlaps": {
+      "description": "Es wurde eine Überschneidung von Schichten gefunden. Du musst dieses Problem vor dem Export deines Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
+      "nProblems": "Probleme gefunden",
+      "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."
+    },
+    "progress": {
+      "perMonth": "{time} pro Monat",
+      "timeRemaining": "{time} verbleibend",
+      "timeWorked": "{time} gearbeitet",
+      "title": "Fortschritt im aktuellen Monat"
+    },
+    "showAll": "Alle anzeigen",
+    "notYetReviewed": "noch nicht überprüft"
+  },
+  "dialogs": {
+    "textConfirmDelete": "Bist du sicher, dass du {selectedEntity} @.lower:actions.delete möchtest? @:dialogs.textPermanent",
+    "textPermanent": "Diese Aktion lässt sich nicht rückgängig machen."
+  },
+  "errors": {
+    "contractName": "Der Vertragsname",
+    "durationBiggerZero": "Ein {entity} muss eine Laufzeit größer Null haben.",
+    "hours": "Die Stundenangabe",
+    "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
+    "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
+    "matchEmail": "Die E-Mail Adresse ist nicht korrekt.",
+    "nameRequired": "{name} wird benötigt | {name} werden benötigt",
+    "shiftDateEndAfterStart": "Eine Schicht muss nach ihrem Start enden.",
+    "shiftDateEndRequired": "Du musst eine Endzeit festlegen.",
+    "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
+    "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
+    "timeFormat": "Bitte gib ein gültiges Zeitformat ein (HH:MM).",
+    "validEmail": "Diese E-Mail Adresse ist ungültig."
+  },
+  "feedback": {
+    "fields": {
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "name": "Name",
+      "topic": "Betreff"
+    },
+    "snackbar": {
+      "error": "Bitte probiere es später erneut.",
+      "success": "Wir haben deine Nachricht erhalten. Vielen Dank!"
+    },
+    "text": "Du hast Feedback an uns? Wir haben ein offenes Ohr!",
+    "title": "Feedback",
+    "topics": {
+      "bug": "Fehler melden",
+      "feature": "Verbesserung vorschlagen",
+      "general": "Allgemein",
+      "question": "Frage"
+    }
+  },
+  "footer": {
+    "acknowledgeGU": {
+      "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
+      "university": "Goethe-Universität Frankfurt",
+      "url": "https://www.uni-frankfurt.de/"
+    }
+  },
+  "forms": {
+    "selected": "{n} ausgewählt",
+    "titleAdd": "{entity} @.lower:actions.add",
+    "titleUpdate": "{entity} @.lower:actions.update"
+  },
+  "gdpr": {
+    "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
+  },
+  "help": {
+    "title": "App zurücksetzen",
+    "blurb1": "Wenn es bei der Benutzung von Clock Probleme gibt, kannst Du die App auf die Grundeinstellungen zurücksetzen. Du wirst dabei ausgeloggt.",
+    "blurb2": "Es werden KEINE Daten gelöscht, alle Schichten und Verträge bleiben unberührt."
+  },
+  "hero": {
+    "slogan": "Bring Deine Stundenzettel unter Kontrolle",
+    "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
+    "login": "Login mit HRZ Account",
+    "landing": {
+      "blurb1": {
+        "title": "Start-and-Go! Einfach arbeiten.",
+        "text": "Mit dem Clock-Button kannst du deine aktuelle Zeiterfassung einfach starten und den Browser schließen. Sobald deine Arbeit beendet ist kannst du auf einem beliebigen Gerät ausclocken."
+      },
+      "blurb2": {
+        "title": "Vergessen zu clocken? Kein Problem!",
+        "text": "Vergangene Arbeitszeiten lassen sich ohne Probleme nachtragen. Ebenso kannst du schon eingetragene Zeiten ändern oder ganz löschen. Du bestimmst, welche Zeiten eingetragen sind und welche nicht!"
+      }
+    }
+  },
+  "logout": {
+    "message": "Du kannst jederzeit wiederkommen.",
+    "title": "Möchtest du dich @:actions.logout?"
+  },
+  "news": {
+    "showAll" : "Alle anzeigen",
+    "noNews": "Es gibt keine Neuigkeiten.",
+    "label": {
+      "notice": "",
+      "update": "Update",
+      "changelog": "Changelog",
+      "warning": "Achtung",
+      "tip": "Hinweis"
+    }
+  },
+  "models": {
+    "contract": "Vertrag | Verträge",
+    "report": "Stundenzettel | Stundenzettel",
+    "selectedContract": "den ausgewählten Vertrag | die ausgewählten Verträge",
+    "selectedShift": "die ausgewählte Schicht | die ausgewählten Schichten",
+    "shift": "Schicht | Schichten"
+  },
+  "onboarding": {
+    "createContract": {
+      "text": "Bitte gib deine Vertragsdaten ein.",
+      "title": "{entity} erstellen"
+    },
+    "finished": {
+      "text": "Du hast es geschafft!",
+      "title": "Abschluss"
+    },
+    "personnelNumber": {
+      "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt nachtragen.",
+      "title": "Optionale Angaben",
+      "hint": "Deine Personalnummer findest du auf deinem Vertrag.",
+      "label": "Personalnummer"
+    },
+    "underConstruction": {
+      "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System schneller zu verbessern. Zögere nicht, uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
+      "title": "Im Umbau"
+    },
+    "welcome": {
+      "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
+      "title": "@:app.onboarding"
+    }
+  },
+  "privacyagreement": {
+    "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
+    "checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme den Bedingungen zu."
+  },
+  "reports": {
+    "creditDebit": "Haben/Soll: {creditDebit} Stunden",
+    "debit": "Monatliche Arbeitszeit",
+    "timeWorked": "Geleistete Arbeitszeit",
+    "carryoverLast": "Übertrag aus dem letzten Monat",
+    "carryoverNext": "Übertrag in den nächsten Monat",
+    "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
+    "exported": "Exportiert",
+    "generate": "Stundenzettel erstellen",
+    "hints": {
+      "request": "Du kannst deinen Stundenzettel zur Ansicht anfordern und herunterladen. Bevor du den Stundenzettel für diesen Monat generieren kannst, musst du den vorherigen Monat sperren.",
+      "lock": "Du kannst diesen Monat erst sperren nachdem du deinen Stundenzettel generiert hast."
+    },
+    "of": "von",
+    "personnelNumberMissing": "Bitte füge deine Personalnummer in den Einstellungen hinzu.",
+    "summary": "Zusammenfassung",
+    "lock": {
+      "lock": "Sperren",
+      "label": "Diesen Monat sperren",
+      "confirm": "Diesen Monat sperren?",
+      "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Nach dem Sperren kannst Du den Stundenzettel des nächsten Monats exportieren."
+    }
+  },
+  "selectContract": {
+    "hint": "Wechsle den Vertrag, um andere Daten zu sehen",
+    "hintExpired" : "Der ausgewählte Vertrag ist abgelaufen. Wechsle den Vertrag, um andere Daten zu sehen"
+  },
+  "settings": {
+    "account": {
+      "dialogTitle": "@:app.account @.lower:actions.delete?",
+      "dialogText": "Gib zur Bestätigung bitte deine E-Mail Adresse {email} ein.",
+      "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten, die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können! Du kannst jederzeit wieder einen neuen (leeren) Account anlegen.",
+      "tryAgainLater": "Bitte probiere es zu einem späteren Zeitpunkt nochmal."
+    },
+    "language": {
+      "text": "Die Spracheinstellung wird sofort wirksam."
+    }
+  },
+  "shifts": {
+    "assignContract": "Vertrag zuweisen",
+    "assignContractDialog": "Weise die ausgewählten Schichten einem Vertrag zu.",
+    "changeContract": "Zugeordneter Vertrag",
+    "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
+    "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
+    "note": {
+      "note": "Notiz",
+      "label": "Schreibe eine Notiz"
+    },
+    "repeating": {
+      "checkboxLabel": "Wiederholen",
+      "dialog": {
+        "activator": "Geplante Schichten anzeigen",
+        "text": "Die folgenden Schichten werden zusätzlich geplant:",
+        "title": "Geplante Schichten"
+      },
+      "frequencyLabel": "Wie häufig soll die Schicht wiederholt werden?",
+      "frequencies": {
+        "daily": "Täglich",
+        "monthly": "Monatlich am {dayOfMonth}",
+        "weekdays": "An Wochentagen (Mo-Fr)",
+        "weekends": "An Wochenenden (Sa-So)",
+        "weekly": "Wöchentlich am {weekday}"
+      },
+      "interval": {
+        "label": "Im Intervall von {number} wiederholen.",
+        "hint": "Es wird zusätzlich eine Schicht geplant. | Es werden zusätzlich {number} Schichten geplant."
+      },
+      "repeatUntil": {
+        "title": "Bis wann sollen die Schichten wiederholt werden?",
+        "contractDate": "Bis zum Vertragsende",
+        "customDate": "Enddatum definieren"
+      }
+    },
+    "review": {
+      "title": "Schichten überprüfen",
+      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
+    },
+    "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
+    "tags": {
+      "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
+      "label": "Füge Tags hinzu"
+    },
+    "to": "bis",
+    "types": {
+      "label": "In welche Kategorie gehört dieser Eintrag?",
+      "sk": "Krank",
+      "st": "Schicht",
+      "vn": "Urlaub"
+    },
+    "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
+    "table" : {
+      "reviewedTitle" : "Vergangene Schichten",
+      "reviewedHint" : "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
+      "plannedTitle" : "Geplante Schichten",
+      "plannedHint": "Alle in der Zukunft liegenden Schichten."
+    }
+  },
+  "snackbar": {
+    "success": "Die Aktion wurde durchgeführt.",
+    "error": "Bitte probiere es später erneut."
+  },
+  "time": {
+    "date": "Datum",
+    "start": "Start",
+    "end": "Ende",
+    "duration": "Dauer",
+    "reviewed": "Überprüft"
+  }
+}

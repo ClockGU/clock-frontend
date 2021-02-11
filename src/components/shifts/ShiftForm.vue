@@ -1,19 +1,28 @@
 <template>
   <v-form>
     <v-overlay v-if="shiftExported" light :dark="false">
-      <v-card data-cy="overlay" class="mx-auto" max-width="300">
-        <v-card-title class="headline">
-          I'm sorry Dave, I'm afraid I can't do that!
+      <v-card
+        data-cy="overlay"
+        class="mx-auto word-break"
+        min-width="400"
+        max-width="500"
+      >
+        <v-card-title class="text-h5">
+          {{ $t("shifts.dave") }}
         </v-card-title>
 
         <v-card-text>
-          The report for this shift was already exported. You can't edit this
-          shift anymore.
+          {{ $t("shifts.wasExportedAlert") }}
         </v-card-text>
 
         <v-card-actions>
-          <v-btn data-cy="overlay-ack" color="primary" text :to="{ path: '/' }">
-            OK, take me back
+          <v-btn
+            data-cy="overlay-ack"
+            color="primary"
+            text
+            @click="$emit('cancel')"
+          >
+            {{ $t("actions.back") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -35,7 +44,6 @@
           v-model="shift"
           data-cy="shift-start-time"
           :errors="startTimeErrors"
-          label="Start"
           type="start"
           :prepend-icon="$vuetify.breakpoint.smAndDown"
           @update="$v.shift.date.start.$touch() || $v.shift.date.end.$touch()"
@@ -43,7 +51,7 @@
       </v-col>
 
       <v-col cols="1" class="px-0 text-center">
-        to
+        {{ $t("shifts.to") }}
       </v-col>
 
       <v-col cols="5" md="3">
@@ -51,18 +59,38 @@
           v-model="shift"
           data-cy="shift-end-time"
           :errors="endTimeErrors"
-          label="End"
           type="end"
           @update="$v.shift.date.end.$touch() || $v.shift.date.start.$touch()"
         />
       </v-col>
 
       <v-col cols="12">
-        <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
-        <ShiftFormInput v-model="shift.note" data-cy="shift-note" />
+        <v-checkbox
+          v-model="showRepeat"
+          :label="$t('shifts.repeating.checkboxLabel')"
+          :prepend-icon="icons.mdiRepeat"
+        ></v-checkbox>
 
-        <v-subheader class="pl-8" style="height: 10px">
-          What category does this shift fall into?
+        <v-expand-transition hide-on-leave>
+          <ShiftFormRepeat
+            v-if="showRepeat"
+            :contract-end-date="contractEndDate"
+            :date="shiftStart"
+            :shift="shift"
+            @update="setScheduledShifts"
+          />
+        </v-expand-transition>
+
+        <v-divider />
+      </v-col>
+
+      <v-col cols="12">
+        <ShiftFormTags v-model="shift.tags" data-cy="shift-tags" />
+
+        <ShiftFormNote v-model="shift.note" data-cy="shift-note" />
+
+        <v-subheader class="pl-8">
+          {{ $t("shifts.types.label") }}
         </v-subheader>
         <ShiftFormType v-model="shift.type" data-cy="shift-type" />
       </v-col>
@@ -72,17 +100,23 @@
       </v-col>
 
       <v-col cols="12" class="pb-0">
-        <v-subheader class="pl-8">Advanced settings</v-subheader>
         <v-select
           v-model="shift.contract"
           data-cy="shift-contract"
           :items="contracts"
           :prepend-icon="icons.mdiFileDocumentEditOutline"
-          label="Change contract"
+          :label="$t('shifts.changeContract')"
           item-text="name"
           item-value="uuid"
           filled
         ></v-select>
+        <v-checkbox
+          v-model="shift.reviewed"
+          :disabled="startsInFuture || shift.reviewed"
+          :prepend-icon="icons.mdiProgressCheck"
+          :label="$t('shifts.reviewed')"
+          class="mt-0 pt-0"
+        ></v-checkbox>
       </v-col>
     </v-row>
   </v-form>
@@ -92,15 +126,16 @@
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
-import ShiftFormInput from "@/components/shifts/ShiftFormInput";
+import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
+import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { format, isAfter, isBefore } from "date-fns";
-
+import { isAfter, isBefore, isFuture, isSameDay } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
 
 import { validationMixin } from "vuelidate";
@@ -109,23 +144,28 @@ import { required } from "vuelidate/lib/validators";
 const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
 const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
-import { mdiFileDocumentEditOutline } from "@mdi/js";
+import {
+  mdiFileDocumentEditOutline,
+  mdiProgressCheck,
+  mdiRepeat
+} from "@mdi/js";
 
 export default {
   name: "ShiftForm",
   components: {
     ShiftFormDateInput,
     ShiftFormTimeInput,
-    ShiftFormInput,
+    ShiftFormNote,
     ShiftFormType,
-    ShiftFormTags
+    ShiftFormTags,
+    ShiftFormRepeat
   },
   filters: {
     formatDate(date) {
-      return format(date, "yyyy-MM-dd");
+      return localizedFormat(date, "yyyy-MM-dd");
     },
     formatTime(date) {
-      return format(date, "HH:mm");
+      return localizedFormat(date, "HH:mm");
     }
   },
   mixins: [validationMixin],
@@ -152,25 +192,39 @@ export default {
     }
   },
   data: () => ({
-    icons: { mdiFileDocumentEditOutline },
+    icons: { mdiFileDocumentEditOutline, mdiProgressCheck, mdiRepeat },
     dialog: false,
     select: null,
-    shift: null
+    shift: null,
+    showRepeat: false,
+    scheduledShifts: []
   }),
   computed: {
     ...mapGetters({
       contracts: "contract/contracts",
       selectedContract: "selectedContract"
     }),
+    isNewShift() {
+      return this.uuid === null;
+    },
+    contractEndDate() {
+      return this.contract.date.end;
+    },
+    shiftStart() {
+      return localizedFormat(this.shift.date.start, "yyyy-MM-dd");
+    },
     shiftExported() {
-      return this.shift.exported;
+      return this.shift.locked;
+    },
+    startsInFuture() {
+      return isFuture(this.shift.date.start);
     },
     tags() {
       return this.shift.tags.join(", ");
     },
     contract() {
       return new Contract(
-        this.contracts.find(contract => contract.uuid === this.shift.contract)
+        this.contracts.find((contract) => contract.uuid === this.shift.contract)
       );
     },
     valid() {
@@ -188,10 +242,10 @@ export default {
 
       (!this.$v.shift.date.start.required ||
         !!this.$v.shift.date.start.biggerThan23) &&
-        errors.push("You must specify a start time.");
+        errors.push(this.$t("errors.shiftDateStartRequired"));
 
       !this.$v.shift.date.start.startBeforeEnd &&
-        errors.push("A shift must start before it ends.");
+        errors.push(this.$t("errors.shiftDateStartBeforeEnd"));
 
       return errors;
     },
@@ -200,39 +254,58 @@ export default {
       if (!this.$v.shift.date.end.$dirty) return errors;
 
       !this.$v.shift.date.end.required &&
-        errors.push("You must specify a start time.");
+        errors.push(this.$t("errors.shiftDateEndRequired"));
 
       !this.$v.shift.date.end.endAfterStart &&
-        errors.push("A shift must end after it starts.");
+        errors.push(this.$t("errors.shiftDateEndAfterStart"));
 
       return errors;
-    },
-    title() {
-      return this.uuid === null ? "Add shift" : "Update shift";
-    },
-    saveLabel() {
-      return this.uuid === null ? "Save" : "Update";
     }
   },
   watch: {
-    "shift.contract": function() {
+    "shift.contract": function () {
       this.setStartDate();
     },
+    "shift.date": {
+      handler: function () {
+        // When updating the shift, check if we have to unreview the shift. A
+        // shift starting in the future cannot be set to `was_reviewed=true`.
+        this.handleReviewBox();
+      },
+      deep: true,
+    },
     shift: {
-      handler: function() {
+      handler: function () {
         this.$emit("update", { shift: this.shift, valid: this.valid });
       },
       deep: true
+    },
+    scheduledShifts() {
+      this.$emit("update", {
+        shift: this.shift,
+        scheduledShifts: this.scheduledShifts,
+        valid: this.valid
+      });
     }
   },
   created() {
-    this.shift = this.uuid === null ? this.initializeForm() : this.entity;
+    this.shift = this.isNewShift ? this.initializeForm() : this.entity;
 
     if (!this.shift.contract) {
-      this.shift.contract = this.selectedContract.uuid;
+      this.shift.contract = this.$route.params.contract;
     }
   },
   methods: {
+    setScheduledShifts(shifts) {
+      this.scheduledShifts = shifts;
+    },
+    handleReviewBox() {
+      if (this.isNewShift){
+        this.startsInFuture ? 
+          this.shift.reviewed = false 
+          : this.shift.reviewed = true
+      }
+    },
     initializeForm() {
       return new Shift({
         date: { ...startEndHours(this.now) },
@@ -252,8 +325,10 @@ export default {
       // Do nothing if current date is inside the
       // selected contract
       if (
-        isBefore(new Date(contractStart), this.shift.date.start) &&
-        isAfter(new Date(contractEnd), this.shift.date.end)
+        (isBefore(new Date(contractStart), this.shift.date.start) &&
+          isAfter(new Date(contractEnd), this.shift.date.end)) ||
+        isSameDay(new Date(contractStart), this.shift.date.start) ||
+        isSameDay(new Date(contractEnd), this.shift.date.end)
       ) {
         return;
       }

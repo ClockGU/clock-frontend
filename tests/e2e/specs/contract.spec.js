@@ -18,9 +18,7 @@ describe("Contracts", () => {
     });
 
     it("shows a list of contracts", () => {
-      cy.get("[data-cy=contract-list]")
-        .children()
-        .should("have.length", 5);
+      cy.get("[data-cy=contract-list]").children().should("have.length", 5);
     });
 
     it("each contract lists all details", () => {
@@ -84,9 +82,7 @@ describe("Contracts", () => {
     });
 
     it("lists all contracts", () => {
-      cy.get("[data-cy=contract-list]")
-        .children()
-        .should("have.length", 5);
+      cy.get("[data-cy=contract-list]").children().should("have.length", 5);
     });
 
     it("each contract lists all details", () => {
@@ -142,7 +138,7 @@ describe("Contracts", () => {
     });
 
     it("can delete a single contract", () => {
-      cy.fixture("contracts.json").then(contracts => {
+      cy.fixture("contracts.json").then((contracts) => {
         cy.wait("@contracts");
 
         const remainingContracts = contracts.slice(1);
@@ -158,9 +154,7 @@ describe("Contracts", () => {
         ).click();
         cy.get("[data-cy=delete-confirm]").click();
         cy.get("[data-cy=delete-dialog]").should("not.be.visible");
-        cy.get("[data-cy=contract-list]")
-          .children()
-          .should("have.length", 4);
+        cy.get("[data-cy=contract-list]").children().should("have.length", 4);
       });
     });
 
@@ -227,7 +221,7 @@ describe("Contracts", () => {
       cy.server();
       cy.route("PATCH", "**/contracts/*", {});
 
-      cy.fixture("contracts.json").then(contracts => {
+      cy.fixture("contracts.json").then((contracts) => {
         cy.wait("@contracts");
 
         const editedContract = Object.assign({}, contracts[0], {
@@ -246,14 +240,10 @@ describe("Contracts", () => {
         cy.get("[data-cy=continue-step-one]").click();
         cy.get("[data-cy=continue-step-two]").click();
 
-        cy.get("[data-cy=input-hours]")
-          .clear()
-          .type("15:00");
+        cy.get("[data-cy=input-hours]").clear().type("15:00");
         cy.get("[data-cy=continue-step-three]").click();
 
-        cy.get("[data-cy=input-contract]")
-          .clear()
-          .type("ABC");
+        cy.get("[data-cy=input-contract]").clear().type("ABC");
         cy.get("[data-cy=continue-step-four]").click();
 
         cy.get("[data-cy=header]").should("contain", "Summary");
@@ -351,15 +341,11 @@ describe("Contracts", () => {
 
       // First step
       cy.get("[data-cy=header]").contains("Step 1 / 5");
-      cy.get("[data-cy=continue-step-one]")
-        .contains("Continue")
-        .click();
+      cy.get("[data-cy=continue-step-one]").contains("Continue").click();
 
       // Second step
       cy.get("[data-cy=header]").contains("Step 2 / 5");
-      cy.get("[data-cy=continue-step-two]")
-        .contains("Continue")
-        .click();
+      cy.get("[data-cy=continue-step-two]").contains("Continue").click();
 
       // Third step
       cy.get("[data-cy=header]").contains("Step 3 / 5");
@@ -367,9 +353,7 @@ describe("Contracts", () => {
         .should("be.disabled")
         .contains("Continue");
 
-      cy.get("input[mask=time]")
-        .type("40")
-        .blur();
+      cy.get("input[mask=time]").type("40").blur();
 
       cy.get(".v-messages__message").contains(
         "Please enter a valid format (HH:MM)"
@@ -377,9 +361,7 @@ describe("Contracts", () => {
 
       cy.get("input[mask=time]").type("00");
 
-      cy.get("[data-cy=continue-step-three]")
-        .should("not.be.disabled")
-        .click();
+      cy.get("[data-cy=continue-step-three]").should("not.be.disabled").click();
 
       // // Fourth step
       cy.get("[data-cy=header]").contains("Step 4 / 5");

@@ -1,8 +1,6 @@
 import is from "ramda/src/is";
 import {
   differenceInMinutes,
-  isFuture,
-  format,
   getDate,
   getMonth,
   getYear,
@@ -10,6 +8,7 @@ import {
   setMonth,
   setYear
 } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 
 function defaultValueTime(type) {
@@ -30,12 +29,13 @@ export class Shift {
   constructor({
     uuid = null,
     user = null,
-    date = { start: null, end: null },
+    date = { start: null, end: null, mod: null},
     contract = null,
     type = null,
     note = null,
     tags = null,
-    exported = null
+    reviewed = null,
+    locked = null
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
@@ -45,15 +45,19 @@ export class Shift {
         : defaultValueTime("start"),
       end: is(Date, new Date(date.end))
         ? new Date(date.end)
-        : defaultValueTime("end")
+        : defaultValueTime("end"),
+      mod: is(Date, new Date(date.mod))
+        ? new Date(date.mod)
+        : defaultValueTime("mod")
     };
     this.contract = is(String, contract) ? contract : null;
     this.type = is(Object, type)
       ? type
-      : SHIFT_TYPES.find(item => item.value === type);
+      : SHIFT_TYPES.find((item) => item.value === type);
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.exported = exported === null ? false : exported;
+    this.reviewed = reviewed === null ? false : reviewed;
+    this.locked = locked === null ? false : locked;
   }
 
   get start() {
@@ -68,19 +72,16 @@ export class Shift {
     return this.date.end;
   }
 
+  get mod() {
+    return this.date.mod;
+  }
+
   set end(value) {
     this.date.end = value;
   }
 
   get duration() {
     return differenceInMinutes(this.end, this.start);
-  }
-
-  get reviewed() {
-    // Shifts that are in the future (this.start >= new Date()) are
-    // marked as "was_reviewed=False", because they did not happen yet
-    // and need to be reviewed by the user later.
-    return !isFuture(this.start);
   }
 
   representationalDuration(format = "") {
@@ -116,11 +117,15 @@ export class Shift {
       type: this.type.value,
       note: this.note,
       uuid: this.uuid,
-      started: format(this.start, "yyyy-MM-dd HH:mm:ssXXX"),
-      stopped: format(this.end, "yyyy-MM-dd HH:mm:ssXXX"),
+      started: localizedFormat(this.start, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
+      stopped: localizedFormat(this.end, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
       duration: this.representationalDuration,
       was_reviewed: this.reviewed,
-      was_exported: this.exported
+      locked: this.locked
     };
   }
 }

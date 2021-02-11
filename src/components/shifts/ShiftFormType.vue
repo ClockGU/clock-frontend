@@ -1,10 +1,17 @@
 <template>
-  <v-row align="end" class="pl-4">
-    <v-icon>{{ icons.mdiBriefcaseOutline }}</v-icon>
-    <v-radio-group v-model="radios" row hide-details dense>
+  <v-row align="end" class="pl-3">
+    <v-radio-group
+      v-model="radios"
+      row
+      hide-details
+      dense
+      class="mt-0 pt-0"
+      :prepend-icon="icons.mdiBriefcaseOutline"
+    >
       <v-radio
         v-for="type in types"
         :key="type.value"
+        class="ml-0"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"
@@ -30,16 +37,23 @@ export default {
     icons: {
       mdiBriefcaseOutline
     },
-    types: SHIFT_TYPES,
     typeColors: SHIFT_TYPE_COLORS
   }),
   computed: {
+    types() {
+      return SHIFT_TYPES.map((type) => {
+        return {
+          text: this.$t(`shifts.types.${type.value}`),
+          value: type.value
+        };
+      });
+    },
     radios: {
       get() {
         return this.value.value;
       },
       set(value) {
-        const selected = this.types.find(type => type.value === value);
+        const selected = this.types.find((type) => type.value === value);
         this.$emit("input", selected);
       }
     }

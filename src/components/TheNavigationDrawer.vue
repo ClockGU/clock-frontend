@@ -31,7 +31,7 @@
     </v-skeleton-loader>
     <v-list v-else>
       <v-list-group no-action>
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-avatar>
             <v-avatar
               size="32px"
@@ -45,7 +45,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title class="title">
+            <v-list-item-title class="text-h6">
               {{ user.first_name }}
             </v-list-item-title>
           </v-list-item-content>
@@ -58,10 +58,10 @@
         </v-list-item>
 
         <LogoutDialog>
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <v-list-item data-cy="menu-logout" v-on="on">
               <v-list-item-content>
-                <v-list-item-title>Logout</v-list-item-title>
+                <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -72,7 +72,7 @@
     <v-divider></v-divider>
 
     <v-list nav dense data-cy="menu-list">
-      <v-list-item v-for="link in visibleLinks" :key="link.text" :to="link.to">
+      <v-list-item v-for="link in links" :key="link.text" :to="link.to">
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-action>
@@ -112,88 +112,94 @@ export default {
   data: () => ({
     icons: {
       mdiLock
-    },
-    menuItems: [
-      {
-        text: "Select contract",
-        to: { name: "contractSelect" },
-        icon: mdiFileDocument
-      },
-      {
-        text: "Settings",
-        to: { name: "settings" },
-        icon: mdiAccount,
-        loggedOut: false,
-        withoutContract: true
-      },
-      {
-        text: "Help",
-        to: { name: "help" },
-        icon: mdiHelp,
-        loggedOut: true
-      }
-    ],
-    links: [
-      {
-        text: "Dashboard",
-        to: { name: "dashboard" },
-        icon: mdiHome,
-        loggedOut: false
-      },
-      {
-        text: "Calendar",
-        to: {
-          name: "calendar",
-          params: { ...getRouterProps("month", new Date()) }
-        },
-        icon: mdiCalendar,
-        loggedOut: false
-      },
-      {
-        text: "Shifts",
-        to: { name: "shiftList" },
-        icon: mdiFormatListNumbered,
-        loggedOut: false
-      },
-      {
-        text: "Contracts",
-        to: { name: "contractList" },
-        icon: mdiFileDocument,
-        loggedOut: false
-      },
-      {
-        text: "Report",
-        to: { name: "reportList" },
-        icon: mdiFileChart,
-        loggedOut: false
-      }
-    ]
+    }
   }),
   computed: {
+    ...mapGetters({
+      isLoggedIn: "auth/loggedIn",
+      user: "user",
+      userLoading: "userLoading"
+    }),
     firstLetter() {
       if (this.user === null) return "";
 
       return this.user.first_name.charAt(0);
     },
-    visibleLinks() {
-      if (this.isLoggedIn && this.selectedContract !== null) {
-        return this.links;
-      }
-
-      if (this.selectedContract === null && this.isLoggedIn) {
-        return this.links.filter(
-          link => link.withoutContract === true || link.loggedOut === true
-        );
-      }
-
-      return this.links.filter(link => link.loggedOut === true);
+    menuItems() {
+      return [
+        {
+          text: this.$t("app.settings"),
+          to: { name: "settings" },
+          icon: mdiAccount,
+          loggedOut: false,
+          withoutContract: true
+        },
+        {
+          text: "FAQ",
+          to: { name: "faq" },
+          icon: mdiHelp,
+          loggedOut: true
+        },
+        {
+          text: this.$t("app.reset"),
+          to: { name: "help" },
+          icon: mdiHelp,
+          loggedOut: true
+        }
+      ];
     },
-    ...mapGetters({
-      isLoggedIn: "auth/loggedIn",
-      selectedContract: "selectedContract",
-      user: "user",
-      userLoading: "userLoading"
-    })
+    links() {
+      return [
+        {
+          text: this.$t("app.dashboard"),
+          to: {
+            name: "dashboard",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiHome,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.calendar"),
+          to: {
+            name: "calendar",
+            params: {
+              ...getRouterProps("month", new Date()),
+              contract: this.$route.params.contract
+            }
+          },
+          icon: mdiCalendar,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.shifts"),
+          to: {
+            name: "shiftList",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiFormatListNumbered,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.contracts"),
+          to: {
+            name: "contractList",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiFileDocument,
+          loggedOut: false
+        },
+        {
+          text: this.$t("app.reports"),
+          to: {
+            name: "reporting",
+            params: { contract: this.$route.params.contract }
+          },
+          icon: mdiFileChart,
+          loggedOut: false
+        }
+      ];
+    }
   },
   methods: {
     closeDrawer(value) {

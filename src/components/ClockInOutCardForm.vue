@@ -5,7 +5,7 @@
         <v-icon>{{ icons.mdiArrowLeft }}</v-icon>
       </v-btn>
       <v-toolbar-title>
-        Your clocked shift spans multiple days
+        {{ $t("dashboard.clock.problems.title") }}
       </v-toolbar-title>
     </v-toolbar>
 
@@ -40,13 +40,14 @@ export default {
   methods: {
     save(length) {
       this.destroy(false).then(() => {
-        let message = "You were clocked out.";
+        let message =
+          this.$t("dashboard.clock.problems.messages.success") + " ";
         if (length > 1) {
-          message += " All shifts were saved.";
+          message += this.$t("dashboard.clock.problems.messages.allSaved");
         } else if (length === 1) {
-          message += " The shift was saved.";
+          message += this.$t("dashboard.clock.problems.messages.singleSaved");
         } else {
-          message += " No additional shifts were saved";
+          message += this.$t("dashboard.clock.problems.messages.noSaved");
         }
 
         this.$store.dispatch("snackbar/setSnack", {

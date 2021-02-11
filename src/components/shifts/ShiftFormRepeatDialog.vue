@@ -1,0 +1,49 @@
+<template>
+  <v-dialog>
+    <template #activator="{ on }">
+      <v-btn :disabled="shifts.length < 1" text block v-on="on">{{
+        $t("shifts.repeating.dialog.activator")
+      }}</v-btn>
+    </template>
+
+    <v-card>
+      <v-card-title>{{ $t("shifts.repeating.dialog.title") }}</v-card-title>
+
+      <v-card-text>
+        <i18n path="shifts.repeating.dialog.text" tag="span">
+          <template #numberOfShifts>
+            <strong>{{ shifts.length }}</strong>
+          </template>
+        </i18n>
+      </v-card-text>
+
+      <v-card-text>
+        <v-virtual-scroll
+          bench="5"
+          item-height="100"
+          height="250"
+          :items="shifts"
+        >
+          <template #default="{ item }">
+            <ShiftListItem :item="item" :editable="false" />
+          </template>
+        </v-virtual-scroll>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+</template>
+
+<script>
+import ShiftListItem from "@/components/shifts/ShiftListItem";
+
+export default {
+  name: "ShiftFormRepeatDialog",
+  components: { ShiftListItem },
+  props: {
+    shifts: {
+      type: Array,
+      required: true
+    }
+  }
+};
+</script>

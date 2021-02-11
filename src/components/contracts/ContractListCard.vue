@@ -1,15 +1,19 @@
 <template>
-  <v-card class="mx-auto" max-width="350" outlined>
+  <v-card class="mx-auto" max-width="350" outlined :color="!contractExpired ? undefined : 'grey lighten-3'">
     <v-card-title>
-      <span class="primary--text subtitle-2">
-        {{ contract.hours | hoursToWorktime }} per month
+      <span class="primary--text text-subtitle-2">
+        {{ $t("contracts.perMonth", { time: worktime }) }} {{!contractExpired ? "" : $t("contracts.expired")}}
       </span>
     </v-card-title>
 
     <v-card-text>
-      <h2 class="title primary-text">{{ contract.name }}</h2>
-      {{ contract.date.start | toDate }} until
-      {{ contract.date.end | toDate }}
+      <h2 class="text-h6 primary-text">{{ contract.name }}</h2>
+      {{
+        $t("contracts.fromTo", {
+          start: startDate,
+          end: endDate
+        })
+      }}
     </v-card-text>
 
     <v-card-actions data-cy="contract-actions">
@@ -19,19 +23,30 @@
         data-cy="edit"
         @click="$emit('edit', contract.uuid)"
       >
-        Edit
+        {{ $t("actions.edit") }}
       </v-btn>
 
       <ConfirmationDialog @confirm="$emit('delete')">
-        <template v-slot:activator="{ on }">
-          <v-btn text data-cy="delete" v-on="on">Delete</v-btn>
+        <template #activator="{ on }">
+          <v-btn text data-cy="delete" v-on="on">
+            {{ $t("actions.delete") }}
+          </v-btn>
         </template>
 
-        <template v-slot:title>Delete contract?</template>
+        <template #title>
+          {{
+            $t("buttons.deleteEntity", {
+              entity: $tc(`models.contract`)
+            })
+          }}
+        </template>
 
-        <template v-slot:text>
-          This will delete all shifts created inside this contract. This action
-          is not reversible.
+        <template #text>
+          {{
+            $t(`dialogs.textConfirmDelete`, {
+              selectedEntity: $tc(`models.selectedContract`)
+            })
+          }}
         </template>
       </ConfirmationDialog>
     </v-card-actions>
@@ -39,27 +54,37 @@
 </template>
 
 <script>
-import { format, parseISO } from "date-fns";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import { parseISO, endOfDay, isPast } from "date-fns";
+import { localizedFormat } from "@/utils/date";
+import { minutesToHHMM } from "@/utils/time";
+
+function formatDate(date) {
+  return localizedFormat(parseISO(date), "do MMMM yyyy");
+}
 
 export default {
   name: "ContractListCard",
   components: { ConfirmationDialog },
-  filters: {
-    toDate(date) {
-      return format(parseISO(date), "yyyy-MM-dd");
-    },
-    hoursToWorktime(value) {
-      const hours = Math.floor(value);
-      const minutes = parseInt((60 * (value - hours)).toFixed(0));
-
-      return `${hours.pad(2)}:${minutes.pad(2)}`;
-    }
-  },
   props: {
     contract: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    endDate() {
+      return formatDate(this.contract.date.end);
+    },
+    startDate() {
+      return formatDate(this.contract.date.start);
+    },
+    worktime() {
+      return minutesToHHMM(this.contract.minutes);
+    },
+    contractExpired() {
+      const date = endOfDay(parseISO(this.contract.date.end));
+      return isPast(date);
     }
   }
 };
