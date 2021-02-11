@@ -1,8 +1,14 @@
 <template>
-  <v-card class="mx-auto" max-width="350" outlined :color="!contractExpired ? undefined : 'grey lighten-3'">
+  <v-card
+    class="mx-auto"
+    max-width="350"
+    outlined
+    :color="!contractExpired ? undefined : 'grey lighten-3'"
+  >
     <v-card-title>
       <span class="primary--text text-subtitle-2">
-        {{ $t("contracts.perMonth", { time: worktime }) }} {{!contractExpired ? "" : $t("contracts.expired")}}
+        {{ $t("contracts.perMonth", { time: worktime }) }}
+        {{ !contractExpired ? "" : $t("contracts.expired") }}
       </span>
     </v-card-title>
 

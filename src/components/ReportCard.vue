@@ -183,7 +183,7 @@ export default {
     },
     debit() {
       const contract = this.$store.state.contract.contracts.find(
-        contract => contract.uuid === this.report.contract
+        (contract) => contract.uuid === this.report.contract
       );
 
       return contract.minutes;

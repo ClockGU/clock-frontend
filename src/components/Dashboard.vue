@@ -101,11 +101,11 @@ export default {
     }),
     selectedContract() {
       const uuid = this.$route.params.contract;
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     },
     latestReport() {
       const reports = this.reports
-        .filter(report => report.contract === this.selectedContract.uuid)
+        .filter((report) => report.contract === this.selectedContract.uuid)
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });

@@ -1,5 +1,5 @@
 {
-  "allowJs":true,
+  "allowJs": true,
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

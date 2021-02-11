@@ -26,7 +26,7 @@
       <v-spacer></v-spacer>
 
       <template v-if="showLoggedOutButtons">
-        <v-btn text :to="{ name: 'faq' }">{{$t("app.faq")}}</v-btn>
+        <v-btn text :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
 
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>

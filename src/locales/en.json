@@ -77,8 +77,8 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
     "name": "Name your contract",
-    "expired" : "(Contract expired)",
-    "expiredVerbose" : "This contract has expired. You can still edit shifts and export reports.",
+    "expired": "(Contract expired)",
+    "expiredVerbose": "This contract has expired. You can still edit shifts and export reports.",
     "perMonth": "{time} per month",
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
@@ -231,7 +231,7 @@
     "title": "Are you sure you want to logout?"
   },
   "news": {
-    "showAll" : "Show all",
+    "showAll": "Show all",
     "noNews": "No news to display.",
     "label": {
       "notice": "",
@@ -302,7 +302,7 @@
   },
   "selectContract": {
     "hint": "Change the contract to see different data.",
-    "hintExpired" : "This contract has expired. Change the contract to see different data."
+    "hintExpired": "This contract has expired. Change the contract to see different data."
   },
   "settings": {
     "account": {
@@ -367,12 +367,12 @@
       "vn": "Vacation"
     },
     "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
-    "table" : {
-      "reviewedTitle" : "Past shifts",
-      "reviewedHint" : "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
-      "plannedTitle" : "Scheduled shifts",
+    "table": {
+      "reviewedTitle": "Past shifts",
+      "reviewedHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
+      "plannedTitle": "Scheduled shifts",
       "plannedHint": "All shifts scheduled for the future."
-    }    
+    }
   },
   "snackbar": {
     "success": "The action was completed.",

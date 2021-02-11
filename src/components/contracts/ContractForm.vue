@@ -193,7 +193,7 @@ export default {
     entity: {
       type: Object,
       default: null
-    },
+    }
   },
   data: () => ({
     icons: {

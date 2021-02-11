@@ -77,8 +77,8 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
     "name": "Benenne deinen Vertrag",
-    "expired" : "(Vertrag abgelaufen)",
-    "expiredVerbose" : "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
+    "expired": "(Vertrag abgelaufen)",
+    "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "perMonth": "{time} pro Monat",
     "carryover": {
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
@@ -223,7 +223,7 @@
     "title": "Möchtest du dich @:actions.logout?"
   },
   "news": {
-    "showAll" : "Alle anzeigen",
+    "showAll": "Alle anzeigen",
     "noNews": "Es gibt keine Neuigkeiten.",
     "label": {
       "notice": "",
@@ -293,7 +293,7 @@
   },
   "selectContract": {
     "hint": "Wechsle den Vertrag, um andere Daten zu sehen",
-    "hintExpired" : "Der ausgewählte Vertrag ist abgelaufen. Wechsle den Vertrag, um andere Daten zu sehen"
+    "hintExpired": "Der ausgewählte Vertrag ist abgelaufen. Wechsle den Vertrag, um andere Daten zu sehen"
   },
   "settings": {
     "account": {
@@ -358,10 +358,10 @@
       "vn": "Urlaub"
     },
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
-    "table" : {
-      "reviewedTitle" : "Vergangene Schichten",
-      "reviewedHint" : "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
-      "plannedTitle" : "Geplante Schichten",
+    "table": {
+      "reviewedTitle": "Vergangene Schichten",
+      "reviewedHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
+      "plannedTitle": "Geplante Schichten",
       "plannedHint": "Alle in der Zukunft liegenden Schichten."
     }
   },

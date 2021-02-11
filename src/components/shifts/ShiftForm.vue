@@ -272,7 +272,7 @@ export default {
         // shift starting in the future cannot be set to `was_reviewed=true`.
         this.handleReviewBox();
       },
-      deep: true,
+      deep: true
     },
     shift: {
       handler: function () {
@@ -300,10 +300,10 @@ export default {
       this.scheduledShifts = shifts;
     },
     handleReviewBox() {
-      if (this.isNewShift){
-        this.startsInFuture ? 
-          this.shift.reviewed = false 
-          : this.shift.reviewed = true
+      if (this.isNewShift) {
+        this.startsInFuture
+          ? (this.shift.reviewed = false)
+          : (this.shift.reviewed = true);
       }
     },
     initializeForm() {

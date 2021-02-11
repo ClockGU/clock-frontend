@@ -299,7 +299,7 @@ export default {
       const shift = new Shift({
         ...this.shift,
         uuid: uuidv4(),
-        date: { start: start, end: endOfDay(start) },
+        date: { start: start, end: endOfDay(start) }
       });
 
       return [shift];

@@ -29,7 +29,7 @@ export class Shift {
   constructor({
     uuid = null,
     user = null,
-    date = { start: null, end: null, mod: null},
+    date = { start: null, end: null, mod: null },
     contract = null,
     type = null,
     note = null,

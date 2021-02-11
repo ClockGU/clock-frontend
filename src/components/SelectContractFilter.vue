@@ -3,23 +3,36 @@
     :value="selectedContract"
     :items="contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
-    :hint="contractExpired ? $t('selectContract.hintExpired') : $t('selectContract.hint')"
+    :hint="
+      contractExpired
+        ? $t('selectContract.hintExpired')
+        : $t('selectContract.hint')
+    "
     item-value="uuid"
     persistent-hint
     solo
     return-object
     :background-color="contractExpired ? 'grey lighten-2' : undefined"
     @input="changeContract"
-  > 
+  >
     <template #selection="contract">
-      {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+      {{
+        contract.item.name +
+        (specificContractExpired(contract.item)
+          ? " " + $t("contracts.expired")
+          : "")
+      }}
     </template>
-  
+
     <template #item="contract">
-      {{ contract.item.name + (specificContractExpired(contract.item) ? " " + $t("contracts.expired") : "") }}
+      {{
+        contract.item.name +
+        (specificContractExpired(contract.item)
+          ? " " + $t("contracts.expired")
+          : "")
+      }}
     </template>
   </v-select>
-
 </template>
 
 <script>
@@ -46,7 +59,7 @@ export default {
   }),
   computed: {
     xyz() {
-      return "hugo"
+      return "hugo";
     }
   },
   methods: {

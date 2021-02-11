@@ -203,9 +203,11 @@ export default {
         await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         await this.$store.dispatch("contract/queryContracts");
-        this.$router.push({ name: "dashboard", params: { contract } }).catch(() => {
-          log("*** Redirecting...");         
-        });      
+        this.$router
+          .push({ name: "dashboard", params: { contract } })
+          .catch(() => {
+            log("*** Redirecting...");
+          });
       } catch (error) {
         // TODO: Set error state
         log(error);
