@@ -6,9 +6,8 @@ module.exports = {
   plugins: ["vuetify"],
   extends: [
     "plugin:vue/recommended",
-    "plugin:prettier/recommended",
     "eslint:recommended",
-    "prettier/vue"
+    "prettier/vue",
   ],
   rules: {
     "vue/component-name-in-template-casing": ["error", "PascalCase"],
