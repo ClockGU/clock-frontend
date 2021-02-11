@@ -14,7 +14,7 @@
           data-cy="shift-list-item-type"
           outlined
           small
-          class="my-2"
+          class="my-1 mr-1"
           :color="typeColor"
         >
           {{ $t(`shifts.types.${item.type.value}`) }}
@@ -26,7 +26,7 @@
           :data-cy="'shift-list-item-tag-' + i"
           filled
           small
-          class="ma-2"
+          class="ma-1"
         >
           {{ tag }}
         </v-chip>
