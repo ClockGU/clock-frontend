@@ -196,7 +196,7 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
+    "text": "Hier kannst deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat."
   },
   "help": {
     "title": "App zurücksetzen",
