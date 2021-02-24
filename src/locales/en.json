@@ -204,7 +204,7 @@
   },
   "gdpr": {
     "text": "You can request and download all information saved by you. The download is provided in JSON.",
-    "suffix": "gdpr"
+    "suffix": "GDPR"
   },
   "help": {
     "title": "Reset App",

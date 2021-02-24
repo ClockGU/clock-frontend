@@ -203,8 +203,8 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "text": "Hier kannst Du deine sämtlichen, von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
-    "suffix" : "dsgvo"
+    "text": "Hier kannst Du alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
+    "suffix" : "DSGVO"
   },
   "help": {
     "title": "App zurücksetzen",

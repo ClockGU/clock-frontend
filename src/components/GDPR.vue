@@ -43,9 +43,9 @@ export default {
     },
     filename() {
       const date = localizedFormat(new Date(), "yyyyMMdd");
-      return `${this.user.first_name}_${
+      return `${date}_${this.user.first_name}_${
         this.user.last_name
-      }_${date}_${this.$i18n.t("app.reports")}.pdf`;
+      }_${this.$i18n.t("gdpr.suffix")}.pdf`;
     }
   },
   methods: {
