@@ -7,7 +7,12 @@
       <template v-if="lastShifts.length > 0">
         <v-list>
           <template v-for="shift in lastShifts">
-            <ShiftListItem :key="shift.uuid" :editable="true" :item="shift" />
+            <ShiftListItem
+              :key="shift.uuid"
+              :editable="true"
+              :item="shift"
+              @refresh="$emit('refresh')"
+            />
           </template>
         </v-list>
         <v-btn color="success" text :to="allShiftRouter">

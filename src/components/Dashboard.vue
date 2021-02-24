@@ -42,7 +42,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="5">
-            <DashboardLastActivity />
+            <DashboardLastActivity @refresh="refresh" />
           </v-col>
         </v-row>
       </v-card>
@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     async refresh() {
+      log("refreshing");
       try {
         await Promise.all([
           this.$store.dispatch("shift/queryShifts"),
