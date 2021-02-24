@@ -203,7 +203,7 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "text": "Hier kannst deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
+    "text": "Hier kannst Du deine sämtlichen, von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
     "suffix" : "dsgvo"
   },
   "help": {
