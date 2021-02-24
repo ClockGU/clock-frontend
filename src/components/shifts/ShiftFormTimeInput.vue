@@ -15,6 +15,7 @@
         hide-details
         filled
         dense
+        :error="error"
         mask="time"
         :readonly="$vuetify.breakpoint.smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
@@ -61,9 +62,9 @@ export default {
       type: String,
       required: true
     },
-    errors: {
-      type: Array,
-      default: () => []
+    error: {
+      type: Boolean,
+      default: false
     },
     label: {
       type: String,
@@ -89,10 +90,11 @@ export default {
         return localizedFormat(this.value.date[this.type], "HH:mm");
       },
       set(val) {
-        //Secret function to set times to "now"
+        //function to set times to "now"
         if (val == "now" || val == "jetzt") {
           val = localizedFormat(new Date(), "HH:mm");
         }
+
         let hours, minutes;
 
         try {

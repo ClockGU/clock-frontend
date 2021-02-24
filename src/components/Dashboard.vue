@@ -135,7 +135,6 @@ export default {
   },
   methods: {
     async refresh() {
-      log("refreshing");
       try {
         await Promise.all([
           this.$store.dispatch("shift/queryShifts"),
