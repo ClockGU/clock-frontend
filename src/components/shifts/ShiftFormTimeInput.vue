@@ -19,7 +19,6 @@
         :readonly="$vuetify.breakpoint.smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
         v-bind="attrs"
-        @click:append="clickAppend"
         @blur="setTime"
         @focus="$event.target.select()"
         v-on="$vuetify.breakpoint.smAndDown ? on : ''"
@@ -90,6 +89,7 @@ export default {
         return localizedFormat(this.value.date[this.type], "HH:mm");
       },
       set(val) {
+        //Secret function to set times to "now"
         if (val == "now" || val == "jetzt") {
           val = localizedFormat(new Date(), "HH:mm");
         }
@@ -162,16 +162,6 @@ export default {
   methods: {
     initialize() {
       this.data = format(this.value.date[this.type], "HH:mm");
-    },
-    clickAppend() {
-      // Make sure to remove blur from the input, before opening the dialog.
-      // Otherwise, only an overlay is shown.
-      // TODO: We blur the activeElement from the document, instead of the input here,
-      // because we did not get it to work quickly.
-      document.activeElement.blur();
-      this.$nextTick(() => {
-        this.dialog = true;
-      });
     },
     setTime() {
       this.$refs.menu.save(this.time);
