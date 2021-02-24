@@ -20,22 +20,32 @@
 
 <script>
 import { log } from "@/utils/log";
+import { localizedFormat } from "@/utils/date";
+import { mapGetters } from "vuex";
 import GDPRService from "@/services/gdpr";
 
 export default {
   name: "GDPR",
   data() {
     return {
-      filename: "GDPR.json",
       response: null,
       loading: false
     };
   },
   computed: {
+    ...mapGetters({
+      user: "user"
+    }),
     downloadLabel() {
       return this.response === null
         ? this.$t("actions.request")
         : this.$t("actions.download");
+    },
+    filename() {
+      const date = localizedFormat(new Date(), "yyyyMMdd");
+      return `${this.user.first_name}_${
+        this.user.last_name
+      }_${date}_${this.$i18n.t("app.reports")}.pdf`;
     }
   },
   methods: {

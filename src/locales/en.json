@@ -203,14 +203,14 @@
     "titleUpdate": "@:actions.update {entity}"
   },
   "gdpr": {
-    "text": "You can request and download all information saved by you. The download is provided in JSON."
+    "text": "You can request and download all information saved by you. The download is provided in JSON.",
+    "suffix": "gdpr"
   },
   "help": {
     "title": "Reset App",
     "blurb1": "If you are experiencing problems, you can reset the app to its factory settings. You will be logged out.",
     "blurb2": "This will NOT delete any of your data. All your shifts and contracts will remain untouched."
   },
-
   "hero": {
     "slogan": "Master your time sheets",
     "text": "Clock allows you to easily edit your time sheets on your mobile device or PC.",
