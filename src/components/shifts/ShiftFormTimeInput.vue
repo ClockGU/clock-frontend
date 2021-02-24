@@ -21,6 +21,7 @@
         v-bind="attrs"
         @click:append="clickAppend"
         @blur="setTime"
+        @focus="$event.target.select()"
         v-on="$vuetify.breakpoint.smAndDown ? on : ''"
       ></v-text-field>
     </template>
@@ -89,6 +90,9 @@ export default {
         return localizedFormat(this.value.date[this.type], "HH:mm");
       },
       set(val) {
+        if (val == "now" || val == "jetzt") {
+          val = localizedFormat(new Date(), "HH:mm");
+        }
         let hours, minutes;
 
         try {
