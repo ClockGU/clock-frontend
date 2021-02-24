@@ -176,7 +176,6 @@ export default {
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
-      this.$emit("update");
 
       if (this.dialog) {
         this.dialog = false;
