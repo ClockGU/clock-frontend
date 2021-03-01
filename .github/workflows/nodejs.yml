@@ -32,5 +32,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+      
+      - name: format
+        run: yarn format:check
 
       - run: yarn run test:unit
