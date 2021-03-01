@@ -113,7 +113,7 @@
             "changelog": "Changelog",
             "warning": "Warnung",
             "tip": "Tipp"
-          }          
+          }
         },
         "newShifts": "Neue Schichten",
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
@@ -204,7 +204,7 @@
   },
   "gdpr": {
     "text": "Hier kannst Du alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
-    "suffix" : "DSGVO"
+    "suffix": "DSGVO"
   },
   "help": {
     "title": "App zurücksetzen",
