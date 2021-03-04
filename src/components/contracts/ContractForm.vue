@@ -204,7 +204,8 @@ export default {
     },
     contract: null,
     carryover: false,
-    carryoverDateMenu: false
+    carryoverDateMenu: false,
+    carryoverCache: null
   }),
 
   computed: {
@@ -383,6 +384,20 @@ export default {
         this.$emit("update", { contract: this.contract, valid: this.valid });
       },
       deep: true
+    },
+    carryover(val) {
+      //do some stunts since the state is directly used by the FormDialog upon saving
+      //TODO: Look for a more elegant way to do this
+      if (val && this.carryoverCache == null) {
+        //Save the actual value to the Cache if the Cache is empty (base state)
+        this.carryoverCache = this.contract.carryoverMinutes;
+      } else if (val && this.carryoverCache != null) {
+        //take the cached vaule if the checkbox is reactivated
+        this.contract.carryoverMinutes = this.carryoverCache;
+      } else {
+        //set carryoverMinutes to 00:00 if carryover-checkbox is deactivated
+        this.contract.carryoverMinutes = "00:00";
+      }
     }
   },
   created() {
