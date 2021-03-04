@@ -83,6 +83,7 @@
           maxlength="6"
           required
           filled
+          @focus="$event.target.select()"
           @blur="carryoverMinutesUpdated"
         >
         </v-text-field>
