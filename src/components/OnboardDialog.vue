@@ -40,9 +40,9 @@
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
-            <h1>
+            <h3 class="pb-2">
               {{ $t("onboarding.personnelNumber.title") }}
-            </h1>
+            </h3>
             <span>
               {{ $t("onboarding.personnelNumber.text") }}
             </span>
