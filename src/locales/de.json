@@ -77,8 +77,8 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
     "name": "Benenne deinen Vertrag",
-    "expired" : "(Vertrag abgelaufen)",
-    "expiredVerbose" : "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
+    "expired": "(Vertrag abgelaufen)",
+    "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "perMonth": "{time} pro Monat",
     "carryover": {
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
@@ -106,7 +106,14 @@
           "allSaved": "Alle Schichten wurden gespeichert.",
           "noSaved": "Es wurden keine Schichten gespeichert.",
           "singleSaved": "Die Schicht wurde gespeichert.",
-          "success": "Du wurdest ausgeclockt."
+          "success": "Du wurdest ausgeclockt.",
+          "label": {
+            "notice": "",
+            "update": "Update",
+            "changelog": "Changelog",
+            "warning": "Warnung",
+            "tip": "Tipp"
+          }
         },
         "newShifts": "Neue Schichten",
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
@@ -196,7 +203,8 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "text": "Hier kannst deine von uns gespeicherten Daten runterladen. Der Download erfolgt im JSON Datenformat."
+    "text": "Hier kannst Du alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
+    "suffix": "DSGVO"
   },
   "help": {
     "title": "App zurücksetzen",
@@ -223,7 +231,7 @@
     "title": "Möchtest du dich @:actions.logout?"
   },
   "news": {
-    "showAll" : "Alle anzeigen",
+    "showAll": "Alle anzeigen",
     "noNews": "Es gibt keine Neuigkeiten.",
     "label": {
       "notice": "",
@@ -286,6 +294,7 @@
     "summary": "Zusammenfassung",
     "lock": {
       "lock": "Sperren",
+      "locked": "gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Nach dem Sperren kannst Du den Stundenzettel des nächsten Monats exportieren."
@@ -293,7 +302,7 @@
   },
   "selectContract": {
     "hint": "Wechsle den Vertrag, um andere Daten zu sehen",
-    "hintExpired" : "Der ausgewählte Vertrag ist abgelaufen. Wechsle den Vertrag, um andere Daten zu sehen"
+    "hintExpired": "Der ausgewählte Vertrag ist abgelaufen. Wechsle den Vertrag, um andere Daten zu sehen"
   },
   "settings": {
     "account": {
@@ -358,10 +367,10 @@
       "vn": "Urlaub"
     },
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
-    "table" : {
-      "reviewedTitle" : "Vergangene Schichten",
-      "reviewedHint" : "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
-      "plannedTitle" : "Geplante Schichten",
+    "table": {
+      "reviewedTitle": "Vergangene Schichten",
+      "reviewedHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
+      "plannedTitle": "Geplante Schichten",
       "plannedHint": "Alle in der Zukunft liegenden Schichten."
     }
   },

@@ -42,7 +42,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="5">
-            <DashboardLastActivity />
+            <DashboardLastActivity @refresh="refresh" />
           </v-col>
         </v-row>
       </v-card>
@@ -101,11 +101,11 @@ export default {
     }),
     selectedContract() {
       const uuid = this.$route.params.contract;
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     },
     latestReport() {
       const reports = this.reports
-        .filter(report => report.contract === this.selectedContract.uuid)
+        .filter((report) => report.contract === this.selectedContract.uuid)
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });

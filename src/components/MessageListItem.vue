@@ -2,7 +2,7 @@
   <v-list-item v-bind="$attrs" three-line @click="$emit('show', message)">
     <v-list-item-content>
       <v-list-item-title>
-        {{ message.title}}
+        {{ message.title }}
         <v-chip
           v-if="typeTag(message) !== ''"
           outlined
@@ -13,7 +13,7 @@
           {{ typeTag(message) }}
         </v-chip>
       </v-list-item-title>
-      
+
       <v-list-item-subtitle
         class="text--primary"
         v-text="text"
@@ -52,7 +52,7 @@ export default {
     },
     typeTag(message) {
       return MESSAGE_TYPE_TAGS[message.type];
-    },
+    }
   }
 };
 </script>

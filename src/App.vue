@@ -40,7 +40,10 @@ export default {
   metaInfo() {
     return {
       title: this.$t("app.mainTitle"),
-      titleTemplate: process.env.VUE_APP_ENV === "staging" ? "Clock-Staging - %s" : "Clock - %s"
+      titleTemplate:
+        process.env.VUE_APP_ENV === "staging"
+          ? "Clock-Staging - %s"
+          : "Clock - %s"
     };
   },
   components: {

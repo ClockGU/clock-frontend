@@ -46,9 +46,11 @@ export const routes = [
         component: FAQ,
         meta: { public: true }
       },
-      { path: "/onboarding",
+      {
+        path: "/onboarding",
         name: "onboarding",
-        component: Onboarding },
+        component: Onboarding
+      },
       {
         path: "/impressum",
         name: "imprint",

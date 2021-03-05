@@ -43,10 +43,9 @@
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-start-time"
-          :errors="startTimeErrors"
           type="start"
+          :error="startError"
           :prepend-icon="$vuetify.breakpoint.smAndDown"
-          @update="$v.shift.date.start.$touch() || $v.shift.date.end.$touch()"
         />
       </v-col>
 
@@ -58,9 +57,8 @@
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-end-time"
-          :errors="endTimeErrors"
           type="end"
-          @update="$v.shift.date.end.$touch() || $v.shift.date.start.$touch()"
+          :error="endError"
         />
       </v-col>
 
@@ -134,15 +132,9 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { isAfter, isBefore, isFuture, isSameDay } from "date-fns";
+import { isAfter, isBefore, isFuture, isSameDay, isEqual } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
-
-import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
-
-const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
-const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
 import {
   mdiFileDocumentEditOutline,
@@ -166,15 +158,6 @@ export default {
     },
     formatTime(date) {
       return localizedFormat(date, "HH:mm");
-    }
-  },
-  mixins: [validationMixin],
-  validations: {
-    shift: {
-      date: {
-        start: { required, startBeforeEnd },
-        end: { required, endAfterStart }
-      }
     }
   },
   props: {
@@ -230,36 +213,21 @@ export default {
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
-        isBefore(this.shift.date.end, this.shift.date.start)
+        isBefore(this.shift.date.end, this.shift.date.start) ||
+        isEqual(this.shift.date.start, this.shift.date.end)
       )
         return false;
 
       return true;
     },
-    startTimeErrors() {
-      const errors = [];
-      if (!this.$v.shift.date.start.$dirty) return errors;
-
-      (!this.$v.shift.date.start.required ||
-        !!this.$v.shift.date.start.biggerThan23) &&
-        errors.push(this.$t("errors.shiftDateStartRequired"));
-
-      !this.$v.shift.date.start.startBeforeEnd &&
-        errors.push(this.$t("errors.shiftDateStartBeforeEnd"));
-
-      return errors;
+    startError() {
+      return isEqual(this.shift.date.start, this.shift.date.end);
     },
-    endTimeErrors() {
-      const errors = [];
-      if (!this.$v.shift.date.end.$dirty) return errors;
-
-      !this.$v.shift.date.end.required &&
-        errors.push(this.$t("errors.shiftDateEndRequired"));
-
-      !this.$v.shift.date.end.endAfterStart &&
-        errors.push(this.$t("errors.shiftDateEndAfterStart"));
-
-      return errors;
+    endError() {
+      return (
+        isBefore(this.shift.date.end, this.shift.date.start) ||
+        isEqual(this.shift.date.start, this.shift.date.end)
+      );
     }
   },
   watch: {
@@ -272,7 +240,7 @@ export default {
         // shift starting in the future cannot be set to `was_reviewed=true`.
         this.handleReviewBox();
       },
-      deep: true,
+      deep: true
     },
     shift: {
       handler: function () {
@@ -300,10 +268,10 @@ export default {
       this.scheduledShifts = shifts;
     },
     handleReviewBox() {
-      if (this.isNewShift){
-        this.startsInFuture ? 
-          this.shift.reviewed = false 
-          : this.shift.reviewed = true
+      if (this.isNewShift) {
+        this.startsInFuture
+          ? (this.shift.reviewed = false)
+          : (this.shift.reviewed = true);
       }
     },
     initializeForm() {
@@ -318,7 +286,7 @@ export default {
       const contractEnd = this.contract.date.end;
       const now = this.now;
 
-      // If we go to fast, contractStart is null and we get an error.
+      // If we go too fast, contractStart is null and we get an error.
       // Gotta go fast.
       if (contractStart === null || contractEnd === null) return;
 

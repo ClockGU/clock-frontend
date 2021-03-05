@@ -9,7 +9,12 @@
       <v-divider v-if="index < messages.length - 1" :key="index"></v-divider>
     </template>
 
-    <v-dialog v-if="dialog" v-model="dialog" :max-width="900" @click:outside="closeMessage">
+    <v-dialog
+      v-if="dialog"
+      v-model="dialog"
+      :max-width="900"
+      @click:outside="closeMessage"
+    >
       <v-card>
         <v-toolbar flat>
           <v-btn icon @click="dialog = false">
@@ -18,13 +23,13 @@
           <v-toolbar-title>
             {{ visibleMessage.title }}
             <v-chip
-              v-if="typeTag(visibleMessage) !== ''" 
-              outlined 
-              small 
+              v-if="typeTag(visibleMessage) !== ''"
+              outlined
+              small
               class="ma-2"
               :color="typeColor(visibleMessage)"
             >
-             {{ typeTag(visibleMessage) }}
+              {{ typeTag(visibleMessage) }}
             </v-chip>
           </v-toolbar-title>
           <v-spacer />
@@ -32,7 +37,6 @@
         </v-toolbar>
 
         <MessageListText :text="visibleMessage.text" />
-
       </v-card>
     </v-dialog>
   </v-list>

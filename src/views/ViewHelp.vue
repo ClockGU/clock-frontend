@@ -5,7 +5,9 @@
         <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
           <portal-target name="card-toolbar"></portal-target>
 
-          <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+          <portal
+            :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'"
+          >
             <v-toolbar slot-scope="{ action }" :elevation="0">
               <v-app-bar-nav-icon
                 v-if="$vuetify.breakpoint.smAndDown"
@@ -29,7 +31,9 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="error" text @click="reset">{{ $t("actions.reset") }}</v-btn>
+            <v-btn color="error" text @click="reset">{{
+              $t("actions.reset")
+            }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
