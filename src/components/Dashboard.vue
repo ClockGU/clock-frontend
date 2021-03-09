@@ -30,7 +30,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="3">
-            <MonthlyProgress :azk-data="azkData" />
+            <Progress :azk-data="azkData" />
           </v-col>
 
           <v-col cols="12" md="6" order="4">
@@ -56,7 +56,7 @@ import { localizedFormat } from "@/utils/date";
 import ClockInOutCard from "@/components/ClockInOutCard";
 import DashboardShiftButton from "@/components/DashboardShiftButton";
 import DashboardMessageList from "@/components/DashboardMessageList";
-import MonthlyProgress from "@/components/MonthlyProgress";
+import Progress from "@/components/Progress";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import DashboardLastActivity from "@/components/DashboardLastActivity";
@@ -79,7 +79,7 @@ export default {
     DashboardShiftButton,
     DataFilter,
     DashboardMessageList,
-    MonthlyProgress,
+    Progress,
     SelectContractFilter,
     DashboardConflicts,
     DashboardLastActivity,
