@@ -82,11 +82,15 @@ export default {
       this.date = value;
     },
     async refresh() {
+      const selectedMonth = this.date;
+
       await Promise.all([
         this.$store.dispatch("shift/queryShifts"),
         this.$store.dispatch("contract/queryContracts"),
         this.$store.dispatch("report/list")
       ]);
+
+      this.updateDate(selectedMonth);
     }
   }
 };

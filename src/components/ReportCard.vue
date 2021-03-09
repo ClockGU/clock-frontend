@@ -74,7 +74,7 @@
                 <v-btn
                   :disabled="lockDisabled"
                   :text="!lockDisabled"
-                  :color="!lockDisabled ? 'orange' : ''"
+                  :color="!lockDisabled ? 'warning' : ''"
                   v-on="on"
                 >
                   {{
