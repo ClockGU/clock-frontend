@@ -297,7 +297,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
-      "message": "After locking this month, you will not be able to edit its shifts. This will allow you to export the report of the following month."
+      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month can not be undone."
     }
   },
   "selectContract": {

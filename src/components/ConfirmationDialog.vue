@@ -13,9 +13,7 @@
     <template #content>
       <v-card data-cy="delete-dialog">
         <v-card-title>
-          <span class="text-h5">
-            <slot name="title"></slot>
-          </span>
+          <slot name="title"></slot>
         </v-card-title>
 
         <v-card-text>

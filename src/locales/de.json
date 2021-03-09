@@ -297,7 +297,7 @@
       "locked": "gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
-      "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Nach dem Sperren kannst Du den Stundenzettel des nächsten Monats exportieren."
+      "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
     }
   },
   "selectContract": {
