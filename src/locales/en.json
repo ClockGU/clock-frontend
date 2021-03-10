@@ -148,8 +148,8 @@
         "weekly": "Weekly progress",
         "daily": "Daily progress"
       },
-      "weeklyText": "You worked {n} hours this month.",
-      "weeklyBase": "Your weekly due average in this contract is {n}h.",
+      "weeklyText": "You worked {n} h this month.",
+      "weeklyBase": "Your weekly due average in this contract is {n} h.",
       "dailyText1": "You worked",
       "dailyText2": "today.",
       "minutes": "minutes",

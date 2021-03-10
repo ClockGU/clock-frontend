@@ -148,8 +148,8 @@
         "weekly": "Fortschritt in der aktuellen Woche",
         "daily": "Fortschritt heute"
       },
-      "weeklyText": "Du hast diese Woche bereits {n} Stunden gearbeitet.",
-      "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n}h.",
+      "weeklyText": "Du hast diese Woche bereits {n} h gearbeitet.",
+      "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n} h.",
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
       "minutes": "minutes",
