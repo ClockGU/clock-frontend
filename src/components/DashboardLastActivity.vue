@@ -29,6 +29,7 @@
 <script>
 import ShiftListItem from "@/components/shifts/ShiftListItem";
 import { Shift } from "@/models/ShiftModel";
+import { isBefore } from "date-fns";
 
 import { mapGetters } from "vuex";
 
@@ -49,7 +50,7 @@ export default {
         .filter(
           (shift) =>
             shift.contract === this.selectedContract.uuid &&
-            shift.end < new Date()
+            isBefore(shift.end, new Date())
         )
         .sort((a, b) => {
           return new Date(b.date.end) - new Date(a.date.end);

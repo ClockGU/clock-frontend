@@ -143,10 +143,17 @@
       "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."
     },
     "progress": {
-      "perMonth": "{time} pro Monat",
-      "timeRemaining": "{time} verbleibend",
-      "timeWorked": "{time} gearbeitet",
-      "title": "Fortschritt im aktuellen Monat"
+      "title": {
+        "monthly": "Fortschritt im aktuellen Monat",
+        "weekly": "Fortschritt in der aktuellen Woche",
+        "daily": "Fortschritt heute"
+      },
+      "weeklyText": "Du hast diese Woche bereits {n} Stunden gearbeitet.",
+      "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n}h.",
+      "dailyText1": "Du hast heute insgesamt",
+      "dailyText2": "gearbeitet.",
+      "minutes": "minutes",
+      "hours": "hours"
     },
     "showAll": "Alle anzeigen",
     "notYetReviewed": "noch nicht überprüft"

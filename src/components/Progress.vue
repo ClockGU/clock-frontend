@@ -4,7 +4,7 @@
       <v-window-item key="1">
         <v-card flat>
           <v-card-title>
-            {{ $t("dashboard.progress.title") }}
+            {{ $t("dashboard.progress.title.monthly") }}
           </v-card-title>
           <v-card-text>
             <v-row align="center" justify="space-around">
@@ -15,7 +15,7 @@
                   width="6"
                   rotate="270"
                   class="pa-2"
-                  :value="progress"
+                  :value="monthlyProgress"
                 >
                   {{ printProgress(monthlyProgress) }}%
                 </v-progress-circular>
@@ -39,7 +39,9 @@
 
       <v-window-item key="2">
         <v-card flat>
-          <v-card-title> Fortschritt in der aktuellen Woche </v-card-title>
+          <v-card-title>
+            {{ $t("dashboard.progress.title.weekly") }}
+          </v-card-title>
           <v-card-text>
             <v-row align="center" justify="space-around">
               <v-col cols="2" align="center">
@@ -56,12 +58,10 @@
               </v-col>
               <v-col cols="9">
                 <p>
-                  Du hast diese Woche bereits {{ weeklyProgress }} Stunden
-                  gearbeitet.
+                  {{ $tc("dashboard.progress.weeklyText", weeklyHours) }}
                 </p>
                 <p>
-                  Deine durchschnittliche wöchentliche Arbeitszeit in diesem
-                  Vertrag beträgt {{ weeklyWorktime }} Stunden.
+                  {{ $tc("dashboard.progress.weeklyBase", weeklyAvg) }}
                 </p>
               </v-col>
             </v-row>
@@ -71,11 +71,14 @@
 
       <v-window-item key="3">
         <v-card flat>
-          <v-card-title> Fortschritt heute </v-card-title>
+          <v-card-title>
+            {{ $t("dashboard.progress.title.daily") }}
+          </v-card-title>
           <v-card-text class="text-center">
-            <p>Du hast heute insgesamt</p>
-            <p class="text-h2">{{ dailyProgress }}</p>
-            <p>Stunden gearbeitet.</p>
+            <p>{{ $t("dashboard.progress.dailyText1") }}</p>
+            <span class="text-h2">{{ dailyProgress }}</span>
+            h
+            <p>{{ $t("dashboard.progress.dailyText2") }}</p>
           </v-card-text>
         </v-card>
       </v-window-item>
@@ -104,8 +107,7 @@
 </template>
 
 <script>
-import { formattedTime } from "@/utils/time";
-
+import { minutesToHHMM } from "@/utils/time";
 import { mdiRecord, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
 export default {
@@ -113,6 +115,14 @@ export default {
   props: {
     azkData: {
       type: Array,
+      required: true
+    },
+    weeklyData: {
+      type: Object,
+      required: true
+    },
+    dailyData: {
+      type: Number,
       required: true
     }
   },
@@ -125,14 +135,17 @@ export default {
     monthlyProgress() {
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
     },
-    weeklyWorktime() {
-      return 10;
-    },
     weeklyProgress() {
-      return 80;
+      return (100 * this.weeklyData.worktime) / this.weeklyData.avg;
+    },
+    weeklyHours() {
+      return minutesToHHMM(this.weeklyData.worktime);
+    },
+    weeklyAvg() {
+      return minutesToHHMM(this.weeklyData.avg);
     },
     dailyProgress() {
-      return 50;
+      return minutesToHHMM(this.dailyData);
     },
     totalMinutesPerMonth() {
       const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
@@ -152,9 +165,6 @@ export default {
       }
 
       return progress.toFixed(0);
-    },
-    formattedTime(value) {
-      return formattedTime(value);
     }
   }
 };
