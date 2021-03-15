@@ -8,6 +8,7 @@
         start,
         stop: pause,
         reset: destroy,
+        update,
         save
       }"
     >
@@ -46,6 +47,7 @@
               start,
               pause,
               destroy,
+              update,
               save
             }"
             @updateWindow="window += $event"

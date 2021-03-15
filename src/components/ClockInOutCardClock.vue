@@ -16,6 +16,15 @@
       <v-toolbar-items>
         <v-scale-transition>
           <v-btn
+            v-if="actions.status === 'running'"
+            icon
+            @click="actions.update"
+          >
+            <v-icon>{{ icons.mdiPencil }}</v-icon>
+          </v-btn>
+        </v-scale-transition>
+        <v-scale-transition>
+          <v-btn
             v-if="actions.status === 'running' || actions.status === 'saving'"
             icon
             @click="actions.destroy"
@@ -92,7 +101,7 @@
 
 <script>
 import { addSeconds, isSameDay } from "date-fns";
-import { mdiDelete, mdiInformation } from "@mdi/js";
+import { mdiDelete, mdiPencil, mdiInformation } from "@mdi/js";
 
 import { localizedFormat } from "@/utils/date";
 
@@ -146,7 +155,7 @@ export default {
   },
   data() {
     return {
-      icons: { mdiDelete, mdiInformation }
+      icons: { mdiDelete, mdiInformation, mdiPencil }
     };
   },
   computed: {

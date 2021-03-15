@@ -2,6 +2,7 @@ import { differenceInSeconds, parseISO } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
+//import { update } from "ramda";
 
 export default {
   name: "ClockInOut",
@@ -109,6 +110,13 @@ export default {
         this.saving = false;
       }
     },
+    async update() {
+      this.$store.dispatch("snackbar/setSnack", {
+        snack: "Updating Shift...",
+        timeout: 4000,
+        color: "warning"
+      });
+    },
     async start() {
       this.saving = true;
       try {
@@ -212,6 +220,7 @@ export default {
       unpause: this.unpause,
       duration: this.duration,
       save: this.save,
+      update: this.update,
       status: this.status,
       reselectContract: this.reselectContract
     });
