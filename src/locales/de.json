@@ -87,6 +87,11 @@
     }
   },
   "dashboard": {
+    "welcome": {
+      "text": "Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn Du mal nicht weiter weißt, wirf einen Blick ins {link} oder sende uns dein Feedback.",
+      "manual": "Handbuch",
+      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
+    },
     "clock": {
       "contractInactive": "Du bist nicht im derzeit ausgewählten Vertrag eingeclockt. Du musst den Vertrag wechseln, um auszuclocken.",
       "contractExpired": "Der ausgewählte Vertrag ist abgelaufen. Du kannst auf diesem Vertrag keine Schichten mehr clocken.",

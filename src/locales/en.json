@@ -87,6 +87,11 @@
     }
   },
   "dashboard": {
+    "welcome": {
+      "text": "Welcome to Clock! We are constantly working to improve this application. If you need advice, please check out the {link} oder send us your feedback.",
+      "manual": "user manual",
+      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
+    },
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
       "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
