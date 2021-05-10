@@ -1,6 +1,6 @@
 <template>
   <v-card :elevation="0">
-    <v-alert type="success" outlined class="mx-4">{{
+    <v-alert type="success" outlined class="ma-4">{{
       $t("gdpr.accepted")
     }}</v-alert>
 

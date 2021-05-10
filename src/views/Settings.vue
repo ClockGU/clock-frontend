@@ -20,7 +20,7 @@
     </template>
 
     <template #content>
-      <v-tabs vertical class="tabs">
+      <v-tabs :vertical="$vuetify.breakpoint.smAndUp" class="tabs">
         <v-tab>
           <v-icon left>{{ icons.mdiWeb }}</v-icon>
           {{ $t("app.language") }}
@@ -98,5 +98,11 @@ export default {
 <style lang="scss" scoped>
 div.tabs [role="tab"] {
   justify-content: flex-start;
+}
+</style>
+<style lang="scss">
+//not-so-beautiful hack
+.v-slide-group__prev {
+  display: none !important;
 }
 </style>
