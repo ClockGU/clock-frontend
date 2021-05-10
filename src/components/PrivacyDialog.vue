@@ -34,6 +34,7 @@
         <v-checkbox v-model="value" :label="$t('privacyagreement.checkbox')">
         </v-checkbox>
       </v-card-text>
+      <v-card-text> {{ $t("privacyagreement.revokeInfo") }} </v-card-text>
 
       <v-card-actions>
         <v-btn text color="primary" :disabled="!value || loading" @click="save">

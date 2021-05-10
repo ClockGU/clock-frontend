@@ -208,7 +208,9 @@
     "titleUpdate": "@:actions.update {entity}"
   },
   "gdpr": {
-    "text": "You can request and download all information saved by you. The download is provided in JSON.",
+    "accepted": "You agreed with our privacy policy.",
+    "revokeInfo": "If you wish to revoke this agreement, you can delete your account since we can not process your data withour your consent.",
+    "download": "You can request and download all information saved by us. The download is provided in JSON.",
     "suffix": "GDPR"
   },
   "help": {
@@ -279,7 +281,8 @@
   },
   "privacyagreement": {
     "text": "You have to accept the {privacyAgreement} before using Clock.",
-    "checkbox": "I have read and agree with the privacy policy."
+    "checkbox": "I have read and agree with the privacy policy.",
+    "revokeInfo": "The agreement can be revoked by deleting your account."
   },
   "reports": {
     "creditDebit": "Credit/Debit: {creditDebit} hours",

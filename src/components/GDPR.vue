@@ -1,7 +1,13 @@
 <template>
   <v-card :elevation="0">
+    <v-alert type="success" outlined class="mx-4">{{
+      $t("gdpr.accepted")
+    }}</v-alert>
+
+    <v-card-text>{{ $t("gdpr.revokeInfo") }}</v-card-text>
+
     <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
-      {{ $t("gdpr.text") }}
+      {{ $t("gdpr.download") }}
     </v-card-text>
 
     <v-card-actions>

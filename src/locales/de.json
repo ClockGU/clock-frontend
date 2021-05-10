@@ -208,7 +208,9 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "text": "Hier kannst Du alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
+    "accepted": "Du hast in die Verarbeitung Deiner Daten mit Clock eingewilligt.",
+    "revokeInfo": "Wenn Du die Einwilligung widerrufen möchtest, dürfen wir Deine Daten nicht mehr verarbeiten. Der Widerruf ist daher nur möglich, indem Du Deinen Account löschst.",
+    "download": "Du kannst hier alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON-Datenformat.",
     "suffix": "DSGVO"
   },
   "help": {
@@ -279,7 +281,8 @@
   },
   "privacyagreement": {
     "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
-    "checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme den Bedingungen zu."
+    "checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme den Bedingungen zu.",
+    "revokeInfo": "Die Zustimmung kann jederzeit durch Löschen des Accounts widerrufen werden."
   },
   "reports": {
     "creditDebit": "Haben/Soll: {creditDebit} Stunden",
