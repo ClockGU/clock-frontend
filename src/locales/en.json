@@ -65,7 +65,7 @@
     "overlap": {
       "resolving": "Resolving",
       "none": "There are no overlapping shifts. You're good!",
-      "all": "All Shifts",
+      "all": "Other shifts",
       "overlap": "Overlapping shifts"
     }
   },

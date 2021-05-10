@@ -65,7 +65,7 @@
     "overlap": {
       "resolving": "Konflikte beheben",
       "none": "Es gibt keine überlappenden Schichten - Sieht gut aus!",
-      "all": "Alle Schichten",
+      "all": "Weitere Schichten",
       "overlap": "Überlappende Schichten"
     }
   },
