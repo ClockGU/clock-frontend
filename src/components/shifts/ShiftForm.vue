@@ -109,8 +109,9 @@
           filled
         ></v-select>
         <v-checkbox
-          v-model="shift.reviewed"
-          :disabled="startsInFuture || shift.reviewed"
+          v-if="!isNewShift && shift.reviewed == false && !startsInFuture"
+          :disabled="showRepeat"
+          :indeterminate="showRepeat"
           :prepend-icon="icons.mdiProgressCheck"
           :label="$t('shifts.reviewed')"
           class="mt-0 pt-0"
@@ -180,6 +181,7 @@ export default {
     select: null,
     shift: null,
     showRepeat: false,
+    tagAsReviewed: false,
     scheduledShifts: []
   }),
   computed: {
@@ -234,14 +236,6 @@ export default {
     "shift.contract": function () {
       this.setStartDate();
     },
-    "shift.date": {
-      handler: function () {
-        // When updating the shift, check if we have to unreview the shift. A
-        // shift starting in the future cannot be set to `was_reviewed=true`.
-        this.handleReviewBox();
-      },
-      deep: true
-    },
     shift: {
       handler: function () {
         this.$emit("update", { shift: this.shift, valid: this.valid });
@@ -266,14 +260,15 @@ export default {
   methods: {
     setScheduledShifts(shifts) {
       this.scheduledShifts = shifts;
+      console.log("ScheduledShifts", shifts);
     },
-    handleReviewBox() {
-      if (this.isNewShift) {
-        this.startsInFuture
-          ? (this.shift.reviewed = false)
-          : (this.shift.reviewed = true);
-      }
-    },
+    //handleReviewBox() {
+    //  if (this.isNewShift) {
+    //    this.startsInFuture
+    //     ? (this.shift.reviewed = false)
+    //      : (this.shift.reviewed = true);
+    //  }
+    //},
     initializeForm() {
       return new Shift({
         date: { ...startEndHours(this.now) },
