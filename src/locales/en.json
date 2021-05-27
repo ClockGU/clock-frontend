@@ -287,6 +287,7 @@
     "generate": "Generate report",
     "hints": {
       "request": "You can request and subsequently download your months report for review. You cannot request a report for the current month before locking the report for previous month of the same contract.",
+      "personnelnumber": "You will also have to supply your personnel number.",
       "lock": "You can only lock the month after generating the report for review."
     },
     "of": "of",

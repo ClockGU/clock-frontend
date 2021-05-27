@@ -29,6 +29,7 @@
               :key="data.report.uuid"
               :report="data.report"
               :exported="data.isCurrentMonthLocked"
+              :is-exportable="!personnelNumberMissing"
               :is-lockable="!data.isCurrentMonthLocked"
               :is-first-unlocked-month="data.firstUnlockedMonth === date"
               :shifts="data.shifts"
