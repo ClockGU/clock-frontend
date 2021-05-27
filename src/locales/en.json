@@ -363,6 +363,8 @@
       "text": "I confirm that all selected shifts have taken place."
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
+    "reviewErrorPast": "A past shift must be reviewed before saving.",
+    "reviewErrorFuture": "A future shift can not be saved as \"reviewed\".",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"
