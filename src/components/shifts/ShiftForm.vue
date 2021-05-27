@@ -242,14 +242,12 @@ export default {
   },
   watch: {
     "shift.contract": function () {
-      console.log("Shift.contract watched");
       this.setStartDate();
     },
     "shift.date": {
       handler: function () {
         // When updating the shift, check if we have to unreview the shift. A
         // shift starting in the future cannot be set to `was_reviewed=true`.
-        console.log("Shift.date watched");
         if (!this.toBeReviewed) {
           this.handleReview();
         }
@@ -258,14 +256,11 @@ export default {
     },
     shift: {
       handler: function () {
-        console.log("Shift watched");
         this.$emit("update", { shift: this.shift, valid: this.valid });
       },
       deep: true
     },
     scheduledShifts() {
-      console.log("schedules shifts watched");
-
       this.$emit("update", {
         shift: this.shift,
         scheduledShifts: this.scheduledShifts,
@@ -286,7 +281,6 @@ export default {
   methods: {
     setScheduledShifts(shifts) {
       this.scheduledShifts = shifts;
-      console.log("ScheduledShifts", shifts);
     },
     handleReview() {
       this.startsInFuture
