@@ -281,6 +281,13 @@ export default {
   methods: {
     setScheduledShifts(shifts) {
       this.scheduledShifts = shifts;
+      if (this.scheduledShifts.length > 0) {
+        this.scheduledShifts.forEach((shift) => {
+          isFuture(shift.date.start)
+            ? (shift.reviewed = false)
+            : (shift.reviewed = true);
+        });
+      }
     },
     handleReview() {
       this.startsInFuture
