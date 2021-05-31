@@ -109,7 +109,6 @@
           filled
         ></v-select>
         <v-checkbox
-          v-if="showReviewBox"
           v-model="shift.reviewed"
           :error-messages="reviewMessage()"
           :disabled="showRepeat || startsInFuture"
@@ -226,10 +225,6 @@ export default {
 
       return true;
     },
-    showReviewBox() {
-      // TODO: Remove function & v-if after test
-      return true; //this.toBeReviewed;
-    },
     startError() {
       return isEqual(this.shift.date.start, this.shift.date.end);
     },
@@ -302,7 +297,7 @@ export default {
       });
     },
     reviewMessage() {
-      if (!this.shift.reviewed) {
+      if (!this.shift.reviewed && !this.showRepeat) {
         return !this.startsInFuture
           ? this.$t("shifts.reviewErrorPast")
           : this.$t("shifts.reviewErrorFuture");
