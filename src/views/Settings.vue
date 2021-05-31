@@ -20,24 +20,24 @@
     </template>
 
     <template #content>
-      <v-tabs vertical class="tabs">
+      <v-tabs :vertical="$vuetify.breakpoint.smAndUp" class="tabs">
         <v-tab>
-          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          <v-icon left>{{ icons.mdiWeb }}</v-icon>
           {{ $t("app.language") }}
         </v-tab>
 
         <v-tab>
-          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          <v-icon left>{{ icons.mdiFormatSection }}</v-icon>
           {{ $t("app.gdpr") }}
         </v-tab>
 
         <v-tab>
-          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          <v-icon left>{{ icons.mdiBadgeAccountHorizontal }}</v-icon>
           {{ $t("onboarding.personnelNumber.label") }}
         </v-tab>
 
         <v-tab>
-          <v-icon left>{{ icons.mdiFileAccount }}</v-icon>
+          <v-icon left>{{ icons.mdiAccountRemove }}</v-icon>
           {{ $t("app.account") }}
         </v-tab>
 
@@ -62,7 +62,13 @@
 </template>
 
 <script>
-import { mdiFileAccount } from "@mdi/js";
+import {
+  mdiFileAccount,
+  mdiBadgeAccountHorizontal,
+  mdiAccountRemove,
+  mdiFormatSection,
+  mdiWeb
+} from "@mdi/js";
 
 import DeleteAccount from "@/components/DeleteAccount";
 import GDPR from "@/components/GDPR";
@@ -78,7 +84,13 @@ export default {
   },
   components: { DeleteAccount, GDPR, PersonnelNumberForm, LanguageSettings },
   data: () => ({
-    icons: { mdiFileAccount }
+    icons: {
+      mdiFileAccount,
+      mdiBadgeAccountHorizontal,
+      mdiAccountRemove,
+      mdiFormatSection,
+      mdiWeb
+    }
   })
 };
 </script>
@@ -86,5 +98,11 @@ export default {
 <style lang="scss" scoped>
 div.tabs [role="tab"] {
   justify-content: flex-start;
+}
+</style>
+<style lang="scss">
+//not-so-beautiful hack
+.v-slide-group__prev {
+  display: none !important;
 }
 </style>

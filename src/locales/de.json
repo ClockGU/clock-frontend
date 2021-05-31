@@ -65,7 +65,7 @@
     "overlap": {
       "resolving": "Konflikte beheben",
       "none": "Es gibt keine überlappenden Schichten - Sieht gut aus!",
-      "all": "Alle Schichten",
+      "all": "Weitere Schichten",
       "overlap": "Überlappende Schichten"
     }
   },
@@ -87,6 +87,11 @@
     }
   },
   "dashboard": {
+    "welcome": {
+      "text": "Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn Du mal nicht weiter weißt, wirf einen Blick ins {link} oder sende uns dein Feedback.",
+      "manual": "Handbuch",
+      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
+    },
     "clock": {
       "contractInactive": "Du bist nicht im derzeit ausgewählten Vertrag eingeclockt. Du musst den Vertrag wechseln, um auszuclocken.",
       "contractExpired": "Der ausgewählte Vertrag ist abgelaufen. Du kannst auf diesem Vertrag keine Schichten mehr clocken.",
@@ -203,7 +208,9 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "text": "Hier kannst Du alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON Datenformat.",
+    "accepted": "Du hast in die Verarbeitung Deiner Daten mit Clock eingewilligt.",
+    "revokeInfo": "Wenn Du die Einwilligung widerrufen möchtest, dürfen wir Deine Daten nicht mehr verarbeiten. Der Widerruf ist daher nur möglich, indem Du Deinen Account löschst.",
+    "download": "Du kannst hier alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON-Datenformat.",
     "suffix": "DSGVO"
   },
   "help": {
@@ -274,7 +281,8 @@
   },
   "privacyagreement": {
     "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
-    "checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme den Bedingungen zu."
+    "checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme den Bedingungen zu.",
+    "revokeInfo": "Die Zustimmung kann jederzeit durch Löschen des Accounts widerrufen werden."
   },
   "reports": {
     "creditDebit": "Haben/Soll: {creditDebit} Stunden",
@@ -297,7 +305,7 @@
       "locked": "gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
-      "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Nach dem Sperren kannst Du den Stundenzettel des nächsten Monats exportieren."
+      "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
     }
   },
   "selectContract": {
@@ -355,6 +363,8 @@
       "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
     },
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
+    "reviewErrorPast": "Eine vergangene Schicht kann nur gespeichert werden, wenn sie überprüft wurde.",
+    "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als \"überprüft\" gespeichert werden.",
     "tags": {
       "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
       "label": "Füge Tags hinzu"

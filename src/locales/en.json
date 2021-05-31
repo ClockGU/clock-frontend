@@ -65,7 +65,7 @@
     "overlap": {
       "resolving": "Resolving",
       "none": "There are no overlapping shifts. You're good!",
-      "all": "All Shifts",
+      "all": "Other shifts",
       "overlap": "Overlapping shifts"
     }
   },
@@ -87,6 +87,11 @@
     }
   },
   "dashboard": {
+    "welcome": {
+      "text": "Welcome to Clock! We are constantly working to improve this application. If you need advice, please check out the {link} oder send us your feedback.",
+      "manual": "user manual",
+      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
+    },
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
       "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
@@ -203,7 +208,9 @@
     "titleUpdate": "@:actions.update {entity}"
   },
   "gdpr": {
-    "text": "You can request and download all information saved by you. The download is provided in JSON.",
+    "accepted": "You agreed with our privacy policy.",
+    "revokeInfo": "If you wish to revoke this agreement, you can delete your account since we can not process your data withour your consent.",
+    "download": "You can request and download all information saved by us. The download is provided in JSON.",
     "suffix": "GDPR"
   },
   "help": {
@@ -274,7 +281,8 @@
   },
   "privacyagreement": {
     "text": "You have to accept the {privacyAgreement} before using Clock.",
-    "checkbox": "I have read and agree with the privacy policy."
+    "checkbox": "I have read and agree with the privacy policy.",
+    "revokeInfo": "The agreement can be revoked by deleting your account."
   },
   "reports": {
     "creditDebit": "Credit/Debit: {creditDebit} hours",
@@ -297,7 +305,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
-      "message": "After locking this month, you will not be able to edit its shifts. This will allow you to export the report of the following month."
+      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month can not be undone."
     }
   },
   "selectContract": {
@@ -355,6 +363,8 @@
       "text": "I confirm that all selected shifts have taken place."
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
+    "reviewErrorPast": "A past shift must be reviewed before saving.",
+    "reviewErrorFuture": "A future shift can not be saved as \"reviewed\".",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"

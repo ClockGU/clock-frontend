@@ -110,7 +110,10 @@
         ></v-select>
         <v-checkbox
           v-model="shift.reviewed"
-          :disabled="startsInFuture || shift.reviewed"
+          :error-messages="reviewMessage()"
+          :disabled="showRepeat || startsInFuture"
+          :indeterminate="showRepeat"
+          :success="shift.reviewed && toBeReviewed"
           :prepend-icon="icons.mdiProgressCheck"
           :label="$t('shifts.reviewed')"
           class="mt-0 pt-0"
@@ -179,6 +182,7 @@ export default {
     dialog: false,
     select: null,
     shift: null,
+    toBeReviewed: false,
     showRepeat: false,
     scheduledShifts: []
   }),
@@ -214,7 +218,8 @@ export default {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
         isBefore(this.shift.date.end, this.shift.date.start) ||
-        isEqual(this.shift.date.start, this.shift.date.end)
+        isEqual(this.shift.date.start, this.shift.date.end) ||
+        (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift)
       )
         return false;
 
@@ -238,7 +243,9 @@ export default {
       handler: function () {
         // When updating the shift, check if we have to unreview the shift. A
         // shift starting in the future cannot be set to `was_reviewed=true`.
-        this.handleReviewBox();
+        if (!this.toBeReviewed) {
+          this.handleReview();
+        }
       },
       deep: true
     },
@@ -262,17 +269,25 @@ export default {
     if (!this.shift.contract) {
       this.shift.contract = this.$route.params.contract;
     }
+    if (!this.startsInFuture && !this.shift.reviewed && !this.isNewShift) {
+      this.toBeReviewed = true;
+    }
   },
   methods: {
     setScheduledShifts(shifts) {
       this.scheduledShifts = shifts;
-    },
-    handleReviewBox() {
-      if (this.isNewShift) {
-        this.startsInFuture
-          ? (this.shift.reviewed = false)
-          : (this.shift.reviewed = true);
+      if (this.scheduledShifts.length > 0) {
+        this.scheduledShifts.forEach((shift) => {
+          isFuture(shift.date.start)
+            ? (shift.reviewed = false)
+            : (shift.reviewed = true);
+        });
       }
+    },
+    handleReview() {
+      this.startsInFuture
+        ? (this.shift.reviewed = false)
+        : (this.shift.reviewed = true);
     },
     initializeForm() {
       return new Shift({
@@ -280,6 +295,13 @@ export default {
         contract: null,
         type: "st"
       });
+    },
+    reviewMessage() {
+      if (!this.shift.reviewed && !this.showRepeat) {
+        return !this.startsInFuture
+          ? this.$t("shifts.reviewErrorPast")
+          : this.$t("shifts.reviewErrorFuture");
+      }
     },
     setStartDate() {
       const contractStart = this.contract.date.start;
