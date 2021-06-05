@@ -374,7 +374,8 @@
       "label": "In welche Kategorie gehört dieser Eintrag?",
       "sk": "Krank",
       "st": "Schicht",
-      "vn": "Urlaub"
+      "vn": "Urlaub",
+      "bh": "Feiertag"
     },
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
