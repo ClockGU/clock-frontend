@@ -374,7 +374,8 @@
       "label": "What category does this shift fall into?",
       "sk": "Sick",
       "st": "Shift",
-      "vn": "Vacation"
+      "vn": "Vacation",
+      "bh": "Bank holiday"
     },
     "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
     "table": {
