@@ -10,7 +10,7 @@
             <v-row align="center" justify="space-around">
               <v-col cols="2" align="center">
                 <v-progress-circular
-                  color="primary"
+                  :color="colorMonthly"
                   size="64"
                   width="6"
                   rotate="270"
@@ -24,13 +24,24 @@
                 <v-simple-table>
                   <template #default>
                     <tbody>
-                      <tr v-for="row in azkData" :key="row.name">
-                        <td>{{ row.name }}</td>
-                        <td align="right">{{ row.value }}</td>
+                      <tr
+                        v-for="(row, index) in azkData"
+                        :key="row.name"
+                        :class="carryoverClass(index)"
+                      >
+                        <td>
+                          {{ row.name }}
+                        </td>
+                        <td align="right">
+                          {{ row.value }}
+                        </td>
                       </tr>
                     </tbody>
                   </template>
                 </v-simple-table>
+                <p v-if="carryoverExceeded" class="text-right font-italic">
+                  {{ $tc("dashboard.progress.maxCarryoverHint", maxCarryover) }}
+                </p>
               </v-col>
             </v-row>
           </v-card-text>
@@ -46,7 +57,7 @@
             <v-row align="center" justify="space-around">
               <v-col cols="2" align="center">
                 <v-progress-circular
-                  color="primary"
+                  :color="colorWeekly"
                   size="64"
                   width="6"
                   rotate="270"
@@ -76,16 +87,23 @@
           </v-card-title>
           <v-card-text class="text-center">
             <p>{{ $t("dashboard.progress.dailyText1") }}</p>
-            <span class="text-h2">{{ dailyProgress }}</span>
-            h
-            <p>{{ $t("dashboard.progress.dailyText2") }}</p>
+            <span :class="dailyData < 480 ? '' : 'red--text'">
+              <span class="text-h2">{{ dailyWorktime[0] }}</span>
+              h
+              <span class="text-h2">{{ dailyWorktime[1] }}</span>
+              m
+            </span>
+            <p class="pt-4">{{ $t("dashboard.progress.dailyText2") }}</p>
+            <p v-if="dailyData > 480" class="text-center font-italic">
+              {{ $t("dashboard.progress.overtimeHint") }}
+            </p>
           </v-card-text>
         </v-card>
       </v-window-item>
     </v-window>
 
     <v-card-actions class="justify-space-between">
-      <v-btn :disabled="step == 0" text @click="step--">
+      <v-btn text @click="step == 0 ? (step = 2) : step--">
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
       <v-item-group v-model="step" class="text-center" mandatory>
@@ -99,7 +117,7 @@
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn :disabled="step == 2" text @click="step++">
+      <v-btn text @click="step == 2 ? (step = 0) : step++">
         <v-icon>{{ icons.mdiChevronRight }}</v-icon>
       </v-btn>
     </v-card-actions>
@@ -133,7 +151,16 @@ export default {
   }),
   computed: {
     monthlyProgress() {
+      console.log(this.azkData);
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
+    },
+    carryoverExceeded() {
+      return this.monthlyProgress > 150;
+    },
+    colorMonthly() {
+      if (this.monthlyProgress > 150) return "error";
+      else if (this.monthlyProgress > 100) return "warning";
+      else return "primary";
     },
     weeklyProgress() {
       return (100 * this.weeklyData.worktime) / this.weeklyData.avg;
@@ -144,8 +171,11 @@ export default {
     weeklyAvg() {
       return minutesToHHMM(this.weeklyData.avg);
     },
-    dailyProgress() {
-      return minutesToHHMM(this.dailyData);
+    colorWeekly() {
+      return this.weeklyprogress < 100 ? "primary" : "warning";
+    },
+    dailyWorktime() {
+      return minutesToHHMM(this.dailyData).split(":");
     },
     totalMinutesPerMonth() {
       const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
@@ -154,17 +184,18 @@ export default {
     },
     totalMinutesWorked() {
       const [creditHours, creditMinutes] = this.azkData[2].value.split(":");
-
       return parseInt(creditHours) * 60 + parseInt(creditMinutes);
+    },
+    maxCarryover() {
+      return minutesToHHMM(0.5 * this.totalMinutesPerMonth);
     }
   },
   methods: {
     printProgress(progress) {
-      if (progress > 100) {
-        return `>100`;
-      }
-
       return progress.toFixed(0);
+    },
+    carryoverClass(index) {
+      return this.carryoverExceeded && index == 3 ? "red--text" : "";
     }
   }
 };

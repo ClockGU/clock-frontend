@@ -121,6 +121,8 @@ export default {
       return reports.pop();
     },
     azkData() {
+      //reminder: the Progress component expects the carryover to be the last item
+      //any changes made here must be adapted in Progress.vue
       return [
         {
           name: this.$t("reports.carryoverLast"),

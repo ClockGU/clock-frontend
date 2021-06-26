@@ -153,7 +153,9 @@
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
       "minutes": "minutes",
-      "hours": "hours"
+      "hours": "hours",
+      "maxCarryoverHint": "Hinweis: Formell dürfen nicht mehr als {n} h (50%) in den nächsten Monat übertragen werden.",
+      "overtimeHint": "Hinweis: Die tägliche Arbeitszeit sollte 8h nicht überschreiten."
     },
     "showAll": "Alle anzeigen",
     "notYetReviewed": "noch nicht überprüft"
