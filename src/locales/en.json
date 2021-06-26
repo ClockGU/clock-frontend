@@ -154,8 +154,8 @@
       "dailyText2": "today.",
       "minutes": "minutes",
       "hours": "hours",
-      "maxCarryoverHint": "Note: Officially, you can not carry over more than {n} h (50%)",
-      "overtimeHint": "Note: Your daily worktime should net exceed 8h."
+      "maxCarryoverHint": "Note: Formally, you can not carry over more than {n} h (50%)",
+      "overtimeHint": "Note: Your daily worktime should not exceed 8h."
     },
     "showAll": "Show all",
     "notYetReviewed": "not yet reviewed"
