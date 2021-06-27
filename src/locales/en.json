@@ -148,10 +148,19 @@
       "noProblems": "There are no problems with your shifts."
     },
     "progress": {
-      "perMonth": "{time} per month",
-      "timeRemaining": "{time} remaining",
-      "timeWorked": "{time} worked",
-      "title": "Monthly progress"
+      "title": {
+        "monthly": "Monthly progress",
+        "weekly": "Weekly progress",
+        "daily": "Daily progress"
+      },
+      "weeklyText": "You worked {n} h this month.",
+      "weeklyBase": "Your weekly due average in this contract is {n} h.",
+      "dailyText1": "You worked",
+      "dailyText2": "today.",
+      "minutes": "minutes",
+      "hours": "hours",
+      "maxCarryoverHint": "Note: Formally, you can not carry over more than {n} h (50%)",
+      "overtimeHint": "Note: Your daily worktime should not exceed 8h."
     },
     "showAll": "Show all",
     "notYetReviewed": "not yet reviewed"
