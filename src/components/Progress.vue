@@ -156,7 +156,6 @@ export default {
   }),
   computed: {
     monthlyProgress() {
-      console.log(this.azkData);
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
     },
     carryoverExceeded() {
