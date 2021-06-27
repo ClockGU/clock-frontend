@@ -87,14 +87,14 @@
           </v-card-title>
           <v-card-text class="text-center">
             <p>{{ $t("dashboard.progress.dailyText1") }}</p>
-            <span :class="dailyData < 480 ? '' : 'red--text'">
+            <span :class="colorDaily">
               <span class="text-h2">{{ dailyWorktime[0] }}</span>
               h
               <span class="text-h2">{{ dailyWorktime[1] }}</span>
               m
             </span>
             <p class="pt-4">{{ $t("dashboard.progress.dailyText2") }}</p>
-            <p v-if="dailyData > 480" class="text-center font-italic">
+            <p v-if="dailyOvertime" class="text-center font-italic">
               {{ $t("dashboard.progress.overtimeHint") }}
             </p>
           </v-card-text>
@@ -113,7 +113,7 @@
           v-slot="{ active, toggle }"
         >
           <v-btn :input-value="active" icon @click="toggle">
-            <v-icon>{{ icons.mdiRecord }}</v-icon>
+            <v-icon>{{ icons.mdiCircleMedium }}</v-icon>
           </v-btn>
         </v-item>
       </v-item-group>
@@ -126,7 +126,12 @@
 
 <script>
 import { minutesToHHMM } from "@/utils/time";
-import { mdiRecord, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import {
+  mdiRecord,
+  mdiCircleMedium,
+  mdiChevronLeft,
+  mdiChevronRight
+} from "@mdi/js";
 
 export default {
   name: "Progress",
@@ -147,7 +152,7 @@ export default {
   data: () => ({
     step: 0,
     length: 3,
-    icons: { mdiChevronLeft, mdiChevronRight, mdiRecord }
+    icons: { mdiChevronLeft, mdiChevronRight, mdiRecord, mdiCircleMedium }
   }),
   computed: {
     monthlyProgress() {
@@ -172,10 +177,16 @@ export default {
       return minutesToHHMM(this.weeklyData.avg);
     },
     colorWeekly() {
-      return this.weeklyprogress < 100 ? "primary" : "warning";
+      return this.weeklyProgress <= 100 ? "primary" : "warning";
     },
     dailyWorktime() {
       return minutesToHHMM(this.dailyData).split(":");
+    },
+    dailyOvertime() {
+      return this.dailyData > 480;
+    },
+    colorDaily() {
+      return this.dailyData < 480 ? "" : "red--text";
     },
     totalMinutesPerMonth() {
       const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
