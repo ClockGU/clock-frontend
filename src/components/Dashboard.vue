@@ -211,7 +211,7 @@ export default {
     },
     thisWeek(date) {
       const thisWeek = new Date();
-      return isSameWeek(thisWeek, parseISO(date.start));
+      return isSameWeek(thisWeek, parseISO(date.start), { weekStartsOn: 1 });
     }
   }
 };
