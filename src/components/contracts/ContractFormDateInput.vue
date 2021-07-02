@@ -11,8 +11,10 @@
         :value="formattedDate"
         readonly
         filled
+        flat
         dense
         hide-details
+        :disabled="disable"
         :prepend-icon="icon"
         v-bind="attrs"
         v-on="on"
@@ -20,7 +22,7 @@
     </template>
     <v-date-picker
       v-model="date"
-      :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
+      :allowed-dates="allowedDates"
       :first-day-of-week="1"
       :max="max"
       :min="min"
@@ -61,6 +63,10 @@ export default {
     type: {
       type: String,
       required: true
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -86,6 +92,11 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    },
+    allowedDates() {
+      return this.type === "start"
+        ? this.allowedStartDates
+        : this.allowedEndDates;
     }
   },
   methods: {
@@ -95,6 +106,7 @@ export default {
     },
     allowedEndDates(val) {
       const day = parseInt(val.split("-")[2], 10);
+      console.log(val);
       return day === 15 || isLastDayOfMonth(parseISO(val));
     }
   }

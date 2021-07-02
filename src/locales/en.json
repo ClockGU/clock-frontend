@@ -14,6 +14,7 @@
     "edit": "Edit",
     "logout": "Logout",
     "next": "Next",
+    "renew": "Renew",
     "request": "Request",
     "reset": "Reset",
     "resolve": "Resolve",
@@ -84,7 +85,8 @@
       "checkboxLabel": "Carryover work time from previous month",
       "dateLabel": "Carryover into this month",
       "minutesLabel": "Carryover as HH:MM"
-    }
+    },
+    "renewLimits": "You can renew a contract by up to six months starting from the old end date."
   },
   "dashboard": {
     "welcome": {
@@ -262,7 +264,8 @@
     "report": "Report | Reports",
     "selectedContract": "the selected contract | the selected contracts",
     "selectedShift": "the selected shift | the selected shifts",
-    "shift": "Shift | Shifts"
+    "shift": "Shift | Shifts",
+    "extendContract": "Contract | Contracts"
   },
   "onboarding": {
     "createContract": {

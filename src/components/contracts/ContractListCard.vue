@@ -24,12 +24,23 @@
 
     <v-card-actions data-cy="contract-actions">
       <v-btn
+        v-if="!contractExpired"
         text
         color="primary"
         data-cy="edit"
         @click="$emit('edit', contract.uuid)"
       >
         {{ $t("actions.edit") }}
+      </v-btn>
+
+      <v-btn
+        v-else
+        text
+        color="primary"
+        data-cy="extend"
+        @click="$emit('extend', contract.uuid)"
+      >
+        {{ $t("actions.renew") }}
       </v-btn>
 
       <ConfirmationDialog @confirm="$emit('delete')">
