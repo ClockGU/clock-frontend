@@ -43,6 +43,7 @@
                 :edit-mode="editMode"
                 @edit="editContract"
                 @delete="destroy(contract.uuid)"
+                @extend="extendContractDuration"
               />
             </v-col>
           </template>
@@ -73,7 +74,20 @@
 
     <template #extra-content>
       <FormDialog
-        v-if="contractEntity !== null"
+        v-if="contractEntity !== null && extendContract"
+        :key="contractEntity.uuid"
+        entity-name="extendContract"
+        :show-delete="false"
+        :entity="contractEntity"
+        @close="
+          contractEntity = null;
+          extendContract = false;
+        "
+        @refresh="refresh"
+      />
+      <FormDialog
+        v-else-if="contractEntity !== null"
+        :key="contractEntity.uuid"
         entity-name="contract"
         :entity="contractEntity"
         @close="contractEntity = null"
@@ -120,7 +134,8 @@ export default {
         mdiPlus: mdiPlus
       },
       contractEntity: null,
-      ignoreLoading: false
+      ignoreLoading: false,
+      extendContract: false
     };
   },
   computed: {
@@ -160,6 +175,10 @@ export default {
         (contract) => contract.uuid === uuid
       );
       this.contractEntity = new Contract(contract);
+    },
+    extendContractDuration(uuid) {
+      this.extendContract = true;
+      this.editContract(uuid);
     },
     newContract() {
       this.contractEntity = new Contract();

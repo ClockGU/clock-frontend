@@ -6,6 +6,10 @@ const repositories = {
   contract: {
     serviceLoader: () => import("@/services/contract.js"),
     formComponent: () => import("@/components/contracts/ContractForm.vue")
+  },
+  extendContract: {
+    serviceLoader: () => import("@/services/contract.js"),
+    formComponent: () => import("@/components/contracts/ExtendContractForm.vue")
   }
 };
 
