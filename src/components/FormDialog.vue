@@ -84,7 +84,10 @@
 
         <v-spacer></v-spacer>
 
-        <ConfirmationDialog v-if="uuid !== null" @confirm="destroy">
+        <ConfirmationDialog
+          v-if="uuid !== null && showDelete"
+          @confirm="destroy"
+        >
           <template #activator="{ on }">
             <v-btn
               data-cy="entity-form-delete-button"
@@ -142,6 +145,10 @@ export default {
     entityName: {
       type: String,
       required: true
+    },
+    showDelete: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
