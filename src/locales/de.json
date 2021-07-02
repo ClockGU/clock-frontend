@@ -14,6 +14,7 @@
     "edit": "Bearbeiten",
     "logout": "Abmelden",
     "next": "Weiter",
+    "renew": "Verlängern",
     "request": "Anfordern",
     "reset": "Zurücksetzen",
     "resolve": "Beheben",
@@ -84,7 +85,8 @@
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
       "dateLabel": "Übertrag in diesen Monat",
       "minutesLabel": "Übertrag als HH:MM"
-    }
+    },
+    "renewLimits": "Du kannst eine Vertrag nur um bis zu sechs Monate ab dem alten Enddatum verlängern."
   },
   "dashboard": {
     "welcome": {
@@ -262,7 +264,8 @@
     "report": "Stundenzettel | Stundenzettel",
     "selectedContract": "den ausgewählten Vertrag | die ausgewählten Verträge",
     "selectedShift": "die ausgewählte Schicht | die ausgewählten Schichten",
-    "shift": "Schicht | Schichten"
+    "shift": "Schicht | Schichten",
+    "extendContract": "Vertrag | Verträge"
   },
   "onboarding": {
     "createContract": {
