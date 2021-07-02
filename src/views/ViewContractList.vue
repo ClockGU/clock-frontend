@@ -76,7 +76,7 @@
       <FormDialog
         v-if="contractEntity !== null && extendContract"
         :key="contractEntity.uuid"
-        entity-name="extendContract"
+        entity-name="renewContract"
         :show-delete="false"
         :entity="contractEntity"
         @close="

@@ -7,7 +7,7 @@ const repositories = {
     serviceLoader: () => import("@/services/contract.js"),
     formComponent: () => import("@/components/contracts/ContractForm.vue")
   },
-  extendContract: {
+  renewContract: {
     serviceLoader: () => import("@/services/contract.js"),
     formComponent: () => import("@/components/contracts/ExtendContractForm.vue")
   }
