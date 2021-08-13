@@ -6,13 +6,15 @@ import { log } from "@/utils/log";
 const state = {
   accessToken: null,
   refreshToken: null,
-  refreshTokenPromise: null
+  refreshTokenPromise: null,
+  checkoutUser: "String"
 };
 
 const getters = {
   loggedIn: (state) => state.accessToken !== null,
   accessToken: (state) => state.accessToken,
-  refreshToken: (state) => state.refreshToken
+  refreshToken: (state) => state.refreshToken,
+  checkoutUser: (state) => state.checkoutUser
 };
 
 const actions = {
@@ -88,6 +90,12 @@ const mutations = {
   },
   SET_REFRESH_TOKEN_PROMISE(state, payload) {
     state.refreshTokenPromise = payload;
+  },
+  SET_CHECKOUT_USER(state, payload) {
+    state.checkoutUser = payload;
+  },
+  CLEAR_CHECKOUT_USER(state) {
+    state.checkoutUser = "";
   }
 };
 

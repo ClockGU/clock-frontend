@@ -41,6 +41,11 @@
           {{ $t("app.account") }}
         </v-tab>
 
+        <v-tab v-if="isSuperUser">
+          <v-icon left>{{ icons.mdiAccountRemove }}</v-icon>
+          Checkout User
+        </v-tab>
+
         <v-tab-item>
           <LanguageSettings />
         </v-tab-item>
@@ -55,6 +60,10 @@
 
         <v-tab-item>
           <DeleteAccount />
+        </v-tab-item>
+
+        <v-tab-item>
+          <AdminCheckoutUser />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -74,6 +83,7 @@ import DeleteAccount from "@/components/DeleteAccount";
 import GDPR from "@/components/GDPR";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm";
 import LanguageSettings from "@/components/LanguageSettings";
+import AdminCheckoutUser from "@/components/AdminCheckoutUser";
 
 export default {
   name: "Settings",
@@ -82,7 +92,13 @@ export default {
       title: this.$t("app.settings")
     };
   },
-  components: { DeleteAccount, GDPR, PersonnelNumberForm, LanguageSettings },
+  components: {
+    DeleteAccount,
+    GDPR,
+    PersonnelNumberForm,
+    LanguageSettings,
+    AdminCheckoutUser
+  },
   data: () => ({
     icons: {
       mdiFileAccount,
@@ -91,7 +107,13 @@ export default {
       mdiFormatSection,
       mdiWeb
     }
-  })
+  }),
+  computed: {
+    isSuperUser() {
+      console.log(this.$store.getters.user);
+      return this.$store.getters.user.is_superuser;
+    }
+  }
 };
 </script>
 
