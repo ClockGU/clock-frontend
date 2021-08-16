@@ -112,7 +112,6 @@ export default {
   }),
   computed: {
     isSuperUser() {
-      console.log(this.$store.getters.user);
       return this.$store.getters.user.is_superuser;
     }
   }
