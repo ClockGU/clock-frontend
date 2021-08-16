@@ -30,7 +30,11 @@
           </v-col>
 
           <v-col cols="12" md="6" order="3">
-            <MonthlyProgress :azk-data="azkData" />
+            <Progress
+              :azk-data="azkData"
+              :weekly-data="weeklyData"
+              :daily-data="dailyData"
+            />
           </v-col>
 
           <v-col cols="12" md="6" order="4">
@@ -42,7 +46,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="5">
-            <DashboardLastActivity />
+            <DashboardLastActivity @refresh="refresh" />
           </v-col>
         </v-row>
       </v-card>
@@ -56,13 +60,19 @@ import { localizedFormat } from "@/utils/date";
 import ClockInOutCard from "@/components/ClockInOutCard";
 import DashboardShiftButton from "@/components/DashboardShiftButton";
 import DashboardMessageList from "@/components/DashboardMessageList";
-import MonthlyProgress from "@/components/MonthlyProgress";
+import Progress from "@/components/Progress";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import DashboardLastActivity from "@/components/DashboardLastActivity";
 import DashboardWelcome from "@/components/DashboardWelcome";
 import DataFilter from "@/components/DataFilter";
-
+import {
+  isSameDay,
+  isSameWeek,
+  isBefore,
+  parseISO,
+  differenceInMinutes
+} from "date-fns";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
@@ -79,7 +89,7 @@ export default {
     DashboardShiftButton,
     DataFilter,
     DashboardMessageList,
-    MonthlyProgress,
+    Progress,
     SelectContractFilter,
     DashboardConflicts,
     DashboardLastActivity,
@@ -87,8 +97,6 @@ export default {
   },
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
-    length: 3,
-    step: 0,
     entity: new Contract(),
     loading: true
   }),
@@ -101,11 +109,11 @@ export default {
     }),
     selectedContract() {
       const uuid = this.$route.params.contract;
-      return this.contracts.find(contract => contract.uuid === uuid);
+      return this.contracts.find((contract) => contract.uuid === uuid);
     },
     latestReport() {
       const reports = this.reports
-        .filter(report => report.contract === this.selectedContract.uuid)
+        .filter((report) => report.contract === this.selectedContract.uuid)
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
@@ -113,6 +121,8 @@ export default {
       return reports.pop();
     },
     azkData() {
+      //reminder: the Progress component expects the carryover to be the last item
+      //any changes made here must be adapted in Progress.vue
       return [
         {
           name: this.$t("reports.carryoverLast"),
@@ -131,6 +141,56 @@ export default {
           value: this.latestReport.carryover.next
         }
       ];
+    },
+    weeklyData() {
+      let duration = 0;
+      this.shifts
+        .filter(
+          (shift) =>
+            shift.contract === this.selectedContract.uuid &&
+            this.thisWeek(shift.date) &&
+            isBefore(parseISO(shift.date.end), new Date()) &&
+            shift.reviewed
+        )
+        .forEach((shift) => {
+          duration += differenceInMinutes(
+            parseISO(shift.date.end),
+            parseISO(shift.date.start)
+          );
+        });
+      //differenceInMinutes(this.shifts[0].date.start, this.shifts[0].date.end);
+      return {
+        worktime: duration,
+        avg: this.selectedContract.minutes / 4
+      };
+    },
+    dailyData() {
+      let duration = 0;
+      this.shifts
+        .filter(
+          (shift) =>
+            shift.contract === this.selectedContract.uuid &&
+            this.today(shift.date) &&
+            isBefore(parseISO(shift.date.end), new Date()) &&
+            shift.reviewed
+        )
+        .forEach((shift) => {
+          duration += differenceInMinutes(
+            parseISO(shift.date.end),
+            parseISO(shift.date.start)
+          );
+        });
+      return duration;
+    },
+    unreviewedShiftsToday() {
+      // TODO: display unreviewed shifts somewhere on the Dashboard
+      return this.shifts.filter(
+        (shift) =>
+          shift.contract === this.selectedContract.uuid &&
+          this.today(shift.date) &&
+          isBefore(parseISO(shift.date.end), new Date()) &&
+          !shift.reviewed
+      ).length;
     }
   },
   methods: {
@@ -144,6 +204,14 @@ export default {
       } catch (error) {
         log(error);
       }
+    },
+    today(date) {
+      const today = new Date();
+      return isSameDay(today, parseISO(date.start));
+    },
+    thisWeek(date) {
+      const thisWeek = new Date();
+      return isSameWeek(thisWeek, parseISO(date.start), { weekStartsOn: 1 });
     }
   }
 };

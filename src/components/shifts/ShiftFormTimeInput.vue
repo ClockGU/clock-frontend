@@ -15,12 +15,13 @@
         hide-details
         filled
         dense
+        :error="error"
         mask="time"
         :readonly="$vuetify.breakpoint.smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
         v-bind="attrs"
-        @click:append="clickAppend"
         @blur="setTime"
+        @focus="$event.target.select()"
         v-on="$vuetify.breakpoint.smAndDown ? on : ''"
       ></v-text-field>
     </template>
@@ -61,9 +62,9 @@ export default {
       type: String,
       required: true
     },
-    errors: {
-      type: Array,
-      default: () => []
+    error: {
+      type: Boolean,
+      default: false
     },
     label: {
       type: String,
@@ -89,6 +90,11 @@ export default {
         return localizedFormat(this.value.date[this.type], "HH:mm");
       },
       set(val) {
+        //function to set times to "now"
+        if (val == "now" || val == "jetzt") {
+          val = localizedFormat(new Date(), "HH:mm");
+        }
+
         let hours, minutes;
 
         try {
@@ -159,20 +165,9 @@ export default {
     initialize() {
       this.data = format(this.value.date[this.type], "HH:mm");
     },
-    clickAppend() {
-      // Make sure to remove blur from the input, before opening the dialog.
-      // Otherwise, only an overlay is shown.
-      // TODO: We blur the activeElement from the document, instead of the input here,
-      // because we did not get it to work quickly.
-      document.activeElement.blur();
-      this.$nextTick(() => {
-        this.dialog = true;
-      });
-    },
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
-      this.$emit("update");
 
       if (this.dialog) {
         this.dialog = false;

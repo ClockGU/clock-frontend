@@ -238,7 +238,9 @@ export default {
       this.type = "day";
     },
     getEventColor(event) {
-      return event.reviewed ? event.color + " lighten-1" : event.color + " lighten-3";
+      return event.reviewed
+        ? event.color + " lighten-1"
+        : event.color + " lighten-3";
     },
     setToday() {
       this.focus = this.today;

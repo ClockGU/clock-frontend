@@ -43,10 +43,9 @@
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-start-time"
-          :errors="startTimeErrors"
           type="start"
+          :error="startError"
           :prepend-icon="$vuetify.breakpoint.smAndDown"
-          @update="$v.shift.date.start.$touch() || $v.shift.date.end.$touch()"
         />
       </v-col>
 
@@ -58,9 +57,8 @@
         <ShiftFormTimeInput
           v-model="shift"
           data-cy="shift-end-time"
-          :errors="endTimeErrors"
           type="end"
-          @update="$v.shift.date.end.$touch() || $v.shift.date.start.$touch()"
+          :error="endError"
         />
       </v-col>
 
@@ -112,7 +110,10 @@
         ></v-select>
         <v-checkbox
           v-model="shift.reviewed"
-          :disabled="startsInFuture || shift.reviewed"
+          :error-messages="reviewMessage()"
+          :disabled="showRepeat || startsInFuture"
+          :indeterminate="showRepeat"
+          :success="shift.reviewed && toBeReviewed"
           :prepend-icon="icons.mdiProgressCheck"
           :label="$t('shifts.reviewed')"
           class="mt-0 pt-0"
@@ -134,15 +135,9 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { isAfter, isBefore, isFuture, isSameDay } from "date-fns";
+import { isAfter, isBefore, isFuture, isSameDay, isEqual } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
-
-import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
-
-const startBeforeEnd = (value, vm) => isBefore(value, vm.end);
-const endAfterStart = (value, vm) => isAfter(value, vm.start);
 
 import {
   mdiFileDocumentEditOutline,
@@ -168,15 +163,6 @@ export default {
       return localizedFormat(date, "HH:mm");
     }
   },
-  mixins: [validationMixin],
-  validations: {
-    shift: {
-      date: {
-        start: { required, startBeforeEnd },
-        end: { required, endAfterStart }
-      }
-    }
-  },
   props: {
     now: {
       type: Date,
@@ -196,6 +182,7 @@ export default {
     dialog: false,
     select: null,
     shift: null,
+    toBeReviewed: false,
     showRepeat: false,
     scheduledShifts: []
   }),
@@ -230,36 +217,22 @@ export default {
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
-        isBefore(this.shift.date.end, this.shift.date.start)
+        isBefore(this.shift.date.end, this.shift.date.start) ||
+        isEqual(this.shift.date.start, this.shift.date.end) ||
+        (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift)
       )
         return false;
 
       return true;
     },
-    startTimeErrors() {
-      const errors = [];
-      if (!this.$v.shift.date.start.$dirty) return errors;
-
-      (!this.$v.shift.date.start.required ||
-        !!this.$v.shift.date.start.biggerThan23) &&
-        errors.push(this.$t("errors.shiftDateStartRequired"));
-
-      !this.$v.shift.date.start.startBeforeEnd &&
-        errors.push(this.$t("errors.shiftDateStartBeforeEnd"));
-
-      return errors;
+    startError() {
+      return isEqual(this.shift.date.start, this.shift.date.end);
     },
-    endTimeErrors() {
-      const errors = [];
-      if (!this.$v.shift.date.end.$dirty) return errors;
-
-      !this.$v.shift.date.end.required &&
-        errors.push(this.$t("errors.shiftDateEndRequired"));
-
-      !this.$v.shift.date.end.endAfterStart &&
-        errors.push(this.$t("errors.shiftDateEndAfterStart"));
-
-      return errors;
+    endError() {
+      return (
+        isBefore(this.shift.date.end, this.shift.date.start) ||
+        isEqual(this.shift.date.start, this.shift.date.end)
+      );
     }
   },
   watch: {
@@ -270,9 +243,11 @@ export default {
       handler: function () {
         // When updating the shift, check if we have to unreview the shift. A
         // shift starting in the future cannot be set to `was_reviewed=true`.
-        this.handleReviewBox();
+        if (!this.toBeReviewed) {
+          this.handleReview();
+        }
       },
-      deep: true,
+      deep: true
     },
     shift: {
       handler: function () {
@@ -294,17 +269,25 @@ export default {
     if (!this.shift.contract) {
       this.shift.contract = this.$route.params.contract;
     }
+    if (!this.startsInFuture && !this.shift.reviewed && !this.isNewShift) {
+      this.toBeReviewed = true;
+    }
   },
   methods: {
     setScheduledShifts(shifts) {
       this.scheduledShifts = shifts;
-    },
-    handleReviewBox() {
-      if (this.isNewShift){
-        this.startsInFuture ? 
-          this.shift.reviewed = false 
-          : this.shift.reviewed = true
+      if (this.scheduledShifts.length > 0) {
+        this.scheduledShifts.forEach((shift) => {
+          isFuture(shift.date.start)
+            ? (shift.reviewed = false)
+            : (shift.reviewed = true);
+        });
       }
+    },
+    handleReview() {
+      this.startsInFuture
+        ? (this.shift.reviewed = false)
+        : (this.shift.reviewed = true);
     },
     initializeForm() {
       return new Shift({
@@ -313,12 +296,19 @@ export default {
         type: "st"
       });
     },
+    reviewMessage() {
+      if (!this.shift.reviewed && !this.showRepeat) {
+        return !this.startsInFuture
+          ? this.$t("shifts.reviewErrorPast")
+          : this.$t("shifts.reviewErrorFuture");
+      }
+    },
     setStartDate() {
       const contractStart = this.contract.date.start;
       const contractEnd = this.contract.date.end;
       const now = this.now;
 
-      // If we go to fast, contractStart is null and we get an error.
+      // If we go too fast, contractStart is null and we get an error.
       // Gotta go fast.
       if (contractStart === null || contractEnd === null) return;
 

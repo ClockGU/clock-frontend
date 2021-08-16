@@ -105,6 +105,7 @@
       beeinträchtigt und eine Löschung wegen der besonderen Art der Speicherung
       keinen unverhältnismäßig hohen Aufwand verursacht.
     </p>
+
     <h3>Umgang mit personenbezogenen Daten</h3>
 
     <p>
@@ -136,6 +137,20 @@
       auf Basis des Hessischen Hochschulgesetzes, der Immatrikulationsverordnung
       des Landes Hessen, TV-GU, beamtenrechtlicher und personalrechtlicher
       Regelungen erhoben und verarbeitet.
+    </p>
+
+    <p>
+      Bei der Anmeldung über den Zentralen Authentifizierungsdienst (CAS) des
+      Hochschulrechenzentrums werden Benutzername, Name und E-Mailadresse
+      übermittelt und in Clock gespeichert. Dies sind die einzigen
+      personenbezogenen Daten, die automatisiert übermittelt werden. Alle
+      weiteren in Clock gespeicherten Daten werden von Ihnen eingegeben.
+    </p>
+
+    <p>
+      Die Anforderungen von Artikel 17 und Artikel 15, Abs. 3 bzw. Artikel 20 EU
+      DSGVO (Recht auf Löschung bzw. Recht auf Auskunft und
+      Datenübertragbarkeit) werden durch entsprechende Funktionen gewährleistet.
     </p>
 
     <h3>Logdaten</h3>
@@ -185,42 +200,44 @@
     </p>
 
     <p>
-      Falls Sie ein Konto haben und sich auf dieser Website anmelden, werden wir
-      ein temporäres Cookie setzen, um festzustellen, ob ihr Browser Cookies
-      akzeptiert. Dieses Cookie enthält keine personenbezogenen Daten und wird
-      verworfen, wenn Sie ihren Browser schließen.
+      Die Anmeldung bei Clock erfolgt über den Zentralen
+      Authentifizierungsdienst (CAS) des Hochschulrechenzentrums. Von diesem
+      wird in Ihrem Browser ein Cookie gesetzt, das für die Anmeldung bei Clock
+      notwendig ist. Ihr Passwort selbst wird nicht in Clock gespeichert.
     </p>
 
     <p>
-      Wenn Sie sich anmelden, werden wir einige Cookies einrichten, um ihre
-      Anmeldeinformationen und Anzeigeoptionen zu speichern. Anmelde-Cookies
-      verfallen nach zwei Tagen und Cookies für die Anzeigeoptionen nach einem
-      Jahr.
+      Clock setzt keine Cookies auf Ihrem Gerät. Clock nutzt jedoch die
+      <i>Local Storage</i> Technik (auch „Lokale Daten“ und „Lokaler Speicher“
+      genannt). Dabei werden Daten lokal im Cache Ihres Browsers gespeichert,
+      die auch nach dem Schließen des Browser-Fensters oder dem Beenden des
+      Programms – sofern Sie den Cache nicht löschen - bestehen und ausgelesen
+      werden können. Im Local Storage speichert Clock so genannte <i>Token</i>,
+      die Sie gegenüber dem CAS-Server als berechtigte Nutzer*in ausweisen.
+      Diese Token enthalten keine personenbezogenen Daten und sind nur für den
+      Anmeldevorgang und die Prüfung beim CAS relevant.
     </p>
 
     <p>
-      Ihre Anmeldung wird vier Wochen lang aufrechterhalten. Mit der Abmeldung
-      aus ihrem Konto werden die Anmelde-Cookies gelöscht. Dieser Cookie enthält
-      keine personenbezogenen Daten und verweist nur auf die Beitrags-ID des
-      Artikels, den Sie gerade bearbeitet haben. Der Cookie verfällt nach einem
-      Tag.
+      Ein Authentifizierungs-Token verfällt nach 30 Tagen, wenn Sie Clock nicht
+      nutzen. Mit der Abmeldung aus ihrem Konto oder dem Löschen Ihres Kontos
+      werden auch die Token gelöscht.
     </p>
 
     <h3>Matomo</h3>
 
     <p>
-      Unsere Website verwendet Matomo. Dabei handelt es sich um einen
-      sogenannten Webanalysedienst. Matomo verwendet sog. „Cookies“, das sind
-      Textdateien, die auf Ihrem Computer gespeichert werden und die
-      unsererseits eine Analyse der Benutzung der Webseite ermöglichen. Zu
-      diesem Zweck werden die durch den Cookie erzeugten Nutzungsinformationen
+      Unsere Website verwendet <i>Matomo</i>. Dabei handelt es sich um einen
+      sogenannten Webanalysedienst. Matomo verwendet „Cookies“, die unsererseits
+      eine Analyse der Benutzung der Webseite ermöglichen. Zu diesem Zweck
+      werden die durch den Cookie erzeugten Nutzungsinformationen
       (einschließlich Ihrer gekürzten IP-Adresse) an unseren Server übertragen
       und zu Nutzungsanalysezwecken gespeichert, was der Webseitenoptimierung
       dient. Ihre IP-Adresse wird bei diesem Vorgang umgehend anonymisiert, so
       dass Ihre Nutzung weiterhin anonym erfolgt. Die durch den Cookie erzeugten
       Informationen über Ihre Benutzung dieser Webseite werden nicht an Dritte
       weitergegeben. Sie können die Verwendung der Cookies durch eine
-      entsprechende Einstellung Ihrer Browser Software verhindern, es kann
+      entsprechende Einstellung Ihrer Browser-Software verhindern, es kann
       jedoch sein, dass Sie in diesem Fall gegebenenfalls nicht sämtliche
       Funktionen dieser Website voll umfänglich nutzen können. Wenn Sie mit der
       Speicherung und Auswertung dieser Daten nicht einverstanden sind, dann

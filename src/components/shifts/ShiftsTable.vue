@@ -73,7 +73,7 @@ import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
 
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
-import { SHIFT_TYPE_COLORS } from '@/utils/colors';
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
 export default {
   name: "ShiftsTable",
@@ -92,7 +92,7 @@ export default {
     shifts: {
       type: Array,
       required: true
-    },
+    }
   },
   data: () => ({
     icons: { mdiCheck, mdiClose, mdiDelete, mdiPencil },

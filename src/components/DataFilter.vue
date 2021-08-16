@@ -83,7 +83,7 @@ export default {
 
       // If all months are locked, we look at the latest available month
       if (allLocked) {
-        return this.lastMonth();
+        return this.lastMonth;
       }
 
       return Object.entries(
@@ -167,15 +167,14 @@ export default {
     },
     months() {
       const months = this.reports.map((report) => report.date.slice(0, 7));
-      if(this.$route.path.includes("shifts")) {
+      if (this.$route.path.includes("shifts")) {
         return {
           months,
           min: localizedFormat(parseISO(this.contract.date.start), "yyyy-MM"),
           max: localizedFormat(parseISO(this.contract.date.end), "yyyy-MM"),
-          allowedMonths: hugo => parseInt(hugo.split('-')[1], 10)
+          allowedMonths: (hugo) => parseInt(hugo.split("-")[1], 10)
         };
-      }
-      else {
+      } else {
         return {
           months,
           min: localizedFormat(min(this.dates), "yyyy-MM-dd"),
@@ -183,7 +182,7 @@ export default {
           allowedMonths: (value) => {
             return months.includes(value);
           }
-        }
+        };
       }
     },
     processShifts() {

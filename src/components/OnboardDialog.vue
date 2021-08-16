@@ -40,9 +40,9 @@
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
-            <h1>
+            <h3 class="pb-2">
               {{ $t("onboarding.personnelNumber.title") }}
-            </h1>
+            </h3>
             <span>
               {{ $t("onboarding.personnelNumber.text") }}
             </span>
@@ -203,9 +203,11 @@ export default {
         await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         await this.$store.dispatch("contract/queryContracts");
-        this.$router.push({ name: "dashboard", params: { contract } }).catch(() => {
-          log("*** Redirecting...");         
-        });      
+        this.$router
+          .push({ name: "dashboard", params: { contract } })
+          .catch(() => {
+            log("*** Redirecting...");
+          });
       } catch (error) {
         // TODO: Set error state
         log(error);

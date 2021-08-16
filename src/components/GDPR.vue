@@ -1,7 +1,13 @@
 <template>
   <v-card :elevation="0">
+    <v-alert type="success" outlined class="ma-4">{{
+      $t("gdpr.accepted")
+    }}</v-alert>
+
+    <v-card-text>{{ $t("gdpr.revokeInfo") }}</v-card-text>
+
     <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
-      {{ $t("gdpr.text") }}
+      {{ $t("gdpr.download") }}
     </v-card-text>
 
     <v-card-actions>
@@ -20,22 +26,32 @@
 
 <script>
 import { log } from "@/utils/log";
+import { localizedFormat } from "@/utils/date";
+import { mapGetters } from "vuex";
 import GDPRService from "@/services/gdpr";
 
 export default {
   name: "GDPR",
   data() {
     return {
-      filename: "GDPR.json",
       response: null,
       loading: false
     };
   },
   computed: {
+    ...mapGetters({
+      user: "user"
+    }),
     downloadLabel() {
       return this.response === null
         ? this.$t("actions.request")
         : this.$t("actions.download");
+    },
+    filename() {
+      const date = localizedFormat(new Date(), "yyyyMMdd");
+      return `${date}_${this.user.first_name}_${
+        this.user.last_name
+      }_${this.$i18n.t("gdpr.suffix")}.pdf`;
     }
   },
   methods: {

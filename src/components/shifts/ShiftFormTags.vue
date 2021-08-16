@@ -19,10 +19,7 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
-            <i18n 
-              path="shifts.tags.createHint"
-              tag="span"
-            >
+            <i18n path="shifts.tags.createHint" tag="span">
               <template #search>
                 <strong>{{ search }}</strong>
               </template>

@@ -31,7 +31,7 @@
     "dashboard": "Dashboard",
     "debug": "Debug",
     "gdpr": "GDPR",
-    "reset": "Zurücksetzen",
+    "reset": "Reset",
     "faq": "FAQ",
     "help": "Help",
     "imprint": "Imprint",
@@ -65,7 +65,7 @@
     "overlap": {
       "resolving": "Resolving",
       "none": "There are no overlapping shifts. You're good!",
-      "all": "All Shifts",
+      "all": "Other shifts",
       "overlap": "Overlapping shifts"
     }
   },
@@ -77,8 +77,8 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
     "name": "Name your contract",
-    "expired" : "(Contract expired)",
-    "expiredVerbose" : "This contract has expired. You can still edit shifts and export reports.",
+    "expired": "(Contract expired)",
+    "expiredVerbose": "This contract has expired. You can still edit shifts and export reports.",
     "perMonth": "{time} per month",
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
@@ -87,6 +87,11 @@
     }
   },
   "dashboard": {
+    "welcome": {
+      "text": "Welcome to Clock! We are constantly working to improve this application. If you need advice, please check out the {link} oder send us your feedback.",
+      "manual": "user manual",
+      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
+    },
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
       "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
@@ -143,10 +148,19 @@
       "noProblems": "There are no problems with your shifts."
     },
     "progress": {
-      "perMonth": "{time} per month",
-      "timeRemaining": "{time} remaining",
-      "timeWorked": "{time} worked",
-      "title": "Monthly progress"
+      "title": {
+        "monthly": "Monthly progress",
+        "weekly": "Weekly progress",
+        "daily": "Daily progress"
+      },
+      "weeklyText": "You worked {n} h this month.",
+      "weeklyBase": "Your weekly due average in this contract is {n} h.",
+      "dailyText1": "You worked",
+      "dailyText2": "today.",
+      "minutes": "minutes",
+      "hours": "hours",
+      "maxCarryoverHint": "Note: Formally, you can not carry over more than {n} h (50%)",
+      "overtimeHint": "Note: Your daily worktime should not exceed 8h."
     },
     "showAll": "Show all",
     "notYetReviewed": "not yet reviewed"
@@ -203,14 +217,16 @@
     "titleUpdate": "@:actions.update {entity}"
   },
   "gdpr": {
-    "text": "You can request and download all information saved by you. The download is provided in JSON."
+    "accepted": "You agreed with our privacy policy.",
+    "revokeInfo": "If you wish to revoke this agreement, you can delete your account since we can not process your data withour your consent.",
+    "download": "You can request and download all information saved by us. The download is provided in JSON.",
+    "suffix": "GDPR"
   },
   "help": {
     "title": "Reset App",
     "blurb1": "If you are experiencing problems, you can reset the app to its factory settings. You will be logged out.",
     "blurb2": "This will NOT delete any of your data. All your shifts and contracts will remain untouched."
   },
-
   "hero": {
     "slogan": "Master your time sheets",
     "text": "Clock allows you to easily edit your time sheets on your mobile device or PC.",
@@ -231,7 +247,7 @@
     "title": "Are you sure you want to logout?"
   },
   "news": {
-    "showAll" : "Show all",
+    "showAll": "Show all",
     "noNews": "No news to display.",
     "label": {
       "notice": "",
@@ -274,7 +290,8 @@
   },
   "privacyagreement": {
     "text": "You have to accept the {privacyAgreement} before using Clock.",
-    "checkbox": "I have read and agree with the privacy policy."
+    "checkbox": "I have read and agree with the privacy policy.",
+    "revokeInfo": "The agreement can be revoked by deleting your account."
   },
   "reports": {
     "creditDebit": "Credit/Debit: {creditDebit} hours",
@@ -297,12 +314,12 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
-      "message": "After locking this month, you will not be able to edit its shifts. This will allow you to export the report of the following month."
+      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month can not be undone."
     }
   },
   "selectContract": {
     "hint": "Change the contract to see different data.",
-    "hintExpired" : "This contract has expired. Change the contract to see different data."
+    "hintExpired": "This contract has expired. Change the contract to see different data."
   },
   "settings": {
     "account": {
@@ -355,6 +372,8 @@
       "text": "I confirm that all selected shifts have taken place."
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
+    "reviewErrorPast": "A past shift must be reviewed before saving.",
+    "reviewErrorFuture": "A future shift can not be saved as \"reviewed\".",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"
@@ -364,15 +383,16 @@
       "label": "What category does this shift fall into?",
       "sk": "Sick",
       "st": "Shift",
-      "vn": "Vacation"
+      "vn": "Vacation",
+      "bh": "Bank holiday"
     },
     "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
-    "table" : {
-      "reviewedTitle" : "Past shifts",
-      "reviewedHint" : "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
-      "plannedTitle" : "Scheduled shifts",
+    "table": {
+      "reviewedTitle": "Past shifts",
+      "reviewedHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
+      "plannedTitle": "Scheduled shifts",
       "plannedHint": "All shifts scheduled for the future."
-    }    
+    }
   },
   "snackbar": {
     "success": "The action was completed.",

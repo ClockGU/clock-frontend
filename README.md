@@ -44,7 +44,7 @@ login functionality of Clock will redirect to their OAuth flow and exchange all
 tokens with the Django backend. In addition, you will need to run a reverse
 proxy to put the local app behind a `https://*.clock.uni-frankfurt.de` domain.
 This will simulate the production environment, because the current OAuth flow
-only redirects to whitelisted domains.  Use the following `.env.local`
+only redirects to whitelisted domains. Use the following `.env.local`
 contents:
 
 ```bash

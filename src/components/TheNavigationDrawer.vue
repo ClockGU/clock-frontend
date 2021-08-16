@@ -51,7 +51,15 @@
           </v-list-item-content>
         </template>
 
-        <v-list-item v-for="item in menuItems" :key="item.text" :to="item.to">
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.text"
+          :to="item.to"
+          class="pl-5"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
@@ -59,7 +67,10 @@
 
         <LogoutDialog>
           <template #activator="{ on }">
-            <v-list-item data-cy="menu-logout" v-on="on">
+            <v-list-item data-cy="menu-logout" class="pl-5" v-on="on">
+              <v-list-item-icon>
+                <v-icon v-text="icons.mdiLogout"></v-icon>
+              </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
               </v-list-item-content>
@@ -90,14 +101,16 @@ import { mapGetters } from "vuex";
 import LogoutDialog from "@/components/LogoutDialog";
 
 import {
-  mdiAccount,
+  mdiAccountCog,
   mdiCalendar,
   mdiHome,
   mdiFileDocument,
   mdiLock,
   mdiFormatListNumbered,
   mdiFileChart,
-  mdiHelp
+  mdiHelp,
+  mdiBackupRestore,
+  mdiLogout
 } from "@mdi/js";
 
 export default {
@@ -111,7 +124,8 @@ export default {
   },
   data: () => ({
     icons: {
-      mdiLock
+      mdiLock,
+      mdiLogout
     }
   }),
   computed: {
@@ -130,7 +144,7 @@ export default {
         {
           text: this.$t("app.settings"),
           to: { name: "settings" },
-          icon: mdiAccount,
+          icon: mdiAccountCog,
           loggedOut: false,
           withoutContract: true
         },
@@ -143,7 +157,7 @@ export default {
         {
           text: this.$t("app.reset"),
           to: { name: "help" },
-          icon: mdiHelp,
+          icon: mdiBackupRestore,
           loggedOut: true
         }
       ];

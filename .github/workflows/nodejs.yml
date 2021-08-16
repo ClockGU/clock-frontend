@@ -32,5 +32,11 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+      
+      - name: format
+        run: yarn format:check
+
+      - name: lint
+        run: yarn lint:check
 
       - run: yarn run test:unit

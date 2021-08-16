@@ -22,14 +22,15 @@ function defaultValueTime(type) {
 export const SHIFT_TYPES = [
   { text: "Normal shift", value: "st" },
   { text: "Sick leave", value: "sk" },
-  { text: "Vacation", value: "vn" }
+  { text: "Vacation", value: "vn" },
+  { text: "Bank holiday", value: "bh" }
 ];
 
 export class Shift {
   constructor({
     uuid = null,
     user = null,
-    date = { start: null, end: null, mod: null},
+    date = { start: null, end: null, mod: null },
     contract = null,
     type = null,
     note = null,

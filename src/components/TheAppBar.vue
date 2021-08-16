@@ -26,7 +26,7 @@
       <v-spacer></v-spacer>
 
       <template v-if="showLoggedOutButtons">
-        <v-btn text :to="{ name: 'faq' }">{{$t("app.faq")}}</v-btn>
+        <v-btn text :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
 
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
@@ -64,12 +64,18 @@
               :to="item.to"
               router
             >
+              <v-list-item-icon>
+                <v-icon v-text="item.icon"></v-icon>
+              </v-list-item-icon>
               <v-list-item-content>{{ item.text }}</v-list-item-content>
             </v-list-item>
 
             <LogoutDialog>
               <template #activator="{ on }">
                 <v-list-item data-cy="menu-logout" v-on="on">
+                  <v-list-item-icon>
+                    <v-icon>{{ icons.mdiLogout }}</v-icon>
+                  </v-list-item-icon>
                   <v-list-item-content>
                     {{ $t("actions.logout") }}
                   </v-list-item-content>
@@ -86,7 +92,14 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { mdiChevronDown, mdiMenu } from "@mdi/js";
+import {
+  mdiChevronDown,
+  mdiMenu,
+  mdiHelp,
+  mdiBackupRestore,
+  mdiAccountCog,
+  mdiLogout
+} from "@mdi/js";
 
 import LogoutDialog from "@/components/LogoutDialog";
 import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
@@ -97,7 +110,8 @@ export default {
   data: () => ({
     icons: {
       mdiMenu,
-      mdiChevronDown
+      mdiChevronDown,
+      mdiLogout
     }
   }),
   computed: {
@@ -116,17 +130,20 @@ export default {
         {
           text: this.$t("app.settings"),
           to: { name: "settings" },
+          icon: mdiAccountCog,
           loggedOut: false,
           withoutContract: true
         },
         {
           text: "FAQ",
           to: { name: "faq" },
+          icon: mdiHelp,
           loggedOut: true
         },
         {
           text: this.$t("app.reset"),
           to: { name: "help" },
+          icon: mdiBackupRestore,
           loggedOut: true
         }
       ];

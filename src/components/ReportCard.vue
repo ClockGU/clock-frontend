@@ -74,7 +74,7 @@
                 <v-btn
                   :disabled="lockDisabled"
                   :text="!lockDisabled"
-                  :color="!lockDisabled ? 'orange' : ''"
+                  :color="!lockDisabled ? 'warning' : ''"
                   v-on="on"
                 >
                   {{
@@ -183,7 +183,7 @@ export default {
     },
     debit() {
       const contract = this.$store.state.contract.contracts.find(
-        contract => contract.uuid === this.report.contract
+        (contract) => contract.uuid === this.report.contract
       );
 
       return contract.minutes;

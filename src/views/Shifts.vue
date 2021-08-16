@@ -200,6 +200,7 @@ export default {
       this.showFormDialog = false;
       this.shiftEntity = null;
 
+      //really? If nothing has changed - why refresh?
       this.refresh();
     },
     processShifts(shift) {
@@ -222,13 +223,13 @@ export default {
     },
     async refresh() {
       this.loading = true;
-
+      const selectedMonth = this.date;
       await Promise.all([
         this.$store.dispatch("shift/queryShifts"),
         this.$store.dispatch("contract/queryContracts"),
         this.$store.dispatch("report/list")
       ]);
-
+      this.updateDate(selectedMonth);
       this.loading = false;
     }
   }

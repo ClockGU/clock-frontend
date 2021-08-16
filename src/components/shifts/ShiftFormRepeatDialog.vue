@@ -1,5 +1,6 @@
 <template>
-  <v-dialog>
+  <!-- TODO: we shold probably also use 'TheDialog' here -->
+  <v-dialog v-model="dialog" :max-width="500">
     <template #activator="{ on }">
       <v-btn :disabled="shifts.length < 1" text block v-on="on">{{
         $t("shifts.repeating.dialog.activator")
@@ -7,7 +8,14 @@
     </template>
 
     <v-card>
-      <v-card-title>{{ $t("shifts.repeating.dialog.title") }}</v-card-title>
+      <v-toolbar flat>
+        <v-btn icon @click="dialog = false">
+          <v-icon>{{ icons.mdiClose }}</v-icon>
+        </v-btn>
+        <v-toolbar-title
+          >{{ $t("shifts.repeating.dialog.title") }}
+        </v-toolbar-title>
+      </v-toolbar>
 
       <v-card-text>
         <i18n path="shifts.repeating.dialog.text" tag="span">
@@ -35,15 +43,23 @@
 
 <script>
 import ShiftListItem from "@/components/shifts/ShiftListItem";
+import { mdiClose } from "@mdi/js";
 
 export default {
   name: "ShiftFormRepeatDialog",
+
   components: { ShiftListItem },
   props: {
     shifts: {
       type: Array,
       required: true
     }
-  }
+  },
+  data: () => ({
+    dialog: false,
+    icons: {
+      mdiClose
+    }
+  })
 };
 </script>

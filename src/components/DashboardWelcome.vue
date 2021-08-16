@@ -1,11 +1,17 @@
 <template>
   <v-card outlined>
-    <v-card-text class="body-1">
-      Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn Du mal nicht weiter weißt, wirf einen Blick ins
-      <base-link href="https://clockgu.gitbook.io/clock-benutzerhandbuch/"
-        >Handbuch</base-link
-      >
-      oder sende uns dein Feedback.
+    <v-card-text class="body-1"
+      ><i18n path="dashboard.welcome.text">
+        <template #link>
+          <base-link
+            class="text-no-wrap"
+            :href="$t('dashboard.welcome.url')"
+            target="_blank"
+          >
+            <template #default>{{ $t("dashboard.welcome.manual") }}</template>
+          </base-link>
+        </template>
+      </i18n>
     </v-card-text>
   </v-card>
 </template>
