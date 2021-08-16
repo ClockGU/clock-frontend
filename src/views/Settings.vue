@@ -42,7 +42,7 @@
         </v-tab>
 
         <v-tab v-if="isSuperUser">
-          <v-icon left>{{ icons.mdiAccountRemove }}</v-icon>
+          <v-icon left>{{ icons.mdiAccountReactivate }}</v-icon>
           Checkout User
         </v-tab>
 
@@ -76,7 +76,8 @@ import {
   mdiBadgeAccountHorizontal,
   mdiAccountRemove,
   mdiFormatSection,
-  mdiWeb
+  mdiWeb,
+  mdiAccountReactivate
 } from "@mdi/js";
 
 import DeleteAccount from "@/components/DeleteAccount";
@@ -105,7 +106,8 @@ export default {
       mdiBadgeAccountHorizontal,
       mdiAccountRemove,
       mdiFormatSection,
-      mdiWeb
+      mdiWeb,
+      mdiAccountReactivate
     }
   }),
   computed: {
