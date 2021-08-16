@@ -29,6 +29,10 @@ const ApiService = {
     axios.defaults.headers.common = {};
   },
 
+  removeSingleHeader(header) {
+    delete axios.defaults.headers.common[header];
+  },
+
   get(resource, config = {}) {
     log("ApiService.get called");
     return axios.get(resource, config);
