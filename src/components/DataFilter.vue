@@ -83,7 +83,7 @@ export default {
 
       // If all months are locked, we look at the latest available month
       if (allLocked) {
-        return this.lastMonth();
+        return this.lastMonth;
       }
 
       return Object.entries(

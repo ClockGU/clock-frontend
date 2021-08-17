@@ -32,7 +32,7 @@
             <p class="caption">
               {{ $t("reports.hints.request") }}
 
-              <span v-if="!isExportable" class="caption">
+              <span v-if="!isExportable" class="caption warn">
                 {{ $t("reports.hints.personnelnumber") }}
               </span>
             </p>
@@ -246,3 +246,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.warn {
+  color: #ff5252;
+}
+</style>
