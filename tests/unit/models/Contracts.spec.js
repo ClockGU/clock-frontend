@@ -16,7 +16,7 @@ describe("Contracts.js", () => {
       worktime: null,
       date: date,
       carryoverMinutes: "00:00",
-      carryoverTargetDate: new Date(2020, 8, 31, 0)
+      carryoverTargetDate: new Date(2021, 3, 1, 0)
     });
   });
 
