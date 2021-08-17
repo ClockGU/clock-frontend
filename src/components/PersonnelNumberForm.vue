@@ -28,6 +28,9 @@
       >
         {{ $t("actions.save") }}
       </v-btn>
+      <v-btn v-if="dialog" text @click="$emit('close')">
+        {{ $t("actions.cancel") }}
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -46,6 +49,9 @@ export default {
       required,
       minLength: minLength(5)
     }
+  },
+  props: {
+    dialog: Boolean
   },
   data: () => ({
     loading: false,
@@ -107,6 +113,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 500);
+      }
+      if (this.dialog) {
+        this.$emit("close");
+        console.log("dialog: ", this.dialog);
       }
     }
   }

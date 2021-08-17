@@ -258,7 +258,7 @@
       "title": "Abschluss"
     },
     "personnelNumber": {
-      "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt nachtragen.",
+      "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
       "title": "Optionale Angaben",
       "hint": "Deine Personalnummer findest du auf deinem Vertrag.",
       "label": "Personalnummer"
@@ -291,7 +291,7 @@
       "lock": "Du kannst diesen Monat erst sperren nachdem du deinen Stundenzettel generiert hast."
     },
     "of": "von",
-    "personnelNumberMissing": "Bitte füge deine Personalnummer in den Einstellungen hinzu.",
+    "personnelNumberMissing": "Bitte füge deine Personalnummer hinzu.",
     "summary": "Zusammenfassung",
     "lock": {
       "lock": "Sperren",

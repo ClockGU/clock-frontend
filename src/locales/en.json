@@ -258,7 +258,7 @@
       "title": "Finished"
     },
     "personnelNumber": {
-      "text": "You can fill in the below data at a point later in time.",
+      "text": "You can fill in the below data at a point later in time in your user settings.",
       "title": "Optional",
       "hint": "You can find your personnel number on your contract.",
       "label": "Personnel number"
@@ -291,7 +291,7 @@
       "lock": "You can only lock the month after generating the report for review."
     },
     "of": "of",
-    "personnelNumberMissing": "Please add your personnel number in your user settings.",
+    "personnelNumberMissing": "Please add your personnel number.",
     "summary": "Summary",
     "lock": {
       "lock": "Lock",

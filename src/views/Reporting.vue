@@ -2,8 +2,11 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-alert v-if="personnelNumberMissing" type="warning">
+        <v-alert v-if="personnelNumberMissing" prominent type="warning">
           {{ $t("reports.personnelNumberMissing") }}
+          <v-btn icon color="white" @click="openDialog">
+            <v-icon>{{ icons.mdiBadgeAccountHorizontal }}</v-icon>
+          </v-btn>
         </v-alert>
       </v-col>
       <v-col cols="12">
@@ -39,6 +42,13 @@
         </DataFilter>
       </v-col>
     </v-row>
+    <v-dialog
+      v-if="dialog"
+      v-model="dialog"
+      :max-width="900"
+      @click:outside="closeDialog"
+      ><PersonnelNumberForm dialog @close="closeDialog"
+    /></v-dialog>
   </v-container>
 </template>
 
@@ -48,7 +58,9 @@ import MonthSwitcher from "@/components/MonthSwitcher";
 import DashboardConflicts from "@/components/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ReportCard from "@/components/ReportCard";
+import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
+import { mdiBadgeAccountHorizontal } from "@mdi/js";
 
 export default {
   name: "Reporting",
@@ -57,10 +69,13 @@ export default {
     MonthSwitcher,
     DashboardConflicts,
     ReportCard,
-    SelectContractFilter
+    SelectContractFilter,
+    PersonnelNumberForm
   },
   data: () => ({
-    date: "2020-07"
+    date: "2020-07",
+    dialog: false,
+    icons: { mdiBadgeAccountHorizontal }
   }),
   computed: {
     ...mapGetters({
@@ -81,6 +96,12 @@ export default {
   methods: {
     updateDate(value) {
       this.date = value;
+    },
+    openDialog() {
+      this.dialog = true;
+    },
+    closeDialog() {
+      this.dialog = false;
     },
     async refresh() {
       await Promise.all([
