@@ -17,7 +17,7 @@
       </v-form>
     </v-card-text>
 
-    <v-card-actions>
+    <v-card-actions v-if="personnelNumberInit == null">
       <v-btn
         color="primary"
         :disabled="loading || $v.$error"
@@ -32,6 +32,37 @@
         {{ $t("actions.cancel") }}
       </v-btn>
     </v-card-actions>
+    <v-card-actions v-else>
+      <ConfirmationDialog
+        :confirmation-button="{ text: $t('actions.change'), color: 'primary' }"
+        :max-width="280"
+        @confirm="save"
+      >
+        <template #activator="{ on }">
+          <v-btn
+            :disabled="
+              personnelNumber == personnelNumberInit ||
+              personnelNumber == '' ||
+              $v.$error
+            "
+            text
+            color="primary"
+            v-on="on"
+          >
+            {{ $t("actions.change") }}
+          </v-btn>
+        </template>
+
+        <template #title>{{
+          $t("onboarding.personnelNumber.changeTitle")
+        }}</template>
+
+        <template #text>
+          <p>{{ $t("onboarding.personnelNumber.changeInfo") }}</p>
+          <p>{{ $t("onboarding.personnelNumber.changeConfirmText") }}</p>
+        </template>
+      </ConfirmationDialog>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -39,10 +70,12 @@
 import AuthService from "@/services/auth";
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { log } from "@/utils/log";
 
 export default {
   name: "PersonnelNumberForm",
+  components: { ConfirmationDialog },
   mixins: [validationMixin],
   validations: {
     personnelNumber: {
@@ -55,7 +88,8 @@ export default {
   },
   data: () => ({
     loading: false,
-    personnelNumber: null
+    personnelNumber: null,
+    personnelNumberInit: null
   }),
   computed: {
     personnelErrors() {
@@ -81,6 +115,8 @@ export default {
   },
   created() {
     this.personnelNumber = this.$store.state.user.personal_number;
+    this.personnelNumberInit =
+      this.personnelNumber == "" ? null : this.personnelNumber;
   },
   methods: {
     async save() {
@@ -100,6 +136,7 @@ export default {
           timeout: 4000,
           color: "success"
         });
+        this.personnelNumberInit = this.personnelNumber;
       } catch (error) {
         this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("snackbar.error"),

@@ -4,7 +4,7 @@
     "add": "Hinzufügen",
     "back": "Zurück",
     "cancel": "Abbrechen",
-    "change": "Wechseln",
+    "change": "Ändern",
     "close": "Schließen",
     "complete": "Abschließen",
     "confirm": "Bestätigen",
@@ -22,6 +22,7 @@
     "search": "Suchen",
     "send": "Absenden",
     "showall": "Alle anzeigen",
+    "switch": "Wechseln",
     "update": "Aktualisieren"
   },
   "app": {
@@ -261,7 +262,10 @@
       "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
       "title": "Optionale Angaben",
       "hint": "Deine Personalnummer findest du auf deinem Vertrag.",
-      "label": "Personalnummer"
+      "label": "Personalnummer",
+      "changeTitle": "Personalnummer ändern",
+      "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",
+      "changeConfirmText": "Möchtest Du die Personalnummer wirklich ändern?"
     },
     "underConstruction": {
       "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System schneller zu verbessern. Zögere nicht, uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
