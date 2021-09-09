@@ -29,14 +29,20 @@
           <v-col cols="8">
             <span class="subtitle-2"> 1. {{ $t("reports.generate") }} </span>
 
-            <p class="caption">{{ $t("reports.hints.request") }}</p>
+            <p class="caption">
+              {{ $t("reports.hints.request") }}
+
+              <span v-if="!isExportable" class="caption warn">
+                {{ $t("reports.hints.personnelnumber") }}
+              </span>
+            </p>
           </v-col>
           <v-col cols="4">
             <v-btn
               v-if="!pdf"
               :loading="loading"
               :outlined="loading"
-              :disabled="!isFirstUnlockedMonth && !exported"
+              :disabled="(!isFirstUnlockedMonth && !exported) || !isExportable"
               color="primary"
               @click="request"
             >
@@ -125,6 +131,10 @@ export default {
     report: {
       type: Object,
       required: true
+    },
+    isExportable: {
+      type: Boolean,
+      default: false
     },
     isLockable: {
       type: Boolean,
@@ -236,3 +246,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.warn {
+  color: #ff5252;
+}
+</style>

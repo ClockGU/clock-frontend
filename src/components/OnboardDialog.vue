@@ -52,7 +52,7 @@
                   v-model="personnelNumber"
                   :label="$t('onboarding.personnelNumber.label')"
                   :hint="$t('onboarding.personnelNumber.hint')"
-                  :prepend-icon="icons.mdiFileDocument"
+                  :prepend-icon="icons.mdiBadgeAccountHorizontal"
                   return-masked-value
                   persistent-hint
                   required
@@ -110,7 +110,12 @@
 
 <script>
 import { log } from "@/utils/log";
-import { mdiDelete, mdiFileDocument, mdiClose, mdiRecord } from "@mdi/js";
+import {
+  mdiDelete,
+  mdiBadgeAccountHorizontal,
+  mdiClose,
+  mdiRecord
+} from "@mdi/js";
 
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
@@ -142,7 +147,7 @@ export default {
     contractFormValid: false,
     dialog: true,
     icons: {
-      mdiFileDocument,
+      mdiBadgeAccountHorizontal,
       mdiDelete,
       mdiClose,
       mdiRecord
