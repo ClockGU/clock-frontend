@@ -196,7 +196,7 @@ export default {
         (contract) => contract.uuid === this.report.contract
       );
 
-      return contract.minutes;
+      return contract.worktime;
     },
     lockDisabled() {
       return !this.pdf || !this.isLockable;

@@ -86,7 +86,7 @@ export default {
       return formatDate(this.contract.date.start);
     },
     worktime() {
-      return minutesToHHMM(this.contract.minutes);
+      return minutesToHHMM(this.contract.worktime);
     },
     contractExpired() {
       const date = endOfDay(parseISO(this.contract.date.end));

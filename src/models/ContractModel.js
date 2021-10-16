@@ -14,17 +14,17 @@ export class Contract {
     uuid = null,
     user = null,
     name = null,
-    minutes = null,
+    worktime = null,
     date = { start: null, end: null },
     carryoverTargetDate = null,
-    carryoverMinutes = 0
+    carryoverTime = null
   } = {}) {
     this.uuid = is(String, uuid) ? uuid : null;
     this.user = is(String, user) ? user : null;
     this.name = is(String, name) ? name : null;
-    this.worktime = is(Number, minutes)
-      ? this.minutesToWorktime(minutes)
-      : null;
+    this.worktime = is(Number, worktime)
+      ? this.minutesToTimestring(worktime)
+      : "";
     this.date = {
       start: is(Date, new Date(date.start))
         ? date.start
@@ -37,9 +37,9 @@ export class Contract {
       is(Date, new Date(carryoverTargetDate)) && carryoverTargetDate !== null
         ? carryoverTargetDate
         : startOfMonth(defaultContractDate({ type: "start" }));
-    this.carryoverMinutes = is(Number, carryoverMinutes)
-      ? this.minutesToWorktime(carryoverMinutes)
-      : "00:00";
+    this.carryoverTime = is(Number, carryoverTime)
+      ? this.minutesToTimestring(carryoverTime)
+      : "";
   }
 
   get start() {
@@ -72,7 +72,7 @@ export class Contract {
     return hours * 60 + minutes;
   }
 
-  timeToMinutes(time) {
+  timestringToMinutes(time) {
     let negative = false;
     let [hours, minutes] = time.split(":");
 
@@ -91,7 +91,7 @@ export class Contract {
     return minutes;
   }
 
-  minutesToWorktime(value) {
+  minutesToTimestring(value) {
     let sign = "";
 
     if (value < 0) {
@@ -114,11 +114,11 @@ export class Contract {
   toPayload() {
     return {
       name: this.name,
-      minutes: this.timeToMinutes(this.worktime),
+      minutes: this.timestringToMinutes(this.worktime),
       start_date: this.start,
       end_date: this.end,
       carryover_target_date: this.convertCarryoverTargetDate(),
-      initial_carryover_minutes: this.timeToMinutes(this.carryoverMinutes)
+      initial_carryover_minutes: this.timestringToMinutes(this.carryoverTime)
     };
   }
 }

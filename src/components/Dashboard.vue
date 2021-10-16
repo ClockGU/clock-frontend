@@ -161,7 +161,7 @@ export default {
       //differenceInMinutes(this.shifts[0].date.start, this.shifts[0].date.end);
       return {
         worktime: duration,
-        avg: this.selectedContract.minutes / 4
+        avg: this.selectedContract.worktime / 4
       };
     },
     dailyData() {

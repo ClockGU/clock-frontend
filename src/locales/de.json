@@ -76,7 +76,7 @@
     "fromTo": "{start} bis {end}",
     "to": "bis",
     "hoursPerMonth": "Stunden pro Monat",
-    "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
+    "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
     "expired": "(Vertrag abgelaufen)",
     "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
@@ -84,7 +84,8 @@
     "carryover": {
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
       "dateLabel": "Übertrag in diesen Monat",
-      "minutesLabel": "Übertrag als HH:MM"
+      "timeLabel": "Übertrag",
+      "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm)."
     }
   },
   "dashboard": {
@@ -172,7 +173,7 @@
   },
   "errors": {
     "contractName": "Der Vertragsname",
-    "durationBiggerZero": "Ein {entity} muss eine Laufzeit größer Null haben.",
+    "durationBiggerZero": "{name} darf nicht Null sein.",
     "hours": "Die Stundenangabe",
     "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
@@ -183,7 +184,8 @@
     "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
     "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
     "timeFormat": "Bitte gib ein gültiges Zeitformat ein (HH:MM).",
-    "validEmail": "Diese E-Mail Adresse ist ungültig."
+    "validEmail": "Diese E-Mail Adresse ist ungültig.",
+    "notNegative": "Die Arbeitszeit darf nicht negativ sein"
   },
   "feedback": {
     "fields": {

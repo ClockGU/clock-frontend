@@ -76,7 +76,7 @@
     "fromTo": "{start} until {end}",
     "to": "to",
     "hoursPerMonth": "Hours per month",
-    "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
+    "hoursPerMonthSubtitle": "Your monthly worktime in HH:mm or HH,hh",
     "name": "Name your contract",
     "expired": "(Contract expired)",
     "expiredVerbose": "This contract has expired. You can still edit shifts and export reports.",
@@ -84,7 +84,8 @@
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
       "dateLabel": "Carryover into this month",
-      "minutesLabel": "Carryover as HH:MM"
+      "timeLabel": "Carryover",
+      "timeSubtitle": "Worktime to be carried over (HH:mm)"
     }
   },
   "dashboard": {
@@ -172,7 +173,7 @@
   },
   "errors": {
     "contractName": "Contract name",
-    "durationBiggerZero": "A {entity} must have a duration.",
+    "durationBiggerZero": "{name} must not be zero.",
     "hours": "The hours",
     "maxLength": "{name} cannot be longer than {length} characters!",
     "minLength": "{name} must be at least {length} characters long!",
@@ -183,7 +184,8 @@
     "shiftDateStartBeforeEnd": "A shift must start before it ends.",
     "shiftDateStartRequired": "You must specify a start time.",
     "timeFormat": "Please enter a valid format (HH:MM).",
-    "validEmail": "Must be valid email."
+    "validEmail": "Must be valid email.",
+    "notNegative": "Your worktime must not be negative."
   },
   "feedback": {
     "fields": {

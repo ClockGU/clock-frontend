@@ -11,7 +11,7 @@
       >
         <v-card-title>
           <span class="primary--text text-subtitle-2">
-            {{ contract.hours | hoursToWorktime }} per month
+            {{ contract.hours | hoursToTimestring }} per month
           </span>
         </v-card-title>
 
@@ -35,7 +35,7 @@ export default {
     toDate(date) {
       return localizedFormat(parseISO(date), "yyyy-MM-dd");
     },
-    hoursToWorktime(value) {
+    hoursToTimestring(value) {
       const hours = Math.floor(value);
       const minutes = parseInt((60 * (value - hours)).toFixed(0));
 
