@@ -73,7 +73,7 @@
           :prepend-icon="icons.mdiCalendarClock"
           :label="$t('contracts.carryover.timeLabel')"
           :hint="$t('contracts.carryover.timeSubtitle')"
-          :allow-negative-values="true"
+          allow-negative-values
         />
         <v-menu
           v-if="carryover"
