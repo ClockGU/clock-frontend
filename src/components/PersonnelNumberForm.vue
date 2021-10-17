@@ -153,7 +153,6 @@ export default {
       }
       if (this.dialog) {
         this.$emit("close");
-        console.log("dialog: ", this.dialog);
       }
     }
   }
