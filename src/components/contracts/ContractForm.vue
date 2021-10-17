@@ -64,7 +64,9 @@
       <v-col cols="12">
         <v-checkbox
           v-model="carryover"
+          :disabled="shiftsLocked"
           :label="$t('contracts.carryover.checkboxLabel')"
+          :error-messages="shiftsLocked ? $t('contracts.carryover.locked') : ''"
         ></v-checkbox>
 
         <ContractFormTimeInput
@@ -74,6 +76,7 @@
           :label="$t('contracts.carryover.timeLabel')"
           :hint="$t('contracts.carryover.timeSubtitle')"
           allow-negative-values
+          :disabled="shiftsLocked"
         />
         <v-menu
           v-if="carryover"
@@ -89,6 +92,7 @@
               v-model="carryoverTargetDate"
               :label="$t('contracts.carryover.dateLabel')"
               :prepend-icon="icons.mdiCalendar"
+              :disabled="shiftsLocked"
               readonly
               filled
               v-bind="attrs"
@@ -99,6 +103,7 @@
           <v-date-picker
             v-model="contract.carryoverTargetDate"
             type="month"
+            :disabled="shiftsLocked"
             :show-current="false"
             :min="carryoverMinimalDate"
             :max="carryoverMaximalDate"
@@ -196,6 +201,12 @@ export default {
       return shifts.sort((a, b) => {
         return new Date(a.date.start) - new Date(b.date.start);
       });
+    },
+    shiftsLocked() {
+      const shifts = this.shifts.filter(
+        (shift) => shift.contract === this.entity.uuid && shift.locked == true
+      );
+      return shifts.length > 0;
     },
     lastShiftOfContract() {
       if (this.sortedShifts.length < 1) return this.startDate;
@@ -308,6 +319,7 @@ export default {
       deep: true
     },
     carryover(val) {
+      console.log(val, this.contract.carryoverTime);
       //do some stunts since the state is directly used by the FormDialog upon saving
       //TODO: Look for a more elegant way to do this
       if (val && this.carryoverCache == null) {

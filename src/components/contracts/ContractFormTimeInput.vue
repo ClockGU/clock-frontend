@@ -12,6 +12,7 @@
         :prepend-icon="prependIcon"
         :label="label"
         :hint="hint"
+        :disabled="disabled"
         persistent-hint
         filled
         required
@@ -82,6 +83,10 @@ export default {
     hint: {
       type: String,
       default: ""
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     allowNegativeValues: {
       type: Boolean,

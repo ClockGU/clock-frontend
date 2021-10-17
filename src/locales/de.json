@@ -85,7 +85,8 @@
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
       "dateLabel": "Übertrag in diesen Monat",
       "timeLabel": "Übertrag",
-      "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm)."
+      "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
+      "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind."
     }
   },
   "dashboard": {

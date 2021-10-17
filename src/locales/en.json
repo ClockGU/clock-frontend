@@ -85,7 +85,8 @@
       "checkboxLabel": "Carryover work time from previous month",
       "dateLabel": "Carryover into this month",
       "timeLabel": "Carryover",
-      "timeSubtitle": "Worktime to be carried over (HH:mm)"
+      "timeSubtitle": "Worktime to be carried over (HH:mm)",
+      "locked": "There are locked months. Carryover can not be modified."
     }
   },
   "dashboard": {
