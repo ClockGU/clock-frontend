@@ -67,6 +67,7 @@
           :disabled="shiftsLocked"
           :label="$t('contracts.carryover.checkboxLabel')"
           :error-messages="shiftsLocked ? $t('contracts.carryover.locked') : ''"
+          :class="shiftsLocked ? 'mb-3' : ''"
         ></v-checkbox>
 
         <ContractFormTimeInput
@@ -175,7 +176,8 @@ export default {
     contract: null,
     carryover: false,
     carryoverDateMenu: false,
-    carryoverCache: null
+    carryoverTimeCache: null,
+    carryoverTargetDateCache: null
   }),
 
   computed: {
@@ -319,18 +321,24 @@ export default {
       deep: true
     },
     carryover(val) {
-      console.log(val, this.contract.carryoverTime);
       //do some stunts since the state is directly used by the FormDialog upon saving
       //TODO: Look for a more elegant way to do this
-      if (val && this.carryoverCache == null) {
+      if (val && this.carryoverTimeCache == null) {
         //Save the actual value to the Cache if the Cache is empty (base state)
-        this.carryoverCache = this.contract.carryoverTime;
-      } else if (val && this.carryoverCache != null) {
+        this.carryoverTimeCache = this.contract.carryoverTime;
+        this.carryoverTargetDateCache = this.contract.carryoverTargetDate;
+      } else if (
+        val &&
+        this.carryoverTimeCache != null &&
+        this.carryoverTargetDateCache
+      ) {
         //take the cached vaule if the checkbox is reactivated
-        this.contract.carryoverTime = this.carryoverCache;
+        this.contract.carryoverTime = this.carryoverTimeCache;
+        this.contract.carryoverTargetDate = this.carryoverTargetDateCache;
       } else {
         //set carryoverTime to 00:00 if carryover-checkbox is deactivated
         this.contract.carryoverTime = "00:00";
+        this.contract.carryoverTargetDate = this.startDate;
       }
     }
   },
@@ -347,11 +355,16 @@ export default {
       this.contract = this.entity;
       const currentEndDate = parseISO(this.entity.date.end);
       this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
+      if (this.contract.carryoverTime == "00:00") {
+        this.contract.carryoverTime = "";
+      }
     }
 
-    if (this.contract.carryoverTime !== "") {
-      this.carryover = true;
-    }
+    this.carryover =
+      this.contract.carryoverTime !== "00:00" &&
+      this.contract.carryoverTime !== ""
+        ? true
+        : false;
   }
 };
 </script>

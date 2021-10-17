@@ -73,6 +73,10 @@ export class Contract {
   }
 
   timestringToMinutes(time) {
+    if (time == "") {
+      return 0;
+    }
+
     let negative = false;
     let [hours, minutes] = time.split(":");
 
