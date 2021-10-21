@@ -280,7 +280,7 @@
     "personnelNumber": {
       "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
       "title": "Optionale Angaben",
-      "hint": "Deine Personalnummer findest du auf deinem Vertrag.",
+      "hint": "Deine Personalnummer findest du auf deiner Gehaltsabrechnung.",
       "label": "Personalnummer",
       "changeTitle": "Personalnummer ändern",
       "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",

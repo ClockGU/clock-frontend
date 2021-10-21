@@ -280,7 +280,7 @@
     "personnelNumber": {
       "text": "You can fill in the below data at a point later in time in your user settings.",
       "title": "Optional",
-      "hint": "You can find your personnel number on your contract.",
+      "hint": "You can find your personnel number on your salary printout.",
       "label": "Personnel number",
       "changeTitle": "Change personnel number",
       "changeInfo": "Your personnel number should is independent of your contract(s) and should not change.",
