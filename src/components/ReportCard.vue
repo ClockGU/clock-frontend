@@ -38,11 +38,13 @@
             </p>
           </v-col>
           <v-col cols="4">
+            <!-- if personnel number should be mandatory, add this line -->
+            <!-- :disabled="(!isFirstUnlockedMonth && !exported) || !isExportable" -->
             <v-btn
               v-if="!pdf"
               :loading="loading"
               :outlined="loading"
-              :disabled="(!isFirstUnlockedMonth && !exported) || !isExportable"
+              :disabled="!isFirstUnlockedMonth && !exported"
               color="primary"
               @click="request"
             >
