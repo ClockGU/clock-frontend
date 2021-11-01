@@ -41,17 +41,17 @@
             <ContractForm :entity="entity" @update="updateContractForm" />
 
             <h3 class="pb-2">
-              {{ $t("onboarding.personnelNumber.title") }}
+              {{ $t("personnelNumber.title") }}
             </h3>
             <span>
-              {{ $t("onboarding.personnelNumber.text") }}
+              {{ $t("personnelNumber.text") }}
             </span>
             <v-row align="center" justify="start">
               <v-col cols="12" md="12">
                 <v-text-field
                   v-model="personnelNumber"
-                  :label="$t('onboarding.personnelNumber.label')"
-                  :hint="$t('onboarding.personnelNumber.hint')"
+                  :label="$t('personnelNumber.label')"
+                  :hint="$t('personnelNumber.hint')"
                   :prepend-icon="icons.mdiBadgeAccountHorizontal"
                   return-masked-value
                   persistent-hint

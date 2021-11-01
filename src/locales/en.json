@@ -277,15 +277,7 @@
       "text": "You completed the onboarding!",
       "title": "Finished"
     },
-    "personnelNumber": {
-      "text": "You can fill in the below data at a point later in time in your user settings.",
-      "title": "Optional",
-      "hint": "You can find your personnel number on your salary printout.",
-      "label": "Personnel number",
-      "changeTitle": "Change personnel number",
-      "changeInfo": "Your personnel number should is independent of your contract(s) and should not change.",
-      "changeConfirmText": "Are you sure you want to change it? "
-    },
+
     "underConstruction": {
       "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to contact us.",
       "title": "Under construction"
@@ -294,6 +286,15 @@
       "text": "You are new here, huh? We need to get a few things done, before you can start using Clock. We will guide you through the process!",
       "title": "@:app.onboarding"
     }
+  },
+  "personnelNumber": {
+    "text": "You can fill in the below data at a point later in time in your user settings.",
+    "title": "Optional",
+    "hint": "You can find your personnel number on your salary printout.",
+    "label": "Personnel number",
+    "changeTitle": "Change personnel number",
+    "changeInfo": "Your personnel number should is independent of your contract(s) and should not change.",
+    "changeConfirmText": "Are you sure you want to change it? "
   },
   "privacyagreement": {
     "text": "You have to accept the {privacyAgreement} before using Clock.",

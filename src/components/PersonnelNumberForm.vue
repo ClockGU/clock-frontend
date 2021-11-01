@@ -1,10 +1,10 @@
 <template>
   <v-card :loading="loading" elevation="0">
-    <v-card-title>{{ $t("onboarding.personnelNumber.label") }}</v-card-title>
+    <v-card-title>{{ $t("personnelNumber.label") }}</v-card-title>
 
     <v-card-text>
       <p>
-        {{ $t("onboarding.personnelNumber.hint") }}
+        {{ $t("personnelNumber.hint") }}
       </p>
 
       <v-form>
@@ -53,13 +53,11 @@
           </v-btn>
         </template>
 
-        <template #title>{{
-          $t("onboarding.personnelNumber.changeTitle")
-        }}</template>
+        <template #title>{{ $t("personnelNumber.changeTitle") }}</template>
 
         <template #text>
-          <p>{{ $t("onboarding.personnelNumber.changeInfo") }}</p>
-          <p>{{ $t("onboarding.personnelNumber.changeConfirmText") }}</p>
+          <p>{{ $t("personnelNumber.changeInfo") }}</p>
+          <p>{{ $t("personnelNumber.changeConfirmText") }}</p>
         </template>
       </ConfirmationDialog>
     </v-card-actions>
@@ -98,14 +96,14 @@ export default {
       !this.$v.personnelNumber.required &&
         errors.push(
           this.$tc("errors.nameRequired", 1, {
-            name: this.$t("onboarding.personnelNumber.label")
+            name: this.$t("personnelNumber.label")
           })
         );
 
       !this.$v.personnelNumber.minLength &&
         errors.push(
           this.$t("errors.minLength", {
-            name: this.$t("onboarding.personnelNumber.label"),
+            name: this.$t("personnelNumber.label"),
             length: 5
           })
         );

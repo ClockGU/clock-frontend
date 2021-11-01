@@ -277,15 +277,7 @@
       "text": "Du hast es geschafft!",
       "title": "Abschluss"
     },
-    "personnelNumber": {
-      "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
-      "title": "Optionale Angaben",
-      "hint": "Deine Personalnummer findest du auf deiner Gehaltsabrechnung.",
-      "label": "Personalnummer",
-      "changeTitle": "Personalnummer ändern",
-      "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",
-      "changeConfirmText": "Möchtest Du die Personalnummer wirklich ändern?"
-    },
+
     "underConstruction": {
       "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System schneller zu verbessern. Zögere nicht, uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
       "title": "Im Umbau"
@@ -294,6 +286,15 @@
       "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
     }
+  },
+  "personnelNumber": {
+    "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
+    "title": "Optionale Angaben",
+    "hint": "Deine Personalnummer findest du auf deiner Gehaltsabrechnung.",
+    "label": "Personalnummer",
+    "changeTitle": "Personalnummer ändern",
+    "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",
+    "changeConfirmText": "Möchtest Du die Personalnummer wirklich ändern?"
   },
   "privacyagreement": {
     "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
