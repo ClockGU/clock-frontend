@@ -86,7 +86,7 @@
       "dateLabel": "Carryover into this month",
       "timeLabel": "Carryover",
       "timeSubtitle": "Worktime to be carried over (HH:mm)",
-      "locked": "There are locked months. Carryover can not be modified."
+      "locked": "There are locked months. Carryover cannot be modified."
     }
   },
   "dashboard": {
@@ -97,7 +97,7 @@
     },
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
-      "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
+      "contractExpired": "The selected contract has expired - you cannot clock any new shifts.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {
@@ -162,7 +162,7 @@
       "dailyText2": "today.",
       "minutes": "minutes",
       "hours": "hours",
-      "maxCarryoverHint": "Note: Formally, you can not carry over more than {n} h (50%)",
+      "maxCarryoverHint": "Note: Formally, you cannot carry over more than {n} h (50%)",
       "overtimeHint": "Note: Your daily worktime should not exceed 8h."
     },
     "showAll": "Show all",
@@ -222,7 +222,7 @@
   },
   "gdpr": {
     "accepted": "You agreed with our privacy policy.",
-    "revokeInfo": "If you wish to revoke this agreement, you can delete your account since we can not process your data withour your consent.",
+    "revokeInfo": "If you wish to revoke this agreement, you can delete your account (and thus all your data) since we cannot process your data withour your consent.",
     "download": "You can request and download all information saved by us. The download is provided in JSON.",
     "suffix": "GDPR"
   },
@@ -323,7 +323,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
-      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month can not be undone."
+      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
     }
   },
   "selectContract": {
@@ -382,7 +382,7 @@
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
     "reviewErrorPast": "A past shift must be reviewed before saving.",
-    "reviewErrorFuture": "A future shift can not be saved as \"reviewed\".",
+    "reviewErrorFuture": "A future shift cannot be saved as \"reviewed\".",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"
@@ -395,7 +395,7 @@
       "vn": "Vacation",
       "bh": "Bank holiday"
     },
-    "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
+    "wasExportedAlert": "The report for this shift was already exported. This shift cannot be edited anymore.",
     "table": {
       "reviewedTitle": "Past shifts",
       "reviewedHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
