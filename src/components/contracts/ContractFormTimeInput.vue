@@ -16,7 +16,6 @@
         persistent-hint
         filled
         required
-        background-color="blue lighten-5"
         :error-messages="timeErrors"
         v-bind="attrs"
         @blur="setTime"
