@@ -172,7 +172,7 @@ export default {
           months,
           min: localizedFormat(parseISO(this.contract.date.start), "yyyy-MM"),
           max: localizedFormat(parseISO(this.contract.date.end), "yyyy-MM"),
-          allowedMonths: (hugo) => parseInt(hugo.split("-")[1], 10)
+          allowedMonths: (value) => parseInt(value.split("-")[1], 10)
         };
       } else {
         return {
