@@ -39,6 +39,8 @@ export default {
   }),
   methods: {
     save(length) {
+      this.$emit("refresh");
+      this.$emit("updateWindow", -1);
       this.destroy(false).then(() => {
         let message =
           this.$t("dashboard.clock.problems.messages.success") + " ";
@@ -49,13 +51,11 @@ export default {
         } else {
           message += this.$t("dashboard.clock.problems.messages.noSaved");
         }
-
         this.$store.dispatch("snackbar/setSnack", {
           snack: message,
           timeout: 4000,
           color: "success"
         });
-        this.$emit("updateWindow", -1);
       });
     }
   }

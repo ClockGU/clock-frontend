@@ -18,6 +18,7 @@
             <ClockInOutCard
               :clocked-shift="clockedShift"
               :selected-contract="selectedContract"
+              @refresh="refresh"
             />
           </v-col>
 
