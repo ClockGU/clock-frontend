@@ -1,58 +1,55 @@
 <template>
-  <v-menu offset-y :close-on-click="true" :close-on-content-click="true">
-    <template #activator="{ on, attrs }">
-      <v-btn color="primary" text v-bind="attrs" v-on="on">
-        {{ $t("actions.actions") }}
-      </v-btn>
-    </template>
-    <v-list>
-      <v-list-item
-        v-if="shifts.length < 2"
-        @click="$emit('edit', shifts[0].shift)"
-      >
-        <v-list-item-title>{{ $t("actions.edit") }}</v-list-item-title>
-      </v-list-item>
+  <v-expand-transition appear>
+    <v-card elevation="0">
+      <v-card-actions>
+        <v-btn
+          :disabled="shifts.length > 1"
+          icon
+          @click="$emit('edit', shifts[0].shift)"
+        >
+          <v-icon>{{ icons.mdiPencil }}</v-icon>
+        </v-btn>
 
-      <ShiftBulkActionsDialogReview
-        v-if="canReview"
-        :shifts="shifts"
-        @reset="$emit('refresh')"
-      >
-        <template #activator="{ on }">
-          <v-list-item v-on="on">
-            <v-list-item-title>{{ $t("actions.review") }}</v-list-item-title>
-          </v-list-item>
-        </template>
-      </ShiftBulkActionsDialogReview>
+        <ShiftBulkActionsDialogReview
+          v-if="canReview"
+          :shifts="shifts"
+          @reset="$emit('refresh')"
+        >
+          <template #activator="{ on }">
+            <v-btn :disabled="!reviewable" icon v-on="on">
+              <v-icon>{{ icons.mdiCheckAll }}</v-icon>
+            </v-btn>
+          </template>
+        </ShiftBulkActionsDialogReview>
 
-      <ShiftBulkActionsDialogAssignContract
-        :shifts="shifts"
-        @reset="$emit('refresh')"
-      >
-        <template #activator="{ on, attrs }">
-          <v-list-item v-bind="attrs" v-on="on">
-            <v-list-item-title>
-              {{ $t("shifts.assignContract") }}
-            </v-list-item-title>
-          </v-list-item>
-        </template>
-      </ShiftBulkActionsDialogAssignContract>
+        <ShiftBulkActionsDialogAssignContract
+          :shifts="shifts"
+          @reset="$emit('refresh')"
+        >
+          <template #activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
+            </v-btn>
+          </template>
+        </ShiftBulkActionsDialogAssignContract>
 
-      <ShiftBulkActionsDialogDelete @destroy="destroyFn">
-        <template #activator="{ on }">
-          <v-list-item v-on="on">
-            <v-list-item-title>{{ $t("actions.delete") }}</v-list-item-title>
-          </v-list-item>
-        </template>
-      </ShiftBulkActionsDialogDelete>
-    </v-list>
-  </v-menu>
+        <ShiftBulkActionsDialogDelete @destroy="destroyFn">
+          <template #activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>{{ icons.mdiDelete }}</v-icon>
+            </v-btn>
+          </template>
+        </ShiftBulkActionsDialogDelete>
+      </v-card-actions>
+    </v-card>
+  </v-expand-transition>
 </template>
 
 <script>
 import ShiftBulkActionsDialogAssignContract from "@/components/ShiftBulkActionsDialogAssignContract";
 import ShiftBulkActionsDialogDelete from "@/components/ShiftBulkActionsDialogDelete";
 import ShiftBulkActionsDialogReview from "@/components/ShiftBulkActionsDialogReview";
+import { mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete } from "@mdi/js";
 
 export default {
   name: "ShiftBulkActions",
@@ -75,6 +72,14 @@ export default {
     shifts: {
       type: Array,
       required: true
+    }
+  },
+  data: () => ({
+    icons: { mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
+  }),
+  computed: {
+    reviewable() {
+      return this.shifts.filter((shift) => shift.reviewed == false).length;
     }
   }
 };

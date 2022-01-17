@@ -45,16 +45,6 @@
                         <span>{{ $t("shifts.table.reviewedTitle") }}</span>
                       </v-col>
 
-                      <v-col v-if="selected.length > 0" cols="12" sm="3">
-                        <ShiftBulkActions
-                          :destroy-fn="destroyFn"
-                          :shifts="selected"
-                          can-review
-                          @edit="editShift"
-                          @refresh="refresh"
-                        />
-                      </v-col>
-
                       <v-spacer></v-spacer>
 
                       <v-col
@@ -78,6 +68,15 @@
                   <v-card-text>
                     {{ $t("shifts.table.reviewedHint") }}
                   </v-card-text>
+
+                  <ShiftBulkActions
+                    v-if="selected.length > 0"
+                    :destroy-fn="destroyFn"
+                    :shifts="selected"
+                    can-review
+                    @edit="editShift"
+                    @refresh="refresh"
+                  />
                 </template>
               </ShiftsTable>
 
@@ -93,15 +92,6 @@
                     <v-row>
                       <v-col cols="12" md="5">
                         <span>{{ $t("shifts.table.plannedTitle") }}</span>
-                      </v-col>
-
-                      <v-col v-if="selected.length > 0" cols="12" sm="3">
-                        <ShiftBulkActions
-                          :shifts="selected"
-                          :destroy-fn="destroyFn"
-                          @edit="editShift"
-                          @refresh="refresh"
-                        />
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -127,6 +117,13 @@
                   <v-card-text>
                     {{ $t("shifts.table.plannedHint") }}
                   </v-card-text>
+                  <ShiftBulkActions
+                    v-if="selected.length > 0"
+                    :shifts="selected"
+                    :destroy-fn="destroyFn"
+                    @edit="editShift"
+                    @refresh="refresh"
+                  />
                 </template>
               </ShiftsTable>
             </v-card>
