@@ -17,7 +17,9 @@
         >
           <template #activator="{ on }">
             <v-btn :disabled="!reviewable" icon v-on="on">
-              <v-icon>{{ icons.mdiCheckAll }}</v-icon>
+              <v-icon>{{
+                shifts.length > 1 ? icons.mdiCheckAll : icons.mdiCheck
+              }}</v-icon>
             </v-btn>
           </template>
         </ShiftBulkActionsDialogReview>
@@ -49,7 +51,13 @@
 import ShiftBulkActionsDialogAssignContract from "@/components/ShiftBulkActionsDialogAssignContract";
 import ShiftBulkActionsDialogDelete from "@/components/ShiftBulkActionsDialogDelete";
 import ShiftBulkActionsDialogReview from "@/components/ShiftBulkActionsDialogReview";
-import { mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete } from "@mdi/js";
+import {
+  mdiCheck,
+  mdiCheckAll,
+  mdiPencil,
+  mdiSwapHorizontal,
+  mdiDelete
+} from "@mdi/js";
 
 export default {
   name: "ShiftBulkActions",
@@ -75,7 +83,7 @@ export default {
     }
   },
   data: () => ({
-    icons: { mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
+    icons: { mdiCheck, mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
   }),
   computed: {
     reviewable() {
