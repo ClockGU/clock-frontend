@@ -101,6 +101,9 @@
       "in": "Clock in",
       "out": "Clock out",
       "problems": {
+        "review": "Review problems",
+        "update": "Update Shift",
+        "create": "Create Shift",
         "actions": {
           "advanced": "Advanced mode",
           "keepBoth": "Create new shifts",
@@ -127,7 +130,6 @@
         "text": "A shift must end on the same day it started. Therefore, we will need to split your shift. Make a decision on what to do.",
         "title": "Invalid shift"
       },
-      "review": "Review problems",
       "snacks": {
         "clockedIn": "Clocked in a new shift.",
         "clockOut": "Clocked out successfully.",

@@ -83,7 +83,7 @@
           text
           @click="$emit('updateWindow', 1)"
         >
-          {{ $t("dashboard.clock.review") }}
+          {{ $t("dashboard.clock.problems.review") }}
         </v-btn>
       </v-slide-x-transition>
     </v-card-text>

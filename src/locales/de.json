@@ -101,6 +101,9 @@
       "in": "Einclocken",
       "out": "Ausclocken",
       "problems": {
+        "review": "Probleme beheben",
+        "update": "Schicht bearbeiten",
+        "create": "Schicht hinzufügen",
         "actions": {
           "advanced": "Erweiterter Modus",
           "keepBoth": "Erstelle alle neue Schichten",
@@ -127,7 +130,6 @@
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
         "title": "Ungültige Schicht"
       },
-      "review": "Probleme beheben",
       "snacks": {
         "clockedIn": "Du wurdest erfolgreich eingeclockt.",
         "clockOut": "Du wurdest erfolgreich ausgeclockt.",
