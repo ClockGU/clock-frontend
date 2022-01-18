@@ -115,26 +115,26 @@ export default {
       const sec = localizedFormat(date, "ss");
 
       if (days > 0) {
-        string += `${days} days, `;
+        string += `${days}d `;
       }
-      if (hours !== "00") {
-        string += `${hours} hrs `;
-      }
-      if (minutes !== "00") {
-        string += `${minutes} mins `;
-      }
-      if (sec !== "00") {
-        string += `${sec} secs`;
-      }
+      string += `${hours}h `;
+      string += `${minutes}m `;
+      string += `${sec}s`;
 
       if (string === "") return "00 secs";
 
       return string;
     },
     toHHMM(seconds) {
+      let string = "";
       const date = addSeconds(new Date(1970, 1, 1), seconds);
+      const hours = Math.floor(seconds / (60 * 60));
+      const minutes = localizedFormat(date, "mm");
+      const sec = localizedFormat(date, "ss");
 
-      return localizedFormat(date, "HH:mm:ss");
+      string += `${hours}:${minutes}:${sec}`;
+
+      return string;
     }
   },
   inheritAttrs: false,
@@ -161,6 +161,9 @@ export default {
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
+    },
+    daystr(days) {
+      return this.$tc("dashboard.clock.display.day", days);
     }
   }
 };
