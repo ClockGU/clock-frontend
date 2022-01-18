@@ -18,13 +18,26 @@
       </template>
 
       <!-- eslint-disable-next-line -->
-      <template #item.reviewed="{ item }">
-        <v-icon :color="item.reviewed ? 'green' : 'red'">
-          {{ item.reviewed ? icons.mdiCheck : icons.mdiClose }}
-        </v-icon>
+      <template v-if="pastShifts" #item.reviewed="{ item }">
+        <v-btn
+          v-if="!item.reviewed"
+          elevation="3"
+          icon
+          @click="reviewSingleShift(item.shift)"
+        >
+          <v-icon color="red">
+            {{ icons.mdiClose }}
+          </v-icon>
+        </v-btn>
+        <v-icon v-else color="green" class="pl-1">{{ icons.mdiCheck }}</v-icon>
       </template>
 
       <!-- eslint-disable-next-line -->
+      <template v-else #item.reviewed="{ item }">
+        <v-icon color="red">{{ icons.mdiClose }}</v-icon>
+      </template>
+
+      <!-- eslint-disable-next-line-->
       <template v-slot:item.actions="{ item }">
         <v-btn text @click="$emit('edit', item.shift)">
           <v-icon>
@@ -92,7 +105,8 @@ export default {
     shifts: {
       type: Array,
       required: true
-    }
+    },
+    pastShifts: { type: Boolean, default: false }
   },
   data: () => ({
     icons: { mdiCheck, mdiClose, mdiDelete, mdiPencil },
@@ -100,6 +114,12 @@ export default {
     colors: SHIFT_TYPE_COLORS,
     selected: []
   }),
+  computed: {
+    reviewable(shift) {
+      console.log(shift.start);
+      return true;
+    }
+  },
   methods: {
     async destroy() {
       const promises = [];
@@ -125,6 +145,23 @@ export default {
 
         this.$emit("refresh");
         this.reset();
+      } catch (error) {
+        // TODO: Set error state for component & allow user to reload page
+        // We usually should end up here, if we are already logging out.
+        // But a proper error state could mitigate further issues.
+        log(error);
+      }
+    },
+    async reviewSingleShift(shift) {
+      const promises = [];
+      try {
+        shift.reviewed = true;
+        const payload = shift.toPayload();
+        promises.push(ShiftService.update(payload, payload.uuid));
+
+        await Promise.all(promises);
+
+        this.$emit("refresh");
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
         // We usually should end up here, if we are already logging out.

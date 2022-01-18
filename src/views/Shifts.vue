@@ -35,6 +35,7 @@
                 :shifts="data.pastShifts"
                 :loading="loading"
                 :search="pastSearch"
+                past-shifts
                 @edit="editShift"
                 @refresh="refresh"
               >
