@@ -3,7 +3,6 @@ const ViewLogin = () => import("@/views/ViewLogin");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
 // const ViewShiftList = () => import("@/views/ViewShiftList");
 const Shifts = () => import("@/views/Shifts");
-const ViewContractForm = () => import("@/views/ViewContractForm");
 const ViewContractList = () => import("@/views/ViewContractList");
 const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
@@ -96,12 +95,12 @@ export const routes = [
       {
         path: "/contracts/create",
         name: "createContract",
-        component: ViewContractForm
+        component: ViewContractList
       },
       {
         path: "/contracts/:uuid/edit",
         name: "editContract",
-        component: ViewContractForm,
+        component: ViewContractList,
         props: true
       },
       {
