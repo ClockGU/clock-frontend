@@ -28,7 +28,9 @@
           <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="save">{{ $t("actions.save") }}</v-btn>
+          <v-btn text color="primary" @click="save">{{
+            $t("actions.save")
+          }}</v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
