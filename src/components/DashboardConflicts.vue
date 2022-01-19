@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="overlappingShifts.length < 1">
+  <v-card v-if="overlappingShifts == 0">
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
         <v-icon class="green--text" x-large>{{ icons.mdiCheckBold }}</v-icon>
@@ -16,11 +16,7 @@
         <v-icon class="red--text" x-large>{{ icons.mdiAlert }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
-        {{
-          $tc("dashboard.overlaps.description", overlappingShifts.length, {
-            n: overlappingShifts.length
-          })
-        }}
+        {{ $tc("dashboard.overlaps.description", overlappingShifts) }}
       </v-col>
     </v-row>
 
@@ -75,7 +71,9 @@ export default {
   }),
   computed: {
     overlappingShifts() {
-      return getOverlappingShifts(this.shifts);
+      const overlaps = getOverlappingShifts(this.shifts).length;
+      // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
+      return overlaps == 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
     }
   }
 };

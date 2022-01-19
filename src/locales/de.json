@@ -148,7 +148,7 @@
     "lastActivity": "Letzte Aktivitäten",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
-      "description": "Es wurde eine Überschneidung von Schichten gefunden. Du musst dieses Problem vor dem Export deines Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
+      "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
       "nProblems": "Probleme gefunden",
       "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."
     },

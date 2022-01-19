@@ -148,7 +148,7 @@
     "lastActivity": "Last activity",
     "newShift": { "title": "New shift" },
     "overlaps": {
-      "description": "We found one instance of overlapping shifts. | We found {n} instances of overlapping shifts.",
+      "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your time sheet.",
       "nProblems": "Problems found",
       "noProblems": "There are no problems with your shifts."
     },
