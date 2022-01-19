@@ -13,9 +13,8 @@
     </template>
 
     <template #title>
-      {{ $tc("models.contract", 2) }}
+      {{ $t("contracts.activeContracts") }} ({{ activeContracts.length }})
     </template>
-
     <template #content>
       <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
         <v-col v-if="loading && !ignoreLoading" cols="10" md="6">
@@ -30,12 +29,12 @@
 
         <template v-if="!loading || ignoreLoading">
           <v-col cols="12">
-            <v-btn color="primary" @click="newContract">
+            <v-btn color="primary" class="ml-3" @click="newContract">
               {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
             </v-btn>
           </v-col>
-          <template v-for="(contract, i) in contracts">
-            <v-col :key="contract.uuid" cols="12" md="6">
+          <template v-for="(contract, i) in activeContracts">
+            <v-col :key="contract.uuid" cols="12" xl="4" md="6" justify="start">
               <ContractListCard
                 :key="contract.uuid"
                 :data-cy="'contract-' + i"
@@ -45,6 +44,35 @@
               />
             </v-col>
           </template>
+
+          <v-expansion-panels v-if="expiredContracts.length > 0" flat>
+            <v-expansion-panel
+              ><v-expansion-panel-header class="text-h6 font-weight-regular">
+                {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
+              </v-expansion-panel-header>
+              <v-expansion-panel-content
+                ><v-row>
+                  <template v-if="!loading || ignoreLoading">
+                    <template v-for="(contract, i) in expiredContracts">
+                      <v-col
+                        :key="contract.uuid"
+                        cols="12"
+                        md="6"
+                        justify="start"
+                      >
+                        <ContractListCard
+                          :key="contract.uuid"
+                          :data-cy="'contract-' + i"
+                          :contract="contract"
+                          expired
+                          @edit="editContract"
+                          @delete="destroy(contract.uuid)"
+                        />
+                      </v-col>
+                    </template>
+                  </template> </v-row
+              ></v-expansion-panel-content> </v-expansion-panel
+          ></v-expansion-panels>
         </template>
       </v-row>
 
@@ -72,6 +100,7 @@
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
 import FormDialog from "@/components/FormDialog";
+import { parseISO, endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
 import ContractService from "@/services/contract";
@@ -112,7 +141,17 @@ export default {
       loading: "contract/loading",
       contracts: "contract/contracts",
       clockedShift: "clock/clockedShift"
-    })
+    }),
+    activeContracts() {
+      return this.contracts.filter(
+        (contract) => !this.contractExpired(contract)
+      );
+    },
+    expiredContracts() {
+      return this.contracts.filter((contract) =>
+        this.contractExpired(contract)
+      );
+    }
   },
   watch: {
     contracts() {
@@ -149,6 +188,10 @@ export default {
       }
 
       return this.clockedShift.contract !== uuid;
+    },
+    contractExpired(contract) {
+      const date = endOfDay(parseISO(contract.date.end));
+      return isPast(date);
     },
     async destroy(uuid) {
       try {

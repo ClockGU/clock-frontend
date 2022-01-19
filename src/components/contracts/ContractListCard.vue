@@ -3,12 +3,12 @@
     class="mx-auto"
     max-width="350"
     outlined
-    :color="!contractExpired ? undefined : 'grey lighten-3'"
+    :color="!expired ? undefined : 'grey lighten-3'"
   >
     <v-card-title>
       <span class="primary--text text-subtitle-2">
         {{ $t("contracts.perMonth", { time: worktime }) }}
-        {{ !contractExpired ? "" : $t("contracts.expired") }}
+        {{ !expired ? "" : $t("contracts.expired") }}
       </span>
     </v-card-title>
 
@@ -61,7 +61,7 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { parseISO, endOfDay, isPast } from "date-fns";
+import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 
@@ -76,6 +76,10 @@ export default {
     contract: {
       type: Object,
       required: true
+    },
+    expired: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -87,10 +91,6 @@ export default {
     },
     worktime() {
       return minutesToHHMM(this.contract.worktime);
-    },
-    contractExpired() {
-      const date = endOfDay(parseISO(this.contract.date.end));
-      return isPast(date);
     }
   }
 };

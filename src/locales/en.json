@@ -78,8 +78,10 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly worktime in HH:mm or HH,hh",
     "name": "Name your contract",
+    "activeContracts": "Active Contracts",
     "expired": "(Contract expired)",
     "expiredVerbose": "This contract has expired. You can still edit shifts and export reports.",
+    "archived": "Expired contracts",
     "perMonth": "{time} per month",
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
