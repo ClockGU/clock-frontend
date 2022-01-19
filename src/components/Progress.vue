@@ -5,7 +5,13 @@
         <v-card flat>
           <v-card-title>
             {{ $t("dashboard.progress.title.monthly") }}
+            <v-spacer></v-spacer>
+
+            <v-btn v-if="warn" icon color="warning" @click="showWarning">
+              <v-icon>{{ icons.mdiInformation }}</v-icon>
+            </v-btn>
           </v-card-title>
+
           <v-card-text>
             <v-row align="center" justify="space-around">
               <v-col cols="2" align="center">
@@ -39,9 +45,6 @@
                     </tbody>
                   </template>
                 </v-simple-table>
-                <p v-if="carryoverExceeded" class="text-right font-italic">
-                  {{ $tc("dashboard.progress.maxCarryoverHint", maxCarryover) }}
-                </p>
               </v-col>
             </v-row>
           </v-card-text>
@@ -87,20 +90,21 @@
           </v-card-title>
           <v-card-text class="text-center">
             <p>{{ $t("dashboard.progress.dailyText1") }}</p>
-            <span :class="colorDaily">
-              <span class="text-h2">{{ dailyWorktime[0] }}</span>
-              h
-              <span class="text-h2">{{ dailyWorktime[1] }}</span>
-              m
-            </span>
+            <span class="text-h2">{{ dailyWorktime[0] }}</span>
+            h
+            <span class="text-h2">{{ dailyWorktime[1] }}</span>
+            m
             <p class="pt-4">{{ $t("dashboard.progress.dailyText2") }}</p>
-            <p v-if="dailyOvertime" class="text-center font-italic">
-              {{ $t("dashboard.progress.overtimeHint") }}
-            </p>
           </v-card-text>
         </v-card>
       </v-window-item>
     </v-window>
+
+    <ShiftWarnings
+      v-if="dialog"
+      :warnings="warnings"
+      @close="dialog = false"
+    ></ShiftWarnings>
 
     <v-card-actions class="justify-space-between">
       <v-btn text @click="step == 0 ? (step = 2) : step--">
@@ -126,15 +130,18 @@
 
 <script>
 import { minutesToHHMM } from "@/utils/time";
+import ShiftWarnings from "@/components/ShiftWarnings";
 import {
   mdiRecord,
   mdiCircleMedium,
   mdiChevronLeft,
-  mdiChevronRight
+  mdiChevronRight,
+  mdiInformation
 } from "@mdi/js";
 
 export default {
   name: "Progress",
+  components: { ShiftWarnings },
   props: {
     azkData: {
       type: Array,
@@ -150,15 +157,34 @@ export default {
     }
   },
   data: () => ({
+    dialog: false,
     step: 0,
     length: 3,
-    icons: { mdiChevronLeft, mdiChevronRight, mdiRecord, mdiCircleMedium }
+    warnings: [],
+    icons: {
+      mdiChevronLeft,
+      mdiChevronRight,
+      mdiRecord,
+      mdiCircleMedium,
+      mdiInformation
+    }
   }),
   computed: {
+    totalMinutesWorked() {
+      const [creditHours, creditMinutes] = this.azkData[2].value.split(":");
+      return parseInt(creditHours) * 60 + parseInt(creditMinutes);
+    },
+    totalMinutesPerMonth() {
+      const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
+      return parseInt(debitHours) * 60 + parseInt(debitMinutes);
+    },
     monthlyProgress() {
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
     },
     carryoverExceeded() {
+      return this.monthlyProgress > 100 && this.monthlyProgress < 150;
+    },
+    maxCarryoverExceeded() {
       return this.monthlyProgress > 150;
     },
     colorMonthly() {
@@ -181,23 +207,11 @@ export default {
     dailyWorktime() {
       return minutesToHHMM(this.dailyData).split(":");
     },
-    dailyOvertime() {
-      return this.dailyData > 480;
-    },
-    colorDaily() {
-      return this.dailyData < 480 ? "" : "red--text";
-    },
-    totalMinutesPerMonth() {
-      const [debitHours, debitMinutes] = this.azkData[1].value.split(":");
-
-      return parseInt(debitHours) * 60 + parseInt(debitMinutes);
-    },
-    totalMinutesWorked() {
-      const [creditHours, creditMinutes] = this.azkData[2].value.split(":");
-      return parseInt(creditHours) * 60 + parseInt(creditMinutes);
-    },
     maxCarryover() {
       return minutesToHHMM(0.5 * this.totalMinutesPerMonth);
+    },
+    warn() {
+      return this.maxCarryoverExceeded;
     }
   },
   methods: {
@@ -205,7 +219,28 @@ export default {
       return progress.toFixed(0);
     },
     carryoverClass(index) {
-      return this.carryoverExceeded && index == 3 ? "red--text" : "";
+      // a bit hacky, but index is defined in this component
+      if (index == 3) {
+        if (this.carryoverExceeded) return "orange--text";
+        else if (this.maxCarryoverExceeded) return "red--text";
+        else return "";
+      }
+    },
+    showWarning() {
+      this.assembleWarnings();
+      this.dialog = true;
+    },
+    assembleWarnings() {
+      // TODO dynamically put all warnings in array of objects
+      // this is static information so this approach might be wrong
+      if (this.maxCarryoverExceeded) {
+        const warning = this.$tc(
+          "dashboard.progress.warnings.maxCarryoverWarning",
+          this.maxCarryover
+        );
+        this.warnings = [{ warning: warning }];
+      }
+      return this.warnings;
     }
   }
 };

@@ -158,14 +158,17 @@
         "weekly": "Fortschritt in der aktuellen Woche",
         "daily": "Fortschritt heute"
       },
+      "warnings": {
+        "title": "Hinweis",
+        "maxCarryoverWarning": "Formell dürfen nicht mehr als 50% der monatlichen Arbeitszeit ({n} h) in den nächsten Monat übertragen werden (§2 MiLoG).",
+        "CarryoverWarning": "Deine monatliche Arbeitszeit ist um {n} h überschritten."
+      },
       "weeklyText": "Du hast diese Woche bereits {n} h gearbeitet.",
       "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n} h.",
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
       "minutes": "minutes",
-      "hours": "hours",
-      "maxCarryoverHint": "Hinweis: Formell dürfen nicht mehr als {n} h (50%) in den nächsten Monat übertragen werden.",
-      "overtimeHint": "Hinweis: Die tägliche Arbeitszeit sollte 8h nicht überschreiten."
+      "hours": "hours"
     },
     "showAll": "Alle anzeigen",
     "notYetReviewed": "noch nicht überprüft"
