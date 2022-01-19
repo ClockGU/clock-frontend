@@ -50,12 +50,11 @@ export default {
         .filter(
           (shift) =>
             shift.contract === this.selectedContract.uuid &&
-            isBefore(shift.end, new Date())
+            isBefore(shift.start, new Date())
         )
         .sort((a, b) => {
           return new Date(b.date.end) - new Date(a.date.end);
-        })
-        .slice(0, 5);
+        }); //        .slice(0, 5);
     },
     selectedContract() {
       const uuid = this.$route.params.contract;
