@@ -11,9 +11,6 @@
         ({{ item.representationalDuration("hm") }})
       </v-list-item-subtitle>
       <v-list-item-subtitle>
-        <!--v-chip v-if="isLiveShift" small class="mr-2" color="error"
-          >Live
-        </v-chip-->
         <v-chip
           data-cy="shift-list-item-type"
           outlined
@@ -112,6 +109,7 @@ export default {
     closeDialog() {
       this.shiftEntity = null;
       this.dialog = false;
+      this.$emit("refresh");
     },
     openDialog() {
       this.shiftEntity = this.item;
