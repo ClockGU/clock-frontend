@@ -13,7 +13,7 @@
     </template>
 
     <template #title>
-      {{ editMode ? $tc("models.contract", 2) : "Select a contract" }}
+      {{ $tc("models.contract", 2) }}
     </template>
 
     <template #content>
@@ -28,7 +28,7 @@
           ></v-skeleton-loader>
         </v-col>
 
-        <template v-if="(!loading || ignoreLoading) && editMode">
+        <template v-if="!loading || ignoreLoading">
           <v-col cols="12">
             <v-btn color="primary" @click="newContract">
               {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
@@ -40,22 +40,8 @@
                 :key="contract.uuid"
                 :data-cy="'contract-' + i"
                 :contract="contract"
-                :edit-mode="editMode"
                 @edit="editContract"
                 @delete="destroy(contract.uuid)"
-              />
-            </v-col>
-          </template>
-        </template>
-
-        <template v-if="(!loading || ignoreLoading) && !editMode">
-          <template v-for="(contract, i) in contracts">
-            <v-col :key="contract.uuid" cols="12" md="6">
-              <ContractListCardSelect
-                :data-cy="'contract-' + i"
-                :contract="contract"
-                :edit-mode="editMode"
-                :disabled="clockedIntoContract(contract.uuid)"
               />
             </v-col>
           </template>
@@ -85,7 +71,6 @@
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
-import ContractListCardSelect from "@/components/contracts/ContractListCardSelect";
 import FormDialog from "@/components/FormDialog";
 
 import { Contract } from "@/models/ContractModel";
@@ -105,7 +90,6 @@ export default {
   },
   components: {
     ContractListCard,
-    ContractListCardSelect,
     FormDialog
   },
   beforeRouteLeave(to, from, next) {
@@ -128,12 +112,7 @@ export default {
       loading: "contract/loading",
       contracts: "contract/contracts",
       clockedShift: "clock/clockedShift"
-    }),
-    editMode() {
-      if (this.$route.name === "contractSelect") return false;
-
-      return true;
-    }
+    })
   },
   watch: {
     contracts() {
