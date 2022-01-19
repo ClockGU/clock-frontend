@@ -5,11 +5,15 @@
         {{ item.date.start | formatDay }}
       </v-list-item-title>
       <v-list-item-subtitle class="text--primary">
+        <v-icon v-if="isLiveShift" color="red">{{ icons.mdiRecord }}</v-icon>
         {{ item.date.start | formatTime }} -
         {{ item.date.end | formatTime }}
         ({{ item.representationalDuration("hm") }})
       </v-list-item-subtitle>
       <v-list-item-subtitle>
+        <!--v-chip v-if="isLiveShift" small class="mr-2" color="error"
+          >Live
+        </v-chip-->
         <v-chip
           data-cy="shift-list-item-type"
           outlined
@@ -58,6 +62,9 @@
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
 import { localizedFormat } from "@/utils/date";
+import { isWithinInterval } from "date-fns";
+
+import { mdiRecord } from "@mdi/js";
 
 import FormDialog from "@/components/FormDialog";
 
@@ -87,11 +94,18 @@ export default {
   },
   data: () => ({
     dialog: false,
-    shiftEntity: null
+    shiftEntity: null,
+    icons: { mdiRecord }
   }),
   computed: {
     typeColor() {
       return SHIFT_TYPE_COLORS[this.item.type.value];
+    },
+    isLiveShift() {
+      return isWithinInterval(new Date(), {
+        start: this.item.date.start,
+        end: this.item.date.end
+      });
     }
   },
   methods: {
