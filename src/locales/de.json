@@ -162,8 +162,10 @@
       },
       "warnings": {
         "title": "Hinweis",
-        "maxCarryoverWarning": "Formell dürfen nicht mehr als 50% der monatlichen Arbeitszeit ({n} h) in den nächsten Monat übertragen werden (§2 MiLoG).",
-        "CarryoverWarning": "Deine monatliche Arbeitszeit ist um {n} h überschritten."
+        "carryover": "Deine monatliche Arbeitszeit ist um {n} h überschritten.",
+        "carryoverLegal": "Formell dürfen nicht mehr als 50% der monatlichen Arbeitszeit ({n} h) in den nächsten Monat übertragen werden (§2 MiLoG).",
+        "dailyOvertime": "Du hast heute bereits {n} h gearbeitet.",
+        "dailyOvertimeLegal": "Die tägliche Arbeitszeit sollte 8h nicht überschreiten (§3 ArbzG)."
       },
       "weeklyText": "Du hast diese Woche bereits {n} h gearbeitet.",
       "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n} h.",

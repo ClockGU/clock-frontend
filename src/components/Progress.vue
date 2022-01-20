@@ -6,8 +6,12 @@
           <v-card-title>
             {{ $t("dashboard.progress.title.monthly") }}
             <v-spacer></v-spacer>
-
-            <v-btn v-if="warn" icon color="warning" @click="showWarning">
+            <v-btn
+              v-if="maxCarryoverExceeded || carryover"
+              icon
+              color="warning"
+              @click="showWarning('carryover')"
+            >
               <v-icon>{{ icons.mdiInformation }}</v-icon>
             </v-btn>
           </v-card-title>
@@ -87,13 +91,24 @@
         <v-card flat>
           <v-card-title>
             {{ $t("dashboard.progress.title.daily") }}
+            <v-spacer></v-spacer>
+            <v-btn
+              v-if="dailyOvertime"
+              icon
+              color="warning"
+              @click="showWarning('daily')"
+            >
+              <v-icon>{{ icons.mdiInformation }}</v-icon>
+            </v-btn>
           </v-card-title>
           <v-card-text class="text-center">
             <p>{{ $t("dashboard.progress.dailyText1") }}</p>
-            <span class="text-h2">{{ dailyWorktime[0] }}</span>
-            h
-            <span class="text-h2">{{ dailyWorktime[1] }}</span>
-            m
+            <span :class="colorDaily">
+              <span class="text-h2">{{ dailyWorktime[0] }}</span>
+              h
+              <span class="text-h2">{{ dailyWorktime[1] }}</span>
+              m
+            </span>
             <p class="pt-4">{{ $t("dashboard.progress.dailyText2") }}</p>
           </v-card-text>
         </v-card>
@@ -181,12 +196,6 @@ export default {
     monthlyProgress() {
       return (100 * this.totalMinutesWorked) / this.totalMinutesPerMonth;
     },
-    carryoverExceeded() {
-      return this.monthlyProgress > 100 && this.monthlyProgress < 150;
-    },
-    maxCarryoverExceeded() {
-      return this.monthlyProgress > 150;
-    },
     colorMonthly() {
       if (this.monthlyProgress > 150) return "error";
       else if (this.monthlyProgress > 100) return "warning";
@@ -207,11 +216,23 @@ export default {
     dailyWorktime() {
       return minutesToHHMM(this.dailyData).split(":");
     },
-    maxCarryover() {
+    maxCarryoverValue() {
       return minutesToHHMM(0.5 * this.totalMinutesPerMonth);
     },
-    warn() {
-      return this.maxCarryoverExceeded;
+    dailyOvertime() {
+      return this.dailyData > 480;
+    },
+    colorDaily() {
+      return this.dailyData < 480 ? "" : "red--text";
+    },
+    carryover() {
+      return this.monthlyProgress > 100 && this.monthlyProgress < 150;
+    },
+    carryoverValue() {
+      return minutesToHHMM(this.totalMinutesWorked - this.totalMinutesPerMonth);
+    },
+    maxCarryoverExceeded() {
+      return this.monthlyProgress > 150;
     }
   },
   methods: {
@@ -221,26 +242,45 @@ export default {
     carryoverClass(index) {
       // a bit hacky, but index is defined in this component
       if (index == 3) {
-        if (this.carryoverExceeded) return "orange--text";
+        if (this.carryover) return "orange--text";
         else if (this.maxCarryoverExceeded) return "red--text";
         else return "";
       }
     },
-    showWarning() {
-      this.assembleWarnings();
-      this.dialog = true;
-    },
-    assembleWarnings() {
-      // TODO dynamically put all warnings in array of objects
-      // this is static information so this approach might be wrong
-      if (this.maxCarryoverExceeded) {
-        const warning = this.$tc(
-          "dashboard.progress.warnings.maxCarryoverWarning",
-          this.maxCarryover
-        );
-        this.warnings = [{ warning: warning }];
+    showWarning(type) {
+      // TODO: make this beautiful
+      switch (type) {
+        case "daily":
+          this.warnings = [
+            {
+              warning: this.$tc(
+                "dashboard.progress.warnings.dailyOvertime",
+                this.dailyWorktime.join(":")
+              )
+            },
+            {
+              warning: this.$t("dashboard.progress.warnings.dailyOvertimeLegal")
+            }
+          ];
+          break;
+        case "carryover":
+          this.warnings = [
+            {
+              warning: this.$tc(
+                "dashboard.progress.warnings.carryover",
+                this.carryoverValue
+              )
+            },
+            {
+              warning: this.$tc(
+                "dashboard.progress.warnings.carryoverLegal",
+                this.maxCarryoverValue
+              )
+            }
+          ];
+          break;
       }
-      return this.warnings;
+      this.dialog = true;
     }
   }
 };
