@@ -350,7 +350,7 @@
   },
   "shifts": {
     "assignContract": "Vertrag zuweisen",
-    "assignContractDialog": "Weise die ausgewählten Schichten einem Vertrag zu.",
+    "assignContractDialog": "Weise die ausgewählte Schicht einem Vertrag zu. | Weise die ausgewählten Schichten einem Vertrag zu.",
     "changeContract": "Zugeordneter Vertrag",
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",

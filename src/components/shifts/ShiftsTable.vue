@@ -44,6 +44,13 @@
             {{ icons.mdiPencil }}
           </v-icon>
         </v-btn>
+        <ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
+          <template #activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
+            </v-btn>
+          </template>
+        </ShiftAssignContractDialog>
 
         <ConfirmationDialog @confirm="destroySingleShift(item)">
           <template #activator="{ on }">
@@ -79,8 +86,15 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ShiftAssignContractDialog from "@/components/ShiftAssignContractDialog";
 
-import { mdiCheck, mdiClose, mdiDelete, mdiPencil } from "@mdi/js";
+import {
+  mdiCheck,
+  mdiClose,
+  mdiDelete,
+  mdiPencil,
+  mdiSwapHorizontal
+} from "@mdi/js";
 
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
 
@@ -91,7 +105,8 @@ import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 export default {
   name: "ShiftsTable",
   components: {
-    ConfirmationDialog
+    ConfirmationDialog,
+    ShiftAssignContractDialog
   },
   props: {
     loading: {
@@ -109,7 +124,7 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   data: () => ({
-    icons: { mdiCheck, mdiClose, mdiDelete, mdiPencil },
+    icons: { mdiCheck, mdiClose, mdiDelete, mdiPencil, mdiSwapHorizontal },
     headers: SHIFT_TABLE_HEADERS,
     colors: SHIFT_TYPE_COLORS,
     selected: []

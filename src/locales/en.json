@@ -350,7 +350,7 @@
   },
   "shifts": {
     "assignContract": "Assign contract",
-    "assignContractDialog": "Choose a contract to assign the selected shifts to.",
+    "assignContractDialog": "Choose a contract to assign the selected shift to. | Choose a contract to assign the selected shifts to. ",
     "changeContract": "Selected contract",
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",

@@ -24,16 +24,13 @@
           </template>
         </ShiftBulkActionsDialogReview>
 
-        <ShiftBulkActionsDialogAssignContract
-          :shifts="shifts"
-          @reset="$emit('refresh')"
-        >
+        <ShiftAssignContractDialog :shifts="shifts" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
           </template>
-        </ShiftBulkActionsDialogAssignContract>
+        </ShiftAssignContractDialog>
 
         <ShiftBulkActionsDialogDelete @destroy="destroyFn">
           <template #activator="{ on }">
@@ -48,7 +45,7 @@
 </template>
 
 <script>
-import ShiftBulkActionsDialogAssignContract from "@/components/ShiftBulkActionsDialogAssignContract";
+import ShiftAssignContractDialog from "@/components/ShiftAssignContractDialog";
 import ShiftBulkActionsDialogDelete from "@/components/ShiftBulkActionsDialogDelete";
 import ShiftBulkActionsDialogReview from "@/components/ShiftBulkActionsDialogReview";
 import {
@@ -62,7 +59,7 @@ import {
 export default {
   name: "ShiftBulkActions",
   components: {
-    ShiftBulkActionsDialogAssignContract,
+    ShiftAssignContractDialog,
     ShiftBulkActionsDialogDelete,
     ShiftBulkActionsDialogReview
   },
