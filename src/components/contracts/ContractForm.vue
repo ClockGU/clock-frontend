@@ -352,8 +352,9 @@ export default {
       // date.
       this.contract = this.initialData;
       const currentStartDate = parseISO(this.initialData.date.end);
-      //TODO: set maxEndDate to 6 months or end of Semester
-      this.maxEndDate = format(addMonths(currentStartDate, 6), "yyyy-MM-dd");
+      // set maxEndDate arbitrarily to 7 months
+      // this should cover most cases but should be limited to semester dates
+      this.maxEndDate = format(addMonths(currentStartDate, 7), "yyyy-MM-dd");
     } else {
       this.contract = this.entity;
       const currentEndDate = parseISO(this.entity.date.end);
