@@ -57,6 +57,7 @@
                       <v-col
                         :key="contract.uuid"
                         cols="12"
+                        xl="4"
                         md="6"
                         justify="start"
                       >
