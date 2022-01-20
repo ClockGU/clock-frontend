@@ -129,12 +129,6 @@ export default {
     colors: SHIFT_TYPE_COLORS,
     selected: []
   }),
-  computed: {
-    reviewable(shift) {
-      console.log(shift.start);
-      return true;
-    }
-  },
   methods: {
     async destroy() {
       const promises = [];
