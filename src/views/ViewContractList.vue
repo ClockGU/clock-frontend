@@ -45,7 +45,7 @@
             </v-col>
           </template>
 
-          <v-expansion-panels v-if="expiredContracts.length > 0" flat>
+          <v-expansion-panels v-if="expiredContracts.length > 0" flat focusable>
             <v-expansion-panel
               ><v-expansion-panel-header class="text-h6 font-weight-regular">
                 {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
