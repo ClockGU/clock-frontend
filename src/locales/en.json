@@ -162,8 +162,10 @@
       },
       "warnings": {
         "title": "Information",
-        "maxCarryoverWarning": "Formally, you cannot carry over more than 50% of your monthly worktime ({n} h) into the next month (§2 MiLoG).",
-        "CarryoverWarning": "Your monthly worktime is exceeded by {n} h."
+        "carryover": "Your monthly worktime is exceeded by {n} h.",
+        "carryoverLegal": "Formally, you cannot carry over more than 50% of your monthly worktime ({n} h) into the next month (§2 MiLoG).",
+        "dailyOvertime": "You worked already {n} h today.",
+        "dailyOvertimeLegal": "Your daily worktime should not exceed 8h (§3 ArbzG)."
       },
       "weeklyText": "You worked {n} h this month.",
       "weeklyBase": "Your weekly due average in this contract is {n} h.",

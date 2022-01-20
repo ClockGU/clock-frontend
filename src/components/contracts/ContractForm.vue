@@ -64,7 +64,7 @@
       <v-col cols="12">
         <v-checkbox
           v-model="carryover"
-          :disabled="shiftsLocked"
+          :disabled="shiftsLocked || startsInFuture"
           :label="$t('contracts.carryover.checkboxLabel')"
           :error-messages="shiftsLocked ? $t('contracts.carryover.locked') : ''"
           :class="shiftsLocked ? 'mb-3' : ''"
@@ -127,6 +127,7 @@ import {
   startOfMonth,
   endOfMonth,
   isAfter,
+  isFuture,
   parseISO
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
@@ -311,6 +312,9 @@ export default {
           })
         );
       return errors;
+    },
+    startsInFuture() {
+      return isFuture(parseISO(this.startDate));
     }
   },
   watch: {
@@ -347,13 +351,16 @@ export default {
       // We are creating a new contract. We do not need to set a maximal end
       // date.
       this.contract = this.initialData;
-      //TODO: set maxEndDate to 6 months or end of Semester
-      this.maxEndDate = null;
+      const currentStartDate = parseISO(this.initialData.date.end);
+      // set maxEndDate arbitrarily to 7 months
+      // this should cover most cases but should be limited to semester dates
+      this.maxEndDate = format(addMonths(currentStartDate, 7), "yyyy-MM-dd");
     } else {
-      // We are updating an existing contract. The latest end date is in six
-      // months.
       this.contract = this.entity;
       const currentEndDate = parseISO(this.entity.date.end);
+      // We are updating an existing contract.
+      // The latest end date is in six months.
+      // This should be solved differently
       this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
       if (this.contract.carryoverTime == "00:00") {
         this.contract.carryoverTime = "";
@@ -365,6 +372,12 @@ export default {
       this.contract.carryoverTime !== ""
         ? true
         : false;
+  },
+  updated() {
+    // edge case: carryover is activated and startDate is set to the future
+    if (this.carryover && this.startsInFuture) {
+      this.carryover = false;
+    }
   }
 };
 </script>
