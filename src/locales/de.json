@@ -76,15 +76,19 @@
     "fromTo": "{start} bis {end}",
     "to": "bis",
     "hoursPerMonth": "Stunden pro Monat",
-    "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit (HH:mm).",
+    "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
+    "activeContracts": "Laufende Verträge",
     "expired": "(Vertrag abgelaufen)",
     "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
+    "archived": "Abgelaufene Verträge",
     "perMonth": "{time} pro Monat",
     "carryover": {
       "checkboxLabel": "Arbeitszeit aus Vormonat übertragen",
       "dateLabel": "Übertrag in diesen Monat",
-      "minutesLabel": "Übertrag als HH:MM"
+      "timeLabel": "Übertrag",
+      "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
+      "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind."
     }
   },
   "dashboard": {
@@ -99,6 +103,9 @@
       "in": "Einclocken",
       "out": "Ausclocken",
       "problems": {
+        "review": "Probleme beheben",
+        "update": "Schicht bearbeiten",
+        "create": "Schicht hinzufügen",
         "actions": {
           "advanced": "Erweiterter Modus",
           "keepBoth": "Erstelle alle neue Schichten",
@@ -125,7 +132,6 @@
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
         "title": "Ungültige Schicht"
       },
-      "review": "Probleme beheben",
       "snacks": {
         "clockedIn": "Du wurdest erfolgreich eingeclockt.",
         "clockOut": "Du wurdest erfolgreich ausgeclockt.",
@@ -144,7 +150,7 @@
     "lastActivity": "Letzte Aktivitäten",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
-      "description": "Es wurde eine Überschneidung von Schichten gefunden. Du musst dieses Problem vor dem Export deines Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
+      "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
       "nProblems": "Probleme gefunden",
       "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."
     },
@@ -154,14 +160,17 @@
         "weekly": "Fortschritt in der aktuellen Woche",
         "daily": "Fortschritt heute"
       },
+      "warnings": {
+        "title": "Hinweis",
+        "maxCarryoverWarning": "Formell dürfen nicht mehr als 50% der monatlichen Arbeitszeit ({n} h) in den nächsten Monat übertragen werden (§2 MiLoG).",
+        "CarryoverWarning": "Deine monatliche Arbeitszeit ist um {n} h überschritten."
+      },
       "weeklyText": "Du hast diese Woche bereits {n} h gearbeitet.",
       "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n} h.",
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
       "minutes": "minutes",
-      "hours": "hours",
-      "maxCarryoverHint": "Hinweis: Formell dürfen nicht mehr als {n} h (50%) in den nächsten Monat übertragen werden.",
-      "overtimeHint": "Hinweis: Die tägliche Arbeitszeit sollte 8h nicht überschreiten."
+      "hours": "hours"
     },
     "showAll": "Alle anzeigen",
     "notYetReviewed": "noch nicht überprüft"
@@ -172,7 +181,7 @@
   },
   "errors": {
     "contractName": "Der Vertragsname",
-    "durationBiggerZero": "Ein {entity} muss eine Laufzeit größer Null haben.",
+    "durationBiggerZero": "{name} darf nicht Null sein.",
     "hours": "Die Stundenangabe",
     "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
@@ -183,7 +192,8 @@
     "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
     "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
     "timeFormat": "Bitte gib ein gültiges Zeitformat ein (HH:MM).",
-    "validEmail": "Diese E-Mail Adresse ist ungültig."
+    "validEmail": "Diese E-Mail Adresse ist ungültig.",
+    "notNegative": "Die Arbeitszeit darf nicht negativ sein"
   },
   "feedback": {
     "fields": {
@@ -219,7 +229,7 @@
   },
   "gdpr": {
     "accepted": "Du hast in die Verarbeitung Deiner Daten mit Clock eingewilligt.",
-    "revokeInfo": "Wenn Du die Einwilligung widerrufen möchtest, dürfen wir Deine Daten nicht mehr verarbeiten. Der Widerruf ist daher nur möglich, indem Du Deinen Account löschst.",
+    "revokeInfo": "Wenn Du die Einwilligung widerrufen möchtest, dürfen wir Deine Daten nicht mehr verarbeiten. Der Widerruf ist daher nur möglich, indem Du Deinen Account und damit all Deine Daten löschst.",
     "download": "Du kannst hier alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON-Datenformat.",
     "suffix": "DSGVO"
   },
@@ -274,15 +284,7 @@
       "text": "Du hast es geschafft!",
       "title": "Abschluss"
     },
-    "personnelNumber": {
-      "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
-      "title": "Optionale Angaben",
-      "hint": "Deine Personalnummer findest du auf deinem Vertrag.",
-      "label": "Personalnummer",
-      "changeTitle": "Personalnummer ändern",
-      "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",
-      "changeConfirmText": "Möchtest Du die Personalnummer wirklich ändern?"
-    },
+
     "underConstruction": {
       "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System schneller zu verbessern. Zögere nicht, uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
       "title": "Im Umbau"
@@ -291,6 +293,15 @@
       "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
     }
+  },
+  "personnelNumber": {
+    "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
+    "title": "Optionale Angaben",
+    "hint": "Deine Personalnummer findest du auf deiner Gehaltsabrechnung.",
+    "label": "Personalnummer",
+    "changeTitle": "Personalnummer ändern",
+    "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",
+    "changeConfirmText": "Möchtest Du die Personalnummer wirklich ändern?"
   },
   "privacyagreement": {
     "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
@@ -339,7 +350,7 @@
   },
   "shifts": {
     "assignContract": "Vertrag zuweisen",
-    "assignContractDialog": "Weise die ausgewählten Schichten einem Vertrag zu.",
+    "assignContractDialog": "Weise die ausgewählte Schicht einem Vertrag zu. | Weise die ausgewählten Schichten einem Vertrag zu.",
     "changeContract": "Zugeordneter Vertrag",
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",

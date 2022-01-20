@@ -1,4 +1,10 @@
-import { differenceInSeconds, parseISO } from "date-fns";
+import {
+  differenceInSeconds,
+  getHours,
+  getMinutes,
+  parseISO,
+  set
+} from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
@@ -65,7 +71,19 @@ export default {
           this.clockedShift.date === undefined
             ? this.clockedShift.started
             : this.clockedShift.date.start;
-        const endDate = new Date();
+
+        // clocking out at exactly 00:00 would generate a zero-length shift
+        // set the shift's end to 23:59:59 on the day the shift was clocked in
+        let clockOutDate = new Date();
+        if (getHours(clockOutDate) == 0 && getMinutes(clockOutDate) == 0) {
+          clockOutDate = set(parseISO(this.clockedShift.date.start), {
+            hours: 23,
+            minutes: 59,
+            seconds: 59
+          });
+        }
+
+        const endDate = clockOutDate;
 
         if (differenceInSeconds(endDate, new Date(startDate)) < 60) {
           await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");

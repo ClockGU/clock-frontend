@@ -57,6 +57,7 @@
             :clocked-shift="clockedShift"
             :destroy="destroy"
             @updateWindow="window += $event"
+            @refresh="$emit('refresh')"
           />
         </v-window-item>
       </v-window>

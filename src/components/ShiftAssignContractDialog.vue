@@ -7,13 +7,12 @@
     <v-card>
       <v-card-title>{{ $t("shifts.assignContract") }}</v-card-title>
       <v-card-text>
-        <span>{{ $t("shifts.assignContractDialog") }}</span>
+        <span>{{ $tc("shifts.assignContractDialog", shifts.length) }}</span>
       </v-card-text>
-
       <v-card-text>
         <v-select
           v-model="contract"
-          :items="contracts"
+          :items="validContracts"
           :prepend-icon="icons.mdiFileDocumentEditOutline"
           :label="$t('shifts.changeContract')"
           item-text="name"
@@ -22,9 +21,14 @@
           filled
         ></v-select>
       </v-card-text>
-
       <v-card-actions>
-        <v-btn color="primary" text :loading="loading" @click="save">
+        <v-btn
+          color="primary"
+          text
+          :loading="loading"
+          :disabled="contract == shifts[0].contract"
+          @click="save"
+        >
           {{ $t("actions.save") }}
         </v-btn>
         <v-btn text @click="dialog = false">{{ $t("actions.cancel") }}</v-btn>
@@ -32,16 +36,17 @@
     </v-card>
   </v-dialog>
 </template>
-
+:
 <script>
 import { mdiFileDocumentEditOutline } from "@mdi/js";
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
+import { parseISO, endOfDay, isPast } from "date-fns";
 
 import { mapGetters } from "vuex";
 
 export default {
-  name: "ShiftBulkActionsDialogAssignContract",
+  name: "ShiftAssignContractDialog",
   props: {
     shifts: {
       type: Array,
@@ -57,12 +62,22 @@ export default {
   computed: {
     ...mapGetters({
       contracts: "contract/contracts"
-    })
+    }),
+    validContracts() {
+      return this.contracts.filter(
+        //ToDo: Fix this
+        (contract) => !this.contractExpired(contract)
+      );
+    }
   },
   created() {
     this.contract = this.shifts[0].contract;
   },
   methods: {
+    contractExpired(contract) {
+      const date = endOfDay(parseISO(contract.date.end));
+      return isPast(date);
+    },
     async save() {
       const promises = [];
       this.loading = true;

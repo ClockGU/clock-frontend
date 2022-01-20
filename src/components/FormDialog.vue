@@ -47,6 +47,7 @@
 
           <v-btn
             text
+            color="primary"
             :disabled="!formValid"
             @click="uuid === null ? save() : update()"
           >

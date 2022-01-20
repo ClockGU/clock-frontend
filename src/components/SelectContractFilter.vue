@@ -57,11 +57,6 @@ export default {
   data: () => ({
     icons: { mdiRecord }
   }),
-  computed: {
-    xyz() {
-      return "hugo";
-    }
-  },
   methods: {
     changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;

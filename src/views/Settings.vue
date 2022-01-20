@@ -33,7 +33,7 @@
 
         <v-tab>
           <v-icon left>{{ icons.mdiBadgeAccountHorizontal }}</v-icon>
-          {{ $t("onboarding.personnelNumber.label") }}
+          {{ $t("personnelNumber.label") }}
         </v-tab>
 
         <v-tab>

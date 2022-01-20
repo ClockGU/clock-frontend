@@ -17,14 +17,20 @@
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
         <v-toolbar-title>
-          {{ uuid !== null ? "Update shift" : "Create shift" }}
+          {{
+            uuid !== null
+              ? $t("dashboard.clock.problems.update")
+              : $t("dashboard.clock.problems.create")
+          }}
         </v-toolbar-title>
         <v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
         <v-toolbar-items v-if="$vuetify.breakpoint.smAndDown">
           <v-btn v-if="uuid !== null" icon @click="confirmDialog = true">
             <v-icon>{{ icons.mdiDelete }}</v-icon>
           </v-btn>
-          <v-btn text @click="save"> Save </v-btn>
+          <v-btn text color="primary" @click="save">{{
+            $t("actions.save")
+          }}</v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
@@ -47,10 +53,10 @@
           color="primary"
           @click="save"
         >
-          Save
+          {{ $t("actions.save") }}
         </v-btn>
         <v-btn data-cy="shift-cancel" text @click="closeMainDialog">
-          Cancel
+          {{ $t("actions.cancel") }}
         </v-btn>
       </v-card-actions>
     </v-card>

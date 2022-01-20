@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-alert v-if="staging" type="warning" dark>Staging</v-alert>
+    <v-alert v-if="staging" type="warning" dark>{{ infostring }}</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
@@ -32,6 +32,11 @@ export default {
     },
     staging() {
       return process.env.VUE_APP_ENV === "staging";
+    },
+    infostring() {
+      return process.env.VUE_APP_LOCAL === "true"
+        ? "Staging (local)"
+        : "Staging (server)";
     }
   }
 };

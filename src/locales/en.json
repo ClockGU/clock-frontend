@@ -76,15 +76,19 @@
     "fromTo": "{start} until {end}",
     "to": "to",
     "hoursPerMonth": "Hours per month",
-    "hoursPerMonthSubtitle": "Your monthly worktime (HH:mm).",
+    "hoursPerMonthSubtitle": "Your monthly worktime in HH:mm or HH,hh",
     "name": "Name your contract",
+    "activeContracts": "Active Contracts",
     "expired": "(Contract expired)",
     "expiredVerbose": "This contract has expired. You can still edit shifts and export reports.",
+    "archived": "Expired contracts",
     "perMonth": "{time} per month",
     "carryover": {
       "checkboxLabel": "Carryover work time from previous month",
       "dateLabel": "Carryover into this month",
-      "minutesLabel": "Carryover as HH:MM"
+      "timeLabel": "Carryover",
+      "timeSubtitle": "Worktime to be carried over (HH:mm)",
+      "locked": "There are locked months. Carryover cannot be modified."
     }
   },
   "dashboard": {
@@ -95,10 +99,13 @@
     },
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
-      "contractExpired": "The selected contract has expired - you can not clock any new shifts.",
+      "contractExpired": "The selected contract has expired - you cannot clock any new shifts.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {
+        "review": "Review problems",
+        "update": "Update Shift",
+        "create": "Create Shift",
         "actions": {
           "advanced": "Advanced mode",
           "keepBoth": "Create new shifts",
@@ -125,7 +132,6 @@
         "text": "A shift must end on the same day it started. Therefore, we will need to split your shift. Make a decision on what to do.",
         "title": "Invalid shift"
       },
-      "review": "Review problems",
       "snacks": {
         "clockedIn": "Clocked in a new shift.",
         "clockOut": "Clocked out successfully.",
@@ -144,7 +150,7 @@
     "lastActivity": "Last activity",
     "newShift": { "title": "New shift" },
     "overlaps": {
-      "description": "We found one instance of overlapping shifts. | We found {n} instances of overlapping shifts.",
+      "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your time sheet.",
       "nProblems": "Problems found",
       "noProblems": "There are no problems with your shifts."
     },
@@ -154,14 +160,17 @@
         "weekly": "Weekly progress",
         "daily": "Daily progress"
       },
+      "warnings": {
+        "title": "Information",
+        "maxCarryoverWarning": "Formally, you cannot carry over more than 50% of your monthly worktime ({n} h) into the next month (§2 MiLoG).",
+        "CarryoverWarning": "Your monthly worktime is exceeded by {n} h."
+      },
       "weeklyText": "You worked {n} h this month.",
       "weeklyBase": "Your weekly due average in this contract is {n} h.",
       "dailyText1": "You worked",
       "dailyText2": "today.",
       "minutes": "minutes",
-      "hours": "hours",
-      "maxCarryoverHint": "Note: Formally, you can not carry over more than {n} h (50%)",
-      "overtimeHint": "Note: Your daily worktime should not exceed 8h."
+      "hours": "hours"
     },
     "showAll": "Show all",
     "notYetReviewed": "not yet reviewed"
@@ -172,7 +181,7 @@
   },
   "errors": {
     "contractName": "Contract name",
-    "durationBiggerZero": "A {entity} must have a duration.",
+    "durationBiggerZero": "{name} must not be zero.",
     "hours": "The hours",
     "maxLength": "{name} cannot be longer than {length} characters!",
     "minLength": "{name} must be at least {length} characters long!",
@@ -183,7 +192,8 @@
     "shiftDateStartBeforeEnd": "A shift must start before it ends.",
     "shiftDateStartRequired": "You must specify a start time.",
     "timeFormat": "Please enter a valid format (HH:MM).",
-    "validEmail": "Must be valid email."
+    "validEmail": "Must be valid email.",
+    "notNegative": "Your worktime must not be negative."
   },
   "feedback": {
     "fields": {
@@ -219,7 +229,7 @@
   },
   "gdpr": {
     "accepted": "You agreed with our privacy policy.",
-    "revokeInfo": "If you wish to revoke this agreement, you can delete your account since we can not process your data withour your consent.",
+    "revokeInfo": "If you wish to revoke this agreement, you can delete your account (and thus all your data) since we cannot process your data withour your consent.",
     "download": "You can request and download all information saved by us. The download is provided in JSON.",
     "suffix": "GDPR"
   },
@@ -274,15 +284,7 @@
       "text": "You completed the onboarding!",
       "title": "Finished"
     },
-    "personnelNumber": {
-      "text": "You can fill in the below data at a point later in time in your user settings.",
-      "title": "Optional",
-      "hint": "You can find your personnel number on your contract.",
-      "label": "Personnel number",
-      "changeTitle": "Change personnel number",
-      "changeInfo": "Your personnel number should is independent of your contract(s) and should not change.",
-      "changeConfirmText": "Are you sure you want to change it? "
-    },
+
     "underConstruction": {
       "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to contact us.",
       "title": "Under construction"
@@ -291,6 +293,15 @@
       "text": "You are new here, huh? We need to get a few things done, before you can start using Clock. We will guide you through the process!",
       "title": "@:app.onboarding"
     }
+  },
+  "personnelNumber": {
+    "text": "You can fill in the below data at a point later in time in your user settings.",
+    "title": "Optional",
+    "hint": "You can find your personnel number on your salary printout.",
+    "label": "Personnel number",
+    "changeTitle": "Change personnel number",
+    "changeInfo": "Your personnel number should is independent of your contract(s) and should not change.",
+    "changeConfirmText": "Are you sure you want to change it? "
   },
   "privacyagreement": {
     "text": "You have to accept the {privacyAgreement} before using Clock.",
@@ -319,7 +330,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
-      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month can not be undone."
+      "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
     }
   },
   "selectContract": {
@@ -339,7 +350,7 @@
   },
   "shifts": {
     "assignContract": "Assign contract",
-    "assignContractDialog": "Choose a contract to assign the selected shifts to.",
+    "assignContractDialog": "Choose a contract to assign the selected shift to. | Choose a contract to assign the selected shifts to. ",
     "changeContract": "Selected contract",
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",
@@ -378,7 +389,7 @@
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
     "reviewErrorPast": "A past shift must be reviewed before saving.",
-    "reviewErrorFuture": "A future shift can not be saved as \"reviewed\".",
+    "reviewErrorFuture": "A future shift cannot be saved as \"reviewed\".",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"
@@ -391,7 +402,7 @@
       "vn": "Vacation",
       "bh": "Bank holiday"
     },
-    "wasExportedAlert": "The report for this shift was already exported. This shift can not be edited anymore.",
+    "wasExportedAlert": "The report for this shift was already exported. This shift cannot be edited anymore.",
     "table": {
       "reviewedTitle": "Past shifts",
       "reviewedHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",

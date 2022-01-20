@@ -6,9 +6,9 @@ function mapApiResponse(response) {
     user: response.user,
     name: response.name,
     date: { start: response.start_date, end: response.end_date },
-    minutes: response.minutes,
+    worktime: response.minutes,
     carryoverTargetDate: response.carryover_target_date,
-    carryoverMinutes: response.initial_carryover_minutes,
+    carryoverTime: response.initial_carryover_minutes,
     created_at: new Date(response.created_at),
     modified_at: new Date(response.modified_at)
   };

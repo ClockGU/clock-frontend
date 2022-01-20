@@ -107,7 +107,7 @@ export default {
   }),
   computed: {
     debit() {
-      return this.selectedContract.minutes;
+      return this.selectedContract.worktime;
     },
     totalDuration() {
       return this.shifts.reduce((acc, current) => acc + current.duration, 0);

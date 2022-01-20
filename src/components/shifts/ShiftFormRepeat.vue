@@ -143,6 +143,7 @@ export default {
           const endDate = new Date(this.shift.date.end);
           endDate.setDate(startDate.getDate());
           endDate.setMonth(startDate.getMonth());
+          endDate.setYear(startDate.getFullYear());
 
           return new Shift({
             ...this.shift,
@@ -245,7 +246,6 @@ export default {
         dtstart: this.shift.date.start,
         until: parseISO(this.repeatUntilDate)
       });
-
       return rule.all();
     }
   },
