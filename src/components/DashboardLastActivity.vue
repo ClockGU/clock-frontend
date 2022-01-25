@@ -54,7 +54,8 @@ export default {
         )
         .sort((a, b) => {
           return new Date(b.date.end) - new Date(a.date.end);
-        }); //        .slice(0, 5);
+        })
+        .slice(0, 5);
     },
     selectedContract() {
       const uuid = this.$route.params.contract;
