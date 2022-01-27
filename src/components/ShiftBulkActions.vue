@@ -32,7 +32,10 @@
           </template>
         </ShiftAssignContractDialog>
 
-        <ShiftBulkActionsDialogDelete @destroy="destroyFn">
+        <ShiftBulkActionsDialogDelete
+          :count="shifts.length"
+          @destroy="destroyFn"
+        >
           <template #activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
