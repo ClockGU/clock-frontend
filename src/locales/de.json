@@ -79,6 +79,7 @@
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
     "activeContracts": "Laufende Verträge",
+    "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
     "expired": "(Vertrag abgelaufen)",
     "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "archived": "Abgelaufene Verträge",
@@ -392,6 +393,7 @@
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
     "reviewErrorPast": "Eine vergangene Schicht kann nur gespeichert werden, wenn sie überprüft wurde.",
     "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als \"überprüft\" gespeichert werden.",
+    "reviewErrorLive": "Eine laufende Schicht kann nicht überprüft werden bevor sie beendet ist.",
     "tags": {
       "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
       "label": "Füge Tags hinzu"
@@ -404,6 +406,7 @@
       "vn": "Urlaub",
       "bh": "Feiertag"
     },
+    "running": "laufende",
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
       "reviewedTitle": "Vergangene Schichten",

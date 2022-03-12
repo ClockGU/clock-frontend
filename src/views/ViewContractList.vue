@@ -12,9 +12,7 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template #title>
-      {{ $t("contracts.activeContracts") }} ({{ activeContracts.length }})
-    </template>
+    <template #title> {{ activeContractsTitle }} </template>
     <template #content>
       <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
         <v-col v-if="loading && !ignoreLoading" cols="12" md="6">
@@ -152,6 +150,11 @@ export default {
       return this.contracts.filter((contract) =>
         this.contractExpired(contract)
       );
+    },
+    activeContractsTitle() {
+      return this.activeContracts.length > 0
+        ? this.$t("contracts.activeContracts")
+        : this.$t("contracts.noActiveContracts");
     }
   },
   watch: {
