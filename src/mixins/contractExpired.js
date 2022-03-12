@@ -9,7 +9,7 @@ export default {
   methods: {
     specificContractExpired(contract) {
       const date = endOfDay(parseISO(contract.date.end));
-      return isPast(date);
+      return isPast(date) && contract.uuid !== null;
     }
   }
 };

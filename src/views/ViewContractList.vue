@@ -12,7 +12,7 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template #title> {{ activeContractsTitle }} </template>
+    <template #title>{{ activeContractsTitle }}</template>
     <template #content>
       <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
         <v-col v-if="loading && !ignoreLoading" cols="12" md="6">

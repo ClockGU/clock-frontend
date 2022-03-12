@@ -72,6 +72,7 @@
   },
   "contracts": {
     "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben. Das Startdatum muss vor der ersten und das Enddatum nach der letzten Schicht liegen.",
+    "expiredVerbose": "Dieser Vertrag ist abgelaufen und kann nicht mehr geändert werden. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "empty": "Erstelle deinen ersten Vertrag!",
     "fromTo": "{start} bis {end}",
     "to": "bis",
@@ -81,7 +82,6 @@
     "activeContracts": "Laufende Verträge",
     "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
     "expired": "(Vertrag abgelaufen)",
-    "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "archived": "Abgelaufene Verträge",
     "perMonth": "{time} pro Monat",
     "carryover": {
