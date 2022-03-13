@@ -70,7 +70,7 @@
 <script>
 import DataFilter from "@/components/DataFilter";
 import MonthSwitcher from "@/components/MonthSwitcher";
-import DashboardConflicts from "@/components/DashboardConflicts";
+import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ReportCard from "@/components/ReportCard";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";

@@ -149,7 +149,7 @@ import DataFilter from "@/components/DataFilter";
 import FormDialog from "@/components/FormDialog";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
-import ShiftBulkActions from "@/components/ShiftBulkActions";
+import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
 import ShiftsTable from "@/components/shifts/ShiftsTable";
 
 import { mapGetters } from "vuex";

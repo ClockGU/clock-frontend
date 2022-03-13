@@ -145,17 +145,18 @@
 
 <script>
 import { minutesToHHMM } from "@/utils/time";
-import ShiftWarnings from "@/components/ShiftWarnings";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings";
 import {
   mdiRecord,
   mdiCircleMedium,
   mdiChevronLeft,
   mdiChevronRight,
-  mdiInformation
+  mdiInformation,
+  mdiAlert
 } from "@mdi/js";
 
 export default {
-  name: "Progress",
+  name: "DashboardProgress",
   components: { ShiftWarnings },
   props: {
     azkData: {
@@ -181,7 +182,8 @@ export default {
       mdiChevronRight,
       mdiRecord,
       mdiCircleMedium,
-      mdiInformation
+      mdiInformation,
+      mdiAlert
     }
   }),
   computed: {
@@ -223,7 +225,7 @@ export default {
       return this.dailyData > 480;
     },
     colorDaily() {
-      return this.dailyData < 480 ? "" : "red--text";
+      return this.dailyData > 480 ? "red--text" : "";
     },
     carryover() {
       return this.monthlyProgress > 100 && this.monthlyProgress < 150;

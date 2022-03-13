@@ -92,7 +92,7 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import ShiftAssignContractDialog from "@/components/ShiftAssignContractDialog";
+import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
 
 import { isWithinInterval } from "date-fns";
 
@@ -147,7 +147,6 @@ export default {
   }),
   methods: {
     isRunningShift(shift) {
-      console.log(shift);
       return isWithinInterval(new Date(), {
         start: shift.date.start,
         end: shift.date.end
