@@ -28,6 +28,16 @@
       </v-card>
     </v-overlay>
 
+    <v-alert
+      v-if="isRunningShift"
+      dense
+      outlined
+      type="error"
+      :icon="icons.mdiCircleMedium"
+    >
+      {{ $t("shifts.running") }} {{ $tc("models.shift", 1) }}
+    </v-alert>
+
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ShiftFormDateInput
@@ -111,7 +121,7 @@
         <v-checkbox
           v-model="shift.reviewed"
           :error-messages="reviewMessage()"
-          :disabled="showRepeat || startsInFuture"
+          :disabled="showRepeat || startsInFuture || isRunningShift"
           :indeterminate="showRepeat"
           :success="shift.reviewed && toBeReviewed"
           :prepend-icon="icons.mdiProgressCheck"
@@ -135,14 +145,22 @@ import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
-import { isAfter, isBefore, isFuture, isSameDay, isEqual } from "date-fns";
+import {
+  isAfter,
+  isBefore,
+  isFuture,
+  isSameDay,
+  isEqual,
+  isWithinInterval
+} from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
 
 import {
   mdiFileDocumentEditOutline,
   mdiProgressCheck,
-  mdiRepeat
+  mdiRepeat,
+  mdiCircleMedium
 } from "@mdi/js";
 
 export default {
@@ -178,7 +196,12 @@ export default {
     }
   },
   data: () => ({
-    icons: { mdiFileDocumentEditOutline, mdiProgressCheck, mdiRepeat },
+    icons: {
+      mdiFileDocumentEditOutline,
+      mdiProgressCheck,
+      mdiRepeat,
+      mdiCircleMedium
+    },
     dialog: false,
     select: null,
     shift: null,
@@ -193,6 +216,12 @@ export default {
     }),
     isNewShift() {
       return this.uuid === null;
+    },
+    isRunningShift() {
+      return isWithinInterval(new Date(), {
+        start: this.shift.date.start,
+        end: this.shift.date.end
+      });
     },
     contractEndDate() {
       return this.contract.date.end;
@@ -297,7 +326,9 @@ export default {
       });
     },
     reviewMessage() {
-      if (!this.shift.reviewed && !this.showRepeat) {
+      if (this.isRunningShift && this.startsInFuture) {
+        return this.$t("shifts.reviewErrorLive");
+      } else if (!this.shift.reviewed && !this.showRepeat) {
         return !this.startsInFuture
           ? this.$t("shifts.reviewErrorPast")
           : this.$t("shifts.reviewErrorFuture");
