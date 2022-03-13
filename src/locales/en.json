@@ -409,10 +409,10 @@
     "running": "running",
     "wasExportedAlert": "The report for this shift was already exported. This shift cannot be edited anymore.",
     "table": {
-      "reviewedTitle": "Past shifts",
-      "reviewedHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
-      "plannedTitle": "Scheduled shifts",
-      "plannedHint": "All shifts scheduled for the future."
+      "pastShiftsTitle": "Past shifts",
+      "pastShiftsHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
+      "futureShiftsTitle": "Scheduled shifts",
+      "futureShiftsHint": "All shifts scheduled for the future."
     }
   },
   "snackbar": {

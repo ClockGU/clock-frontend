@@ -409,10 +409,10 @@
     "running": "laufende",
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
-      "reviewedTitle": "Vergangene Schichten",
-      "reviewedHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
-      "plannedTitle": "Geplante Schichten",
-      "plannedHint": "Alle in der Zukunft liegenden Schichten."
+      "pastShiftsTitle": "Vergangene Schichten",
+      "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
+      "futureShiftsTitle": "Geplante Schichten",
+      "futureShiftsHint": "Alle in der Zukunft liegenden Schichten."
     }
   },
   "snackbar": {
