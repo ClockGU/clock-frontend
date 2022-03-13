@@ -26,8 +26,9 @@
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
           v-if="!item.reviewed"
-          elevation="3"
+          :elevation="!isRunningShift(item.shift) ? 3 : 0"
           icon
+          :disabled="isRunningShift(item.shift)"
           @click="reviewSingleShift(item.shift)"
         >
           <v-icon color="red">
