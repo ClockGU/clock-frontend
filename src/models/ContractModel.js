@@ -36,7 +36,7 @@ export class Contract {
     this.carryoverTargetDate =
       is(Date, new Date(carryoverTargetDate)) && carryoverTargetDate !== null
         ? carryoverTargetDate
-        : startOfMonth(defaultContractDate({ type: "start" }));
+        : startOfMonth(this.date.start);
     this.carryoverTime = is(Number, carryoverTime)
       ? this.minutesToTimestring(carryoverTime)
       : "";

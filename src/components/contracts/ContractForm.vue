@@ -8,7 +8,7 @@
       {{ $t("contracts.disableDateChangeInfo") }}
     </v-alert>
     <v-alert
-      v-if="specificContractExpired(contract)"
+      v-if="contract.uuid !== null && specificContractExpired(contract)"
       data-cy="alert-step-one"
       type="warning"
     >
@@ -18,9 +18,10 @@
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="startDate"
-          :max="firstShiftOfContract"
+          :max="maxStartDate"
           :contract="contract"
           type="start"
+          :disabled="specificContractExpired(contract)"
         />
       </v-col>
 
@@ -31,10 +32,11 @@
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="endDate"
-          :min="lastShiftOfContract"
+          :min="minEndDate"
           :max="maxEndDate"
           :contract="contract"
           type="end"
+          :disabled="specificContractExpired(contract)"
         />
       </v-col>
 
@@ -44,6 +46,7 @@
           :prepend-icon="icons.mdiTimetable"
           :label="$t('contracts.hoursPerMonth')"
           :hint="$t('contracts.hoursPerMonthSubtitle')"
+          :disabled="specificContractExpired(contract)"
         />
       </v-col>
 
@@ -57,6 +60,7 @@
           filled
           counter="100"
           required
+          :disabled="specificContractExpired(contract)"
           @blur="$v.contract.name.$touch()"
         />
       </v-col>
@@ -64,7 +68,9 @@
       <v-col cols="12">
         <v-checkbox
           v-model="carryover"
-          :disabled="shiftsLocked || startsInFuture"
+          :disabled="
+            shiftsLocked || startsInFuture || specificContractExpired(contract)
+          "
           :label="$t('contracts.carryover.checkboxLabel')"
           :error-messages="shiftsLocked ? $t('contracts.carryover.locked') : ''"
           :class="shiftsLocked ? 'mb-3' : ''"
@@ -132,7 +138,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validationMixin } from "vuelidate";
-import contractExpiredMixin from "@/mixins/contractExpired";
+import contractValidMixin from "@/mixins/contractValid";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
   mdiCalendar,
@@ -151,7 +157,7 @@ export default {
     }
   },
   components: { ContractFormDateInput, ContractFormTimeInput },
-  mixins: [contractExpiredMixin, validationMixin],
+  mixins: [contractValidMixin, validationMixin],
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) }
@@ -225,7 +231,11 @@ export default {
       return format(new Date(this.sortedShifts[0].date.start), "yyyy-MM-dd");
     },
     valid() {
-      if (this.nameErrors.length > 0 || this.contract.name === null) {
+      if (
+        this.nameErrors.length > 0 ||
+        this.contract.name === null ||
+        this.specificContractExpired(this.contract)
+      ) {
         return false;
       }
 
@@ -304,7 +314,6 @@ export default {
             length: 100
           })
         );
-
       !this.$v.contract.name.required &&
         errors.push(
           this.$tc("errors.nameRequired", 1, {
@@ -348,11 +357,14 @@ export default {
   },
   created() {
     if (this.uuid === null) {
-      // We are creating a new contract. We do not need to set a maximal end
-      // date.
+      // We are creating a new contract.
       this.contract = this.initialData;
       const currentStartDate = parseISO(this.initialData.date.end);
-      // set maxEndDate arbitrarily to 7 months
+      // the maximal start date can be anytime
+      this.maxStartDate = undefined;
+      // set today as minimal end date (a new contract can not end in the past)
+      this.minEndDate = format(new Date(), "yyyy-MM-dd");
+      // set maximal end date arbitrarily to 7 months
       // this should cover most cases but should be limited to semester dates
       this.maxEndDate = format(addMonths(currentStartDate, 7), "yyyy-MM-dd");
     } else {
@@ -361,6 +373,8 @@ export default {
       // We are updating an existing contract.
       // The latest end date is in six months.
       // This should be solved differently
+      this.maxStartDate = this.firstShiftOfContract;
+      this.minEndDate = this.lastShiftOfContract;
       this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
       if (this.contract.carryoverTime == "00:00") {
         this.contract.carryoverTime = "";

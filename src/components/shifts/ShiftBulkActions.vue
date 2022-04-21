@@ -32,7 +32,10 @@
           </template>
         </ShiftAssignContractDialog>
 
-        <ShiftBulkActionsDialogDelete @destroy="destroyFn">
+        <ShiftBulkActionsDialogDelete
+          :count="shifts.length"
+          @destroy="destroyFn"
+        >
           <template #activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
@@ -45,9 +48,9 @@
 </template>
 
 <script>
-import ShiftAssignContractDialog from "@/components/ShiftAssignContractDialog";
-import ShiftBulkActionsDialogDelete from "@/components/ShiftBulkActionsDialogDelete";
-import ShiftBulkActionsDialogReview from "@/components/ShiftBulkActionsDialogReview";
+import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
+import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete";
+import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview";
 import {
   mdiCheck,
   mdiCheckAll,

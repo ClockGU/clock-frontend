@@ -13,7 +13,12 @@
       <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
         <v-chip outlined small :color="colors[item.shift.type.value]">
-          {{ item.type }}
+          <v-icon v-if="isRunningShift(item.shift)" left dense color="red">{{
+            icons.mdiCircleMedium
+          }}</v-icon>
+          {{
+            liveString(item.shift) + $t(`shifts.types.${item.shift.type.value}`)
+          }}
         </v-chip>
       </template>
 
@@ -21,8 +26,9 @@
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
           v-if="!item.reviewed"
-          elevation="3"
+          :elevation="!isRunningShift(item.shift) ? 3 : 0"
           icon
+          :disabled="isRunningShift(item.shift)"
           @click="reviewSingleShift(item.shift)"
         >
           <v-icon color="red">
@@ -86,14 +92,17 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import ShiftAssignContractDialog from "@/components/ShiftAssignContractDialog";
+import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
+
+import { isWithinInterval } from "date-fns";
 
 import {
   mdiCheck,
   mdiClose,
   mdiDelete,
   mdiPencil,
-  mdiSwapHorizontal
+  mdiSwapHorizontal,
+  mdiCircleMedium
 } from "@mdi/js";
 
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
@@ -124,12 +133,30 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   data: () => ({
-    icons: { mdiCheck, mdiClose, mdiDelete, mdiPencil, mdiSwapHorizontal },
+    icons: {
+      mdiCheck,
+      mdiClose,
+      mdiDelete,
+      mdiPencil,
+      mdiSwapHorizontal,
+      mdiCircleMedium
+    },
     headers: SHIFT_TABLE_HEADERS,
     colors: SHIFT_TYPE_COLORS,
     selected: []
   }),
   methods: {
+    isRunningShift(shift) {
+      return isWithinInterval(new Date(), {
+        start: shift.date.start,
+        end: shift.date.end
+      });
+    },
+    liveString(shift) {
+      return this.isRunningShift(shift) && shift.type.value === "st"
+        ? this.$t("shifts.running") + " "
+        : "";
+    },
     async destroy() {
       const promises = [];
       try {

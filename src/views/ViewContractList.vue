@@ -12,12 +12,10 @@
       ></v-app-bar-nav-icon>
     </template>
 
-    <template #title>
-      {{ $t("contracts.activeContracts") }} ({{ activeContracts.length }})
-    </template>
+    <template #title>{{ activeContractsTitle }}</template>
     <template #content>
       <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
-        <v-col v-if="loading && !ignoreLoading" cols="10" md="6">
+        <v-col v-if="loading && !ignoreLoading" cols="12" md="6">
           <v-skeleton-loader
             v-if="loading"
             data-cy="skeleton"
@@ -34,7 +32,7 @@
             </v-btn>
           </v-col>
           <template v-for="(contract, i) in activeContracts">
-            <v-col :key="contract.uuid" cols="12" xl="4" md="6" justify="start">
+            <v-col :key="contract.uuid" cols="12" xl="4" md="6">
               <ContractListCard
                 :key="contract.uuid"
                 :data-cy="'contract-' + i"
@@ -45,18 +43,19 @@
             </v-col>
           </template>
 
-          <v-expansion-panels v-if="expiredContracts.length > 0" flat>
-            <v-expansion-panel
-              ><v-expansion-panel-header class="text-h6 font-weight-regular">
+          <v-expansion-panels v-if="expiredContracts.length > 0" flat focusable>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="text-h6 font-weight-regular">
                 {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
               </v-expansion-panel-header>
-              <v-expansion-panel-content
-                ><v-row>
+              <v-expansion-panel-content>
+                <v-row>
                   <template v-if="!loading || ignoreLoading">
                     <template v-for="(contract, i) in expiredContracts">
                       <v-col
                         :key="contract.uuid"
                         cols="12"
+                        xl="4"
                         md="6"
                         justify="start"
                       >
@@ -151,6 +150,11 @@ export default {
       return this.contracts.filter((contract) =>
         this.contractExpired(contract)
       );
+    },
+    activeContractsTitle() {
+      return this.activeContracts.length > 0
+        ? this.$t("contracts.activeContracts")
+        : this.$t("contracts.noActiveContracts");
     }
   },
   watch: {

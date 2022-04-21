@@ -31,7 +31,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="3">
-            <Progress
+            <DashboardProgress
               :azk-data="azkData"
               :weekly-data="weeklyData"
               :daily-data="dailyData"
@@ -58,14 +58,14 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 
-import ClockInOutCard from "@/components/ClockInOutCard";
-import DashboardShiftButton from "@/components/DashboardShiftButton";
-import DashboardMessageList from "@/components/DashboardMessageList";
-import Progress from "@/components/Progress";
 import SelectContractFilter from "@/components/SelectContractFilter";
-import DashboardConflicts from "@/components/DashboardConflicts";
-import DashboardLastActivity from "@/components/DashboardLastActivity";
-import DashboardWelcome from "@/components/DashboardWelcome";
+import ClockInOutCard from "@/components/ClockInOutCard";
+import DashboardShiftButton from "@/components/dashboard/DashboardShiftButton";
+import DashboardMessageList from "@/components/dashboard/DashboardMessageList";
+import DashboardProgress from "@/components/dashboard/DashboardProgress";
+import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
+import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity";
+import DashboardWelcome from "@/components/dashboard/DashboardWelcome";
 import DataFilter from "@/components/DataFilter";
 import {
   isSameDay,
@@ -90,7 +90,7 @@ export default {
     DashboardShiftButton,
     DataFilter,
     DashboardMessageList,
-    Progress,
+    DashboardProgress,
     SelectContractFilter,
     DashboardConflicts,
     DashboardLastActivity,

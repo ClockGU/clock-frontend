@@ -1,6 +1,8 @@
 import { Contract } from "@/models/ContractModel";
 import { addDays } from "date-fns";
 
+const timekeeper = require("timekeeper");
+
 describe("Contracts.js", () => {
   const date = {
     start: new Date(Date.UTC(2021, 0, 1)),
@@ -8,6 +10,7 @@ describe("Contracts.js", () => {
   };
 
   it("creates a new Contract instance with date arguments", () => {
+    timekeeper.travel(date.start);
     const obj = new Contract({ date: date });
     console.log(obj.carryoverTargetDate);
     expect(obj).toEqual({
@@ -17,8 +20,9 @@ describe("Contracts.js", () => {
       worktime: "",
       date: date,
       carryoverTime: "",
-      carryoverTargetDate: new Date(2021, 8, 31, 0)
+      carryoverTargetDate: new Date(2021, 0, 1, 0)
     });
+    timekeeper.reset();
   });
 
   it("creates a new Contract instance with all arguments", () => {

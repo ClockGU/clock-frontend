@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="500">
+  <v-dialog v-model="dialog" width="500" transition="dialog-bottom-transition">
     <template #activator="{ on, attrs }">
       <slot name="activator" :on="on" :attrs="attrs"></slot>
     </template>
@@ -41,12 +41,13 @@
 import { mdiFileDocumentEditOutline } from "@mdi/js";
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
-import { parseISO, endOfDay, isPast } from "date-fns";
+import contractValidMixin from "@/mixins/contractValid";
 
 import { mapGetters } from "vuex";
 
 export default {
   name: "ShiftAssignContractDialog",
+  mixins: [contractValidMixin],
   props: {
     shifts: {
       type: Array,
@@ -65,8 +66,8 @@ export default {
     }),
     validContracts() {
       return this.contracts.filter(
-        //ToDo: Fix this
-        (contract) => !this.contractExpired(contract)
+        // TODO: check for shift date or date range (bulk assign)
+        (contract) => !this.specificContractExpired(contract)
       );
     }
   },
@@ -74,10 +75,6 @@ export default {
     this.contract = this.shifts[0].contract;
   },
   methods: {
-    contractExpired(contract) {
-      const date = endOfDay(parseISO(contract.date.end));
-      return isPast(date);
-    },
     async save() {
       const promises = [];
       this.loading = true;

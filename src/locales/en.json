@@ -72,6 +72,7 @@
   },
   "contracts": {
     "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
+    "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export time sheets.",
     "empty": "Create your first contract!",
     "fromTo": "{start} until {end}",
     "to": "to",
@@ -79,8 +80,9 @@
     "hoursPerMonthSubtitle": "Your monthly worktime in HH:mm or HH,hh",
     "name": "Name your contract",
     "activeContracts": "Active Contracts",
-    "expired": "(Contract expired)",
-    "expiredVerbose": "This contract has expired. You can still edit shifts and export reports.",
+    "noActiveContracts": "There are presently no active contracts",
+    "expired": "(contract expired)",
+    "inFuture": "(future contract)",
     "archived": "Expired contracts",
     "perMonth": "{time} per month",
     "carryover": {
@@ -100,6 +102,7 @@
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
       "contractExpired": "The selected contract has expired - you cannot clock any new shifts.",
+      "contractInFuture": "The selected contract starts in the futur - you cannot clock any shifts yet.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {
@@ -392,6 +395,7 @@
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
     "reviewErrorPast": "A past shift must be reviewed before saving.",
     "reviewErrorFuture": "A future shift cannot be saved as \"reviewed\".",
+    "reviewErrorLive": "A running shift can not be reviewed before its end.",
     "tags": {
       "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
       "label": "Add tags"
@@ -404,12 +408,13 @@
       "vn": "Vacation",
       "bh": "Bank holiday"
     },
+    "running": "running",
     "wasExportedAlert": "The report for this shift was already exported. This shift cannot be edited anymore.",
     "table": {
-      "reviewedTitle": "Past shifts",
-      "reviewedHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
-      "plannedTitle": "Scheduled shifts",
-      "plannedHint": "All shifts scheduled for the future."
+      "pastShiftsTitle": "Past shifts",
+      "pastShiftsHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
+      "futureShiftsTitle": "Scheduled shifts",
+      "futureShiftsHint": "All shifts scheduled for the future."
     }
   },
   "snackbar": {

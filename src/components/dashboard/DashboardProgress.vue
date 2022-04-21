@@ -9,10 +9,12 @@
             <v-btn
               v-if="maxCarryoverExceeded || carryover"
               icon
-              color="warning"
+              :color="maxCarryoverExceeded ? 'error' : 'warning'"
               @click="showWarning('carryover')"
             >
-              <v-icon>{{ icons.mdiInformation }}</v-icon>
+              <v-icon>{{
+                maxCarryoverExceeded ? icons.mdiAlert : icons.mdiInformation
+              }}</v-icon>
             </v-btn>
           </v-card-title>
 
@@ -95,10 +97,10 @@
             <v-btn
               v-if="dailyOvertime"
               icon
-              color="warning"
+              color="error"
               @click="showWarning('daily')"
             >
-              <v-icon>{{ icons.mdiInformation }}</v-icon>
+              <v-icon>{{ icons.mdiAlert }}</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text class="text-center">
@@ -145,17 +147,18 @@
 
 <script>
 import { minutesToHHMM } from "@/utils/time";
-import ShiftWarnings from "@/components/ShiftWarnings";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings";
 import {
   mdiRecord,
   mdiCircleMedium,
   mdiChevronLeft,
   mdiChevronRight,
-  mdiInformation
+  mdiInformation,
+  mdiAlert
 } from "@mdi/js";
 
 export default {
-  name: "Progress",
+  name: "DashboardProgress",
   components: { ShiftWarnings },
   props: {
     azkData: {
@@ -181,7 +184,8 @@ export default {
       mdiChevronRight,
       mdiRecord,
       mdiCircleMedium,
-      mdiInformation
+      mdiInformation,
+      mdiAlert
     }
   }),
   computed: {
@@ -223,7 +227,7 @@ export default {
       return this.dailyData > 480;
     },
     colorDaily() {
-      return this.dailyData < 480 ? "" : "red--text";
+      return this.dailyData > 480 ? "red--text" : "";
     },
     carryover() {
       return this.monthlyProgress > 100 && this.monthlyProgress < 150;

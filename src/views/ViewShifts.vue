@@ -43,7 +43,7 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>{{ $t("shifts.table.reviewedTitle") }}</span>
+                        <span>{{ $t("shifts.table.pastShiftsTitle") }}</span>
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -67,7 +67,7 @@
                   </v-card-title>
 
                   <v-card-text>
-                    {{ $t("shifts.table.reviewedHint") }}
+                    {{ $t("shifts.table.pastShiftsHint") }}
                   </v-card-text>
 
                   <ShiftBulkActions
@@ -92,7 +92,7 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>{{ $t("shifts.table.plannedTitle") }}</span>
+                        <span>{{ $t("shifts.table.futureShiftsTitle") }}</span>
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -116,7 +116,7 @@
                   </v-card-title>
 
                   <v-card-text>
-                    {{ $t("shifts.table.plannedHint") }}
+                    {{ $t("shifts.table.futureShiftsHint") }}
                   </v-card-text>
                   <ShiftBulkActions
                     v-if="selected.length > 0"
@@ -149,7 +149,7 @@ import DataFilter from "@/components/DataFilter";
 import FormDialog from "@/components/FormDialog";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
-import ShiftBulkActions from "@/components/ShiftBulkActions";
+import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
 import ShiftsTable from "@/components/shifts/ShiftsTable";
 
 import { mapGetters } from "vuex";

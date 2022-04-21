@@ -1,8 +1,7 @@
 const Home = () => import("@/views/Home");
 const ViewLogin = () => import("@/views/ViewLogin");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
-// const ViewShiftList = () => import("@/views/ViewShiftList");
-const Shifts = () => import("@/views/Shifts");
+const ViewShifts = () => import("@/views/ViewShifts");
 const ViewContractList = () => import("@/views/ViewContractList");
 const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
@@ -10,7 +9,7 @@ const ViewDebug = () => import("@/views/ViewDebug");
 const Landing = () => import("@/views/Landing");
 const Imprint = () => import("@/views/Imprint");
 const Privacy = () => import("@/views/Privacy");
-const Dashboard = () => import("@/components/Dashboard");
+const ViewDashboard = () => import("@/views/ViewDashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
 const FAQ = () => import("@/views/FAQ");
@@ -79,7 +78,7 @@ export const routes = [
       {
         path: "/dashboard/:contract?",
         name: "dashboard",
-        component: Dashboard
+        component: ViewDashboard
       },
       {
         path: "/:type/:year/:month/:day/:contract?",
@@ -90,7 +89,7 @@ export const routes = [
       {
         path: "/shifts/:contract?",
         name: "shiftList",
-        component: Shifts
+        component: ViewShifts
       },
       {
         path: "/contracts/create",

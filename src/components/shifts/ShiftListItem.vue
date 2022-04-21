@@ -5,7 +5,6 @@
         {{ item.date.start | formatDay }}
       </v-list-item-title>
       <v-list-item-subtitle class="text--primary">
-        <v-icon v-if="isLiveShift" color="red">{{ icons.mdiRecord }}</v-icon>
         {{ item.date.start | formatTime }} -
         {{ item.date.end | formatTime }}
         ({{ item.representationalDuration("hm") }})
@@ -18,7 +17,10 @@
           class="my-1 mr-1"
           :color="typeColor"
         >
-          {{ $t(`shifts.types.${item.type.value}`) }}
+          <v-icon v-if="isRunningShift" left dense color="red">{{
+            icons.mdiCircleMedium
+          }}</v-icon>
+          {{ liveString + $t(`shifts.types.${item.type.value}`) }}
         </v-chip>
 
         <v-chip
@@ -61,7 +63,7 @@ import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { isWithinInterval } from "date-fns";
 
-import { mdiRecord } from "@mdi/js";
+import { mdiCircleMedium, mdiRecord } from "@mdi/js";
 
 import FormDialog from "@/components/FormDialog";
 
@@ -92,17 +94,22 @@ export default {
   data: () => ({
     dialog: false,
     shiftEntity: null,
-    icons: { mdiRecord }
+    icons: { mdiCircleMedium, mdiRecord }
   }),
   computed: {
     typeColor() {
       return SHIFT_TYPE_COLORS[this.item.type.value];
     },
-    isLiveShift() {
+    isRunningShift() {
       return isWithinInterval(new Date(), {
         start: this.item.date.start,
         end: this.item.date.end
       });
+    },
+    liveString() {
+      return this.isRunningShift && this.item.type.value === "st"
+        ? this.$t("shifts.running") + " "
+        : "";
     }
   },
   methods: {

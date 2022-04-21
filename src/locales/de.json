@@ -72,6 +72,7 @@
   },
   "contracts": {
     "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben. Das Startdatum muss vor der ersten und das Enddatum nach der letzten Schicht liegen.",
+    "expiredVerbose": "Dieser Vertrag ist abgelaufen und kann nicht mehr geändert werden. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "empty": "Erstelle deinen ersten Vertrag!",
     "fromTo": "{start} bis {end}",
     "to": "bis",
@@ -79,8 +80,9 @@
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
     "activeContracts": "Laufende Verträge",
+    "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
     "expired": "(Vertrag abgelaufen)",
-    "expiredVerbose": "Dieser Vertrag ist abgelaufen. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
+    "inFuture": "(zukünftiger Vertrag)",
     "archived": "Abgelaufene Verträge",
     "perMonth": "{time} pro Monat",
     "carryover": {
@@ -100,6 +102,7 @@
     "clock": {
       "contractInactive": "Du bist nicht im derzeit ausgewählten Vertrag eingeclockt. Du musst den Vertrag wechseln, um auszuclocken.",
       "contractExpired": "Der ausgewählte Vertrag ist abgelaufen. Du kannst auf diesem Vertrag keine Schichten mehr clocken.",
+      "contractInFuture": "Der ausgewählte Vertrag beginnt erst in der Zukunft. Du kannst auf diesem Vertrag noch keine Schichten clocken.",
       "in": "Einclocken",
       "out": "Ausclocken",
       "problems": {
@@ -392,6 +395,7 @@
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
     "reviewErrorPast": "Eine vergangene Schicht kann nur gespeichert werden, wenn sie überprüft wurde.",
     "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als \"überprüft\" gespeichert werden.",
+    "reviewErrorLive": "Eine laufende Schicht kann nicht überprüft werden bevor sie beendet ist.",
     "tags": {
       "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
       "label": "Füge Tags hinzu"
@@ -404,12 +408,13 @@
       "vn": "Urlaub",
       "bh": "Feiertag"
     },
+    "running": "laufende",
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
-      "reviewedTitle": "Vergangene Schichten",
-      "reviewedHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
-      "plannedTitle": "Geplante Schichten",
-      "plannedHint": "Alle in der Zukunft liegenden Schichten."
+      "pastShiftsTitle": "Vergangene Schichten",
+      "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
+      "futureShiftsTitle": "Geplante Schichten",
+      "futureShiftsHint": "Alle in der Zukunft liegenden Schichten."
     }
   },
   "snackbar": {
