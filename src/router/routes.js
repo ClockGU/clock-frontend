@@ -17,6 +17,8 @@ const NotFound = () => import("@/views/NotFound");
 const Reporting = () => import("@/views/Reporting");
 const PrivacyAgreement = () => import("@/views/PrivacyAgreement");
 
+import { RequiredDataGuard } from "@/router/guards";
+
 export const routes = [
   {
     path: "*",
@@ -78,18 +80,24 @@ export const routes = [
       {
         path: "/dashboard/:contract?",
         name: "dashboard",
-        component: ViewDashboard
+        component: ViewDashboard,
+        beforeEnter: RequiredDataGuard,
+        beforeUpdate: RequiredDataGuard
       },
       {
         path: "/:type/:year/:month/:day/:contract?",
         name: "calendar",
         component: ViewCalendar,
-        props: true
+        props: true,
+        beforeEnter: RequiredDataGuard,
+        beforeUpdate: RequiredDataGuard
       },
       {
         path: "/shifts/:contract?",
         name: "shiftList",
-        component: ViewShifts
+        component: ViewShifts,
+        beforeEnter: RequiredDataGuard,
+        beforeUpdate: RequiredDataGuard
       },
       {
         path: "/contracts/create",
@@ -115,7 +123,9 @@ export const routes = [
       {
         path: "/reports/:contract?",
         name: "reporting",
-        component: Reporting
+        component: Reporting,
+        beforeEnter: RequiredDataGuard,
+        beforeUpdate: RequiredDataGuard
       },
       {
         path: "/settings",
@@ -125,7 +135,9 @@ export const routes = [
       {
         path: "/debug/:contract?",
         name: "debug",
-        component: ViewDebug
+        component: ViewDebug,
+        beforeEnter: RequiredDataGuard,
+        beforeUpdate: RequiredDataGuard
       },
       {
         path: "/privacyagreement",
