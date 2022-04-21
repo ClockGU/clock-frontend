@@ -72,7 +72,7 @@ import ClockInOutCardForm from "@/components/ClockInOutCardForm";
 
 import { mapGetters } from "vuex";
 
-import contractExpiredMixin from "@/mixins/contractExpired";
+import contractValidMixin from "@/mixins/contractValid";
 
 export default {
   name: "ClockInOutCard",
@@ -81,7 +81,7 @@ export default {
     ClockInOutCardClock,
     ClockInOutCardForm
   },
-  mixins: [contractExpiredMixin],
+  mixins: [contractValidMixin],
   props: {
     selectedContract: {
       required: true,

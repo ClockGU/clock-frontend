@@ -39,11 +39,11 @@
 import { log } from "@/utils/log";
 import { mdiRecord } from "@mdi/js";
 
-import contractExpiredMixin from "@/mixins/contractExpired";
+import contractValidMixin from "@/mixins/contractValid";
 
 export default {
   name: "SelectContractFilter",
-  mixins: [contractExpiredMixin],
+  mixins: [contractValidMixin],
   props: {
     contracts: {
       type: Array,

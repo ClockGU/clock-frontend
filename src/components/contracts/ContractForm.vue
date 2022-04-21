@@ -138,7 +138,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validationMixin } from "vuelidate";
-import contractExpiredMixin from "@/mixins/contractExpired";
+import contractValidMixin from "@/mixins/contractValid";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
   mdiCalendar,
@@ -157,7 +157,7 @@ export default {
     }
   },
   components: { ContractFormDateInput, ContractFormTimeInput },
-  mixins: [contractExpiredMixin, validationMixin],
+  mixins: [contractValidMixin, validationMixin],
   validations: {
     contract: {
       name: { required, maxLength: maxLength(100), minLength: minLength(2) }
