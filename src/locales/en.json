@@ -81,7 +81,8 @@
     "name": "Name your contract",
     "activeContracts": "Active Contracts",
     "noActiveContracts": "There are presently no active contracts",
-    "expired": "(Contract expired)",
+    "expired": "(contract expired)",
+    "inFuture": "(future contract)",
     "archived": "Expired contracts",
     "perMonth": "{time} per month",
     "carryover": {
@@ -101,6 +102,7 @@
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
       "contractExpired": "The selected contract has expired - you cannot clock any new shifts.",
+      "contractInFuture": "The selected contract starts in the futur - you cannot clock any shifts yet.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {

@@ -16,21 +16,11 @@
     @input="changeContract"
   >
     <template #selection="contract">
-      {{
-        contract.item.name +
-        (specificContractExpired(contract.item)
-          ? " " + $t("contracts.expired")
-          : "")
-      }}
+      {{ contract.item.name + contractStatus(contract.item) }}
     </template>
 
     <template #item="contract">
-      {{
-        contract.item.name +
-        (specificContractExpired(contract.item)
-          ? " " + $t("contracts.expired")
-          : "")
-      }}
+      {{ contract.item.name + contractStatus(contract.item) }}
     </template>
   </v-select>
 </template>
@@ -71,6 +61,13 @@ export default {
         .catch((error) => {
           log("Experienced an error while trying to change contracts: ", error);
         });
+    },
+    contractStatus(contract) {
+      if (this.specificContractInFuture(contract))
+        return " " + this.$t("contracts.inFuture");
+      if (this.specificContractExpired(contract))
+        return " " + this.$t("contracts.expired");
+      else return "";
     }
   }
 };

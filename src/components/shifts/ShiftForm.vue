@@ -111,7 +111,7 @@
         <v-select
           v-model="shift.contract"
           data-cy="shift-contract"
-          :items="contracts"
+          :items="validContracts"
           :prepend-icon="icons.mdiFileDocumentEditOutline"
           :label="$t('shifts.changeContract')"
           item-text="name"
@@ -155,6 +155,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
+import contractValidMixin from "@/mixins/contractValid";
 
 import {
   mdiFileDocumentEditOutline,
@@ -181,6 +182,7 @@ export default {
       return localizedFormat(date, "HH:mm");
     }
   },
+  mixins: [contractValidMixin],
   props: {
     now: {
       type: Date,
@@ -214,6 +216,12 @@ export default {
       contracts: "contract/contracts",
       selectedContract: "selectedContract"
     }),
+    validContracts() {
+      return this.contracts.filter(
+        //TODO: Check if shift is within range of target contract
+        (contract) => !this.specificContractExpired(contract)
+      );
+    },
     isNewShift() {
       return this.uuid === null;
     },

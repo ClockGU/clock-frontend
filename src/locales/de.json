@@ -82,6 +82,7 @@
     "activeContracts": "Laufende Verträge",
     "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
     "expired": "(Vertrag abgelaufen)",
+    "inFuture": "(zukünftiger Vertrag)",
     "archived": "Abgelaufene Verträge",
     "perMonth": "{time} pro Monat",
     "carryover": {
@@ -101,6 +102,7 @@
     "clock": {
       "contractInactive": "Du bist nicht im derzeit ausgewählten Vertrag eingeclockt. Du musst den Vertrag wechseln, um auszuclocken.",
       "contractExpired": "Der ausgewählte Vertrag ist abgelaufen. Du kannst auf diesem Vertrag keine Schichten mehr clocken.",
+      "contractInFuture": "Der ausgewählte Vertrag beginnt erst in der Zukunft. Du kannst auf diesem Vertrag noch keine Schichten clocken.",
       "in": "Einclocken",
       "out": "Ausclocken",
       "problems": {
