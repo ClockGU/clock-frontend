@@ -9,10 +9,12 @@
             <v-btn
               v-if="maxCarryoverExceeded || carryover"
               icon
-              color="warning"
+              :color="maxCarryoverExceeded ? 'error' : 'warning'"
               @click="showWarning('carryover')"
             >
-              <v-icon>{{ icons.mdiInformation }}</v-icon>
+              <v-icon>{{
+                maxCarryoverExceeded ? icons.mdiAlert : icons.mdiInformation
+              }}</v-icon>
             </v-btn>
           </v-card-title>
 
@@ -95,10 +97,10 @@
             <v-btn
               v-if="dailyOvertime"
               icon
-              color="warning"
+              color="error"
               @click="showWarning('daily')"
             >
-              <v-icon>{{ icons.mdiInformation }}</v-icon>
+              <v-icon>{{ icons.mdiAlert }}</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text class="text-center">
