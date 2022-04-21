@@ -151,7 +151,9 @@ import {
   isFuture,
   isSameDay,
   isEqual,
-  isWithinInterval
+  isWithinInterval,
+  endOfDay,
+  parseISO
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
@@ -218,8 +220,15 @@ export default {
     }),
     validContracts() {
       return this.contracts.filter(
-        //TODO: Check if shift is within range of target contract
-        (contract) => !this.specificContractExpired(contract)
+        //TODO: Solve this with a mixin
+        (contract) => {
+          return (
+            isWithinInterval(this.shift.date.start, {
+              start: endOfDay(parseISO(contract.date.start)),
+              end: endOfDay(parseISO(contract.date.end))
+            }) && contract.uuid !== null
+          );
+        }
       );
     },
     isNewShift() {

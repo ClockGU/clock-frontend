@@ -65,9 +65,8 @@ export default {
       contracts: "contract/contracts"
     }),
     validContracts() {
-      console.log(this.shifts);
       return this.contracts.filter(
-        //TODO: Check if shift is within range of target contract
+        // TODO: check for shift date or date range (bulk assign)
         (contract) => !this.specificContractExpired(contract)
       );
     }
