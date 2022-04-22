@@ -100,7 +100,6 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   }
-
   if (!isPublic && !loggedIn) {
     return next({ name: "home" });
   }
@@ -117,7 +116,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.public) {
     return next();
   }
-
   let hasAcceptedPrivacyAgreement = store.state.user.dsgvo_accepted;
 
   if (hasAcceptedPrivacyAgreement === undefined) {
@@ -127,8 +125,12 @@ router.beforeEach(async (to, from, next) => {
     hasAcceptedPrivacyAgreement = data.dsgvo_accepted;
   }
   if (!hasAcceptedPrivacyAgreement) {
+    if (to.name === "privacyagreement") {
+      return next();
+    }
     return next({ name: "privacyagreement" });
-  } else if (to.name === "privacyagreement") {
+  }
+  if (to.name === "privacyagreement") {
     return next({ name: "dashboard" });
   }
   return next();

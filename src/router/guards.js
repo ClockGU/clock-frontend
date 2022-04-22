@@ -14,13 +14,11 @@ export async function RequiredDataGuard(to, from, next) {
       store.dispatch("contract/queryContracts"),
       store.dispatch("report/list")
     ]);
-
     // If the user has no contracts, push them to onboarding
     if (store.state.contract.contracts.length < 1) {
       // Do not forward to onboarding, while forwarding to onboarding
       // Removing the next line leads to an infinite loop.
       if (to.name === "onboarding") return next();
-
       return next({ name: "onboarding" });
     }
 
@@ -36,7 +34,6 @@ export async function RequiredDataGuard(to, from, next) {
     // but the user did not set one, we get the contract with
     // the latest activity
     if (to.params.contract === undefined) {
-      console.log("Correct path entered");
       const uuid = getContractWithLastActivity({ shifts, contracts });
       return next(getNextContractParams(to, uuid));
     }

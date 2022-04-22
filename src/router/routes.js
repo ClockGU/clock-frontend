@@ -113,7 +113,9 @@ export const routes = [
       {
         path: "/contracts/",
         name: "contractList",
-        component: ViewContractList
+        component: ViewContractList,
+        beforeEnter: RequiredDataGuard,
+        beforeUpdate: RequiredDataGuard
       },
       {
         path: "/select/",
