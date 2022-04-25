@@ -37,6 +37,25 @@
           </v-window-item>
 
           <v-window-item :value="2">
+            <v-card-text class="pb-0">
+              <i18n path="privacyagreement.text" tag="p">
+                <template #privacyAgreement>
+                  <router-link :to="{ name: 'privacy' }">{{
+                    $t("app.privacyagreement")
+                  }}</router-link>
+                </template>
+              </i18n>
+
+              <v-checkbox
+                v-model="privacyagreement"
+                :label="$t('privacyagreement.checkbox')"
+              >
+              </v-checkbox>
+            </v-card-text>
+            <v-card-text> {{ $t("privacyagreement.revokeInfo") }} </v-card-text>
+          </v-window-item>
+
+          <v-window-item :value="3">
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -62,7 +81,7 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item :value="3">
+          <v-window-item :value="4">
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
@@ -90,8 +109,11 @@
 
         <v-spacer></v-spacer>
         <v-btn
-          v-if="step != titles.length - 1"
-          :disabled="step == 2 && !contractFormValid"
+          v-if="step !== titles.length - 1"
+          :disabled="
+            (step === 3 && !contractFormValid) ||
+            (step === 2 && !privacyagreement)
+          "
           color="primary"
           text
           @click="step++"
@@ -156,7 +178,8 @@ export default {
     toSave: null,
     service: null,
     loading: false,
-    personnelNumber: null
+    personnelNumber: null,
+    privacyagreement: false
   }),
   computed: {
     serviceRepository() {
@@ -166,6 +189,7 @@ export default {
       return [
         this.$t("onboarding.welcome.title"),
         this.$t("onboarding.underConstruction.title"),
+        this.$t("app.privacyagreement"),
         this.$t("onboarding.createContract.title", {
           entity: this.$tc("models.contract")
         }),
@@ -213,6 +237,10 @@ export default {
           .catch(() => {
             log("*** Redirecting...");
           });
+        await AuthService.updateSettings({
+          onboarding_passed: true,
+          dsgvo_accepted: true
+        });
       } catch (error) {
         // TODO: Set error state
         log(error);
