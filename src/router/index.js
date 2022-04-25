@@ -116,6 +116,9 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.public) {
     return next();
   }
+  if (to.name === "onboarding") {
+    return next();
+  }
   let hasAcceptedPrivacyAgreement = store.state.user.dsgvo_accepted;
 
   if (hasAcceptedPrivacyAgreement === undefined) {
