@@ -232,15 +232,16 @@ export default {
         await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         await this.$store.dispatch("contract/queryContracts");
+        await AuthService.updateSettings({
+          onboarding_passed: true,
+          dsgvo_accepted: true
+        });
+        await this.$store.dispatch("GET_USER");
         this.$router
           .push({ name: "dashboard", params: { contract } })
           .catch(() => {
             log("*** Redirecting...");
           });
-        await AuthService.updateSettings({
-          onboarding_passed: true,
-          dsgvo_accepted: true
-        });
       } catch (error) {
         // TODO: Set error state
         log(error);
