@@ -43,7 +43,10 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>{{ $t("shifts.table.pastShiftsTitle") }}</span>
+                        <span>
+                          {{ $t("shifts.table.pastShiftsTitle") }}
+                          ({{ durationSum(data.pastShifts) }})
+                        </span>
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -92,7 +95,10 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>{{ $t("shifts.table.futureShiftsTitle") }}</span>
+                        <span>
+                          {{ $t("shifts.table.futureShiftsTitle") }}
+                          ({{ durationSum(data.futureShifts) }})
+                        </span>
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -151,6 +157,7 @@ import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
 import ShiftsTable from "@/components/shifts/ShiftsTable";
+import { minutesToHHMM } from "@/utils/time";
 
 import { mapGetters } from "vuex";
 import { Shift } from "@/models/ShiftModel";
@@ -229,6 +236,13 @@ export default {
       ]);
       this.updateDate(selectedMonth);
       this.loading = false;
+    },
+    durationSum(shifts) {
+      let sum = 0;
+      shifts.forEach((shift) => {
+        sum += shift.duration;
+      });
+      return minutesToHHMM(sum, "");
     }
   }
 };

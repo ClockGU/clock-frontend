@@ -42,6 +42,7 @@
             </v-btn>
           </template>
         </ShiftBulkActionsDialogDelete>
+        ({{ durationSum }})
       </v-card-actions>
     </v-card>
   </v-expand-transition>
@@ -51,6 +52,7 @@
 import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
 import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete";
 import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview";
+import { minutesToHHMM } from "@/utils/time";
 import {
   mdiCheck,
   mdiCheckAll,
@@ -88,6 +90,13 @@ export default {
   computed: {
     reviewable() {
       return this.shifts.filter((shift) => shift.reviewed == false).length;
+    },
+    durationSum() {
+      let sum = 0;
+      this.shifts.forEach((shift) => {
+        sum += shift.duration;
+      });
+      return minutesToHHMM(sum, "");
     }
   }
 };
