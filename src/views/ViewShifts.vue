@@ -205,10 +205,10 @@ export default {
       const shiftModel = new Shift(shift);
 
       return {
-        date: localizedFormat(shiftModel.date.start, "EEEE',' do' 'MMMM"),
-        start: localizedFormat(shiftModel.date.start, "HH:mm"),
-        end: localizedFormat(shiftModel.date.end, "HH:mm"),
-        duration: shiftModel.representationalDuration(),
+        date: shiftModel.date.start,
+        start: shiftModel.date.start,
+        end: shiftModel.date.end,
+        duration: shiftModel.duration,
         type: this.$t(`shifts.types.${shiftModel.type.value}`),
         reviewed: shiftModel.reviewed,
         uuid: shiftModel.uuid,

@@ -28,7 +28,7 @@ export const SHIFT_TABLE_HEADERS = [
   {
     text: i18n.t("calendar.type"),
     align: "start",
-    sortable: false,
+    sortable: true,
     value: "type"
   },
   {

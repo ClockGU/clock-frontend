@@ -8,8 +8,30 @@
       :search="search"
       :loading="loading"
       item-key="uuid"
+      :custom-sort="sortByDate"
+      must-sort
       show-select
     >
+      <!-- eslint-disable-next-line -->
+      <template #item.date="{ item }">
+        {{ formattedDate(item.shift.date.start) }}
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.start="{ item }">
+        {{ formattedTime(item.shift.date.start) }}
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.end="{ item }">
+        {{ formattedTime(item.shift.date.end) }}
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.duration="{ item }">
+        {{ formattedDuration(item.shift.duration) }}
+      </template>
+
       <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
         <v-chip outlined small :color="colors[item.shift.type.value]">
@@ -94,7 +116,7 @@
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
 
-import { isWithinInterval } from "date-fns";
+import { isWithinInterval, isBefore, getHours } from "date-fns";
 
 import {
   mdiCheck,
@@ -110,6 +132,8 @@ import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { localizedFormat } from "@/utils/date";
+import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ShiftsTable",
@@ -156,6 +180,34 @@ export default {
       return this.isRunningShift(shift) && shift.type.value === "st"
         ? this.$t("shifts.running") + " "
         : "";
+    },
+    formattedDate(date) {
+      return localizedFormat(date, "EEEE',' do' 'MMMM");
+    },
+    formattedTime(time) {
+      return localizedFormat(time, "HH:mm");
+    },
+    formattedDuration(duration) {
+      return minutesToHHMM(duration, "");
+    },
+    sortByDate(items, sortBy, sortDesc) {
+      const desc = sortDesc[0] ? 1 : -1;
+      items.sort((a, b) => {
+        switch (sortBy[0]) {
+          case "date":
+            return isBefore(b.date, a.date) ? -desc : desc;
+          case "start":
+            return isBefore(getHours(b.start), getHours(a.start))
+              ? -desc
+              : desc;
+          case "end":
+            return isBefore(getHours(b.end), getHours(a.end)) ? -desc : desc;
+          default:
+            console.log(a[sortBy[0]]);
+            return a[sortBy[0]] > b[sortBy[0]] ? -desc : desc;
+        }
+      });
+      return items;
     },
     async destroy() {
       const promises = [];
