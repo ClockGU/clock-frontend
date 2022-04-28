@@ -203,7 +203,6 @@ export default {
           case "end":
             return isBefore(getHours(b.end), getHours(a.end)) ? -desc : desc;
           default:
-            console.log(a[sortBy[0]]);
             return a[sortBy[0]] > b[sortBy[0]] ? -desc : desc;
         }
       });
