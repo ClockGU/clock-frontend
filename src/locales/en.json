@@ -414,7 +414,8 @@
       "pastShiftsTitle": "Past shifts",
       "pastShiftsHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
       "futureShiftsTitle": "Scheduled shifts",
-      "futureShiftsHint": "All shifts scheduled for the future."
+      "futureShiftsHint": "All shifts scheduled for the future.",
+      "tagsNotes": "Tags/Notes"
     }
   },
   "snackbar": {

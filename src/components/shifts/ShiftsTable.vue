@@ -45,6 +45,16 @@
       </template>
 
       <!-- eslint-disable-next-line -->
+      <template #item.tagsNotes="{ item }">
+        <v-icon v-if="item.tags.length > 0" small>{{
+          icons.mdiTagOutline
+        }}</v-icon>
+        <v-icon v-if="item.note" small>{{
+          icons.mdiFileDocumentOutline
+        }}</v-icon>
+      </template>
+
+      <!-- eslint-disable-next-line -->
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
           v-if="!item.reviewed"
@@ -124,7 +134,9 @@ import {
   mdiDelete,
   mdiPencil,
   mdiSwapHorizontal,
-  mdiCircleMedium
+  mdiCircleMedium,
+  mdiTagOutline,
+  mdiFileDocumentOutline
 } from "@mdi/js";
 
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
@@ -163,7 +175,9 @@ export default {
       mdiDelete,
       mdiPencil,
       mdiSwapHorizontal,
-      mdiCircleMedium
+      mdiCircleMedium,
+      mdiTagOutline,
+      mdiFileDocumentOutline
     },
     headers: SHIFT_TABLE_HEADERS,
     colors: SHIFT_TYPE_COLORS,

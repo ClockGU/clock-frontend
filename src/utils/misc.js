@@ -32,6 +32,24 @@ export const SHIFT_TABLE_HEADERS = [
     value: "type"
   },
   {
+    text: "Tags",
+    align: " d-none",
+    sortable: true,
+    value: "tags"
+  },
+  {
+    text: "Notes",
+    align: " d-none",
+    sortable: true,
+    value: "note"
+  },
+  {
+    text: i18n.t("shifts.table.tagsNotes"),
+    align: "center",
+    sortable: true,
+    value: "tagsNotes"
+  },
+  {
     text: i18n.t("time.reviewed"),
     align: "start",
     sortable: true,

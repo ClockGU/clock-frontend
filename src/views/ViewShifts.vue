@@ -220,7 +220,9 @@ export default {
         reviewed: shiftModel.reviewed,
         uuid: shiftModel.uuid,
         shift: shiftModel,
-        contract: shiftModel.contract
+        contract: shiftModel.contract,
+        tags: shiftModel.tags,
+        note: shiftModel.note
       };
     },
     updateDate(value) {
