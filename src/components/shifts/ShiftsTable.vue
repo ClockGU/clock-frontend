@@ -3,7 +3,7 @@
     <slot name="head" :destroy-fn="destroy" :selected="selected"></slot>
     <v-data-table
       v-model="selected"
-      :headers="headers"
+      :headers="flexHeaders"
       :items="shifts"
       :search="search"
       :loading="loading"
@@ -46,12 +46,16 @@
 
       <!-- eslint-disable-next-line -->
       <template #item.tagsNotes="{ item }">
-        <v-icon v-if="item.tags.length > 0" small>{{
-          icons.mdiTagOutline
-        }}</v-icon>
-        <v-icon v-if="item.note" small>{{
-          icons.mdiFileDocumentOutline
-        }}</v-icon>
+        <ShiftInfoDialog :item="item">
+          <template #activator="{ on }">
+            <v-icon v-if="item.tags.length > 0" small v-on="on">
+              {{ icons.mdiTagOutline }}
+            </v-icon>
+            <v-icon v-if="item.note" small v-on="on">
+              {{ icons.mdiFileDocumentOutline }}
+            </v-icon>
+          </template>
+        </ShiftInfoDialog>
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -76,7 +80,7 @@
       </template>
 
       <!-- eslint-disable-next-line-->
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <v-btn text @click="$emit('edit', item.shift)">
           <v-icon>
             {{ icons.mdiPencil }}
@@ -125,6 +129,7 @@
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
+import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog";
 
 import { isWithinInterval, isBefore, getHours } from "date-fns";
 
@@ -151,7 +156,8 @@ export default {
   name: "ShiftsTable",
   components: {
     ConfirmationDialog,
-    ShiftAssignContractDialog
+    ShiftAssignContractDialog,
+    ShiftInfoDialog
   },
   props: {
     loading: {
@@ -183,6 +189,18 @@ export default {
     colors: SHIFT_TYPE_COLORS,
     selected: []
   }),
+  computed: {
+    flexHeaders() {
+      //check for tags and notes and hide column if none exist
+      let tagsAndNotes = 0;
+      this.shifts.forEach(
+        (shift) => (tagsAndNotes += shift.tags.length && shift.note.length)
+      );
+      if (tagsAndNotes == 0) {
+        return this.headers.filter((item) => item.value != "tagsNotes");
+      } else return this.headers;
+    }
+  },
   methods: {
     isRunningShift(shift) {
       return isWithinInterval(new Date(), {
