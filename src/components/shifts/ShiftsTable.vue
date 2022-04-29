@@ -14,22 +14,22 @@
     >
       <!-- eslint-disable-next-line -->
       <template #item.date="{ item }">
-        {{ formattedDate(item.shift.date.start) }}
+        {{ formattedDate(item.date) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.start="{ item }">
-        {{ formattedTime(item.shift.date.start) }}
+        {{ formattedTime(item.start) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.end="{ item }">
-        {{ formattedTime(item.shift.date.end) }}
+        {{ formattedTime(item.end) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.duration="{ item }">
-        {{ formattedDuration(item.shift.duration) }}
+        {{ formattedDuration(item.duration) }}
       </template>
 
       <!-- eslint-disable-next-line -->
