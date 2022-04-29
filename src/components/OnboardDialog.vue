@@ -40,9 +40,31 @@
             <v-card-text class="pb-0">
               <i18n path="privacyagreement.text" tag="p">
                 <template #privacyAgreement>
-                  <router-link :to="{ name: 'privacy' }">{{
-                    $t("app.privacyagreement")
-                  }}</router-link>
+                  <v-dialog v-model="privacyDialog" scrollable max-width="600">
+                    <template #activator="{ on, attrs }">
+                      <a v-bind="attrs" v-on="on">{{
+                        $t("app.privacyagreement")
+                      }}</a>
+                    </template>
+                    <v-card>
+                      <v-toolbar flat>
+                        <v-spacer></v-spacer>
+                        <v-toolbar-items>
+                          <v-btn icon @click="privacyDialog = false">
+                            <v-icon>{{ icons.mdiClose }}</v-icon>
+                          </v-btn>
+                        </v-toolbar-items>
+                      </v-toolbar>
+                      <v-card-text>
+                        <Privacy></Privacy>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn text @click="privacyDialog = false">
+                          {{ $t("actions.close") }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </template>
               </i18n>
 
@@ -141,6 +163,7 @@ import {
 
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
+import Privacy from "@/views/Privacy";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 import AuthService from "@/services/auth";
@@ -148,7 +171,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
-  components: { ContractForm, LanguageSwitcher, FeedbackMenu },
+  components: { ContractForm, LanguageSwitcher, FeedbackMenu, Privacy },
   props: {
     now: {
       type: Date,
@@ -179,7 +202,8 @@ export default {
     service: null,
     loading: false,
     personnelNumber: null,
-    privacyagreement: false
+    privacyagreement: false,
+    privacyDialog: false
   }),
   computed: {
     serviceRepository() {
