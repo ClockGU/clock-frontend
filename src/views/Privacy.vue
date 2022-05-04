@@ -283,4 +283,9 @@ iframe {
   height: 280px;
   width: 100%;
 }
+h1,
+h2,
+h3 {
+  margin-bottom: 0.5em;
+}
 </style>
