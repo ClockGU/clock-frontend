@@ -119,15 +119,18 @@ router.beforeEach(async (to, from, next) => {
   if (to.name === "onboarding") {
     return next();
   }
-  let hasAcceptedPrivacyAgreement = store.state.user.dsgvo_accepted;
+  let user = store.state.user;
 
-  if (hasAcceptedPrivacyAgreement === undefined) {
+  if (user.dsgvo_accepted === undefined) {
     // If route is entered manually or F5 is pressed the store is refreshed
     // Fetch user data
     const { data } = await store.dispatch("GET_USER");
-    hasAcceptedPrivacyAgreement = data.dsgvo_accepted;
+    user = data;
   }
-  if (!hasAcceptedPrivacyAgreement) {
+  if (!user.dsgvo_accepted) {
+    if (!user.onboarding_passed) {
+      return next({ name: "onboarding" });
+    }
     if (to.name === "privacyagreement") {
       return next();
     }
