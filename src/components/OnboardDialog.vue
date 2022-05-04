@@ -47,7 +47,11 @@
                       }}</a>
                     </template>
                     <v-card>
-                      <v-toolbar flat>
+                      <v-toolbar
+                        flat
+                        class="text-h5 text--secondary font-weight-bold"
+                      >
+                        {{ $t("app.privacyagreement") }}
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                           <v-btn icon @click="privacyDialog = false">
@@ -56,7 +60,7 @@
                         </v-toolbar-items>
                       </v-toolbar>
                       <v-card-text>
-                        <Privacy></Privacy>
+                        <Privacy :dialog="true"></Privacy>
                       </v-card-text>
                       <v-card-actions>
                         <v-btn text @click="privacyDialog = false">
@@ -171,7 +175,12 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
-  components: { ContractForm, LanguageSwitcher, FeedbackMenu, Privacy },
+  components: {
+    ContractForm,
+    LanguageSwitcher,
+    FeedbackMenu,
+    Privacy
+  },
   props: {
     now: {
       type: Date,
