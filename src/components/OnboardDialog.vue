@@ -63,7 +63,12 @@
                         <Privacy :dialog="true"></Privacy>
                       </v-card-text>
                       <v-card-actions>
-                        <v-btn text @click="privacyDialog = false">
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="privacyDialog = false"
+                        >
                           {{ $t("actions.close") }}
                         </v-btn>
                       </v-card-actions>
