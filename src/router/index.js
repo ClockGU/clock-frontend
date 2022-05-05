@@ -127,7 +127,7 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await store.dispatch("GET_USER");
     user = data;
   }
-  if (!user.onboarding_passed) {
+  if (!user.onboarding_passed && !store.state.onboardingSkipped) {
     return next({ name: "onboarding" });
   }
   if (!user.dsgvo_accepted) {
