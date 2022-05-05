@@ -23,7 +23,9 @@
     "send": "Send",
     "showall": "Show all",
     "switch": "Switch",
-    "update": "Update"
+    "update": "Update",
+    "dontShowAgain": "Don't show the onboarding again"
+
   },
   "app": {
     "account": "Account",
