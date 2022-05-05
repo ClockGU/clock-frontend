@@ -24,7 +24,8 @@ export default new Vuex.Store({
     },
     selectedContract: null,
     backendOffline: false,
-    userLoading: false
+    userLoading: false,
+    onboardingSkipped: false
   },
   getters: {
     selectedContract: (state) => state.selectedContract,
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     userLoading: (state) => state.userLoading
   },
   actions: {
+    skipOnboarding({ commit }) {
+      commit("setOnboardingSkipped", true);
+    },
     changeLocale({ commit }, locale) {
       i18n.locale = locale;
       commit("updateLocale", locale);
@@ -69,6 +73,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setOnboardingSkipped(state, value) {
+      state.onboardingSkipped = value;
+    },
     updateLocale(state, locale) {
       state.locale = locale;
     },
