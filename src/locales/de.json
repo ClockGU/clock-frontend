@@ -23,7 +23,8 @@
     "send": "Absenden",
     "showall": "Alle anzeigen",
     "switch": "Wechseln",
-    "update": "Aktualisieren"
+    "update": "Aktualisieren",
+    "dontShowAgain": "Das Onboarding nicht mehr anzeigen"
   },
   "app": {
     "account": "Account",

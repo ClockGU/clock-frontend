@@ -155,6 +155,14 @@
           {{ $t("actions.complete") }}
         </v-btn>
       </v-card-actions>
+      <v-card-actions>
+        <v-checkbox
+          v-model="dontShowOnboardingAgain"
+          :label="$t('actions.dontShowAgain')"
+        ></v-checkbox>
+        <v-spacer></v-spacer>
+        <v-btn text @click="closeOnboarding"> {{ $t("actions.close") }}</v-btn>
+      </v-card-actions>
 
       <FeedbackMenu />
     </v-card>
@@ -217,7 +225,8 @@ export default {
     loading: false,
     personnelNumber: null,
     privacyagreement: false,
-    privacyDialog: false
+    privacyDialog: false,
+    dontShowOnboardingAgain: false
   }),
   computed: {
     serviceRepository() {
@@ -253,6 +262,17 @@ export default {
     },
     closeDialog() {
       this.$emit("close");
+    },
+    async closeOnboarding() {
+      await this.$store.dispatch("skipOnboarding");
+      if (this.dontShowOnboardingAgain) {
+        await AuthService.updateSettings({
+          onboarding_passed: true
+        });
+      }
+      this.$router.push({ name: "dashboard" }).catch(() => {
+        log("*** Redirecting...");
+      });
     },
     logout() {
       this.$store.dispatch("auth/LOGOUT");
