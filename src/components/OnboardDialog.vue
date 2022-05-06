@@ -92,7 +92,7 @@
             <v-card-text> {{ $t("privacyagreement.revokeInfo") }} </v-card-text>
           </v-window-item>
 
-          <v-window-item>
+          <v-window-item v-if="!contractExists">
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -266,6 +266,9 @@ export default {
     dsgvoAccepted() {
       return this.$store.state.user.dsgvo_accepted;
     },
+    contractExists() {
+      return this.$store.getters["contract/contracts"].length > 0;
+    },
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
     },
@@ -278,21 +281,26 @@ export default {
       if (!this.dsgvoAccepted) {
         returnValue.push(this.$t("app.privacyagreement"));
       }
-      returnValue.push(
-        this.$t("onboarding.createContract.title", {
-          entity: this.$tc("models.contract")
-        }),
-        this.$t("onboarding.finished.title")
-      );
+      if (!this.contractExists) {
+        returnValue.push(
+          this.$t("onboarding.createContract.title", {
+            entity: this.$tc("models.contract")
+          })
+        );
+      }
+
+      returnValue.push(this.$t("onboarding.finished.title"));
 
       return returnValue;
     }
   },
-  created() {
+  async created() {
     // Load the entity service
     this.loadService();
     // Make a copy of the entity we will save.
     this.toSave = this.entity;
+
+    await this.$store.dispatch("contract/queryContracts");
   },
   methods: {
     updateContractForm(event) {
