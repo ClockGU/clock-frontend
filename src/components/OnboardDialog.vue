@@ -14,12 +14,18 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-
         <LanguageSwitcher />
-
-        <v-btn text @click="logout">
-          {{ $t("actions.logout") }}
+        <v-btn text @click="closeOnboarding">
+          <v-icon>
+            {{ icons.mdiClose }}
+          </v-icon>
         </v-btn>
+        <ConfirmationDialog>
+          <template #title class="warning white--text"> Achtung ! </template>
+          <template #text>
+            Du hast Daten eingegeben, die beim Fortfahren verworfen werden
+          </template>
+        </ConfirmationDialog>
       </v-toolbar>
 
       <v-card-text class="pb-0">
@@ -165,11 +171,41 @@
         <v-checkbox
           v-model="dontShowOnboardingAgain"
           :label="$t('actions.dontShowAgain')"
+          class="shrink md1"
         ></v-checkbox>
-        <v-spacer></v-spacer>
-        <v-btn text @click="closeOnboarding"> {{ $t("actions.close") }}</v-btn>
       </v-card-actions>
-
+      <v-dialog
+        v-model="showAreYouSureDialog"
+        :fullscreen="$vuetify.breakpoint.smAndDown"
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="warning white--text">
+            {{ $t("news.label.warning") }} !
+          </v-card-title>
+          <v-card-text style="padding: 20px">
+            <p>
+              {{ $t("dialogs.dataWillBeLost") }}
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="error" text @click="showAreYouSureDialog = false">
+              {{ $t("actions.close") }}
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="success"
+              text
+              @click="
+                contractToSave = null;
+                closeOnboarding();
+              "
+            >
+              {{ $t("actions.continue") }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <FeedbackMenu />
     </v-card>
   </v-dialog>
@@ -191,6 +227,7 @@ import Privacy from "@/views/Privacy";
 import { ServiceFactory } from "@/factories/serviceFactory";
 import AuthService from "@/services/auth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 export default {
   name: "OnboardDialog",
@@ -198,7 +235,8 @@ export default {
     ContractForm,
     LanguageSwitcher,
     FeedbackMenu,
-    Privacy
+    Privacy,
+    ConfirmationDialog
   },
   props: {
     now: {
@@ -233,7 +271,8 @@ export default {
     privacyagreement: false,
     privacyDialog: false,
     dontShowOnboardingAgain: false,
-    savedContractUuid: ""
+    savedContractUuid: undefined,
+    showAreYouSureDialog: false
   }),
   computed: {
     serviceRepository() {
@@ -281,6 +320,10 @@ export default {
         });
     },
     async closeOnboarding() {
+      if (this.contractToSave !== null) {
+        this.showAreYouSureDialog = true;
+        return;
+      }
       await this.$store.dispatch("skipOnboarding");
       if (this.dontShowOnboardingAgain) {
         await AuthService.updateSettings({
