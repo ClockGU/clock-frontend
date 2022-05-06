@@ -30,19 +30,19 @@
 
       <v-card-text class="pb-0">
         <v-window v-model="step">
-          <v-window-item :value="0">
+          <v-window-item>
             <placeholder name="UndrawSubway">
               {{ $t("onboarding.welcome.text") }}
             </placeholder>
           </v-window-item>
 
-          <v-window-item :value="1">
+          <v-window-item>
             <placeholder name="UndrawWorkInProgress">
               {{ $t("onboarding.underConstruction.text") }}
             </placeholder>
           </v-window-item>
 
-          <v-window-item :value="2">
+          <v-window-item v-if="!dsgvoAccepted">
             <v-card-text class="pb-0">
               <i18n path="privacyagreement.text" tag="p">
                 <template #privacyAgreement>
@@ -92,7 +92,7 @@
             <v-card-text> {{ $t("privacyagreement.revokeInfo") }} </v-card-text>
           </v-window-item>
 
-          <v-window-item :value="3">
+          <v-window-item>
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -118,7 +118,7 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item :value="4">
+          <v-window-item>
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
@@ -275,6 +275,9 @@ export default {
     showAreYouSureDialog: false
   }),
   computed: {
+    dsgvoAccepted() {
+      return this.$store.getters["user"].dsgvo_accepted;
+    },
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
     },
