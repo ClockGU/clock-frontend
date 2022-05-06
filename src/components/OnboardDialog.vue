@@ -125,25 +125,13 @@
           </v-window-item>
         </v-window>
       </v-card-text>
-
+      <v-progress-linear
+        :value="(step / titles.length) * 100"
+      ></v-progress-linear>
       <v-card-actions>
         <v-btn :disabled="step == 0" text @click="step--">
           {{ $t("actions.back") }}
         </v-btn>
-        <v-spacer></v-spacer>
-
-        <v-item-group v-model="step" class="text-center" mandatory>
-          <v-item
-            v-for="n in titles.length"
-            :key="`btn-${n}`"
-            v-slot="{ active, toggle }"
-          >
-            <v-btn :input-value="active" icon @click="toggle">
-              <v-icon>{{ icons.mdiRecord }}</v-icon>
-            </v-btn>
-          </v-item>
-        </v-item-group>
-
         <v-spacer></v-spacer>
         <v-btn
           v-if="step !== titles.length - 1"
@@ -276,21 +264,28 @@ export default {
   }),
   computed: {
     dsgvoAccepted() {
-      return this.$store.getters["user"].dsgvo_accepted;
+      return this.$store.state.user.dsgvo_accepted;
     },
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
     },
     titles() {
-      return [
+      let returnValue = [
         this.$t("onboarding.welcome.title"),
-        this.$t("onboarding.underConstruction.title"),
-        this.$t("app.privacyagreement"),
+        this.$t("onboarding.underConstruction.title")
+      ];
+
+      if (!this.dsgvoAccepted) {
+        returnValue.push(this.$t("app.privacyagreement"));
+      }
+      returnValue.push(
         this.$t("onboarding.createContract.title", {
           entity: this.$tc("models.contract")
         }),
         this.$t("onboarding.finished.title")
-      ];
+      );
+
+      return returnValue;
     }
   },
   created() {
