@@ -151,7 +151,13 @@
         >
           {{ $t("actions.next") }}
         </v-btn>
-        <v-btn v-else text color="primary" :loading="loading" @click="save">
+        <v-btn
+          v-else
+          text
+          color="primary"
+          :loading="loading"
+          @click="finishOnboarding"
+        >
           {{ $t("actions.complete") }}
         </v-btn>
       </v-card-actions>
@@ -226,7 +232,8 @@ export default {
     personnelNumber: null,
     privacyagreement: false,
     privacyDialog: false,
-    dontShowOnboardingAgain: false
+    dontShowOnboardingAgain: false,
+    savedContractUuid: ""
   }),
   computed: {
     serviceRepository() {
@@ -263,6 +270,16 @@ export default {
     closeDialog() {
       this.$emit("close");
     },
+    routeToDashboard() {
+      this.$router
+        .push({
+          name: "dashboard",
+          params: { contract: this.savedContractUuid }
+        })
+        .catch(() => {
+          log("*** Redirecting...");
+        });
+    },
     async closeOnboarding() {
       await this.$store.dispatch("skipOnboarding");
       if (this.dontShowOnboardingAgain) {
@@ -270,12 +287,21 @@ export default {
           onboarding_passed: true
         });
       }
-      this.$router.push({ name: "dashboard" }).catch(() => {
-        log("*** Redirecting...");
-      });
+      this.routeToDashboard();
     },
     logout() {
       this.$store.dispatch("auth/LOGOUT");
+    },
+    async finishOnboarding() {
+      if (this.contractFormValid) {
+        await this.save();
+        // TODO: This gets called again in closeOnboarding()
+        await AuthService.updateSettings({
+          onboarding_passed: this.dontShowOnboardingAgain,
+          dsgvo_accepted: true
+        });
+      }
+      await this.closeOnboarding();
     },
     async save() {
       this.loading = true;
@@ -289,17 +315,9 @@ export default {
         }
         await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
+        this.savedContractUuid = contract;
         await this.$store.dispatch("contract/queryContracts");
-        await AuthService.updateSettings({
-          onboarding_passed: true,
-          dsgvo_accepted: true
-        });
         await this.$store.dispatch("GET_USER");
-        this.$router
-          .push({ name: "dashboard", params: { contract } })
-          .catch(() => {
-            log("*** Redirecting...");
-          });
       } catch (error) {
         // TODO: Set error state
         log(error);
