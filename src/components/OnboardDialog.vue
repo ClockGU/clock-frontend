@@ -129,7 +129,7 @@
         :value="(step / titles.length) * 100"
       ></v-progress-linear>
       <v-card-actions>
-        <v-btn :disabled="step == 0" text @click="step--">
+        <v-btn :disabled="step === 0" text @click="step--">
           {{ $t("actions.back") }}
         </v-btn>
         <v-spacer></v-spacer>
@@ -326,7 +326,8 @@ export default {
         });
     },
     async closeOnboarding() {
-      if (this.contractToSave !== null) {
+      // TODO: Not sure if this is the best way to identify user made input on the contract form.
+      if (this.contractToSave.name || this.contractToSave.worktime) {
         this.showAreYouSureDialog = true;
         return;
       }
