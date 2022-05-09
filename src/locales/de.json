@@ -301,7 +301,7 @@
       "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
     },
-    "cards" : {
+    "cards": {
       "1": {
         "title": "Was ist Clock?",
         "text": "Text One",
