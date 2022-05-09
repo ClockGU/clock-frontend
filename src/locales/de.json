@@ -299,6 +299,38 @@
     "welcome": {
       "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
+    },
+    "cards" : {
+      "1": {
+        "title": "Was ist Clock?",
+        "text": "Text One",
+        "placeholderName": "UndrawTimeManagement"
+      },
+      "2": {
+        "title": "Clock benötigt einen Vertrag",
+        "text": "Text Two",
+        "placeholderName": "UndrawNoData"
+      },
+      "3": {
+        "title": "Verträge",
+        "text": "Text Three",
+        "placeholderName": "UndrawNotes"
+      },
+      "4": {
+        "title": "Das Dashboard und deine Schichten",
+        "text": "Text Three",
+        "placeholderName": "UndrawSocialDashboard"
+      },
+      "5": {
+        "title": "Dein Kalender",
+        "text": "Text Three",
+        "placeholderName": "UndrawCalendar"
+      },
+      "6": {
+        "title": "Einen Stundenzettel generieren",
+        "text": "Text Three",
+        "placeholderName": "UndrawNewsletter"
+      }
     }
   },
   "personnelNumber": {
