@@ -355,11 +355,10 @@ export default {
         return;
       }
       await this.$store.dispatch("skipOnboarding");
-      if (this.dontShowOnboardingAgain) {
-        await AuthService.updateSettings({
-          onboarding_passed: true
-        });
-      }
+      await this.$store.dispatch("UPDATE_SETTINGS", {
+        onboarding_passed: this.dontShowOnboardingAgain,
+        dsgvo_accepted: this.privacyagreement
+      });
       this.routeToDashboard();
     },
     logout() {
@@ -368,11 +367,6 @@ export default {
     async finishOnboarding() {
       if (this.contractFormValid) {
         await this.save();
-        // TODO: This gets called again in closeOnboarding()
-        await AuthService.updateSettings({
-          onboarding_passed: this.dontShowOnboardingAgain,
-          dsgvo_accepted: true
-        });
       }
       await this.closeOnboarding();
     },
