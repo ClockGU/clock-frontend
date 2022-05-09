@@ -135,7 +135,10 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
-          v-if="step !== titles.length - 1"
+          v-if="
+            step < titles.length - 2 ||
+            (!contractFormEmpty && contractFormValid)
+          "
           color="primary"
           text
           :disabled="
@@ -149,13 +152,25 @@
           {{ $t("actions.next") }}
         </v-btn>
         <v-btn
-          v-else
+          v-if="step === titles.length - 1"
           text
           color="primary"
           :loading="loading"
           @click="finishOnboarding"
         >
           {{ $t("actions.complete") }}
+        </v-btn>
+        <v-btn
+          v-if="
+            contractFormEmpty &&
+            step === titles.length - 2 &&
+            !contractFormValid
+          "
+          color="primary"
+          text
+          @click="step++"
+        >
+          {{ $t("actions.skip") }}
         </v-btn>
       </v-card-actions>
       <v-card-actions>
@@ -247,6 +262,7 @@ export default {
     step: 0,
     confirmDialog: false,
     contractFormValid: false,
+    contractFormEmpty: true,
     dialog: true,
     icons: {
       mdiBadgeAccountHorizontal,
@@ -310,6 +326,9 @@ export default {
     updateContractForm(event) {
       this.contractToSave = event[this.entityName];
       this.contractFormValid = event.valid;
+      this.contractFormEmpty = !(
+        event.contract.name || event.contract.worktime
+      );
     },
     loadService() {
       this.serviceRepository.serviceLoader().then((service) => {
@@ -331,7 +350,7 @@ export default {
     },
     async closeOnboarding() {
       // TODO: Not sure if this is the best way to identify user made input on the contract form.
-      if (this.contractToSave.name || this.contractToSave.worktime) {
+      if (!this.contractFormEmpty) {
         this.showAreYouSureDialog = true;
         return;
       }
