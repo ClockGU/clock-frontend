@@ -30,16 +30,15 @@
 
       <v-card-text class="pb-0">
         <v-window v-model="step">
-          <v-window-item>
-            <placeholder name="UndrawSubway">
-              {{ $t("onboarding.welcome.text") }}
-            </placeholder>
-          </v-window-item>
-
-          <v-window-item>
-            <placeholder name="UndrawWorkInProgress">
-              {{ $t("onboarding.underConstruction.text") }}
-            </placeholder>
+          <v-window-item
+            v-for="card in Object.values($t('onboarding.cards'))"
+            :key="card.title"
+          >
+            <v-card>
+              <placeholder :name="card.placeholderName">
+                {{ card.text }}
+              </placeholder>
+            </v-card>
           </v-window-item>
 
           <v-window-item v-if="!dsgvoAccepted">
@@ -89,7 +88,9 @@
               >
               </v-checkbox>
             </v-card-text>
-            <v-card-text> {{ $t("privacyagreement.revokeInfo") }} </v-card-text>
+            <v-card-text>
+              {{ $t("privacyagreement.revokeInfo") }}
+            </v-card-text>
           </v-window-item>
 
           <v-window-item v-if="!contractExists">
@@ -135,12 +136,14 @@
         <v-spacer></v-spacer>
         <v-btn
           v-if="step !== titles.length - 1"
-          :disabled="
-            (step === 3 && !contractFormValid) ||
-            (step === 2 && !privacyagreement)
-          "
           color="primary"
           text
+          :disabled="
+            (!dsgvoAccepted &&
+              !privacyagreement &&
+              step === titles.length - 3) ||
+            (!contractFormValid && step === titles.length - 2)
+          "
           @click="step++"
         >
           {{ $t("actions.next") }}
@@ -273,10 +276,11 @@ export default {
       return ServiceFactory.get(this.entityName);
     },
     titles() {
-      let returnValue = [
-        this.$t("onboarding.welcome.title"),
-        this.$t("onboarding.underConstruction.title")
-      ];
+      let returnValue = Object.values(this.$t("onboarding.cards")).map(
+        function (el) {
+          return el.title;
+        }
+      );
 
       if (!this.dsgvoAccepted) {
         returnValue.push(this.$t("app.privacyagreement"));
