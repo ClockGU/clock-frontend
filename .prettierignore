@@ -2,5 +2,6 @@ Dockerfile
 yarn.lock
 .*
 
+/coverage
 /docker
 /dev

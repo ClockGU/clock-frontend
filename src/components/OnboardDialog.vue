@@ -34,11 +34,11 @@
             v-for="card in Object.values($t('onboarding.cards'))"
             :key="card.title"
           >
-            <v-card>
+            <v-card-text>
               <placeholder :name="card.placeholderName">
                 {{ card.text }}
               </placeholder>
-            </v-card>
+            </v-card-text>
           </v-window-item>
 
           <v-window-item v-if="!dsgvoAccepted">
