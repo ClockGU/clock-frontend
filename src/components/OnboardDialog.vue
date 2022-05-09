@@ -177,7 +177,7 @@
         <v-checkbox
           v-model="dontShowOnboardingAgain"
           :label="$t('actions.dontShowAgain')"
-          class="shrink md1"
+          style="scale: 0.85"
         ></v-checkbox>
       </v-card-actions>
       <v-dialog
