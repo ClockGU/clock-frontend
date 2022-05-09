@@ -56,6 +56,17 @@ export default new Vuex.Store({
           state.userLoading = false;
         });
     },
+    UPDATE_SETTINGS({ commit, dispatch, state }, settings) {
+      state.userLoading = true;
+      return AuthService.updateSettings(settings)
+        .then((response) => {
+          commit("SET_USER", response.data);
+          dispatch("changeLocale", response.data.language);
+        })
+        .finally(() => {
+          state.userLoading = false;
+        });
+    },
     startLoading({ commit }) {
       commit("startLoading");
     },
