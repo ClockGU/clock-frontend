@@ -108,6 +108,10 @@ export default {
         try {
           [hours, minutes] = validateWorktimeInput(val).split(":");
         } catch {
+          if (val === "") {
+            this.data = "";
+            return;
+          }
           this.data = this.value;
           return;
         }
