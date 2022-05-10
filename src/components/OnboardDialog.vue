@@ -199,7 +199,6 @@
             <v-btn
               color="success"
               text
-              :loading="loading"
               @click="
                 contractFormEmpty = true;
                 closeOnboarding();
