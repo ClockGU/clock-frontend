@@ -20,19 +20,14 @@
             {{ icons.mdiClose }}
           </v-icon>
         </v-btn>
-        <ConfirmationDialog>
-          <template #title class="warning white--text"> Achtung ! </template>
-          <template #text>
-            Du hast Daten eingegeben, die beim Fortfahren verworfen werden
-          </template>
-        </ConfirmationDialog>
       </v-toolbar>
 
       <v-card-text class="pb-0">
         <v-window v-model="step">
           <v-window-item
-            v-for="card in Object.values($t('onboarding.cards'))"
+            v-for="(card, i) in Object.values($t('onboarding.cards'))"
             :key="card.title"
+            :value="i"
           >
             <v-card-text>
               <placeholder :name="card.placeholderName">
@@ -41,7 +36,7 @@
             </v-card-text>
           </v-window-item>
 
-          <v-window-item v-if="!dsgvoAccepted">
+          <v-window-item v-if="!dsgvoAccepted" key="privacy">
             <v-card-text class="pb-0">
               <i18n path="privacyagreement.text" tag="p">
                 <template #privacyAgreement>
@@ -93,7 +88,7 @@
             </v-card-text>
           </v-window-item>
 
-          <v-window-item v-if="!contractExists">
+          <v-window-item v-if="!contractExists" key="contractForm">
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -119,7 +114,7 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item>
+          <v-window-item key="finish">
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
@@ -137,15 +132,18 @@
         <v-btn
           v-if="
             step < titles.length - 2 ||
-            (!contractFormEmpty && contractFormValid)
+            (step === titles.length - 2 &&
+              (!contractFormEmpty || contractExists))
           "
           color="primary"
           text
           :disabled="
             (!dsgvoAccepted &&
               !privacyagreement &&
-              step === titles.length - 3) ||
-            (!contractFormValid && step === titles.length - 2)
+              step === titles.length - (contractExists ? 2 : 3)) ||
+            (!contractFormValid &&
+              step === titles.length - 2 &&
+              !contractExists)
           "
           @click="step++"
         >
@@ -163,8 +161,7 @@
         <v-btn
           v-if="
             contractFormEmpty &&
-            step === titles.length - 2 &&
-            !contractFormValid
+            step === titles.length - (contractExists ? -1 : 2)
           "
           color="primary"
           text
@@ -202,8 +199,9 @@
             <v-btn
               color="success"
               text
+              :loading="loading"
               @click="
-                contractToSave = null;
+                contractFormEmpty = true;
                 closeOnboarding();
               "
             >
@@ -233,7 +231,6 @@ import Privacy from "@/views/Privacy";
 import { ServiceFactory } from "@/factories/serviceFactory";
 import AuthService from "@/services/auth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 export default {
   name: "OnboardDialog",
@@ -241,8 +238,7 @@ export default {
     ContractForm,
     LanguageSwitcher,
     FeedbackMenu,
-    Privacy,
-    ConfirmationDialog
+    Privacy
   },
   props: {
     now: {
@@ -310,7 +306,6 @@ export default {
       }
 
       returnValue.push(this.$t("onboarding.finished.title"));
-
       return returnValue;
     }
   },
@@ -327,7 +322,9 @@ export default {
       this.contractToSave = event[this.entityName];
       this.contractFormValid = event.valid;
       this.contractFormEmpty = !(
-        event.contract.name || event.contract.worktime
+        event.contract.name ||
+        event.contract.worktime ||
+        this.contractExists
       );
     },
     loadService() {
@@ -350,28 +347,37 @@ export default {
     },
     async closeOnboarding() {
       // TODO: Not sure if this is the best way to identify user made input on the contract form.
+      this.loading = true;
       if (!this.contractFormEmpty) {
         this.showAreYouSureDialog = true;
         return;
       }
-      await this.$store.dispatch("skipOnboarding");
-      await this.$store.dispatch("UPDATE_SETTINGS", {
-        onboarding_passed: this.dontShowOnboardingAgain,
-        dsgvo_accepted: this.privacyagreement
-      });
-      this.routeToDashboard();
+      try {
+        await this.$store.dispatch("skipOnboarding");
+        await this.$store.dispatch("UPDATE_SETTINGS", {
+          onboarding_passed: this.dontShowOnboardingAgain,
+          dsgvo_accepted: this.privacyagreement || this.dsgvoAccepted
+        });
+        this.routeToDashboard();
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000);
+      }
     },
     logout() {
       this.$store.dispatch("auth/LOGOUT");
     },
     async finishOnboarding() {
+      this.loading = true;
       if (this.contractFormValid) {
         await this.save();
       }
+      // Do this to prevent the areYouSureDialog
+      this.contractFormEmpty = true;
       await this.closeOnboarding();
     },
     async save() {
-      this.loading = true;
       try {
         const response = await this.service.create(
           this.contractToSave.toPayload()
@@ -383,15 +389,9 @@ export default {
         await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         this.savedContractUuid = contract;
-        await this.$store.dispatch("contract/queryContracts");
-        await this.$store.dispatch("GET_USER");
       } catch (error) {
         // TODO: Set error state
         log(error);
-      } finally {
-        setTimeout(() => {
-          this.loading = false;
-        }, 1000);
       }
     }
   }

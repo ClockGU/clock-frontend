@@ -110,6 +110,7 @@ export default {
         } catch {
           if (val === "") {
             this.data = "";
+            this.$emit("input", this.data);
             return;
           }
           this.data = this.value;
