@@ -28,12 +28,11 @@
             v-for="(card, i) in Object.values($t('onboarding.cards'))"
             :key="card.title"
             :value="i"
+            eager
           >
-            <v-card-text>
-              <placeholder :name="card.placeholderName">
-                {{ card.text }}
-              </placeholder>
-            </v-card-text>
+            <placeholder :name="card.placeholderName">
+              {{ card.text }}
+            </placeholder>
           </v-window-item>
 
           <v-window-item v-if="!dsgvoAccepted" key="privacy">
@@ -88,7 +87,7 @@
             </v-card-text>
           </v-window-item>
 
-          <v-window-item v-if="!contractExists" key="contractForm">
+          <v-window-item v-if="!contractExists" key="contractForm" eager>
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -114,7 +113,7 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item key="finish">
+          <v-window-item key="finish" eager>
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
@@ -332,8 +331,8 @@ export default {
     closeDialog() {
       this.$emit("close");
     },
-    async routeToDashboard() {
-      await this.$router
+    routeToDashboard() {
+      this.$router
         .push({
           name: "dashboard",
           params: { contract: this.savedContractUuid }
@@ -360,14 +359,12 @@ export default {
           userData.personal_number = this.personnelNumber;
         }
         await this.$store.dispatch("UPDATE_SETTINGS", userData);
+        this.routeToDashboard();
       } finally {
         setTimeout(() => {
-          this.routeToDashboard();
-        }, 2000);
+          this.loading = false;
+        }, 1000);
       }
-    },
-    logout() {
-      this.$store.dispatch("auth/LOGOUT");
     },
     async finishOnboarding() {
       this.loading = true;
