@@ -228,7 +228,6 @@ import FeedbackMenu from "@/components/FeedbackMenu";
 import Privacy from "@/views/Privacy";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
-import AuthService from "@/services/auth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
@@ -258,6 +257,7 @@ export default {
     confirmDialog: false,
     contractFormValid: false,
     contractFormEmpty: true,
+    contractExists: false,
     dialog: true,
     icons: {
       mdiBadgeAccountHorizontal,
@@ -279,9 +279,6 @@ export default {
   computed: {
     dsgvoAccepted() {
       return this.$store.state.user.dsgvo_accepted;
-    },
-    contractExists() {
-      return this.$store.getters["contract/contracts"].length > 0;
     },
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
@@ -315,6 +312,7 @@ export default {
     this.toSave = this.entity;
 
     await this.$store.dispatch("contract/queryContracts");
+    this.contractExists = this.$store.getters["contract/contracts"].length > 0;
   },
   methods: {
     updateContractForm(event) {
@@ -334,8 +332,8 @@ export default {
     closeDialog() {
       this.$emit("close");
     },
-    routeToDashboard() {
-      this.$router
+    async routeToDashboard() {
+      await this.$router
         .push({
           name: "dashboard",
           params: { contract: this.savedContractUuid }
@@ -353,14 +351,18 @@ export default {
       }
       try {
         await this.$store.dispatch("skipOnboarding");
-        await this.$store.dispatch("UPDATE_SETTINGS", {
+        let userData = {
           onboarding_passed: this.dontShowOnboardingAgain,
-          dsgvo_accepted: this.privacyagreement || this.dsgvoAccepted
-        });
-        this.routeToDashboard();
+          dsgvo_accepted: this.privacyagreement || this.dsgvoAccepted,
+          language: this.$i18n.locale
+        };
+        if (this.personnelNumber !== null) {
+          userData.personal_number = this.personnelNumber;
+        }
+        await this.$store.dispatch("UPDATE_SETTINGS", userData);
       } finally {
         setTimeout(() => {
-          this.loading = false;
+          this.routeToDashboard();
         }, 2000);
       }
     },
@@ -381,11 +383,6 @@ export default {
         const response = await this.service.create(
           this.contractToSave.toPayload()
         );
-        const userData = { language: this.$i18n.locale };
-        if (this.personnelNumber) {
-          userData.personal_number = this.personnelNumber;
-        }
-        await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         this.savedContractUuid = contract;
       } catch (error) {
