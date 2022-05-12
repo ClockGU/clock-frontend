@@ -15,7 +15,7 @@
 
         <v-spacer></v-spacer>
         <LanguageSwitcher />
-        <v-btn text @click="closeOnboarding">
+        <v-btn icon @click="closeOnboarding">
           <v-icon>
             {{ icons.mdiClose }}
           </v-icon>
