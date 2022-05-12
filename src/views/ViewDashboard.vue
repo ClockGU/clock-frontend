@@ -100,8 +100,7 @@ export default {
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
     entity: new Contract(),
-    loading: true,
-    disabled: false
+    loading: true
   }),
   computed: {
     ...mapGetters({
@@ -111,7 +110,7 @@ export default {
       reports: "report/reports"
     }),
     disabled() {
-      return this.selectedContract === undefined
+      return this.selectedContract === undefined;
     },
     selectedContract() {
       const uuid = this.$route.params.contract;
