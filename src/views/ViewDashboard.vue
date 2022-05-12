@@ -32,6 +32,7 @@
 
           <v-col cols="12" md="6" order="3">
             <DashboardProgress
+              :disabled="disabled"
               :azk-data="azkData"
               :weekly-data="weeklyData"
               :daily-data="dailyData"
@@ -99,7 +100,8 @@ export default {
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
     entity: new Contract(),
-    loading: true
+    loading: true,
+    disabled: false
   }),
   computed: {
     ...mapGetters({
@@ -108,6 +110,9 @@ export default {
       shifts: "shift/shifts",
       reports: "report/reports"
     }),
+    disabled() {
+      return this.selectedContract === undefined
+    },
     selectedContract() {
       const uuid = this.$route.params.contract;
       return this.contracts.find((contract) => contract.uuid === uuid);
@@ -118,12 +123,31 @@ export default {
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
-
       return reports.pop();
     },
     azkData() {
       //reminder: the Progress component expects the carryover to be the last item
       //any changes made here must be adapted in Progress.vue
+      if (this.selectedContract === undefined) {
+        return [
+          {
+            name: this.$t("reports.carryoverLast"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.debit"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.timeWorked"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.carryoverNext"),
+            value: "HH:MM"
+          }
+        ];
+      }
       return [
         {
           name: this.$t("reports.carryoverLast"),
@@ -144,6 +168,12 @@ export default {
       ];
     },
     weeklyData() {
+      if (this.selectedContract === undefined) {
+        return {
+          worktime: 0,
+          avg: 0
+        };
+      }
       let duration = 0;
       this.shifts
         .filter(
