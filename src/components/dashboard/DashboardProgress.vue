@@ -75,7 +75,7 @@
                   <v-col cols="12" align-self="center">
                     <v-card-text>
                       <v-row align-content="center">
-                        <v-col cols="2">
+                        <v-col cols="2" align-self="center">
                           <v-progress-circular
                             :color="colorWeekly"
                             size="64"
@@ -87,13 +87,13 @@
                             {{ disabled ? 0 : printProgress(weeklyProgress) }}%
                           </v-progress-circular>
                         </v-col>
-                        <v-col cols="9">
+                        <v-col cols="9" align-self="center">
                           <p>
                             {{
                               $tc("dashboard.progress.weeklyText", weeklyHours)
                             }}
                           </p>
-                          <p>
+                          <p style="margin-bottom: 0">
                             {{
                               $tc("dashboard.progress.weeklyBase", weeklyAvg)
                             }}
