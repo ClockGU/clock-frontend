@@ -4,8 +4,7 @@ export function sortObjects(objects, key) {
 
 export function getContractWithLastActivity({ shifts, contracts }) {
   if (shifts.length === 0) {
-    if (contracts.length < 2) return contracts[0].uuid;
-
+    if (contracts.length === 0) return "";
     return sortObjects(contracts, "modified_at")[0].uuid;
   } else if (shifts.length === 1) {
     return shifts[0].contract;

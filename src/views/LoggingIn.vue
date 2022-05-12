@@ -44,12 +44,19 @@ export default {
         response.data
       );
       this.$i18n.locale = data.language || "de";
-
-      this.$router
-        .push({
-          name: "dashboard"
-        })
-        .catch(() => {});
+      if (!this.$store.getters["user"].onboarding_passed) {
+        this.$router
+          .push({
+            name: "onboarding"
+          })
+          .catch(() => {});
+      } else {
+        this.$router
+          .push({
+            name: "dashboard"
+          })
+          .catch(() => {});
+      }
     } catch (error) {
       this.$store.dispatch("snackbar/setSnack", {
         snack:

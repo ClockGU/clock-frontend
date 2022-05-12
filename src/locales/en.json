@@ -73,7 +73,7 @@
   "contracts": {
     "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
     "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export time sheets.",
-    "empty": "Create your first contract!",
+    "empty": "You will have to create a contract in order to use Clock.",
     "fromTo": "{start} until {end}",
     "to": "to",
     "hoursPerMonth": "Hours per month",

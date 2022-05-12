@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Datenschutzerklärung</h1>
+    <h1 v-if="!dialog">Datenschutzerklärung</h1>
     <p>
       Diese Datenschutzerklärung dient zur Erfüllung der nach Artikel 13 EU
       DSGVO geforderten Informationspflicht bei Erhebung von Daten zum Zeitpunkt
@@ -264,6 +264,12 @@
 <script>
 export default {
   name: "Privacy",
+  props: {
+    dialog: {
+      type: Boolean,
+      default: false
+    }
+  },
   metaInfo() {
     return {
       title: this.$t("app.privacy")
@@ -282,5 +288,10 @@ iframe {
   border: 0;
   height: 280px;
   width: 100%;
+}
+h1,
+h2,
+h3 {
+  margin-bottom: 0.5em;
 }
 </style>

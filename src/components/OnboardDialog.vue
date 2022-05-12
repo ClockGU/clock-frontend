@@ -37,6 +37,56 @@
           </v-window-item>
 
           <v-window-item :value="2">
+            <v-card-text class="pb-0">
+              <i18n path="privacyagreement.text" tag="p">
+                <template #privacyAgreement>
+                  <v-dialog v-model="privacyDialog" scrollable max-width="600">
+                    <template #activator="{ on, attrs }">
+                      <a v-bind="attrs" v-on="on">{{
+                        $t("app.privacyagreement")
+                      }}</a>
+                    </template>
+                    <v-card>
+                      <v-toolbar
+                        flat
+                        class="text-h5 text--secondary font-weight-bold"
+                      >
+                        {{ $t("app.privacyagreement") }}
+                        <v-spacer></v-spacer>
+                        <v-toolbar-items>
+                          <v-btn icon @click="privacyDialog = false">
+                            <v-icon>{{ icons.mdiClose }}</v-icon>
+                          </v-btn>
+                        </v-toolbar-items>
+                      </v-toolbar>
+                      <v-card-text>
+                        <Privacy :dialog="true"></Privacy>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="privacyDialog = false"
+                        >
+                          {{ $t("actions.close") }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </template>
+              </i18n>
+
+              <v-checkbox
+                v-model="privacyagreement"
+                :label="$t('privacyagreement.checkbox')"
+              >
+              </v-checkbox>
+            </v-card-text>
+            <v-card-text> {{ $t("privacyagreement.revokeInfo") }} </v-card-text>
+          </v-window-item>
+
+          <v-window-item :value="3">
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -62,7 +112,7 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item :value="3">
+          <v-window-item :value="4">
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
@@ -90,8 +140,11 @@
 
         <v-spacer></v-spacer>
         <v-btn
-          v-if="step != titles.length - 1"
-          :disabled="step == 2 && !contractFormValid"
+          v-if="step !== titles.length - 1"
+          :disabled="
+            (step === 3 && !contractFormValid) ||
+            (step === 2 && !privacyagreement)
+          "
           color="primary"
           text
           @click="step++"
@@ -119,6 +172,7 @@ import {
 
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
+import Privacy from "@/views/Privacy";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 import AuthService from "@/services/auth";
@@ -126,7 +180,12 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
-  components: { ContractForm, LanguageSwitcher, FeedbackMenu },
+  components: {
+    ContractForm,
+    LanguageSwitcher,
+    FeedbackMenu,
+    Privacy
+  },
   props: {
     now: {
       type: Date,
@@ -156,7 +215,9 @@ export default {
     toSave: null,
     service: null,
     loading: false,
-    personnelNumber: null
+    personnelNumber: null,
+    privacyagreement: false,
+    privacyDialog: false
   }),
   computed: {
     serviceRepository() {
@@ -166,6 +227,7 @@ export default {
       return [
         this.$t("onboarding.welcome.title"),
         this.$t("onboarding.underConstruction.title"),
+        this.$t("app.privacyagreement"),
         this.$t("onboarding.createContract.title", {
           entity: this.$tc("models.contract")
         }),
@@ -208,6 +270,11 @@ export default {
         await AuthService.updateSettings(userData);
         const { uuid: contract } = response;
         await this.$store.dispatch("contract/queryContracts");
+        await AuthService.updateSettings({
+          onboarding_passed: true,
+          dsgvo_accepted: true
+        });
+        await this.$store.dispatch("GET_USER");
         this.$router
           .push({ name: "dashboard", params: { contract } })
           .catch(() => {
