@@ -273,12 +273,10 @@ export default {
     privacyDialog: false,
     dontShowOnboardingAgain: false,
     savedContractUuid: undefined,
-    showAreYouSureDialog: false
+    showAreYouSureDialog: false,
+    dsgvoAccepted: false
   }),
   computed: {
-    dsgvoAccepted() {
-      return this.$store.state.user.dsgvo_accepted;
-    },
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
     },
@@ -312,6 +310,7 @@ export default {
 
     await this.$store.dispatch("contract/queryContracts");
     this.contractExists = this.$store.getters["contract/contracts"].length > 0;
+    this.dsgvoAccepted = this.$store.state.user.dsgvo_accepted;
   },
   methods: {
     updateContractForm(event) {
