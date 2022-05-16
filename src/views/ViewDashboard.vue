@@ -28,7 +28,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="2">
-            <DashboardShiftButton @refresh="refresh" />
+            <DashboardShiftButton :disabled="disabled" @refresh="refresh" />
           </v-col>
 
           <v-col cols="12" md="6" order="3">
