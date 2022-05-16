@@ -144,7 +144,7 @@
             </v-window-item>
             <v-fade-transition>
               <v-overlay
-                v-if="hover || touchOverlay"
+                v-if="disabled && (hover || touchOverlay)"
                 absolute
                 color="primary"
                 style="align-items: start"
@@ -166,7 +166,7 @@
     ></ShiftWarnings>
 
     <v-card-actions class="justify-space-between">
-      <v-btn text @click="step == 0 ? (step = 2) : step--">
+      <v-btn text @click="step === 0 ? (step = 2) : step--">
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
       <v-item-group v-model="step" class="text-center" mandatory>
@@ -180,7 +180,7 @@
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn text @click="step == 2 ? (step = 0) : step++">
+      <v-btn text @click="step === 2 ? (step = 0) : step++">
         <v-icon>{{ icons.mdiChevronRight }}</v-icon>
       </v-btn>
     </v-card-actions>
