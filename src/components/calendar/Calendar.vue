@@ -11,12 +11,13 @@
         >
           <v-col class="px-0" cols="12">
             <SelectContractFilter
+              :disabled="disabled"
               :contracts="contracts"
               :selected-contract="selectedContract"
             />
           </v-col>
           <v-col class="px-0" cols="12">
-            <v-btn color="primary" @click="newShift">
+            <v-btn :disabled="disabled" color="primary" @click="newShift">
               {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
             </v-btn>
           </v-col>
@@ -104,6 +105,10 @@ export default {
     SelectContractFilter
   },
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     initialFocus: {
       type: String,
       default: () => localizedFormat(new Date(), "yyyy-MM-dd")
@@ -136,7 +141,9 @@ export default {
   computed: {
     selectedContract() {
       const uuid = this.$route.params.contract;
-
+      if (this.disabled) {
+        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
+      }
       return this.contracts.find((contract) => contract.uuid === uuid);
     },
     shiftNow() {
