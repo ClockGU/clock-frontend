@@ -1,7 +1,7 @@
 <template>
   <v-select
     :readonly="disabled"
-    :value="selectedContract"
+    :value="disabled ? { uuid: '' } : selectedContract"
     :items="disabled ? [{ uuid: '' }] : contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
