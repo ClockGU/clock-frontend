@@ -167,6 +167,9 @@ export default {
       return this.processShifts.filter((shift) => shift.reviewed === false);
     },
     dates() {
+      if (this.disabled) {
+        return [new Date()];
+      }
       return this.reports.map((report) => new Date(report.date));
     },
     months() {
@@ -198,7 +201,25 @@ export default {
     },
     data() {
       if (this.disabled) {
-        return { shifts: [], month: "" };
+        return {
+          shifts: [],
+          month: "",
+          report: {
+            uuid: "",
+            date: new Date(),
+            carryover: { prev: "HH:MM", next: "HH:MM" },
+            debit_worktime: "HH:MM",
+            net_worktime: "HH:MM"
+          },
+          isCurrentMonthLocked: false,
+          firstUnlockedMonth: new Date(),
+          date: this.date,
+          hasNextMonth: () => this.hasNextMonth,
+          hasPrevMonth: () => this.hasPrevMonth,
+          nextMonth: this.nextMonth,
+          prevMonth: this.prevMonth,
+          months: [new Date()]
+        };
       }
       return {
         date: this.date,
