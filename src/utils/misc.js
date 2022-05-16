@@ -1,5 +1,12 @@
 import i18n from "@/plugins/i18n";
 
+import {
+  mdiFileDocumentOutline,
+  mdiMedicalBag,
+  mdiSurfing,
+  mdiUmbrellaBeach
+} from "@mdi/js";
+
 export const SHIFT_TABLE_HEADERS = [
   {
     text: i18n.t("time.date"),
@@ -12,12 +19,6 @@ export const SHIFT_TABLE_HEADERS = [
     align: "start",
     sortable: true,
     value: "start"
-  },
-  {
-    text: i18n.t("time.end"),
-    align: "start",
-    sortable: true,
-    value: "end"
   },
   {
     text: i18n.t("time.duration"),
@@ -54,12 +55,6 @@ export const SHIFT_TABLE_HEADERS = [
     align: "start",
     sortable: true,
     value: "reviewed"
-  },
-  {
-    text: i18n.t("actions.actions"),
-    value: "actions",
-    align: "center",
-    sortable: false
   }
 ];
 
@@ -69,4 +64,11 @@ export const MESSAGE_TYPE_TAGS = {
   UD: i18n.t("news.label.update"),
   WN: i18n.t("news.label.warning"),
   TP: i18n.t("news.label.tip")
+};
+
+export const SHIFT_TYPE_ICONS = {
+  st: mdiFileDocumentOutline,
+  sk: mdiMedicalBag,
+  vn: mdiSurfing,
+  bh: mdiUmbrellaBeach
 };
