@@ -23,39 +23,51 @@
       </template>
 
       <!-- eslint-disable-next-line -->
-      <template #item.end="{ item }">
-        {{ formattedTime(item.end) }}
-      </template>
-
-      <!-- eslint-disable-next-line -->
       <template #item.duration="{ item }">
         {{ formattedDuration(item.duration) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
-        <v-chip outlined small :color="colors[item.shift.type.value]">
+        <v-icon :color="colors[item.shift.type.value]">
+          {{ typeIcons[item.shift.type.value] }}
+        </v-icon>
+        <!--v-chip outlined small :color="colors[item.shift.type.value]">
           <v-icon v-if="isRunningShift(item.shift)" left dense color="red">{{
             icons.mdiCircleMedium
           }}</v-icon>
           {{
             liveString(item.shift) + $t(`shifts.types.${item.shift.type.value}`)
           }}
-        </v-chip>
+        </v-chip-->
       </template>
 
       <!-- eslint-disable-next-line -->
-      <template #item.tagsNotes="{ item }">
-        <ShiftInfoDialog :item="item">
+      <template #item.tags="{ item }">
+        <v-chip
+          v-for="tag in item.tags.slice(0, 2)"
+          :key="tag"
+          class="mx-1"
+          small
+        >
+          {{ tag }}
+        </v-chip>
+        <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
           <template #activator="{ on }">
-            <v-icon v-if="item.tags.length > 0" small v-on="on">
-              {{ icons.mdiTagOutline }}
-            </v-icon>
-            <v-icon v-if="item.note" small v-on="on">
-              {{ icons.mdiFileDocumentOutline }}
-            </v-icon>
+            <v-chip small class="mx-1" v-on="on">...</v-chip>
           </template>
         </ShiftInfoDialog>
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.note="{ item }">
+        <ShiftInfoDialog :item="item">
+          <template #activator="{ on }">
+            <span on v-on="on">
+              {{ noteDisplay(item.note) }}
+            </span>
+          </template></ShiftInfoDialog
+        >
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -79,7 +91,7 @@
         <v-icon color="red">{{ icons.mdiClose }}</v-icon>
       </template>
 
-      <!-- eslint-disable-next-line-->
+      <!-- eslint-disable-next-line>
       <template #item.actions="{ item }">
         <v-btn text @click="$emit('edit', item.shift)">
           <v-icon>
@@ -121,14 +133,14 @@
             }}
           </template>
         </ConfirmationDialog>
-      </template>
+      </template-->
     </v-data-table>
   </div>
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
-import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
+//import ConfirmationDialog from "@/components/ConfirmationDialog";
+//import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
 import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog";
 
 import { isWithinInterval, isBefore, getHours } from "date-fns";
@@ -136,15 +148,13 @@ import { isWithinInterval, isBefore, getHours } from "date-fns";
 import {
   mdiCheck,
   mdiClose,
-  mdiDelete,
-  mdiPencil,
-  mdiSwapHorizontal,
   mdiCircleMedium,
   mdiTagOutline,
   mdiFileDocumentOutline
 } from "@mdi/js";
 
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
+import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
@@ -155,8 +165,8 @@ import { minutesToHHMM } from "@/utils/time";
 export default {
   name: "ShiftsTable",
   components: {
-    ConfirmationDialog,
-    ShiftAssignContractDialog,
+    //ConfirmationDialog,
+    //ShiftAssignContractDialog,
     ShiftInfoDialog
   },
   props: {
@@ -178,15 +188,13 @@ export default {
     icons: {
       mdiCheck,
       mdiClose,
-      mdiDelete,
-      mdiPencil,
-      mdiSwapHorizontal,
       mdiCircleMedium,
       mdiTagOutline,
       mdiFileDocumentOutline
     },
     headers: SHIFT_TABLE_HEADERS,
     colors: SHIFT_TYPE_COLORS,
+    typeIcons: SHIFT_TYPE_ICONS,
     selected: []
   }),
   computed: {
@@ -239,6 +247,11 @@ export default {
         }
       });
       return items;
+    },
+    noteDisplay(note) {
+      if (note.length > 15) {
+        return note.substr(0, 15) + "...";
+      } else return note;
     },
     async destroy() {
       const promises = [];
