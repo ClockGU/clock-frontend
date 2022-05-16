@@ -52,9 +52,6 @@ export default {
       };
     }
   },
-  created() {
-    this.contract = this.shifts[0].contract;
-  },
   methods: {
     async review() {
       const promises = [];

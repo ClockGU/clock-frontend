@@ -3,7 +3,7 @@
     <v-card elevation="0">
       <v-card-actions>
         <v-btn
-          :disabled="shifts.length > 1"
+          :disabled="shifts.length != 1"
           icon
           @click="$emit('edit', shifts[0].shift)"
         >
@@ -26,7 +26,11 @@
 
         <ShiftAssignContractDialog :shifts="shifts" @reset="$emit('refresh')">
           <template #activator="{ on }">
-            <v-btn icon v-on="on">
+            <v-btn
+              :disabled="contracts.length < 2 || shifts.length < 1"
+              icon
+              v-on="on"
+            >
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
           </template>
@@ -37,12 +41,12 @@
           @destroy="destroyFn"
         >
           <template #activator="{ on }">
-            <v-btn icon v-on="on">
+            <v-btn :disabled="shifts.length < 1" icon v-on="on">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
             </v-btn>
           </template>
         </ShiftBulkActionsDialogDelete>
-        ({{ durationSum }})
+        {{ durationSum }}
       </v-card-actions>
     </v-card>
   </v-expand-transition>
@@ -82,6 +86,10 @@ export default {
     shifts: {
       type: Array,
       required: true
+    },
+    contracts: {
+      type: Array,
+      required: true
     }
   },
   data: () => ({
@@ -96,7 +104,7 @@ export default {
       this.shifts.forEach((shift) => {
         sum += shift.duration;
       });
-      return minutesToHHMM(sum, "");
+      return sum > 0 ? "| " + minutesToHHMM(sum, "") + "h Arbeitszeit" : "";
     }
   }
 };

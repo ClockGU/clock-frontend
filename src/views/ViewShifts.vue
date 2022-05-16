@@ -45,7 +45,7 @@
                       <v-col cols="12" md="5">
                         <span>
                           {{ $t("shifts.table.pastShiftsTitle") }}
-                          ({{ durationSum(data.pastShifts) }})
+                          |&nbsp;{{ durationSum(data.pastShifts) }}h Arbeitszeit
                         </span>
                       </v-col>
 
@@ -74,9 +74,9 @@
                   </v-card-text>
 
                   <ShiftBulkActions
-                    v-if="selected.length > 0"
                     :destroy-fn="destroyFn"
                     :shifts="selected"
+                    :contracts="contracts"
                     can-review
                     @edit="editShift"
                     @refresh="refresh"
@@ -97,7 +97,8 @@
                       <v-col cols="12" md="5">
                         <span>
                           {{ $t("shifts.table.futureShiftsTitle") }}
-                          ({{ durationSum(data.futureShifts) }})
+                          |&nbsp;{{ durationSum(data.futureShifts) }}h
+                          Arbeitszeit
                         </span>
                       </v-col>
 
@@ -125,8 +126,8 @@
                     {{ $t("shifts.table.futureShiftsHint") }}
                   </v-card-text>
                   <ShiftBulkActions
-                    v-if="selected.length > 0"
                     :shifts="selected"
+                    :contracts="contracts"
                     :destroy-fn="destroyFn"
                     @edit="editShift"
                     @refresh="refresh"
