@@ -5,6 +5,7 @@
         <SelectContractFilter
           :contracts="contracts"
           :selected-contract="selectedContract"
+          :disabled="disabled"
         />
       </v-col>
 
@@ -102,6 +103,10 @@ export default {
     entity: new Contract(),
     loading: true
   }),
+  created() {
+    console.log(JSON.stringify(this.contracts));
+  },
+  // eslint-disable-next-line vue/order-in-components
   computed: {
     ...mapGetters({
       clockedShift: "clock/clockedShift",
@@ -110,10 +115,13 @@ export default {
       reports: "report/reports"
     }),
     disabled() {
-      return this.selectedContract === undefined;
+      return this.$route.params.contract === undefined;
     },
     selectedContract() {
       const uuid = this.$route.params.contract;
+      if (this.disabled) {
+        return { uuid: "" };
+      }
       return this.contracts.find((contract) => contract.uuid === uuid);
     },
     latestReport() {
@@ -127,7 +135,7 @@ export default {
     azkData() {
       //reminder: the Progress component expects the carryover to be the last item
       //any changes made here must be adapted in Progress.vue
-      if (this.selectedContract === undefined) {
+      if (this.disabled) {
         return [
           {
             name: this.$t("reports.carryoverLast"),
