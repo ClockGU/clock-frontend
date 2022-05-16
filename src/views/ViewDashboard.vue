@@ -56,7 +56,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="5">
-            <DashboardLastActivity @refresh="refresh" />
+            <DashboardLastActivity :disabled="disabled" @refresh="refresh" />
           </v-col>
         </v-row>
       </v-card>
