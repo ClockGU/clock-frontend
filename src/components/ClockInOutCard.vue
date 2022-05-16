@@ -86,6 +86,10 @@ export default {
     clockedShift: {
       type: Object,
       default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -105,6 +109,9 @@ export default {
       );
     },
     overlayMessage() {
+      if (this.disabled) {
+        return "Um eine Schicht einzustechen musst du einen Vertrag erstellen.";
+      }
       if (this.contractInFuture)
         return this.$t("dashboard.clock.contractInFuture");
       if (this.contractExpired)
