@@ -1,26 +1,31 @@
 <template>
   <v-select
+    :readonly="disabled"
     :value="selectedContract"
-    :items="contracts"
+    :items="disabled ? [{ uuid: '' }] : contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
-    :hint="
-      contractExpired
-        ? $t('selectContract.hintExpired')
-        : $t('selectContract.hint')
-    "
+    :hint="hint"
     item-value="uuid"
     persistent-hint
     solo
     return-object
-    :background-color="contractExpired ? 'grey lighten-2' : undefined"
+    :background-color="bgColor"
     @input="changeContract"
   >
     <template #selection="contract">
-      {{ contract.item.name + contractStatus(contract.item) }}
+      {{
+        disabled
+          ? "Du hast noch keinen Vertrag."
+          : contract.item.name + contractStatus(contract.item)
+      }}
     </template>
 
     <template #item="contract">
-      {{ contract.item.name + contractStatus(contract.item) }}
+      {{
+        disabled
+          ? "Du hast noch keinen Vertrag."
+          : contract.item.name + contractStatus(contract.item)
+      }}
     </template>
   </v-select>
 </template>
@@ -42,11 +47,32 @@ export default {
     selectedContract: {
       type: Object,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data: () => ({
     icons: { mdiRecord }
   }),
+  computed: {
+    hint() {
+      if (this.disabled) {
+        return "";
+      }
+      return this.contractExpired
+        ? this.$t("selectContract.hintExpired")
+        : this.$t("selectContract.hint");
+    },
+    bgColor() {
+      if (this.disabled) {
+        return undefined;
+      }
+      return this.contractExpired ? "grey lighten-2" : undefined;
+    }
+  },
   methods: {
     changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;
