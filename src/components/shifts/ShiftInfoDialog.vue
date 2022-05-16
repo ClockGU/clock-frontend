@@ -41,7 +41,7 @@ export default {
     dialog: false
   }),
   created() {
-    console.log(this.item);
+    //console.log(this.item);
   }
 };
 </script>
