@@ -17,6 +17,7 @@
 
           <v-col cols="12" md="6" order="0" order-md="0">
             <ClockInOutCard
+              :disabled="disabled"
               :clocked-shift="clockedShift"
               :selected-contract="selectedContract"
               @refresh="refresh"
@@ -127,7 +128,7 @@ export default {
     selectedContract() {
       const uuid = this.$route.params.contract;
       if (this.disabled) {
-        return { uuid: "" };
+        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
       }
       return this.contracts.find((contract) => contract.uuid === uuid);
     },
