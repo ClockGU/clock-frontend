@@ -41,9 +41,16 @@
           </v-col>
 
           <v-col cols="12" md="6" order="4">
-            <DataFilter :date="date" :contract="selectedContract">
+            <DataFilter
+              :date="date"
+              :contract="selectedContract"
+              :disabled="disabled"
+            >
               <template #default="{ data }">
-                <DashboardConflicts :shifts="data.shifts" />
+                <DashboardConflicts
+                  :shifts="data.shifts"
+                  :disabled="disabled"
+                />
               </template>
             </DataFilter>
           </v-col>

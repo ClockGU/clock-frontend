@@ -33,6 +33,10 @@ import { mapGetters } from "vuex";
 export default {
   name: "DataFilter",
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     contract: {
       type: Object,
       required: true
@@ -193,6 +197,9 @@ export default {
       return filteredShifts.map(this.shiftFn);
     },
     data() {
+      if (this.disabled) {
+        return { shifts: [], month: "" };
+      }
       return {
         date: this.date,
         hasNextMonth: () => this.hasNextMonth,
