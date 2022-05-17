@@ -183,7 +183,7 @@ export default {
       ];
     },
     weeklyData() {
-      if (this.selectedContract === undefined) {
+      if (this.disabled) {
         return {
           worktime: 0,
           avg: 0
