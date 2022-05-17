@@ -8,7 +8,7 @@
       <v-card v-if="item.tags.length > 0" class="mx-2" flat>
         <v-card-title>Tags</v-card-title>
         <v-card-text>
-          <v-chip v-for="tag in item.tags" :key="tag" class="mr-2">
+          <v-chip v-for="tag in item.tags" :key="tag" small class="mr-2">
             {{ tag }}
           </v-chip>
         </v-card-text>
