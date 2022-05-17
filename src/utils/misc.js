@@ -4,7 +4,7 @@ import {
   mdiBriefcaseClockOutline,
   mdiMedicalBag,
   mdiSurfing,
-  mdiWeatherSunny
+  mdiWhiteBalanceSunny
 } from "@mdi/js";
 
 export const SHIFT_TABLE_HEADERS = [
@@ -49,6 +49,11 @@ export const SHIFT_TABLE_HEADERS = [
     align: "start",
     sortable: true,
     value: "note"
+  },
+  {
+    align: "start",
+    sortable: false,
+    value: "actions"
   }
 ];
 
@@ -64,5 +69,5 @@ export const SHIFT_TYPE_ICONS = {
   st: mdiBriefcaseClockOutline,
   sk: mdiMedicalBag,
   vn: mdiSurfing,
-  bh: mdiWeatherSunny
+  bh: mdiWhiteBalanceSunny
 };
