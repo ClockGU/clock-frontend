@@ -13,11 +13,14 @@
     @input="changeContract"
   >
     <template #selection="contract">
-      {{
-        disabled
-          ? "Du hast noch keinen Vertrag."
-          : contract.item.name + contractStatus(contract.item)
-      }}
+      <div v-if="disabled">
+        {{ "Du hast noch keinen Vertrag. " }}
+        <router-link v-if="disabled" to="/contracts">Hier</router-link>
+        {{ " kannst du dir einen anlegen." }}
+      </div>
+      <div v-else>
+        {{ contract.item.name + contractStatus(contract.item) }}
+      </div>
     </template>
 
     <template #item="contract">
