@@ -18,7 +18,7 @@ export async function RequiredDataGuard(to, from, next) {
       }
       // go on to valid, matched contract.
       // TODO: This call is mentioned twice.
-      await store.dispatch("report/list");
+      await store.dispatch("reports/list");
       return next();
     }
 
