@@ -10,6 +10,7 @@
       item-key="uuid"
       :custom-sort="sortByDate"
       must-sort
+      :sort-desc="!pastShifts"
       show-select
     >
       <!-- eslint-disable-next-line -->
@@ -48,6 +49,28 @@
       </template>
 
       <!-- eslint-disable-next-line -->
+      <template v-if="pastShifts" #item.reviewed="{ item }">
+        <v-btn
+          v-if="!item.reviewed"
+          :elevation="!isRunningShift(item.shift) ? 3 : 0"
+          icon
+          :disabled="isRunningShift(item.shift)"
+          v-on="on"
+          @click="reviewSingleShift(item.shift)"
+        >
+          <v-icon color="red">
+            {{ icons.mdiClose }}
+          </v-icon>
+        </v-btn>
+        <v-icon v-else color="green" class="pl-1">{{ icons.mdiCheck }}</v-icon>
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template v-else #item.reviewed="{ item }">
+        <v-icon color="red">{{ icons.mdiClose }}</v-icon>
+      </template>
+
+      <!-- eslint-disable-next-line -->
       <template #item.tags="{ item }">
         <v-chip
           v-for="tag in item.tags.slice(0, 2)"
@@ -71,29 +94,8 @@
             <span on v-on="on">
               {{ noteDisplay(item.note) }}
             </span>
-          </template></ShiftInfoDialog
-        >
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template v-if="pastShifts" #item.reviewed="{ item }">
-        <v-btn
-          v-if="!item.reviewed"
-          :elevation="!isRunningShift(item.shift) ? 3 : 0"
-          icon
-          :disabled="isRunningShift(item.shift)"
-          @click="reviewSingleShift(item.shift)"
-        >
-          <v-icon color="red">
-            {{ icons.mdiClose }}
-          </v-icon>
-        </v-btn>
-        <v-icon v-else color="green" class="pl-1">{{ icons.mdiCheck }}</v-icon>
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template v-else #item.reviewed="{ item }">
-        <v-icon color="red">{{ icons.mdiClose }}</v-icon>
+          </template>
+        </ShiftInfoDialog>
       </template>
 
       <!-- eslint-disable-next-line-->
