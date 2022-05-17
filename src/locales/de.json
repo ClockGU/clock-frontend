@@ -304,32 +304,32 @@
     "cards": {
       "1": {
         "title": "Was ist Clock?",
-        "text": "Text One",
+        "text": "Clock hilft Dir beim Erfassen Deiner Arbeitszeit und beim Erstellen Deiner monatlichen Stundenzettel. Du behältst dabei die Kontrolle über Deine Daten und entscheidest, wann Dein Stundenzettel fertig zur Abgabe ist.",
         "placeholderName": "UndrawTimeManagement"
       },
       "2": {
         "title": "Clock benötigt einen Vertrag",
-        "text": "Text Two",
+        "text": "Du brauchst einen Vertrag, um den Deine Arbeitszeit erfassen zu können. Am Ende dieser Einführung kannst Du einen neuen Vertrag erstellen.",
         "placeholderName": "UndrawNoData"
       },
       "3": {
         "title": "Verträge",
-        "text": "Text Three",
+        "text": "Ein Vertrag in Clock entspricht Deinem realen Arbeitsvertrag und sollte die gleiche Laufzeit und die gleiche Stundenzahl haben. Wenn Du mehrere Jobs hast, kannst Du in Clock mehrere Verträge anlegen und Zeiten getrennt erfassen.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
         "title": "Das Dashboard und deine Schichten",
-        "text": "Text Three",
+        "text": "Eine zusammenhängende Arbeitszeit nennen wir in Clock \"Schicht\". Du kannst Schichten direkt \"clocken \" oder Schichten von Hand hinzufügen und sogar für die Zukunft planen. Auf dem Dashboard siehst Du alle wichtigen Informationen auf einen Blick.",
         "placeholderName": "UndrawSocialDashboard"
       },
       "5": {
-        "title": "Dein Kalender",
-        "text": "Text Three",
+        "title": "Kalender und Schichtübersicht",
+        "text": "Deine vergangenen und geplanten Schichten kannst Du entweder in der Kalenderansicht oder in der Schichttabelle ansehen und bearbeiten. Geplante Schichten müssen nochmals überprüft werden, damit sie auch berechnet werden.",
         "placeholderName": "UndrawCalendar"
       },
       "6": {
         "title": "Einen Stundenzettel generieren",
-        "text": "Text Three",
+        "text": "Am Ende des Monats kannst Du einen Stundenzettel generieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst Du herunterladen und bei Deiner Dienststelle abgeben.",
         "placeholderName": "UndrawNewsletter"
       }
     }
