@@ -45,7 +45,7 @@
                       <v-col cols="12" md="5">
                         <span>
                           {{ $t("shifts.table.pastShiftsTitle") }}
-                          |&nbsp;{{ durationSum(data.pastShifts) }}h Arbeitszeit
+                          {{ durationSum(data.pastShifts) }}
                         </span>
                       </v-col>
 
@@ -74,6 +74,7 @@
                   </v-card-text>
 
                   <ShiftBulkActions
+                    v-if="selected.length > 0"
                     :destroy-fn="destroyFn"
                     :shifts="selected"
                     :contracts="contracts"
@@ -97,8 +98,7 @@
                       <v-col cols="12" md="5">
                         <span>
                           {{ $t("shifts.table.futureShiftsTitle") }}
-                          |&nbsp;{{ durationSum(data.futureShifts) }}h
-                          Arbeitszeit
+                          {{ durationSum(data.futureShifts) }}
                         </span>
                       </v-col>
 
@@ -126,6 +126,7 @@
                     {{ $t("shifts.table.futureShiftsHint") }}
                   </v-card-text>
                   <ShiftBulkActions
+                    v-if="selected.length > 0"
                     :shifts="selected"
                     :contracts="contracts"
                     :destroy-fn="destroyFn"
@@ -245,7 +246,7 @@ export default {
       shifts.forEach((shift) => {
         sum += shift.duration;
       });
-      return minutesToHHMM(sum, "");
+      return "| " + minutesToHHMM(sum, "") + "h";
     }
   }
 };

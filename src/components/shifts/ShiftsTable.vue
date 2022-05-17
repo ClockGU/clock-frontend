@@ -32,14 +32,19 @@
         <v-icon :color="colors[item.shift.type.value]">
           {{ typeIcons[item.shift.type.value] }}
         </v-icon>
-        <!--v-chip outlined small :color="colors[item.shift.type.value]">
-          <v-icon v-if="isRunningShift(item.shift)" left dense color="red">{{
-            icons.mdiCircleMedium
-          }}</v-icon>
-          {{
-            liveString(item.shift) + $t(`shifts.types.${item.shift.type.value}`)
-          }}
-        </v-chip-->
+        <v-chip
+          v-if="isRunningShift(item.shift)"
+          class="ml-2"
+          outlined
+          x-small
+          dense
+          color="red"
+        >
+          live
+        </v-chip>
+        <!--v-icon v-if="isRunningShift(item.shift)" left dense color="red">{{
+          icons.mdiCircleMedium
+        }}</v-icon-->
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -91,25 +96,25 @@
         <v-icon color="red">{{ icons.mdiClose }}</v-icon>
       </template>
 
-      <!-- eslint-disable-next-line>
+      <!-- eslint-disable-next-line-->
       <template #item.actions="{ item }">
-        <v-btn text @click="$emit('edit', item.shift)">
+        <v-btn icon @click="$emit('edit', item.shift)">
           <v-icon>
             {{ icons.mdiPencil }}
           </v-icon>
         </v-btn>
-        <ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
+        <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
           </template>
-        </ShiftAssignContractDialog>
+        </ShiftAssignContractDialog-->
 
-        <ConfirmationDialog @confirm="destroySingleShift(item)">
+        <!--ConfirmationDialog @confirm="destroySingleShift(item)">
           <template #activator="{ on }">
             <v-scale-transition>
-              <v-btn text v-on="on">
+              <v-btn elevation="1" icon v-on="on">
                 <v-icon>
                   {{ icons.mdiDelete }}
                 </v-icon>
@@ -132,8 +137,8 @@
               })
             }}
           </template>
-        </ConfirmationDialog>
-      </template-->
+        </ConfirmationDialog-->
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -150,7 +155,10 @@ import {
   mdiClose,
   mdiCircleMedium,
   mdiTagOutline,
-  mdiFileDocumentOutline
+  mdiFileDocumentOutline,
+  mdiPencil,
+  mdiSwapHorizontal,
+  mdiDelete
 } from "@mdi/js";
 
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
@@ -166,7 +174,7 @@ export default {
   name: "ShiftsTable",
   components: {
     //ConfirmationDialog,
-    //ShiftAssignContractDialog,
+    //  ShiftAssignContractDialog,
     ShiftInfoDialog
   },
   props: {
@@ -190,7 +198,10 @@ export default {
       mdiClose,
       mdiCircleMedium,
       mdiTagOutline,
-      mdiFileDocumentOutline
+      mdiFileDocumentOutline,
+      mdiPencil,
+      mdiSwapHorizontal,
+      mdiDelete
     },
     headers: SHIFT_TABLE_HEADERS,
     colors: SHIFT_TYPE_COLORS,
@@ -231,7 +242,7 @@ export default {
       return minutesToHHMM(duration, "");
     },
     sortByDate(items, sortBy, sortDesc) {
-      const desc = sortDesc[0] ? 1 : -1;
+      const desc = sortDesc[0] ? -1 : 1;
       items.sort((a, b) => {
         switch (sortBy[0]) {
           case "date":
@@ -240,8 +251,6 @@ export default {
             return isBefore(getHours(b.start), getHours(a.start))
               ? -desc
               : desc;
-          case "end":
-            return isBefore(getHours(b.end), getHours(a.end)) ? -desc : desc;
           default:
             return a[sortBy[0]] > b[sortBy[0]] ? -desc : desc;
         }

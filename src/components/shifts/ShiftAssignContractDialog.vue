@@ -65,6 +65,9 @@ export default {
       );
     }
   },
+  created() {
+    this.contract = this.shifts[0].contract;
+  },
   methods: {
     async save() {
       const promises = [];

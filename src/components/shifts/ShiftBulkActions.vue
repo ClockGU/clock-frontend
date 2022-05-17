@@ -2,13 +2,13 @@
   <v-expand-transition appear>
     <v-card elevation="0">
       <v-card-actions>
-        <v-btn
+        <!--v-btn
           :disabled="shifts.length != 1"
           icon
           @click="$emit('edit', shifts[0].shift)"
         >
           <v-icon>{{ icons.mdiPencil }}</v-icon>
-        </v-btn>
+        </v-btn-->
 
         <ShiftBulkActionsDialogReview
           v-if="canReview"
@@ -104,7 +104,7 @@ export default {
       this.shifts.forEach((shift) => {
         sum += shift.duration;
       });
-      return sum > 0 ? "| " + minutesToHHMM(sum, "") + "h Arbeitszeit" : "";
+      return "| " + minutesToHHMM(sum, "") + "h";
     }
   }
 };
