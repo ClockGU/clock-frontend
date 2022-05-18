@@ -26,7 +26,7 @@
         <v-window v-model="step">
           <v-window-item
             v-for="(card, i) in Object.values($t('onboarding.cards'))"
-            :key="card.title"
+            :key="i"
             :value="i"
             eager
           >
@@ -35,7 +35,11 @@
             </placeholder>
           </v-window-item>
 
-          <v-window-item v-if="!dsgvoAccepted" key="privacy">
+          <v-window-item
+            v-if="!dsgvoAccepted"
+            key="privacy"
+            :value="titles.length - (contractExists ? 2 : 3)"
+          >
             <v-card-text class="pb-0">
               <i18n path="privacyagreement.text" tag="p">
                 <template #privacyAgreement>
@@ -87,7 +91,12 @@
             </v-card-text>
           </v-window-item>
 
-          <v-window-item v-if="!contractExists" key="contractForm" eager>
+          <v-window-item
+            v-if="!contractExists"
+            key="contractForm"
+            eager
+            :value="titles.length - 2"
+          >
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
@@ -113,7 +122,7 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item key="finish" eager>
+          <v-window-item key="finish" eager :value="titles.length - 1">
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
@@ -300,6 +309,13 @@ export default {
 
       returnValue.push(this.$t("onboarding.finished.title"));
       return returnValue;
+    }
+  },
+  watch: {
+    step() {
+      console.log(this.titles);
+      console.log(this.step);
+      console.log(this.$i18n.locale);
     }
   },
   async created() {
