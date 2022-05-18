@@ -18,7 +18,7 @@ export async function RequiredDataGuard(to, from, next) {
       }
       // go on to valid, matched contract.
       // TODO: This call is mentioned twice.
-      await store.dispatch("reports/list");
+      await store.dispatch("report/list");
       return next();
     }
 
@@ -29,7 +29,7 @@ export async function RequiredDataGuard(to, from, next) {
       // eslint-disable-next-line no-unused-vars
       const [shifts, reports] = await Promise.all([
         store.dispatch("shift/queryShifts"),
-        store.dispatch("reports/list")
+        store.dispatch("report/list")
       ]);
       const uuid = getContractWithLastActivity({ shifts, contracts });
       return next(getNextContractParams(to, uuid));
