@@ -120,8 +120,7 @@
               style="align-items: start"
             >
               <p style="margin-top: 17%" class="text-center">
-                Hier kannst du deine gespeicherten Schichten ansehen und
-                verwalten.
+                {{ $t("dashboard.disabled.reportHere") }}
               </p>
             </v-overlay>
           </v-fade-transition>

@@ -21,7 +21,7 @@
               style="align-items: start"
             >
               <p style="margin-top: 11%" class="text-center">
-                Hier kannst du Schichten manuell eintragen.
+                {{ $t("dashboard.disabled.createShiftsHere") }}
               </p>
             </v-overlay>
           </v-fade-transition>

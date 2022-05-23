@@ -110,7 +110,7 @@ export default {
     },
     overlayMessage() {
       if (this.disabled) {
-        return "Um eine Schicht einzustechen musst du einen Vertrag erstellen.";
+        return this.$t("dashboard.disabled.contractNeededForClocking");
       }
       if (this.contractInFuture)
         return this.$t("dashboard.clock.contractInFuture");

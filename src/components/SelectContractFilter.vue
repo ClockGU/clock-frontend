@@ -14,9 +14,10 @@
   >
     <template #selection="contract">
       <div v-if="disabled">
-        {{ "Du hast noch keinen Vertrag. " }}
-        <router-link v-if="disabled" to="/contracts">Hier</router-link>
-        {{ " kannst du dir einen anlegen." }}
+        {{ $t("dashboard.disabled.noContract") }}
+        <router-link v-if="disabled" to="/contracts">{{
+          $t("dashboard.disabled.createContractHere")
+        }}</router-link>
       </div>
       <div v-else>
         {{ contract.item.name + contractStatus(contract.item) }}
@@ -26,7 +27,7 @@
     <template #item="contract">
       {{
         disabled
-          ? "Du hast noch keinen Vertrag."
+          ? $t("dashboard.disabled.noContract")
           : contract.item.name + contractStatus(contract.item)
       }}
     </template>

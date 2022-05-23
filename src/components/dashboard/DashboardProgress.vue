@@ -150,7 +150,7 @@
                 style="align-items: start"
               >
                 <p style="margin-top: 15%" class="text-center">
-                  Hier kannst du deinen Arbeitsfortschritt sehen.
+                  {{ $t("dashboard.disabled.progressHere") }}
                 </p>
               </v-overlay>
             </v-fade-transition>
