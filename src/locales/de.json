@@ -308,28 +308,28 @@
         "placeholderName": "UndrawTimeManagement"
       },
       "2": {
-        "title": "Clock benötigt einen Vertrag",
-        "text": "Du brauchst einen Vertrag, um den Deine Arbeitszeit erfassen zu können. Am Ende dieser Einführung kannst Du einen neuen Vertrag erstellen.",
+        "title": "Verträge",
+        "text": "Ein Vertrag in Clock entspricht Deinem realen Arbeitsvertrag und sollte die gleiche Laufzeit und die gleiche Stundenzahl haben. Wenn Du mehrere Jobs hast, kannst Du in Clock mehrere Verträge anlegen und Zeiten getrennt erfassen.",
         "placeholderName": "UndrawNoData"
       },
       "3": {
-        "title": "Verträge",
-        "text": "Ein Vertrag in Clock entspricht Deinem realen Arbeitsvertrag und sollte die gleiche Laufzeit und die gleiche Stundenzahl haben. Wenn Du mehrere Jobs hast, kannst Du in Clock mehrere Verträge anlegen und Zeiten getrennt erfassen.",
+        "title": "Schichten",
+        "text": "Eine zusammenhängende Arbeitszeit ist eine \"Schicht\". Du kannst Schichten direkt \"clocken \" oder von Hand hinzufügen und sogar im Voraus planen. Eine geplante Schicht muss überprüft werden nachdem sie stattgefunden hat.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
-        "title": "Das Dashboard und deine Schichten",
-        "text": "Eine zusammenhängende Arbeitszeit nennen wir in Clock \"Schicht\". Du kannst Schichten direkt \"clocken \" oder Schichten von Hand hinzufügen und sogar für die Zukunft planen. Auf dem Dashboard siehst Du alle wichtigen Informationen auf einen Blick.",
+        "title": "Das Dashboard",
+        "text": "Auf dem Dashboard kannst Du \"clocken\" und behältst die Arbeitszeit in Deinem Vertrag im Überblick. Falls es Überschneidungen Deiner Schichten gibt oder Du das Ausclocken vergessen hast, wird eine Warnung angezeigt.",
         "placeholderName": "UndrawSocialDashboard"
       },
       "5": {
-        "title": "Kalender und Schichtübersicht",
-        "text": "Deine vergangenen und geplanten Schichten kannst Du entweder in der Kalenderansicht oder in der Schichttabelle ansehen und bearbeiten. Geplante Schichten müssen nochmals überprüft werden, damit sie auch berechnet werden.",
+        "title": "Kalender und Schichttabelle",
+        "text": "Deine vergangenen und geplanten Schichten kannst Du entweder in einer Kalenderansicht oder in der Schichttabelle ansehen und bearbeiten. In der Schichttabelle siehst Du auch zusätzliche Informationen auf einen Blick.",
         "placeholderName": "UndrawCalendar"
       },
       "6": {
-        "title": "Einen Stundenzettel generieren",
-        "text": "Am Ende des Monats kannst Du einen Stundenzettel generieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst Du herunterladen und bei Deiner Dienststelle abgeben.",
+        "title": "Einen Stundenzettel exportieren",
+        "text": "Am Ende des Monats kannst Du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst Du herunterladen und bei Deiner Dienststelle abgeben.",
         "placeholderName": "UndrawNewsletter"
       }
     }

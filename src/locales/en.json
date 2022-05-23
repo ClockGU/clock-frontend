@@ -304,32 +304,32 @@
     "cards": {
       "1": {
         "title": "What is Clock?",
-        "text": "Clock is an online tool to help you with registering your worktime and generating your monthly Time Sheets. You are in full controll of your data and you can decide when your Time Sheet is ready to be turned in.",
+        "text": "Clock is an online tool to help you register your worktime and generate your monthly Time Sheets. You control all of your data and you decide when your Time Sheet is ready to be turned in.",
         "placeholderName": "UndrawTimeManagement"
       },
       "2": {
-        "title": "Clock requires a Contract",
-        "text": "You will need a Contract to work with Clock. You can create a Contract at the end of this introduction.",
+        "title": "Contracts",
+        "text": "A Contract is a virtual duplicate of your real contract and should have the same runtime and the same work hours. If you have more than one Job, you can create additional Contracts and clock your worktime separately.",
         "placeholderName": "UndrawNoData"
       },
       "3": {
-        "title": "About Contracts",
-        "text": "A Contract is a virtual duplicate of your real contract. It should have the same runtime and the same work hours. In case you have more than one Job, you can create additional Contracts and clock your worktime separately",
+        "title": "Shifts",
+        "text": "A consecutive worktime is called \"Shift\". You can clock Shifts directly in real time on the Dashboard or you can add them manually and even schedule Shifts in advance. Scheduled Shifts must be reviewed after their end.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
-        "title": "Dashboard and Shifts",
-        "text": "A consecutive worktime is called \"Shift\". You can clock Shifts directly in real time or you can add them manually and even schedule Shifts in advance. The Dashboard aggregates all important Information.",
+        "title": "The Dashboard",
+        "text": "The Clock Dashboard features the \"Clock in\" button and displays the most important information about your actual work time of the selected Contract. You will see a warning if your Shifts overlap or if you forgot to clock out.",
         "placeholderName": "UndrawSocialDashboard"
       },
       "5": {
-        "title": "Calendar and Shift table",
-        "text": "You can view and edit all your past and future Shifts either in the Calendar view or in a tabular form. Planned Shifts musst be reviewed before they are counted as real Shifts.",
+        "title": "Calendar and Shift Table",
+        "text": "You can view and edit all your past and future Shifts either in the Calendar view or in the Shift Table. The Shift Table also displays additional information about your Shifts like notes and tags at a glance.",
         "placeholderName": "UndrawCalendar"
       },
       "6": {
         "title": "Generate a Time Sheet",
-        "text": "At the end of a month you can generate a Time Sheet with all Shifts summed up on a daily basis. You can download your Time Sheet and turn it in at your supervisor's office.",
+        "text": "At the end of a month you can generate a Time Sheet with all Shifts summed up for every day of the current month. You can then download your Time Sheet and turn it in at your supervisor's office.",
         "placeholderName": "UndrawNewsletter"
       }
     }
