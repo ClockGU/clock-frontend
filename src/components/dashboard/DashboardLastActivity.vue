@@ -22,7 +22,7 @@
       <v-container v-else>
         {{
           disabled
-            ? "Du hast noch keinen Vertrag."
+            ? $t("dashboard.disabled.noContract")
             : $t("dashboard.emptyActivity")
         }}
       </v-container>

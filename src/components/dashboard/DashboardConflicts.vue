@@ -8,10 +8,8 @@
       </v-col>
       <v-col cols="8" xs="10">
         <div v-if="disabled">
-          {{ "Du hast noch keinen Vertrag." }} <br />
-          {{
-            "Hier kannst du sehen ob es Probleme mit deinen gestochenen Schichten gibt."
-          }}
+          {{ $t("dashboard.disabled.noContract") }} <br />
+          {{ $t("dashboard.disabled.problemShiftsHere") }}
         </div>
         <div v-else>
           {{ $t("dashboard.overlaps.noProblems") }}
