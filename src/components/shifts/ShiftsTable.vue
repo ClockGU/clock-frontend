@@ -43,9 +43,6 @@
         >
           live
         </v-chip>
-        <!--v-icon v-if="isRunningShift(item.shift)" left dense color="red">{{
-          icons.mdiCircleMedium
-        }}</v-icon-->
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -228,11 +225,6 @@ export default {
         start: shift.date.start,
         end: shift.date.end
       });
-    },
-    liveString(shift) {
-      return this.isRunningShift(shift) && shift.type.value === "st"
-        ? this.$t("shifts.running") + " "
-        : "";
     },
     formattedDate(date) {
       return localizedFormat(date, "EEEE',' do' 'MMMM");

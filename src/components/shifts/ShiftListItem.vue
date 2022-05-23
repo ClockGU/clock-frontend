@@ -13,19 +13,16 @@
         ({{ item.representationalDuration("hm") }})
       </v-list-item-subtitle>
       <v-list-item-subtitle>
-        <!--v-chip
-          data-cy="shift-list-item-type"
+        <v-chip
+          v-if="isRunningShift"
+          class="ml-0"
           outlined
           small
-          class="my-1 mr-1"
-          :color="typeColor"
+          dense
+          color="red"
         >
-          <v-icon v-if="isRunningShift" left dense color="red">{{
-            icons.mdiCircleMedium
-          }}</v-icon>
-          {{ liveString + $t(`shifts.types.${item.type.value}`) }}
-        </v-chip-->
-
+          live
+        </v-chip>
         <v-chip
           v-for="(tag, i) in item.tags"
           :key="tag"
@@ -108,11 +105,6 @@ export default {
         start: this.item.date.start,
         end: this.item.date.end
       });
-    },
-    liveString() {
-      return this.isRunningShift && this.item.type.value === "st"
-        ? this.$t("shifts.running") + " "
-        : "";
     }
   },
   methods: {
