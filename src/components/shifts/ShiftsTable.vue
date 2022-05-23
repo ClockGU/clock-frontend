@@ -52,7 +52,6 @@
           :elevation="!isRunningShift(item.shift) ? 3 : 0"
           icon
           :disabled="isRunningShift(item.shift)"
-          v-on="on"
           @click="reviewSingleShift(item.shift)"
         >
           <v-icon color="red">
