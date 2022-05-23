@@ -314,22 +314,22 @@
       },
       "3": {
         "title": "Shifts",
-        "text": "A consecutive worktime is called \"Shift\". You can clock Shifts directly in real time on the Dashboard or you can add them manually and even schedule Shifts in advance. Scheduled Shifts must be reviewed after their end.",
+        "text": "A consecutive worktime is called \"Shift\". You can clock Shifts directly in real time on the Dashboard or you can add them manually and schedule Shifts in advance. Scheduled Shifts must be reviewed when they are past.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
         "title": "The Dashboard",
-        "text": "The Clock Dashboard features the \"Clock in\" button and displays the most important information about your actual work time of the selected Contract. You will see a warning if your Shifts overlap or if you forgot to clock out.",
+        "text": "The Clock Dashboard features the \"Clock in\" button and displays useful information about your Shifts and work time. You will receive a warning if your Shifts overlap or if you forgot to clock out.",
         "placeholderName": "UndrawSocialDashboard"
       },
       "5": {
         "title": "Calendar and Shift Table",
-        "text": "You can view and edit all your past and future Shifts either in the Calendar view or in the Shift Table. The Shift Table also displays additional information about your Shifts like notes and tags at a glance.",
+        "text": "You can view and edit all your past and future Shifts either in the Calendar view or in the Shift Table. The Shift Table also displays additional information about your Shifts like Notes and Tags.",
         "placeholderName": "UndrawCalendar"
       },
       "6": {
         "title": "Generate a Time Sheet",
-        "text": "At the end of a month you can generate a Time Sheet with all Shifts summed up for every day of the current month. You can then download your Time Sheet and turn it in at your supervisor's office.",
+        "text": "At the end of a month you can generate a Time Sheet with all Shifts summed up for every day of the current month. You can download your Time Sheet and turn it in at your supervisor's office.",
         "placeholderName": "UndrawNewsletter"
       }
     }
