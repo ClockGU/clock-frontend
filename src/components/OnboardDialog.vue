@@ -311,13 +311,6 @@ export default {
       return returnValue;
     }
   },
-  watch: {
-    step() {
-      console.log(this.titles);
-      console.log(this.step);
-      console.log(this.$i18n.locale);
-    }
-  },
   async created() {
     // Load the entity service
     this.loadService();

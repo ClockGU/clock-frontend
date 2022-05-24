@@ -111,10 +111,6 @@ export default {
     entity: new Contract(),
     loading: true
   }),
-  created() {
-    console.log(JSON.stringify(this.contracts));
-  },
-  // eslint-disable-next-line vue/order-in-components
   computed: {
     ...mapGetters({
       clockedShift: "clock/clockedShift",

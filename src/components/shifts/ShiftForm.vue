@@ -222,7 +222,6 @@ export default {
       return this.contracts.filter(
         //TODO: Solve this with a mixin
         (contract) => {
-          console.log(contract.date.start);
           return (
             isWithinInterval(this.shift.date.start, {
               start: endOfDay(parseISO(contract.date.start)),
