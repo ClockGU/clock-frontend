@@ -29,7 +29,7 @@
 <script>
 import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
-const marked = require("marked");
+import { marked } from "marked";
 
 const stripHTML = (string) => string.replace(/(<([^>]+)>)/gi, "");
 
@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     text() {
-      return stripHTML(marked(this.message.text));
+      return stripHTML(marked.parse(this.message.text));
     }
   },
   methods: {
