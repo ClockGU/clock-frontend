@@ -60,7 +60,6 @@ export default {
       }
     },
     icon() {
-      console.log(this.value.value);
       return this.typeIcons["sk"];
     }
   }
