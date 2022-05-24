@@ -22,8 +22,10 @@
     "search": "Search",
     "send": "Send",
     "showall": "Show all",
+    "skip": "Skip",
     "switch": "Switch",
-    "update": "Update"
+    "update": "Update",
+    "dontShowAgain": "Don't show the onboarding again"
   },
   "app": {
     "account": "Account",
@@ -182,7 +184,8 @@
   },
   "dialogs": {
     "textConfirmDelete": "Are you sure you want to @.lower:actions.delete {selectedEntity}?. @:dialogs.textPermanent",
-    "textPermanent": "This action is not reversible."
+    "textPermanent": "This action is not reversible.",
+    "dataWillBeLost": "You entered data which will be lost."
   },
   "errors": {
     "contractName": "Contract name",
@@ -297,6 +300,38 @@
     "welcome": {
       "text": "You are new here, huh? We need to get a few things done, before you can start using Clock. We will guide you through the process!",
       "title": "@:app.onboarding"
+    },
+    "cards": {
+      "1": {
+        "title": "What is Clock?",
+        "text": "Clock is an online tool to help you register your worktime and generate your monthly Time Sheets. You control all of your data and you decide when your Time Sheet is ready to be turned in.",
+        "placeholderName": "UndrawTimeManagement"
+      },
+      "2": {
+        "title": "Contracts",
+        "text": "A Contract is a virtual duplicate of your real contract and should have the same runtime and the same work hours. If you have more than one Job, you can create additional Contracts and clock your worktime separately.",
+        "placeholderName": "UndrawNoData"
+      },
+      "3": {
+        "title": "Shifts",
+        "text": "A consecutive worktime is called \"Shift\". You can clock Shifts directly in real time on the Dashboard or you can add them manually and schedule Shifts in advance. Scheduled Shifts must be reviewed when they are past.",
+        "placeholderName": "UndrawNotes"
+      },
+      "4": {
+        "title": "The Dashboard",
+        "text": "The Clock Dashboard features the \"Clock in\" button and displays useful information about your Shifts and work time. You will receive a warning if your Shifts overlap or if you forgot to clock out.",
+        "placeholderName": "UndrawSocialDashboard"
+      },
+      "5": {
+        "title": "Calendar and Shift Table",
+        "text": "You can view and edit all your past and future Shifts either in the Calendar view or in the Shift Table. The Shift Table also displays additional information about your Shifts like Notes and Tags.",
+        "placeholderName": "UndrawCalendar"
+      },
+      "6": {
+        "title": "Generate a Time Sheet",
+        "text": "At the end of a month you can generate a Time Sheet with all Shifts summed up for every day of the current month. You can download your Time Sheet and turn it in at your supervisor's office.",
+        "placeholderName": "UndrawNewsletter"
+      }
     }
   },
   "personnelNumber": {

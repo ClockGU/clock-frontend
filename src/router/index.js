@@ -127,10 +127,10 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await store.dispatch("GET_USER");
     user = data;
   }
+  if (!user.onboarding_passed && !store.state.onboardingSkipped) {
+    return next({ name: "onboarding" });
+  }
   if (!user.dsgvo_accepted) {
-    if (!user.onboarding_passed) {
-      return next({ name: "onboarding" });
-    }
     if (to.name === "privacyagreement") {
       return next();
     }

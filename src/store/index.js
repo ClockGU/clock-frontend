@@ -24,7 +24,8 @@ export default new Vuex.Store({
     },
     selectedContract: null,
     backendOffline: false,
-    userLoading: false
+    userLoading: false,
+    onboardingSkipped: false
   },
   getters: {
     selectedContract: (state) => state.selectedContract,
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     userLoading: (state) => state.userLoading
   },
   actions: {
+    skipOnboarding({ commit }) {
+      commit("setOnboardingSkipped", true);
+    },
     changeLocale({ commit }, locale) {
       i18n.locale = locale;
       commit("updateLocale", locale);
@@ -47,6 +51,17 @@ export default new Vuex.Store({
           dispatch("changeLocale", response.data.language);
 
           return Promise.resolve(response);
+        })
+        .finally(() => {
+          state.userLoading = false;
+        });
+    },
+    UPDATE_SETTINGS({ commit, dispatch, state }, settings) {
+      state.userLoading = true;
+      return AuthService.updateSettings(settings)
+        .then((response) => {
+          commit("SET_USER", response.data);
+          dispatch("changeLocale", response.data.language);
         })
         .finally(() => {
           state.userLoading = false;
@@ -69,6 +84,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setOnboardingSkipped(state, value) {
+      state.onboardingSkipped = value;
+    },
     updateLocale(state, locale) {
       state.locale = locale;
     },
