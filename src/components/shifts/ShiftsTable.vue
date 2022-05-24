@@ -3,22 +3,45 @@
     <slot name="head" :destroy-fn="destroy" :selected="selected"></slot>
     <v-data-table
       v-model="selected"
-      :headers="headers"
+      :headers="flexHeaders"
       :items="shifts"
       :search="search"
       :loading="loading"
       item-key="uuid"
+      :custom-sort="sortByDate"
+      must-sort
+      :sort-desc="!pastShifts"
       show-select
     >
       <!-- eslint-disable-next-line -->
+      <template #item.date="{ item }">
+        {{ formattedDate(item.date) }}
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.start="{ item }">
+        {{ formattedTime(item.start) }}
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.duration="{ item }">
+        {{ formattedDuration(item.duration) }}
+      </template>
+
+      <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
-        <v-chip outlined small :color="colors[item.shift.type.value]">
-          <v-icon v-if="isRunningShift(item.shift)" left dense color="red">{{
-            icons.mdiCircleMedium
-          }}</v-icon>
-          {{
-            liveString(item.shift) + $t(`shifts.types.${item.shift.type.value}`)
-          }}
+        <v-icon :color="colors[item.shift.type.value]">
+          {{ typeIcons[item.shift.type.value] }}
+        </v-icon>
+        <v-chip
+          v-if="isRunningShift(item.shift)"
+          class="ml-2"
+          outlined
+          x-small
+          dense
+          color="red"
+        >
+          live
         </v-chip>
       </template>
 
@@ -43,25 +66,53 @@
         <v-icon color="red">{{ icons.mdiClose }}</v-icon>
       </template>
 
+      <!-- eslint-disable-next-line -->
+      <template #item.tags="{ item }">
+        <v-chip
+          v-for="tag in item.tags.slice(0, 2)"
+          :key="tag"
+          class="mx-1"
+          small
+        >
+          {{ tag }}
+        </v-chip>
+        <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
+          <template #activator="{ on }">
+            <v-chip small class="mx-1" v-on="on">...</v-chip>
+          </template>
+        </ShiftInfoDialog>
+      </template>
+
+      <!-- eslint-disable-next-line -->
+      <template #item.note="{ item }">
+        <ShiftInfoDialog :item="item">
+          <template #activator="{ on }">
+            <span on v-on="on">
+              {{ noteDisplay(item.note) }}
+            </span>
+          </template>
+        </ShiftInfoDialog>
+      </template>
+
       <!-- eslint-disable-next-line-->
-      <template v-slot:item.actions="{ item }">
-        <v-btn text @click="$emit('edit', item.shift)">
+      <template #item.actions="{ item }">
+        <v-btn icon @click="$emit('edit', item.shift)">
           <v-icon>
             {{ icons.mdiPencil }}
           </v-icon>
         </v-btn>
-        <ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
+        <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
           </template>
-        </ShiftAssignContractDialog>
+        </ShiftAssignContractDialog-->
 
-        <ConfirmationDialog @confirm="destroySingleShift(item)">
+        <!--ConfirmationDialog @confirm="destroySingleShift(item)">
           <template #activator="{ on }">
             <v-scale-transition>
-              <v-btn text v-on="on">
+              <v-btn elevation="1" icon v-on="on">
                 <v-icon>
                   {{ icons.mdiDelete }}
                 </v-icon>
@@ -84,38 +135,45 @@
               })
             }}
           </template>
-        </ConfirmationDialog>
+        </ConfirmationDialog-->
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
-import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
+//import ConfirmationDialog from "@/components/ConfirmationDialog";
+//import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
+import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog";
 
-import { isWithinInterval } from "date-fns";
+import { isWithinInterval, isBefore, getHours } from "date-fns";
 
 import {
   mdiCheck,
   mdiClose,
-  mdiDelete,
+  mdiCircleMedium,
+  mdiTagOutline,
+  mdiFileDocumentOutline,
   mdiPencil,
   mdiSwapHorizontal,
-  mdiCircleMedium
+  mdiDelete
 } from "@mdi/js";
 
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
+import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { localizedFormat } from "@/utils/date";
+import { minutesToHHMM } from "@/utils/time";
 
 export default {
   name: "ShiftsTable",
   components: {
-    ConfirmationDialog,
-    ShiftAssignContractDialog
+    //ConfirmationDialog,
+    //  ShiftAssignContractDialog,
+    ShiftInfoDialog
   },
   props: {
     loading: {
@@ -136,15 +194,30 @@ export default {
     icons: {
       mdiCheck,
       mdiClose,
-      mdiDelete,
+      mdiCircleMedium,
+      mdiTagOutline,
+      mdiFileDocumentOutline,
       mdiPencil,
       mdiSwapHorizontal,
-      mdiCircleMedium
+      mdiDelete
     },
     headers: SHIFT_TABLE_HEADERS,
     colors: SHIFT_TYPE_COLORS,
+    typeIcons: SHIFT_TYPE_ICONS,
     selected: []
   }),
+  computed: {
+    flexHeaders() {
+      //check for tags and notes and hide column if none exist
+      let tagsAndNotes = 0;
+      this.shifts.forEach(
+        (shift) => (tagsAndNotes += shift.tags.length && shift.note.length)
+      );
+      if (tagsAndNotes == 0) {
+        return this.headers.filter((item) => item.value != "tagsNotes");
+      } else return this.headers;
+    }
+  },
   methods: {
     isRunningShift(shift) {
       return isWithinInterval(new Date(), {
@@ -152,10 +225,35 @@ export default {
         end: shift.date.end
       });
     },
-    liveString(shift) {
-      return this.isRunningShift(shift) && shift.type.value === "st"
-        ? this.$t("shifts.running") + " "
-        : "";
+    formattedDate(date) {
+      return localizedFormat(date, "EEEE',' do' 'MMMM");
+    },
+    formattedTime(time) {
+      return localizedFormat(time, "HH:mm");
+    },
+    formattedDuration(duration) {
+      return minutesToHHMM(duration, "");
+    },
+    sortByDate(items, sortBy, sortDesc) {
+      const desc = sortDesc[0] ? -1 : 1;
+      items.sort((a, b) => {
+        switch (sortBy[0]) {
+          case "date":
+            return isBefore(b.date, a.date) ? -desc : desc;
+          case "start":
+            return isBefore(getHours(b.start), getHours(a.start))
+              ? -desc
+              : desc;
+          default:
+            return a[sortBy[0]] > b[sortBy[0]] ? -desc : desc;
+        }
+      });
+      return items;
+    },
+    noteDisplay(note) {
+      if (note.length > 15) {
+        return note.substr(0, 15) + "...";
+      } else return note;
     },
     async destroy() {
       const promises = [];

@@ -22,13 +22,7 @@
         ></v-select>
       </v-card-text>
       <v-card-actions>
-        <v-btn
-          color="primary"
-          text
-          :loading="loading"
-          :disabled="contract == shifts[0].contract"
-          @click="save"
-        >
+        <v-btn color="primary" text :loading="loading" @click="save">
           {{ $t("actions.save") }}
         </v-btn>
         <v-btn text @click="dialog = false">{{ $t("actions.cancel") }}</v-btn>

@@ -2,7 +2,7 @@ export const SHIFT_TYPE_COLORS = {
   st: "primary",
   sk: "grey",
   vn: "green lighten-1",
-  bh: "red lighten-2"
+  bh: "orange"
 };
 
 export const MESSAGE_TYPE_COLORS = {

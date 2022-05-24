@@ -43,7 +43,10 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>{{ $t("shifts.table.pastShiftsTitle") }}</span>
+                        <span>
+                          {{ $t("shifts.table.pastShiftsTitle") }}
+                          {{ durationSum(data.pastShifts) }}
+                        </span>
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -74,6 +77,7 @@
                     v-if="selected.length > 0"
                     :destroy-fn="destroyFn"
                     :shifts="selected"
+                    :contracts="contracts"
                     can-review
                     @edit="editShift"
                     @refresh="refresh"
@@ -92,7 +96,10 @@
                   <v-card-title>
                     <v-row>
                       <v-col cols="12" md="5">
-                        <span>{{ $t("shifts.table.futureShiftsTitle") }}</span>
+                        <span>
+                          {{ $t("shifts.table.futureShiftsTitle") }}
+                          {{ durationSum(data.futureShifts) }}
+                        </span>
                       </v-col>
 
                       <v-spacer></v-spacer>
@@ -121,6 +128,7 @@
                   <ShiftBulkActions
                     v-if="selected.length > 0"
                     :shifts="selected"
+                    :contracts="contracts"
                     :destroy-fn="destroyFn"
                     @edit="editShift"
                     @refresh="refresh"
@@ -151,6 +159,7 @@ import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
 import ShiftsTable from "@/components/shifts/ShiftsTable";
+import { minutesToHHMM } from "@/utils/time";
 
 import { mapGetters } from "vuex";
 import { Shift } from "@/models/ShiftModel";
@@ -205,15 +214,17 @@ export default {
       const shiftModel = new Shift(shift);
 
       return {
-        date: localizedFormat(shiftModel.date.start, "EEEE',' do' 'MMMM"),
-        start: localizedFormat(shiftModel.date.start, "HH:mm"),
-        end: localizedFormat(shiftModel.date.end, "HH:mm"),
-        duration: shiftModel.representationalDuration(),
+        date: shiftModel.date.start,
+        start: shiftModel.date.start,
+        end: shiftModel.date.end,
+        duration: shiftModel.duration,
         type: this.$t(`shifts.types.${shiftModel.type.value}`),
         reviewed: shiftModel.reviewed,
         uuid: shiftModel.uuid,
         shift: shiftModel,
-        contract: shiftModel.contract
+        contract: shiftModel.contract,
+        tags: shiftModel.tags,
+        note: shiftModel.note
       };
     },
     updateDate(value) {
@@ -229,6 +240,13 @@ export default {
       ]);
       this.updateDate(selectedMonth);
       this.loading = false;
+    },
+    durationSum(shifts) {
+      let sum = 0;
+      shifts.forEach((shift) => {
+        sum += shift.duration;
+      });
+      return "| " + minutesToHHMM(sum, "") + "h";
     }
   }
 };

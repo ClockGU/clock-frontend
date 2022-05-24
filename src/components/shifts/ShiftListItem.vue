@@ -2,6 +2,9 @@
   <v-list-item @click="editable ? openDialog() : () => {}">
     <v-list-item-content>
       <v-list-item-title>
+        <v-icon class="pr-1" :color="colors[item.type.value]">
+          {{ typeIcons[item.type.value] }}
+        </v-icon>
         {{ item.date.start | formatDay }}
       </v-list-item-title>
       <v-list-item-subtitle class="text--primary">
@@ -11,25 +14,22 @@
       </v-list-item-subtitle>
       <v-list-item-subtitle>
         <v-chip
-          data-cy="shift-list-item-type"
+          v-if="isRunningShift"
+          class="ml-0"
           outlined
           small
-          class="my-1 mr-1"
-          :color="typeColor"
+          dense
+          color="red"
         >
-          <v-icon v-if="isRunningShift" left dense color="red">{{
-            icons.mdiCircleMedium
-          }}</v-icon>
-          {{ liveString + $t(`shifts.types.${item.type.value}`) }}
+          live
         </v-chip>
-
         <v-chip
           v-for="(tag, i) in item.tags"
           :key="tag"
           :data-cy="'shift-list-item-tag-' + i"
-          filled
+          outlined
           small
-          class="ma-1"
+          class="ma-1 ml-0"
         >
           {{ tag }}
         </v-chip>
@@ -59,6 +59,7 @@
 
 <script>
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
 import { localizedFormat } from "@/utils/date";
 import { isWithinInterval } from "date-fns";
@@ -94,22 +95,16 @@ export default {
   data: () => ({
     dialog: false,
     shiftEntity: null,
-    icons: { mdiCircleMedium, mdiRecord }
+    icons: { mdiCircleMedium, mdiRecord },
+    colors: SHIFT_TYPE_COLORS,
+    typeIcons: SHIFT_TYPE_ICONS
   }),
   computed: {
-    typeColor() {
-      return SHIFT_TYPE_COLORS[this.item.type.value];
-    },
     isRunningShift() {
       return isWithinInterval(new Date(), {
         start: this.item.date.start,
         end: this.item.date.end
       });
-    },
-    liveString() {
-      return this.isRunningShift && this.item.type.value === "st"
-        ? this.$t("shifts.running") + " "
-        : "";
     }
   },
   methods: {

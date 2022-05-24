@@ -1,5 +1,12 @@
 import i18n from "@/plugins/i18n";
 
+import {
+  mdiBriefcaseClockOutline,
+  mdiMedicalBag,
+  mdiSurfing,
+  mdiWhiteBalanceSunny
+} from "@mdi/js";
+
 export const SHIFT_TABLE_HEADERS = [
   {
     text: i18n.t("time.date"),
@@ -14,12 +21,6 @@ export const SHIFT_TABLE_HEADERS = [
     value: "start"
   },
   {
-    text: i18n.t("time.end"),
-    align: "start",
-    sortable: true,
-    value: "end"
-  },
-  {
     text: i18n.t("time.duration"),
     align: "start",
     sortable: true,
@@ -28,7 +29,7 @@ export const SHIFT_TABLE_HEADERS = [
   {
     text: i18n.t("calendar.type"),
     align: "start",
-    sortable: false,
+    sortable: true,
     value: "type"
   },
   {
@@ -38,10 +39,21 @@ export const SHIFT_TABLE_HEADERS = [
     value: "reviewed"
   },
   {
-    text: i18n.t("actions.actions"),
-    value: "actions",
-    align: "center",
-    sortable: false
+    text: "Tags",
+    align: "start",
+    sortable: true,
+    value: "tags"
+  },
+  {
+    text: "Notes",
+    align: "start",
+    sortable: true,
+    value: "note"
+  },
+  {
+    align: "start",
+    sortable: false,
+    value: "actions"
   }
 ];
 
@@ -51,4 +63,11 @@ export const MESSAGE_TYPE_TAGS = {
   UD: i18n.t("news.label.update"),
   WN: i18n.t("news.label.warning"),
   TP: i18n.t("news.label.tip")
+};
+
+export const SHIFT_TYPE_ICONS = {
+  st: mdiBriefcaseClockOutline,
+  sk: mdiMedicalBag,
+  vn: mdiSurfing,
+  bh: mdiWhiteBalanceSunny
 };
