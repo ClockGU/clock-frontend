@@ -39,9 +39,6 @@ export default {
   },
   data: () => ({
     dialog: false
-  }),
-  created() {
-    //console.log(this.item);
-  }
+  })
 };
 </script>
