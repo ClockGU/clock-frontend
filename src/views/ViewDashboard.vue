@@ -5,6 +5,7 @@
         <SelectContractFilter
           :contracts="contracts"
           :selected-contract="selectedContract"
+          :disabled="disabled"
         />
       </v-col>
 
@@ -16,6 +17,7 @@
 
           <v-col cols="12" md="6" order="0" order-md="0">
             <ClockInOutCard
+              :disabled="disabled"
               :clocked-shift="clockedShift"
               :selected-contract="selectedContract"
               @refresh="refresh"
@@ -27,11 +29,12 @@
           </v-col>
 
           <v-col cols="12" md="6" order="2">
-            <DashboardShiftButton @refresh="refresh" />
+            <DashboardShiftButton :disabled="disabled" @refresh="refresh" />
           </v-col>
 
           <v-col cols="12" md="6" order="3">
             <DashboardProgress
+              :disabled="disabled"
               :azk-data="azkData"
               :weekly-data="weeklyData"
               :daily-data="dailyData"
@@ -39,15 +42,22 @@
           </v-col>
 
           <v-col cols="12" md="6" order="4">
-            <DataFilter :date="date" :contract="selectedContract">
+            <DataFilter
+              :date="date"
+              :contract="selectedContract"
+              :disabled="disabled"
+            >
               <template #default="{ data }">
-                <DashboardConflicts :shifts="data.shifts" />
+                <DashboardConflicts
+                  :shifts="data.shifts"
+                  :disabled="disabled"
+                />
               </template>
             </DataFilter>
           </v-col>
 
           <v-col cols="12" md="6" order="5">
-            <DashboardLastActivity @refresh="refresh" />
+            <DashboardLastActivity :disabled="disabled" @refresh="refresh" />
           </v-col>
         </v-row>
       </v-card>
@@ -101,6 +111,10 @@ export default {
     entity: new Contract(),
     loading: true
   }),
+  created() {
+    console.log(JSON.stringify(this.contracts));
+  },
+  // eslint-disable-next-line vue/order-in-components
   computed: {
     ...mapGetters({
       clockedShift: "clock/clockedShift",
@@ -108,8 +122,14 @@ export default {
       shifts: "shift/shifts",
       reports: "report/reports"
     }),
+    disabled() {
+      return this.$route.params.contract === undefined;
+    },
     selectedContract() {
       const uuid = this.$route.params.contract;
+      if (this.disabled) {
+        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
+      }
       return this.contracts.find((contract) => contract.uuid === uuid);
     },
     latestReport() {
@@ -118,12 +138,31 @@ export default {
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
-
       return reports.pop();
     },
     azkData() {
       //reminder: the Progress component expects the carryover to be the last item
       //any changes made here must be adapted in Progress.vue
+      if (this.disabled) {
+        return [
+          {
+            name: this.$t("reports.carryoverLast"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.debit"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.timeWorked"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.carryoverNext"),
+            value: "HH:MM"
+          }
+        ];
+      }
       return [
         {
           name: this.$t("reports.carryoverLast"),
@@ -144,6 +183,12 @@ export default {
       ];
     },
     weeklyData() {
+      if (this.disabled) {
+        return {
+          worktime: 0,
+          avg: 0
+        };
+      }
       let duration = 0;
       this.shifts
         .filter(
