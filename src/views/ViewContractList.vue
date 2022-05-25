@@ -157,6 +157,14 @@ export default {
         : this.$t("contracts.noActiveContracts");
     }
   },
+  watch: {
+    contracts() {
+      if (this.contracts.length < 1) {
+        // TODO change this again to a more sane solution
+        window.location.reload();
+      }
+    }
+  },
   methods: {
     async refresh() {
       try {

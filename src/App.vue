@@ -8,7 +8,7 @@
 
     <TheAppBar @toggle="toggleDrawer" />
     <TheNavigationToolbar
-      v-if="isLoggedIn && !showOverride"
+      v-if="isLoggedIn && hasContracts && !showOverride"
       class="hidden-sm-and-down"
     />
 

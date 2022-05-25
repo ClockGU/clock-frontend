@@ -96,16 +96,6 @@
     }
   },
   "dashboard": {
-    "disabled": {
-      "noContract": "Du hast noch keinen Vertrag.",
-      "problemShiftsHere": "Hier kannst du sehen ob es Probleme mit deinen Schichten gibt.",
-      "createContractHere": " Hier kannst du einen neuen Vertrag anlegen.",
-      "contractNeededForClocking": "Um eine Schicht zu clocken musst du einen Vertrag erstellen.",
-      "createShiftsHere": "Hier kannst du Schichten manuell eintragen.",
-      "progressHere": "Hier kannst du deinen Arbeitsfortschritt sehen.",
-      "reportHere": "Hier kannst du deinen monatlichen Fortschirtt sehen und den Stundenzettel exportieren.",
-      "shiftsHere": "Hier kannst du deine gespeicherten Schichten ansehen und verwalten."
-    },
     "welcome": {
       "text": "Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn Du mal nicht weiter weißt, wirf einen Blick ins {link} oder sende uns dein Feedback.",
       "manual": "Handbuch",

@@ -26,7 +26,6 @@
       </v-col>
       <v-col cols="12">
         <SelectContractFilter
-          :disabled="disabled"
           :contracts="contracts"
           :selected-contract="selectedContract"
         />
@@ -34,7 +33,6 @@
 
       <v-col>
         <DataFilter
-          :disabled="disabled"
           :date="date"
           :contract="selectedContract"
           use-locked-months
@@ -43,14 +41,10 @@
           <template #default="{ data }">
             <MonthSwitcher :data="data" :date="date" @update="updateDate" />
 
-            <DashboardConflicts
-              :disabled="disabled"
-              :shifts="data.shifts"
-              :month="data.date"
-            />
+            <DashboardConflicts :shifts="data.shifts" :month="data.date" />
+
             <ReportCard
               :key="data.report.uuid"
-              :disabled="disabled"
               :report="data.report"
               :exported="data.isCurrentMonthLocked"
               :is-exportable="!personnelNumberMissing"
@@ -82,7 +76,6 @@ import ReportCard from "@/components/ReportCard";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
-import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "Reporting",
@@ -95,7 +88,7 @@ export default {
     PersonnelNumberForm
   },
   data: () => ({
-    date: localizedFormat(new Date(), "yyyy-MM"),
+    date: "2020-07",
     dialog: false,
     icons: { mdiBadgeAccountHorizontal }
   }),
@@ -103,14 +96,9 @@ export default {
     ...mapGetters({
       contracts: "contract/contracts"
     }),
-    disabled() {
-      return this.$route.params.contract === undefined;
-    },
     selectedContract() {
       const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
+
       return this.contracts.find((contract) => contract.uuid === uuid);
     },
     personnelNumberMissing() {

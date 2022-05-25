@@ -96,16 +96,6 @@
     }
   },
   "dashboard": {
-    "disabled": {
-      "noContract": "You have no contract yet.",
-      "problemShiftsHere": "Problems with your shifts will be displayed her.",
-      "createContractHere": " Create a contract here.",
-      "contractNeededForClocking": " You need to create a contract to clock-in a shift.",
-      "createShiftsHere": "You can clock-in manually here.",
-      "progressHere": "Your progress will be shown here.",
-      "reportHere": "You can check your monthly progress here and export your report.",
-      "shiftsHere": "You can manage your saved shifts here."
-    },
     "welcome": {
       "text": "Welcome to Clock! We are constantly working to improve this application. If you need advice, please check out the {link} oder send us your feedback.",
       "manual": "user manual",

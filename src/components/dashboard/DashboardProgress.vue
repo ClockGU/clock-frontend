@@ -1,162 +1,120 @@
 <template>
   <v-card>
     <v-window v-model="step">
-      <v-hover>
-        <template #default="{ hover }">
-          <div @click="toggleTouchOverlay(hover)">
-            <v-window-item key="1">
-              <v-card ref="primary-card" flat>
-                <v-card-title>
-                  {{ $t("dashboard.progress.title.monthly") }}
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    v-if="maxCarryoverExceeded || carryover"
-                    icon
-                    :color="maxCarryoverExceeded ? 'error' : 'warning'"
-                    @click="showWarning('carryover')"
-                  >
-                    <v-icon>{{
-                      maxCarryoverExceeded
-                        ? icons.mdiAlert
-                        : icons.mdiInformation
-                    }}</v-icon>
-                  </v-btn>
-                </v-card-title>
+      <v-window-item key="1">
+        <v-card flat>
+          <v-card-title>
+            {{ $t("dashboard.progress.title.monthly") }}
+            <v-spacer></v-spacer>
+            <v-btn
+              v-if="maxCarryoverExceeded || carryover"
+              icon
+              :color="maxCarryoverExceeded ? 'error' : 'warning'"
+              @click="showWarning('carryover')"
+            >
+              <v-icon>{{
+                maxCarryoverExceeded ? icons.mdiAlert : icons.mdiInformation
+              }}</v-icon>
+            </v-btn>
+          </v-card-title>
 
-                <v-card-text>
-                  <v-row align="center" justify="space-around">
-                    <v-col cols="2" align="center">
-                      <v-progress-circular
-                        :color="colorMonthly"
-                        size="64"
-                        width="6"
-                        rotate="270"
-                        class="pa-2"
-                        :value="disabled ? 0 : monthlyProgress"
+          <v-card-text>
+            <v-row align="center" justify="space-around">
+              <v-col cols="2" align="center">
+                <v-progress-circular
+                  :color="colorMonthly"
+                  size="64"
+                  width="6"
+                  rotate="270"
+                  class="pa-2"
+                  :value="monthlyProgress"
+                >
+                  {{ printProgress(monthlyProgress) }}%
+                </v-progress-circular>
+              </v-col>
+              <v-col cols="9">
+                <v-simple-table>
+                  <template #default>
+                    <tbody>
+                      <tr
+                        v-for="(row, index) in azkData"
+                        :key="row.name"
+                        :class="carryoverClass(index)"
                       >
-                        {{ disabled ? 0 : printProgress(monthlyProgress) }}%
-                      </v-progress-circular>
-                    </v-col>
-                    <v-col cols="9">
-                      <v-simple-table>
-                        <template #default>
-                          <tbody>
-                            <tr
-                              v-for="(row, index) in azkData"
-                              :key="row.name"
-                              :class="carryoverClass(index)"
-                            >
-                              <td>
-                                {{ row.name }}
-                              </td>
-                              <td align="right">
-                                {{ row.value }}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </template>
-                      </v-simple-table>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-window-item>
+                        <td>
+                          {{ row.name }}
+                        </td>
+                        <td align="right">
+                          {{ row.value }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-window-item>
 
-            <v-window-item key="2">
-              <v-card
-                flat
-                :min-height="minCardHeight"
-                class="grow d-flex flex-column flex-nowrap"
-              >
-                <v-card-title>
-                  {{ $t("dashboard.progress.title.weekly") }}
-                </v-card-title>
-                <v-row justify="center" class="grow">
-                  <v-col cols="12" align-self="center">
-                    <v-card-text>
-                      <v-row align-content="center">
-                        <v-col cols="2" align-self="center">
-                          <v-progress-circular
-                            :color="colorWeekly"
-                            size="64"
-                            width="6"
-                            rotate="270"
-                            class="pa-2"
-                            :value="disabled ? 0 : weeklyProgress"
-                          >
-                            {{ disabled ? 0 : printProgress(weeklyProgress) }}%
-                          </v-progress-circular>
-                        </v-col>
-                        <v-col cols="9" align-self="center">
-                          <p>
-                            {{
-                              $tc("dashboard.progress.weeklyText", weeklyHours)
-                            }}
-                          </p>
-                          <p style="margin-bottom: 0">
-                            {{
-                              $tc("dashboard.progress.weeklyBase", weeklyAvg)
-                            }}
-                          </p>
-                        </v-col>
-                      </v-row>
-                    </v-card-text>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-window-item>
-
-            <v-window-item key="3">
-              <v-card
-                flat
-                :min-height="minCardHeight"
-                class="grow d-flex flex-column flex-nowrap"
-              >
-                <v-card-title>
-                  {{ $t("dashboard.progress.title.daily") }}
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    v-if="dailyOvertime"
-                    icon
-                    color="error"
-                    @click="showWarning('daily')"
-                  >
-                    <v-icon>{{ icons.mdiAlert }}</v-icon>
-                  </v-btn>
-                </v-card-title>
-                <v-row justify="center" class="grow">
-                  <v-col cols="12" align-self="center">
-                    <v-card-text class="text-center">
-                      <p>{{ $t("dashboard.progress.dailyText1") }}</p>
-                      <span :class="colorDaily">
-                        <span class="text-h2">{{ dailyWorktime[0] }}</span>
-                        h
-                        <span class="text-h2">{{ dailyWorktime[1] }}</span>
-                        m
-                      </span>
-                      <p class="pt-4">
-                        {{ $t("dashboard.progress.dailyText2") }}
-                      </p>
-                    </v-card-text>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-window-item>
-            <v-fade-transition>
-              <v-overlay
-                v-if="disabled && (hover || touchOverlay)"
-                absolute
-                color="primary"
-                style="align-items: start"
-              >
-                <p style="margin-top: 15%" class="text-center">
-                  {{ $t("dashboard.disabled.progressHere") }}
+      <v-window-item key="2">
+        <v-card flat>
+          <v-card-title>
+            {{ $t("dashboard.progress.title.weekly") }}
+          </v-card-title>
+          <v-card-text>
+            <v-row align="center" justify="space-around">
+              <v-col cols="2" align="center">
+                <v-progress-circular
+                  :color="colorWeekly"
+                  size="64"
+                  width="6"
+                  rotate="270"
+                  class="pa-2"
+                  :value="weeklyProgress"
+                >
+                  {{ printProgress(weeklyProgress) }}%
+                </v-progress-circular>
+              </v-col>
+              <v-col cols="9">
+                <p>
+                  {{ $tc("dashboard.progress.weeklyText", weeklyHours) }}
                 </p>
-              </v-overlay>
-            </v-fade-transition>
-          </div>
-        </template>
-      </v-hover>
+                <p>
+                  {{ $tc("dashboard.progress.weeklyBase", weeklyAvg) }}
+                </p>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-window-item>
+
+      <v-window-item key="3">
+        <v-card flat>
+          <v-card-title>
+            {{ $t("dashboard.progress.title.daily") }}
+            <v-spacer></v-spacer>
+            <v-btn
+              v-if="dailyOvertime"
+              icon
+              color="error"
+              @click="showWarning('daily')"
+            >
+              <v-icon>{{ icons.mdiAlert }}</v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <p>{{ $t("dashboard.progress.dailyText1") }}</p>
+            <span :class="colorDaily">
+              <span class="text-h2">{{ dailyWorktime[0] }}</span>
+              h
+              <span class="text-h2">{{ dailyWorktime[1] }}</span>
+              m
+            </span>
+            <p class="pt-4">{{ $t("dashboard.progress.dailyText2") }}</p>
+          </v-card-text>
+        </v-card>
+      </v-window-item>
     </v-window>
 
     <ShiftWarnings
@@ -166,7 +124,7 @@
     ></ShiftWarnings>
 
     <v-card-actions class="justify-space-between">
-      <v-btn text @click="step === 0 ? (step = 2) : step--">
+      <v-btn text @click="step == 0 ? (step = 2) : step--">
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
       <v-item-group v-model="step" class="text-center" mandatory>
@@ -180,7 +138,7 @@
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn text @click="step === 2 ? (step = 0) : step++">
+      <v-btn text @click="step == 2 ? (step = 0) : step++">
         <v-icon>{{ icons.mdiChevronRight }}</v-icon>
       </v-btn>
     </v-card-actions>
@@ -203,10 +161,6 @@ export default {
   name: "DashboardProgress",
   components: { ShiftWarnings },
   props: {
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     azkData: {
       type: Array,
       required: true
@@ -232,9 +186,7 @@ export default {
       mdiCircleMedium,
       mdiInformation,
       mdiAlert
-    },
-    minCardHeight: 0,
-    touchOverlay: false
+    }
   }),
   computed: {
     totalMinutesWorked() {
@@ -287,13 +239,7 @@ export default {
       return this.monthlyProgress > 150;
     }
   },
-  async mounted() {
-    this.minCardHeight = this.$refs["primary-card"].$el.clientHeight;
-  },
   methods: {
-    toggleTouchOverlay(hover) {
-      this.touchOverlay = hover ? false : !this.touchOverlay;
-    },
     printProgress(progress) {
       return progress.toFixed(0);
     },

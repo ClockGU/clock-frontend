@@ -3,7 +3,6 @@
     <v-row>
       <v-col cols="12">
         <Calendar
-          :disabled="disabled"
           :initial-focus="focus"
           :initial-type="type"
           @updateRange="updateRange"
@@ -62,9 +61,6 @@ export default {
       loading: "shift/loading",
       shifts: "shift/shifts"
     }),
-    disabled() {
-      return this.$route.params.contract === undefined;
-    },
     focus() {
       return `${this.year}-${this.month}-${this.day}`;
     },

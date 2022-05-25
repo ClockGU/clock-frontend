@@ -1,33 +1,15 @@
 <template>
   <v-card>
-    <v-hover>
-      <template #default="{ hover }">
-        <div @click="toggleTouchOverlay(hover)">
-          <v-card-title>
-            {{ $t("dashboard.newShift.title") }}
-          </v-card-title>
+    <v-card-title>
+      {{ $t("dashboard.newShift.title") }}
+    </v-card-title>
 
-          <v-card-text>
-            <v-btn :disabled="disabled" color="primary" @click="dialog = true">
-              {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
-            </v-btn>
-          </v-card-text>
+    <v-card-text>
+      <v-btn color="primary" @click="dialog = true">
+        {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
+      </v-btn>
+    </v-card-text>
 
-          <v-fade-transition>
-            <v-overlay
-              v-if="disabled && (hover || touchOverlay)"
-              absolute
-              color="primary"
-              style="align-items: start"
-            >
-              <p style="margin-top: 11%" class="text-center">
-                {{ $t("dashboard.disabled.createShiftsHere") }}
-              </p>
-            </v-overlay>
-          </v-fade-transition>
-        </div>
-      </template>
-    </v-hover>
     <FormDialog
       v-if="dialog"
       entity-name="shift"
@@ -45,15 +27,8 @@ import { getNextContractParams } from "@/utils";
 export default {
   name: "DashboardShiftButton",
   components: { FormDialog },
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false
-    }
-  },
   data: () => ({
-    dialog: false,
-    touchOverlay: false
+    dialog: false
   }),
   methods: {
     async refresh({ contract }) {
@@ -63,9 +38,6 @@ export default {
         );
       }
       this.$emit("refresh");
-    },
-    toggleTouchOverlay(hover) {
-      this.touchOverlay = hover ? false : !this.touchOverlay;
     }
   }
 };

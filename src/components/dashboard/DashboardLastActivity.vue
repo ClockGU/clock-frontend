@@ -20,11 +20,7 @@
         </v-btn>
       </template>
       <v-container v-else>
-        {{
-          disabled
-            ? $t("dashboard.disabled.noContract")
-            : $t("dashboard.emptyActivity")
-        }}
+        {{ $t("dashboard.emptyActivity") }}
       </v-container>
     </v-card-text>
   </v-card>
@@ -40,12 +36,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "DashboardLastActivity",
   components: { ShiftListItem },
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false
-    }
-  },
   data: () => ({
     allShiftRouter: { name: "shiftList" }
   }),
