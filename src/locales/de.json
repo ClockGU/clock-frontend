@@ -22,8 +22,10 @@
     "search": "Suchen",
     "send": "Absenden",
     "showall": "Alle anzeigen",
+    "skip": "Überspringen",
     "switch": "Wechseln",
-    "update": "Aktualisieren"
+    "update": "Aktualisieren",
+    "dontShowAgain": "Das Onboarding nicht mehr anzeigen"
   },
   "app": {
     "account": "Account",
@@ -182,7 +184,8 @@
   },
   "dialogs": {
     "textConfirmDelete": "Bist du sicher, dass du {selectedEntity} @.lower:actions.delete möchtest? @:dialogs.textPermanent",
-    "textPermanent": "Diese Aktion lässt sich nicht rückgängig machen."
+    "textPermanent": "Diese Aktion lässt sich nicht rückgängig machen.",
+    "dataWillBeLost": "Du hast Daten eingegeben, die beim Fortfahren verworfen werden."
   },
   "errors": {
     "contractName": "Der Vertragsname",
@@ -297,6 +300,38 @@
     "welcome": {
       "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
       "title": "@:app.onboarding"
+    },
+    "cards": {
+      "1": {
+        "title": "Was ist Clock?",
+        "text": "Clock hilft Dir beim Erfassen Deiner Arbeitszeit und beim Erstellen Deiner monatlichen Stundenzettel. Du behältst dabei die Kontrolle über Deine Daten und entscheidest, wann Dein Stundenzettel fertig zur Abgabe ist.",
+        "placeholderName": "UndrawTimeManagement"
+      },
+      "2": {
+        "title": "Verträge",
+        "text": "Ein Vertrag in Clock entspricht Deinem realen Arbeitsvertrag und sollte die gleiche Laufzeit und die gleiche Stundenzahl haben. Wenn Du mehrere Jobs hast, kannst Du in Clock mehrere Verträge anlegen und Zeiten getrennt erfassen.",
+        "placeholderName": "UndrawNoData"
+      },
+      "3": {
+        "title": "Schichten",
+        "text": "Eine zusammenhängende Arbeitszeit ist eine \"Schicht\". Du kannst Schichten direkt \"clocken \" oder von Hand hinzufügen und sogar im Voraus planen. Eine geplante Schicht muss überprüft werden nachdem sie stattgefunden hat.",
+        "placeholderName": "UndrawNotes"
+      },
+      "4": {
+        "title": "Das Dashboard",
+        "text": "Auf dem Dashboard kannst Du \"clocken\" und behältst die Arbeitszeit in Deinem Vertrag im Blick. Falls es Überschneidungen Deiner Schichten gibt oder Du das Ausclocken vergessen hast, wird eine Warnung angezeigt.",
+        "placeholderName": "UndrawSocialDashboard"
+      },
+      "5": {
+        "title": "Kalender und Schichttabelle",
+        "text": "Deine vergangenen und geplanten Schichten kannst Du entweder in einer Kalenderansicht oder in der Schichttabelle ansehen und bearbeiten. In der Schichttabelle siehst Du auch zusätzliche Informationen auf einen Blick.",
+        "placeholderName": "UndrawCalendar"
+      },
+      "6": {
+        "title": "Einen Stundenzettel exportieren",
+        "text": "Am Ende des Monats kannst Du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst Du herunterladen und bei Deiner Dienststelle abgeben.",
+        "placeholderName": "UndrawNewsletter"
+      }
     }
   },
   "personnelNumber": {
