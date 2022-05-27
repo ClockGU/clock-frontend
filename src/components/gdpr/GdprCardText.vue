@@ -3,9 +3,7 @@
     <v-card-text class="pb-0">
       <i18n path="privacyagreement.text" tag="p">
         <template #privacyAgreement>
-          <router-link :to="{ name: 'privacy' }">{{
-            $t("app.privacyagreement")
-          }}</router-link>
+          <GdprTextDialog></GdprTextDialog>
         </template>
       </i18n>
 
@@ -21,8 +19,10 @@
 </template>
 
 <script>
+import GdprTextDialog from "@/components/gdpr/GdprTextDialog";
 export default {
   name: "GdprCardText",
+  components: { GdprTextDialog },
   data() {
     return {
       value: false
