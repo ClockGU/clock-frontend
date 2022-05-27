@@ -81,7 +81,7 @@ import {
 } from "@mdi/js";
 
 import DeleteAccount from "@/components/DeleteAccount";
-import GDPR from "@/components/gdpr/GDPR";
+import GDPR from "@/components/gdpr/GdprSettingsCard";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm";
 import LanguageSettings from "@/components/LanguageSettings";
 import AdminCheckoutUser from "@/components/AdminCheckoutUser";
