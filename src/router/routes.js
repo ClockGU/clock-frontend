@@ -8,7 +8,6 @@ const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 const Landing = () => import("@/views/Landing");
 const Imprint = () => import("@/views/Imprint");
-const Privacy = () => import("@/components/gdpr/Privacy");
 const ViewDashboard = () => import("@/views/ViewDashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
