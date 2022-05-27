@@ -5,7 +5,7 @@
       :logout-action="true"
     ></CardToolbar>
     <GdprCardText @checkbox-updated="updateValue"></GdprCardText>
-    <GdprCardActions :value="value"></GdprCardActions>
+    <GdprCardActions v-if="!disableActions" :value="value"></GdprCardActions>
   </v-card>
 </template>
 
@@ -17,12 +17,20 @@ import GdprCardActions from "@/components/gdpr/agreement-components/GdprCardActi
 export default {
   name: "GdprAgreementCard",
   components: { GdprCardActions, GdprCardText, CardToolbar },
+  props: {
+    disableActions: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   data: () => ({
     value: false
   }),
   methods: {
     updateValue(e) {
       this.value = e;
+      this.$emit("checkbox-updated", e);
     }
   }
 };
