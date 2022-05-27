@@ -233,7 +233,7 @@ import {
 
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
-import Privacy from "@/views/Privacy";
+import Privacy from "@/components/gdpr/Privacy";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 import LanguageSwitcher from "@/components/LanguageSwitcher";

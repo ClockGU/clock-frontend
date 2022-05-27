@@ -8,7 +8,7 @@ const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 const Landing = () => import("@/views/Landing");
 const Imprint = () => import("@/views/Imprint");
-const Privacy = () => import("@/views/Privacy");
+const Privacy = () => import("@/components/gdpr/Privacy");
 const ViewDashboard = () => import("@/views/ViewDashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
@@ -55,12 +55,6 @@ export const routes = [
         path: "/impressum",
         name: "imprint",
         component: Imprint,
-        meta: { public: true }
-      },
-      {
-        path: "/datenschutz",
-        name: "privacy",
-        component: Privacy,
         meta: { public: true }
       },
       {

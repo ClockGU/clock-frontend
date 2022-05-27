@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import PrivacyDialog from "@/components/PrivacyDialog";
+import PrivacyDialog from "@/components/gdpr/PrivacyDialog";
 
 export default {
   name: "PrivacyAgreement",
