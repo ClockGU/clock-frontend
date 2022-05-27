@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import GdprText from "@/components/gdpr/GdprText";
+import GdprText from "@/components/gdpr/text-components/GdprText";
 import { mdiClose } from "@mdi/js";
 
 export default {

@@ -11,8 +11,8 @@
 
 <script>
 import CardToolbar from "@/components/cards/CardToolbar";
-import GdprCardText from "@/components/gdpr/GdprCardText";
-import GdprCardActions from "@/components/gdpr/GdprCardActions";
+import GdprCardText from "@/components/gdpr/agreement-components/GdprCardText";
+import GdprCardActions from "@/components/gdpr/agreement-components/GdprCardActions";
 
 export default {
   name: "GdprAgreementCard",
