@@ -1,9 +1,18 @@
 <template>
-  <PrivacyDialog />
+  <v-dialog
+    v-model="dialog"
+    :fullscreen="$vuetify.breakpoint.smAndDown"
+    max-width="600"
+    persistent
+    no-click-animation
+    @keydown.esc="closeDialog"
+  >
+    <GdprAgreementCard />
+  </v-dialog>
 </template>
 
 <script>
-import PrivacyDialog from "@/components/gdpr/PrivacyDialog";
+import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
 
 export default {
   name: "PrivacyAgreement",
@@ -12,6 +21,16 @@ export default {
       title: this.$t("app.privacyagreement")
     };
   },
-  components: { PrivacyDialog }
+  components: { GdprAgreementCard },
+  data() {
+    return {
+      dialog: true
+    };
+  },
+  methods: {
+    closeDialog() {
+      this.$emit("close");
+    }
+  }
 };
 </script>
