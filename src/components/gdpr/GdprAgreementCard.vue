@@ -6,19 +6,17 @@
     ></CardToolbar>
     <GdprCardText @checkbox-updated="updateValue"></GdprCardText>
     <GdprCardActions :value="value"></GdprCardActions>
-    <FeedbackMenu />
   </v-card>
 </template>
 
 <script>
-import FeedbackMenu from "@/components/FeedbackMenu";
 import CardToolbar from "@/components/cards/CardToolbar";
 import GdprCardText from "@/components/gdpr/GdprCardText";
 import GdprCardActions from "@/components/gdpr/GdprCardActions";
 
 export default {
   name: "GdprAgreementCard",
-  components: { FeedbackMenu, GdprCardActions, GdprCardText, CardToolbar },
+  components: { GdprCardActions, GdprCardText, CardToolbar },
   data: () => ({
     value: false
   }),
