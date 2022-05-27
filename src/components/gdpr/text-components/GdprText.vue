@@ -263,7 +263,7 @@
 
 <script>
 export default {
-  name: "Privacy",
+  name: "GdprText",
   props: {
     dialog: {
       type: Boolean,

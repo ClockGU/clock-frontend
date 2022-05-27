@@ -31,7 +31,7 @@ import { mapGetters } from "vuex";
 import GDPRService from "@/services/gdpr";
 
 export default {
-  name: "GDPR",
+  name: "GdprSettingsCard",
   data() {
     return {
       response: null,
