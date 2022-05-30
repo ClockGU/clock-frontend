@@ -137,6 +137,7 @@
                         </v-card-text>
                         <ShiftBulkActions
                           v-if="selected.length > 0"
+                          :contracts="contracts"
                           :shifts="selected"
                           :destroy-fn="destroyFn"
                           @edit="editShift"
