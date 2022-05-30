@@ -90,6 +90,7 @@
                           :destroy-fn="destroyFn"
                           :shifts="selected"
                           can-review
+                          :contracts="contracts"
                           @edit="editShift"
                           @refresh="refresh"
                         />
