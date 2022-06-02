@@ -22,13 +22,11 @@ export default new Vuex.Store({
     user: {
       first_name: ""
     },
-    selectedContract: undefined,
     backendOffline: false,
     userLoading: false,
     onboardingSkipped: false
   },
   getters: {
-    selectedContract: (state) => state.selectedContract,
     user: (state) => state.user,
     userLoading: (state) => state.userLoading
   },
@@ -73,12 +71,6 @@ export default new Vuex.Store({
     stopLoading({ commit }) {
       commit("stopLoading");
     },
-    setContract({ commit }, payload) {
-      commit("setContract", payload);
-    },
-    unsetContract({ commit }) {
-      commit("unsetContract");
-    },
     setUser({ commit }, payload) {
       commit("setUser", payload);
     }
@@ -101,12 +93,6 @@ export default new Vuex.Store({
     },
     stopLoading(state) {
       state.loadingData = false;
-    },
-    setContract(state, payload) {
-      state.selectedContract = payload;
-    },
-    unsetContract(state) {
-      state.selectedContract = undefined;
     },
     setUser(state, payload) {
       state.user = { ...payload };
