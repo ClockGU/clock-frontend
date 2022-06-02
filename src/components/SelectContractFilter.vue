@@ -78,9 +78,9 @@ export default {
     }
   },
   methods: {
-    changeContract({ uuid }) {
+    async changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;
-      this.$store.dispatch("setContract", uuid);
+      await this.$store.dispatch("contract/selectContract", uuid);
       this.$emit("update");
 
       this.$router
