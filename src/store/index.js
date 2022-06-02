@@ -22,7 +22,7 @@ export default new Vuex.Store({
     user: {
       first_name: ""
     },
-    selectedContract: null,
+    selectedContract: undefined,
     backendOffline: false,
     userLoading: false,
     onboardingSkipped: false
@@ -106,7 +106,7 @@ export default new Vuex.Store({
       state.selectedContract = payload;
     },
     unsetContract(state) {
-      state.selectedContract = null;
+      state.selectedContract = undefined;
     },
     setUser(state, payload) {
       state.user = { ...payload };

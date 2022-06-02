@@ -80,13 +80,13 @@ export default {
   methods: {
     changeContract({ uuid }) {
       if (this.$route.params.contract === uuid) return;
-
+      this.$store.dispatch("setContract", uuid);
       this.$emit("update");
 
       this.$router
         .push({
           ...this.$route.name,
-          params: { ...this.$route.name.params, contract: uuid }
+          params: { ...this.$route.params, contract: uuid }
         })
         .catch((error) => {
           log("Experienced an error while trying to change contracts: ", error);
