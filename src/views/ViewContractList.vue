@@ -191,7 +191,7 @@ export default {
     },
     async destroy(uuid) {
       try {
-        if (uuid === this.$store.getters["contract/selectedContract"]) {
+        if (uuid === this.$store.getters["contract/selectedContractUUID"]) {
           await this.$store.dispatch("contract/clearSelectedContract");
         }
         await ContractService.delete(uuid);
