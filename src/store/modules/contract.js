@@ -3,7 +3,11 @@ import ContractService from "@/services/contract";
 const state = {
   contracts: [],
   status: "idle",
-  selectedContract: { uuid: undefined, worktime: "00:00" }
+  selectedContract: {
+    uuid: undefined,
+    worktime: "00:00",
+    date: { start: "2019-01-01", end: "2019-01-31" }
+  }
 };
 
 const getters = {

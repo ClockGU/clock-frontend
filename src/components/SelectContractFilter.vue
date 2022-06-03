@@ -39,6 +39,7 @@ import { log } from "@/utils/log";
 import { mdiRecord } from "@mdi/js";
 
 import contractValidMixin from "@/mixins/contractValid";
+import { mapGetters } from "vuex";
 
 export default {
   name: "SelectContractFilter",
@@ -46,10 +47,6 @@ export default {
   props: {
     contracts: {
       type: Array,
-      required: true
-    },
-    selectedContract: {
-      type: Object,
       required: true
     },
     disabled: {
@@ -62,6 +59,7 @@ export default {
     icons: { mdiRecord }
   }),
   computed: {
+    ...mapGetters({ selectedContract: "contract/selectedContract" }),
     hint() {
       if (this.disabled) {
         return "";

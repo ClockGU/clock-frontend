@@ -28,7 +28,7 @@ import {
 export default {
   name: "TheNavigationToolbar",
   computed: {
-    ...mapGetters({ selectedContractUUID: "contract/selecetedContractUUID" }),
+    ...mapGetters({ selectedContractUUID: "contract/selectedContractUUID" }),
     links() {
       return [
         {
