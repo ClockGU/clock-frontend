@@ -9,7 +9,9 @@ const state = {
 const getters = {
   contracts: (state) => state.contracts,
   loading: (state) => state.status === "loading",
-  selectedContract: (state) => state.selectedContract
+  selectedContract: (state) => state.selectedContract,
+  selectedContracUUID: (state) => state.selectedContract.uuid,
+  selectContractWorktime: (state) => state.selectedContract.worktime
 };
 
 const actions = {
