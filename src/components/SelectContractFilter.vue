@@ -78,15 +78,15 @@ export default {
     }
   },
   methods: {
-    async changeContract({ uuid }) {
-      if (this.$route.params.contract === uuid) return;
-      await this.$store.dispatch("contract/selectContract", uuid);
+    async changeContract(contract) {
+      if (this.$route.params.contract === contract.uuid) return;
+      await this.$store.dispatch("contract/selectContract", contract);
       this.$emit("update");
 
       this.$router
         .push({
           ...this.$route.name,
-          params: { ...this.$route.params, contract: uuid }
+          params: { ...this.$route.params, contract: contract.uuid }
         })
         .catch((error) => {
           log("Experienced an error while trying to change contracts: ", error);
