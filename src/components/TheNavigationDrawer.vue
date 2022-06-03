@@ -132,7 +132,6 @@ export default {
       mdiLogout
     }
   }),
-  // eslint-disable-next-line vue/order-in-components
   computed: {
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
