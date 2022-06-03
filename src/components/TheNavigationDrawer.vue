@@ -120,6 +120,10 @@ export default {
     drawer: {
       type: Boolean,
       default: false
+    },
+    selectedContract: {
+      type: String,
+      default: ""
     }
   },
   data: () => ({
@@ -132,7 +136,8 @@ export default {
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
       user: "user",
-      userLoading: "userLoading"
+      userLoading: "userLoading",
+      selectedContract: "contract/selectedContract"
     }),
     firstLetter() {
       if (this.user === null) return "";
@@ -168,7 +173,7 @@ export default {
           text: this.$t("app.dashboard"),
           to: {
             name: "dashboard",
-            params: { contract: this.$route.params.contract }
+            params: { contract: this.selectedContract }
           },
           icon: mdiHome,
           loggedOut: false
@@ -179,7 +184,7 @@ export default {
             name: "calendar",
             params: {
               ...getRouterProps("month", new Date()),
-              contract: this.$route.params.contract
+              contract: this.selectedContract
             }
           },
           icon: mdiCalendar,
@@ -189,7 +194,7 @@ export default {
           text: this.$t("app.shifts"),
           to: {
             name: "shiftList",
-            params: { contract: this.$route.params.contract }
+            params: { contract: this.selectedContract }
           },
           icon: mdiFormatListNumbered,
           loggedOut: false
@@ -198,7 +203,7 @@ export default {
           text: this.$t("app.contracts"),
           to: {
             name: "contractList",
-            params: { contract: this.$route.params.contract }
+            params: { contract: this.selectedContract }
           },
           icon: mdiFileDocument,
           loggedOut: false
@@ -207,7 +212,7 @@ export default {
           text: this.$t("app.reports"),
           to: {
             name: "reporting",
-            params: { contract: this.$route.params.contract }
+            params: { contract: this.selectedContract }
           },
           icon: mdiFileChart,
           loggedOut: false

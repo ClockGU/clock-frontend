@@ -32,6 +32,7 @@ export async function RequiredDataGuard(to, from, next) {
         store.dispatch("report/list")
       ]);
       const uuid = getContractWithLastActivity({ shifts, contracts });
+      await store.dispatch("contract/selectContract", uuid);
       return next(getNextContractParams(to, uuid));
     }
   } catch (error) {

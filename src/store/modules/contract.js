@@ -2,32 +2,14 @@ import ContractService from "@/services/contract";
 
 const state = {
   contracts: [],
-  status: "idle"
+  status: "idle",
+  selectedContract: undefined
 };
 
 const getters = {
   contracts: (state) => state.contracts,
-  loading: (state) => state.status === "loading"
-};
-
-const mutations = {
-  addContract(state, payload) {
-    state.contracts.push(payload);
-  },
-  updateContract(state, payload) {
-    state.contracts = [
-      ...state.contracts.filter((contract) => contract.uuid !== payload.uuid),
-      payload
-    ];
-  },
-  deleteContract(state, payload) {
-    state.contracts = state.contracts.filter(
-      (contract) => contract.uuid !== payload
-    );
-  },
-  setContracts(state, payload) {
-    state.contracts = payload;
-  }
+  loading: (state) => state.status === "loading",
+  selectedContract: (state) => state.selectedContract
 };
 
 const actions = {
@@ -55,6 +37,38 @@ const actions = {
     } finally {
       state.status = "idle";
     }
+  },
+  selectContract({ commit }, payload) {
+    commit("setSelectedContract", payload);
+  },
+  clearSelectedContract({ commit }) {
+    commit("unsetSelectedContract");
+  }
+};
+
+const mutations = {
+  addContract(state, payload) {
+    state.contracts.push(payload);
+  },
+  updateContract(state, payload) {
+    state.contracts = [
+      ...state.contracts.filter((contract) => contract.uuid !== payload.uuid),
+      payload
+    ];
+  },
+  deleteContract(state, payload) {
+    state.contracts = state.contracts.filter(
+      (contract) => contract.uuid !== payload
+    );
+  },
+  setContracts(state, payload) {
+    state.contracts = payload;
+  },
+  setSelectedContract(state, payload) {
+    state.selectedContract = payload;
+  },
+  unsetSelectedContract(state) {
+    state.selectedContract = undefined;
   }
 };
 

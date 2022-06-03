@@ -191,8 +191,11 @@ export default {
     },
     async destroy(uuid) {
       try {
+        if (uuid === this.$store.getters["contract/selectedContract"]) {
+          await this.$store.dispatch("contract/clearSelectedContract");
+        }
         await ContractService.delete(uuid);
-        this.$store.dispatch("contract/queryContracts");
+        await this.$store.dispatch("contract/queryContracts");
       } catch (error) {
         // TODO: Set error state in component
         log(error);
