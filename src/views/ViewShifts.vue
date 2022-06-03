@@ -2,11 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <SelectContractFilter
-          :disabled="disabled"
-          :contracts="contracts"
-          :selected-contract="selectedContract"
-        />
+        <SelectContractFilter :disabled="disabled" :contracts="contracts" />
       </v-col>
       <v-col>
         <DataFilter

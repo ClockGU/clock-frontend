@@ -7,10 +7,7 @@
     </v-row>
 
     <v-card>
-      <SelectContractFilter
-        :contracts="contracts"
-        :selected-contract="selectedContract"
-      />
+      <SelectContractFilter :contracts="contracts" />
     </v-card>
 
     <v-card>

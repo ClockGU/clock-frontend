@@ -10,11 +10,7 @@
           color="white"
         >
           <v-col class="px-0" cols="12">
-            <SelectContractFilter
-              :disabled="disabled"
-              :contracts="contracts"
-              :selected-contract="selectedContract"
-            />
+            <SelectContractFilter :disabled="disabled" :contracts="contracts" />
           </v-col>
           <v-col class="px-0" cols="12">
             <v-btn :disabled="disabled" color="primary" @click="newShift">
