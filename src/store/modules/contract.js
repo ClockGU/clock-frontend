@@ -10,7 +10,7 @@ const getters = {
   contracts: (state) => state.contracts,
   loading: (state) => state.status === "loading",
   selectedContract: (state) => state.selectedContract,
-  selectedContracUUID: (state) => state.selectedContract.uuid,
+  selectedContractUUID: (state) => state.selectedContract.uuid,
   selectContractWorktime: (state) => state.selectedContract.worktime
 };
 
@@ -70,14 +70,14 @@ const mutations = {
     state.selectedContract = payload;
   },
   unsetSelectedContract(state) {
-    state.selectedContract = undefined;
+    state.selectedContract = { uuid: undefined, worktime: "00:00" };
   }
 };
 
 export default {
   namespaced: true,
   state,
-  actions,
   getters,
+  actions,
   mutations
 };
