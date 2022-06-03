@@ -31,9 +31,12 @@ export async function RequiredDataGuard(to, from, next) {
         store.dispatch("shift/queryShifts"),
         store.dispatch("report/list")
       ]);
-      const uuid = getContractWithLastActivity({ shifts, contracts });
-      await store.dispatch("contract/selectContract", uuid);
-      return next(getNextContractParams(to, uuid));
+      const contractUUID = getContractWithLastActivity({ shifts, contracts });
+      const contract = contracts.find(
+        (contract) => contract.uuid === contractUUID
+      );
+      await store.dispatch("contract/selectContract", contract);
+      return next(getNextContractParams(to, contractUUID));
     }
   } catch (error) {
     log(error);
