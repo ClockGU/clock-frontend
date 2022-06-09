@@ -15,22 +15,18 @@
         <v-overlay
           :value="showOverlay"
           absolute
-          :opacity="contractExpired ? 1.0 : 0.9"
+          :opacity="contractValid ? 1.0 : 0.9"
         >
           <v-container>
             <v-row>
               <v-col cols="12">
                 <p>
-                  {{
-                    contractExpired
-                      ? $t("dashboard.clock.contractExpired")
-                      : $t("dashboard.clock.contractInactive")
-                  }}
+                  {{ overlayMessage }}
                 </p>
               </v-col>
               <v-col v-if="contracts.length > 1 && clockedShift" cols="12">
                 <v-btn color="primary lighten-1" @click="changeContract">
-                  {{ $t("actions.change") }}
+                  {{ $t("actions.switch") }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -57,6 +53,7 @@
             :clocked-shift="clockedShift"
             :destroy="destroy"
             @updateWindow="window += $event"
+            @refresh="$emit('refresh')"
           />
         </v-window-item>
       </v-window>
@@ -71,7 +68,7 @@ import ClockInOutCardForm from "@/components/ClockInOutCardForm";
 
 import { mapGetters } from "vuex";
 
-import contractExpiredMixin from "@/mixins/contractExpired";
+import contractValidMixin from "@/mixins/contractValid";
 
 export default {
   name: "ClockInOutCard",
@@ -80,7 +77,7 @@ export default {
     ClockInOutCardClock,
     ClockInOutCardForm
   },
-  mixins: [contractExpiredMixin],
+  mixins: [contractValidMixin],
   props: {
     selectedContract: {
       required: true,
@@ -89,6 +86,10 @@ export default {
     clockedShift: {
       type: Object,
       default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -107,10 +108,20 @@ export default {
         (contract) => contract.uuid === this.clockedShift.contract
       );
     },
+    overlayMessage() {
+      if (this.disabled) {
+        return this.$t("dashboard.disabled.contractNeededForClocking");
+      }
+      if (this.contractInFuture)
+        return this.$t("dashboard.clock.contractInFuture");
+      if (this.contractExpired)
+        return this.$t("dashboard.clock.contractExpired");
+      else return this.$t("dashboard.clock.contractInactive");
+    },
     showOverlay() {
       return (
         this.$route.params.contract !== this.clockedContract.uuid ||
-        this.contractExpired
+        !this.contractValid
       );
     }
   },

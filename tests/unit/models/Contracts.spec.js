@@ -1,24 +1,28 @@
 import { Contract } from "@/models/ContractModel";
 import { addDays } from "date-fns";
 
+const timekeeper = require("timekeeper");
+
 describe("Contracts.js", () => {
   const date = {
-    start: new Date(Date.UTC(2019, 0, 1)),
-    end: new Date(Date.UTC(2019, 1, 1))
+    start: new Date(Date.UTC(2021, 0, 1)),
+    end: new Date(Date.UTC(2021, 1, 1))
   };
 
   it("creates a new Contract instance with date arguments", () => {
+    timekeeper.travel(date.start);
     const obj = new Contract({ date: date });
     console.log(obj.carryoverTargetDate);
     expect(obj).toEqual({
       uuid: null,
       user: null,
       name: null,
-      worktime: null,
+      worktime: "",
       date: date,
-      carryoverMinutes: "00:00",
-      carryoverTargetDate: new Date(2021, 3, 1, 0)
+      carryoverTime: "",
+      carryoverTargetDate: new Date(2021, 0, 1, 0)
     });
+    timekeeper.reset();
   });
 
   it("creates a new Contract instance with all arguments", () => {
@@ -27,8 +31,8 @@ describe("Contracts.js", () => {
       user: "user",
       name: "name",
       date: date,
-      carryoverMinutes: "00:00",
-      carryoverTargetDate: new Date(2020, 8, 31, 0)
+      carryoverTime: "",
+      carryoverTargetDate: new Date(2021, 8, 31, 0)
     };
 
     const output = {
@@ -36,7 +40,7 @@ describe("Contracts.js", () => {
       worktime: "40:00"
     };
 
-    expect(new Contract({ ...data, minutes: 2400 })).toEqual(output);
+    expect(new Contract({ ...data, worktime: 2400 })).toEqual(output);
   });
 
   it("converts worktime user input / API response back and forth correctly", () => {
@@ -45,16 +49,16 @@ describe("Contracts.js", () => {
       user: "user",
       name: "name",
       date: date,
-      carryoverMinutes: "00:00",
-      carryoverTargetDate: new Date(2020, 8, 31, 0)
+      carryoverTime: "",
+      carryoverTargetDate: new Date(2021, 8, 31, 0)
     };
 
-    expect(new Contract({ ...data, minutes: 600 })).toEqual({
+    expect(new Contract({ ...data, worktime: 600 })).toEqual({
       ...data,
       worktime: "10:00"
     });
 
-    expect(new Contract({ ...data, minutes: 50 })).toEqual({
+    expect(new Contract({ ...data, worktime: 50 })).toEqual({
       ...data,
       worktime: "00:50"
     });

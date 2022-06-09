@@ -1,26 +1,29 @@
 <template>
-  <v-card v-if="overlappingShifts.length < 1">
+  <v-card v-if="overlappingShifts === 0">
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
-        <v-icon class="green--text" x-large>{{ icons.mdiCheckBold }}</v-icon>
+        <v-icon :class="disabled ? 'warning--text' : 'green--text'" x-large>{{
+          disabled ? icons.mdiHelpCircleOutline : icons.mdiCheckBold
+        }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
-        {{ $t("dashboard.overlaps.noProblems") }}
+        <div v-if="disabled">
+          {{ $t("dashboard.disabled.noContract") }} <br />
+          {{ $t("dashboard.disabled.problemShiftsHere") }}
+        </div>
+        <div v-else>
+          {{ $t("dashboard.overlaps.noProblems") }}
+        </div>
       </v-col>
     </v-row>
   </v-card>
-
   <v-card v-else>
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
         <v-icon class="red--text" x-large>{{ icons.mdiAlert }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
-        {{
-          $tc("dashboard.overlaps.description", overlappingShifts.length, {
-            n: overlappingShifts.length
-          })
-        }}
+        {{ $tc("dashboard.overlaps.description", overlappingShifts) }}
       </v-col>
     </v-row>
 
@@ -49,7 +52,7 @@
 
 <script>
 import { format } from "date-fns";
-import { mdiAlert, mdiCheckBold } from "@mdi/js";
+import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap";
 
@@ -57,6 +60,10 @@ export default {
   name: "DashboardConflicts",
   components: { CalendarOverlap },
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     month: {
       type: String,
       default: format(new Date(), "yyyy-MM")
@@ -70,12 +77,16 @@ export default {
     dialog: false,
     icons: {
       mdiAlert,
-      mdiCheckBold
-    }
+      mdiCheckBold,
+      mdiHelpCircleOutline
+    },
+    touchOverlay: false
   }),
   computed: {
     overlappingShifts() {
-      return getOverlappingShifts(this.shifts);
+      const overlaps = getOverlappingShifts(this.shifts).length;
+      // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
+      return overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
     }
   }
 };

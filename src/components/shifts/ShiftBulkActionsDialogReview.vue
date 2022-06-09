@@ -27,7 +27,7 @@ import { mapGetters } from "vuex";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 export default {
-  name: "ShiftBulkActionsDialogAssignContract",
+  name: "ShiftBulkActionsDialogReview",
   components: { ConfirmationDialog },
   props: {
     shifts: {

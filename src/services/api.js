@@ -34,22 +34,22 @@ const ApiService = {
   },
 
   get(resource, config = {}) {
-    log("ApiService.get called");
+    log("ApiService.get called", resource);
     return axios.get(resource, config);
   },
 
   post(resource, data, config = {}) {
-    log("ApiService.post called");
+    log("ApiService.post called", resource);
     return axios.post(resource, data, config);
   },
 
   patch(resource, data, config = {}) {
-    log("ApiService.patch called");
+    log("ApiService.patch called", resource);
     return axios.patch(resource, data, config);
   },
 
   delete(resource, config = {}) {
-    log("ApiService.delete called");
+    log("ApiService.delete called", resource);
     return axios.delete(resource, config);
   },
 

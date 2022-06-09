@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="500">
+  <v-dialog v-model="dialog" width="500" transition="dialog-bottom-transition">
     <template #activator="{ on, attrs }">
       <slot name="activator" :on="on" :attrs="attrs"></slot>
     </template>
@@ -7,13 +7,12 @@
     <v-card>
       <v-card-title>{{ $t("shifts.assignContract") }}</v-card-title>
       <v-card-text>
-        <span>{{ $t("shifts.assignContractDialog") }}</span>
+        <span>{{ $tc("shifts.assignContractDialog", shifts.length) }}</span>
       </v-card-text>
-
       <v-card-text>
         <v-select
           v-model="contract"
-          :items="contracts"
+          :items="validContracts"
           :prepend-icon="icons.mdiFileDocumentEditOutline"
           :label="$t('shifts.changeContract')"
           item-text="name"
@@ -22,7 +21,6 @@
           filled
         ></v-select>
       </v-card-text>
-
       <v-card-actions>
         <v-btn color="primary" text :loading="loading" @click="save">
           {{ $t("actions.save") }}
@@ -32,16 +30,18 @@
     </v-card>
   </v-dialog>
 </template>
-
+:
 <script>
 import { mdiFileDocumentEditOutline } from "@mdi/js";
 import ShiftService from "@/services/shift";
 import { log } from "@/utils/log";
+import contractValidMixin from "@/mixins/contractValid";
 
 import { mapGetters } from "vuex";
 
 export default {
-  name: "ShiftBulkActionsDialogAssignContract",
+  name: "ShiftAssignContractDialog",
+  mixins: [contractValidMixin],
   props: {
     shifts: {
       type: Array,
@@ -57,7 +57,13 @@ export default {
   computed: {
     ...mapGetters({
       contracts: "contract/contracts"
-    })
+    }),
+    validContracts() {
+      return this.contracts.filter(
+        // TODO: check for shift date or date range (bulk assign)
+        (contract) => !this.specificContractExpired(contract)
+      );
+    }
   },
   created() {
     this.contract = this.shifts[0].contract;

@@ -22,16 +22,18 @@ export default new Vuex.Store({
     user: {
       first_name: ""
     },
-    selectedContract: null,
     backendOffline: false,
-    userLoading: false
+    userLoading: false,
+    onboardingSkipped: false
   },
   getters: {
-    selectedContract: (state) => state.selectedContract,
     user: (state) => state.user,
     userLoading: (state) => state.userLoading
   },
   actions: {
+    skipOnboarding({ commit }) {
+      commit("setOnboardingSkipped", true);
+    },
     changeLocale({ commit }, locale) {
       i18n.locale = locale;
       commit("updateLocale", locale);
@@ -52,23 +54,31 @@ export default new Vuex.Store({
           state.userLoading = false;
         });
     },
+    UPDATE_SETTINGS({ commit, dispatch, state }, settings) {
+      state.userLoading = true;
+      return AuthService.updateSettings(settings)
+        .then((response) => {
+          commit("SET_USER", response.data);
+          dispatch("changeLocale", response.data.language);
+        })
+        .finally(() => {
+          state.userLoading = false;
+        });
+    },
     startLoading({ commit }) {
       commit("startLoading");
     },
     stopLoading({ commit }) {
       commit("stopLoading");
     },
-    setContract({ commit }, payload) {
-      commit("setContract", payload);
-    },
-    unsetContract({ commit }) {
-      commit("unsetContract");
-    },
     setUser({ commit }, payload) {
       commit("setUser", payload);
     }
   },
   mutations: {
+    setOnboardingSkipped(state, value) {
+      state.onboardingSkipped = value;
+    },
     updateLocale(state, locale) {
       state.locale = locale;
     },
@@ -83,12 +93,6 @@ export default new Vuex.Store({
     },
     stopLoading(state) {
       state.loadingData = false;
-    },
-    setContract(state, payload) {
-      state.selectedContract = payload;
-    },
-    unsetContract(state) {
-      state.selectedContract = null;
     },
     setUser(state, payload) {
       state.user = { ...payload };

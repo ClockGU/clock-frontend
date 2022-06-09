@@ -15,6 +15,8 @@
         hide-details
         :prepend-icon="icon"
         v-bind="attrs"
+        :disabled="disabled"
+        :error="error"
         v-on="on"
       ></v-text-field>
     </template>
@@ -61,6 +63,14 @@ export default {
     type: {
       type: String,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    error: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

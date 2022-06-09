@@ -5,13 +5,13 @@
     </template>
 
     <template #title>
-      {{ $t("buttons.deleteEntity", { entity: $tc("models.shift") }) }}
+      {{ $t("buttons.deleteEntity", { entity: $tc("models.shift", count) }) }}
     </template>
 
     <template #text>
       {{
-        $t(`dialogs.textConfirmDelete`, {
-          selectedEntity: $tc(`models.selectedShift`)
+        $t("dialogs.textConfirmDelete", {
+          selectedEntity: $tc("models.selectedShift", count)
         })
       }}
     </template>
@@ -26,6 +26,9 @@ import { mdiDelete } from "@mdi/js";
 export default {
   name: "ShiftBulkActionsDialogDelete",
   components: { ConfirmationDialog },
+  props: {
+    count: { type: Number, default: 1 }
+  },
   data: () => ({
     icons: { mdiDelete }
   })

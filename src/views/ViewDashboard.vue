@@ -5,6 +5,7 @@
         <SelectContractFilter
           :contracts="contracts"
           :selected-contract="selectedContract"
+          :disabled="disabled"
         />
       </v-col>
 
@@ -16,8 +17,10 @@
 
           <v-col cols="12" md="6" order="0" order-md="0">
             <ClockInOutCard
+              :disabled="disabled"
               :clocked-shift="clockedShift"
               :selected-contract="selectedContract"
+              @refresh="refresh"
             />
           </v-col>
 
@@ -26,11 +29,12 @@
           </v-col>
 
           <v-col cols="12" md="6" order="2">
-            <DashboardShiftButton @refresh="refresh" />
+            <DashboardShiftButton :disabled="disabled" @refresh="refresh" />
           </v-col>
 
           <v-col cols="12" md="6" order="3">
-            <Progress
+            <DashboardProgress
+              :disabled="disabled"
               :azk-data="azkData"
               :weekly-data="weeklyData"
               :daily-data="dailyData"
@@ -38,15 +42,22 @@
           </v-col>
 
           <v-col cols="12" md="6" order="4">
-            <DataFilter :date="date" :contract="selectedContract">
+            <DataFilter
+              :date="date"
+              :contract="selectedContract"
+              :disabled="disabled"
+            >
               <template #default="{ data }">
-                <DashboardConflicts :shifts="data.shifts" />
+                <DashboardConflicts
+                  :shifts="data.shifts"
+                  :disabled="disabled"
+                />
               </template>
             </DataFilter>
           </v-col>
 
           <v-col cols="12" md="6" order="5">
-            <DashboardLastActivity @refresh="refresh" />
+            <DashboardLastActivity :disabled="disabled" @refresh="refresh" />
           </v-col>
         </v-row>
       </v-card>
@@ -57,14 +68,14 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 
-import ClockInOutCard from "@/components/ClockInOutCard";
-import DashboardShiftButton from "@/components/DashboardShiftButton";
-import DashboardMessageList from "@/components/DashboardMessageList";
-import Progress from "@/components/Progress";
 import SelectContractFilter from "@/components/SelectContractFilter";
-import DashboardConflicts from "@/components/DashboardConflicts";
-import DashboardLastActivity from "@/components/DashboardLastActivity";
-import DashboardWelcome from "@/components/DashboardWelcome";
+import ClockInOutCard from "@/components/ClockInOutCard";
+import DashboardShiftButton from "@/components/dashboard/DashboardShiftButton";
+import DashboardMessageList from "@/components/dashboard/DashboardMessageList";
+import DashboardProgress from "@/components/dashboard/DashboardProgress";
+import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
+import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity";
+import DashboardWelcome from "@/components/dashboard/DashboardWelcome";
 import DataFilter from "@/components/DataFilter";
 import {
   isSameDay,
@@ -89,7 +100,7 @@ export default {
     DashboardShiftButton,
     DataFilter,
     DashboardMessageList,
-    Progress,
+    DashboardProgress,
     SelectContractFilter,
     DashboardConflicts,
     DashboardLastActivity,
@@ -107,8 +118,14 @@ export default {
       shifts: "shift/shifts",
       reports: "report/reports"
     }),
+    disabled() {
+      return this.$route.params.contract === undefined;
+    },
     selectedContract() {
       const uuid = this.$route.params.contract;
+      if (this.disabled) {
+        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
+      }
       return this.contracts.find((contract) => contract.uuid === uuid);
     },
     latestReport() {
@@ -117,12 +134,31 @@ export default {
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
-
       return reports.pop();
     },
     azkData() {
       //reminder: the Progress component expects the carryover to be the last item
       //any changes made here must be adapted in Progress.vue
+      if (this.disabled) {
+        return [
+          {
+            name: this.$t("reports.carryoverLast"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.debit"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.timeWorked"),
+            value: "HH:MM"
+          },
+          {
+            name: this.$t("reports.carryoverNext"),
+            value: "HH:MM"
+          }
+        ];
+      }
       return [
         {
           name: this.$t("reports.carryoverLast"),
@@ -143,6 +179,12 @@ export default {
       ];
     },
     weeklyData() {
+      if (this.disabled) {
+        return {
+          worktime: 0,
+          avg: 0
+        };
+      }
       let duration = 0;
       this.shifts
         .filter(
@@ -161,7 +203,7 @@ export default {
       //differenceInMinutes(this.shifts[0].date.start, this.shifts[0].date.end);
       return {
         worktime: duration,
-        avg: this.selectedContract.minutes / 4
+        avg: this.selectedContract.worktime / 4
       };
     },
     dailyData() {

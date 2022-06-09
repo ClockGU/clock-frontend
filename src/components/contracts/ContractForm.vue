@@ -8,7 +8,7 @@
       {{ $t("contracts.disableDateChangeInfo") }}
     </v-alert>
     <v-alert
-      v-if="specificContractExpired(contract)"
+      v-if="contract.uuid !== null && specificContractExpired(contract)"
       data-cy="alert-step-one"
       type="warning"
     >
@@ -18,9 +18,10 @@
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="startDate"
-          :max="firstShiftOfContract"
+          :max="maxStartDate"
           :contract="contract"
           type="start"
+          :disabled="specificContractExpired(contract)"
         />
       </v-col>
 
@@ -31,26 +32,21 @@
       <v-col cols="12" md="5">
         <ContractFormDateInput
           v-model="endDate"
-          :min="lastShiftOfContract"
+          :min="minEndDate"
           :max="maxEndDate"
           :contract="contract"
           type="end"
+          :disabled="specificContractExpired(contract)"
         />
       </v-col>
 
       <v-col cols="12">
-        <v-text-field
+        <ContractFormTimeInput
           v-model="contract.worktime"
-          data-cy="input-worktime"
+          :prepend-icon="icons.mdiTimetable"
           :label="$t('contracts.hoursPerMonth')"
           :hint="$t('contracts.hoursPerMonthSubtitle')"
-          :prepend-icon="icons.mdiTimetable"
-          return-masked-value
-          persistent-hint
-          required
-          :error-messages="worktimeErrors"
-          filled
-          @blur="worktimeUpdated"
+          :disabled="specificContractExpired(contract)"
         />
       </v-col>
 
@@ -64,6 +60,7 @@
           filled
           counter="100"
           required
+          :disabled="specificContractExpired(contract)"
           @blur="$v.contract.name.$touch()"
         />
       </v-col>
@@ -71,23 +68,23 @@
       <v-col cols="12">
         <v-checkbox
           v-model="carryover"
+          :disabled="
+            shiftsLocked || startsInFuture || specificContractExpired(contract)
+          "
           :label="$t('contracts.carryover.checkboxLabel')"
+          :error-messages="shiftsLocked ? $t('contracts.carryover.locked') : ''"
+          :class="shiftsLocked ? 'mb-3' : ''"
         ></v-checkbox>
 
-        <v-text-field
+        <ContractFormTimeInput
           v-if="carryover"
-          v-model="contract.carryoverMinutes"
+          v-model="contract.carryoverTime"
           :prepend-icon="icons.mdiCalendarClock"
-          :label="$t('contracts.carryover.minutesLabel')"
-          :error-messages="carryoverMinutesErrors"
-          maxlength="6"
-          required
-          filled
-          @focus="$event.target.select()"
-          @blur="carryoverMinutesUpdated"
-        >
-        </v-text-field>
-
+          :label="$t('contracts.carryover.timeLabel')"
+          :hint="$t('contracts.carryover.timeSubtitle')"
+          allow-negative-values
+          :disabled="shiftsLocked"
+        />
         <v-menu
           v-if="carryover"
           v-model="carryoverDateMenu"
@@ -102,6 +99,7 @@
               v-model="carryoverTargetDate"
               :label="$t('contracts.carryover.dateLabel')"
               :prepend-icon="icons.mdiCalendar"
+              :disabled="shiftsLocked"
               readonly
               filled
               v-bind="attrs"
@@ -112,6 +110,7 @@
           <v-date-picker
             v-model="contract.carryoverTargetDate"
             type="month"
+            :disabled="shiftsLocked"
             :show-current="false"
             :min="carryoverMinimalDate"
             :max="carryoverMaximalDate"
@@ -126,6 +125,7 @@
 <script>
 import { Contract } from "@/models/ContractModel";
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
+import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput";
 
 import {
   addMonths,
@@ -133,11 +133,12 @@ import {
   startOfMonth,
   endOfMonth,
   isAfter,
+  isFuture,
   parseISO
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validationMixin } from "vuelidate";
-import contractExpiredMixin from "@/mixins/contractExpired";
+import contractValidMixin from "@/mixins/contractValid";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
   mdiCalendar,
@@ -148,18 +149,6 @@ import {
 
 import { mapGetters } from "vuex";
 
-const worktimeNotZero = (value) => value !== "00:00";
-const validWorktime = (value) => {
-  try {
-    return value.split(":")[1] <= parseInt(59);
-  } catch {
-    return false;
-  }
-};
-const validCarryoverMinutes = (value) => {
-  return /^(-?)([0-9][0-9]):[0-5][0-9]$/.test(value);
-};
-
 export default {
   name: "ContractForm",
   filters: {
@@ -167,23 +156,11 @@ export default {
       return localizedFormat(parseISO(date), "yyyy-MM-dd");
     }
   },
-  components: { ContractFormDateInput },
-  mixins: [contractExpiredMixin, validationMixin],
+  components: { ContractFormDateInput, ContractFormTimeInput },
+  mixins: [contractValidMixin, validationMixin],
   validations: {
     contract: {
-      name: { required, maxLength: maxLength(100), minLength: minLength(2) },
-      carryoverMinutes: {
-        required,
-        validCarryoverMinutes,
-        minLength: minLength(5),
-        maxLength: maxLength(6)
-      },
-      worktime: {
-        required,
-        worktimeNotZero,
-        validWorktime,
-        minLength: minLength(5)
-      }
+      name: { required, maxLength: maxLength(100), minLength: minLength(2) }
     }
   },
   props: {
@@ -206,7 +183,8 @@ export default {
     contract: null,
     carryover: false,
     carryoverDateMenu: false,
-    carryoverCache: null
+    carryoverTimeCache: null,
+    carryoverTargetDateCache: null
   }),
 
   computed: {
@@ -220,7 +198,10 @@ export default {
       return this.contract.date.end;
     },
     carryoverTargetDate() {
-      return format(parseISO(this.contract.carryoverTargetDate), "MMMM yyyy");
+      return localizedFormat(
+        parseISO(this.contract.carryoverTargetDate),
+        "MMMM yyyy"
+      );
     },
     sortedShifts() {
       const shifts = this.shifts.filter(
@@ -229,6 +210,12 @@ export default {
       return shifts.sort((a, b) => {
         return new Date(a.date.start) - new Date(b.date.start);
       });
+    },
+    shiftsLocked() {
+      const shifts = this.shifts.filter(
+        (shift) => shift.contract === this.entity.uuid && shift.locked == true
+      );
+      return shifts.length > 0;
     },
     lastShiftOfContract() {
       if (this.sortedShifts.length < 1) return this.startDate;
@@ -245,11 +232,9 @@ export default {
     },
     valid() {
       if (
-        this.worktimeErrors.length > 0 ||
         this.nameErrors.length > 0 ||
         this.contract.name === null ||
-        this.contract.worktime === null ||
-        this.carryoverMinutesErrors.length > 0
+        this.specificContractExpired(this.contract)
       ) {
         return false;
       }
@@ -266,7 +251,7 @@ export default {
           end: localizedFormat(endOfMonth(new Date()), "yyyy-MM-dd")
         },
         carryoverTargetDate: startDate,
-        carryoverMinutes: 0,
+        carryoverTime: null,
         worktime: null
       });
     },
@@ -329,7 +314,6 @@ export default {
             length: 100
           })
         );
-
       !this.$v.contract.name.required &&
         errors.push(
           this.$tc("errors.nameRequired", 1, {
@@ -338,45 +322,8 @@ export default {
         );
       return errors;
     },
-    worktimeErrors() {
-      const errors = [];
-      if (!this.$v.contract.worktime.$dirty) return errors;
-      !this.$v.contract.worktime.required &&
-        errors.push(
-          this.$tc("errors.nameRequired", 1, {
-            name: this.$t("errors.hours")
-          })
-        );
-      !this.$v.contract.worktime.validWorktime &&
-        errors.push(this.$t("errors.timeFormat"));
-      !this.$v.contract.worktime.minLength &&
-        errors.push(this.$t("errors.timeFormat"));
-      !this.$v.contract.worktime.worktimeNotZero &&
-        errors.push(
-          this.$t("errors.durationBiggerZero", {
-            entity: this.$tc("models.contract")
-          })
-        );
-
-      return errors;
-    },
-    carryoverMinutesErrors() {
-      const errors = [];
-      if (!this.$v.contract.carryoverMinutes.$dirty) return errors;
-      !this.$v.contract.carryoverMinutes.required &&
-        errors.push(
-          this.$tc("errors.nameRequired", 1, {
-            name: this.$t("errors.hours")
-          })
-        );
-      !this.$v.contract.carryoverMinutes.minLength &&
-        errors.push(this.$t("errors.timeFormat"));
-      !this.$v.contract.carryoverMinutes.maxLength &&
-        errors.push(this.$t("errors.timeFormat"));
-      !this.$v.contract.carryoverMinutes.validCarryoverMinutes &&
-        errors.push(this.$t("errors.timeFormat"));
-
-      return errors;
+    startsInFuture() {
+      return isFuture(parseISO(this.startDate));
     }
   },
   watch: {
@@ -389,44 +336,61 @@ export default {
     carryover(val) {
       //do some stunts since the state is directly used by the FormDialog upon saving
       //TODO: Look for a more elegant way to do this
-      if (val && this.carryoverCache == null) {
+      if (val && this.carryoverTimeCache == null) {
         //Save the actual value to the Cache if the Cache is empty (base state)
-        this.carryoverCache = this.contract.carryoverMinutes;
-      } else if (val && this.carryoverCache != null) {
+        this.carryoverTimeCache = this.contract.carryoverTime;
+        this.carryoverTargetDateCache = this.contract.carryoverTargetDate;
+      } else if (
+        val &&
+        this.carryoverTimeCache != null &&
+        this.carryoverTargetDateCache
+      ) {
         //take the cached vaule if the checkbox is reactivated
-        this.contract.carryoverMinutes = this.carryoverCache;
+        this.contract.carryoverTime = this.carryoverTimeCache;
+        this.contract.carryoverTargetDate = this.carryoverTargetDateCache;
       } else {
-        //set carryoverMinutes to 00:00 if carryover-checkbox is deactivated
-        this.contract.carryoverMinutes = "00:00";
+        //set carryoverTime to 00:00 if carryover-checkbox is deactivated
+        this.contract.carryoverTime = "00:00";
+        this.contract.carryoverTargetDate = this.startDate;
       }
     }
   },
   created() {
     if (this.uuid === null) {
-      // We are creating a new contract. We do not need to set a maximal end
-      // date.
+      // We are creating a new contract.
       this.contract = this.initialData;
-      this.maxEndDate = null;
+      const currentStartDate = parseISO(this.initialData.date.end);
+      // the maximal start date can be anytime
+      this.maxStartDate = undefined;
+      // set today as minimal end date (a new contract can not end in the past)
+      this.minEndDate = format(new Date(), "yyyy-MM-dd");
+      // set maximal end date arbitrarily to 7 months
+      // this should cover most cases but should be limited to semester dates
+      this.maxEndDate = format(addMonths(currentStartDate, 7), "yyyy-MM-dd");
     } else {
-      // We are updating an existing contract. The latest end date is in six
-      // months.
       this.contract = this.entity;
       const currentEndDate = parseISO(this.entity.date.end);
+      // We are updating an existing contract.
+      // The latest end date is in six months.
+      // This should be solved differently
+      this.maxStartDate = this.firstShiftOfContract;
+      this.minEndDate = this.lastShiftOfContract;
       this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
+      if (this.contract.carryoverTime == "00:00") {
+        this.contract.carryoverTime = "";
+      }
     }
 
-    if (this.contract.carryoverMinutes !== "00:00") {
-      this.carryover = true;
-    }
+    this.carryover =
+      this.contract.carryoverTime !== "00:00" &&
+      this.contract.carryoverTime !== ""
+        ? true
+        : false;
   },
-  methods: {
-    worktimeUpdated() {
-      this.$v.contract.worktime.$touch();
-      this.$emit("update", { contract: this.contract, valid: this.valid });
-    },
-    carryoverMinutesUpdated() {
-      this.$v.contract.carryoverMinutes.$touch();
-      this.$emit("update", { contract: this.contract, valid: this.valid });
+  updated() {
+    // edge case: carryover is activated and startDate is set to the future
+    if (this.carryover && this.startsInFuture) {
+      this.carryover = false;
     }
   }
 };

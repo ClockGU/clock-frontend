@@ -5,7 +5,7 @@
 
 <script>
 import DOMPurify from "dompurify";
-const marked = require("marked");
+import { marked } from "marked";
 
 marked.setOptions({
   silent: true

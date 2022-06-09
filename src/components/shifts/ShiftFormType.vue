@@ -6,7 +6,7 @@
       hide-details
       dense
       class="mt-0 pt-0"
-      :prepend-icon="icons.mdiBriefcaseOutline"
+      :prepend-icon="typeIcons[value.value]"
     >
       <v-radio
         v-for="type in types"
@@ -24,6 +24,7 @@
 import { mdiBriefcaseOutline } from "@mdi/js";
 import { SHIFT_TYPES } from "@/models/ShiftModel";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
 export default {
   name: "ShiftFormType",
@@ -37,7 +38,8 @@ export default {
     icons: {
       mdiBriefcaseOutline
     },
-    typeColors: SHIFT_TYPE_COLORS
+    typeColors: SHIFT_TYPE_COLORS,
+    typeIcons: SHIFT_TYPE_ICONS
   }),
   computed: {
     types() {
@@ -56,6 +58,9 @@ export default {
         const selected = this.types.find((type) => type.value === value);
         this.$emit("input", selected);
       }
+    },
+    icon() {
+      return this.typeIcons["sk"];
     }
   }
 };

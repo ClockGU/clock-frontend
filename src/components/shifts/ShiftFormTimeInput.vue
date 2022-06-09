@@ -37,7 +37,7 @@
 <script>
 import {
   addMinutes,
-  format,
+  // format,
   // isBefore,
   isTomorrow,
   setHours,
@@ -113,11 +113,6 @@ export default {
           "yyyy-MM-dd"
         ).split("-");
 
-        // Normalize hours to double digits
-        // Normalize minutes to double digits
-
-        // Manually reset hours and minutes to valid values
-
         const date = new Date(year, month - 1, day, hours, minutes);
 
         const newValue = { ...this.value };
@@ -163,7 +158,7 @@ export default {
   },
   methods: {
     initialize() {
-      this.data = format(this.value.date[this.type], "HH:mm");
+      this.data = localizedFormat(this.value.date[this.type], "HH:mm");
     },
     setTime() {
       this.$refs.menu.save(this.time);

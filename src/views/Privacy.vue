@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Datenschutzerklärung</h1>
+    <h1 v-if="!dialog">Datenschutzerklärung</h1>
     <p>
       Diese Datenschutzerklärung dient zur Erfüllung der nach Artikel 13 EU
       DSGVO geforderten Informationspflicht bei Erhebung von Daten zum Zeitpunkt
@@ -208,20 +208,30 @@
 
     <p>
       Clock setzt keine Cookies auf Ihrem Gerät. Clock nutzt jedoch die
-      <i>Local Storage</i> Technik (auch „Lokale Daten“ und „Lokaler Speicher“
+      <i>Local Storage</i>-Technik (auch „Lokale Daten“ und „Lokaler Speicher“
       genannt). Dabei werden Daten lokal im Cache Ihres Browsers gespeichert,
       die auch nach dem Schließen des Browser-Fensters oder dem Beenden des
-      Programms – sofern Sie den Cache nicht löschen - bestehen und ausgelesen
-      werden können. Im Local Storage speichert Clock so genannte <i>Token</i>,
-      die Sie gegenüber dem CAS-Server als berechtigte Nutzer*in ausweisen.
-      Diese Token enthalten keine personenbezogenen Daten und sind nur für den
-      Anmeldevorgang und die Prüfung beim CAS relevant.
+      Programms bestehen und ausgelesen werden können sofern Sie den Cache nicht
+      aktiv löschen. Im <i>Local Storage</i> speichert Clock so genannte
+      <i>Token</i>, die Sie gegenüber dem CAS als berechtigte*n Nutzer*in
+      ausweisen. Diese Token enthalten keine personenbezogenen Daten und sind
+      nur für den Anmeldevorgang und die Prüfung beim CAS relevant.
     </p>
 
     <p>
       Ein Authentifizierungs-Token verfällt nach 30 Tagen, wenn Sie Clock nicht
-      nutzen. Mit der Abmeldung aus ihrem Konto oder dem Löschen Ihres Kontos
-      werden auch die Token gelöscht.
+      nutzen.
+    </p>
+
+    <p>
+      Weitere Informationen zur Verarbeitung der eingegebenen Daten sind im
+      Kapitel "Datenschutz" im
+      <a
+        href="https://clockgu.gitbook.io/clock-benutzerhandbuch/de/privacy"
+        target="_blank"
+        >Clock Handbuch</a
+      >
+      aufgeführt.
     </p>
 
     <h3>Matomo</h3>
@@ -254,6 +264,12 @@
 <script>
 export default {
   name: "Privacy",
+  props: {
+    dialog: {
+      type: Boolean,
+      default: false
+    }
+  },
   metaInfo() {
     return {
       title: this.$t("app.privacy")
@@ -272,5 +288,10 @@ iframe {
   border: 0;
   height: 280px;
   width: 100%;
+}
+h1,
+h2,
+h3 {
+  margin-bottom: 0.5em;
 }
 </style>

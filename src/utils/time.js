@@ -21,6 +21,16 @@ export function splitStringAtColon(string) {
   return values;
 }
 
+export function splitStringAtDecimal(string) {
+  const values = string.split(".");
+
+  if (values.length > 2) {
+    throw new Error("string cannot contain more than one comma");
+  }
+
+  return values;
+}
+
 function validateHours(value) {
   if (value > 23) {
     throw new Error(`invalid input: "${value}"`);
@@ -34,11 +44,10 @@ function validateMinutes(value) {
 }
 
 export function validateTimeInput(value) {
-  /*
-  Validate a time input given with or without a colon. Can parse multiple formats:
+  // Validate a time input given with or without a colon.
+  // Can parse multiple formats:
+  // HH:mm, H:mm, HH:, HH, H, HHmm, Hmm
 
-  HH:mm, H:mm, HH:, HH, H, HHmm, Hmm
-  */
   let fn;
   if (value.includes(":")) {
     fn = parseString;
@@ -64,12 +73,50 @@ export function validateTimeInput(value) {
   return `${hours}:${minutes}`;
 }
 
-export function parseString(value) {
-  /*
-  Parse a string in the form of ""HH:mm".
+export function validateWorktimeInput(value) {
+  // Validate a worktime input given with or without a colon.
+  // Valid worktimes can be any number of hours and 59 minutes max.
+  // Can parse multiple formats: HH:mm, H:mm, HH:, HH, H, HHmm, Hmm
+  // as well as HH,<hh> and HH.<hh>
 
-  Returns array of two strings.
-  */
+  // strip minus sign for negative values to facilitate parsing
+  // set 'negative' flag to add minus sign later
+  let negative = false;
+  if (value.includes("-")) {
+    negative = true;
+    value = value.replace("-", "");
+  }
+
+  let fn;
+  if (value.includes(":")) {
+    fn = parseString;
+  } else if (value.includes(",") || value.includes(".")) {
+    fn = parseStringWithDecimalHours;
+  } else {
+    fn = parseStringWithoutColon;
+  }
+
+  let [hours, minutes] = fn(value);
+
+  // Make sure the input is numeric
+  const inputIsNumeric = isNumeric(hours) && isNumeric(minutes);
+  if (!inputIsNumeric) {
+    throw new Error(`time input is invalid: "${value}"`);
+  }
+
+  // Convert hours and minutes from strings to integers
+  [hours, minutes] = [parseInt(hours).pad(2), parseInt(minutes).pad(2)];
+
+  validateMinutes(minutes);
+
+  // handle negative values
+  return (negative ? "-" : "") + `${hours}:${minutes}`;
+}
+
+export function parseString(value) {
+  // Parse a string in the form of "HH:mm".
+  //  Returns array of two strings.
+
   // Split value at colon
   let [hours, minutes] = splitStringAtColon(value);
 
@@ -87,12 +134,28 @@ export function parseString(value) {
   return [hours, minutes];
 }
 
-export function parseStringWithoutColon(value) {
-  /*
-  Parse a string in the forms of "HHmm", "Hmm", "HH" or "H".
+export function parseStringWithDecimalHours(value) {
+  //Parse a string in the forms of "HH,<hh>" or "HH.<hh>"
+  //assuming that <hh> are fractional hours
+  //Returns array of two strings [hours, minutes]
 
-  Returns array of two strings.
-  */
+  //convert string to decimal point if necessary
+  let decimalValue = value.includes(",") ? value.replace(",", ".") : value;
+
+  //get hours by truncation of the decimal number
+  let hours = Math.trunc(decimalValue).toString();
+
+  //convert decimal part to minutes
+  let minutes = Math.abs(
+    Math.round(parseFloat(decimalValue % 1) * 60).toString()
+  );
+
+  return [hours, minutes];
+}
+
+export function parseStringWithoutColon(value) {
+  // Parse a string in the forms of "HHmm", "Hmm", "HH" or "H".
+  // Returns array of two strings.
   if (value.length < 3) {
     return parseDublet(value);
   }
@@ -105,9 +168,7 @@ export function parseStringWithoutColon(value) {
 }
 
 export function parseDublet(value) {
-  /*
-  Assume we are only handling a hour value.
-  */
+  // Assume we are only handling a hour value.
   const hours = value;
   const minutes = "00";
 
@@ -115,10 +176,9 @@ export function parseDublet(value) {
 }
 
 export function parseTriplet(value) {
-  /*
-   * Parse `value` and split it into H:mm. Return the time in minutes. "123"
-   * will be interpreted as "1:23" and converted to 83.
-   */
+  // Parse `value` and split it into H:mm. Return the time in minutes. "123"
+  // will be interpreted as "1:23" and converted to 83.
+
   const hours = value.slice(0, 1);
   const minutes = value.slice(1, 3);
 
@@ -126,9 +186,8 @@ export function parseTriplet(value) {
 }
 
 export function parseMultiplet(value) {
-  /*
-  Only consider the first four characters.
-  */
+  // Only consider the first four characters.
+
   const hours = value.slice(0, 2);
   const minutes = value.slice(2, 4);
 

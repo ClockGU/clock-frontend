@@ -14,45 +14,105 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-
         <LanguageSwitcher />
-
-        <v-btn text @click="logout">
-          {{ $t("actions.logout") }}
+        <v-btn icon @click="closeOnboarding">
+          <v-icon>
+            {{ icons.mdiClose }}
+          </v-icon>
         </v-btn>
       </v-toolbar>
 
       <v-card-text class="pb-0">
         <v-window v-model="step">
-          <v-window-item :value="0">
-            <placeholder name="UndrawSubway">
-              {{ $t("onboarding.welcome.text") }}
+          <v-window-item
+            v-for="(card, i) in Object.values($t('onboarding.cards'))"
+            :key="i"
+            :value="i"
+            eager
+          >
+            <placeholder :name="card.placeholderName">
+              {{ card.text }}
             </placeholder>
           </v-window-item>
 
-          <v-window-item :value="1">
-            <placeholder name="UndrawWorkInProgress">
-              {{ $t("onboarding.underConstruction.text") }}
-            </placeholder>
+          <v-window-item
+            v-if="!dsgvoAccepted"
+            key="privacy"
+            :value="titles.length - (contractExists ? 2 : 3)"
+          >
+            <v-card-text class="pb-0">
+              <i18n path="privacyagreement.text" tag="p">
+                <template #privacyAgreement>
+                  <v-dialog v-model="privacyDialog" scrollable max-width="600">
+                    <template #activator="{ on, attrs }">
+                      <a v-bind="attrs" v-on="on">{{
+                        $t("app.privacyagreement")
+                      }}</a>
+                    </template>
+                    <v-card>
+                      <v-toolbar
+                        flat
+                        class="text-h5 text--secondary font-weight-bold"
+                      >
+                        {{ $t("app.privacyagreement") }}
+                        <v-spacer></v-spacer>
+                        <v-toolbar-items>
+                          <v-btn icon @click="privacyDialog = false">
+                            <v-icon>{{ icons.mdiClose }}</v-icon>
+                          </v-btn>
+                        </v-toolbar-items>
+                      </v-toolbar>
+                      <v-card-text>
+                        <Privacy :dialog="true"></Privacy>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="privacyDialog = false"
+                        >
+                          {{ $t("actions.close") }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </template>
+              </i18n>
+
+              <v-checkbox
+                v-model="privacyagreement"
+                :label="$t('privacyagreement.checkbox')"
+              >
+              </v-checkbox>
+            </v-card-text>
+            <v-card-text>
+              {{ $t("privacyagreement.revokeInfo") }}
+            </v-card-text>
           </v-window-item>
 
-          <v-window-item :value="2">
+          <v-window-item
+            v-if="!contractExists"
+            key="contractForm"
+            eager
+            :value="titles.length - 2"
+          >
             <p>{{ $t("onboarding.createContract.text") }}</p>
             <ContractForm :entity="entity" @update="updateContractForm" />
 
             <h3 class="pb-2">
-              {{ $t("onboarding.personnelNumber.title") }}
+              {{ $t("personnelNumber.title") }}
             </h3>
             <span>
-              {{ $t("onboarding.personnelNumber.text") }}
+              {{ $t("personnelNumber.text") }}
             </span>
             <v-row align="center" justify="start">
               <v-col cols="12" md="12">
                 <v-text-field
                   v-model="personnelNumber"
-                  :label="$t('onboarding.personnelNumber.label')"
-                  :hint="$t('onboarding.personnelNumber.hint')"
-                  :prepend-icon="icons.mdiFileDocument"
+                  :label="$t('personnelNumber.label')"
+                  :hint="$t('personnelNumber.hint')"
+                  :prepend-icon="icons.mdiBadgeAccountHorizontal"
                   return-masked-value
                   persistent-hint
                   required
@@ -62,47 +122,101 @@
             </v-row>
           </v-window-item>
 
-          <v-window-item :value="3">
+          <v-window-item key="finish" eager :value="titles.length - 1">
             <placeholder name="UndrawFinishLine">
               {{ $t("onboarding.finished.text") }}
             </placeholder>
           </v-window-item>
         </v-window>
       </v-card-text>
-
+      <v-progress-linear
+        :value="(step / titles.length) * 100"
+      ></v-progress-linear>
       <v-card-actions>
-        <v-btn :disabled="step == 0" text @click="step--">
+        <v-btn :disabled="step === 0" text @click="step--">
           {{ $t("actions.back") }}
         </v-btn>
         <v-spacer></v-spacer>
-
-        <v-item-group v-model="step" class="text-center" mandatory>
-          <v-item
-            v-for="n in titles.length"
-            :key="`btn-${n}`"
-            v-slot="{ active, toggle }"
-          >
-            <v-btn :input-value="active" icon @click="toggle">
-              <v-icon>{{ icons.mdiRecord }}</v-icon>
-            </v-btn>
-          </v-item>
-        </v-item-group>
-
-        <v-spacer></v-spacer>
         <v-btn
-          v-if="step != titles.length - 1"
-          :disabled="step == 2 && !contractFormValid"
+          v-if="
+            step < titles.length - 2 ||
+            (step === titles.length - 2 &&
+              (!contractFormEmpty || contractExists))
+          "
           color="primary"
           text
+          :disabled="
+            (!dsgvoAccepted &&
+              !privacyagreement &&
+              step === titles.length - (contractExists ? 2 : 3)) ||
+            (!contractFormValid &&
+              step === titles.length - 2 &&
+              !contractExists)
+          "
           @click="step++"
         >
           {{ $t("actions.next") }}
         </v-btn>
-        <v-btn v-else text color="primary" :loading="loading" @click="save">
+        <v-btn
+          v-if="step === titles.length - 1"
+          text
+          color="primary"
+          :loading="loading"
+          @click="finishOnboarding"
+        >
           {{ $t("actions.complete") }}
         </v-btn>
+        <v-btn
+          v-if="
+            contractFormEmpty &&
+            step === titles.length - (contractExists ? -1 : 2)
+          "
+          color="primary"
+          text
+          @click="step++"
+        >
+          {{ $t("actions.skip") }}
+        </v-btn>
       </v-card-actions>
-
+      <v-card-actions>
+        <v-checkbox
+          v-model="dontShowOnboardingAgain"
+          :label="$t('actions.dontShowAgain')"
+          style="scale: 0.85"
+        ></v-checkbox>
+      </v-card-actions>
+      <v-dialog
+        v-model="showAreYouSureDialog"
+        :fullscreen="$vuetify.breakpoint.smAndDown"
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="warning white--text">
+            {{ $t("news.label.warning") }} !
+          </v-card-title>
+          <v-card-text style="padding: 20px">
+            <p>
+              {{ $t("dialogs.dataWillBeLost") }}
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="error" text @click="showAreYouSureDialog = false">
+              {{ $t("actions.close") }}
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="success"
+              text
+              @click="
+                contractFormEmpty = true;
+                closeOnboarding();
+              "
+            >
+              {{ $t("actions.continue") }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <FeedbackMenu />
     </v-card>
   </v-dialog>
@@ -110,18 +224,28 @@
 
 <script>
 import { log } from "@/utils/log";
-import { mdiDelete, mdiFileDocument, mdiClose, mdiRecord } from "@mdi/js";
+import {
+  mdiDelete,
+  mdiBadgeAccountHorizontal,
+  mdiClose,
+  mdiRecord
+} from "@mdi/js";
 
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
+import Privacy from "@/views/Privacy";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
-import AuthService from "@/services/auth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
-  components: { ContractForm, LanguageSwitcher, FeedbackMenu },
+  components: {
+    ContractForm,
+    LanguageSwitcher,
+    FeedbackMenu,
+    Privacy
+  },
   props: {
     now: {
       type: Date,
@@ -140,9 +264,11 @@ export default {
     step: 0,
     confirmDialog: false,
     contractFormValid: false,
+    contractFormEmpty: true,
+    contractExists: false,
     dialog: true,
     icons: {
-      mdiFileDocument,
+      mdiBadgeAccountHorizontal,
       mdiDelete,
       mdiClose,
       mdiRecord
@@ -151,33 +277,59 @@ export default {
     toSave: null,
     service: null,
     loading: false,
-    personnelNumber: null
+    personnelNumber: null,
+    privacyagreement: false,
+    privacyDialog: false,
+    dontShowOnboardingAgain: false,
+    savedContractUuid: undefined,
+    showAreYouSureDialog: false,
+    dsgvoAccepted: false
   }),
   computed: {
     serviceRepository() {
       return ServiceFactory.get(this.entityName);
     },
     titles() {
-      return [
-        this.$t("onboarding.welcome.title"),
-        this.$t("onboarding.underConstruction.title"),
-        this.$t("onboarding.createContract.title", {
-          entity: this.$tc("models.contract")
-        }),
-        this.$t("onboarding.finished.title")
-      ];
+      let returnValue = Object.values(this.$t("onboarding.cards")).map(
+        function (el) {
+          return el.title;
+        }
+      );
+
+      if (!this.dsgvoAccepted) {
+        returnValue.push(this.$t("app.privacyagreement"));
+      }
+      if (!this.contractExists) {
+        returnValue.push(
+          this.$t("onboarding.createContract.title", {
+            entity: this.$tc("models.contract")
+          })
+        );
+      }
+
+      returnValue.push(this.$t("onboarding.finished.title"));
+      return returnValue;
     }
   },
-  created() {
+  async created() {
     // Load the entity service
     this.loadService();
     // Make a copy of the entity we will save.
     this.toSave = this.entity;
+
+    await this.$store.dispatch("contract/queryContracts");
+    this.contractExists = this.$store.getters["contract/contracts"].length > 0;
+    this.dsgvoAccepted = this.$store.state.user.dsgvo_accepted;
   },
   methods: {
     updateContractForm(event) {
       this.contractToSave = event[this.entityName];
       this.contractFormValid = event.valid;
+      this.contractFormEmpty = !(
+        event.contract.name ||
+        event.contract.worktime ||
+        this.contractExists
+      );
     },
     loadService() {
       this.serviceRepository.serviceLoader().then((service) => {
@@ -187,34 +339,60 @@ export default {
     closeDialog() {
       this.$emit("close");
     },
-    logout() {
-      this.$store.dispatch("auth/LOGOUT");
+    routeToDashboard() {
+      this.$router
+        .push({
+          name: "dashboard",
+          params: { contract: this.savedContractUuid }
+        })
+        .catch(() => {
+          log("*** Redirecting...");
+        });
     },
-    async save() {
+    async closeOnboarding() {
+      // TODO: Not sure if this is the best way to identify user made input on the contract form.
       this.loading = true;
+      if (!this.contractFormEmpty) {
+        this.showAreYouSureDialog = true;
+        return;
+      }
       try {
-        const response = await this.service.create(
-          this.contractToSave.toPayload()
-        );
-        const userData = { language: this.$i18n.locale };
-        if (this.personnelNumber) {
+        await this.$store.dispatch("skipOnboarding");
+        let userData = {
+          onboarding_passed: this.dontShowOnboardingAgain,
+          dsgvo_accepted: this.privacyagreement || this.dsgvoAccepted,
+          language: this.$i18n.locale
+        };
+        if (this.personnelNumber !== null) {
           userData.personal_number = this.personnelNumber;
         }
-        await AuthService.updateSettings(userData);
-        const { uuid: contract } = response;
-        await this.$store.dispatch("contract/queryContracts");
-        this.$router
-          .push({ name: "dashboard", params: { contract } })
-          .catch(() => {
-            log("*** Redirecting...");
-          });
-      } catch (error) {
-        // TODO: Set error state
-        log(error);
+        await this.$store.dispatch("UPDATE_SETTINGS", userData);
+        this.routeToDashboard();
       } finally {
         setTimeout(() => {
           this.loading = false;
         }, 1000);
+      }
+    },
+    async finishOnboarding() {
+      this.loading = true;
+      if (this.contractFormValid) {
+        await this.save();
+      }
+      // Do this to prevent the areYouSureDialog
+      this.contractFormEmpty = true;
+      await this.closeOnboarding();
+    },
+    async save() {
+      try {
+        const response = await this.service.create(
+          this.contractToSave.toPayload()
+        );
+        const { uuid: contract } = response;
+        this.savedContractUuid = contract;
+      } catch (error) {
+        // TODO: Set error state
+        log(error);
       }
     }
   }
