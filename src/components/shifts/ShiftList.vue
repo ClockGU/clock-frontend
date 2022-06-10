@@ -16,7 +16,7 @@
           </span>
           <br />
           Work time sum: {{ totalDuration | minutesToDuration }} /
-          {{ debit | minutesToWorktime }}
+          {{ selectedContractWorktime | minutesToWorktime }}
         </v-col>
 
         <v-col
@@ -55,6 +55,7 @@
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import ShiftListItem from "@/components/shifts/ShiftListItem";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ShiftList",
@@ -97,18 +98,14 @@ export default {
       type: Array,
       required: true
     },
-    selectedContract: {
-      type: Object,
-      required: true
-    }
   },
   data: () => ({
     selected: []
   }),
   computed: {
-    debit() {
-      return this.selectedContract.worktime;
-    },
+    ...mapGetters({
+      selectedContractWorktime: "contract/selectContractWorktime"
+    }),
     totalDuration() {
       return this.shifts.reduce((acc, current) => acc + current.duration, 0);
     },
