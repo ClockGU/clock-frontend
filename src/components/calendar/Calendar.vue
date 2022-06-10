@@ -90,7 +90,7 @@ import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Calendar",
@@ -135,13 +135,7 @@ export default {
     showFormDialog: false
   }),
   computed: {
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
-    },
+    ...mapGetters({ selectedContractUUID: "contract/selectedContractUUID" }),
     shiftNow() {
       const now = new Date();
       const [year, month, day] = this.focus.split("-");
@@ -155,10 +149,10 @@ export default {
       );
     },
     visibleShifts() {
-      if (this.selectedContract === null) return [];
+      if (this.selectedContractUUID === undefined) return [];
 
       return this.shifts.filter(
-        (shift) => shift.contract === this.selectedContract.uuid
+        (shift) => shift.contract === this.selectedContractUUID
       );
     },
     events() {
