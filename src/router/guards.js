@@ -19,6 +19,10 @@ export async function RequiredDataGuard(to, from, next) {
       // go on to valid, matched contract.
       // TODO: This call is mentioned twice.
       await store.dispatch("report/list");
+      if (store.getters["contract/selectedContractUUID"] === undefined) {
+        console.log(typeof contractMatch);
+        await store.dispatch("contract/selectContract", contractMatch);
+      }
       return next();
     }
 
