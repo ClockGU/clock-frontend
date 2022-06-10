@@ -116,7 +116,6 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      selectedContract: "selectedContract",
       clockedShift: "shift/clockedShift",
       isLoggedIn: "auth/loggedIn",
       user: "user",
@@ -152,9 +151,6 @@ export default {
       if (this.user === null) return "";
 
       return this.user.first_name.charAt(0);
-    },
-    showSelectContractButton() {
-      return this.selectedContract !== null;
     }
   },
   methods: {
