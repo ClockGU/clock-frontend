@@ -73,19 +73,15 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
-    }),
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-
-      return this.contracts.find((contract) => contract.uuid === uuid);
-    }
+      contracts: "contract/contracts",
+      selectedContractUUID: "contract/selectedContractUUID"
+    })
   },
   methods: {
     shortShift() {
       const now = new Date();
       const started = subMinutes(now, 5);
-      const contract = this.selectedContract.uuid;
+      const contract = this.selectedContractUUID;
 
       const shift = { started, contract };
 
@@ -100,7 +96,7 @@ export default {
     overflowShift() {
       const now = new Date();
       const started = subDays(now, 1);
-      const contract = this.selectedContract.uuid;
+      const contract = this.selectedContractUUID;
 
       const shift = { started, contract };
 
@@ -115,7 +111,7 @@ export default {
     veryLongShift() {
       const now = new Date();
       const started = subDays(now, 4);
-      const contract = this.selectedContract.uuid;
+      const contract = this.selectedContractUUID;
 
       const shift = { started, contract };
 
