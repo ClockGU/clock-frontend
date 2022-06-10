@@ -74,7 +74,11 @@ const mutations = {
     state.selectedContract = payload;
   },
   unsetSelectedContract(state) {
-    state.selectedContract = { uuid: undefined, worktime: "00:00" };
+    state.selectedContract = {
+      uuid: undefined,
+      worktime: "00:00",
+      date: { start: "2019-01-01", end: "2019-01-31" }
+    };
   }
 };
 

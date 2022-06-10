@@ -1,5 +1,5 @@
 <template>
-  <ClockInOut :selected-contract="selectedContract">
+  <ClockInOut :selected-contract-uuid="selectedContract.uuid">
     <template
       #default="{
         data,
@@ -79,10 +79,6 @@ export default {
   },
   mixins: [contractValidMixin],
   props: {
-    selectedContract: {
-      required: true,
-      validator: (prop) => typeof prop === "object" || prop === null
-    },
     clockedShift: {
       type: Object,
       default: null
@@ -99,7 +95,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contract/contracts",
+      selectedContract: "contract/selectedContract"
     }),
     clockedContract() {
       if (this.clockedShift === null) return this.selectedContract;

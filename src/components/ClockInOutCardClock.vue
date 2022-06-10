@@ -36,7 +36,7 @@
         </span>
         <div v-else class="d-flex flex-column">
           <div class="font-weight-bold">
-            {{ $tc("models.contract") }}: {{ clockedContract.name }}
+            {{ $tc("models.contract") }}: {{ actions.clockedContract.name }}
           </div>
           <div class="font-weight-light">
             {{ actions.data.startDate | formatDate }}
@@ -153,11 +153,6 @@ export default {
     ...mapGetters({
       contracts: "contract/contracts"
     }),
-    clockedContract() {
-      return this.contracts.find(
-        (contract) => contract.uuid === this.actions.clockedContract.uuid
-      );
-    },
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);

@@ -18,8 +18,7 @@ export default {
     clockedShift: null
   }),
   props: {
-    selectedContract: {
-      type: Object || null,
+    selectedContractUuid: {
       required: true
     }
   },
@@ -28,9 +27,6 @@ export default {
       if (this.clock === null) return {};
 
       return { startDate: this.clock.startDate, duration: this.duration };
-    },
-    contract() {
-      return this.selectedContract;
     },
     duration() {
       if (this.clock === null || this.clock.duration === null) return 0;
@@ -147,7 +143,7 @@ export default {
         this.clock = new ClockModel({ startDate: date });
         const shift = {
           started: date,
-          contract: this.contract.uuid
+          contract: this.selectedContractUuid
         };
 
         this.clockedShift = await this.$store.dispatch("clock/CLOCK_SHIFT", {
