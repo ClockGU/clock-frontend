@@ -97,17 +97,11 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contract/contracts",
+      selectedContract: "contract/selectedContract"
     }),
     disabled() {
       return this.$route.params.contract === undefined;
-    },
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
     },
     personnelNumberMissing() {
       return (
