@@ -215,8 +215,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts",
-      selectedContract: "selectedContract"
+      contracts: "contract/contracts"
     }),
     validContracts() {
       return this.contracts.filter(
