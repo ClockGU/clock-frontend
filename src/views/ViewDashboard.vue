@@ -15,7 +15,6 @@
             <ClockInOutCard
               :disabled="disabled"
               :clocked-shift="clockedShift"
-              :selected-contract="selectedContract"
               @refresh="refresh"
             />
           </v-col>
@@ -112,21 +111,17 @@ export default {
       clockedShift: "clock/clockedShift",
       contracts: "contract/contracts",
       shifts: "shift/shifts",
-      reports: "report/reports"
+      reports: "report/reports",
+      selectedContractUUID: "contract/selectedContractUUID",
+      selectedContractWorktime: "contract/selectContractWorktime",
+      selectedContract: "contract/selectedContract"
     }),
     disabled() {
       return this.$route.params.contract === undefined;
     },
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
-    },
     latestReport() {
       const reports = this.reports
-        .filter((report) => report.contract === this.selectedContract.uuid)
+        .filter((report) => report.contract === this.selectedContractUUID)
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
@@ -185,7 +180,7 @@ export default {
       this.shifts
         .filter(
           (shift) =>
-            shift.contract === this.selectedContract.uuid &&
+            shift.contract === this.selectedContractUUID &&
             this.thisWeek(shift.date) &&
             isBefore(parseISO(shift.date.end), new Date()) &&
             shift.reviewed
@@ -199,7 +194,7 @@ export default {
       //differenceInMinutes(this.shifts[0].date.start, this.shifts[0].date.end);
       return {
         worktime: duration,
-        avg: this.selectedContract.worktime / 4
+        avg: this.selectedContractWorktime / 4
       };
     },
     dailyData() {
@@ -207,7 +202,7 @@ export default {
       this.shifts
         .filter(
           (shift) =>
-            shift.contract === this.selectedContract.uuid &&
+            shift.contract === this.selectedContractUUID &&
             this.today(shift.date) &&
             isBefore(parseISO(shift.date.end), new Date()) &&
             shift.reviewed
@@ -224,7 +219,7 @@ export default {
       // TODO: display unreviewed shifts somewhere on the Dashboard
       return this.shifts.filter(
         (shift) =>
-          shift.contract === this.selectedContract.uuid &&
+          shift.contract === this.selectedContractUUID &&
           this.today(shift.date) &&
           isBefore(parseISO(shift.date.end), new Date()) &&
           !shift.reviewed
