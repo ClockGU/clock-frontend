@@ -9,6 +9,28 @@ import {
   format
 } from "date-fns";
 
+import Holidays from "date-holidays";
+
+export function dateIsHoliday(date) {
+  // Christmas Eve and New Year's Eve are considered half Bankholidays
+  // by the date-holidays package.
+  // So we need to treat it sepeartly
+  if (
+    date.getMonth() === 11 &&
+    (date.getDate() === 24 || date.getDate() === 31)
+  ) {
+    return true;
+  }
+  const hd = new Holidays("DE", "HE");
+  const holidayCandidate = hd.isHoliday(date); // returns false or array ... strange
+  if (!holidayCandidate) {
+    return holidayCandidate;
+  }
+  return (
+    holidayCandidate[0].type === "public" || holidayCandidate[0].type === "bank"
+  );
+}
+
 export const localizedFormat = (date, fmt, options = {}) => {
   return format(date, fmt, { ...options, ...currentLocale });
 };
