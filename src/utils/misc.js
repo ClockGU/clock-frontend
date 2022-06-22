@@ -71,12 +71,3 @@ export const SHIFT_TYPE_ICONS = {
   vn: mdiSurfing,
   bh: mdiWhiteBalanceSunny
 };
-
-export function mdShortToClassString(mdName) {
-  const splitValues = mdName.split(" ");
-  let classString = splitValues[0] + "--text ";
-  if (splitValues.length !== 0) {
-    classString += " " + "text--" + splitValues[1];
-  }
-  return classString;
-}
