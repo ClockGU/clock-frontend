@@ -19,7 +19,9 @@
           <label
             :class="
               'v-label theme--light ' +
-              (type.value === radios ? typeColors[type.value] + '--text' : '')
+              (type.value === radios
+                ? getRadioColor(typeColors[type.value])
+                : '')
             "
             style="left: 0; right: auto; position: relative"
             >{{ type.text }}</label
@@ -35,6 +37,7 @@ import { mdiBriefcaseOutline } from "@mdi/js";
 import { SHIFT_TYPES } from "@/models/ShiftModel";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
+import { mdShortToClassString } from "@/utils/misc";
 
 export default {
   name: "ShiftFormType",
@@ -76,6 +79,16 @@ export default {
     icon() {
       return this.typeIcons["sk"];
     }
+  },
+  methods: {
+    getRadioColor(colorName) {
+      return mdShortToClassString(colorName);
+    }
   }
 };
 </script>
+
+<style scoped>
+.green-lighten-1 {
+}
+</style>
