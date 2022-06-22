@@ -461,6 +461,9 @@
       "futureShiftsTitle": "Geplante Schichten",
       "futureShiftsHint": "Alle in der Zukunft liegenden Schichten.",
       "tagsNotes": "Tags/Notizen"
+    },
+    "warnings": {
+      "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ Feiertag clocken."
     }
   },
   "snackbar": {

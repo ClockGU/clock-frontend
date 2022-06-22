@@ -73,10 +73,19 @@
       </v-col>
 
       <v-col cols="12">
+        <v-expand-transition hide-on-leave>
+          <ClockCardAlert
+            v-if="alertMessages.length !== 0"
+            :messages="alertMessages"
+          ></ClockCardAlert>
+        </v-expand-transition>
+      </v-col>
+      <v-col cols="12">
         <v-checkbox
           v-model="showRepeat"
           :label="$t('shifts.repeating.checkboxLabel')"
           :prepend-icon="icons.mdiRepeat"
+          class="ma-0"
         ></v-checkbox>
 
         <v-expand-transition hide-on-leave>
@@ -171,10 +180,12 @@ import {
   mdiRepeat,
   mdiCircleMedium
 } from "@mdi/js";
+import ClockCardAlert from "@/components/ClockCardAlert";
 
 export default {
   name: "ShiftForm",
   components: {
+    ClockCardAlert,
     ShiftFormDateInput,
     ShiftFormTimeInput,
     ShiftFormNote,
@@ -288,6 +299,13 @@ export default {
         isBefore(this.shift.date.end, this.shift.date.start) ||
         isEqual(this.shift.date.start, this.shift.date.end)
       );
+    },
+    alertMessages() {
+      let messages = [];
+      if (this.selectedDateIsHoliday) {
+        messages.push(this.$t("shifts.warnings.selectedDateIsHoliday"));
+      }
+      return messages;
     }
   },
   watch: {
