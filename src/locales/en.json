@@ -461,6 +461,9 @@
       "futureShiftsTitle": "Scheduled shifts",
       "futureShiftsHint": "All shifts scheduled for the future.",
       "tagsNotes": "Tags/Notes"
+    },
+    "warnings": {
+      "selectedDateIsHoliday": "The selected date is a bank holiday. You can only clock shifts of type bank holday here."
     }
   },
   "snackbar": {
