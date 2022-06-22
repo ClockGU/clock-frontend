@@ -112,7 +112,7 @@
         </v-subheader>
         <ShiftFormType
           v-model="shift.type"
-          :disabled="selectedDateIsHoliday"
+          :disabled="selectedDateIsHoliday || sickOrVacationShift !== undefined"
           data-cy="shift-type"
         />
       </v-col>
@@ -154,32 +154,29 @@ import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
-import { SHIFT_TYPES } from "@/models/ShiftModel";
-
-import { Shift } from "@/models/ShiftModel";
+import { Shift, SHIFT_TYPES } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
-import { dateIsHoliday } from "@/utils/date";
+import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
+  endOfDay,
   isAfter,
   isBefore,
+  isEqual,
   isFuture,
   isSameDay,
-  isEqual,
   isWithinInterval,
-  endOfDay,
   parseISO
 } from "date-fns";
-import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
 import contractValidMixin from "@/mixins/contractValid";
 
 import {
+  mdiCircleMedium,
   mdiFileDocumentEditOutline,
   mdiProgressCheck,
-  mdiRepeat,
-  mdiCircleMedium
+  mdiRepeat
 } from "@mdi/js";
 import ClockCardAlert from "@/components/ClockCardAlert";
 
@@ -289,8 +286,8 @@ export default {
       });
     },
     sickOrVacationShift() {
+      if (this.shift === null) return undefined;
       const shiftsOnSameDate = this.contractShifts.filter((shift) => {
-        console.log(shift.date.start);
         return (
           localizedFormat(parseISO(shift.date.start), "yyyy-MM-dd") ===
           localizedFormat(this.shift.date.start, "yyyy-MM-dd")
@@ -367,13 +364,22 @@ export default {
             text: this.$t(`shifts.types.${bankHolidayType.value}`),
             value: bankHolidayType.value
           };
+        } else if (this.sickOrVacationShift) {
+          const shiftType = SHIFT_TYPES.find(
+            (el) => el.value === this.sickOrVacationShift.type
+          );
+          this.initialShiftType = this.shift.type;
+          this.shift.type = {
+            text: this.$t(`shifts.types.${shiftType.value}`),
+            value: shiftType.value
+          };
         }
       },
       deep: true
     },
-    selectedDateIsHoliday: {
-      handler: function (newValue, oldValue) {
-        if (oldValue && !newValue && this.shift !== null) {
+    messages: {
+      handler: function (newValue) {
+        if (newValue.length === 0 && this.shift !== null) {
           this.shift.type = this.initialShiftType;
         }
       }
@@ -394,7 +400,7 @@ export default {
   },
   created() {
     this.shift = this.isNewShift ? this.initializeForm() : this.entity;
-
+    this.initialShiftType = this.shift.type;
     if (!this.shift.contract) {
       this.shift.contract = this.$route.params.contract;
     }

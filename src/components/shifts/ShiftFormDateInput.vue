@@ -105,7 +105,6 @@ export default {
   methods: {
     allowed(value) {
       const parsedValue = parseISO(value);
-      console.log(parsedValue);
       return !isSunday(parsedValue);
     }
   }
