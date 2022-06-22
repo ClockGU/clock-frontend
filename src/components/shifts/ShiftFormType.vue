@@ -1,22 +1,31 @@
 <template>
   <v-row align="end" class="pl-3">
-    <v-radio-group
-      v-model="radios"
-      row
-      hide-details
-      dense
-      class="mt-0 pt-0"
-      :prepend-icon="typeIcons[value.value]"
-    >
+    <v-radio-group v-model="radios" row hide-details dense class="mt-0 pt-0">
+      <template #prepend>
+        <v-icon :color="typeColors[value.value]">
+          {{ typeIcons[value.value] }}
+        </v-icon>
+      </template>
       <v-radio
         v-for="type in types"
         :key="type.value"
-        class="ml-0"
+        class="ml-o"
         :disabled="disabled"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"
-      ></v-radio>
+      >
+        <template #label>
+          <label
+            :class="
+              'v-label theme--light ' +
+              (type.value === radios ? typeColors[type.value] + '--text' : '')
+            "
+            style="left: 0; right: auto; position: relative"
+            >{{ type.text }}</label
+          >
+        </template>
+      </v-radio>
     </v-radio-group>
   </v-row>
 </template>
