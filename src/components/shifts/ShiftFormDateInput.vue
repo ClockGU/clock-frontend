@@ -21,6 +21,7 @@
     <v-date-picker
       v-model="date"
       no-title
+      :allowed-dates="allowed"
       :min="min"
       :max="max"
       :first-day-of-week="1"
@@ -32,6 +33,7 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 import { Shift } from "@/models/ShiftModel";
+import { isSunday, parseISO } from "date-fns";
 
 import { mdiCalendar } from "@mdi/js";
 
@@ -98,6 +100,13 @@ export default {
 
         this.$emit("input", shift);
       }
+    }
+  },
+  methods: {
+    allowed(value) {
+      const parsedValue = parseISO(value);
+      console.log(parsedValue);
+      return !isSunday(parsedValue);
     }
   }
 };
