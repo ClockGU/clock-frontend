@@ -35,9 +35,8 @@
 <script>
 import { mdiBriefcaseOutline } from "@mdi/js";
 import { SHIFT_TYPES } from "@/models/ShiftModel";
-import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { SHIFT_TYPE_COLORS, mdShortToClassString } from "@/utils/colors";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
-import { mdShortToClassString } from "@/utils/misc";
 
 export default {
   name: "ShiftFormType",
