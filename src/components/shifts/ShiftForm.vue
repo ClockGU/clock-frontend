@@ -100,7 +100,11 @@
         <v-subheader class="pl-8">
           {{ $t("shifts.types.label") }}
         </v-subheader>
-        <ShiftFormType v-model="shift.type" data-cy="shift-type" />
+        <ShiftFormType
+          v-model="shift.type"
+          :disabled="selectedDateIsHoliday"
+          data-cy="shift-type"
+        />
       </v-col>
 
       <v-col cols="12">
@@ -140,9 +144,11 @@ import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
+import { SHIFT_TYPES } from "@/models/ShiftModel";
 
 import { Shift } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
+import { dateIsHoliday } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
@@ -231,6 +237,9 @@ export default {
         }
       );
     },
+    selectedDateIsHoliday() {
+      return dateIsHoliday(this.shift.date.start);
+    },
     isNewShift() {
       return this.uuid === null;
     },
@@ -291,6 +300,14 @@ export default {
         // shift starting in the future cannot be set to `was_reviewed=true`.
         if (!this.toBeReviewed) {
           this.handleReview();
+        }
+        if (this.selectedDateIsHoliday) {
+          const bankHolidayType = SHIFT_TYPES.find((el) => el.value === "bh");
+
+          this.shift.type = {
+            text: this.$t(`shifts.types.${bankHolidayType.value}`),
+            value: bankHolidayType.value
+          };
         }
       },
       deep: true

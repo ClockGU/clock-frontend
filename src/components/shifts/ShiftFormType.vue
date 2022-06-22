@@ -12,6 +12,7 @@
         v-for="type in types"
         :key="type.value"
         class="ml-0"
+        :disabled="disabled"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"
@@ -32,6 +33,10 @@ export default {
     value: {
       type: Object,
       default: () => ({ text: "Shift", value: "st" })
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
