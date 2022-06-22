@@ -228,7 +228,8 @@ export default {
     shift: null,
     toBeReviewed: false,
     showRepeat: false,
-    scheduledShifts: []
+    scheduledShifts: [],
+    initialShiftType: null
   }),
   computed: {
     ...mapGetters({
@@ -249,6 +250,7 @@ export default {
       );
     },
     selectedDateIsHoliday() {
+      if (this.shift === null) return false;
       return dateIsHoliday(this.shift.date.start);
     },
     isNewShift() {
@@ -321,7 +323,7 @@ export default {
         }
         if (this.selectedDateIsHoliday) {
           const bankHolidayType = SHIFT_TYPES.find((el) => el.value === "bh");
-
+          this.initialShiftType = this.shift.type;
           this.shift.type = {
             text: this.$t(`shifts.types.${bankHolidayType.value}`),
             value: bankHolidayType.value
@@ -329,6 +331,13 @@ export default {
         }
       },
       deep: true
+    },
+    selectedDateIsHoliday: {
+      handler: function (newValue, oldValue) {
+        if (oldValue && !newValue && this.shift !== null) {
+          this.shift.type = this.initialShiftType;
+        }
+      }
     },
     shift: {
       handler: function () {
