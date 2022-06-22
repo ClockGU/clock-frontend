@@ -463,7 +463,8 @@
       "tagsNotes": "Tags/Notes"
     },
     "warnings": {
-      "selectedDateIsHoliday": "The selected date is a bank holiday. You can only clock shifts of type bank holday here."
+      "selectedDateIsHoliday": "The selected date is a bank holiday. You can only clock shifts of type bank holday here.",
+      "sickOrVacationShiftExists": "You already clocked a shift of type {shiftType} on this date. Shifts of no other type are allowed on this day."
     }
   },
   "snackbar": {
