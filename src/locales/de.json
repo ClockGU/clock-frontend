@@ -463,7 +463,8 @@
       "tagsNotes": "Tags/Notizen"
     },
     "warnings": {
-      "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ Feiertag clocken."
+      "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ Feiertag clocken.",
+      "sickOrVacationShiftExists": "Du hast an diesem Tag bereits eine Schicht vom Typ {shiftType} geclockt. Du kannst an diesem Tag nur noch Schichten von diesem Typ clocken."
     }
   },
   "snackbar": {

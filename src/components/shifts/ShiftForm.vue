@@ -75,8 +75,9 @@
       <v-col cols="12">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
-            v-if="alertMessages.length !== 0"
-            :messages="alertMessages"
+            v-if="messages.length !== 0"
+            :messages="messages"
+            :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
       </v-col>
@@ -282,6 +283,24 @@ export default {
         this.contracts.find((contract) => contract.uuid === this.shift.contract)
       );
     },
+    contractShifts() {
+      return this.$store.getters["shift/shifts"].filter((shift) => {
+        return shift.contract.uuid === this.shift.contract.uuid;
+      });
+    },
+    sickOrVacationShift() {
+      const shiftsOnSameDate = this.contractShifts.filter((shift) => {
+        console.log(shift.date.start);
+        return (
+          localizedFormat(parseISO(shift.date.start), "yyyy-MM-dd") ===
+          localizedFormat(this.shift.date.start, "yyyy-MM-dd")
+        );
+      });
+
+      return shiftsOnSameDate.find((shift) => {
+        return shift.type === "vn" || shift.type === "sk";
+      });
+    },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
@@ -307,7 +326,27 @@ export default {
       if (this.selectedDateIsHoliday) {
         messages.push(this.$t("shifts.warnings.selectedDateIsHoliday"));
       }
+      if (this.sickOrVacationShift) {
+        messages.push(
+          this.$t("shifts.warnings.sickOrVacationShiftExists", {
+            shiftType: this.$t(`shifts.types.${this.sickOrVacationShift.type}`)
+          })
+        );
+      }
       return messages;
+    },
+    errorMessages() {
+      return [];
+    },
+    messages() {
+      return this.errorMessages.concat(this.alertMessages);
+    },
+    alertType() {
+      // Prioritize Errors
+      if (this.errorMessages.length !== 0) {
+        return "error";
+      }
+      return "warning";
     }
   },
   watch: {
