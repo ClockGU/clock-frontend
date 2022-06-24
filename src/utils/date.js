@@ -12,9 +12,9 @@ import {
 import Holidays from "date-holidays";
 
 export function dateIsHoliday(date) {
-  // Christmas Eve and New Year's Eve are considered half Bankholidays
+  // Christmas Eve and New Year's Eve are considered half Bank holidays
   // by the date-holidays package.
-  // So we need to treat it sepeartly
+  // So we need to treat it separately
   if (
     date.getMonth() === 11 &&
     (date.getDate() === 24 || date.getDate() === 31)
