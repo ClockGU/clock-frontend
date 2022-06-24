@@ -291,10 +291,7 @@ export default {
     },
     shiftsOnSelectedDate() {
       return this.contractShifts.filter((shift) => {
-        return (
-          localizedFormat(parseISO(shift.date.start), "yyyy-MM-dd") ===
-          localizedFormat(this.shift.date.start, "yyyy-MM-dd")
-        );
+        return isSameDay(parseISO(shift.date.start), this.shift.date.start);
       });
     },
     sickOrVacationShifts() {
