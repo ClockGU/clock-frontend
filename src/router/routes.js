@@ -15,6 +15,7 @@ const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
 const Reporting = () => import("@/views/Reporting");
 const PrivacyAgreement = () => import("@/views/PrivacyAgreement");
+const ViewGdprText = () => import("@/views/ViewGdprText");
 
 import { RequiredDataGuard } from "@/router/guards";
 
@@ -54,6 +55,12 @@ export const routes = [
         path: "/impressum",
         name: "imprint",
         component: Imprint,
+        meta: { public: true }
+      },
+      {
+        path: "/privacy",
+        name: "privacy",
+        component: ViewGdprText,
         meta: { public: true }
       },
       {

@@ -8,20 +8,11 @@
     @keydown.esc="closeDialog"
   >
     <v-card>
-      <v-toolbar flat>
-        <v-toolbar-title>
-          {{ titles[step] }}
-        </v-toolbar-title>
-
-        <v-spacer></v-spacer>
-        <LanguageSwitcher />
-        <v-btn icon @click="closeOnboarding">
-          <v-icon>
-            {{ icons.mdiClose }}
-          </v-icon>
-        </v-btn>
-      </v-toolbar>
-
+      <CardToolbar
+        :title="titles[step]"
+        close-action
+        @close="closeOnboarding"
+      ></CardToolbar>
       <v-card-text class="pb-0">
         <v-window v-model="step">
           <v-window-item
@@ -189,17 +180,17 @@ import {
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
 import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
+import CardToolbar from "@/components/cards/CardToolbar";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
   components: {
     ContractForm,
-    LanguageSwitcher,
     FeedbackMenu,
-    GdprAgreementCard
+    GdprAgreementCard,
+    CardToolbar
   },
   props: {
     now: {
