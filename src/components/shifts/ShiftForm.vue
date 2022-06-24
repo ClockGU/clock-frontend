@@ -284,9 +284,8 @@ export default {
       );
     },
     contractShifts() {
-      console.log(JSON.stringify(this.$store.getters["shift/shifts"]));
       return this.$store.getters["shift/shifts"].filter((shift) => {
-        return shift.contract.uuid === this.shift.contract.uuid;
+        return shift.contract === this.shift.contract;
       });
     },
     shiftsOnSelectedDate() {
@@ -432,6 +431,7 @@ export default {
     if (!this.startsInFuture && !this.shift.reviewed && !this.isNewShift) {
       this.toBeReviewed = true;
     }
+    console.log(JSON.stringify(this.contractShifts));
   },
   methods: {
     setScheduledShifts(shifts) {
