@@ -303,9 +303,9 @@ export default {
         return shift.type === "vn" || shift.type === "sk";
       });
     },
-    regularShiftExistsonDate() {
+    multipleRegularShiftsExistOnDate() {
       return (
-        this.shiftsOnSelectedDate.length !== 0 &&
+        this.shiftsOnSelectedDate.length >= 1 &&
         this.sickOrVacationShifts.length === 0 &&
         this.uuid === null
       );
@@ -316,7 +316,7 @@ export default {
         isBefore(this.shift.date.end, this.shift.date.start) ||
         isEqual(this.shift.date.start, this.shift.date.end) ||
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
-        (this.regularShiftExistsonDate &&
+        (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk"))
       )
         return false;
@@ -352,7 +352,7 @@ export default {
       let messages = [];
       if (this.shift === null) return messages;
       if (
-        this.regularShiftExistsonDate &&
+        this.multipleRegularShiftsExistOnDate &&
         (this.shift.type.value === "vn" || this.shift.type.value === "sk")
       ) {
         messages.push(
