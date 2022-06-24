@@ -180,7 +180,8 @@ module.exports = {
   transformIgnorePatterns: ["/node_modules/"],
 
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1"
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "astronomia/data(.*)$": "<rootDir>/node_modules/astronomia/lib/data$1.cjs"
   },
 
   snapshotSerializers: ["jest-serializer-vue"],
