@@ -112,7 +112,10 @@
         </v-subheader>
         <ShiftFormType
           v-model="shift.type"
-          :disabled="selectedDateIsHoliday || sickOrVacationShift !== undefined"
+          :disabled="
+            selectedDateIsHoliday ||
+            (sickOrVacationShifts.length >= 1 && uuid === null)
+          "
           data-cy="shift-type"
         />
       </v-col>
@@ -281,6 +284,7 @@ export default {
       );
     },
     contractShifts() {
+      console.log(JSON.stringify(this.$store.getters["shift/shifts"]));
       return this.$store.getters["shift/shifts"].filter((shift) => {
         return shift.contract.uuid === this.shift.contract.uuid;
       });
@@ -293,16 +297,17 @@ export default {
         );
       });
     },
-    sickOrVacationShift() {
-      if (this.shift === null) return undefined;
-      return this.shiftsOnSelectedDate.find((shift) => {
+    sickOrVacationShifts() {
+      if (this.shift === null) return [];
+      return this.shiftsOnSelectedDate.filter((shift) => {
         return shift.type === "vn" || shift.type === "sk";
       });
     },
     regularShiftExistsonDate() {
       return (
         this.shiftsOnSelectedDate.length !== 0 &&
-        this.sickOrVacationShift === undefined
+        this.sickOrVacationShifts.length === 0 &&
+        this.uuid === null
       );
     },
     valid() {
@@ -332,10 +337,12 @@ export default {
       if (this.selectedDateIsHoliday) {
         messages.push(this.$t("shifts.warnings.selectedDateIsHoliday"));
       }
-      if (this.sickOrVacationShift) {
+      if (this.sickOrVacationShifts.length >= 1 && this.uuid === null) {
         messages.push(
           this.$t("shifts.warnings.sickOrVacationShiftExists", {
-            shiftType: this.$t(`shifts.types.${this.sickOrVacationShift.type}`)
+            shiftType: this.$t(
+              `shifts.types.${this.sickOrVacationShifts[0].type}`
+            )
           })
         );
       }
@@ -385,9 +392,9 @@ export default {
             text: this.$t(`shifts.types.${bankHolidayType.value}`),
             value: bankHolidayType.value
           };
-        } else if (this.sickOrVacationShift) {
+        } else if (this.sickOrVacationShifts[0]) {
           const shiftType = SHIFT_TYPES.find(
-            (el) => el.value === this.sickOrVacationShift.type
+            (el) => el.value === this.sickOrVacationShifts[0].type
           );
           this.initialShiftType = this.shift.type;
           this.shift.type = {
