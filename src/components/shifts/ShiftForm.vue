@@ -285,25 +285,34 @@ export default {
         return shift.contract.uuid === this.shift.contract.uuid;
       });
     },
-    sickOrVacationShift() {
-      if (this.shift === null) return undefined;
-      const shiftsOnSameDate = this.contractShifts.filter((shift) => {
+    shiftsOnSelectedDate() {
+      return this.contractShifts.filter((shift) => {
         return (
           localizedFormat(parseISO(shift.date.start), "yyyy-MM-dd") ===
           localizedFormat(this.shift.date.start, "yyyy-MM-dd")
         );
       });
-
-      return shiftsOnSameDate.find((shift) => {
+    },
+    sickOrVacationShift() {
+      if (this.shift === null) return undefined;
+      return this.shiftsOnSelectedDate.find((shift) => {
         return shift.type === "vn" || shift.type === "sk";
       });
+    },
+    regularShiftExistsonDate() {
+      return (
+        this.shiftsOnSelectedDate.length !== 0 &&
+        this.sickOrVacationShift === undefined
+      );
     },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
         isBefore(this.shift.date.end, this.shift.date.start) ||
         isEqual(this.shift.date.start, this.shift.date.end) ||
-        (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift)
+        (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
+        (this.regularShiftExistsonDate &&
+          (this.shift.type.value === "vn" || this.shift.type.value === "sk"))
       )
         return false;
 
@@ -333,7 +342,19 @@ export default {
       return messages;
     },
     errorMessages() {
-      return [];
+      let messages = [];
+      if (this.shift === null) return messages;
+      if (
+        this.regularShiftExistsonDate &&
+        (this.shift.type.value === "vn" || this.shift.type.value === "sk")
+      ) {
+        messages.push(
+          this.$t("shifts.warnings.noSickOrVacationWithRegularShift", {
+            shiftType: this.$t(`shifts.types.${this.shift.type.value}`)
+          })
+        );
+      }
+      return messages;
     },
     messages() {
       return this.errorMessages.concat(this.alertMessages);
