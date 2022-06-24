@@ -8,20 +8,11 @@
     @keydown.esc="closeDialog"
   >
     <v-card>
-      <v-toolbar flat>
-        <v-toolbar-title>
-          {{ titles[step] }}
-        </v-toolbar-title>
-
-        <v-spacer></v-spacer>
-        <LanguageSwitcher />
-        <v-btn icon @click="closeOnboarding">
-          <v-icon>
-            {{ icons.mdiClose }}
-          </v-icon>
-        </v-btn>
-      </v-toolbar>
-
+      <CardToolbar
+        :title="titles[step]"
+        close-action
+        @close="closeOnboarding"
+      ></CardToolbar>
       <v-card-text class="pb-0">
         <v-window v-model="step">
           <v-window-item
@@ -40,55 +31,10 @@
             key="privacy"
             :value="titles.length - (contractExists ? 2 : 3)"
           >
-            <v-card-text class="pb-0">
-              <i18n path="privacyagreement.text" tag="p">
-                <template #privacyAgreement>
-                  <v-dialog v-model="privacyDialog" scrollable max-width="600">
-                    <template #activator="{ on, attrs }">
-                      <a v-bind="attrs" v-on="on">{{
-                        $t("app.privacyagreement")
-                      }}</a>
-                    </template>
-                    <v-card>
-                      <v-toolbar
-                        flat
-                        class="text-h5 text--secondary font-weight-bold"
-                      >
-                        {{ $t("app.privacyagreement") }}
-                        <v-spacer></v-spacer>
-                        <v-toolbar-items>
-                          <v-btn icon @click="privacyDialog = false">
-                            <v-icon>{{ icons.mdiClose }}</v-icon>
-                          </v-btn>
-                        </v-toolbar-items>
-                      </v-toolbar>
-                      <v-card-text>
-                        <Privacy :dialog="true"></Privacy>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          text
-                          color="primary"
-                          @click="privacyDialog = false"
-                        >
-                          {{ $t("actions.close") }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </template>
-              </i18n>
-
-              <v-checkbox
-                v-model="privacyagreement"
-                :label="$t('privacyagreement.checkbox')"
-              >
-              </v-checkbox>
-            </v-card-text>
-            <v-card-text>
-              {{ $t("privacyagreement.revokeInfo") }}
-            </v-card-text>
+            <GdprAgreementCard
+              disable-actions
+              @checkbox-updated="updatePrivacyagreement"
+            ></GdprAgreementCard>
           </v-window-item>
 
           <v-window-item
@@ -233,18 +179,18 @@ import {
 
 import ContractForm from "@/components/contracts/ContractForm";
 import FeedbackMenu from "@/components/FeedbackMenu";
-import Privacy from "@/views/Privacy";
+import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
+import CardToolbar from "@/components/cards/CardToolbar";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "OnboardDialog",
   components: {
     ContractForm,
-    LanguageSwitcher,
     FeedbackMenu,
-    Privacy
+    GdprAgreementCard,
+    CardToolbar
   },
   props: {
     now: {
@@ -279,7 +225,6 @@ export default {
     loading: false,
     personnelNumber: null,
     privacyagreement: false,
-    privacyDialog: false,
     dontShowOnboardingAgain: false,
     savedContractUuid: undefined,
     showAreYouSureDialog: false,
@@ -338,6 +283,9 @@ export default {
     },
     closeDialog() {
       this.$emit("close");
+    },
+    updatePrivacyagreement(e) {
+      this.privacyagreement = e;
     },
     routeToDashboard() {
       this.$router

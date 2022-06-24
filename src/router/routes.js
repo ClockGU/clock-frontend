@@ -8,7 +8,6 @@ const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 const Landing = () => import("@/views/Landing");
 const Imprint = () => import("@/views/Imprint");
-const Privacy = () => import("@/views/Privacy");
 const ViewDashboard = () => import("@/views/ViewDashboard");
 const LoggingIn = () => import("@/views/LoggingIn");
 const Onboarding = () => import("@/views/Onboarding");
@@ -16,6 +15,7 @@ const FAQ = () => import("@/views/FAQ");
 const NotFound = () => import("@/views/NotFound");
 const Reporting = () => import("@/views/Reporting");
 const PrivacyAgreement = () => import("@/views/PrivacyAgreement");
+const ViewGdprText = () => import("@/views/ViewGdprText");
 
 import { RequiredDataGuard } from "@/router/guards";
 
@@ -58,9 +58,9 @@ export const routes = [
         meta: { public: true }
       },
       {
-        path: "/datenschutz",
+        path: "/privacy",
         name: "privacy",
-        component: Privacy,
+        component: ViewGdprText,
         meta: { public: true }
       },
       {

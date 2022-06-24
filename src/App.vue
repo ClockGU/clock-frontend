@@ -7,10 +7,7 @@
     />
 
     <TheAppBar @toggle="toggleDrawer" />
-    <TheNavigationToolbar
-      v-if="isLoggedIn && !showOverride"
-      class="hidden-sm-and-down"
-    />
+    <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
 
     <router-view></router-view>
 
