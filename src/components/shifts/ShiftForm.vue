@@ -164,6 +164,7 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mapGetters } from "vuex";
 import {
   endOfDay,
+  formatISO,
   isAfter,
   isBefore,
   isEqual,
@@ -172,7 +173,11 @@ import {
   isWithinInterval,
   parseISO
 } from "date-fns";
-import { startEndHours } from "@/utils/time";
+import {
+  coalescWorktimeAndBreaktime,
+  minutesToHHMM,
+  startEndHours
+} from "@/utils/time";
 import contractValidMixin from "@/mixins/contractValid";
 
 import {
@@ -182,6 +187,7 @@ import {
   mdiRepeat
 } from "@mdi/js";
 import ClockCardAlert from "@/components/ClockCardAlert";
+import { enoughBreaktimeBetweenShifts } from "@/utils/shift";
 
 export default {
   name: "ShiftForm",
@@ -306,14 +312,32 @@ export default {
         this.uuid === null
       );
     },
+    worktimeAndPauseOnDate() {
+      if (this.isNewShift) {
+        // TODO: THIS IS THE REASON FOR A REFACTOR
+        // ALL SHIFTS HAVE DATES AS STRINGS BUT THE NEWLY CREATED ON AS DATE-OBJECT
+        const addedShift = {
+          date: { start: this.shift.date.start, end: this.shift.date.end }
+        };
+        addedShift.date.start = formatISO(addedShift.date.start);
+        addedShift.date.end = formatISO(addedShift.date.end);
+        const shiftsIncludingCurrent = this.shiftsOnSelectedDate.concat([
+          addedShift
+        ]);
+        return coalescWorktimeAndBreaktime(shiftsIncludingCurrent);
+      }
+      return coalescWorktimeAndBreaktime(this.shiftsOnSelectedDate);
+    },
     valid() {
+      const { worktime, breaktime } = this.worktimeAndPauseOnDate;
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
         isBefore(this.shift.date.end, this.shift.date.start) ||
         isEqual(this.shift.date.start, this.shift.date.end) ||
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
-          (this.shift.type.value === "vn" || this.shift.type.value === "sk"))
+          (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
+        !enoughBreaktimeBetweenShifts(worktime, breaktime)
       )
         return false;
 
@@ -357,6 +381,16 @@ export default {
           })
         );
       }
+      const { worktime, breaktime } = this.worktimeAndPauseOnDate;
+      if (!enoughBreaktimeBetweenShifts(worktime, breaktime)) {
+        messages.push(
+          this.$t("shifts.warnings.notEnoughBreaktime", {
+            worktime: minutesToHHMM(worktime),
+            breaktime: minutesToHHMM(breaktime)
+          })
+        );
+      }
+
       return messages;
     },
     messages() {
@@ -431,7 +465,6 @@ export default {
     if (!this.startsInFuture && !this.shift.reviewed && !this.isNewShift) {
       this.toBeReviewed = true;
     }
-    console.log(JSON.stringify(this.contractShifts));
   },
   methods: {
     setScheduledShifts(shifts) {

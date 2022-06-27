@@ -33,3 +33,10 @@ export function getOverlappingShifts(shifts) {
   }
   return matches;
 }
+
+export function enoughBreaktimeBetweenShifts(worktime, pause) {
+  if (worktime >= 9 * 60 && pause < 45) {
+    return false;
+  }
+  return !(worktime >= 6 * 60 && pause < 30);
+}
