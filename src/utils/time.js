@@ -202,13 +202,34 @@ export function timedeltaToMinutes(timedelta) {
   if (splitTimedelta.length == 2) {
     [days, timeString] = splitTimedelta;
   }
-  // eslint-disable-next-line no-unused-vars
-  const [hours, minutes, seconds] = timeString
-    .split(":")
-    .map((item) => parseInt(item));
-  days = parseInt(days);
 
-  return (days * 24 + hours) * 60 + minutes;
+  if (days > 0) {
+    return days * 24 * 60 + timestringToMinutes(timeString);
+  }
+  return timestringToMinutes(timeString);
+}
+
+export function timestringToMinutes(time) {
+  if (time === "") {
+    return 0;
+  }
+
+  let negative = false;
+  let [hours, minutes] = time.split(":");
+
+  // Is the time negative?
+  if (hours.indexOf("-") === 0) {
+    hours = hours.slice(1);
+    negative = true;
+  }
+
+  minutes = parseFloat(hours) * 60 + parseFloat(minutes);
+
+  if (negative) {
+    minutes = minutes * -1;
+  }
+
+  return minutes;
 }
 
 export function minutesToHHMM(min, format) {

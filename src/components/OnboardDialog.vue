@@ -193,10 +193,12 @@ export default {
     CardToolbar
   },
   props: {
+    /*
     now: {
       type: Date,
       default: () => new Date()
     },
+    */
     entity: {
       type: Object || null,
       default: null

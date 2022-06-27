@@ -1,6 +1,7 @@
 import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { defaultContractDate } from "@/utils/date";
+import { minutesToHHMM, timestringToMinutes } from "@/utils/time";
 
 Number.prototype.pad = function (size) {
   var s = String(this);
@@ -73,40 +74,11 @@ export class Contract {
   }
 
   timestringToMinutes(time) {
-    if (time == "") {
-      return 0;
-    }
-
-    let negative = false;
-    let [hours, minutes] = time.split(":");
-
-    // Is the time negative?
-    if (hours.indexOf("-") === 0) {
-      hours = hours.slice(1);
-      negative = true;
-    }
-
-    minutes = parseFloat(hours) * 60 + parseFloat(minutes);
-
-    if (negative) {
-      minutes = minutes * -1;
-    }
-
-    return minutes;
+    return timestringToMinutes(time);
   }
 
   minutesToTimestring(value) {
-    let sign = "";
-
-    if (value < 0) {
-      sign = "-";
-    }
-    const positiveValue = Math.abs(value);
-
-    const hours = Math.floor(positiveValue / 60);
-    const minutes = positiveValue % 60;
-
-    return `${sign}${hours.pad(2)}:${minutes.pad(2)}`;
+    return minutesToHHMM(value, ":");
   }
 
   convertCarryoverTargetDate() {
