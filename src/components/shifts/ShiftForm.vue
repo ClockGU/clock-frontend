@@ -72,6 +72,32 @@
         />
       </v-col>
 
+      <v-col cols="12" md="5" class="pl-11 text-left">
+        <label class="v-input v-label">Pausenzeiten</label>
+      </v-col>
+
+      <v-col cols="6" md="3">
+        <ShiftFormTimeInput
+          v-model="shift"
+          data-cy="shift-start-time"
+          type="start"
+          :error="startError"
+          :prepend-icon="$vuetify.breakpoint.smAndDown"
+        />
+      </v-col>
+
+      <v-col cols="1" class="px-0 text-center">
+        {{ $t("shifts.to") }}
+      </v-col>
+
+      <v-col cols="5" md="3">
+        <ShiftFormTimeInput
+          v-model="shift"
+          data-cy="shift-end-time"
+          type="end"
+          :error="endError"
+        />
+      </v-col>
       <v-col cols="12">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
