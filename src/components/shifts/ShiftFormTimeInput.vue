@@ -35,12 +35,7 @@
 </template>
 
 <script>
-import {
-  addMinutes,
-  isTomorrow,
-  setHours,
-  setMinutes
-} from "date-fns";
+import { addMinutes, isTomorrow, setHours, setMinutes } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
 
@@ -88,7 +83,7 @@ export default {
       },
       set(val) {
         //function to set times to "now"
-        if (val == "now" || val == "jetzt") {
+        if (val === "now" || val === "jetzt") {
           val = localizedFormat(new Date(), "HH:mm");
         }
 

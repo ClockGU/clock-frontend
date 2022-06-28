@@ -212,7 +212,7 @@ export default {
     },
     shiftsLocked() {
       const shifts = this.shifts.filter(
-        (shift) => shift.contract === this.entity.uuid && shift.locked == true
+        (shift) => shift.contract === this.entity.uuid && shift.locked === true
       );
       return shifts.length > 0;
     },
@@ -227,18 +227,17 @@ export default {
     firstShiftOfContract() {
       if (this.sortedShifts.length < 1) return null;
 
-      return localizedFormat(new Date(this.sortedShifts[0].date.start), "yyyy-MM-dd");
+      return localizedFormat(
+        new Date(this.sortedShifts[0].date.start),
+        "yyyy-MM-dd"
+      );
     },
     valid() {
-      if (
+      return !(
         this.nameErrors.length > 0 ||
         this.contract.name === null ||
         this.specificContractExpired(this.contract)
-      ) {
-        return false;
-      }
-
-      return true;
+      );
     },
     initialData() {
       const startDate = localizedFormat(startOfMonth(new Date()), "yyyy-MM-dd");
@@ -276,7 +275,10 @@ export default {
         // Update the carryoverTargetDate if we move the start month beyond the
         // previous value
         if (isAfter(date, parseISO(this.contract.carryoverTargetDate))) {
-          this.contract.carryoverTargetDate = localizedFormat(date, "yyyy-MM-dd");
+          this.contract.carryoverTargetDate = localizedFormat(
+            date,
+            "yyyy-MM-dd"
+          );
         }
 
         if (isAfter(date, parseISO(this.contract.end))) {
@@ -365,7 +367,10 @@ export default {
       this.minEndDate = localizedFormat(new Date(), "yyyy-MM-dd");
       // set maximal end date arbitrarily to 7 months
       // this should cover most cases but should be limited to semester dates
-      this.maxEndDate = localizedFormat(addMonths(currentStartDate, 7), "yyyy-MM-dd");
+      this.maxEndDate = localizedFormat(
+        addMonths(currentStartDate, 7),
+        "yyyy-MM-dd"
+      );
     } else {
       this.contract = this.entity;
       const currentEndDate = parseISO(this.entity.date.end);
@@ -374,17 +379,18 @@ export default {
       // This should be solved differently
       this.maxStartDate = this.firstShiftOfContract;
       this.minEndDate = this.lastShiftOfContract;
-      this.maxEndDate = localizedFormat(addMonths(currentEndDate, 6), "yyyy-MM-dd");
-      if (this.contract.carryoverTime == "00:00") {
+      this.maxEndDate = localizedFormat(
+        addMonths(currentEndDate, 6),
+        "yyyy-MM-dd"
+      );
+      if (this.contract.carryoverTime === "00:00") {
         this.contract.carryoverTime = "";
       }
     }
 
     this.carryover =
       this.contract.carryoverTime !== "00:00" &&
-      this.contract.carryoverTime !== ""
-        ? true
-        : false;
+      this.contract.carryoverTime !== "";
   },
   updated() {
     // edge case: carryover is activated and startDate is set to the future
