@@ -3,7 +3,7 @@
     <v-card elevation="0">
       <v-card-actions>
         <!--v-btn
-          :disabled="shifts.length != 1"
+          :disabled="shiftsLength != 1"
           icon
           @click="$emit('edit', shifts[0].shift)"
         >
@@ -17,9 +17,9 @@
         >
           <template #activator="{ on }">
             <v-btn :disabled="!reviewable" icon v-on="on">
-              <v-icon>{{
-                shifts.length > 1 ? icons.mdiCheckAll : icons.mdiCheck
-              }}</v-icon>
+              <v-icon
+                >{{ shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck }}
+              </v-icon>
             </v-btn>
           </template>
         </ShiftBulkActionsDialogReview>
@@ -27,7 +27,7 @@
         <ShiftAssignContractDialog :shifts="shifts" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn
-              :disabled="contracts.length < 2 || shifts.length < 1"
+              :disabled="!moreThanOneContract || shiftsLength < 1"
               icon
               v-on="on"
             >
@@ -37,11 +37,11 @@
         </ShiftAssignContractDialog>
 
         <ShiftBulkActionsDialogDelete
-          :count="shifts.length"
+          :count="shiftsLength"
           @destroy="destroyFn"
         >
           <template #activator="{ on }">
-            <v-btn :disabled="shifts.length < 1" icon v-on="on">
+            <v-btn :disabled="shiftsLength < 1" icon v-on="on">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
             </v-btn>
           </template>
@@ -87,9 +87,10 @@ export default {
       type: Array,
       required: true
     },
-    contracts: {
-      type: Array,
-      required: true
+    moreThanOneContract: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data: () => ({
@@ -105,6 +106,9 @@ export default {
         sum += shift.duration;
       });
       return "| " + minutesToHHMM(sum, "") + "h";
+    },
+    shiftsLength() {
+      return this.shifts.length;
     }
   }
 };

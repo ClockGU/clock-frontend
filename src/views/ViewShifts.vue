@@ -90,7 +90,7 @@
                           :destroy-fn="destroyFn"
                           :shifts="selected"
                           can-review
-                          :contracts="contracts"
+                          :more-than-one-contract="moreThanOneContract"
                           @edit="editShift"
                           @refresh="refresh"
                         />
@@ -138,7 +138,7 @@
                         </v-card-text>
                         <ShiftBulkActions
                           v-if="selected.length > 0"
-                          :contracts="contracts"
+                          :more-than-one-contract="moreThanOneContract"
                           :shifts="selected"
                           :destroy-fn="destroyFn"
                           @edit="editShift"
@@ -216,6 +216,9 @@ export default {
     ...mapGetters({
       contracts: "contract/contracts"
     }),
+    moreThanOneContract() {
+      return this.contracts.length > 1;
+    },
     disabled() {
       return this.$route.params.contract === undefined;
     },
