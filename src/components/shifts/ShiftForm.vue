@@ -114,7 +114,8 @@
           v-model="shift.type"
           :disabled="
             selectedDateIsHoliday ||
-            (sickOrVacationShifts.length >= 1 && uuid === null)
+            (sickOrVacationShifts.length === 1 && isNewShift) ||
+            (sickOrVacationShifts.length >= 1 && !isNewShift)
           "
           data-cy="shift-type"
         />
@@ -333,7 +334,11 @@ export default {
       if (this.selectedDateIsHoliday) {
         messages.push(this.$t("shifts.warnings.selectedDateIsHoliday"));
       }
-      if (this.sickOrVacationShifts.length >= 1 && this.uuid === null) {
+      if (
+        this.sickOrVacationShifts.length > 1 ||
+        (this.sickOrVacationShifts.length === 1 && this.isNewShift) ||
+        (this.sickOrVacationShifts.length >= 1 && !this.isNewShift)
+      ) {
         messages.push(
           this.$t("shifts.warnings.sickOrVacationShiftExists", {
             shiftType: this.$t(
@@ -431,7 +436,6 @@ export default {
     if (!this.startsInFuture && !this.shift.reviewed && !this.isNewShift) {
       this.toBeReviewed = true;
     }
-    console.log(JSON.stringify(this.contractShifts));
   },
   methods: {
     setScheduledShifts(shifts) {
