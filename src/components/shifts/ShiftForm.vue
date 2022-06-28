@@ -184,7 +184,8 @@ import {
   isFuture,
   isSameDay,
   isWithinInterval,
-  parseISO
+  parseISO,
+  subMinutes
 } from "date-fns";
 import {
   coalescWorktimeAndBreaktime,
@@ -201,7 +202,7 @@ import {
   mdiRepeat
 } from "@mdi/js";
 import ClockCardAlert from "@/components/ClockCardAlert";
-import { enoughBreaktimeBetweenShifts } from "@/utils/shift";
+import { enoughBreaktimeBetweenShifts, missingBreaktime } from "@/utils/shift";
 
 export default {
   name: "ShiftForm",
@@ -473,6 +474,12 @@ export default {
     },
     trimBreaktime: {
       handler: function () {
+        if (this.trimBreaktime) {
+          this.shift.date.start = subMinutes(
+            this.shift.date.start,
+            missingBreaktime(this.worktimeAndBreaktimeOnDate)
+          );
+        }
         this.$emit("update", { shift: this.shift, valid: this.valid });
       }
     },
