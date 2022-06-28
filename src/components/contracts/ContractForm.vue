@@ -129,7 +129,6 @@ import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput"
 
 import {
   addMonths,
-  format,
   startOfMonth,
   endOfMonth,
   isAfter,
@@ -220,7 +219,7 @@ export default {
     lastShiftOfContract() {
       if (this.sortedShifts.length < 1) return this.startDate;
 
-      return format(
+      return localizedFormat(
         new Date(this.sortedShifts[this.sortedShifts.length - 1].date.start),
         "yyyy-MM-dd"
       );
@@ -228,7 +227,7 @@ export default {
     firstShiftOfContract() {
       if (this.sortedShifts.length < 1) return null;
 
-      return format(new Date(this.sortedShifts[0].date.start), "yyyy-MM-dd");
+      return localizedFormat(new Date(this.sortedShifts[0].date.start), "yyyy-MM-dd");
     },
     valid() {
       if (
@@ -268,7 +267,7 @@ export default {
         // Update the carryoverTargetDate to the contract start, if we do not
         // want to carry over anything
         if (!this.carryover) {
-          this.contract.carryoverTargetDate = format(
+          this.contract.carryoverTargetDate = localizedFormat(
             startOfMonth(parseISO(this.contract.start)),
             "yyyy-MM-dd"
           );
@@ -277,7 +276,7 @@ export default {
         // Update the carryoverTargetDate if we move the start month beyond the
         // previous value
         if (isAfter(date, parseISO(this.contract.carryoverTargetDate))) {
-          this.contract.carryoverTargetDate = format(date, "yyyy-MM-dd");
+          this.contract.carryoverTargetDate = localizedFormat(date, "yyyy-MM-dd");
         }
 
         if (isAfter(date, parseISO(this.contract.end))) {
@@ -363,10 +362,10 @@ export default {
       // the maximal start date can be anytime
       this.maxStartDate = undefined;
       // set today as minimal end date (a new contract can not end in the past)
-      this.minEndDate = format(new Date(), "yyyy-MM-dd");
+      this.minEndDate = localizedFormat(new Date(), "yyyy-MM-dd");
       // set maximal end date arbitrarily to 7 months
       // this should cover most cases but should be limited to semester dates
-      this.maxEndDate = format(addMonths(currentStartDate, 7), "yyyy-MM-dd");
+      this.maxEndDate = localizedFormat(addMonths(currentStartDate, 7), "yyyy-MM-dd");
     } else {
       this.contract = this.entity;
       const currentEndDate = parseISO(this.entity.date.end);
@@ -375,7 +374,7 @@ export default {
       // This should be solved differently
       this.maxStartDate = this.firstShiftOfContract;
       this.minEndDate = this.lastShiftOfContract;
-      this.maxEndDate = format(addMonths(currentEndDate, 6), "yyyy-MM-dd");
+      this.maxEndDate = localizedFormat(addMonths(currentEndDate, 6), "yyyy-MM-dd");
       if (this.contract.carryoverTime == "00:00") {
         this.contract.carryoverTime = "";
       }
