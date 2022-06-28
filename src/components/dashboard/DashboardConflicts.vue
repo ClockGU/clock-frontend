@@ -54,7 +54,7 @@
 import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap";
-import {localizedFormat} from "@/utils/date";
+import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "DashboardConflicts",
