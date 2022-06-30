@@ -135,7 +135,6 @@
       <v-col cols="12">
         <v-divider></v-divider>
       </v-col>
-
       <v-col cols="12" class="pb-0">
         <v-select
           v-model="shift.contract"
@@ -175,6 +174,7 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
+  addMinutes,
   endOfDay,
   formatISO,
   isAfter,
@@ -183,8 +183,7 @@ import {
   isFuture,
   isSameDay,
   isWithinInterval,
-  parseISO,
-  subMinutes
+  parseISO
 } from "date-fns";
 import {
   coalescWorktimeAndBreaktime,
@@ -470,7 +469,7 @@ export default {
     trimBreaktime: {
       handler: function () {
         if (this.trimBreaktime) {
-          this.shift.date.start = subMinutes(
+          this.shift.date.start = addMinutes(
             this.shift.date.start,
             missingBreaktime(this.worktimeAndBreaktimeOnDate)
           );
