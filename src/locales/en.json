@@ -466,7 +466,7 @@
       "selectedDateIsHoliday": "The selected date is a bank holiday. You can only clock shifts of type bank holday here.",
       "sickOrVacationShiftExists": "You already clocked a shift of type {shiftType} on this date. Shifts of no other type are allowed on this day.",
       "noSickOrVacationWithRegularShift": "You have already clocked a normal shift on this date. Please delete or change the shift first before clocking a shift of type {shiftType}.",
-      "notEnoughBreaktime": "You worked {worktime} with breaks of {breaktime} at this date. According to §4 MiLoG you breaks of 30 minutes for a worktime over 6h and 45 minutes for a worktime over 9h."
+      "notEnoughBreaktime": "You worked {worktime} with breaks of {breaktime} at this date. According to §4 ArbzG you breaks of 30 minutes for a worktime over 6h and 45 minutes for a worktime over 9h."
     }
   },
   "snackbar": {

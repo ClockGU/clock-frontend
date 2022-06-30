@@ -466,7 +466,7 @@
       "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ Feiertag clocken.",
       "sickOrVacationShiftExists": "Du hast an diesem Tag bereits eine Schicht vom Typ {shiftType} geclockt. Du kannst an diesem Tag nur noch Schichten von diesem Typ clocken.",
       "noSickOrVacationWithRegularShift": "Du hast bereits eine normale Schicht an diesem Datum geclockt. Du musst diese zunächst löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} clocken kannst.",
-      "notEnoughBreaktime": "Du hast an diesem Tag {worktime} gearbeitet und eine Pausen in Höhe von {pause} eingelegt. Laut §4 MiLoG musst du ab einer Abreitszeit von 6h mindestens 30 Minuten, nach 9h mindestens 45 Minuten Pause (in Summe) einlegen."
+      "notEnoughBreaktime": "Du hast an diesem Tag {worktime} gearbeitet und eine Pausen in Höhe von {pause} eingelegt. Laut §4 ArbzG musst du ab einer Abreitszeit von 6h mindestens 30 Minuten, nach 9h mindestens 45 Minuten Pause (in Summe) einlegen."
     }
   },
   "snackbar": {
