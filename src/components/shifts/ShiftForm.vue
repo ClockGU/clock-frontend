@@ -199,7 +199,11 @@ import {
   mdiRepeat
 } from "@mdi/js";
 import ClockCardAlert from "@/components/ClockCardAlert";
-import { enoughBreaktimeBetweenShifts, missingBreaktime } from "@/utils/shift";
+import {
+  enoughBreaktimeBetweenShifts,
+  maxWorktimeExceeded,
+  missingBreaktime
+} from "@/utils/shift";
 
 export default {
   name: "ShiftForm",
@@ -350,6 +354,9 @@ export default {
     enoughBreaktime() {
       return enoughBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
     },
+    worktimeTooLong() {
+      return maxWorktimeExceeded(this.worktimeAndBreaktimeOnDate.worktime);
+    },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
@@ -358,7 +365,8 @@ export default {
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
-        (!this.enoughBreaktime && !this.splitWithBreaktime)
+        (!this.enoughBreaktime && !this.trimBreaktime) ||
+        this.worktimeTooLong
       )
         return false;
 
@@ -409,6 +417,10 @@ export default {
             breaktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.breaktime)
           })
         );
+      }
+
+      if (this.worktimeTooLong) {
+        messages.push(this.$t("shifts.warnings.maxWorktimeExceeded"));
       }
 
       return messages;
