@@ -36,10 +36,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-/*>>> .v-alert__icon {*/
-/*  margin: 0;*/
-/*  padding-left: 16px;*/
-/*}*/
-</style>
