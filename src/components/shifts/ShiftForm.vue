@@ -175,7 +175,6 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
-  addMinutes,
   endOfDay,
   formatISO,
   isAfter,
@@ -474,23 +473,18 @@ export default {
     splitWithBreaktime: {
       handler: function () {
         if (this.splitWithBreaktime) {
-          // eslint-disable-next-line no-undef
-          let splitShift = this.shift.clone();
           const splitDuration = Math.floor(this.shift.duration / 2);
           const remainder = this.shift.duration % 2;
-          splitShift.date.start = addMinutes(
-            splitShift.date.start,
-            missingBreaktime(this.worktimeAndBreaktimeOnDate) +
-              splitDuration +
-              remainder
-          );
-
-          this.shift.date.end = addMinutes(
-            this.shift.date.start,
-            splitDuration + remainder
-          );
-          this.scheduledShifts = [splitShift];
+          this.$emit("update", {
+            shift: this.shift,
+            valid: this.valid,
+            splitData: {
+              splitDuration: splitDuration + remainder,
+              breaktime: missingBreaktime(this.worktimeAndBreaktimeOnDate)
+            }
+          });
         }
+        this.$emit("update", { shift: this.shift, valid: this.valid });
       }
     },
     scheduledShifts() {
