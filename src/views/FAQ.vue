@@ -3,13 +3,13 @@
     <v-row>
       <v-col cols="12">
         <h1>{{ $t("app.faq") }}</h1>
-        <v-expansion-panels accordion v-if="!loading">
+        <v-expansion-panels v-if="!loading" accordion>
           <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
-            <v-expansion-panel-header>{{
-              faq.de_question
-            }}</v-expansion-panel-header>
+            <v-expansion-panel-header>
+              {{ question(faq) }}
+            </v-expansion-panel-header>
             <v-expansion-panel-content>
-              {{ faq.de_answer }}
+              {{ answer(faq) }}
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -75,11 +75,6 @@ export default {
       }
     ]
   }),
-  beforeRouteLeave(to, from, next) {
-    this.ignoreLoading = true;
-
-    next();
-  },
   computed: {
     ...mapGetters({
       loading: "faq/loading",
@@ -90,14 +85,28 @@ export default {
     async refresh() {
       try {
         await Promise.all([
+          this.$store.dispatch("faq/queryFaq"),
           this.$store.dispatch("shift/queryShifts"),
           this.$store.dispatch("contract/queryContracts"),
-          this.$store.dispatch("report/list"),
-          this.$store.dispatch("faq/queryFaq")
+          this.$store.dispatch("report/list")
         ]);
       } catch (error) {
         log(error);
       }
+    },
+    question(faq) {
+      console.log(this.$i18n.locale);
+      if (this.$i18n.locale === "de") {
+        return faq.de_question;
+      }
+      return faq.en_question;
+    },
+    answer(faq) {
+      console.log(this.$i18n.locale);
+      if (this.$i18n.locale === "de") {
+        return faq.de_answer;
+      }
+      return faq.en_answer;
     }
   }
 };
