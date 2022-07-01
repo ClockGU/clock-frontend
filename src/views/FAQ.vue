@@ -92,13 +92,6 @@ export default {
     })
   },
   methods: {
-    async refresh() {
-      try {
-        await Promise.all([this.$store.dispatch("report/list")]);
-      } catch (error) {
-        log(error);
-      }
-    },
     question(faq) {
       console.log(this.$i18n.locale);
       if (this.$i18n.locale === "de") {
