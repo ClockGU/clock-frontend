@@ -3,7 +3,8 @@ import {
   isFuture,
   isPast,
   isWithinInterval,
-  parseISO
+  parseISO,
+  startOfDay
 } from "date-fns";
 
 export default {
@@ -32,7 +33,7 @@ export default {
       );
     },
     specificContractInFuture(contract) {
-      const date = endOfDay(parseISO(contract.date.start));
+      const date = startOfDay(parseISO(contract.date.start));
       return isFuture(date) && contract.uuid !== null;
     }
   }
