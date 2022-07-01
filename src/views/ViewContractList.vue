@@ -163,8 +163,7 @@ export default {
         await Promise.all([
           this.$store.dispatch("shift/queryShifts"),
           this.$store.dispatch("contract/queryContracts"),
-          this.$store.dispatch("report/list"),
-          this.$store.dispatch("faq/queryFaq")
+          this.$store.dispatch("report/list")
         ]);
       } catch (error) {
         log(error);

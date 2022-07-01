@@ -75,6 +75,16 @@ export default {
       }
     ]
   }),
+  async created() {
+    try {
+      await Promise.all([this.$store.dispatch("faq/queryFaq")]);
+    } catch (error) {
+      log(error);
+      this.error = true;
+    } finally {
+      this.loading = false;
+    }
+  },
   computed: {
     ...mapGetters({
       loading: "faq/loading",
@@ -84,12 +94,7 @@ export default {
   methods: {
     async refresh() {
       try {
-        await Promise.all([
-          this.$store.dispatch("faq/queryFaq"),
-          this.$store.dispatch("shift/queryShifts"),
-          this.$store.dispatch("contract/queryContracts"),
-          this.$store.dispatch("report/list")
-        ]);
+        await Promise.all([this.$store.dispatch("report/list")]);
       } catch (error) {
         log(error);
       }
