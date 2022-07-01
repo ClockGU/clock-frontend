@@ -33,7 +33,7 @@ export default {
   name: "FAQ",
   metaInfo() {
     return {
-      title: this.$t("app.contracts")
+      title: this.$t("app.faq")
     };
   },
   data: () => ({
