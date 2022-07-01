@@ -129,4 +129,18 @@ export class Shift {
       locked: this.locked
     };
   }
+
+  clone() {
+    return new Shift({
+      uudi: this.uuid,
+      user: this.user,
+      date: this.date,
+      contract: this.contract,
+      type: this.type,
+      note: this.note,
+      tags: this.tags,
+      reviewed: this.reviewed,
+      locked: this.locked
+    });
+  }
 }
