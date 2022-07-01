@@ -80,7 +80,7 @@
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition>
-          <v-row v-if="!enoughBreaktime" align="center">
+          <v-row v-if="!enoughBreaktime || trimBreaktime" align="center">
             <v-col cols="12" md="5" class="ma-0">
               <v-checkbox
                 v-model="trimBreaktime"
@@ -474,12 +474,23 @@ export default {
     trimBreaktime: {
       handler: function () {
         if (this.trimBreaktime) {
-          this.shift.date.start = addMinutes(
-            this.shift.date.start,
-            missingBreaktime(this.worktimeAndBreaktimeOnDate)
+          // eslint-disable-next-line no-undef
+          let splitShift = this.shift.clone();
+          const splitDuration = Math.floor(this.shift.duration / 2);
+          const remainder = this.shift.duration % 2;
+          splitShift.date.start = addMinutes(
+            splitShift.date.start,
+            missingBreaktime(this.worktimeAndBreaktimeOnDate) +
+              splitDuration +
+              remainder
           );
+
+          this.shift.date.end = addMinutes(
+            this.shift.date.start,
+            splitDuration + remainder
+          );
+          this.scheduledShifts = [splitShift];
         }
-        this.$emit("update", { shift: this.shift, valid: this.valid });
       }
     },
     scheduledShifts() {
