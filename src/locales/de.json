@@ -404,6 +404,7 @@
     "changeContract": "Zugeordneter Vertrag",
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
+    "splitWithBreaktimeLabel": "Notwendige Pause beim speichern einpflegen",
     "note": {
       "note": "Notiz",
       "label": "Schreibe eine Notiz"

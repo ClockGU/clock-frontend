@@ -404,6 +404,7 @@
     "changeContract": "Selected contract",
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",
+    "splitWithBreaktimeLabel": "Insert needed Breaktime on save",
     "note": {
       "note": "Note",
       "label": "Write a note for yourself"

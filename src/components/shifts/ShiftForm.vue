@@ -80,11 +80,11 @@
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition>
-          <v-row v-if="!enoughBreaktime || trimBreaktime" align="center">
+          <v-row v-if="!enoughBreaktime || splitWithBreaktime" align="center">
             <v-col cols="12" md="5" class="ma-0">
               <v-checkbox
-                v-model="trimBreaktime"
-                label="Notwendige Pausenzeit vom Beginn abziehen"
+                v-model="splitWithBreaktime"
+                :label="$t('shifts.splitWithBreaktimeLabel')"
                 class="ma-0 no-linebreak"
                 :prepend-icon="icons.mdiScissorsCutting"
               ></v-checkbox>
@@ -252,7 +252,7 @@ export default {
       showRepeat: false,
       scheduledShifts: [],
       initialShiftType: null,
-      trimBreaktime: false
+      splitWithBreaktime: false
     };
   },
   computed: {
@@ -356,7 +356,7 @@ export default {
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
-        (!this.enoughBreaktime && !this.trimBreaktime)
+        (!this.enoughBreaktime && !this.splitWithBreaktime)
       )
         return false;
 
@@ -400,7 +400,7 @@ export default {
           })
         );
       }
-      if (!this.enoughBreaktime && !this.trimBreaktime) {
+      if (!this.enoughBreaktime && !this.splitWithBreaktime) {
         messages.push(
           this.$t("shifts.warnings.notEnoughBreaktime", {
             worktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.worktime),
@@ -466,9 +466,9 @@ export default {
       },
       deep: true
     },
-    trimBreaktime: {
+    splitWithBreaktime: {
       handler: function () {
-        if (this.trimBreaktime) {
+        if (this.splitWithBreaktime) {
           // eslint-disable-next-line no-undef
           let splitShift = this.shift.clone();
           const splitDuration = Math.floor(this.shift.duration / 2);
