@@ -3,13 +3,13 @@
     <v-row>
       <v-col cols="12">
         <h1>{{ $t("app.faq") }}</h1>
-        <v-expansion-panels accordion>
-          <v-expansion-panel v-for="(item, i) in items" :key="i">
+        <v-expansion-panels accordion v-if="!loading">
+          <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
             <v-expansion-panel-header>{{
-              item.title
+              faq.de_question
             }}</v-expansion-panel-header>
             <v-expansion-panel-content>
-              {{ item.text }}
+              {{ faq.de_answer }}
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -26,8 +26,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { log } from "@/utils/log";
+
 export default {
   name: "FAQ",
+  metaInfo() {
+    return {
+      title: this.$t("app.contracts")
+    };
+  },
   data: () => ({
     items: [
       {
@@ -66,6 +74,31 @@ export default {
           "Na klar! Schreib uns eine Mail über das Feedback-Formular. Wir freuen uns über Ideen, Benutzerhinweise - oder auch über das Angebot, am Projekt mitzuarbeiten."
       }
     ]
-  })
+  }),
+  beforeRouteLeave(to, from, next) {
+    this.ignoreLoading = true;
+
+    next();
+  },
+  computed: {
+    ...mapGetters({
+      loading: "faq/loading",
+      faqs: "faq/faqs"
+    })
+  },
+  methods: {
+    async refresh() {
+      try {
+        await Promise.all([
+          this.$store.dispatch("shift/queryShifts"),
+          this.$store.dispatch("contract/queryContracts"),
+          this.$store.dispatch("report/list"),
+          this.$store.dispatch("faq/queryFaq")
+        ]);
+      } catch (error) {
+        log(error);
+      }
+    }
+  }
 };
 </script>
