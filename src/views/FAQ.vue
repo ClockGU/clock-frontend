@@ -36,45 +36,12 @@ export default {
       title: this.$t("app.faq")
     };
   },
-  data: () => ({
-    items: [
-      {
-        title: "Was ist Clock?",
-        text:
-          "Clock ist eine Zeiterfassungs-App für Hilskräfte an der Goethe-Universität Frankfurt."
-      },
-      {
-        title: "Muss ich als HiWi Clock benutzen?",
-        text:
-          "Nein - Clock ist ein Service, der das Ausfüllen der monatlichen Stundenzettel vereinfachen soll. Du kannst Deine Stundenzettel auch wie bisher mit der von PersonalServices angebotenen Excel-Datei führen. Oder von Hand. Ugh."
-      },
-      {
-        title: "Ist Clock kostenlos?",
-        text:
-          "Ja, Clock ist und bleibt kostenlos nutzbar. Clock ist aber an Deinen HRZ-Account geknüpft und funktioniert nur, so lange dieser gültig ist. Wenn Du z.B. exmatrikuliert wirst, kannst Du auf Clock nicht mehr zugreifen. "
-      },
-      {
-        title: "Wem gehört Clock?",
-        text:
-          "Clock ist entstanden als  Service von HiWis für HiWis. Er wird von der Goethe-Uni unterstützt, aber nicht kontrolliert."
-      },
-      {
-        title: "Wer kann meine Daten sehen?",
-        text:
-          'Du und die Clock-Admins, die sich aber nicht um Deine Daten, sondern um das System kümmern. "Die Uni" (= Deine Dienststelle, also Institute, Labore, Bibliothek...) kann nicht zugreifen und sieht nur, was Du auf Deinem Stundenzettel stehen hast nachdem Du ihn exportiert und - auf Papier - abgegeben hast.'
-      },
-      {
-        title: "Wie ist das mit dem Datenschutz?",
-        text:
-          "In der Fußleiste findest du den Link zu unserer Datenschutzerklärung. Im Handbuch findest Du außerdem weitere Informationen zum Thema."
-      },
-      {
-        title: "Kann ich mithelfen, Clock zu verbessern?",
-        text:
-          "Na klar! Schreib uns eine Mail über das Feedback-Formular. Wir freuen uns über Ideen, Benutzerhinweise - oder auch über das Angebot, am Projekt mitzuarbeiten."
-      }
-    ]
-  }),
+  computed: {
+    ...mapGetters({
+      loading: "faq/loading",
+      faqs: "faq/faqs"
+    })
+  },
   async created() {
     try {
       await Promise.all([this.$store.dispatch("faq/queryFaq")]);
@@ -85,26 +52,12 @@ export default {
       this.loading = false;
     }
   },
-  computed: {
-    ...mapGetters({
-      loading: "faq/loading",
-      faqs: "faq/faqs"
-    })
-  },
   methods: {
     question(faq) {
-      console.log(this.$i18n.locale);
-      if (this.$i18n.locale === "de") {
-        return faq.de_question;
-      }
-      return faq.en_question;
+      return this.$i18n.locale === "de" ? faq.de_question : faq.en_question;
     },
     answer(faq) {
-      console.log(this.$i18n.locale);
-      if (this.$i18n.locale === "de") {
-        return faq.de_answer;
-      }
-      return faq.en_answer;
+      return this.$i18n.locale === "de" ? faq.de_answer : faq.en_answer;
     }
   }
 };
