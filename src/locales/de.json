@@ -381,6 +381,10 @@
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
+    },
+    "warnings": {
+      "toMuchOvertime": " Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden in den nächsten Monat übertragen.",
+      "toFewWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit. Es werden nur 20% deiner Sollarbeitszeit als Minusstunden in den nächsten Monat übertragen."
     }
   },
   "selectContract": {
