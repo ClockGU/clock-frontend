@@ -15,9 +15,8 @@
         </v-expansion-panels>
 
         <p class="mt-8">
-          Weitere Informationen findest du in unserem
-          <base-link href="https://clockgu.gitbook.io/clock-benutzerhandbuch"
-            >Benutzerhandbuch</base-link
+          {{ $t("faq.text") }}
+          <base-link :href="$t('faq.link')">{{ $t("faq.linktext") }}</base-link
           >.
         </p>
       </v-col>

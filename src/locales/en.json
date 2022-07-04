@@ -473,5 +473,10 @@
     "end": "End",
     "duration": "Duration",
     "reviewed": "Reviewed"
+  },
+  "faq": {
+    "text": "Further information you can find in our",
+    "link": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/",
+    "linktext": "user manual"
   }
 }
