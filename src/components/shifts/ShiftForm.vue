@@ -330,20 +330,23 @@ export default {
       );
     },
     worktimeAndBreaktimeOnDate() {
-      if (this.isNewShift) {
-        // TODO: THIS IS THE REASON FOR A REFACTOR
-        // ALL SHIFTS HAVE DATES AS STRINGS BUT THE NEWLY CREATED ON AS DATE-OBJECT
-        const addedShift = {
-          date: { start: this.shift.date.start, end: this.shift.date.end }
-        };
-        addedShift.date.start = formatISO(addedShift.date.start);
-        addedShift.date.end = formatISO(addedShift.date.end);
-        const shiftsIncludingCurrent = this.shiftsOnSelectedDate.concat([
-          addedShift
-        ]);
-        return coalescWorktimeAndBreaktime(shiftsIncludingCurrent);
+      const formattedDate = {
+        start: formatISO(this.shift.date.start),
+        end: formatISO(this.shift.date.end)
+      };
+      // Copy Array
+      let shifts = this.shiftsOnSelectedDate.concat([]);
+      const indexOfShift = shifts.findIndex(
+        (shift) => shift.uuid === this.uuid
+      );
+      if (indexOfShift === -1) {
+        return coalescWorktimeAndBreaktime(
+          shifts.concat([{ date: formattedDate }]) // this is a Hack, only passing an object with a date key.
+        );
       }
-      return coalescWorktimeAndBreaktime(this.shiftsOnSelectedDate);
+      // Update the shift's date to current date
+      shifts[indexOfShift].date = formattedDate;
+      return coalescWorktimeAndBreaktime(shifts);
     },
     enoughBreaktime() {
       return enoughBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
