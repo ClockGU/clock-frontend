@@ -127,7 +127,7 @@ import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 import { log } from "@/utils/log";
-import { addMinutes } from "date-fns";
+import { addMinutes, isFuture } from "date-fns";
 
 export default {
   name: "FormDialog",
@@ -200,6 +200,8 @@ export default {
           splitShift.date.start,
           this.splitData.breaktime + this.splitData.splitDuration
         );
+        splitShift.reviewed = !isFuture(splitShift.date.start);
+        console.log(splitShift.date.start);
         this.toSave.date.end = addMinutes(
           this.toSave.date.start,
           this.splitData.splitDuration
