@@ -167,10 +167,10 @@ export default {
       const debitInMinutes = parseInt(debitHours) * 60 + parseInt(debitMinutes);
 
       if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {
-        messages.push(this.$t("reports.warnings.toMuchOvertime"));
+        messages.push(this.$t("reports.warnings.maxOvertimeExceeded"));
       }
       if (((debitInMinutes - worktimeInMinutes) / debitInMinutes) * 100 > 20) {
-        messages.push(this.$t("reports.warnings.toFewWorktime"));
+        messages.push(this.$t("reports.warnings.insufficientWorktime"));
       }
       console.log(JSON.stringify(messages));
       return messages;

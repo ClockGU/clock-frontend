@@ -80,11 +80,11 @@
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition>
-          <v-row v-if="!enoughBreaktime || splitWithBreaktime" align="center">
+          <v-row v-if="!sufficientBreaktime" align="center">
             <v-col cols="12" md="5" class="ma-0">
               <v-checkbox
-                v-model="splitWithBreaktime"
-                :label="$t('shifts.splitWithBreaktimeLabel')"
+                v-model="trimBreaktime"
+                :label="$t('shifts.trimBreaktime')"
                 class="ma-0 no-linebreak"
                 :prepend-icon="icons.mdiScissorsCutting"
               ></v-checkbox>
@@ -175,6 +175,7 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
+  addMinutes,
   endOfDay,
   formatISO,
   isAfter,
@@ -201,7 +202,7 @@ import {
 } from "@mdi/js";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import {
-  enoughBreaktimeBetweenShifts,
+  sufficientBreaktimeBetweenShifts,
   maxWorktimeExceeded,
   missingBreaktime
 } from "@/utils/shift";
@@ -256,7 +257,7 @@ export default {
       showRepeat: false,
       scheduledShifts: [],
       initialShiftType: null,
-      splitWithBreaktime: false
+      trimBreaktime: false
     };
   },
   computed: {
@@ -352,8 +353,8 @@ export default {
       shifts[indexOfShift].date = formattedDate;
       return coalescWorktimeAndBreaktime(shifts);
     },
-    enoughBreaktime() {
-      return enoughBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
+    sufficientBreaktime() {
+      return sufficientBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
     },
     worktimeTooLong() {
       return maxWorktimeExceeded(this.worktimeAndBreaktimeOnDate.worktime);
@@ -366,7 +367,7 @@ export default {
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
-        (!this.enoughBreaktime && !this.splitWithBreaktime) ||
+        (!this.sufficientBreaktime && !this.trimBreaktime) ||
         this.worktimeTooLong
       )
         return false;
@@ -415,9 +416,9 @@ export default {
           })
         );
       }
-      if (!this.enoughBreaktime && !this.splitWithBreaktime) {
+      if (!this.sufficientBreaktime && !this.trimBreaktime) {
         messages.push(
-          this.$t("shifts.warnings.notEnoughBreaktime", {
+          this.$t("shifts.warnings.insufficientBreaktime", {
             worktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.worktime),
             breaktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.breaktime)
           })
@@ -485,19 +486,13 @@ export default {
       },
       deep: true
     },
-    splitWithBreaktime: {
+    trimBreaktime: {
       handler: function () {
-        if (this.splitWithBreaktime) {
-          const splitDuration = Math.floor(this.shift.duration / 2);
-          const remainder = this.shift.duration % 2;
-          this.$emit("update", {
-            shift: this.shift,
-            valid: this.valid,
-            splitData: {
-              splitDuration: splitDuration + remainder,
-              breaktime: missingBreaktime(this.worktimeAndBreaktimeOnDate)
-            }
-          });
+        if (this.trimBreaktime) {
+          this.shift.date.start = addMinutes(
+            this.shift.date.start,
+            missingBreaktime(this.worktimeAndBreaktimeOnDate)
+          );
         }
         this.$emit("update", { shift: this.shift, valid: this.valid });
       }
