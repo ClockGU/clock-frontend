@@ -381,6 +381,10 @@
       "label": "Lock this month",
       "confirm": "Lock this month?",
       "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
+    },
+    "warnings": {
+      "toMuchOvertime": "You gathered more than 50% of you debit worktime in overtime. Only 50% of you debit worktime will be carried over to the next month.",
+      "toFewWorktime": "You are missing more than 20% of your debit worktime. Only 20% of your debit worktime can be carried over to the next month as missing hours."
     }
   },
   "selectContract": {
