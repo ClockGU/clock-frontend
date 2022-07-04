@@ -366,7 +366,7 @@ export default {
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
-        (!this.enoughBreaktime && !this.trimBreaktime) ||
+        (!this.enoughBreaktime && !this.splitWithBreaktime) ||
         this.worktimeTooLong
       )
         return false;
