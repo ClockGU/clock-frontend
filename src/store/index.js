@@ -29,7 +29,8 @@ export default new Vuex.Store({
   },
   getters: {
     user: (state) => state.user,
-    userLoading: (state) => state.userLoading
+    userLoading: (state) => state.userLoading,
+    locale: (state) => state.locale
   },
   actions: {
     skipOnboarding({ commit }) {

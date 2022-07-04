@@ -39,7 +39,8 @@ export default {
   computed: {
     ...mapGetters({
       loading: "faq/loading",
-      faqs: "faq/faqs"
+      faqs: "faq/faqs",
+      locale: "locale"
     })
   },
   async created() {
@@ -54,10 +55,12 @@ export default {
   },
   methods: {
     question(faq) {
-      return this.$i18n.locale === "de" ? faq.de_question : faq.en_question;
+      const key = `${this.locale}_question`;
+      return key === undefined ? faq.en_question : faq[key];
     },
     answer(faq) {
-      return this.$i18n.locale === "de" ? faq.de_answer : faq.en_answer;
+      const key = `${this.locale}_answer`;
+      return key === undefined ? faq.en_answer : faq[key];
     }
   }
 };
