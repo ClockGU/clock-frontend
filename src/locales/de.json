@@ -108,7 +108,7 @@
     },
     "welcome": {
       "text": "Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn Du mal nicht weiter weißt, wirf einen Blick ins {link} oder sende uns dein Feedback.",
-      "manual": "Handbuch",
+      "linktext": "Handbuch",
       "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
     },
     "clock": {
@@ -475,8 +475,8 @@
     "reviewed": "Überprüft"
   },
   "faq": {
-    "text": "Weitere Informationen findest du in unserem",
-    "link": "https://clockgu.gitbook.io/clock-benutzerhandbuch",
-    "linktext": "Benutzerhandbuch"
+    "text": "Weitere Informationen findest du in unserem {link}.",
+    "linktext": "Benutzerhandbuch",
+    "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch"
   }
 }

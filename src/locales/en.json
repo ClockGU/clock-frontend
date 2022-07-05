@@ -475,7 +475,7 @@
     "reviewed": "Reviewed"
   },
   "faq": {
-    "text": "Further information you can find in our",
+    "text": "Please refer to the {link} for further information.",
     "linktext": "user manual",
     "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/"
   }

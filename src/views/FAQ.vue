@@ -15,9 +15,17 @@
         </v-expansion-panels>
 
         <p class="mt-8">
-          {{ $t("faq.text") }}
-          <base-link :href="$t('faq.link')">{{ $t("faq.linktext") }}</base-link
-          >.
+          <i18n path="faq.text">
+            <template #link>
+              <base-link
+                class="text-no-wrap"
+                :href="$t('faq.url')"
+                target="_blank"
+              >
+                <template #default>{{ $t("faq.linktext") }}</template>
+              </base-link>
+            </template>
+          </i18n>
         </p>
       </v-col>
     </v-row>
