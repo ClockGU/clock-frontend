@@ -150,7 +150,6 @@
           "sickOrVacationExist": "You cannot clock in since a shift of type sick or vacation already exists.",
           "bankHoliday": "You cannot clock in on bank holidays.",
           "dateIsSunday": "You cannot clock in on sundays."
-
         }
       },
       "snacks": {
