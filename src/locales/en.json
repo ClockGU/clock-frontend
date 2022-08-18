@@ -145,7 +145,13 @@
         },
         "newShifts": "New shifts",
         "text": "A shift must end on the same day it started. Therefore, we will need to split your shift. Make a decision on what to do.",
-        "title": "Invalid shift"
+        "title": "Invalid shift",
+        "clockIn": {
+          "sickOrVacationExist": "You cannot clock in since a shift of type sick or vacation already exists.",
+          "bankHoliday": "You cannot clock in on bank holidays.",
+          "dateIsSunday": "You cannot clock in on sundays."
+
+        }
       },
       "snacks": {
         "clockedIn": "Clocked in a new shift.",

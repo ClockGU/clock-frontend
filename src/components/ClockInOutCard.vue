@@ -12,11 +12,7 @@
       }"
     >
       <v-window v-model="window">
-        <v-overlay
-          :value="showOverlay"
-          absolute
-          :opacity="contractValid ? 1.0 : 0.9"
-        >
+        <v-overlay :value="showOverlay" absolute opacity="0.9">
           <v-container>
             <v-row>
               <v-col cols="12">
@@ -69,6 +65,8 @@ import ClockInOutCardForm from "@/components/ClockInOutCardForm";
 import { mapGetters } from "vuex";
 
 import contractValidMixin from "@/mixins/contractValid";
+import { isSameDay, isSunday, parseISO } from "date-fns";
+import { dateIsHoliday } from "@/utils/date";
 
 export default {
   name: "ClockInOutCard",
@@ -109,20 +107,30 @@ export default {
       );
     },
     overlayMessage() {
+      const today = new Date();
       if (this.disabled) {
         return this.$t("dashboard.disabled.contractNeededForClocking");
+      }
+      if (dateIsHoliday(today)) {
+        return this.$t("dashboard.clock.problems.clockIn.bankHoliday");
+      }
+      if (isSunday(today)) {
+        return this.$t("dashboard.clock.problems.clockIn.dateIsSunday");
+      }
+      if (this.sickOrVacationExists(today)) {
+        return this.$t("dashboard.clock.problems.clockIn.sickOrVacationExist");
       }
       if (this.contractInFuture)
         return this.$t("dashboard.clock.contractInFuture");
       if (this.contractExpired)
         return this.$t("dashboard.clock.contractExpired");
-      else return this.$t("dashboard.clock.contractInactive");
+      if (this.$route.params.contract !== this.clockedContract.uuid) {
+        return this.$t("dashboard.clock.contractInactive");
+      }
+      return undefined;
     },
     showOverlay() {
-      return (
-        this.$route.params.contract !== this.clockedContract.uuid ||
-        !this.contractValid
-      );
+      return this.overlayMessage !== undefined;
     }
   },
   methods: {
@@ -131,6 +139,16 @@ export default {
         ...this.$route,
         params: { ...this.$route.params, contract: this.clockedContract.uuid }
       });
+    },
+    sickOrVacationExists(date) {
+      return (
+        this.$store.getters["shift/shifts"].filter((shift) => {
+          return (
+            isSameDay(parseISO(shift.date.start), date) &&
+            (shift.type === "vn" || shift.type === "sk")
+          );
+        }).length > 0
+      );
     }
   }
 };

@@ -145,7 +145,12 @@
         },
         "newShifts": "Neue Schichten",
         "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
-        "title": "Ungültige Schicht"
+        "title": "Ungültige Schicht",
+        "clockIn": {
+          "sickOrVacationExist": "Du kannst nicht clocken, da bereits eine Schicht vom Typ Krank oder Urlaub existiert.",
+          "bankHoliday": "Du kannst an Feiertagen nicht clocken.",
+          "dateIsSunday": "Du kannst an Sonntagen nicht clocken."
+        }
       },
       "snacks": {
         "clockedIn": "Du wurdest erfolgreich eingeclockt.",
