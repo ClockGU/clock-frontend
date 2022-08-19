@@ -115,7 +115,7 @@
           :disabled="
             selectedDateIsHoliday ||
             (sickOrVacationShifts.length === 1 && isNewShift) ||
-            (sickOrVacationShifts.length >= 1 && !isNewShift)
+            (sickOrVacationShifts.length > 1 && !isNewShift)
           "
           data-cy="shift-type"
         />
@@ -337,7 +337,7 @@ export default {
       if (
         this.sickOrVacationShifts.length > 1 ||
         (this.sickOrVacationShifts.length === 1 && this.isNewShift) ||
-        (this.sickOrVacationShifts.length >= 1 && !this.isNewShift)
+        (this.sickOrVacationShifts.length > 1 && !this.isNewShift)
       ) {
         messages.push(
           this.$t("shifts.warnings.sickOrVacationShiftExists", {
