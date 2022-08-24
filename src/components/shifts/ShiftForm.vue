@@ -73,10 +73,20 @@
       </v-col>
 
       <v-col cols="12">
+        <v-expand-transition hide-on-leave>
+          <ClockCardAlert
+            v-if="messages.length !== 0"
+            :messages="messages"
+            :type="alertType"
+          ></ClockCardAlert>
+        </v-expand-transition>
+      </v-col>
+      <v-col cols="12">
         <v-checkbox
           v-model="showRepeat"
           :label="$t('shifts.repeating.checkboxLabel')"
           :prepend-icon="icons.mdiRepeat"
+          class="ma-0"
         ></v-checkbox>
 
         <v-expand-transition hide-on-leave>
@@ -100,7 +110,15 @@
         <v-subheader class="pl-8">
           {{ $t("shifts.types.label") }}
         </v-subheader>
-        <ShiftFormType v-model="shift.type" data-cy="shift-type" />
+        <ShiftFormType
+          v-model="shift.type"
+          :disabled="
+            selectedDateIsHoliday ||
+            (sickOrVacationShifts.length === 1 && isNewShift) ||
+            (sickOrVacationShifts.length > 1 && !isNewShift)
+          "
+          data-cy="shift-type"
+        />
       </v-col>
 
       <v-col cols="12">
@@ -140,35 +158,36 @@ import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
-
-import { Shift } from "@/models/ShiftModel";
+import { Shift, SHIFT_TYPES } from "@/models/ShiftModel";
 import { Contract } from "@/models/ContractModel";
+import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
+  endOfDay,
   isAfter,
   isBefore,
+  isEqual,
   isFuture,
   isSameDay,
-  isEqual,
   isWithinInterval,
-  endOfDay,
   parseISO
 } from "date-fns";
-import { localizedFormat } from "@/utils/date";
 import { startEndHours } from "@/utils/time";
 import contractValidMixin from "@/mixins/contractValid";
 
 import {
+  mdiCircleMedium,
   mdiFileDocumentEditOutline,
   mdiProgressCheck,
-  mdiRepeat,
-  mdiCircleMedium
+  mdiRepeat
 } from "@mdi/js";
+import ClockCardAlert from "@/components/ClockCardAlert";
 
 export default {
   name: "ShiftForm",
   components: {
+    ClockCardAlert,
     ShiftFormDateInput,
     ShiftFormTimeInput,
     ShiftFormNote,
@@ -211,7 +230,8 @@ export default {
     shift: null,
     toBeReviewed: false,
     showRepeat: false,
-    scheduledShifts: []
+    scheduledShifts: [],
+    initialShiftType: null
   }),
   computed: {
     ...mapGetters({
@@ -230,6 +250,10 @@ export default {
           );
         }
       );
+    },
+    selectedDateIsHoliday() {
+      if (this.shift === null) return false;
+      return dateIsHoliday(this.shift.date.start);
     },
     isNewShift() {
       return this.uuid === null;
@@ -260,12 +284,37 @@ export default {
         this.contracts.find((contract) => contract.uuid === this.shift.contract)
       );
     },
+    contractShifts() {
+      return this.$store.getters["shift/shifts"].filter((shift) => {
+        return shift.contract === this.shift.contract;
+      });
+    },
+    shiftsOnSelectedDate() {
+      return this.contractShifts.filter((shift) => {
+        return isSameDay(parseISO(shift.date.start), this.shift.date.start);
+      });
+    },
+    sickOrVacationShifts() {
+      if (this.shift === null) return [];
+      return this.shiftsOnSelectedDate.filter((shift) => {
+        return shift.type === "vn" || shift.type === "sk";
+      });
+    },
+    multipleRegularShiftsExistOnDate() {
+      return (
+        this.shiftsOnSelectedDate.length >= 1 &&
+        this.sickOrVacationShifts.length === 0 &&
+        this.uuid === null
+      );
+    },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
         isBefore(this.shift.date.end, this.shift.date.start) ||
         isEqual(this.shift.date.start, this.shift.date.end) ||
-        (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift)
+        (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
+        (this.multipleRegularShiftsExistOnDate &&
+          (this.shift.type.value === "vn" || this.shift.type.value === "sk"))
       )
         return false;
 
@@ -279,6 +328,51 @@ export default {
         isBefore(this.shift.date.end, this.shift.date.start) ||
         isEqual(this.shift.date.start, this.shift.date.end)
       );
+    },
+    alertMessages() {
+      let messages = [];
+      if (this.selectedDateIsHoliday) {
+        messages.push(this.$t("shifts.warnings.selectedDateIsHoliday"));
+      }
+      if (
+        this.sickOrVacationShifts.length > 1 ||
+        (this.sickOrVacationShifts.length === 1 && this.isNewShift) ||
+        (this.sickOrVacationShifts.length > 1 && !this.isNewShift)
+      ) {
+        messages.push(
+          this.$t("shifts.warnings.sickOrVacationShiftExists", {
+            shiftType: this.$t(
+              `shifts.types.${this.sickOrVacationShifts[0].type}`
+            )
+          })
+        );
+      }
+      return messages;
+    },
+    errorMessages() {
+      let messages = [];
+      if (this.shift === null) return messages;
+      if (
+        this.multipleRegularShiftsExistOnDate &&
+        (this.shift.type.value === "vn" || this.shift.type.value === "sk")
+      ) {
+        messages.push(
+          this.$t("shifts.warnings.noSickOrVacationWithRegularShift", {
+            shiftType: this.$t(`shifts.types.${this.shift.type.value}`)
+          })
+        );
+      }
+      return messages;
+    },
+    messages() {
+      return this.errorMessages.concat(this.alertMessages);
+    },
+    alertType() {
+      // Prioritize Errors
+      if (this.errorMessages.length !== 0) {
+        return "error";
+      }
+      return "warning";
     }
   },
   watch: {
@@ -292,8 +386,32 @@ export default {
         if (!this.toBeReviewed) {
           this.handleReview();
         }
+        if (this.selectedDateIsHoliday) {
+          const bankHolidayType = SHIFT_TYPES.find((el) => el.value === "bh");
+          this.initialShiftType = this.shift.type;
+          this.shift.type = {
+            text: this.$t(`shifts.types.${bankHolidayType.value}`),
+            value: bankHolidayType.value
+          };
+        } else if (this.sickOrVacationShifts[0]) {
+          const shiftType = SHIFT_TYPES.find(
+            (el) => el.value === this.sickOrVacationShifts[0].type
+          );
+          this.initialShiftType = this.shift.type;
+          this.shift.type = {
+            text: this.$t(`shifts.types.${shiftType.value}`),
+            value: shiftType.value
+          };
+        }
       },
       deep: true
+    },
+    messages: {
+      handler: function (newValue) {
+        if (newValue.length === 0 && this.shift !== null) {
+          this.shift.type = this.initialShiftType;
+        }
+      }
     },
     shift: {
       handler: function () {
@@ -311,7 +429,7 @@ export default {
   },
   created() {
     this.shift = this.isNewShift ? this.initializeForm() : this.entity;
-
+    this.initialShiftType = this.shift.type;
     if (!this.shift.contract) {
       this.shift.contract = this.$route.params.contract;
     }

@@ -20,6 +20,7 @@
     "@sentry/integrations": "5.29.0",
     "babel-plugin-transform-require-context": "^0.1.1",
     "date-fns": "2.16.1",
+    "date-holidays": "^3.16.1",
     "dompurify": "^2.2.6",
     "marked": "^4.0.16",
     "portal-vue": "2.1.7",
