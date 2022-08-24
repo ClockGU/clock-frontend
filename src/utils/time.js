@@ -1,6 +1,6 @@
-import { parseISO } from "date-fns";
+import { differenceInMinutes, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
-
+import { sum } from "ramda";
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -259,6 +259,28 @@ export function hoursToWorktime(value) {
   const minutes = parseInt((60 * (value - hours)).toFixed(0));
 
   return `${hours.pad(2)}:${minutes.pad(2)}`;
+}
+
+export function coalescWorktimeAndBreaktime(shifts) {
+  if (shifts.length === 0) return { worktime: 0, breaktime: 0 };
+
+  const orderedShifts = shifts.sort(
+    (a, b) => parseISO(a.date.start) - parseISO(b.date.start)
+  );
+  const worktimeInMinutes = sum(
+    orderedShifts.map((shift) => {
+      return differenceInMinutes(
+        parseISO(shift.date.end),
+        parseISO(shift.date.start)
+      );
+    })
+  );
+  const worktimeSpanInMinutes = differenceInMinutes(
+    parseISO(orderedShifts[orderedShifts.length - 1].date.end),
+    parseISO(orderedShifts[0].date.start)
+  );
+  const breaktimeInMinutes = worktimeSpanInMinutes - worktimeInMinutes;
+  return { worktime: worktimeInMinutes, breaktime: breaktimeInMinutes };
 }
 
 export function formattedTime(time) {

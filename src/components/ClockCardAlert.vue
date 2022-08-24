@@ -1,12 +1,14 @@
 <template>
   <v-row>
-    <v-col cols="12">
+    <v-col cols="12" class="ma-0">
       <v-alert :type="type" text dense border="left" class="ma-0">
         <div class="ma-0">
           <div class="font-weight-bold">{{ $t("news.label.warning") }}</div>
-          <div v-for="(message, i) in messages" :key="i">
-            {{ message }}
-          </div>
+          <ul>
+            <li v-for="(message, i) in messages" :key="i">
+              {{ message }}
+            </li>
+          </ul>
         </div>
       </v-alert>
     </v-col>
@@ -34,10 +36,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-/*>>> .v-alert__icon {*/
-/*  margin: 0;*/
-/*  padding-left: 16px;*/
-/*}*/
-</style>

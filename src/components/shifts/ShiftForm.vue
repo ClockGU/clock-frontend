@@ -71,8 +71,7 @@
           :error="endError"
         />
       </v-col>
-
-      <v-col cols="12">
+      <v-col cols="12" class="ma-0">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
             v-if="messages.length !== 0"
@@ -80,7 +79,20 @@
             :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
+        <v-expand-transition>
+          <v-row v-if="!enoughBreaktime || splitWithBreaktime" align="center">
+            <v-col cols="12" md="5" class="ma-0">
+              <v-checkbox
+                v-model="splitWithBreaktime"
+                :label="$t('shifts.splitWithBreaktimeLabel')"
+                class="ma-0 no-linebreak"
+                :prepend-icon="icons.mdiScissorsCutting"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+        </v-expand-transition>
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           v-model="showRepeat"
@@ -124,7 +136,6 @@
       <v-col cols="12">
         <v-divider></v-divider>
       </v-col>
-
       <v-col cols="12" class="pb-0">
         <v-select
           v-model="shift.contract"
@@ -165,6 +176,7 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mapGetters } from "vuex";
 import {
   endOfDay,
+  formatISO,
   isAfter,
   isBefore,
   isEqual,
@@ -173,16 +185,22 @@ import {
   isWithinInterval,
   parseISO
 } from "date-fns";
-import { startEndHours } from "@/utils/time";
+import {
+  coalescWorktimeAndBreaktime,
+  minutesToHHMM,
+  startEndHours
+} from "@/utils/time";
 import contractValidMixin from "@/mixins/contractValid";
 
 import {
   mdiCircleMedium,
   mdiFileDocumentEditOutline,
   mdiProgressCheck,
+  mdiScissorsCutting,
   mdiRepeat
 } from "@mdi/js";
 import ClockCardAlert from "@/components/ClockCardAlert";
+import { enoughBreaktimeBetweenShifts, missingBreaktime } from "@/utils/shift";
 
 export default {
   name: "ShiftForm",
@@ -218,21 +236,25 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    icons: {
-      mdiFileDocumentEditOutline,
-      mdiProgressCheck,
-      mdiRepeat,
-      mdiCircleMedium
-    },
-    dialog: false,
-    select: null,
-    shift: null,
-    toBeReviewed: false,
-    showRepeat: false,
-    scheduledShifts: [],
-    initialShiftType: null
-  }),
+  data() {
+    return {
+      icons: {
+        mdiFileDocumentEditOutline,
+        mdiProgressCheck,
+        mdiRepeat,
+        mdiCircleMedium,
+        mdiScissorsCutting
+      },
+      dialog: false,
+      select: null,
+      shift: null,
+      toBeReviewed: false,
+      showRepeat: false,
+      scheduledShifts: [],
+      initialShiftType: null,
+      splitWithBreaktime: false
+    };
+  },
   computed: {
     ...mapGetters({
       contracts: "contract/contracts",
@@ -307,6 +329,28 @@ export default {
         this.uuid === null
       );
     },
+    worktimeAndBreaktimeOnDate() {
+      const formattedDate = {
+        start: formatISO(this.shift.date.start),
+        end: formatISO(this.shift.date.end)
+      };
+      // Copy Array
+      let shifts = this.shiftsOnSelectedDate.concat([]);
+      const indexOfShift = shifts.findIndex(
+        (shift) => shift.uuid === this.uuid
+      );
+      if (indexOfShift === -1) {
+        return coalescWorktimeAndBreaktime(
+          shifts.concat([{ date: formattedDate }]) // this is a Hack, only passing an object with a date key.
+        );
+      }
+      // Update the shift's date to current date
+      shifts[indexOfShift].date = formattedDate;
+      return coalescWorktimeAndBreaktime(shifts);
+    },
+    enoughBreaktime() {
+      return enoughBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
+    },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
@@ -314,7 +358,8 @@ export default {
         isEqual(this.shift.date.start, this.shift.date.end) ||
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
-          (this.shift.type.value === "vn" || this.shift.type.value === "sk"))
+          (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
+        (!this.enoughBreaktime && !this.splitWithBreaktime)
       )
         return false;
 
@@ -362,6 +407,15 @@ export default {
           })
         );
       }
+      if (!this.enoughBreaktime && !this.splitWithBreaktime) {
+        messages.push(
+          this.$t("shifts.warnings.notEnoughBreaktime", {
+            worktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.worktime),
+            breaktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.breaktime)
+          })
+        );
+      }
+
       return messages;
     },
     messages() {
@@ -418,6 +472,23 @@ export default {
         this.$emit("update", { shift: this.shift, valid: this.valid });
       },
       deep: true
+    },
+    splitWithBreaktime: {
+      handler: function () {
+        if (this.splitWithBreaktime) {
+          const splitDuration = Math.floor(this.shift.duration / 2);
+          const remainder = this.shift.duration % 2;
+          this.$emit("update", {
+            shift: this.shift,
+            valid: this.valid,
+            splitData: {
+              splitDuration: splitDuration + remainder,
+              breaktime: missingBreaktime(this.worktimeAndBreaktimeOnDate)
+            }
+          });
+        }
+        this.$emit("update", { shift: this.shift, valid: this.valid });
+      }
     },
     scheduledShifts() {
       this.$emit("update", {
@@ -506,3 +577,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.no-linebreak {
+  white-space: pre;
+}
+</style>

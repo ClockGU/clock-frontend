@@ -127,6 +127,7 @@ import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { ServiceFactory } from "@/factories/serviceFactory";
 import { log } from "@/utils/log";
+import { addMinutes, isFuture } from "date-fns";
 
 export default {
   name: "FormDialog",
@@ -154,7 +155,8 @@ export default {
       mdiClose
     },
     toSave: null,
-    service: null
+    service: null,
+    splitData: { splitDuration: 0, breaktime: 0 }
   }),
   computed: {
     captializedEntityName() {
@@ -191,11 +193,31 @@ export default {
         this.service = service["default"];
       });
     },
+    splitEntity() {
+      if (this.splitData.splitDuration !== 0 && this.entityName === "shift") {
+        let splitShift = this.toSave.clone();
+        splitShift.date.start = addMinutes(
+          splitShift.date.start,
+          this.splitData.breaktime + this.splitData.splitDuration
+        );
+        splitShift.reviewed = !isFuture(splitShift.date.start);
+        console.log(splitShift.date.start);
+        this.toSave.date.end = addMinutes(
+          this.toSave.date.start,
+          this.splitData.splitDuration
+        );
+        this.toSave = [this.toSave, splitShift];
+        console.log(JSON.stringify(this.toSave));
+      }
+    },
     updateData(event) {
       if (this.entityName === "shift" && event.scheduledShifts !== undefined) {
         this.toSave = [event[this.entityName], ...event.scheduledShifts];
       } else {
         this.toSave = event[this.entityName];
+      }
+      if (this.entityName === "shift" && event.splitData !== undefined) {
+        this.splitData = event.splitData;
       }
 
       this.formValid = event.valid;
@@ -215,6 +237,7 @@ export default {
         });
     },
     async update() {
+      this.splitEntity();
       let entityToSave = this.toSave;
       const isAnArray = Array.isArray(entityToSave);
       if (!isAnArray) {
@@ -242,6 +265,7 @@ export default {
       }
     },
     async save() {
+      this.splitEntity();
       let entityToSave = this.toSave;
       const isAnArray = Array.isArray(entityToSave);
       if (!isAnArray) {
