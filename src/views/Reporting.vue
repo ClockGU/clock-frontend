@@ -172,7 +172,6 @@ export default {
       if (((debitInMinutes - worktimeInMinutes) / debitInMinutes) * 100 > 20) {
         messages.push(this.$t("reports.warnings.insufficientWorktime"));
       }
-      console.log(JSON.stringify(messages));
       return messages;
     }
   }
