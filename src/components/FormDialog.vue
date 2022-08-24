@@ -201,13 +201,11 @@ export default {
           this.splitData.breaktime + this.splitData.splitDuration
         );
         splitShift.reviewed = !isFuture(splitShift.date.start);
-        console.log(splitShift.date.start);
         this.toSave.date.end = addMinutes(
           this.toSave.date.start,
           this.splitData.splitDuration
         );
         this.toSave = [this.toSave, splitShift];
-        console.log(JSON.stringify(this.toSave));
       }
     },
     updateData(event) {
