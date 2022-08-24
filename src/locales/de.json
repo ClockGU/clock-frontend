@@ -381,6 +381,10 @@
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
+    },
+    "warnings": {
+      "maxOvertimeExceeded": " Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden in den nächsten Monat übertragen.",
+      "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit. Es werden nur 20% deiner Sollarbeitszeit als Minusstunden in den nächsten Monat übertragen."
     }
   },
   "selectContract": {
@@ -447,6 +451,7 @@
       "label": "Füge Tags hinzu"
     },
     "to": "bis",
+    "trimBreaktime": "Schicht teilen und Pause einfügen",
     "types": {
       "label": "In welche Kategorie gehört dieser Eintrag?",
       "sk": "Krank",
@@ -464,11 +469,11 @@
       "tagsNotes": "Tags/Notizen"
     },
     "warnings": {
-      "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ Feiertag clocken.",
-      "sickOrVacationShiftExists": "Du hast an diesem Tag bereits eine Schicht vom Typ {shiftType} geclockt. Du kannst an diesem Tag nur noch Schichten von diesem Typ clocken.",
-      "noSickOrVacationWithRegularShift": "Du hast bereits eine normale Schicht an diesem Datum geclockt. Du musst diese zunächst löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} clocken kannst.",
-      "notEnoughBreaktime": "Du hast an diesem Tag {worktime} gearbeitet und eine Pausen in Höhe von {pause} eingelegt. Laut §4 ArbzG musst du ab einer Abreitszeit von 6h mindestens 30 Minuten, nach 9h mindestens 45 Minuten Pause (in Summe) einlegen.",
-      "maxWorktimeExceeded": "Du hast deine maxmiale tägliche Arbeiszeit von 10h überschritten."
+      "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ \"Feiertag\" clocken.",
+      "sickOrVacationShiftExists": "An diesem Datum existiert bereits eine Schicht vom Typ {shiftType}. Du kannst an diesem Tag nur noch Schichten von diesem Typ anlegen.",
+      "noSickOrVacationWithRegularShift": "An diesem Datum existiert bereits eine normale Schicht. Du musst diese löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} anlegen kannst.",
+      "insufficientBreaktime": "An diesem Datum existieren Schichten von {worktime}h und Pausen von {pause}h. Laut §4 ArbzG müssen ab einer Arbeitszeit von 6h mindestens 30 Minuten, nach 9h mindestens 45 Minuten Pause (in Summe) eingelegt werden.",
+      "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten."
     }
   },
   "snackbar": {

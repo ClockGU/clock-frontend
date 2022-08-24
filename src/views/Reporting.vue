@@ -48,6 +48,11 @@
               :shifts="data.shifts"
               :month="data.date"
             />
+            <ClockCardAlert
+              v-if="getAlertMessages(data.report).length !== 0"
+              :messages="getAlertMessages(data.report)"
+              type="error"
+            ></ClockCardAlert>
             <ReportCard
               :key="data.report.uuid"
               :disabled="disabled"
@@ -70,6 +75,11 @@
       @click:outside="closeDialog"
       ><PersonnelNumberForm dialog @close="closeDialog"
     /></v-dialog>
+    <ShiftWarnings
+      v-if="warnDialog"
+      :warnings="warnings"
+      @close="dialog = false"
+    ></ShiftWarnings>
   </v-container>
 </template>
 
@@ -80,6 +90,9 @@ import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ReportCard from "@/components/ReportCard";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings";
+import ClockCardAlert from "@/components/ClockCardAlert";
+
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
 import { localizedFormat } from "@/utils/date";
@@ -92,12 +105,15 @@ export default {
     DashboardConflicts,
     ReportCard,
     SelectContractFilter,
-    PersonnelNumberForm
+    PersonnelNumberForm,
+    ShiftWarnings,
+    ClockCardAlert
   },
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
     dialog: false,
-    icons: { mdiBadgeAccountHorizontal }
+    icons: { mdiBadgeAccountHorizontal },
+    warnDialog: false
   }),
   computed: {
     ...mapGetters({
@@ -140,6 +156,24 @@ export default {
       ]);
 
       this.updateDate(selectedMonth);
+    },
+    getAlertMessages(report) {
+      let messages = [];
+      const [creditHours, creditMinutes] = report.net_worktime.split(":");
+      const worktimeInMinutes =
+        parseInt(creditHours) * 60 + parseInt(creditMinutes);
+
+      const [debitHours, debitMinutes] = report.debit_worktime.split(":");
+      const debitInMinutes = parseInt(debitHours) * 60 + parseInt(debitMinutes);
+
+      if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {
+        messages.push(this.$t("reports.warnings.maxOvertimeExceeded"));
+      }
+      if (((debitInMinutes - worktimeInMinutes) / debitInMinutes) * 100 > 20) {
+        messages.push(this.$t("reports.warnings.insufficientWorktime"));
+      }
+      console.log(JSON.stringify(messages));
+      return messages;
     }
   }
 };
