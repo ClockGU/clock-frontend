@@ -10,6 +10,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+import { any } from "ramda";
 
 function defaultValueTime(type) {
   const today = new Date();
@@ -28,61 +29,39 @@ export const SHIFT_TYPES = [
 
 export class Shift {
   constructor({
-    uuid = null,
+    id = null,
     user = null,
-    date = { start: null, end: null, mod: null },
+    started = null,
+    stopped = null,
     contract = null,
     type = null,
     note = null,
     tags = null,
-    reviewed = null,
+    was_reviewed = null,
     locked = null
   } = {}) {
-    this.uuid = is(String, uuid) ? uuid : null;
+    this.id = is(String, id) ? id : null;
     this.user = is(String, user) ? user : null;
-    this.date = {
-      start: is(Date, new Date(date.start))
-        ? new Date(date.start)
-        : defaultValueTime("start"),
-      end: is(Date, new Date(date.end))
-        ? new Date(date.end)
-        : defaultValueTime("end"),
-      mod: is(Date, new Date(date.mod))
-        ? new Date(date.mod)
-        : defaultValueTime("mod")
-    };
+    this.started = is(Date, new Date(started))
+      ? new Date(started)
+      : defaultValueTime("start");
+
+    this.stopped = is(Date, new Date(stopped))
+      ? new Date(stopped)
+      : defaultValueTime("end");
     this.contract = is(String, contract) ? contract : null;
-    this.type = is(Object, type)
-      ? type
-      : SHIFT_TYPES.find((item) => item.value === type);
+    this.type =
+      is(String, type) && any(SHIFT_TYPES.map((item) => item.value === type))
+        ? type
+        : "st";
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.reviewed = reviewed === null ? false : reviewed;
-    this.locked = locked === null ? false : locked;
-  }
-
-  get start() {
-    return this.date.start;
-  }
-
-  set start(value) {
-    this.date.start = value;
-  }
-
-  get end() {
-    return this.date.end;
-  }
-
-  get mod() {
-    return this.date.mod;
-  }
-
-  set end(value) {
-    this.date.end = value;
+    this.was_reviewed = is(Boolean, was_reviewed) ? was_reviewed : false;
+    this.locked = is(Boolean, locked) ? locked : false;
   }
 
   get duration() {
-    return differenceInMinutes(this.end, this.start);
+    return differenceInMinutes(this.stopped, this.stopped);
   }
 
   representationalDuration(format = "") {
@@ -97,50 +76,40 @@ export class Shift {
       getDate(today)
     ];
 
-    this.setDate(year, month, day, "start");
-    this.setDate(year, month, day, "end");
+    this.setDate(year, month, day, "started");
+    this.setDate(year, month, day, "stopped");
   }
 
-  setDate(year, month, day, type) {
-    let date = this.date[type];
+  setDate(year, month, day, attrName) {
+    let date = this[attrName];
 
     date = setYear(date, year);
     date = setMonth(date, month);
     date = setDate(date, day);
 
-    this.date[type] = date;
+    this[attrName] = date;
   }
 
   toPayload() {
     return {
+      id: this.id,
+      user: this.user,
+      started: localizedFormat(this.started, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
+      stopped: localizedFormat(this.stopped, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
       contract: this.contract,
-      tags: this.tags,
-      type: this.type.value,
+      type: this.type,
       note: this.note,
-      uuid: this.uuid,
-      started: localizedFormat(this.start, "yyyy-MM-dd HH:mm:ssXXX", {
-        locale: { localize: "en" }
-      }),
-      stopped: localizedFormat(this.end, "yyyy-MM-dd HH:mm:ssXXX", {
-        locale: { localize: "en" }
-      }),
-      duration: this.representationalDuration,
-      was_reviewed: this.reviewed,
+      tags: this.tags,
+      was_reviewed: this.was_reviewed,
       locked: this.locked
     };
   }
 
   clone() {
-    return new Shift({
-      uudi: this.uuid,
-      user: this.user,
-      date: this.date,
-      contract: this.contract,
-      type: this.type,
-      note: this.note,
-      tags: this.tags,
-      reviewed: this.reviewed,
-      locked: this.locked
-    });
+    return new Shift(this.toPayload());
   }
 }
