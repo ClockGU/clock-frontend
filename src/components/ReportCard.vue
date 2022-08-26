@@ -197,7 +197,7 @@ export default {
         },
         {
           name: this.$t("reports.timeWorked"),
-          value: this.report.net_worktime
+          value: this.report.worktime
         },
         {
           name: this.$t("reports.carryoverNext"),
