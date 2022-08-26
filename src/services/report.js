@@ -8,8 +8,8 @@ function mapApiResponse(response) {
     duration: timedeltaToMinutes(response.worktime),
     worktime: response.worktime,
     carryover: {
-      prev: response.carry_over_last_month,
-      next: response.carry_over_next_month
+      prev: response.carryover_previous_month,
+      next: response.carryover
     },
     debit_worktime: response.debit_worktime,
     net_worktime: response.net_worktime,
