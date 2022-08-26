@@ -159,7 +159,7 @@ export default {
     },
     getAlertMessages(report) {
       let messages = [];
-      const [creditHours, creditMinutes] = report.net_worktime.split(":");
+      const [creditHours, creditMinutes] = report.worktime.split(":");
       const worktimeInMinutes =
         parseInt(creditHours) * 60 + parseInt(creditMinutes);
 

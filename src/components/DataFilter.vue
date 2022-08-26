@@ -209,7 +209,7 @@ export default {
             date: new Date(),
             carryover: { prev: "HH:MM", next: "HH:MM" },
             debit_worktime: "HH:MM",
-            net_worktime: "HH:MM"
+            worktime: "HH:MM"
           },
           isCurrentMonthLocked: false,
           firstUnlockedMonth: new Date(),
