@@ -20,6 +20,12 @@ function defaultValueTime(type) {
   return today;
 }
 
+export function mapShiftApiResponse(response) {
+  response["wasReviewed"] = response["was_reviewed"];
+  delete response["was_reviewed"];
+  return response;
+}
+
 export const SHIFT_TYPES = [
   { text: "Normal shift", value: "st" },
   { text: "Sick leave", value: "sk" },
@@ -56,7 +62,7 @@ export class Shift {
         : "st";
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.was_reviewed = is(Boolean, was_reviewed) ? was_reviewed : false;
+    this.wasReviewed = is(Boolean, was_reviewed) ? was_reviewed : false;
     this.locked = is(Boolean, locked) ? locked : false;
   }
 
@@ -104,7 +110,7 @@ export class Shift {
       type: this.type,
       note: this.note,
       tags: this.tags,
-      was_reviewed: this.was_reviewed,
+      was_reviewed: this.wasReviewed,
       locked: this.locked
     };
   }
