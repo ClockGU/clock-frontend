@@ -1,7 +1,7 @@
 import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 
-function mapContractApiResponse(response) {
+export function mapContractApiResponse(response) {
   return {
     id: response.id,
     user: response.user,
