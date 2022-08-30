@@ -10,6 +10,7 @@ import shift from "@/store/modules/shift";
 import contract from "@/store/modules/contract";
 import snackbar from "@/store/modules/snackbar";
 import report from "@/store/modules/report";
+import contentData from "@/store/modules/contentData";
 
 import i18n, { selectedLocale } from "@/plugins/i18n";
 
@@ -101,6 +102,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     clock,
+    contentData,
     shift,
     contract,
     snackbar,
