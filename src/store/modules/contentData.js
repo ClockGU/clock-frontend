@@ -1,3 +1,7 @@
+import { groupByContract } from "@/utils";
+import Vue from "vue";
+import gdprCardText from "@/components/gdpr/agreement-components/GdprCardText";
+
 const state = {
   contentData: {},
   contentDataInitialized: false
@@ -36,9 +40,25 @@ const getters = {
 };
 
 const mutations = {
-  setupContentData(state, contractData, shiftData, reportData) {},
-  clearContentData(state) {
+  setupContentData({ state, commit }, contractData, shiftData, reportData) {
+    const groupedShifts = groupByContract(shiftData);
+    const groupedReports = groupByContract(reportData);
+    try {
+      for (let contract in contractData) {
+        let data = { contract: null, shifts: [], reports: [] };
+        data.contract = contract;
+        data.shifts = groupedShifts[contract.id];
+        data.reports = groupedReports[contract.id];
+        Vue.set(state.contentData, contract.id, data);
+      }
+    } catch (e) {
+      throw Error(e.message);
+    }
+    commit("contentData/setContentDataInitialized");
+  },
+  clearContentData({ state, commit }) {
     state.contentData = {};
+    commit("contentData/unsetContentDataInitialized");
   },
   setContentDataInitialized(state) {
     state.contentDataInitialized = true;
