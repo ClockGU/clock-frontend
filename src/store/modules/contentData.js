@@ -80,6 +80,18 @@ const mutations = {
   removeContract(state, contractInstance) {
     delete state.contentData[contractInstance.id];
   },
+  addShift(state, contractID, shiftInstance) {
+    state.contentData[contractID].shifts.push(shiftInstance);
+  },
+  removeShift(state, contractID, shiftInstance) {
+    state.contentData[contractID].shifts.pop(shiftInstance);
+  },
+  addReport(state, contractID, reportInstance) {
+    state.contentData[contractID].shifts.push(reportInstance);
+  },
+  removeReport(state, contractID, reportInstance) {
+    state.contentData[contractID].shifts.pop(reportInstance);
+  },
   setShifts(state, contractID, shiftData) {
     Vue.set(state.contentData[contractID], "shifts", shiftData);
   },
