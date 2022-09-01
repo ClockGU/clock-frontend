@@ -1,3 +1,12 @@
+const groupBy = (key) => (array) =>
+  array.reduce((objectsByKeyValue, obj) => {
+    const value = obj[key];
+    objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+    return objectsByKeyValue;
+  }, {});
+
+export const groupByContract = groupBy("contract");
+
 export function sortObjects(objects, key) {
   return objects.sort((a, b) => b[key] - a[key]);
 }
