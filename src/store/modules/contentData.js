@@ -66,7 +66,13 @@ const mutations = {
   unsetContentDataInitialized(state) {
     state.contentDataInitialized = false;
   },
-  addNewContract(state, contractInstance) {}
+  addNewContract(state, contractInstance) {
+    const data = { contract: contractInstance, shifts: [], reports: [] };
+    Vue.set(state.contentData, contractInstance.id, data);
+  },
+  removeContract(state, contractInstance) {
+    delete state.contentData[contractInstance.id];
+  }
 };
 
 const actions = {
@@ -78,6 +84,9 @@ const actions = {
   },
   addNewContract({ commit }, contractInstance) {
     commit("addNewContract", contractInstance);
+  },
+  removeContract({ commit }, contractInstance) {
+    commit("removeContract", contractInstance);
   }
 };
 
