@@ -12,7 +12,7 @@ function mapApiResponse(response) {
       next: response.carryover
     },
     debit_worktime: response.debit_worktime,
-    net_worktime: response.net_worktime,
+    net_worktime: response.worktime,
     date: response.month_year,
     exported: false
   };
