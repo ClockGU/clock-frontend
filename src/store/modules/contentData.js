@@ -73,7 +73,7 @@ const mutations = {
   unsetContentDataInitialized(state) {
     state.contentDataInitialized = false;
   },
-  addNewContract(state, contractInstance) {
+  addContract(state, contractInstance) {
     const data = { contract: contractInstance, shifts: [], reports: [] };
     Vue.set(state.contentData, contractInstance.id, data);
   },
