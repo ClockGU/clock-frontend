@@ -1,6 +1,5 @@
 import { groupByContract } from "@/utils";
 import Vue from "vue";
-import gdprCardText from "@/components/gdpr/agreement-components/GdprCardText";
 
 const state = {
   contentData: {},
@@ -46,10 +45,18 @@ const mutations = {
     try {
       for (let contract in contractData) {
         let data = { contract: null, shifts: [], reports: [] };
-        data.contract = contract;
-        data.shifts = groupedShifts[contract.id];
-        data.reports = groupedReports[contract.id];
         Vue.set(state.contentData, contract.id, data);
+        commit("contentData/setContract", contract.id, contract);
+        commit(
+          "contentData/setShifts",
+          contract.id,
+          groupedShifts[contract.id]
+        );
+        commit(
+          "contentData/setReports",
+          contract.id,
+          groupedReports[contract.id]
+        );
       }
     } catch (e) {
       throw Error(e.message);
@@ -72,6 +79,15 @@ const mutations = {
   },
   removeContract(state, contractInstance) {
     delete state.contentData[contractInstance.id];
+  },
+  setShifts(state, contractID, shiftData) {
+    Vue.set(state.contentData[contractID], "shifts", shiftData);
+  },
+  setReports(state, contractID, reportData) {
+    Vue.set(state.contentData[contractID], "reports", reportData);
+  },
+  setContract(state, contractID, contractInstance) {
+    Vue.set(state.contentData[contractID], "contract", contractInstance);
   }
 };
 
