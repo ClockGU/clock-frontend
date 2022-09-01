@@ -35,9 +35,31 @@ const getters = {
   }
 };
 
-const mutations = {};
+const mutations = {
+  setupContentData(state, contractData, shiftData, reportData) {},
+  clearContentData(state) {
+    state.contentData = {};
+  },
+  setContentDataInitialized(state) {
+    state.contentDataInitialized = true;
+  },
+  unsetContentDataInitialized(state) {
+    state.contentDataInitialized = false;
+  },
+  addNewContract(state, contractInstance) {}
+};
 
-const actions = {};
+const actions = {
+  setup({ commit }, contractData, shiftData, reportData) {
+    commit("setupContentData", contractData, shiftData, reportData);
+  },
+  clearContentData({ commit }) {
+    commit("clearContentData");
+  },
+  addNewContract({ commit }, contractInstance) {
+    commit("addNewContract", contractInstance);
+  }
+};
 
 export default {
   namespaced: true,
