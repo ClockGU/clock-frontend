@@ -156,7 +156,8 @@ export default {
     },
     toSave: null,
     service: null,
-    splitData: { splitDuration: 0, breaktime: 0 }
+    splitData: { splitDuration: 0, breaktime: 0 },
+    splitToSave: null
   }),
   computed: {
     captializedEntityName() {
@@ -205,7 +206,7 @@ export default {
           this.toSave.date.start,
           this.splitData.splitDuration
         );
-        this.toSave = [this.toSave, splitShift];
+        this.splitToSave = splitShift;
       }
     },
     updateData(event) {
@@ -243,15 +244,18 @@ export default {
       }
 
       const promises = [];
-
       try {
         for (const i in entityToSave) {
           const shift = entityToSave[i];
-          const method = i == 0 ? "update" : "create";
+          const method = shift.uuid !== null ? "update" : "create";
           promises.push(this.service[method](shift.toPayload(), shift.uuid));
         }
 
         await Promise.all(promises);
+
+        if (this.splitToSave !== null) {
+          await this.service.create(this.splitToSave.toPayload());
+        }
 
         this.$emit("refresh", { contract: entityToSave[0].contract });
         this.closeDialog();
@@ -269,7 +273,6 @@ export default {
       if (!isAnArray) {
         entityToSave = [this.toSave];
       }
-
       const promises = [];
 
       try {
