@@ -21,6 +21,10 @@ class ContentDataService {
     });
     store.commit("contentData/setContentDataInitialized");
   }
+  static clearContentData() {
+    store.commit("contentData/clearContentData");
+    store.commit("contentData/unsetContentDataInitialized");
+  }
 }
 
 export default ContentDataService;
