@@ -7,11 +7,12 @@ const state = {
 };
 
 const getters = {
-  selectedShifts({ state, rootGetters }) {
+  contentData: (state) => state.contentData,
+  selectedShifts(state, getters, rootState, rootGetters) {
     const selectedContractId = rootGetters["contract/selectedContract"].id;
     return state.contentData[selectedContractId].shifts;
   },
-  selectedReports({ state, rootGetters }) {
+  selectedReports(state, rootGetters) {
     const selectedContractId = rootGetters["contract/selectedContract"].id;
     return state.contentData[selectedContractId].reports;
   },
@@ -39,29 +40,33 @@ const getters = {
 };
 
 const mutations = {
-  setupContentData({ state, commit }, contractData, shiftData, reportData) {
+  setupContentData(state, { contractData, shiftData, reportData }) {
     const groupedShifts = groupByContract(shiftData);
     const groupedReports = groupByContract(reportData);
     try {
-      for (let contract in contractData) {
+      for (let contractInstance of contractData) {
         let data = { contract: null, shifts: [], reports: [] };
-        Vue.set(state.contentData, contract.id, data);
-        commit("contentData/setContract", contract.id, contract);
-        commit(
-          "contentData/setShifts",
-          contract.id,
-          groupedShifts[contract.id]
-        );
-        commit(
-          "contentData/setReports",
-          contract.id,
-          groupedReports[contract.id]
-        );
+        const contractID = contractInstance.id;
+        const shiftData = groupedShifts[contractID];
+        const reportData = groupedReports[contractID];
+        Vue.set(state.contentData, contractInstance.id, data);
+        this.commit("contentData/setContract", {
+          contractID,
+          contractInstance
+        });
+        this.commit("contentData/setShifts", {
+          contractID,
+          shiftData
+        });
+        this.commit("contentData/setReports", {
+          contractID,
+          reportData
+        });
       }
     } catch (e) {
       throw Error(e.message);
     }
-    commit("contentData/setContentDataInitialized");
+    this.commit("contentData/setContentDataInitialized");
   },
   clearContentData({ state, commit }) {
     state.contentData = {};
@@ -80,40 +85,40 @@ const mutations = {
   removeContract(state, contractInstance) {
     delete state.contentData[contractInstance.id];
   },
-  updateContract(state, contractID, contractInstance) {
+  updateContract(state, { contractID, contractInstance }) {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
   },
-  addShift(state, contractID, shiftInstance) {
+  addShift(state, { contractID, shiftInstance }) {
     state.contentData[contractID].shifts.push(shiftInstance);
   },
-  removeShift(state, contractID, shiftInstance) {
+  removeShift(state, { contractID, shiftInstance }) {
     state.contentData[contractID].shifts.pop(shiftInstance);
   },
-  updateShift(state, contractID, shiftInstance) {
+  updateShift(state, { contractID, shiftInstance }) {
     const index = state.contentData[contractID].shifts.find(
       (shiftElement) => shiftElement.id === shiftInstance.id
     );
     state.contentData[contractID].shifts[index] = shiftInstance;
   },
-  addReport(state, contractID, reportInstance) {
+  addReport(state, { contractID, reportInstance }) {
     state.contentData[contractID].shifts.push(reportInstance);
   },
-  removeReport(state, contractID, reportInstance) {
+  removeReport(state, { contractID, reportInstance }) {
     state.contentData[contractID].shifts.pop(reportInstance);
   },
-  updateReport(state, contractID, reportInstance) {
+  updateReport(state, { contractID, reportInstance }) {
     const index = state.contentData[contractID].reports.find(
       (shiftElement) => shiftElement.id === reportInstance.id
     );
     state.contentData[contractID].shifts[index] = reportInstance;
   },
-  setShifts(state, contractID, shiftData) {
+  setShifts(state, { contractID, shiftData }) {
     Vue.set(state.contentData[contractID], "shifts", shiftData);
   },
-  setReports(state, contractID, reportData) {
+  setReports(state, { contractID, reportData }) {
     Vue.set(state.contentData[contractID], "reports", reportData);
   },
-  setContract(state, contractID, contractInstance) {
+  setContract(state, { contractID, contractInstance }) {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
   }
 };
