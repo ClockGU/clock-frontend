@@ -43,7 +43,7 @@ export class Shift {
     type = null,
     note = null,
     tags = null,
-    was_reviewed = null,
+    wasReviewed = null,
     locked = null
   } = {}) {
     this.id = is(String, id) ? id : null;
@@ -62,7 +62,7 @@ export class Shift {
         : "st";
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.wasReviewed = is(Boolean, was_reviewed) ? was_reviewed : false;
+    this.wasReviewed = is(Boolean, wasReviewed) ? wasReviewed : false;
     this.locked = is(Boolean, locked) ? locked : false;
   }
 
