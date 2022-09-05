@@ -1,4 +1,4 @@
-import { groupByContract } from "@/utils";
+import { groupByContract, indexOfByMonthYear, indexOfByStarted } from "@/utils";
 import Vue from "vue";
 
 const state = {
@@ -89,7 +89,11 @@ const mutations = {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
   },
   addShift(state, { contractID, shiftInstance }) {
-    state.contentData[contractID].shifts.push(shiftInstance);
+    const index = indexOfByStarted({
+      element: shiftInstance,
+      array: state.contentData[contractID].shifts
+    });
+    state.contentData[contractID].shifts.splice(index + 1, 0, shiftInstance);
   },
   removeShift(state, { contractID, shiftInstance }) {
     state.contentData[contractID].shifts.pop(shiftInstance);
@@ -101,16 +105,20 @@ const mutations = {
     state.contentData[contractID].shifts[index] = shiftInstance;
   },
   addReport(state, { contractID, reportInstance }) {
-    state.contentData[contractID].shifts.push(reportInstance);
+    const index = indexOfByMonthYear({
+      element: reportInstance,
+      array: state.contentData[contractID].reports
+    });
+    state.contentData[contractID].reports.splice(index + 1, 0, reportInstance);
   },
   removeReport(state, { contractID, reportInstance }) {
-    state.contentData[contractID].shifts.pop(reportInstance);
+    state.contentData[contractID].reports.pop(reportInstance);
   },
   updateReport(state, { contractID, reportInstance }) {
     const index = state.contentData[contractID].reports.find(
       (shiftElement) => shiftElement.id === reportInstance.id
     );
-    state.contentData[contractID].shifts[index] = reportInstance;
+    state.contentData[contractID].reports[index] = reportInstance;
   },
   setShifts(state, { contractID, shiftData }) {
     Vue.set(state.contentData[contractID], "shifts", shiftData);
