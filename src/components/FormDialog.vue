@@ -273,6 +273,9 @@ export default {
       if (!isAnArray) {
         entityToSave = [this.toSave];
       }
+      if (this.splitToSave !== null) {
+        entityToSave.push(this.splitToSave);
+      }
       const promises = [];
 
       try {
