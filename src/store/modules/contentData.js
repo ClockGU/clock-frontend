@@ -1,4 +1,11 @@
-import { groupByContract, indexOfByMonthYear, indexOfByStarted } from "@/utils";
+import {
+  groupByContract,
+  indexOfByMonthYear,
+  indexOfByStarted,
+  sortByMonthYear,
+  sortByStartDate,
+  sortByStarted
+} from "@/utils";
 import Vue from "vue";
 
 const state = {
@@ -21,21 +28,21 @@ const getters = {
     for (let data of Object.values(state.contentData)) {
       shiftArray.push(...data.shifts);
     }
-    return shiftArray;
+    return sortByStarted(shiftArray);
   },
   allReports(state) {
     let reportArray = [];
     for (let data of Object.values(state.contentData)) {
       reportArray.push(...data.reports);
     }
-    return reportArray;
+    return sortByMonthYear(reportArray);
   },
   allContracts(state) {
     let contractArray = [];
     for (let data of Object.values(state.contentData)) {
       contractArray.push(data.contract);
     }
-    return contractArray;
+    return sortByStartDate(contractArray);
   }
 };
 
@@ -121,10 +128,14 @@ const mutations = {
     state.contentData[contractID].reports[index] = reportInstance;
   },
   setShifts(state, { contractID, shiftData }) {
-    Vue.set(state.contentData[contractID], "shifts", shiftData);
+    Vue.set(state.contentData[contractID], "shifts", sortByStarted(shiftData));
   },
   setReports(state, { contractID, reportData }) {
-    Vue.set(state.contentData[contractID], "reports", reportData);
+    Vue.set(
+      state.contentData[contractID],
+      "reports",
+      sortByMonthYear(reportData)
+    );
   },
   setContract(state, { contractID, contractInstance }) {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
