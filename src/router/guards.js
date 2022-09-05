@@ -1,6 +1,7 @@
 import store from "@/store";
 import { getContractWithLastActivity, getNextContractParams } from "@/utils";
 import { log } from "@/utils/log";
+import ContentDataService from "@/services/contentData";
 
 export async function RequiredDataGuard(to, from, next) {
   if (to.query.poll !== undefined && to.query.poll === false) {
@@ -38,6 +39,17 @@ export async function RequiredDataGuard(to, from, next) {
   } catch (error) {
     log(error);
     return;
+  }
+  return next();
+}
+
+export async function initializeDataGuard(to, from, next) {
+  if (to.query.poll !== undefined && to.query.poll === false) {
+    return next();
+  }
+
+  if (!store.getters["contentData/contentDataInitialized"]) {
+    await ContentDataService.initialize();
   }
   return next();
 }
