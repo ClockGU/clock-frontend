@@ -7,7 +7,7 @@ const state = {
 };
 
 const getters = {
-  contentData: (state) => state.contentData,
+  contentDataInitialized: (state) => state.contentDataInitialized,
   selectedShifts(state, getters, rootState, rootGetters) {
     const selectedContractId = rootGetters["contract/selectedContract"].id;
     return state.contentData[selectedContractId].shifts;
