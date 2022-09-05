@@ -2,6 +2,7 @@ import ApiService from "@/services/api";
 import { mapShiftApiResponse, Shift } from "@/models/ShiftModel";
 import { mapContractApiResponse, Contract } from "@/models/ContractModel";
 import { mapReportApiResponse, Report } from "@/models/ReportModel";
+import is from "ramda/src/is";
 
 class modelService {
   static BASE_URL = "";
@@ -40,6 +41,53 @@ class modelService {
     } else {
       // TODO: Appwide errorhandling
       throw Error(response.data);
+    }
+  }
+  static async bulkCreate(payloadArray) {
+    let promises = [];
+    if (!is(Array, payloadArray)) {
+      throw Error("Provided payload is NOT an Array");
+    }
+    try {
+      for (const obj of payloadArray) {
+        promises.push(this.create(obj));
+      }
+      return Promise.all(promises).then((values) => {
+        return values.map((item) => this.mapFunction(item));
+      });
+    } catch (e) {
+      throw Error(e.message);
+    }
+  }
+  static async bulkUpdate(payloadArray) {
+    let promises = [];
+    if (!is(Array, payloadArray)) {
+      throw Error("Provided payload is NOT an Array");
+    }
+    try {
+      for (const obj of payloadArray) {
+        promises.push(this.update(obj, obj.id));
+      }
+      return Promise.all(promises).then((values) => {
+        return values.map((item) => this.mapFunction(item));
+      });
+    } catch (e) {
+      throw Error(e.message);
+    }
+  }
+  static async bulkDelete(payloadArray) {
+    let promises = [];
+    if (!is(Array, payloadArray)) {
+      throw Error("Provided payload is NOT an Array");
+    }
+    try {
+      for (const obj of payloadArray) {
+        promises.push(this.delete(obj.id));
+      }
+      await Promise.all(promises);
+      return undefined;
+    } catch (e) {
+      throw Error(e.message);
     }
   }
 }
