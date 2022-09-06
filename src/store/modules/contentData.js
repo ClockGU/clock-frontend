@@ -103,16 +103,31 @@ const mutations = {
     state.contentData[contractID].shifts.splice(index + 1, 0, shiftInstance);
   },
   removeShift(state, { contractID, shiftInstance }) {
-    const index = state.contentData[contractID].shifts.indexOf(
+    const index = state.contentData[contractID].shifts.findIndex(
       (shiftElement) => shiftElement.id === shiftInstance.id
     );
     state.contentData[contractID].shifts.splice(index, 1);
   },
   updateShift(state, { contractID, shiftInstance }) {
-    const index = state.contentData[contractID].shifts.find(
+    const currentIndex = state.contentData[contractID].shifts.findIndex(
       (shiftElement) => shiftElement.id === shiftInstance.id
     );
-    state.contentData[contractID].shifts[index] = shiftInstance;
+    const supposedIndex = indexOfByStarted({
+      element: shiftInstance,
+      array: state.contentData[contractID].shifts
+    });
+    if (currentIndex !== supposedIndex) {
+      // delete the shift at the old, now incorrect position
+      state.contentData[contractID].shifts.splice(currentIndex, 1);
+      // add the shift, at the correct position
+      state.contentData[contractID].shifts.splice(
+        supposedIndex,
+        0,
+        shiftInstance
+      );
+      return;
+    }
+    state.contentData[contractID].shifts[currentIndex] = shiftInstance;
   },
   addReport(state, { contractID, reportInstance }) {
     const index = indexOfByMonthYear({
@@ -122,16 +137,31 @@ const mutations = {
     state.contentData[contractID].reports.splice(index + 1, 0, reportInstance);
   },
   removeReport(state, { contractID, reportInstance }) {
-    const index = state.contentData[contractID].reports.indexOf(
+    const index = state.contentData[contractID].reports.findIndex(
       (reportElement) => reportElement.id === reportInstance.id
     );
     state.contentData[contractID].reports.splice(index, 1);
   },
   updateReport(state, { contractID, reportInstance }) {
-    const index = state.contentData[contractID].reports.find(
-      (reportElement) => reportElement.id === reportInstance.id
+    const currentIndex = state.contentData[contractID].reports.findIndex(
+      (shiftElement) => shiftElement.id === reportInstance.id
     );
-    state.contentData[contractID].reports[index] = reportInstance;
+    const supposedIndex = indexOfByStarted({
+      element: reportInstance,
+      array: state.contentData[contractID].reports
+    });
+    if (currentIndex !== supposedIndex) {
+      // delete the shift at the old, now incorrect position
+      state.contentData[contractID].reports.splice(currentIndex, 1);
+      // add the shift, at the correct position
+      state.contentData[contractID].reports.splice(
+        supposedIndex,
+        0,
+        reportInstance
+      );
+      return;
+    }
+    state.contentData[contractID].reports[currentIndex] = reportInstance;
   },
   setShifts(state, { contractID, shiftData }) {
     Vue.set(state.contentData[contractID], "shifts", sortByStarted(shiftData));
