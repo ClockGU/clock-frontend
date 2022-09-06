@@ -103,7 +103,10 @@ const mutations = {
     state.contentData[contractID].shifts.splice(index + 1, 0, shiftInstance);
   },
   removeShift(state, { contractID, shiftInstance }) {
-    state.contentData[contractID].shifts.pop(shiftInstance);
+    const index = state.contentData[contractID].shifts.indexOf(
+      (item) => item.id === shiftInstance.id
+    );
+    state.contentData[contractID].shifts.splice(index, 1);
   },
   updateShift(state, { contractID, shiftInstance }) {
     const index = state.contentData[contractID].shifts.find(
@@ -119,7 +122,10 @@ const mutations = {
     state.contentData[contractID].reports.splice(index + 1, 0, reportInstance);
   },
   removeReport(state, { contractID, reportInstance }) {
-    state.contentData[contractID].reports.pop(reportInstance);
+    const index = state.contentData[contractID].reports.indexOf(
+      (item) => item.id === reportInstance.id
+    );
+    state.contentData[contractID].reports.splice(index, 1);
   },
   updateReport(state, { contractID, reportInstance }) {
     const index = state.contentData[contractID].reports.find(
