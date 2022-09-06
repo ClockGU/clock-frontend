@@ -104,7 +104,7 @@ const mutations = {
   },
   removeShift(state, { contractID, shiftInstance }) {
     const index = state.contentData[contractID].shifts.indexOf(
-      (item) => item.id === shiftInstance.id
+      (shiftElement) => shiftElement.id === shiftInstance.id
     );
     state.contentData[contractID].shifts.splice(index, 1);
   },
@@ -123,13 +123,13 @@ const mutations = {
   },
   removeReport(state, { contractID, reportInstance }) {
     const index = state.contentData[contractID].reports.indexOf(
-      (item) => item.id === reportInstance.id
+      (reportElement) => reportElement.id === reportInstance.id
     );
     state.contentData[contractID].reports.splice(index, 1);
   },
   updateReport(state, { contractID, reportInstance }) {
     const index = state.contentData[contractID].reports.find(
-      (shiftElement) => shiftElement.id === reportInstance.id
+      (reportElement) => reportElement.id === reportInstance.id
     );
     state.contentData[contractID].reports[index] = reportInstance;
   },
