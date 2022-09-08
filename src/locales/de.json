@@ -472,8 +472,9 @@
       "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ \"Feiertag\" clocken.",
       "sickOrVacationShiftExists": "An diesem Datum existiert bereits eine Schicht vom Typ {shiftType}. Du kannst an diesem Tag nur noch Schichten von diesem Typ anlegen.",
       "noSickOrVacationWithRegularShift": "An diesem Datum existiert bereits eine normale Schicht. Du musst diese löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} anlegen kannst.",
-      "insufficientBreaktime": "An diesem Datum existieren Schichten von {worktime}h und Pausen von {pause}h. Laut §4 ArbzG müssen ab einer Arbeitszeit von 6h mindestens 30 Minuten, nach 9h mindestens 45 Minuten Pause (in Summe) eingelegt werden.",
-      "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten."
+      "insufficientBreaktime": "Ab einer Arbeitszeit von 6h müssen mindestens 30 Minuten, ab 9h mindestens 45 Minuten Pause eingelegt werden. ( Arbeitszeit {worktime}h, Pause {breaktime}h)",
+      "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten.",
+      "maxShifttimeExceeded": "Diese Schicht überschreitet die maximal Schichtlänge von 6h."
     }
   },
   "snackbar": {

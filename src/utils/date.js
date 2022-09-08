@@ -6,7 +6,9 @@ import {
   subWeeks,
   addMonths,
   subMonths,
-  format
+  format,
+  addMinutes,
+  subMinutes
 } from "date-fns";
 
 import Holidays from "date-holidays";
@@ -45,7 +47,9 @@ export const dateOperations = {
   addWeeks: addWeeks,
   subWeeks: subWeeks,
   addMonths: addMonths,
-  subMonths: subMonths
+  subMonths: subMonths,
+  addMinutes: addMinutes,
+  subMinutes: subMinutes
 };
 
 export const getRouterProps = (type, date = new Date()) => {

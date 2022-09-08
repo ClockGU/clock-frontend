@@ -80,7 +80,7 @@
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition>
-          <v-row v-if="!sufficientBreaktime" align="center">
+          <v-row v-if="!sufficientBreaktime || shiftTooLong" align="center">
             <v-col cols="12" md="5" class="ma-0">
               <v-checkbox
                 v-model="trimBreaktime"
@@ -175,6 +175,8 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
+  addMinutes,
+  differenceInMinutes,
   endOfDay,
   formatISO,
   isAfter,
@@ -183,7 +185,8 @@ import {
   isFuture,
   isSameDay,
   isWithinInterval,
-  parseISO
+  parseISO,
+  subMinutes
 } from "date-fns";
 import {
   coalescWorktimeAndBreaktime,
@@ -203,7 +206,8 @@ import ClockCardAlert from "@/components/ClockCardAlert";
 import {
   sufficientBreaktimeBetweenShifts,
   maxWorktimeExceeded,
-  newShiftCutter
+  newShiftCutter,
+  maxShifttimeExceeded
 } from "@/utils/shift";
 
 export default {
@@ -358,6 +362,11 @@ export default {
     worktimeTooLong() {
       return maxWorktimeExceeded(this.worktimeAndBreaktimeOnDate.worktime);
     },
+    shiftTooLong() {
+      return maxShifttimeExceeded(
+        differenceInMinutes(this.shift.date.end, this.shift.date.start)
+      );
+    },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
@@ -367,7 +376,8 @@ export default {
         (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
         (!this.sufficientBreaktime && !this.trimBreaktime) ||
-        this.worktimeTooLong
+        this.worktimeTooLong ||
+        (this.shiftTooLong && !this.trimBreaktime)
       )
         return false;
 
@@ -426,6 +436,10 @@ export default {
 
       if (this.worktimeTooLong) {
         messages.push(this.$t("shifts.warnings.maxWorktimeExceeded"));
+      }
+
+      if (this.shiftTooLong) {
+        messages.push(this.$t("shifts.warnings.maxShifttimeExceeded"));
       }
 
       return messages;
@@ -494,14 +508,25 @@ export default {
           );
           let cuttingValues = shiftCutter.calculateCuts();
 
-          this.$emit("update", {
-            shift: this.shift,
-            valid: this.valid,
-            splitData: {
-              splitDuration: cuttingValues.splitDuration,
-              breaktime: cuttingValues.breaktime
-            }
-          });
+          if (cuttingValues.justUpdateFromLeft)
+            this.shift.date.end = addMinutes(
+              this.shift.date.start,
+              cuttingValues.leftPartDuartion
+            );
+          else if (cuttingValues.justUpdateFromRight)
+            this.shift.date.start = subMinutes(
+              this.shift.date.end,
+              cuttingValues.rightPartDuration
+            );
+          else
+            this.$emit("update", {
+              shift: this.shift,
+              valid: this.valid,
+              splitData: {
+                splitDuration: cuttingValues.leftPartDuartion,
+                breaktime: cuttingValues.breaktime
+              }
+            });
         }
         this.$emit("update", { shift: this.shift, valid: this.valid });
       }
