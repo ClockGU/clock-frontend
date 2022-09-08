@@ -133,7 +133,7 @@
 <script>
 import { parseISO, differenceInMinutes } from "date-fns";
 import { localizedFormat } from "@/utils/date";
-import ReportService from "@/services/report";
+import { ReportService } from "@/services/models";
 import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
