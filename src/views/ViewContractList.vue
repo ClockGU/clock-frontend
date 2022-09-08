@@ -102,7 +102,7 @@ import FormDialog from "@/components/FormDialog";
 import { parseISO, endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
-import ContractService from "@/services/contract";
+import { ContractService } from "@/services/models";
 
 import { mdiPlus } from "@mdi/js";
 
