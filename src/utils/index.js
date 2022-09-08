@@ -31,7 +31,7 @@ export const indexOfByStartDate = indexOfBy("startDate");
 export const indexOfByMonthYear = indexOfBy("monthYear");
 
 const sortBy = (key) => (objects) => {
-  return objects.sort((a, b) => b[key] - a[key]);
+  return objects.sort((a, b) => a[key] - b[key]);
 };
 
 export const sortByStarted = sortBy("started");
