@@ -9,7 +9,6 @@ import clock from "@/store/modules/clock";
 import shift from "@/store/modules/shift";
 import contract from "@/store/modules/selectedContract";
 import snackbar from "@/store/modules/snackbar";
-import report from "@/store/modules/report";
 import contentData from "@/store/modules/contentData";
 import faq from "@/store/modules/faq";
 
@@ -108,7 +107,6 @@ export default new Vuex.Store({
     shift,
     contract,
     snackbar,
-    report,
     faq
   },
   plugins: [
