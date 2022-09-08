@@ -134,7 +134,7 @@
 import { parseISO, differenceInMinutes } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import ReportService from "@/services/report";
-import ContractService from "@/services/contract";
+import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { log } from "@/utils/log";
