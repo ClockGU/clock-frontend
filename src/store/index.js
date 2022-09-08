@@ -9,7 +9,6 @@ import clock from "@/store/modules/clock";
 import shift from "@/store/modules/shift";
 import contract from "@/store/modules/selectedContract";
 import snackbar from "@/store/modules/snackbar";
-import report from "@/store/modules/report";
 import contentData from "@/store/modules/contentData";
 
 import i18n, { selectedLocale } from "@/plugins/i18n";
@@ -105,8 +104,7 @@ export default new Vuex.Store({
     contentData,
     shift,
     contract,
-    snackbar,
-    report
+    snackbar
   },
   plugins: [
     createPersistedState({
