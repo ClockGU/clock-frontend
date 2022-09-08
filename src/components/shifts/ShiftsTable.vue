@@ -162,7 +162,7 @@ import {
 import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
-import ShiftService from "@/services/shift";
+import { ShiftService } from "@/services/models";
 import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";

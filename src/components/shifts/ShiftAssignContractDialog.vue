@@ -33,7 +33,7 @@
 :
 <script>
 import { mdiFileDocumentEditOutline } from "@mdi/js";
-import ShiftService from "@/services/shift";
+import { ShiftService } from "@/services/models";
 import { log } from "@/utils/log";
 import contractValidMixin from "@/mixins/contractValid";
 
