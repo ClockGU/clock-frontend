@@ -6,7 +6,7 @@ import AuthService from "@/services/auth";
 
 import auth from "@/store/modules/auth";
 import clock from "@/store/modules/clock";
-import contract from "@/store/modules/selectedContract";
+import selectedContract from "@/store/modules/selectedContract";
 import snackbar from "@/store/modules/snackbar";
 import contentData from "@/store/modules/contentData";
 import faq from "@/store/modules/faq";
@@ -103,7 +103,7 @@ export default new Vuex.Store({
     auth,
     clock,
     contentData,
-    contract,
+    selectedContract,
     snackbar,
     faq
   },
