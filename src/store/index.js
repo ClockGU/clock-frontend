@@ -7,7 +7,7 @@ import AuthService from "@/services/auth";
 import auth from "@/store/modules/auth";
 import clock from "@/store/modules/clock";
 import shift from "@/store/modules/shift";
-import contract from "@/store/modules/contract";
+import contract from "@/store/modules/selectedContract";
 import snackbar from "@/store/modules/snackbar";
 import report from "@/store/modules/report";
 import contentData from "@/store/modules/contentData";
