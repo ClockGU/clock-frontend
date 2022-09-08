@@ -1,5 +1,9 @@
 import { Shift } from "@/models/ShiftModel";
-import { areIntervalsOverlapping, parseISO } from "date-fns";
+import {
+  areIntervalsOverlapping,
+  differenceInMinutes,
+  parseISO
+} from "date-fns";
 import { localizedFormat } from "@/utils/date";
 
 function prepare({ start, end }) {
