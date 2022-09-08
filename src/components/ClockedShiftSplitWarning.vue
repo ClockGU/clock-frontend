@@ -160,7 +160,7 @@ import { mdiDotsVertical } from "@mdi/js";
 const { utcToZonedTime, format } = require("date-fns-tz");
 
 import ShiftReviewFormDialog from "@/components/shifts/ShiftReviewFormDialog";
-import ShiftService from "@/services/shift";
+import { ShiftService } from "@/services/models";
 import { Shift } from "@/models/ShiftModel";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
