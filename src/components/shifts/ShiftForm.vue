@@ -203,7 +203,7 @@ import ClockCardAlert from "@/components/ClockCardAlert";
 import {
   sufficientBreaktimeBetweenShifts,
   maxWorktimeExceeded,
-  missingBreaktime
+  newShiftCutter
 } from "@/utils/shift";
 
 export default {
@@ -488,14 +488,18 @@ export default {
     trimBreaktime: {
       handler: function () {
         if (this.trimBreaktime) {
-          const splitDuration = Math.floor(this.shift.duration / 2);
-          const remainder = this.shift.duration % 2;
+          let shiftCutter = new newShiftCutter(
+            this.shiftsOnSelectedDate.concat([]),
+            this.shift
+          );
+          let cuttingValues = shiftCutter.calculateCuts();
+
           this.$emit("update", {
             shift: this.shift,
             valid: this.valid,
             splitData: {
-              splitDuration: splitDuration + remainder,
-              breaktime: missingBreaktime(this.worktimeAndBreaktimeOnDate)
+              splitDuration: cuttingValues.splitDuration,
+              breaktime: cuttingValues.breaktime
             }
           });
         }
