@@ -146,7 +146,7 @@ const mutations = {
     const currentIndex = state.contentData[contractID].reports.findIndex(
       (shiftElement) => shiftElement.id === reportInstance.id
     );
-    const supposedIndex = indexOfByStarted({
+    const supposedIndex = indexOfByMonthYear({
       element: reportInstance,
       array: state.contentData[contractID].reports
     });
