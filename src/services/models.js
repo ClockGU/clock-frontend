@@ -126,4 +126,13 @@ export class ReportService extends modelService {
   static async delete() {
     return undefined;
   }
+  static async bulkCreate() {
+    return undefined;
+  }
+  static async bulkUpdate() {
+    return undefined;
+  }
+  static async bulkDelete() {
+    return undefined;
+  }
 }
