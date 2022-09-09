@@ -106,7 +106,7 @@ export class newShiftCutter {
       (shift) => shift.uuid === this.new_shift_uuid
     );
 
-    let newShiftDuration = differenceInMinutes(
+    const newShiftDuration = differenceInMinutes(
       parseISO(this.shifts[newShiftIndex].date.end),
       parseISO(this.shifts[newShiftIndex].date.start)
     );
@@ -118,66 +118,70 @@ export class newShiftCutter {
     );
 
     let inTotalWorkBreakTime = coalescWorktimeAndBreaktime(this.shifts);
+
     let newBreakInMinutes = 15;
-
-    if (inTotalWorkBreakTime.worktime > 540) {
-      newBreakInMinutes =
-        45 - inTotalWorkBreakTime.breaktime > 15
-          ? 45 - inTotalWorkBreakTime.breaktime
-          : 15;
-    } else if (inTotalWorkBreakTime.worktime > 360) {
-      newBreakInMinutes =
-        30 - inTotalWorkBreakTime.breaktime > 15
-          ? 30 - inTotalWorkBreakTime.breaktime
-          : 15;
-    }
-
-    let leftPartNewShiftInMinutes = 0;
-    let rightPartNewShiftInMinutes = 0;
+    let newShiftLeftSideDuration = 0;
+    let newShiftRightSideDuration = 0;
 
     if (
-      rightOfNewShiftWorkBreakInMinutes.worktime >
-      leftOfNewShiftWorkBreakInMinutes.worktime
+      (inTotalWorkBreakTime.worktime > 540 &&
+        inTotalWorkBreakTime.breaktime > 45) ||
+      (inTotalWorkBreakTime.worktime > 360 &&
+        inTotalWorkBreakTime.breaktime > 30) ||
+      (leftOfNewShiftWorkBreakInMinutes.worktime === 0 &&
+        rightOfNewShiftWorkBreakInMinutes.worktime === 0 &&
+        this.shifts.length === 1)
     ) {
-      rightPartNewShiftInMinutes =
-        360 - rightOfNewShiftWorkBreakInMinutes.worktime;
-      if (rightPartNewShiftInMinutes >= newShiftDuration)
-        rightPartNewShiftInMinutes = newShiftDuration - newBreakInMinutes;
+      // new shift > 6h and breaktime in total is already enough
+      newShiftLeftSideDuration = 6 * 60;
+      newShiftRightSideDuration =
+        newShiftDuration - newBreakInMinutes - newShiftLeftSideDuration;
     } else {
-      leftPartNewShiftInMinutes =
-        360 - leftOfNewShiftWorkBreakInMinutes.worktime;
-      if (leftPartNewShiftInMinutes >= newShiftDuration)
-        leftPartNewShiftInMinutes = newShiftDuration - newBreakInMinutes;
+      // calculate new needed breaktime
+      if (inTotalWorkBreakTime.worktime > 540) {
+        newBreakInMinutes =
+          45 - inTotalWorkBreakTime.breaktime > 15
+            ? 45 - inTotalWorkBreakTime.breaktime
+            : 15;
+      } else if (inTotalWorkBreakTime.worktime > 360) {
+        newBreakInMinutes =
+          30 - inTotalWorkBreakTime.breaktime > 15
+            ? 30 - inTotalWorkBreakTime.breaktime
+            : 15;
+      }
+
+      if (
+        rightOfNewShiftWorkBreakInMinutes.worktime >
+        leftOfNewShiftWorkBreakInMinutes.worktime
+      ) {
+        // right is more worktime
+
+        newShiftRightSideDuration =
+          360 - rightOfNewShiftWorkBreakInMinutes.worktime;
+        if (newShiftRightSideDuration + newBreakInMinutes >= newShiftDuration)
+          newShiftRightSideDuration = newShiftDuration - newBreakInMinutes;
+        else {
+          newShiftLeftSideDuration =
+            newShiftDuration - newBreakInMinutes - newShiftRightSideDuration;
+        }
+      } else {
+        // left is mor worktime OR both sides same worktime
+
+        newShiftLeftSideDuration =
+          360 - leftOfNewShiftWorkBreakInMinutes.worktime;
+        if (newShiftLeftSideDuration + newBreakInMinutes >= newShiftDuration)
+          newShiftLeftSideDuration = newShiftDuration - newBreakInMinutes;
+        else {
+          newShiftRightSideDuration =
+            newShiftDuration - newBreakInMinutes - newShiftLeftSideDuration;
+        }
+      }
     }
 
-    if (leftPartNewShiftInMinutes === 0)
-      leftPartNewShiftInMinutes =
-        newShiftDuration - rightPartNewShiftInMinutes - newBreakInMinutes;
-    if (rightPartNewShiftInMinutes === 0)
-      rightPartNewShiftInMinutes =
-        newShiftDuration - leftPartNewShiftInMinutes - newBreakInMinutes;
-
-    console.log("newShiftDuration: ", newShiftDuration);
-    console.log("newBreakInMinutes: ", newBreakInMinutes);
-    console.log("inTotalWorkBreakTime: ", inTotalWorkBreakTime);
-    console.log(
-      "leftOfNewShiftWorkBreakInMinutes: ",
-      leftOfNewShiftWorkBreakInMinutes
-    );
-    console.log(
-      "rightOfNewShiftWorkBreakInMinutes: ",
-      rightOfNewShiftWorkBreakInMinutes
-    );
-    console.log("leftPartNewShiftInMinutes: ", leftPartNewShiftInMinutes);
-    console.log("rightPartNewShiftInMinutes: ", rightPartNewShiftInMinutes);
     return {
-      leftPartDuartion: leftPartNewShiftInMinutes,
-      rightPartDuration: rightPartNewShiftInMinutes,
-      breaktime: newBreakInMinutes,
-      justUpdateFromLeft:
-        leftPartNewShiftInMinutes + newBreakInMinutes === newShiftDuration,
-      justUpdateFromRight:
-        rightPartNewShiftInMinutes + newBreakInMinutes === newShiftDuration
+      leftPartDuartion: newShiftLeftSideDuration,
+      rightPartDuration: newShiftRightSideDuration,
+      breaktime: newBreakInMinutes
     };
   }
 }

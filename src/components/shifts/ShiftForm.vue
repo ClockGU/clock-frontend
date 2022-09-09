@@ -508,12 +508,12 @@ export default {
           );
           let cuttingValues = shiftCutter.calculateCuts();
 
-          if (cuttingValues.justUpdateFromLeft)
+          if (cuttingValues.rightPartDuration === 0)
             this.shift.date.end = addMinutes(
               this.shift.date.start,
               cuttingValues.leftPartDuartion
             );
-          else if (cuttingValues.justUpdateFromRight)
+          else if (cuttingValues.leftPartDuartion === 0)
             this.shift.date.start = subMinutes(
               this.shift.date.end,
               cuttingValues.rightPartDuration
