@@ -367,6 +367,19 @@ export default {
         differenceInMinutes(this.shift.date.end, this.shift.date.start)
       );
     },
+    shiftIsOverlapping() {
+      for (let shift of this.shiftsOnSelectedDate) {
+        if (shift.uuid !== this.shift.uuid) {
+          return (
+            (parseISO(shift.date.start) <= this.shift.date.start &&
+              parseISO(shift.date.end) > this.shift.date.start) ||
+            (parseISO(shift.date.start) < this.shift.date.end &&
+              parseISO(shift.date.end) >= this.shift.date.end)
+          );
+        }
+      }
+      return false;
+    },
     valid() {
       if (
         isAfter(this.shift.date.start, this.shift.date.end) ||
@@ -440,6 +453,11 @@ export default {
 
       if (this.shiftTooLong) {
         messages.push(this.$t("shifts.warnings.maxShifttimeExceeded"));
+      }
+
+      console.log("this.shiftIsOverlapping: ", this.shiftIsOverlapping);
+      if (this.shiftIsOverlapping) {
+        messages.push(this.$t("shifts.warnings.shiftIsOverlapping"));
       }
 
       return messages;
