@@ -475,7 +475,8 @@
       "insufficientBreaktime": "There are shifts of {worktime}h with breaks of {breaktime}h on this date. According to §4 ArbzG, the work shall be interrupted by breaks of 30 minutes for a shift over 6h, and 45 minutes for a shift over 9h (in all).",
       "maxWorktimeExceeded": "You exceeded your maximum daily worktime of 10h.",
       "maxShifttimeExceeded": "This shift exceeds the maximum shift length of 6h.",
-      "shiftIsOverlapping": "This Shift overlaps with another already existing shift."
+      "shiftIsOverlapping": "This Shift overlaps with another already existing shift.",
+      "faqLinking": "For further information on the displayed error messages please check the FAQ."
     }
   },
   "snackbar": {

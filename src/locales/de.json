@@ -475,7 +475,8 @@
       "insufficientBreaktime": "Ab einer Arbeitszeit von 6h müssen mindestens 30 Minuten, ab 9h mindestens 45 Minuten Pause eingelegt werden. ( Arbeitszeit {worktime}h, Pause {breaktime}h)",
       "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten.",
       "maxShifttimeExceeded": "Diese Schicht überschreitet die maximal Schichtlänge von 6h.",
-      "shiftIsOverlapping": "Diese Schicht überschneidet sich mit bereits bestehenden Schichten."
+      "shiftIsOverlapping": "Diese Schicht überschneidet sich mit bereits bestehenden Schichten.",
+      "faqLinking": "Für weitere Informationen zu den angezeigten Fehlermeldungen bitte in in die FAQs schauen."
     }
   },
   "snackbar": {
