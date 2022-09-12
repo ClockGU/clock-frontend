@@ -42,13 +42,20 @@ export class Contract {
       : 0;
     this.carryoverTargetDate =
       is(Date, new Date(carryoverTargetDate)) && carryoverTargetDate !== null
-        ? carryoverTargetDate
+        ? new Date(carryoverTargetDate)
         : startOfMonth(this.startDate);
-    this.createdAt = is(Date, new Date(createdAt)) ? new Date(createdAt) : null;
-    this.modifiedAt = is(Date, new Date(modifiedAt))
-      ? new Date(modifiedAt)
-      : null;
-    this.lastUsed = is(Date, new Date(lastUsed)) ? new Date(lastUsed) : null;
+    this.createdAt =
+      is(Date, new Date(createdAt)) && createdAt !== null
+        ? new Date(createdAt)
+        : null;
+    this.modifiedAt =
+      is(Date, new Date(modifiedAt)) && modifiedAt !== null
+        ? new Date(modifiedAt)
+        : null;
+    this.lastUsed =
+      is(Date, new Date(lastUsed)) && lastUsed !== null
+        ? new Date(lastUsed)
+        : null;
   }
 
   get duration() {

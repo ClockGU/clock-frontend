@@ -5,85 +5,63 @@ const timekeeper = require("timekeeper");
 
 describe("Contracts.js", () => {
   const date = {
-    start: new Date(Date.UTC(2021, 0, 1)),
-    end: new Date(Date.UTC(2021, 1, 1))
+    startDate: new Date(Date.UTC(2021, 0, 1)).toISOString(),
+    endDate: new Date(Date.UTC(2021, 1, 1)).toISOString()
   };
 
   it("creates a new Contract instance with date arguments", () => {
-    timekeeper.travel(date.start);
-    const obj = new Contract({ date: date });
+    timekeeper.travel(date.startDate);
+    const obj = new Contract(date);
     console.log(obj.carryoverTargetDate);
     expect(obj).toEqual({
-      uuid: null,
+      id: null,
       user: null,
       name: null,
-      worktime: "",
-      date: date,
-      carryoverTime: "",
-      carryoverTargetDate: new Date(2021, 0, 1, 0)
+      minutes: 0,
+      startDate: new Date(Date.UTC(2021, 0, 1)),
+      endDate: new Date(Date.UTC(2021, 1, 1)),
+      initialCarryoverMinutes: 0,
+      carryoverTargetDate: new Date(2021, 0, 1, 0),
+      createdAt: null,
+      modifiedAt: null,
+      lastUsed: null
     });
     timekeeper.reset();
   });
 
   it("creates a new Contract instance with all arguments", () => {
     const data = {
-      uuid: "1234",
+      id: "1234",
       user: "user",
       name: "name",
-      date: date,
-      carryoverTime: "",
-      carryoverTargetDate: new Date(2021, 8, 31, 0)
+      minutes: 2400,
+      startDate: new Date(Date.UTC(2021, 0, 1)).toISOString(),
+      endDate: new Date(Date.UTC(2021, 1, 1)).toISOString(),
+      initialCarryoverMinutes: 0,
+      carryoverTargetDate: new Date(2021, 8, 31, 0).toISOString(),
+      createdAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
+      modifiedAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
+      lastUsed: new Date(Date.UTC(2021, 0, 1)).toISOString()
     };
-
     const output = {
-      ...data,
-      worktime: "40:00"
-    };
-
-    expect(new Contract({ ...data, worktime: 2400 })).toEqual(output);
-  });
-
-  it("converts worktime user input / API response back and forth correctly", () => {
-    let data = {
-      uuid: "1234",
+      id: "1234",
       user: "user",
       name: "name",
-      date: date,
-      carryoverTime: "",
-      carryoverTargetDate: new Date(2021, 8, 31, 0)
+      minutes: 2400,
+      startDate: new Date(Date.UTC(2021, 0, 1)),
+      endDate: new Date(Date.UTC(2021, 1, 1)),
+      initialCarryoverMinutes: 0,
+      carryoverTargetDate: new Date(2021, 8, 31, 0),
+      createdAt: new Date(Date.UTC(2021, 0, 1)),
+      modifiedAt: new Date(Date.UTC(2021, 0, 1)),
+      lastUsed: new Date(Date.UTC(2021, 0, 1))
     };
 
-    expect(new Contract({ ...data, worktime: 600 })).toEqual({
-      ...data,
-      worktime: "10:00"
-    });
-
-    expect(new Contract({ ...data, worktime: 50 })).toEqual({
-      ...data,
-      worktime: "00:50"
-    });
-  });
-
-  it("sets and gets the start and end date", () => {
-    const obj = new Contract({ date: date });
-    const newStart = new Date(Date.UTC(2019, 1, 1));
-    const newEnd = new Date(Date.UTC(2019, 2, 31));
-
-    // Check old dates
-    expect(obj.start == date.start);
-    expect(obj.end == date.end);
-
-    // Set new dates
-    obj.start = newStart;
-    obj.end = newEnd;
-
-    // Check new dates
-    expect(obj.start == newStart);
-    expect(obj.end == newEnd);
+    expect(new Contract(data)).toEqual(output);
   });
 
   it("calculates the contract duration in days", () => {
-    const obj = new Contract({ date: date });
+    const obj = new Contract(date);
     expect(obj.duration).toBe(31);
   });
 
@@ -91,13 +69,11 @@ describe("Contracts.js", () => {
     const today = new Date();
     const inTenDays = addDays(today, 10);
 
-    const date = {
-      start: today,
-      end: inTenDays
+    const onlyDateData = {
+      startDate: today,
+      endDate: inTenDays
     };
-    const obj = new Contract({
-      date: date
-    });
+    const obj = new Contract(onlyDateData);
     expect(obj.remainingContractDuration).toBe(10);
   });
 });
