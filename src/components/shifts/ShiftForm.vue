@@ -79,6 +79,9 @@
             :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
+        <router-link v-if="messages.length !== 0" to="/faq">
+          {{ $t("shifts.warnings.faqLinking") }}
+        </router-link>
         <v-expand-transition>
           <v-row v-if="!sufficientBreaktime || shiftTooLong" align="center">
             <v-col cols="12" md="5" class="ma-0">
@@ -455,7 +458,6 @@ export default {
         messages.push(this.$t("shifts.warnings.maxShifttimeExceeded"));
       }
 
-      console.log("this.shiftIsOverlapping: ", this.shiftIsOverlapping);
       if (this.shiftIsOverlapping) {
         messages.push(this.$t("shifts.warnings.shiftIsOverlapping"));
       }
