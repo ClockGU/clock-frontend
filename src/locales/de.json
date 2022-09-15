@@ -476,6 +476,7 @@
       "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten.",
       "maxShifttimeExceeded": "Diese Schicht überschreitet die maximal Schichtlänge von 6h.",
       "shiftIsOverlapping": "Diese Schicht überschneidet sich mit bereits bestehenden Schichten.",
+      "concatenatedShiftTooLong": "Diese Schicht ist mit anderen Schichten verbunden und diese sind in Summe zu lang (max 6h).",
       "faqLinking": "Für weitere Informationen zu den angezeigten Fehlermeldungen bitte in in die FAQs schauen."
     }
   },

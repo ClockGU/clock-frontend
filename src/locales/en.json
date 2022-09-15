@@ -476,6 +476,7 @@
       "maxWorktimeExceeded": "You exceeded your maximum daily worktime of 10h.",
       "maxShifttimeExceeded": "This shift exceeds the maximum shift length of 6h.",
       "shiftIsOverlapping": "This Shift overlaps with another already existing shift.",
+      "concatenatedShiftTooLong": "This shift is concatenated with other shifts and they are in total to long (max 6h).",
       "faqLinking": "For further information on the displayed error messages please check the FAQ."
     }
   },
