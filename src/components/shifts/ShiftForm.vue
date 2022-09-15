@@ -208,7 +208,8 @@ import {
   sufficientBreaktimeBetweenShifts,
   maxWorktimeExceeded,
   missingBreaktime,
-  maxShifttimeExceeded
+  maxShifttimeExceeded,
+  concatenatedShiftsTooLong
 } from "@/utils/shift";
 
 export default {
@@ -368,6 +369,12 @@ export default {
         differenceInMinutes(this.shift.date.end, this.shift.date.start)
       );
     },
+    concatenatedShiftsTooLong() {
+      return concatenatedShiftsTooLong(
+        this.shiftsOnSelectedDate.concat([]),
+        this.shift
+      );
+    },
     shiftIsOverlapping() {
       for (let shift of this.shiftsOnSelectedDate) {
         if (shift.uuid !== this.shift.uuid) {
@@ -455,6 +462,10 @@ export default {
 
       if (this.shiftTooLong && !this.trimBreaktime) {
         messages.push(this.$t("shifts.warnings.maxShifttimeExceeded"));
+      }
+
+      if (this.concatenatedShiftsTooLong) {
+        messages.push(this.$t("shifts.warnings.concatenatedShiftTooLong"));
       }
 
       if (this.shiftIsOverlapping) {
