@@ -49,7 +49,8 @@ export const routes = [
       {
         path: "/onboarding",
         name: "onboarding",
-        component: Onboarding
+        component: Onboarding,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/impressum",
