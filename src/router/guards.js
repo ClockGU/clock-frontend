@@ -50,6 +50,11 @@ export async function initializeDataGuard(to, from, next) {
 
   if (!store.getters["contentData/contentDataInitialized"]) {
     await ContentDataService.initialize();
+    const contract = getContractWithLastActivity({
+      shifts: store.getters["contentData/allShifts"],
+      contracts: store.getters["contentData/allContracts"]
+    });
+    await store.dispatch("selectedContract/selectContract", contract);
   }
   return next();
 }
