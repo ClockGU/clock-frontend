@@ -15,6 +15,9 @@ const state = {
 
 const getters = {
   contentDataInitialized: (state) => state.contentDataInitialized,
+  contractById: (state) => (id) => {
+    return state.contentData[id].contract;
+  },
   selectedShifts(state, getters, rootState, rootGetters) {
     const selectedContractId = rootGetters["contract/selectedContract"].id;
     return state.contentData[selectedContractId].shifts;
