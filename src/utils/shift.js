@@ -151,7 +151,7 @@ export class newShiftCutter {
       (inTotalWorkBreakTime.worktime > 9 * 60 &&
         inTotalWorkBreakTime.breaktime < 45) ||
       (inTotalWorkBreakTime.worktime > 6 * 60 &&
-        inTotalWorkBreakTime.worktime < 9 * 60 &&
+        inTotalWorkBreakTime.worktime <= 9 * 60 &&
         inTotalWorkBreakTime.breaktime < 30) ||
       (leftSideWithNewShiftWorkBreak.breaktime === 0 &&
         leftSideWithNewShiftWorkBreak.worktime > 6 * 60) ||
@@ -241,7 +241,8 @@ export class newShiftCutter {
       }
       if (
         concatenatedLeftShiftsWorkBreak.worktime > 6 * 60 ||
-        leftSideWithNewShiftWorkBreak.worktime > 6 * 60
+        leftSideWithNewShiftWorkBreak.worktime > 6 * 60 ||
+        inTotalWorkBreakTime.worktime > 6 * 60
       ) {
         // left with new shift is more than 6h
 
