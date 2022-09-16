@@ -261,9 +261,8 @@ export default {
     this.loadService();
     // Make a copy of the entity we will save.
     this.toSave = this.entity;
-
-    await this.$store.dispatch("contract/queryContracts");
-    this.contractExists = this.$store.getters["contract/contracts"].length > 0;
+    this.contractExists =
+      this.$store.getters["contentData/allContracts"].length > 0;
     this.dsgvoAccepted = this.$store.state.user.dsgvo_accepted;
   },
   methods: {
