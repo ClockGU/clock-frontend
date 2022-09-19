@@ -55,6 +55,7 @@ import { format } from "date-fns";
 import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DashboardConflicts",
@@ -67,10 +68,6 @@ export default {
     month: {
       type: String,
       default: format(new Date(), "yyyy-MM")
-    },
-    shifts: {
-      type: Array,
-      required: true
     }
   },
   data: () => ({
@@ -83,6 +80,7 @@ export default {
     touchOverlay: false
   }),
   computed: {
+    ...mapGetters({ shifts: "contentData/selectedShifts" }),
     overlappingShifts() {
       const overlaps = getOverlappingShifts(this.shifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps

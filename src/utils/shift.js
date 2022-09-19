@@ -2,10 +2,10 @@ import { Shift } from "@/models/ShiftModel";
 import { areIntervalsOverlapping, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 
-function prepare({ start, end }) {
+function prepare(shift) {
   return {
-    start: parseISO(start),
-    end: parseISO(end)
+    start: shift.started,
+    end: shift.stopped
   };
 }
 
@@ -21,12 +21,12 @@ export function getOverlappingShifts(shifts) {
   const matches = [];
   for (let i = 0; i <= shifts.length - 1; i++) {
     for (let j = i + 1; j <= shifts.length - 1; j++) {
-      if (j == shifts.length) break;
+      if (j === shifts.length) break;
 
       const shiftA = shifts[i];
       const shiftB = shifts[j];
 
-      if (areIntervalsOverlapping(prepare(shiftA.date), prepare(shiftB.date))) {
+      if (areIntervalsOverlapping(prepare(shiftA), prepare(shiftB))) {
         matches.push([shiftA, shiftB]);
       }
     }
