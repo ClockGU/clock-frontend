@@ -99,12 +99,7 @@ export default {
       return this.selectedContract === undefined;
     },
     latestReport() {
-      const reports = this.selectedReports
-        .filter((report) => report.contract === this.selectedContract.id)
-        .sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-      return reports.pop();
+      return this.selectedReports.at(-1);
     },
     azkData() {
       //reminder: the Progress component expects the carryover to be the last item
@@ -132,11 +127,11 @@ export default {
       return [
         {
           name: this.$t("reports.carryoverLast"),
-          value: this.latestReport.carryover.prev
+          value: this.latestReport.carryOverPreviousMonth
         },
         {
           name: this.$t("reports.debit"),
-          value: this.latestReport.debit_worktime
+          value: this.latestReport.debitWorktime
         },
         {
           name: this.$t("reports.timeWorked"),
@@ -144,7 +139,7 @@ export default {
         },
         {
           name: this.$t("reports.carryoverNext"),
-          value: this.latestReport.carryover.next
+          value: this.latestReport.carryover
         }
       ];
     },
