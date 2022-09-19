@@ -5,11 +5,11 @@
         <v-icon class="pr-1" :color="colors[item.type.value]">
           {{ typeIcons[item.type.value] }}
         </v-icon>
-        {{ item.date.start | formatDay }}
+        {{ item.started | formatDay }}
       </v-list-item-title>
       <v-list-item-subtitle class="text--primary">
-        {{ item.date.start | formatTime }} -
-        {{ item.date.end | formatTime }}
+        {{ item.started | formatTime }} -
+        {{ item.stopped | formatTime }}
         ({{ item.representationalDuration("hm") }})
       </v-list-item-subtitle>
       <v-list-item-subtitle>
@@ -35,7 +35,7 @@
         </v-chip>
 
         <v-chip
-          v-if="!item.reviewed"
+          v-if="!item.wasReviewed"
           data-cy="shift-list-item-type"
           outlined
           small
@@ -52,7 +52,6 @@
       entity-name="shift"
       :entity="shiftEntity"
       @close="closeDialog"
-      @refresh="$emit('refresh')"
     />
   </v-list-item>
 </template>
@@ -102,8 +101,8 @@ export default {
   computed: {
     isRunningShift() {
       return isWithinInterval(new Date(), {
-        start: this.item.date.start,
-        end: this.item.date.end
+        start: this.item.started,
+        end: this.item.stopped
       });
     }
   },
