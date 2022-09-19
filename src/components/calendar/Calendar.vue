@@ -10,11 +10,7 @@
           color="white"
         >
           <v-col class="px-0" cols="12">
-            <SelectContractFilter
-              :disabled="disabled"
-              :contracts="contracts"
-              :selected-contract="selectedContract"
-            />
+            <SelectContractFilter :disabled="disabled" />
           </v-col>
           <v-col class="px-0" cols="12">
             <v-btn :disabled="disabled" color="primary" @click="newShift">
@@ -81,10 +77,9 @@
 </template>
 
 <script>
-import { formatTime, formatDate } from "@/utils/time";
+import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { Shift } from "@/models/ShiftModel";
-import { Contract } from "@/models/ContractModel";
 import { getNextContractParams } from "@/utils";
 
 import FormDialog from "@/components/FormDialog";
@@ -94,7 +89,7 @@ import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Calendar",
@@ -139,13 +134,11 @@ export default {
     showFormDialog: false
   }),
   computed: {
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
-    },
+    ...mapGetters({
+      selectedContract: "selectedContract/selectedContract",
+      visibleShifts: "contentData/selectedShifts",
+      locale: "locale"
+    }),
     shiftNow() {
       const now = new Date();
       const [year, month, day] = this.focus.split("-");
@@ -158,44 +151,28 @@ export default {
         now.getMinutes()
       );
     },
-    visibleShifts() {
-      if (this.selectedContract === null) return [];
-
-      return this.shifts.filter(
-        (shift) => shift.contract === this.selectedContract.uuid
-      );
-    },
     events() {
-      return this.visibleShifts.map((item) => {
-        const shift = new Shift(item);
-        const contract = new Contract(
-          this.contracts.find((contract) => contract.id === shift.contract)
-        );
-
+      console.log(JSON.stringify(this.visibleShifts));
+      return this.visibleShifts.map((shift) => {
         const duration =
           this.type === "month"
             ? "- " + shift.representationalDuration()
             : shift.representationalDuration();
 
         return {
-          uuid: shift.uuid,
-          start: localizedFormat(shift.date.start, "yyyy-MM-dd HH:mm"),
-          end: localizedFormat(shift.date.end, "yyyy-MM-dd HH:mm"),
+          id: shift.id,
+          start: localizedFormat(shift.started, "yyyy-MM-dd HH:mm"),
+          end: localizedFormat(shift.stopped, "yyyy-MM-dd HH:mm"),
           type: shift.type.value,
           color: this.colorMap(shift),
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
           reviewed: shift.reviewed,
-          contract: contract,
+          contract: this.selectedContract,
           locked: shift.locked
         };
       });
-    },
-    ...mapState({
-      contracts: (state) => state.contract.contracts,
-      locale: (state) => state.locale,
-      shifts: (state) => state.shift.shifts
-    })
+    }
   },
   async mounted() {
     this.$refs.calendar.checkChange();
@@ -205,9 +182,6 @@ export default {
     this.type = this.initialType;
   },
   methods: {
-    formatTime(value) {
-      return formatTime(value);
-    },
     formatDate(value) {
       return formatDate(value);
     },
@@ -217,8 +191,6 @@ export default {
           getNextContractParams(this.$route, contract)
         );
       }
-
-      this.$emit("refresh");
     },
     editShift({ event }) {
       const shift = this.visibleShifts.find(
@@ -238,7 +210,7 @@ export default {
       return interval.time;
     },
     colorMap(event) {
-      return SHIFT_TYPE_COLORS[event.type.value];
+      return SHIFT_TYPE_COLORS[event.type];
     },
     viewDay({ date }) {
       this.focus = date;
