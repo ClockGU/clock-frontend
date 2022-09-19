@@ -79,10 +79,6 @@ export default {
   },
   mixins: [contractValidMixin],
   props: {
-    selectedContract: {
-      required: true,
-      validator: (prop) => typeof prop === "object" || prop === null
-    },
     clockedShift: {
       type: Object,
       default: null
@@ -99,13 +95,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contentData/allContracts",
+      selectedContract: "selectedContract/selectedContract"
     }),
     clockedContract() {
       if (this.clockedShift === null) return this.selectedContract;
 
       return this.contracts.find(
-        (contract) => contract.uuid === this.clockedShift.contract
+        (contract) => contract.id === this.clockedShift.contract
       );
     },
     overlayMessage() {
@@ -119,10 +116,7 @@ export default {
       else return this.$t("dashboard.clock.contractInactive");
     },
     showOverlay() {
-      return (
-        this.$route.params.contract !== this.clockedContract.uuid ||
-        !this.contractValid
-      );
+      return this.clockedContract === undefined || !this.contractValid;
     }
   },
   methods: {
