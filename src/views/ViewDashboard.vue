@@ -2,11 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <SelectContractFilter
-          :contracts="contracts"
-          :selected-contract="selectedContract"
-          :disabled="disabled"
-        />
+        <SelectContractFilter :disabled="disabled" />
       </v-col>
 
       <v-card min-width="100%" :elevation="0">
@@ -42,18 +38,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="4">
-            <DataFilter
-              :date="date"
-              :contract="selectedContract"
-              :disabled="disabled"
-            >
-              <template #default="{ data }">
-                <DashboardConflicts
-                  :shifts="data.shifts"
-                  :disabled="disabled"
-                />
-              </template>
-            </DataFilter>
+            <DashboardConflicts :shifts="selectedShifts" :disabled="disabled" />
           </v-col>
 
           <v-col cols="12" md="6" order="5">
@@ -76,14 +61,7 @@ import DashboardProgress from "@/components/dashboard/DashboardProgress";
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity";
 import DashboardWelcome from "@/components/dashboard/DashboardWelcome";
-import DataFilter from "@/components/DataFilter";
-import {
-  isSameDay,
-  isSameWeek,
-  isBefore,
-  parseISO,
-  differenceInMinutes
-} from "date-fns";
+import { isSameDay, isSameWeek, isBefore, differenceInMinutes } from "date-fns";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
@@ -98,7 +76,6 @@ export default {
   components: {
     ClockInOutCard,
     DashboardShiftButton,
-    DataFilter,
     DashboardMessageList,
     DashboardProgress,
     SelectContractFilter,
@@ -114,23 +91,16 @@ export default {
   computed: {
     ...mapGetters({
       clockedShift: "clock/clockedShift",
-      contracts: "contract/contracts",
-      shifts: "shift/shifts",
-      reports: "report/reports"
+      selectedContract: "selectedContract/selectedContract",
+      selectedReports: "contentData/selectedReports",
+      selectedShifts: "contentData/selectedShifts"
     }),
     disabled() {
-      return this.$route.params.contract === undefined;
-    },
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
+      return this.selectedContract === undefined;
     },
     latestReport() {
-      const reports = this.reports
-        .filter((report) => report.contract === this.selectedContract.uuid)
+      const reports = this.selectedReports
+        .filter((report) => report.contract === this.selectedContract.id)
         .sort((a, b) => {
           return new Date(a.date) - new Date(b.date);
         });
@@ -186,53 +156,35 @@ export default {
         };
       }
       let duration = 0;
-      this.shifts
+      this.selectedShifts
         .filter(
           (shift) =>
-            shift.contract === this.selectedContract.uuid &&
-            this.thisWeek(shift.date) &&
-            isBefore(parseISO(shift.date.end), new Date()) &&
-            shift.reviewed
+            this.thisWeek(shift.started) &&
+            isBefore(shift.stopped, new Date()) &&
+            shift.wasReviewed
         )
         .forEach((shift) => {
-          duration += differenceInMinutes(
-            parseISO(shift.date.end),
-            parseISO(shift.date.start)
-          );
+          duration += differenceInMinutes(shift.stopped, shift.started);
         });
       //differenceInMinutes(this.shifts[0].date.start, this.shifts[0].date.end);
       return {
         worktime: duration,
-        avg: this.selectedContract.worktime / 4
+        avg: this.selectedContract.minutes / 4
       };
     },
     dailyData() {
       let duration = 0;
-      this.shifts
+      this.selectedShifts
         .filter(
           (shift) =>
-            shift.contract === this.selectedContract.uuid &&
-            this.today(shift.date) &&
-            isBefore(parseISO(shift.date.end), new Date()) &&
-            shift.reviewed
+            this.today(shift.started) &&
+            isBefore(shift.stopped, new Date()) &&
+            shift.wasReviewed
         )
         .forEach((shift) => {
-          duration += differenceInMinutes(
-            parseISO(shift.date.end),
-            parseISO(shift.date.start)
-          );
+          duration += differenceInMinutes(shift.stopped, shift.started);
         });
       return duration;
-    },
-    unreviewedShiftsToday() {
-      // TODO: display unreviewed shifts somewhere on the Dashboard
-      return this.shifts.filter(
-        (shift) =>
-          shift.contract === this.selectedContract.uuid &&
-          this.today(shift.date) &&
-          isBefore(parseISO(shift.date.end), new Date()) &&
-          !shift.reviewed
-      ).length;
     }
   },
   methods: {
@@ -249,11 +201,11 @@ export default {
     },
     today(date) {
       const today = new Date();
-      return isSameDay(today, parseISO(date.start));
+      return isSameDay(today, date);
     },
     thisWeek(date) {
       const thisWeek = new Date();
-      return isSameWeek(thisWeek, parseISO(date.start), { weekStartsOn: 1 });
+      return isSameWeek(thisWeek, date, { weekStartsOn: 1 });
     }
   }
 };
