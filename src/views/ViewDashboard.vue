@@ -36,7 +36,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="4">
-            <DashboardConflicts :shifts="selectedShifts" :disabled="disabled" />
+            <DashboardConflicts :disabled="disabled" />
           </v-col>
 
           <v-col cols="12" md="6" order="5">
