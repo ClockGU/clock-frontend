@@ -19,11 +19,13 @@ const getters = {
     return state.contentData[id].contract;
   },
   selectedShifts(state, getters, rootState, rootGetters) {
-    const selectedContractId = rootGetters["contract/selectedContract"].id;
+    const selectedContractId =
+      rootGetters["selectedContract/selectedContract"].id;
     return state.contentData[selectedContractId].shifts;
   },
-  selectedReports(state, rootGetters) {
-    const selectedContractId = rootGetters["contract/selectedContract"].id;
+  selectedReports(state, getters, rootState, rootGetters) {
+    const selectedContractId =
+      rootGetters["selectedContract/selectedContract"].id;
     return state.contentData[selectedContractId].reports;
   },
   allShifts(state) {
