@@ -2,8 +2,8 @@
   <v-list-item @click="editable ? openDialog() : () => {}">
     <v-list-item-content>
       <v-list-item-title>
-        <v-icon class="pr-1" :color="colors[item.type.value]">
-          {{ typeIcons[item.type.value] }}
+        <v-icon class="pr-1" :color="colors[item.type]">
+          {{ typeIcons[item.type] }}
         </v-icon>
         {{ item.started | formatDay }}
       </v-list-item-title>
