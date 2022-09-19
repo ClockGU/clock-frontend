@@ -3,7 +3,6 @@ import {
   isFuture,
   isPast,
   isWithinInterval,
-  parseISO,
   startOfDay
 } from "date-fns";
 
@@ -21,20 +20,20 @@ export default {
   },
   methods: {
     specificContractExpired(contract) {
-      const date = endOfDay(parseISO(contract.date.end));
-      return isPast(date) && contract.uuid !== null;
+      const date = endOfDay(contract.endDate);
+      return isPast(date) && contract.id !== null;
     },
     specificContractValid(contract) {
-      const startdate = endOfDay(parseISO(contract.date.start));
-      const enddate = endOfDay(parseISO(contract.date.end));
+      const startdate = endOfDay(contract.startDate);
+      const enddate = endOfDay(contract.endDate);
       return (
         isWithinInterval(new Date(), { start: startdate, end: enddate }) &&
-        contract.uuid !== null
+        contract.id !== null
       );
     },
     specificContractInFuture(contract) {
-      const date = startOfDay(parseISO(contract.date.start));
-      return isFuture(date) && contract.uuid !== null;
+      const date = startOfDay(contract.startDate);
+      return isFuture(date) && contract.id !== null;
     }
   }
 };
