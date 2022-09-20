@@ -384,7 +384,7 @@
     },
     "warnings": {
       "maxOvertimeExceeded": " Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden in den nächsten Monat übertragen.",
-      "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit. Es werden nur 20% deiner Sollarbeitszeit als Minusstunden in den nächsten Monat übertragen."
+      "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit."
     }
   },
   "selectContract": {
@@ -472,7 +472,7 @@
       "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ \"Feiertag\" clocken.",
       "sickOrVacationShiftExists": "An diesem Datum existiert bereits eine Schicht vom Typ {shiftType}. Du kannst an diesem Tag nur noch Schichten von diesem Typ anlegen.",
       "noSickOrVacationWithRegularShift": "An diesem Datum existiert bereits eine normale Schicht. Du musst diese löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} anlegen kannst.",
-      "insufficientBreaktime": "Ab einer Arbeitszeit von 6h müssen mindestens 30 Minuten, ab 9h mindestens 45 Minuten Pause eingelegt werden. ( Arbeitszeit {worktime}h, Pause {breaktime}h)",
+      "insufficientBreaktime": "Ab einer Arbeitszeit von 6h müssen mindestens 30 Minuten, ab 9h mindestens 45 Minuten Pause eingelegt werden. (Arbeitszeit {worktime}h, Pause {breaktime}h)",
       "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten.",
       "maxShifttimeExceeded": "Diese Schicht überschreitet die maximal Schichtlänge von 6h.",
       "shiftIsOverlapping": "Diese Schicht überschneidet sich mit bereits bestehenden Schichten.",

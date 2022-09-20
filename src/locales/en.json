@@ -384,7 +384,7 @@
     },
     "warnings": {
       "maxOvertimeExceeded": "You gathered more than 50% of you debit worktime in overtime. Only 50% of you debit worktime will be carried over to the next month as surplus hours.",
-      "insufficientWorktime": "You are missing more than 20% of your debit worktime. Only 20% of your debit worktime will be carried over to the next month as undertime hours."
+      "insufficientWorktime": "You are missing more than 20% of your debit worktime."
     }
   },
   "selectContract": {
@@ -472,7 +472,7 @@
       "selectedDateIsHoliday": "The selected date is a bank holiday. You can only create shifts of type \"bank holiday\" on this day.",
       "sickOrVacationShiftExists": "There are other shifts of type {shiftType} on this date. You can only create shifts of the same type.",
       "noSickOrVacationWithRegularShift": "There is already a normal shift on this date. Please delete the shift or change its type before creating a shift of type {shiftType}.",
-      "insufficientBreaktime": "There are shifts of {worktime}h with breaks of {breaktime}h on this date. According to §4 ArbzG, the work shall be interrupted by breaks of 30 minutes for a shift over 6h, and 45 minutes for a shift over 9h (in all).",
+      "insufficientBreaktime": "After 6h of work you need at minimum a 30min break, after 9h a 45min break. (work {worktime}h, break {breaktime}h)",
       "maxWorktimeExceeded": "You exceeded your maximum daily worktime of 10h.",
       "maxShifttimeExceeded": "This shift exceeds the maximum shift length of 6h.",
       "shiftIsOverlapping": "This Shift overlaps with another already existing shift.",
