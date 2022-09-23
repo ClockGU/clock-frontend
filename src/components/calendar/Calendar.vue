@@ -152,7 +152,6 @@ export default {
       );
     },
     events() {
-      console.log(JSON.stringify(this.visibleShifts));
       return this.visibleShifts.map((shift) => {
         const duration =
           this.type === "month"

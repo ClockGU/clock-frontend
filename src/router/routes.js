@@ -100,25 +100,27 @@ export const routes = [
       {
         path: "/contracts/create",
         name: "createContract",
-        component: ViewContractList
+        component: ViewContractList,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/contracts/:uuid/edit",
         name: "editContract",
         component: ViewContractList,
-        props: true
+        props: true,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/contracts/",
         name: "contractList",
         component: ViewContractList,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/select/",
         name: "contractSelect",
-        component: ViewContractList
+        component: ViewContractList,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/reports/:contract?",

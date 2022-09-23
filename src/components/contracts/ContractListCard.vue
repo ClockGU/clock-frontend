@@ -27,7 +27,7 @@
         text
         color="primary"
         data-cy="edit"
-        @click="$emit('edit', contract.uuid)"
+        @click="$emit('edit', contract.id)"
       >
         {{ $t("actions.edit") }}
       </v-btn>
@@ -61,12 +61,12 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+import { Contract } from "@/models/ContractModel";
 
 function formatDate(date) {
-  return localizedFormat(parseISO(date), "do MMMM yyyy");
+  return localizedFormat(date, "do MMMM yyyy");
 }
 
 export default {
@@ -74,7 +74,7 @@ export default {
   components: { ConfirmationDialog },
   props: {
     contract: {
-      type: Object,
+      type: Contract,
       required: true
     },
     expired: {
@@ -84,13 +84,13 @@ export default {
   },
   computed: {
     endDate() {
-      return formatDate(this.contract.date.end);
+      return formatDate(this.contract.endDate);
     },
     startDate() {
-      return formatDate(this.contract.date.start);
+      return formatDate(this.contract.startDate);
     },
     worktime() {
-      return minutesToHHMM(this.contract.worktime);
+      return minutesToHHMM(this.contract.minutes);
     }
   }
 };
