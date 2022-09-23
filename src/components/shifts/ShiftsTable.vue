@@ -15,12 +15,12 @@
     >
       <!-- eslint-disable-next-line -->
       <template #item.date="{ item }">
-        {{ formattedDate(item.date) }}
+        {{ formattedDate(item.started) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.start="{ item }">
-        {{ formattedTime(item.start) }}
+        {{ formattedTime(item.started) }}
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -30,11 +30,11 @@
 
       <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
-        <v-icon :color="colors[item.shift.type.value]">
-          {{ typeIcons[item.shift.type.value] }}
+        <v-icon :color="colors[item.type]">
+          {{ typeIcons[item.type] }}
         </v-icon>
         <v-chip
-          v-if="isRunningShift(item.shift)"
+          v-if="isRunningShift(item)"
           class="ml-2"
           outlined
           x-small
@@ -48,11 +48,11 @@
       <!-- eslint-disable-next-line -->
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
-          v-if="!item.reviewed"
-          :elevation="!isRunningShift(item.shift) ? 3 : 0"
+          v-if="!item.wasReviewed"
+          :elevation="!isRunningShift(item) ? 3 : 0"
           icon
-          :disabled="isRunningShift(item.shift)"
-          @click="reviewSingleShift(item.shift)"
+          :disabled="isRunningShift(item)"
+          @click="reviewSingleShift(item)"
         >
           <v-icon color="red">
             {{ icons.mdiClose }}
@@ -213,16 +213,16 @@ export default {
       this.shifts.forEach(
         (shift) => (tagsAndNotes += shift.tags.length && shift.note.length)
       );
-      if (tagsAndNotes == 0) {
-        return this.headers.filter((item) => item.value != "tagsNotes");
+      if (tagsAndNotes === 0) {
+        return this.headers.filter((item) => item.value !== "tagsNotes");
       } else return this.headers;
     }
   },
   methods: {
     isRunningShift(shift) {
       return isWithinInterval(new Date(), {
-        start: shift.date.start,
-        end: shift.date.end
+        start: shift.started,
+        end: shift.stopped
       });
     },
     formattedDate(date) {
@@ -239,9 +239,9 @@ export default {
       items.sort((a, b) => {
         switch (sortBy[0]) {
           case "date":
-            return isBefore(b.date, a.date) ? -desc : desc;
+            return isBefore(b.stated, a.started) ? -desc : desc;
           case "start":
-            return isBefore(getHours(b.start), getHours(a.start))
+            return isBefore(getHours(b.started), getHours(a.started))
               ? -desc
               : desc;
           default:
@@ -259,7 +259,7 @@ export default {
       const promises = [];
       try {
         for (const shift of this.selected) {
-          promises.push(ShiftService.delete(shift.uuid));
+          promises.push(ShiftService.delete(shift.id));
         }
 
         await Promise.all(promises);
@@ -289,7 +289,7 @@ export default {
     async reviewSingleShift(shift) {
       const promises = [];
       try {
-        shift.reviewed = true;
+        shift.wasReviewed = true;
         const payload = shift.toPayload();
         promises.push(ShiftService.update(payload, payload.uuid));
 
