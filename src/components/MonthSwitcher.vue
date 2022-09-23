@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-btn :disabled="!data.hasPrevMonth()" text @click="data.prevMonth">
+    <v-btn :disabled="!hasPrevMonth" text @click="gotoPrevMonth">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -18,16 +18,16 @@
         </v-btn>
       </template>
       <v-date-picker
-        :value="date"
-        :allowed-dates="data.months.allowedMonths"
-        :min="data.months.min"
-        :max="data.months.max"
+        :value="dateString"
+        :allowed-dates="allowedMonths"
+        :min="minMonth"
+        :max="maxMonth"
         type="month"
-        @input="$emit('update', $event)"
+        @input="inputDate"
       ></v-date-picker>
     </v-menu>
 
-    <v-btn :disabled="!data.hasNextMonth()" text @click="data.nextMonth">
+    <v-btn :disabled="!hasNextMonth" text @click="gotoNextMonth">
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </v-row>
@@ -35,18 +35,15 @@
 
 <script>
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
-import { parseISO } from "date-fns";
+import { addMonths, isSameMonth, subMonths } from "date-fns";
 import { localizedFormat } from "@/utils/date";
+import { mapGetters } from "vuex";
 
 export default {
   name: "MonthSwitcher",
   props: {
     date: {
-      type: String,
-      required: true
-    },
-    data: {
-      type: Object,
+      type: Date,
       required: true
     }
   },
@@ -55,8 +52,51 @@ export default {
     icons: { mdiChevronLeft, mdiChevronRight }
   }),
   computed: {
+    ...mapGetters({
+      selectedContract: "selectedContract/selectedContract",
+      selectedReports: "contentData/selectedReports"
+    }),
+    dateString() {
+      return localizedFormat(this.date, "yyyy-MM");
+    },
     formattedDate() {
-      return localizedFormat(parseISO(this.date), "MMMM yyyy");
+      return localizedFormat(this.date, "MMMM yyyy");
+    },
+    months() {
+      return this.selectedReports.map((item) => item.monthYear);
+    },
+    hasNextMonth() {
+      return !isSameMonth(this.selectedContract.endDate, this.date);
+    },
+    hasPrevMonth() {
+      return !isSameMonth(this.selectedContract.startDate, this.date);
+    },
+    minMonth() {
+      return localizedFormat(this.selectedContract.startDate, "yyyy-MM");
+    },
+    maxMonth() {
+      return localizedFormat(this.selectedContract.endDate, "yyyy-MM");
+    }
+  },
+  methods: {
+    setDate(value) {
+      this.$emit("update", value);
+    },
+    gotoPrevMonth() {
+      if (!this.hasPrevMonth) return;
+      const date = subMonths(this.date, 1);
+      this.setDate(date);
+    },
+    gotoNextMonth() {
+      if (!this.hasNextMonth) return;
+      const date = addMonths(this.date, 1);
+      this.setDate(date);
+    },
+    allowedMonths(value) {
+      return parseInt(value.split("-")[1], 10);
+    },
+    inputDate(value) {
+      this.setDate(new Date(value));
     }
   }
 };
