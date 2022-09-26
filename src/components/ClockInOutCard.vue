@@ -24,7 +24,10 @@
                   {{ overlayMessage }}
                 </p>
               </v-col>
-              <v-col v-if="contracts.length > 1 && clockedShift" cols="12">
+              <v-col
+                v-if="contracts.length > 1 && clockedShift !== undefined"
+                cols="12"
+              >
                 <v-btn color="primary lighten-1" @click="changeContract">
                   {{ $t("actions.switch") }}
                 </v-btn>
@@ -96,7 +99,7 @@ export default {
       clockedShift: "clock/clockedShift"
     }),
     clockedContract() {
-      if (this.clockedShift === null) return this.selectedContract;
+      if (this.clockedShift === undefined) return this.selectedContract;
 
       return this.$store.getters["contentData/contractById"](
         this.clockedShift.contract
