@@ -146,7 +146,8 @@ export default {
     },
     clockedContract: {
       type: Contract,
-      required: true
+      required: false,
+      default: undefined
     }
   },
   data() {

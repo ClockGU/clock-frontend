@@ -9,12 +9,15 @@ import {
 export default {
   computed: {
     contractExpired() {
+      if (this.selectedContract === undefined) return false;
       return this.specificContractExpired(this.selectedContract);
     },
     contractValid() {
+      if (this.selectedContract === undefined) return false;
       return this.specificContractValid(this.selectedContract);
     },
     contractInFuture() {
+      if (this.selectedContract === undefined) return false;
       return this.specificContractInFuture(this.selectedContract);
     }
   },
