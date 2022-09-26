@@ -1,36 +1,24 @@
-import {
-  differenceInSeconds,
-  getHours,
-  getMinutes,
-  parseISO,
-  set
-} from "date-fns";
+import { differenceInSeconds, getHours, getMinutes, set } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ClockInOut",
   data: () => ({
     clock: null,
     reselectContract: null,
-    saving: false,
-    clockedShift: null
+    saving: false
   }),
-  props: {
-    selectedContract: {
-      type: Object || null,
-      required: true
-    }
-  },
   computed: {
+    ...mapGetters({
+      clockedShift: "clock/clockedShift"
+    }),
     clockData() {
       if (this.clock === null) return {};
 
       return { startDate: this.clock.startDate, duration: this.duration };
-    },
-    contract() {
-      return this.selectedContract;
     },
     duration() {
       if (this.clock === null || this.clock.duration === null) return 0;
@@ -45,17 +33,11 @@ export default {
     }
   },
   async created() {
-    try {
-      // Only start the clock if there is a clockedShift when mounting the component.
-      this.clockedShift = await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
-      this.clock = new ClockModel({
-        startDate: parseISO(this.clockedShift.started)
-      });
-      this.clock.start();
-    } catch (error) {
-      // Do nothing if there is no clocked shift
-      return;
-    }
+    if (this.clockedShift === null) return;
+    this.clock = new ClockModel({
+      startDate: this.clockedShift.started
+    });
+    this.clock.start();
   },
   destroyed() {
     this.stop();
@@ -68,7 +50,7 @@ export default {
         await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
 
         const startDate =
-          this.clockedShift.date === undefined
+          this.clockedShift.started === undefined
             ? this.clockedShift.started
             : this.clockedShift.date.start;
 
@@ -76,7 +58,7 @@ export default {
         // set the shift's end to 23:59:59 on the day the shift was clocked in
         let clockOutDate = new Date();
         if (getHours(clockOutDate) == 0 && getMinutes(clockOutDate) == 0) {
-          clockOutDate = set(parseISO(this.clockedShift.date.start), {
+          clockOutDate = set(this.clockedShift.started, {
             hours: 23,
             minutes: 59,
             seconds: 59
@@ -86,8 +68,8 @@ export default {
         const endDate = clockOutDate;
 
         if (differenceInSeconds(endDate, new Date(startDate)) < 60) {
-          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
-          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+          await this.$store.dispatch("clock/deleteClockedShift");
+          this.$store.dispatch("clock/unclockShift");
           this.stop();
 
           this.$store.dispatch("snackbar/setSnack", {
@@ -108,8 +90,8 @@ export default {
 
           const payload = new Shift(data).toPayload();
           await this.$store.dispatch("shift/CREATE_SHIFT", payload);
-          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
-          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+          await this.$store.dispatch("clock/deleteClockedShift");
+          this.$store.dispatch("clock/unclockShift");
 
           this.stop();
 
@@ -130,9 +112,6 @@ export default {
     async start() {
       this.saving = true;
       try {
-        this.clockedShift = await this.$store.dispatch(
-          "clock/GET_CLOCKED_SHIFT"
-        );
         this.clock = new ClockModel({ startDate: this.clockedShift.startDate });
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
@@ -147,10 +126,10 @@ export default {
         this.clock = new ClockModel({ startDate: date });
         const shift = {
           started: date,
-          contract: this.contract.uuid
+          contract: this.$store.getters["selectedContract/selectedContract"].id
         };
 
-        this.clockedShift = await this.$store.dispatch("clock/CLOCK_SHIFT", {
+        this.clockedShift = await this.$store.dispatch("clock/clockShift", {
           ...shift
         });
         this.clock.start();
@@ -179,15 +158,14 @@ export default {
         log("Tried to destroy clock, while it was already destroyed.");
       } finally {
         this.clock = null;
-        this.clockedShift = null;
+        this.$store.commit("clock/unclockShift");
       }
     },
     async reset(snackbar = true) {
       this.pause();
       this.saving = true;
       try {
-        await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
-        await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+        await this.$store.dispatch("clock/deleteClockedShift");
         this.stop();
 
         if (snackbar) {
@@ -209,7 +187,7 @@ export default {
           color: "warning"
         });
       }
-      this.$store.dispatch("clock/UNCLOCK_SHIFT");
+      this.$store.dispatch("clock/unclockShift");
 
       this.saving = false;
     },

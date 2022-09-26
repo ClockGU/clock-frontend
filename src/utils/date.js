@@ -91,7 +91,7 @@ export function defaultContractDate({
   return newDate;
 }
 
-function getFirstOfcurrentMonth() {
+export function getFirstOfcurrentMonth() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1, 2);
 }

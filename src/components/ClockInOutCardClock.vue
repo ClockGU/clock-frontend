@@ -97,6 +97,7 @@ import { mdiDelete, mdiInformation } from "@mdi/js";
 import { localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
+import { Contract } from "@/models/ContractModel";
 
 export default {
   name: "ClockInOutCardClock",
@@ -142,6 +143,10 @@ export default {
     actions: {
       type: Object,
       required: true
+    },
+    clockedContract: {
+      type: Contract,
+      required: true
     }
   },
   data() {
@@ -153,17 +158,9 @@ export default {
     ...mapGetters({
       contracts: "contract/contracts"
     }),
-    clockedContract() {
-      return this.contracts.find(
-        (contract) => contract.uuid === this.actions.clockedContract.uuid
-      );
-    },
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
-    },
-    daystr(days) {
-      return this.$tc("dashboard.clock.display.day", days);
     }
   }
 };

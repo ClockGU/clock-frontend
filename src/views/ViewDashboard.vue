@@ -12,10 +12,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="0" order-md="0">
-            <ClockInOutCard
-              :disabled="disabled"
-              :clocked-shift="clockedShift"
-            />
+            <ClockInOutCard :disabled="disabled" />
           </v-col>
 
           <v-col cols="12" md="6" order="1" order-md="1">

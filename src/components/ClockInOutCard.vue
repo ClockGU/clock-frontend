@@ -36,7 +36,6 @@
           <ClockInOutCardClock
             :actions="{
               data,
-              clockedContract,
               duration,
               status,
               start,
@@ -44,6 +43,7 @@
               destroy,
               save
             }"
+            :clocked-contract="clockedContract"
             @updateWindow="window += $event"
           />
         </v-window-item>
@@ -79,10 +79,6 @@ export default {
   },
   mixins: [contractValidMixin],
   props: {
-    clockedShift: {
-      type: Object,
-      default: null
-    },
     disabled: {
       type: Boolean,
       default: false
@@ -96,13 +92,14 @@ export default {
   computed: {
     ...mapGetters({
       contracts: "contentData/allContracts",
-      selectedContract: "selectedContract/selectedContract"
+      selectedContract: "selectedContract/selectedContract",
+      clockedShift: "clock/clockedShift"
     }),
     clockedContract() {
       if (this.clockedShift === null) return this.selectedContract;
 
-      return this.contracts.find(
-        (contract) => contract.id === this.clockedShift.contract
+      return this.$store.getters["contentData/contractById"](
+        this.clockedShift.contract
       );
     },
     overlayMessage() {
