@@ -94,6 +94,7 @@ export default {
       return this.selectedContract === undefined;
     },
     latestReport() {
+      if (this.selectedReports === undefined) return undefined;
       return this.selectedReports.at(-1);
     },
     azkData() {
@@ -163,6 +164,7 @@ export default {
       };
     },
     dailyData() {
+      if (this.disabled) return 0;
       let duration = 0;
       this.selectedShifts
         .filter(

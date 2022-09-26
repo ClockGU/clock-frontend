@@ -49,6 +49,7 @@ export default {
       shifts: "contentData/selectedShifts"
     }),
     lastShifts() {
+      if (this.disabled) return [];
       return this.shifts
         .filter((shift) => isBefore(shift.started, new Date()))
         .sort((a, b) => {

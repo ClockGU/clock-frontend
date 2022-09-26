@@ -43,7 +43,7 @@ export const sortByModifiedAt = sortBy("modifiedAt");
 
 export function getContractWithLastActivity({ shifts, contracts }) {
   if (shifts.length === 0) {
-    if (contracts.length === 0) return "";
+    if (contracts.length === 0) return undefined;
     return sortByModifiedAt(contracts)[0];
   } else if (shifts.length === 1) {
     return store.getters["contentData/contractById"](shifts[0].contract);
