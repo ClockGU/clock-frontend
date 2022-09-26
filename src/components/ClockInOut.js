@@ -33,7 +33,7 @@ export default {
     }
   },
   async created() {
-    if (this.clockedShift === null) return;
+    if (this.clockedShift === undefined) return;
     this.clock = new ClockModel({
       startDate: this.clockedShift.started
     });
@@ -124,14 +124,12 @@ export default {
         // No shift is clocked in. Do the deed!
         const date = new Date();
         this.clock = new ClockModel({ startDate: date });
-        const shift = {
+        const shift = new Shift({
           started: date,
           contract: this.$store.getters["selectedContract/selectedContract"].id
-        };
-
-        this.clockedShift = await this.$store.dispatch("clock/clockShift", {
-          ...shift
         });
+
+        await this.$store.dispatch("clock/clockShift", shift);
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("dashboard.clock.snacks.clockedIn"),

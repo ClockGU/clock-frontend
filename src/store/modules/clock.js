@@ -15,7 +15,7 @@ const mutations = {
     state.clockedShift = shiftInstance;
   },
   unclockShift() {
-    state.clockedShift = null;
+    state.clockedShift = undefined;
   }
 };
 

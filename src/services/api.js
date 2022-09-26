@@ -68,14 +68,7 @@ const ApiService = {
       async (error) => {
         log("_interceptor: rejected");
 
-        const { data, status } = error.response;
-
-        if (
-          status === 404 &&
-          error.response.config.url === "/clockedinshifts/"
-        ) {
-          return Promise.resolve({ ...error, response: { data: [] } });
-        }
+        const { data } = error.response;
 
         const tokenNotValid = data.code === "token_not_valid";
         const accessTokenExpired =
