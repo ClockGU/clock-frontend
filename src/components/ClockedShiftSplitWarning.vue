@@ -20,8 +20,8 @@
           </v-list-item-title>
 
           <v-list-item-subtitle data-cy="overflowing-shift-dates">
-            {{ shift.start | formatDate }} -
-            {{ shift.end | formatDate }}
+            {{ shift.started | formatDate }} -
+            {{ shift.stopped | formatDate }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -55,17 +55,17 @@
       <v-list-item
         v-for="(shift, i) in pseudoShifts"
         v-else
-        :key="shift.uuid"
+        :key="shift.id"
         class="px-0"
         two-line
       >
         <v-list-item-content>
           <v-list-item-title>
-            {{ shift.date.start | formatDay }}
+            {{ shift.started | formatDay }}
           </v-list-item-title>
           <v-list-item-subtitle class="text--primary">
-            {{ shift.date.start | formatTime }} -
-            {{ shift.date.end | formatTime }}
+            {{ shift.started | formatTime }} -
+            {{ shift.stopped | formatTime }}
             ({{ shift.representationalDuration("hm") }})
           </v-list-item-subtitle>
           <v-list-item-subtitle>
@@ -76,7 +76,7 @@
               class="my-2"
               :color="typeColor(shift)"
             >
-              {{ $t(`shifts.types.${shift.type.value}`) }}
+              {{ $t(`shifts.types.${shift.type}`) }}
             </v-chip>
 
             <span v-if="shift.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
@@ -161,8 +161,8 @@ const { utcToZonedTime, format } = require("date-fns-tz");
 
 import ShiftReviewFormDialog from "@/components/shifts/ShiftReviewFormDialog";
 import { ShiftService } from "@/services/models";
-import { Shift } from "@/models/ShiftModel";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ClockedShiftSplitWarning",
@@ -178,12 +178,6 @@ export default {
     }
   },
   components: { ShiftReviewFormDialog },
-  props: {
-    clockedShift: {
-      type: Object,
-      required: true
-    }
-  },
   data: () => ({
     disabled: false,
     icons: { mdiDotsVertical },
@@ -192,9 +186,13 @@ export default {
     dialogReset: false,
     pseudoShifts: [],
     shiftEntity: null,
-    showFormDialog: false
+    showFormDialog: false,
+    shift: null
   }),
   computed: {
+    ...mapGetters({
+      clockedShift: "clock/clockedShift"
+    }),
     options() {
       return [
         {
@@ -223,28 +221,22 @@ export default {
       );
     },
     separateDays() {
-      const { start, end } = this.shift.date;
-      const days = eachDayOfInterval({
-        start: start,
-        end: end
+      return eachDayOfInterval({
+        start: this.shift.started,
+        end: this.shift.stopped
       });
-
-      return days;
     }
   },
   created() {
-    this.shift = new Shift({
-      ...this.clockedShift,
-      date: { start: this.clockedShift.started, end: new Date() },
-      type: "st",
-      reviewed: true
-    });
-
+    this.shift = this.clockedShift.clone();
+    this.shift.stopped = new Date();
+    this.shift.type = "st";
+    this.shift.wasReviewed = true;
     this.initializePseudoShifts();
   },
   methods: {
     typeColor(shift) {
-      return SHIFT_TYPE_COLORS[shift.type.value];
+      return SHIFT_TYPE_COLORS[shift.type];
     },
     close() {
       this.shiftEntity = null;
@@ -294,29 +286,23 @@ export default {
         });
     },
     firstShift() {
-      let { start } = this.shift.date;
+      let start = this.shift.started;
       start = utcToZonedTime(start, this.timezone);
-      const shift = new Shift({
-        ...this.shift,
-        uuid: uuidv4(),
-        date: { start: start, end: endOfDay(start) }
-      });
-
+      const shift = this.shift.clone();
+      shift.id = uuidv4();
+      shift.stopped = endOfDay(start);
       return [shift];
     },
     lastShift() {
-      let { end } = this.shift.date;
+      let end = this.shift.stopped;
       end = utcToZonedTime(end, this.timezone);
-      const shift = new Shift({
-        ...this.shift,
-        uuid: uuidv4(),
-        date: { start: startOfDay(end), end: end }
-      });
-
+      const shift = this.shift.clone();
+      shift.id = uuidv4();
+      shift.started = startOfDay(end);
       return [shift];
     },
     splitShifts() {
-      if (this.separateDays.length == 2) {
+      if (this.separateDays.length === 2) {
         return [...this.firstShift(), ...this.lastShift()];
       }
 
@@ -325,14 +311,11 @@ export default {
         this.separateDays.length - 1
       );
       const newShifts = middleShifts.map((date) => {
-        return new Shift({
-          ...this.shift,
-          uuid: uuidv4(),
-          date: {
-            start: startOfDay(date),
-            end: endOfDay(date)
-          }
-        });
+        let shift = this.shift.clone();
+        shift.id = uuidv4();
+        shift.started = startOfDay(date);
+        shift.stopped = endOfDay(date);
+        return shift;
       });
 
       return [...this.firstShift(), ...newShifts, ...this.lastShift()];

@@ -4,6 +4,7 @@ import {
   ShiftService
 } from "@/services/models";
 import store from "@/store";
+import { ClockedInShiftService } from "@/services/clockedInShift";
 
 class ContentDataService {
   constructor() {}
@@ -20,6 +21,9 @@ class ContentDataService {
       reportData
     });
     store.commit("contentData/setContentDataInitialized");
+
+    const clockedInShift = await ClockedInShiftService.get();
+    store.commit("clock/clockShift", clockedInShift);
   }
   static clearContentData() {
     store.commit("contentData/clearContentData");
