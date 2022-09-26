@@ -35,7 +35,7 @@
 
 <script>
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
-import { addMonths, isSameMonth, subMonths } from "date-fns";
+import { addMonths, isAfter, isBefore, subMonths } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mapGetters } from "vuex";
 
@@ -45,6 +45,11 @@ export default {
     date: {
       type: Date,
       required: true
+    },
+    allowedDateFn: {
+      type: Function,
+      required: false,
+      default: undefined
     }
   },
   data: () => ({
@@ -66,10 +71,18 @@ export default {
       return this.selectedReports.map((item) => item.monthYear);
     },
     hasNextMonth() {
-      return !isSameMonth(this.selectedContract.endDate, this.date);
+      const nextMonth = addMonths(this.date, 1);
+      return (
+        isAfter(nextMonth, this.selectedContract.endDate) &&
+        this.allowedMonths(localizedFormat(nextMonth, "yyyy-MM"))
+      );
     },
     hasPrevMonth() {
-      return !isSameMonth(this.selectedContract.startDate, this.date);
+      const prevMonth = subMonths(this.date, 1);
+      return (
+        isBefore(prevMonth, this.selectedContract.startDate) &&
+        this.allowedMonths(localizedFormat(prevMonth, "yyyy-MM"))
+      );
     },
     minMonth() {
       return localizedFormat(this.selectedContract.startDate, "yyyy-MM");
@@ -93,6 +106,7 @@ export default {
       this.setDate(date);
     },
     allowedMonths(value) {
+      if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
       return parseInt(value.split("-")[1], 10);
     },
     inputDate(value) {

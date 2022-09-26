@@ -33,39 +33,32 @@
       </v-col>
 
       <v-col>
-        <DataFilter
-          :disabled="disabled"
+        <MonthSwitcher
           :date="date"
-          :contract="selectedContract"
-          use-locked-months
+          :allowed-date-fn="monthValidateFn"
           @update="updateDate"
-        >
-          <template #default="{ data }">
-            <MonthSwitcher :data="data" :date="date" @update="updateDate" />
+        />
 
-            <DashboardConflicts
-              :disabled="disabled"
-              :shifts="data.shifts"
-              :month="data.date"
-            />
-            <ClockCardAlert
-              v-if="getAlertMessages(data.report).length !== 0"
-              :messages="getAlertMessages(data.report)"
-              type="error"
-            ></ClockCardAlert>
-            <ReportCard
-              :key="data.report.uuid"
-              :disabled="disabled"
-              :report="data.report"
-              :exported="data.isCurrentMonthLocked"
-              :is-exportable="!personnelNumberMissing"
-              :is-lockable="!data.isCurrentMonthLocked"
-              :is-first-unlocked-month="data.firstUnlockedMonth === date"
-              :shifts="data.shifts"
-              @locked="refresh"
-            ></ReportCard>
-          </template>
-        </DataFilter>
+        <DashboardConflicts
+          :disabled="disabled"
+          :shifts="selectedShifts"
+          :month="date"
+        />
+        <ClockCardAlert
+          v-if="getAlertMessages(report).length !== 0"
+          :messages="getAlertMessages(report)"
+          type="error"
+        ></ClockCardAlert>
+        <ReportCard
+          :key="report.id"
+          :disabled="disabled"
+          :report="report"
+          :exported="isCurrentMonthLocked"
+          :is-exportable="!personnelNumberMissing"
+          :is-lockable="!isCurrentMonthLocked"
+          :is-first-unlocked-month="isFirstUnlockedMonth"
+          :shifts="selectedShifts"
+        ></ReportCard>
       </v-col>
     </v-row>
     <v-dialog
@@ -84,7 +77,6 @@
 </template>
 
 <script>
-import DataFilter from "@/components/DataFilter";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
@@ -95,12 +87,12 @@ import ClockCardAlert from "@/components/ClockCardAlert";
 
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
-import { localizedFormat } from "@/utils/date";
+import { firstOfMonth, localizedFormat } from "@/utils/date";
+import { isSameDay, isSameMonth } from "date-fns";
 
 export default {
   name: "Reporting",
   components: {
-    DataFilter,
     MonthSwitcher,
     DashboardConflicts,
     ReportCard,
@@ -110,32 +102,73 @@ export default {
     ClockCardAlert
   },
   data: () => ({
-    date: localizedFormat(new Date(), "yyyy-MM"),
+    date: firstOfMonth,
     dialog: false,
     icons: { mdiBadgeAccountHorizontal },
     warnDialog: false
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contentData/allContracts",
+      selectedContract: "selectedContract/selectedContract",
+      selectedReports: "contentData/selectedReports",
+      selectedShifts: "contentData/selectedShifts"
     }),
     disabled() {
-      return this.$route.params.contract === undefined;
-    },
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
+      return this.selectedContract === undefined;
     },
     personnelNumberMissing() {
       return (
         !this.$store.state.user.personal_number &&
         this.$store.state.user.personal_number !== undefined
       );
+    },
+    report() {
+      return this.selectedReports.filter((report) =>
+        isSameDay(report.monthYear, this.date)
+      )[0];
+    },
+    isCurrentMonthLocked() {
+      const lockedShifts = this.selectedShifts.filter(
+        (shift) => isSameMonth(shift.started, this.date) && shift.locked
+      );
+      return lockedShifts.length > 0;
+    },
+    lockedMonths() {
+      let months = [];
+      this.selectedReports.map((report) => {
+        const lockedShifts = this.selectedShifts.filter((shift) => {
+          return isSameMonth(report.monthYear, shift.started) && shift.locked;
+        });
+        if (lockedShifts > 0) {
+          months.push(report.monthYear);
+        }
+      });
+      return months;
+    },
+    isFirstUnlockedMonth() {
+      if (this.lockedMonths.length === 0) {
+        return isSameMonth(this.date, this.selectedReports[0].monthYear);
+      }
+      return isSameMonth(
+        this.lockedMonths[this.lockedMonths.length - 1],
+        this.date
+      );
+    },
+    monthValidateFn() {
+      return (value) => {
+        return this.selectedReports
+          .map((report) => localizedFormat(report.monthYear, "yyyy-MM"))
+          .includes(value);
+      };
     }
   },
+  // async updated() {
+  //   const shifts = this.selectedShifts.filter((shift) =>
+  //     isSameMonth(this.report.monthYear, shift.started)
+  //   );
+  //   console.log(JSON.stringify(shifts, null, 4));
+  // },
   methods: {
     updateDate(value) {
       this.date = value;
@@ -159,12 +192,8 @@ export default {
     },
     getAlertMessages(report) {
       let messages = [];
-      const [creditHours, creditMinutes] = report.worktime.split(":");
-      const worktimeInMinutes =
-        parseInt(creditHours) * 60 + parseInt(creditMinutes);
-
-      const [debitHours, debitMinutes] = report.debit_worktime.split(":");
-      const debitInMinutes = parseInt(debitHours) * 60 + parseInt(debitMinutes);
+      const worktimeInMinutes = report.worktimeInMinutes;
+      const debitInMinutes = report.debitWorktimeInMinutes;
 
       if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {
         messages.push(this.$t("reports.warnings.maxOvertimeExceeded"));

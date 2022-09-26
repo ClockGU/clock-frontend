@@ -51,11 +51,11 @@
 </template>
 
 <script>
-import { format } from "date-fns";
 import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap";
 import { mapGetters } from "vuex";
+import { firstOfMonth } from "@/utils/date";
 
 export default {
   name: "DashboardConflicts",
@@ -66,8 +66,8 @@ export default {
       default: false
     },
     month: {
-      type: String,
-      default: format(new Date(), "yyyy-MM")
+      type: Date,
+      default: firstOfMonth
     }
   },
   data: () => ({
