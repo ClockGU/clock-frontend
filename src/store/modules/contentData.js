@@ -7,6 +7,7 @@ import {
   sortByStarted
 } from "@/utils";
 import Vue from "vue";
+import { ShiftService } from "@/services/models";
 
 const state = {
   contentData: {},
@@ -195,6 +196,14 @@ const actions = {
   },
   removeContract({ commit }, contractInstance) {
     commit("removeContract", contractInstance);
+  },
+  async updateContractsShifts({ commit }, contractID) {
+    const data = await ShiftService.filterList(`?contract=${contractID}`);
+    console.log(data);
+    data.forEach((item) => {
+      console.log("HERE");
+      commit("updateShift", { contractID, shiftInstance: item });
+    });
   }
 };
 
