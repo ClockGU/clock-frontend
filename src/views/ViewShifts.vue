@@ -31,7 +31,11 @@
                   </v-row>
                 </v-toolbar>
 
-                <MonthSwitcher :date="date" @update="updateDate" />
+                <MonthSwitcher
+                  :disabled="disabled"
+                  :date="date"
+                  @update="updateDate"
+                />
 
                 <ShiftsTable
                   :shifts="pastShifts"
@@ -196,6 +200,7 @@ export default {
       selectedShifts: "contentData/selectedShifts"
     }),
     shifts() {
+      if (this.disabled) return [];
       return this.selectedShifts.filter((shift) =>
         isSameMonth(shift.started, this.date)
       );

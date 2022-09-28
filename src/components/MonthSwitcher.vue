@@ -36,7 +36,7 @@
 <script>
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import { addMonths, isAfter, isBefore, subMonths } from "date-fns";
-import { localizedFormat } from "@/utils/date";
+import { firstOfMonth, localizedFormat } from "@/utils/date";
 import { mapGetters } from "vuex";
 
 export default {
@@ -50,6 +50,11 @@ export default {
       type: Function,
       required: false,
       default: undefined
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data: () => ({
@@ -71,6 +76,7 @@ export default {
       return this.selectedReports.map((item) => item.monthYear);
     },
     hasNextMonth() {
+      if (this.disabled) return false;
       const nextMonth = addMonths(this.date, 1);
       return (
         isAfter(nextMonth, this.selectedContract.endDate) &&
@@ -78,6 +84,8 @@ export default {
       );
     },
     hasPrevMonth() {
+      if (this.disabled) return false;
+
       const prevMonth = subMonths(this.date, 1);
       return (
         isBefore(prevMonth, this.selectedContract.startDate) &&
@@ -85,9 +93,11 @@ export default {
       );
     },
     minMonth() {
+      if (this.disabled) return localizedFormat(firstOfMonth, "yyyy-MM");
       return localizedFormat(this.selectedContract.startDate, "yyyy-MM");
     },
     maxMonth() {
+      if (this.disabled) return localizedFormat(firstOfMonth, "yyyy-MM");
       return localizedFormat(this.selectedContract.endDate, "yyyy-MM");
     }
   },
