@@ -136,9 +136,13 @@ export default {
   computed: {
     ...mapGetters({
       selectedContract: "selectedContract/selectedContract",
-      visibleShifts: "contentData/selectedShifts",
+      selectedShifts: "contentData/selectedShifts",
       locale: "locale"
     }),
+    visibleShifts() {
+      if (this.disabled) return [];
+      return this.selectedShifts;
+    },
     shiftNow() {
       const now = new Date();
       const [year, month, day] = this.focus.split("-");
