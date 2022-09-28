@@ -79,16 +79,15 @@ export default {
       if (this.disabled) return false;
       const nextMonth = addMonths(this.date, 1);
       return (
-        isAfter(nextMonth, this.selectedContract.endDate) &&
+        !isAfter(nextMonth, this.selectedContract.endDate) &&
         this.allowedMonths(localizedFormat(nextMonth, "yyyy-MM"))
       );
     },
     hasPrevMonth() {
       if (this.disabled) return false;
-
       const prevMonth = subMonths(this.date, 1);
       return (
-        isBefore(prevMonth, this.selectedContract.startDate) &&
+        !isBefore(prevMonth, this.selectedContract.startDate) &&
         this.allowedMonths(localizedFormat(prevMonth, "yyyy-MM"))
       );
     },
