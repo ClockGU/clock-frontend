@@ -169,10 +169,6 @@ export default {
       type: Boolean,
       default: false
     },
-    shifts: {
-      type: Array,
-      required: true
-    },
     isFirstUnlockedMonth: {
       type: Boolean,
       required: true

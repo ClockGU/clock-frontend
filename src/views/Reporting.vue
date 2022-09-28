@@ -34,6 +34,7 @@
 
       <v-col>
         <MonthSwitcher
+          :disabled="disabled"
           :date="date"
           :allowed-date-fn="monthValidateFn"
           @update="updateDate"
@@ -57,7 +58,6 @@
           :is-exportable="!personnelNumberMissing"
           :is-lockable="!isCurrentMonthLocked"
           :is-first-unlocked-month="isFirstUnlockedMonth"
-          :shifts="selectedShifts"
         ></ReportCard>
       </v-col>
     </v-row>
@@ -85,6 +85,7 @@ import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import ShiftWarnings from "@/components/shifts/ShiftWarnings";
 import ClockCardAlert from "@/components/ClockCardAlert";
 
+import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
 import { firstOfMonth, localizedFormat } from "@/utils/date";
@@ -124,11 +125,13 @@ export default {
       );
     },
     report() {
+      if (this.disabled) return { id: uuidv4() };
       return this.selectedReports.filter((report) =>
         isSameDay(report.monthYear, this.date)
       )[0];
     },
     isCurrentMonthLocked() {
+      if (this.disabled) return false;
       const lockedShifts = this.selectedShifts.filter(
         (shift) => isSameMonth(shift.started, this.date) && shift.locked
       );
@@ -136,6 +139,7 @@ export default {
     },
     lockedMonths() {
       let months = [];
+      if (this.disabled) return months;
       this.selectedReports.map((report) => {
         const lockedShifts = this.selectedShifts.filter((shift) => {
           return isSameMonth(report.monthYear, shift.started) && shift.locked;
@@ -147,6 +151,7 @@ export default {
       return months;
     },
     isFirstUnlockedMonth() {
+      if (this.disabled) return false;
       if (this.lockedMonths.length === 0) {
         return isSameMonth(this.date, this.selectedReports[0].monthYear);
       }
@@ -191,6 +196,7 @@ export default {
       this.updateDate(selectedMonth);
     },
     getAlertMessages(report) {
+      if (this.disabled) return [];
       let messages = [];
       const worktimeInMinutes = report.worktimeInMinutes;
       const debitInMinutes = report.debitWorktimeInMinutes;
