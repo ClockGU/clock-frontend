@@ -55,3 +55,7 @@ export function missingBreaktime({ worktime, breaktime }) {
 export function maxWorktimeExceeded(worktime) {
   return worktime > 10 * 60;
 }
+
+export function maxShifttimeExceeded(shifttime) {
+  return shifttime > 6 * 60;
+}
