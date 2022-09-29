@@ -1,16 +1,10 @@
 <template>
-  <TheDialog
-    v-model="dialog"
-    :persistent="false"
-    :max-width="maxWidth"
-    @close="cancel"
-    @click:outside="cancel"
-  >
+  <TheDialog v-model="dialog" :persistent="false" :max-width="maxWidth">
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
 
-    <template #content>
+    <template #content="{ events: { close } }">
       <v-card data-cy="delete-dialog">
         <v-card-title>
           <slot name="title"></slot>
@@ -36,7 +30,7 @@
             data-cy="delete-cancel"
             :color="cancelObject.color"
             text
-            @click="cancel"
+            @click="close"
           >
             {{ cancelObject.text }}
           </v-btn>
@@ -100,16 +94,9 @@ export default {
     }
   },
   methods: {
-    cancel() {
-      this.$emit("cancel");
-      this.close();
-    },
-    close() {
-      this.dialog = false;
-    },
     confirm() {
       this.$emit("confirm");
-      this.close();
+      this.dialog = false;
     }
   }
 };
