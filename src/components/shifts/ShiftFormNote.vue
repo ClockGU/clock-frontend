@@ -4,7 +4,7 @@
     :label="$t('shifts.note.label')"
     filled
     :prepend-icon="icons.mdiNoteOutline"
-    @input="$emit('input', $event)"
+    @input="update($event)"
   />
 </template>
 
@@ -21,6 +21,11 @@ export default {
   },
   data: () => ({
     icons: { mdiNoteOutline }
-  })
+  }),
+  methods: {
+    update(event) {
+      this.$emit("input", event);
+    }
+  }
 };
 </script>

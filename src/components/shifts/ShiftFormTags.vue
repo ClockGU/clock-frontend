@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 import { mdiTagOutline } from "@mdi/js";
 
 export default {
@@ -64,9 +62,11 @@ export default {
     search: null
   }),
   computed: {
-    ...mapGetters({
-      usedTags: "shift/usedTags"
-    })
+    usedTags() {
+      return this.$store.getters["contentData/allShifts"].reduce((a, b) => {
+        return a.concat(b.tags);
+      }, []);
+    }
   },
   created() {
     this.model = this.value;
