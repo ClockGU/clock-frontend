@@ -360,10 +360,7 @@ export default {
       return coalescWorktimeAndBreaktime(shifts);
     },
     sufficientBreaktime() {
-      return sufficientBreaktimeBetweenShifts(
-        this.shiftsOnSelectedDate.concat([]),
-        this.shift
-      );
+      return sufficientBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
     },
     worktimeTooLong() {
       return maxWorktimeExceeded(this.worktimeAndBreaktimeOnDate.worktime);
@@ -396,8 +393,7 @@ export default {
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
         (!this.sufficientBreaktime && !this.trimBreaktime) ||
         this.worktimeTooLong ||
-        (this.shiftTooLong && !this.trimBreaktime) ||
-        this.shiftIsOverlapping
+        (this.shiftTooLong && !this.trimBreaktime)
       )
         return false;
 
