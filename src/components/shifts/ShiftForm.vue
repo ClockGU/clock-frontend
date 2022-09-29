@@ -178,7 +178,6 @@ import { dateIsHoliday, localizedFormat } from "@/utils/date";
 
 import { mapGetters } from "vuex";
 import {
-  addMinutes,
   differenceInMinutes,
   endOfDay,
   formatISO,
@@ -188,8 +187,7 @@ import {
   isFuture,
   isSameDay,
   isWithinInterval,
-  parseISO,
-  subMinutes
+  parseISO
 } from "date-fns";
 import {
   coalescWorktimeAndBreaktime,
