@@ -6,9 +6,8 @@
       close-action
       @close="close"
     ></CardToolbar>
-    <v-card-text>
-      {{ stringForm }}
-    </v-card-text>
+    <ShiftFormFields v-model="newShift"></ShiftFormFields>
+    <span>{{ smth }}</span>
     <FormActions
       :create-fn="saveShift"
       :delete-fn="deleteShift"
@@ -25,10 +24,11 @@
 import { Shift } from "@/models/ShiftModel";
 import FormActions from "@/components/cards/FormActions";
 import CardToolbar from "@/components/cards/CardToolbar";
+import ShiftFormFields from "@/components/forms/modelFroms/shift/ShiftFormFields";
 
 export default {
   name: "ShiftForm",
-  components: { FormActions, CardToolbar },
+  components: { ShiftFormFields, FormActions, CardToolbar },
   props: {
     existingShift: {
       type: Shift,
@@ -41,14 +41,25 @@ export default {
       default: () => {}
     }
   },
+  data() {
+    return {
+      newShift: undefined
+    };
+  },
   computed: {
+    smth() {
+      console.log(JSON.stringify(this.newShift));
+      return "";
+    },
     title() {
       return this.$t("forms.titleUpdate", { entity: "Shift" });
-    },
-    stringForm() {
-      if (this.existingShift === undefined) return "";
-      return JSON.stringify(this.existingShift, null, 4);
     }
+  },
+  created() {
+    this.newShift =
+      this.existingShift !== undefined
+        ? this.existingShift.clone()
+        : new Shift();
   },
   methods: {
     saveShift() {
