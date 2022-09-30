@@ -453,7 +453,7 @@ export default {
         messages.push(this.$t("shifts.warnings.maxWorktimeExceeded"));
       }
 
-      if (this.shiftTooLong) {
+      if (this.shiftTooLong && !this.trimBreaktime) {
         messages.push(this.$t("shifts.warnings.maxShifttimeExceeded"));
       }
 
