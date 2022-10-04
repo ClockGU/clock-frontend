@@ -384,7 +384,7 @@
     },
     "warnings": {
       "maxOvertimeExceeded": "You gathered more than 50% of you debit worktime in overtime. Only 50% of you debit worktime will be carried over to the next month as surplus hours.",
-      "insufficientWorktime": "You are missing more than 20% of your debit worktime. Only 20% of your debit worktime will be carried over to the next month as undertime hours."
+      "insufficientWorktime": "You are missing more than 20% of your debit worktime."
     }
   },
   "selectContract": {
