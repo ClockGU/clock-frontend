@@ -1,5 +1,11 @@
 import { Shift } from "@/models/ShiftModel";
-import { areIntervalsOverlapping, isEqual, parseISO } from "date-fns";
+import {
+  areIntervalsOverlapping,
+  isEqual,
+  parseISO,
+  isSameDay
+} from "date-fns";
+import store from "@/store";
 import { localizedFormat } from "@/utils/date";
 import { coalescWorktimeAndBreaktime } from "@/utils/time";
 
@@ -8,6 +14,18 @@ function prepare({ start, end }) {
     start: parseISO(start),
     end: parseISO(end)
   };
+}
+
+export function getContractShifts(contractUuid) {
+  return store.getters["shift/shifts"].filter((shift) => {
+    return shift.contract === contractUuid;
+  });
+}
+
+export function getShiftsOnSpecificDate(specificDate, contract) {
+  return getContractShifts(contract.uuid).filter((shift) => {
+    return isSameDay(parseISO(shift.date.start), specificDate);
+  });
 }
 
 export function datesGroupByComponent(dates, token) {

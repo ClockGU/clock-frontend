@@ -209,7 +209,9 @@ import {
   maxWorktimeExceeded,
   missingBreaktime,
   maxShifttimeExceeded,
-  concatenatedShiftsTooLong
+  concatenatedShiftsTooLong,
+  getContractShifts,
+  getShiftsOnSpecificDate
 } from "@/utils/shift";
 
 export default {
@@ -317,14 +319,10 @@ export default {
       );
     },
     contractShifts() {
-      return this.$store.getters["shift/shifts"].filter((shift) => {
-        return shift.contract === this.shift.contract;
-      });
+      return getContractShifts(this.shift.contract);
     },
     shiftsOnSelectedDate() {
-      return this.contractShifts.filter((shift) => {
-        return isSameDay(parseISO(shift.date.start), this.shift.date.start);
-      });
+      return getShiftsOnSpecificDate(this.shift.date.start, this.contract);
     },
     sickOrVacationShifts() {
       if (this.shift === null) return [];
