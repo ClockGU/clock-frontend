@@ -1,7 +1,7 @@
 <template>
   <v-card-text>
-    <ShiftFormTags v-model="shift.tags" @input="handleInput" />
-    <ShiftFormNote v-model="shift.note" @input="handleInput" />
+    <ShiftFormTags v-model="shift.tags" />
+    <ShiftFormNote v-model="shift.note" />
   </v-card-text>
 </template>
 
@@ -21,9 +21,12 @@ export default {
   data() {
     return { shift: this.value };
   },
-  methods: {
-    handleInput() {
-      this.$emit("input", this.shift);
+  watch: {
+    value(val) {
+      this.shift = val;
+    },
+    shift(value) {
+      this.$emit("input", value);
     }
   }
 };
