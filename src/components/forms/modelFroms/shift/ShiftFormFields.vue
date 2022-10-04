@@ -1,5 +1,20 @@
 <template>
   <v-card-text>
+    <v-checkbox
+      v-model="showRepeat"
+      :label="$t('shifts.repeating.checkboxLabel')"
+      :prepend-icon="icons.mdiRepeat"
+      class="ma-0"
+    ></v-checkbox>
+
+    <v-expand-transition hide-on-leave>
+      <ShiftFormRepeat
+        v-if="showRepeat"
+        v-model="scheduledShifts"
+        :shift="shift"
+      />
+    </v-expand-transition>
+
     <ShiftFormTags v-model="shift.tags" />
     <ShiftFormNote v-model="shift.note" />
     <ShiftFormType v-model="shift.type" />
@@ -11,12 +26,12 @@
       v-model="shift.wasReviewed"
       :error-message="reviewMessage"
     />
-    <v-btn @click="toggleDi">Toggle</v-btn>
   </v-card-text>
 </template>
 
 <script>
 import { Shift } from "@/models/ShiftModel";
+import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
 import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
@@ -24,6 +39,7 @@ import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract
 import { endOfDay, isWithinInterval, startOfDay } from "date-fns";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
+import { mdiRepeat } from "@mdi/js";
 export default {
   name: "ShiftFormFields",
   components: {
@@ -31,7 +47,8 @@ export default {
     ShiftFormTags,
     ShiftFormNote,
     ShiftFormType,
-    ShiftFormSelectContract
+    ShiftFormSelectContract,
+    ShiftFormRepeat
   },
   mixins: [ShiftUtilityMixin],
   props: {
@@ -41,7 +58,14 @@ export default {
     }
   },
   data() {
-    return { shift: this.value, showRepeat: false, di: false };
+    return {
+      shift: this.value,
+      showRepeat: false,
+      icons: {
+        mdiRepeat
+      },
+      scheduledShifts: null
+    };
   },
   computed: {
     validContracts() {
@@ -68,17 +92,15 @@ export default {
     }
   },
   watch: {
-    value(val) {
-      this.shift = val;
+    value(value) {
+      this.shift = value;
     },
     shift(value) {
       this.$emit("input", value);
-    }
-  },
-  methods: {
-    toggleDi() {
-      console.log("Here");
-      this.di = !this.di;
+    },
+    scheduledShifts(value) {
+      console.log("called", value);
+      this.$emit("scheduleShifts", value);
     }
   }
 };
