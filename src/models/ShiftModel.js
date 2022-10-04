@@ -116,6 +116,8 @@ export class Shift {
   }
 
   clone() {
-    return new Shift(this.toPayload());
+    let data = this.toPayload();
+    data["wasReviewed"] = this.wasReviewed;
+    return new Shift(data);
   }
 }
