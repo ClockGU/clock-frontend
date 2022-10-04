@@ -2,8 +2,8 @@
   <v-row align="end" class="pl-3">
     <v-radio-group v-model="radios" row hide-details dense class="mt-0 pt-0">
       <template #prepend>
-        <v-icon :color="typeColors[value.value]">
-          {{ typeIcons[value.value] }}
+        <v-icon :color="typeColors[value]">
+          {{ typeIcons[value] }}
         </v-icon>
       </template>
       <v-radio
@@ -42,21 +42,24 @@ export default {
   name: "ShiftFormType",
   props: {
     value: {
-      type: Object,
-      default: () => ({ text: "Shift", value: "st" })
+      type: String,
+      default: "st"
     },
     disabled: {
       type: Boolean,
       default: false
     }
   },
-  data: () => ({
-    icons: {
-      mdiBriefcaseOutline
-    },
-    typeColors: SHIFT_TYPE_COLORS,
-    typeIcons: SHIFT_TYPE_ICONS
-  }),
+  data() {
+    return {
+      icons: {
+        mdiBriefcaseOutline
+      },
+      typeColors: SHIFT_TYPE_COLORS,
+      typeIcons: SHIFT_TYPE_ICONS,
+      radios: this.value
+    };
+  },
   computed: {
     types() {
       return SHIFT_TYPES.map((type) => {
@@ -66,17 +69,16 @@ export default {
         };
       });
     },
-    radios: {
-      get() {
-        return this.value.value;
-      },
-      set(value) {
-        const selected = this.types.find((type) => type.value === value);
-        this.$emit("input", selected);
-      }
-    },
     icon() {
       return this.typeIcons["sk"];
+    }
+  },
+  watch: {
+    value(val) {
+      this.radios = val;
+    },
+    radios(val) {
+      this.$emit("input", val);
     }
   },
   methods: {
