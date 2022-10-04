@@ -6,7 +6,10 @@
       close-action
       @close="close"
     ></CardToolbar>
-    <ShiftFormFields v-model="newShift"></ShiftFormFields>
+    <ShiftFormFields
+      v-model="newShift"
+      @scheduleShifts="setScheduledShifts($event)"
+    ></ShiftFormFields>
     <FormActions
       :create-fn="saveShift"
       :delete-fn="deleteShift"
@@ -17,6 +20,7 @@
       model-name="shift"
       @close="initializeNewShift"
     ></FormActions>
+    <span>{{ scheduledShifts }}</span>
   </v-card>
 </template>
 
@@ -44,8 +48,7 @@ export default {
   data() {
     return {
       newShift: undefined,
-      renderFields: true,
-      theString: ""
+      scheduledShifts: undefined
     };
   },
   computed: {
@@ -77,6 +80,9 @@ export default {
         this.existingShift !== undefined
           ? this.existingShift.clone()
           : new Shift();
+    },
+    setScheduledShifts(event) {
+      this.scheduledShifts = event;
     }
   }
 };
