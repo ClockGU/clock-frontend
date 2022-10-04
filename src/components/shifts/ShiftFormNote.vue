@@ -19,9 +19,11 @@ export default {
       default: ""
     }
   },
-  data: () => ({
-    icons: { mdiNoteOutline }
-  }),
+  data() {
+    return {
+      icons: { mdiNoteOutline }
+    };
+  },
   methods: {
     update(event) {
       this.$emit("input", event);

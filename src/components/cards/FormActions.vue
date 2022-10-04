@@ -54,7 +54,7 @@ export default {
       required: false,
       default: false
     },
-    close: {
+    closeFn: {
       type: Function,
       required: true
     },
@@ -87,11 +87,15 @@ export default {
       } else {
         await this.updateFn();
       }
-      this.close();
+      this.closeFn();
     },
     async destroy() {
       await this.deleteFn();
-      this.close();
+      this.closeFn();
+    },
+    close() {
+      this.$emit("close");
+      this.closeFn();
     }
   }
 };

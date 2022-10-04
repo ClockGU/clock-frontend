@@ -7,15 +7,15 @@
       @close="close"
     ></CardToolbar>
     <ShiftFormFields v-model="newShift"></ShiftFormFields>
-    <span>{{ smth }}</span>
     <FormActions
       :create-fn="saveShift"
       :delete-fn="deleteShift"
-      :close="close"
+      :close-fn="close"
       :update-fn="updateShift"
       :disable-save="false"
       show-delete
       model-name="shift"
+      @close="initializeNewShift"
     ></FormActions>
   </v-card>
 </template>
@@ -31,7 +31,7 @@ export default {
   components: { ShiftFormFields, FormActions, CardToolbar },
   props: {
     existingShift: {
-      type: Shift,
+      type: [Shift, typeof undefined],
       required: false,
       default: undefined
     },
@@ -43,33 +43,40 @@ export default {
   },
   data() {
     return {
-      newShift: undefined
+      newShift: undefined,
+      renderFields: true,
+      theString: ""
     };
   },
   computed: {
-    smth() {
-      console.log(JSON.stringify(this.newShift));
-      return "";
-    },
     title() {
       return this.$t("forms.titleUpdate", { entity: "Shift" });
     }
   },
   created() {
-    this.newShift =
-      this.existingShift !== undefined
-        ? this.existingShift.clone()
-        : new Shift();
+    this.initializeNewShift();
   },
   methods: {
     saveShift() {
       console.log("Shift is saving ...");
+      this.initializeNewShift();
+      this.close();
     },
     deleteShift() {
       console.log("Shift is deleting ...");
+      this.initializeNewShift();
+      this.close();
     },
     updateShift() {
       console.log("Shift is updating ... ");
+      this.initializeNewShift();
+      this.close();
+    },
+    initializeNewShift() {
+      this.newShift =
+        this.existingShift !== undefined
+          ? this.existingShift.clone()
+          : new Shift();
     }
   }
 };

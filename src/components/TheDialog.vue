@@ -9,7 +9,7 @@
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
-    <slot name="content" :events="{ close }"></slot>
+    <slot name="content" :events="{ close }" @close="close"></slot>
   </v-dialog>
 </template>
 
@@ -42,6 +42,7 @@ export default {
   methods: {
     close() {
       this.dialog = false;
+      this.$emit("close");
     }
   }
 };
