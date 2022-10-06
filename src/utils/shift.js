@@ -9,6 +9,7 @@ import {
 import store from "@/store";
 import { localizedFormat } from "@/utils/date";
 import { coalescWorktimeAndBreaktime } from "@/utils/time";
+import shift from "@/store/modules/shift";
 
 function prepare({ start, end }) {
   return {
@@ -47,6 +48,21 @@ export function getWorktimeAndBreaktimeOnDate(shiftDate, contract) {
   // Update the shift's date to current date
   shifts[indexOfShift].date = formattedDate;
   return coalescWorktimeAndBreaktime(shifts);
+}
+
+export function isSickOrVactionShiftOnSpecificDate(specificDate, contract) {
+  return isSickOrVactionShiftInShifts(
+    getShiftsOnSpecificDate(specificDate, contract)
+  );
+}
+
+export function isSickOrVactionShiftInShifts(shifts) {
+  for (let shift of shifts) {
+    if (shift.type.value === "vn" || shift.type.value === "sk") {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function datesGroupByComponent(dates, token) {
