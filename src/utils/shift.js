@@ -3,6 +3,7 @@ import {
   areIntervalsOverlapping,
   isEqual,
   parseISO,
+  formatISO,
   isSameDay
 } from "date-fns";
 import store from "@/store";
@@ -26,6 +27,26 @@ export function getShiftsOnSpecificDate(specificDate, contract) {
   return getContractShifts(contract.uuid).filter((shift) => {
     return isSameDay(parseISO(shift.date.start), specificDate);
   });
+}
+
+export function getWorktimeAndBreaktimeOnDate(shiftDate, contract) {
+  const formattedDate = {
+    start: formatISO(shiftDate.start),
+    end: formatISO(shiftDate.end)
+  };
+  // Copy Array
+  let shifts = getShiftsOnSpecificDate(formattedDate.start, contract).concat(
+    []
+  );
+  const indexOfShift = shifts.findIndex((shift) => shift.uuid === this.uuid);
+  if (indexOfShift === -1) {
+    return coalescWorktimeAndBreaktime(
+      shifts.concat([{ date: formattedDate }]) // this is a Hack, only passing an object with a date key.
+    );
+  }
+  // Update the shift's date to current date
+  shifts[indexOfShift].date = formattedDate;
+  return coalescWorktimeAndBreaktime(shifts);
 }
 
 export function datesGroupByComponent(dates, token) {

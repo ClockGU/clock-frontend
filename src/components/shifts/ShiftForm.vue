@@ -180,7 +180,6 @@ import { mapGetters } from "vuex";
 import {
   differenceInMinutes,
   endOfDay,
-  formatISO,
   isAfter,
   isBefore,
   isEqual,
@@ -189,11 +188,7 @@ import {
   isWithinInterval,
   parseISO
 } from "date-fns";
-import {
-  coalescWorktimeAndBreaktime,
-  minutesToHHMM,
-  startEndHours
-} from "@/utils/time";
+import { minutesToHHMM, startEndHours } from "@/utils/time";
 import contractValidMixin from "@/mixins/contractValid";
 
 import {
@@ -211,7 +206,8 @@ import {
   maxShifttimeExceeded,
   concatenatedShiftsTooLong,
   getContractShifts,
-  getShiftsOnSpecificDate
+  getShiftsOnSpecificDate,
+  getWorktimeAndBreaktimeOnDate
 } from "@/utils/shift";
 
 export default {
@@ -338,23 +334,10 @@ export default {
       );
     },
     worktimeAndBreaktimeOnDate() {
-      const formattedDate = {
-        start: formatISO(this.shift.date.start),
-        end: formatISO(this.shift.date.end)
-      };
-      // Copy Array
-      let shifts = this.shiftsOnSelectedDate.concat([]);
-      const indexOfShift = shifts.findIndex(
-        (shift) => shift.uuid === this.uuid
+      return getWorktimeAndBreaktimeOnDate(
+        this.shift.date,
+        this.shift.contract
       );
-      if (indexOfShift === -1) {
-        return coalescWorktimeAndBreaktime(
-          shifts.concat([{ date: formattedDate }]) // this is a Hack, only passing an object with a date key.
-        );
-      }
-      // Update the shift's date to current date
-      shifts[indexOfShift].date = formattedDate;
-      return coalescWorktimeAndBreaktime(shifts);
     },
     sufficientBreaktime() {
       return sufficientBreaktimeBetweenShifts(this.worktimeAndBreaktimeOnDate);
