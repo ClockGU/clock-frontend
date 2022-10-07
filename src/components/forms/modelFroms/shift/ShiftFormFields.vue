@@ -1,5 +1,11 @@
 <template>
   <v-card-text>
+    <ShiftFormDatetimeInput
+      :started="shift.started"
+      :stopped="shift.stopped"
+      :contract="shift.contract"
+      @input="setTime"
+    />
     <v-checkbox
       v-model="showRepeat"
       :label="$t('shifts.repeating.checkboxLabel')"
@@ -26,6 +32,8 @@
       v-model="shift.wasReviewed"
       :error-message="reviewMessage"
     />
+    <span> {{ shift.started }}</span>
+    <span> {{ shift.stopped }}</span>
   </v-card-text>
 </template>
 
@@ -40,9 +48,11 @@ import { endOfDay, isWithinInterval, startOfDay } from "date-fns";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
 import { mdiRepeat } from "@mdi/js";
+import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 export default {
   name: "ShiftFormFields",
   components: {
+    ShiftFormDatetimeInput,
     ShiftFormReview,
     ShiftFormTags,
     ShiftFormNote,
@@ -99,8 +109,13 @@ export default {
       this.$emit("input", value);
     },
     scheduledShifts(value) {
-      console.log("called", value);
       this.$emit("scheduleShifts", value);
+    }
+  },
+  methods: {
+    setTime(event) {
+      this.shift.started = event.started;
+      this.shift.stopped = event.stopped;
     }
   }
 };
