@@ -32,7 +32,6 @@
 
 <script>
 import { localizedFormat } from "@/utils/date";
-import { Shift } from "@/models/ShiftModel";
 import { isSunday, parseISO } from "date-fns";
 
 import { mdiCalendar } from "@mdi/js";
@@ -41,7 +40,7 @@ export default {
   name: "ShiftFormDateInput",
   props: {
     value: {
-      type: Object,
+      type: Date,
       required: true
     },
     min: {
@@ -57,49 +56,29 @@ export default {
       default: ""
     }
   },
-  data: () => ({
-    icons: {
-      mdiCalendar
-    },
-    menu: false
-  }),
+  data() {
+    return {
+      icons: {
+        mdiCalendar
+      },
+      menu: false,
+      date: localizedFormat(this.value, "yyyy-MM-dd")
+    };
+  },
   computed: {
     formattedDate() {
       //perhaps not ideal, but most users will be DE
       //TODO check date-fns documentation
-      return localizedFormat(this.value.date.start, "eee, dd.MM.yyyy");
+      return localizedFormat(parseISO(this.date), "eee, dd.MM.yyyy");
+    }
+  },
+  watch: {
+    value(val) {
+      this.date = localizedFormat(val, "yyyy-MM-dd");
     },
-    date: {
-      get() {
-        return localizedFormat(this.value.date.start, "yyyy-MM-dd");
-      },
-      set(val) {
-        const [year, month, day] = val.split("-");
-        const [startHours, startMinutes] = localizedFormat(
-          this.value.date.start,
-          "HH:mm"
-        ).split(":");
-        const [endHours, endMinutes] = localizedFormat(
-          this.value.date.end,
-          "HH:mm"
-        ).split(":");
-
-        const startDate = new Date(
-          year,
-          month - 1,
-          day,
-          startHours,
-          startMinutes
-        );
-
-        const endDate = new Date(year, month - 1, day, endHours, endMinutes);
-
-        const newValue = { ...this.value };
-        newValue.date = { start: startDate, end: endDate };
-        const shift = new Shift({ ...newValue });
-
-        this.$emit("input", shift);
-      }
+    date(val) {
+      const [year, month, day] = val.split("-");
+      this.$emit("input", new Date(year, month - 1, day));
     }
   },
   methods: {
