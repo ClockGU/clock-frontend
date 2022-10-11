@@ -82,18 +82,6 @@
         <router-link v-if="messages.length !== 0" to="/faq">
           {{ $t("shifts.warnings.faqLinking") }}
         </router-link>
-        <v-expand-transition>
-          <v-row v-if="!sufficientBreaktime || shiftTooLong" align="center">
-            <v-col cols="12" md="5" class="ma-0">
-              <v-checkbox
-                v-model="trimBreaktime"
-                :label="$t('shifts.trimBreaktime')"
-                class="ma-0 no-linebreak"
-                :prepend-icon="icons.mdiScissorsCutting"
-              ></v-checkbox>
-            </v-col>
-          </v-row>
-        </v-expand-transition>
       </v-col>
 
       <v-col cols="12">
@@ -207,7 +195,6 @@ import ClockCardAlert from "@/components/ClockCardAlert";
 import {
   sufficientBreaktimeBetweenShifts,
   maxWorktimeExceeded,
-  missingBreaktime,
   maxShifttimeExceeded,
   concatenatedShiftsTooLong
 } from "@/utils/shift";
@@ -261,8 +248,7 @@ export default {
       toBeReviewed: false,
       showRepeat: false,
       scheduledShifts: [],
-      initialShiftType: null,
-      trimBreaktime: false
+      initialShiftType: null
     };
   },
   computed: {
@@ -396,9 +382,9 @@ export default {
         (!this.shift.reviewed && !this.startsInFuture && !this.isNewShift) ||
         (this.multipleRegularShiftsExistOnDate &&
           (this.shift.type.value === "vn" || this.shift.type.value === "sk")) ||
-        (!this.sufficientBreaktime && !this.trimBreaktime) ||
+        !this.sufficientBreaktime ||
         this.worktimeTooLong ||
-        (this.shiftTooLong && !this.trimBreaktime) ||
+        this.shiftTooLong ||
         this.shiftIsOverlapping
       )
         return false;
@@ -447,7 +433,7 @@ export default {
           })
         );
       }
-      if (!this.sufficientBreaktime && !this.trimBreaktime) {
+      if (!this.sufficientBreaktime) {
         messages.push(
           this.$t("shifts.warnings.insufficientBreaktime", {
             worktime: minutesToHHMM(this.worktimeAndBreaktimeOnDate.worktime),
@@ -460,7 +446,7 @@ export default {
         messages.push(this.$t("shifts.warnings.maxWorktimeExceeded"));
       }
 
-      if (this.shiftTooLong && !this.trimBreaktime) {
+      if (this.shiftTooLong) {
         messages.push(this.$t("shifts.warnings.maxShifttimeExceeded"));
       }
 
@@ -528,23 +514,6 @@ export default {
         this.$emit("update", { shift: this.shift, valid: this.valid });
       },
       deep: true
-    },
-    trimBreaktime: {
-      handler: function () {
-        if (this.trimBreaktime) {
-          const splitDuration = Math.floor(this.shift.duration / 2);
-          const remainder = this.shift.duration % 2;
-          this.$emit("update", {
-            shift: this.shift,
-            valid: this.valid,
-            splitData: {
-              splitDuration: splitDuration + remainder,
-              breaktime: missingBreaktime(this.worktimeAndBreaktimeOnDate)
-            }
-          });
-        }
-        this.$emit("update", { shift: this.shift, valid: this.valid });
-      }
     },
     scheduledShifts() {
       this.$emit("update", {
