@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-row align="center" justify="start">
     <v-col cols="12" md="5">
       <ShiftFormDateInput
         :value="date"
@@ -25,7 +25,7 @@
     <v-col cols="5" md="3">
       <ShiftFormTimeInput v-model="timeStop" />
     </v-col>
-  </div>
+  </v-row>
 </template>
 
 <script>

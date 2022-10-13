@@ -1,39 +1,60 @@
 <template>
-  <v-card-text>
+  <v-card-text class="pb-0">
     <ShiftFormDatetimeInput
       :started="shift.started"
       :stopped="shift.stopped"
       :contract="shift.contract"
       @input="setTime"
     />
-    <v-checkbox
-      v-model="showRepeat"
-      :label="$t('shifts.repeating.checkboxLabel')"
-      :prepend-icon="icons.mdiRepeat"
-      class="ma-0"
-    ></v-checkbox>
+    <v-row align="center" justify="start">
+      <v-col cols="12" class="ma-0">
+        <v-expand-transition hide-on-leave>
+          <ClockCardAlert
+            v-if="alertMessages.length > 0"
+            :messages="alertMessages"
+            type="error"
+          ></ClockCardAlert>
+        </v-expand-transition>
+      </v-col>
+      <v-col cols="12">
+        <v-checkbox
+          v-model="showRepeat"
+          :label="$t('shifts.repeating.checkboxLabel')"
+          :prepend-icon="icons.mdiRepeat"
+          class="ma-0"
+        ></v-checkbox>
 
-    <v-expand-transition hide-on-leave>
-      <ShiftFormRepeat
-        v-if="showRepeat"
-        v-model="scheduledShifts"
-        :shift="shift"
-      />
-    </v-expand-transition>
-
-    <ShiftFormTags v-model="shift.tags" />
-    <ShiftFormNote v-model="shift.note" />
-    <ShiftFormType v-model="shift.type" />
-    <ShiftFormSelectContract
-      v-model="shift.contract"
-      :choices="validContracts"
-    />
-    <ShiftFormReview
-      v-model="shift.wasReviewed"
-      :error-message="reviewMessage"
-    />
-    <span> {{ shift.started }}</span>
-    <span> {{ shift.stopped }}</span>
+        <v-expand-transition hide-on-leave>
+          <ShiftFormRepeat
+            v-if="showRepeat"
+            v-model="scheduledShifts"
+            :shift="shift"
+          />
+        </v-expand-transition>
+        <v-divider />
+      </v-col>
+      <v-col cols="12">
+        <ShiftFormTags v-model="shift.tags" />
+        <ShiftFormNote v-model="shift.note" />
+        <v-subheader class="pl-8">
+          {{ $t("shifts.types.label") }}
+        </v-subheader>
+        <ShiftFormType v-model="shift.type" />
+      </v-col>
+      <v-col cols="12">
+        <v-divider></v-divider>
+      </v-col>
+      <v-col cols="12" class="pb-0">
+        <ShiftFormSelectContract
+          v-model="shift.contract"
+          :choices="validContracts"
+        />
+        <ShiftFormReview
+          v-model="shift.wasReviewed"
+          :error-message="reviewMessage"
+        />
+      </v-col>
+    </v-row>
   </v-card-text>
 </template>
 
@@ -49,6 +70,8 @@ import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
+import ClockCardAlert from "@/components/ClockCardAlert";
+import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 export default {
   name: "ShiftFormFields",
   components: {
@@ -58,9 +81,10 @@ export default {
     ShiftFormNote,
     ShiftFormType,
     ShiftFormSelectContract,
-    ShiftFormRepeat
+    ShiftFormRepeat,
+    ClockCardAlert
   },
-  mixins: [ShiftUtilityMixin],
+  mixins: [ShiftUtilityMixin, ShiftValidationMixin],
   props: {
     value: {
       type: Shift,
