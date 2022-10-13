@@ -1,5 +1,9 @@
 <template>
-  <TheDialog :max-width="600" :persistent="false">
+  <TheDialog
+    :fullscreen="$vuetify.breakpoint.smAndDown"
+    max-width="600"
+    :persistent="false"
+  >
     <template #activator="{ on }">
       <v-btn v-on="on"> Open Dialog</v-btn>
     </template>

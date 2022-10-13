@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="mx-auto word-break" min-width="400" :max-width="600">
     <CardToolbar
       :title="title"
       :logout-action="false"
@@ -20,7 +20,6 @@
       model-name="shift"
       @close="initializeNewShift"
     ></FormActions>
-    <span>{{ scheduledShifts }}</span>
   </v-card>
 </template>
 
@@ -53,7 +52,7 @@ export default {
   },
   computed: {
     title() {
-      return this.$t("forms.titleUpdate", { entity: "Shift" });
+      return this.$t("forms.titleUpdate", { entity: "Schicht" });
     }
   },
   created() {
