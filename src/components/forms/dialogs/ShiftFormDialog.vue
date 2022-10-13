@@ -1,7 +1,7 @@
 <template>
   <TheDialog
     :fullscreen="$vuetify.breakpoint.smAndDown"
-    max-width="600"
+    :max-width="600"
     :persistent="false"
   >
     <template #activator="{ on }">

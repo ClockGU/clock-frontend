@@ -3,7 +3,7 @@
     <ShiftFormDatetimeInput
       :started="shift.started"
       :stopped="shift.stopped"
-      :contract="shift.contract"
+      :contract-id="shift.contract"
       @input="setTime"
     />
     <v-row align="center" justify="start">
