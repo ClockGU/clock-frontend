@@ -82,6 +82,7 @@ export default {
   },
   methods: {
     async save() {
+      console.log(this.isNewInstance);
       if (this.isNewInstance) {
         await this.createFn();
       } else {

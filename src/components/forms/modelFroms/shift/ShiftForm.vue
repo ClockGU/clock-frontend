@@ -16,10 +16,12 @@
       :close-fn="close"
       :update-fn="updateShift"
       :disable-save="false"
+      :is-new-instance="isNewInstance"
       show-delete
       model-name="shift"
       @close="initializeNewShift"
     ></FormActions>
+    <v-btn @click="newShift.contract = ''">Reset Contract</v-btn>
   </v-card>
 </template>
 
@@ -28,6 +30,7 @@ import { Shift } from "@/models/ShiftModel";
 import FormActions from "@/components/cards/FormActions";
 import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelFroms/shift/ShiftFormFields";
+import { ShiftService } from "@/services/models";
 
 export default {
   name: "ShiftForm",
@@ -53,15 +56,24 @@ export default {
   computed: {
     title() {
       return this.$t("forms.titleUpdate", { entity: "Schicht" });
+    },
+    isNewInstance() {
+      return this.newShift.id === "";
     }
   },
   created() {
     this.initializeNewShift();
   },
   methods: {
-    saveShift() {
-      console.log("Shift is saving ...");
+    async saveShift() {
+      console.log(this.newShift.contract, "On Save");
+      const savedShift = await ShiftService.create(this.newShift.toPayload());
+      this.$store.commit("contentData/addShift", {
+        contractID: this.newShift.contract,
+        shiftInstance: savedShift
+      });
       this.initializeNewShift();
+      console.log(this.newShift.contract);
       this.close();
     },
     deleteShift() {
