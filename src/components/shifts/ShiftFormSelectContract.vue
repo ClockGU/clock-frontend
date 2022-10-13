@@ -30,16 +30,26 @@ export default {
       icons: {
         mdiFileDocumentEditOutline
       },
-      contract: this.$store.getters["contentData/contractById"](this.value)
+      contract: null
     };
   },
   watch: {
     value(val) {
-      console.log(val);
-      this.contract = this.$store.getters["contentData/contractById"](val);
+      if (val !== "") {
+        this.contract = this.$store.getters["contentData/contractById"](val);
+      }
     },
     contract(val) {
       this.$emit("input", val.id);
+    }
+  },
+  created() {
+    if (this.value !== "") {
+      this.contract = this.$store.getters["contentData/contractById"](
+        this.value
+      );
+    } else {
+      this.contract = this.$store.getters["selectedContract/selectedContract"];
     }
   }
 };

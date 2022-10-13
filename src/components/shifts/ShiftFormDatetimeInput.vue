@@ -48,7 +48,7 @@ export default {
       required: false,
       default: new Date()
     },
-    contract: {
+    contractId: {
       type: String,
       required: true
     }
@@ -62,13 +62,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getContractInstance: "contentData/contractById"
+      getContractInstance: "contentData/contractById",
+      selectedContract: "selectedContract/selectedContract"
     }),
+    contract() {
+      if (this.contractId === "") return this.selectedContract;
+      return this.getContractInstance(this.contractId);
+    },
     dateMin() {
-      return formatISO(this.getContractInstance(this.contract).startDate);
+      return formatISO(this.contract.startDate);
     },
     dateMax() {
-      return formatISO(this.getContractInstance(this.contract).endDate);
+      return formatISO(this.contract.endDate);
     }
   },
   watch: {
