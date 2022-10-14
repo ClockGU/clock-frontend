@@ -69,20 +69,31 @@ export default {
       console.log(this.newShift.contract, "On Save");
       const savedShift = await ShiftService.create(this.newShift.toPayload());
       this.$store.commit("contentData/addShift", {
-        contractID: this.newShift.contract,
+        contractID: savedShift.contract,
         shiftInstance: savedShift
       });
       this.initializeNewShift();
       console.log(this.newShift.contract);
       this.close();
     },
-    deleteShift() {
-      console.log("Shift is deleting ...");
+    async deleteShift() {
+      await ShiftService.delete(this.newShift.id);
+      this.$store.commit("contentData/removeShift", {
+        contractID: this.newShift.contract,
+        shiftInstance: this.newShift
+      });
       this.initializeNewShift();
       this.close();
     },
-    updateShift() {
-      console.log("Shift is updating ... ");
+    async updateShift() {
+      const updatedShift = await ShiftService.update(
+        this.newShift.toPayload(),
+        this.newShift.id
+      );
+      this.$store.commit("contentData/updateShift", {
+        contractID: this.newShift.contract,
+        shiftInstance: updatedShift
+      });
       this.initializeNewShift();
       this.close();
     },
