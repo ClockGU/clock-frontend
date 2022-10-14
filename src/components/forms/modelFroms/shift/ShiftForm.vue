@@ -20,7 +20,6 @@
       :disable-save="false"
       :is-new-instance="isNewInstance"
       model-name="shift"
-      @close="initializeNewShift"
     ></FormActions>
   </v-card>
 </template>
