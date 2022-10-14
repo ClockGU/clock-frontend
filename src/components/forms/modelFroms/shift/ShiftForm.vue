@@ -66,14 +66,12 @@ export default {
   },
   methods: {
     async saveShift() {
-      console.log(this.newShift.contract, "On Save");
       const savedShift = await ShiftService.create(this.newShift.toPayload());
       this.$store.commit("contentData/addShift", {
         contractID: savedShift.contract,
         shiftInstance: savedShift
       });
       this.initializeNewShift();
-      console.log(this.newShift.contract);
       this.close();
     },
     async deleteShift() {
@@ -94,7 +92,6 @@ export default {
         contractID: this.newShift.contract,
         shiftInstance: updatedShift
       });
-      this.initializeNewShift();
       this.close();
     },
     initializeNewShift() {

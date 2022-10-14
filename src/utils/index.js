@@ -15,6 +15,7 @@ const indexOfBy = (key) => ({
   start = 0,
   end = array.length
 }) => {
+  if (array.length === 0) return 0;
   start = start || 0;
   end = end || array.length;
   const pivot = parseInt(start + (end - start) / 2, 10);
