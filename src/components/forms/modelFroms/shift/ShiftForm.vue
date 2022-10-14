@@ -17,11 +17,9 @@
       :update-fn="updateShift"
       :disable-save="false"
       :is-new-instance="isNewInstance"
-      show-delete
       model-name="shift"
       @close="initializeNewShift"
     ></FormActions>
-    <v-btn @click="newShift.contract = ''">Reset Contract</v-btn>
   </v-card>
 </template>
 

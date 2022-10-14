@@ -7,7 +7,7 @@
       {{ $t("actions.cancel") }}
     </v-btn>
     <v-spacer></v-spacer>
-    <ConfirmationDialog v-if="showDelete" @confirm="destroy">
+    <ConfirmationDialog v-if="!isNewInstance" @confirm="destroy">
       <template #activator="{ on }">
         <v-btn data-cy="entity-form-delete-button" text color="error" v-on="on">
           {{ $t("actions.delete") }}
@@ -42,10 +42,6 @@ export default {
   components: { ConfirmationDialog },
   props: {
     disableSave: {
-      type: Boolean,
-      required: true
-    },
-    showDelete: {
       type: Boolean,
       required: true
     },
