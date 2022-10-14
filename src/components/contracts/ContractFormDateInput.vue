@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { parseISO, isLastDayOfMonth } from "date-fns";
+import { parseISO, isLastDayOfMonth, format } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 
@@ -41,16 +41,12 @@ export default {
   name: "ContractFormDateInput",
   props: {
     value: {
-      type: String,
+      type: Date,
       required: true
     },
     label: {
       type: String,
       default: null
-    },
-    contract: {
-      type: Object,
-      required: true
     },
     max: {
       type: String,
@@ -73,13 +69,16 @@ export default {
       default: false
     }
   },
-  data: () => ({
-    icons: {
-      mdiCalendarArrowLeft,
-      mdiCalendarArrowRight
-    },
-    menu: false
-  }),
+  data() {
+    return {
+      icons: {
+        mdiCalendarArrowLeft,
+        mdiCalendarArrowRight
+      },
+      menu: false,
+      date: format(this.value, "yyyy-MM-dd")
+    };
+  },
   computed: {
     icon() {
       if (this.type === "start") return this.icons.mdiCalendarArrowRight;
@@ -87,15 +86,16 @@ export default {
       return this.icons.mdiCalendarArrowLeft;
     },
     formattedDate() {
-      return localizedFormat(parseISO(this.value), "eee do MMM yyyy");
+      return localizedFormat(this.value, "eee do MMM yyyy");
+    }
+  },
+  watch: {
+    value(val) {
+      this.date = localizedFormat(val, "yyyy-MM-dd");
     },
-    date: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      }
+    date(val) {
+      const [year, month, day] = val.split("-");
+      this.$emit("input", new Date(year, month - 1, day));
     }
   },
   methods: {
