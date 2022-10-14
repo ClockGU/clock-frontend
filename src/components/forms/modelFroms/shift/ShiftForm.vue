@@ -4,7 +4,7 @@
       :title="title"
       :logout-action="false"
       close-action
-      @close="close"
+      @close="closeFn"
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
@@ -15,7 +15,7 @@
     <FormActions
       :create-fn="saveShift"
       :delete-fn="deleteShift"
-      :close-fn="close"
+      :close-fn="closeFn"
       :update-fn="updateShift"
       :disable-save="false"
       :is-new-instance="isNewInstance"
@@ -110,6 +110,10 @@ export default {
     },
     setScheduledShifts(event) {
       this.scheduledShifts = event;
+    },
+    closeFn() {
+      this.initializeNewShift();
+      this.close();
     }
   }
 };
