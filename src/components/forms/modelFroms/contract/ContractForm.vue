@@ -18,6 +18,22 @@ export default {
       required: false,
       default: () => {}
     }
+  },
+  data() {
+    return {
+      newContract: undefined
+    };
+  },
+  created() {
+    this.initializeNewContract();
+  },
+  methods: {
+    initializeNewContract() {
+      this.newContract =
+        this.existingContract !== undefined
+          ? this.existingContract.clone()
+          : new Contract();
+    }
   }
 };
 </script>
