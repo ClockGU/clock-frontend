@@ -141,7 +141,8 @@ const mutations = {
       );
       return;
     }
-    state.contentData[contractID].shifts[currentIndex] = shiftInstance;
+
+    state.contentData[contractID].shifts.splice(currentIndex, 1, shiftInstance);
   },
   addReport(state, { contractID, reportInstance }) {
     const index = indexOfByMonthYear({
@@ -175,7 +176,11 @@ const mutations = {
       );
       return;
     }
-    state.contentData[contractID].reports[currentIndex] = reportInstance;
+    state.contentData[contractID].reports.splice(
+      currentIndex,
+      1,
+      reportInstance
+    );
   },
   setShifts(state, { contractID, shiftData }) {
     Vue.set(state.contentData[contractID], "shifts", sortByStarted(shiftData));
