@@ -11,7 +11,7 @@ import snackbar from "@/store/modules/snackbar";
 import contentData from "@/store/modules/contentData";
 import faq from "@/store/modules/faq";
 
-import i18n, { selectedLocale } from "@/plugins/i18n";
+import i18n, { selectedLocale, switchDateFnsLocale } from "@/plugins/i18n";
 
 Vue.use(Vuex);
 
@@ -37,6 +37,7 @@ export default new Vuex.Store({
     },
     changeLocale({ commit }, locale) {
       i18n.locale = locale;
+      switchDateFnsLocale(locale);
       commit("updateLocale", locale);
     },
     toggleBackend({ commit }) {
