@@ -53,7 +53,14 @@ export default {
   },
   computed: {
     title() {
-      return this.$t("forms.titleUpdate", { entity: "Schicht" });
+      if (this.isNewInstance) {
+        return this.$t("forms.titleAdd", {
+          entity: this.$tc("models.shift", 1)
+        });
+      }
+      return this.$t("forms.titleUpdate", {
+        entity: this.$tc("models.shift", 1)
+      });
     },
     isNewInstance() {
       return this.newShift.id === "";
