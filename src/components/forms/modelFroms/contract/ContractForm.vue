@@ -6,16 +6,28 @@
       close-action
       @close="closeFn"
     ></CardToolbar>
+
+    <FormActions
+      :create-fn="saveContract"
+      :delete-fn="deleteContract"
+      :close-fn="closeFn"
+      :update-fn="updateContract"
+      :disable-save="false"
+      :is-new-instance="isNewInstance"
+      model-name="contract"
+    >
+    </FormActions>
   </v-card>
 </template>
 
 <script>
 import { Contract } from "@/models/ContractModel";
 import CardToolbar from "@/components/cards/CardToolbar";
+import FormActions from "@/components/cards/FormActions";
 
 export default {
   name: "ContractForm",
-  components: { CardToolbar },
+  components: { FormActions, CardToolbar },
   props: {
     existingContract: {
       type: [Contract, typeof undefined],
@@ -52,6 +64,15 @@ export default {
     this.initializeNewContract();
   },
   methods: {
+    saveContract() {
+      this.closeFn();
+    },
+    deleteContract() {
+      this.closeFn();
+    },
+    updateContract() {
+      this.close();
+    },
     initializeNewContract() {
       this.newContract =
         this.existingContract !== undefined
