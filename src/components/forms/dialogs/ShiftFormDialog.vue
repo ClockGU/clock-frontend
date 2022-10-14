@@ -18,7 +18,7 @@ import TheDialog from "@/components/TheDialog";
 import ShiftForm from "@/components/forms/modelFroms/shift/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 export default {
-  name: "ShiftFormDialogexample",
+  name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
   props: {
     shift: {
