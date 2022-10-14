@@ -6,9 +6,17 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ on: menuOn, attrs }">
+      <!--      <v-tooltip-->
+      <!--        :value="errorMessages.length > 0"-->
+      <!--        bottom-->
+      <!--        :open-on-hover="false"-->
+      <!--        color="error"-->
+      <!--      >-->
+      <!--        <template #activator="{ on: toolOn }">-->
       <v-text-field
         v-model="data"
+        :class="error ? 'text' : ''"
         :data-time-value="data"
         return-masked-value
         hide-details
@@ -21,8 +29,11 @@
         v-bind="attrs"
         @blur="setTime"
         @focus="$event.target.select()"
-        v-on="$vuetify.breakpoint.smAndDown ? on : ''"
+        v-on="$vuetify.breakpoint.smAndDown ? { ...menuOn, ...toolOn } : ''"
       ></v-text-field>
+      <!--        </template>-->
+      <!--        <span>{{ errorMessages[0] }} </span>-->
+      <!--      </v-tooltip>-->
     </template>
     <v-time-picker
       v-if="menu && $vuetify.breakpoint.smAndDown"
@@ -34,7 +45,6 @@
 </template>
 
 <script>
-// import { addMinutes, isTomorrow, setHours, setMinutes } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
 
@@ -58,6 +68,10 @@ export default {
     prependIcon: {
       type: Boolean,
       default: false
+    },
+    errorMessages: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -117,3 +131,16 @@ export default {
   }
 };
 </script>
+
+<style>
+.text::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 25%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #ff5252 transparent transparent transparent;
+}
+</style>

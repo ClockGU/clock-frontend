@@ -478,6 +478,9 @@
       "shiftIsOverlapping": "Diese Schicht überschneidet sich mit bereits bestehenden Schichten.",
       "concatenatedShiftTooLong": "Diese Schicht ist mit anderen Schichten verbunden und diese sind in Summe zu lang (max 6h).",
       "faqLinking": "Für weitere Informationen zu den angezeigten Fehlermeldungen bitte in in die FAQs schauen."
+    },
+    "errors": {
+      "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
     }
   },
   "snackbar": {
