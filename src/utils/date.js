@@ -96,4 +96,10 @@ export function getFirstOfcurrentMonth() {
   return new Date(now.getFullYear(), now.getMonth(), 1, 2);
 }
 
+export function getLastOfcurrentMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, now.get, 0);
+}
+
 export const firstOfMonth = getFirstOfcurrentMonth();
+export const lastOfMonth = getLastOfcurrentMonth();
