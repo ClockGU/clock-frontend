@@ -1,6 +1,6 @@
 import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
-import { firstOfMonth, lastOfMonth } from "@/utils/date";
+import { getFirstOfcurrentMonth, getLastOfcurrentMonth } from "@/utils/date";
 
 export function mapContractApiResponse(response) {
   return {
@@ -36,12 +36,14 @@ export class Contract {
     this.user = is(String, user) ? user : "";
     this.name = is(String, name) ? name : "";
     this.minutes = is(Number, minutes) ? minutes : 0;
-    this.startDate = is(Date, new Date(startDate))
-      ? new Date(startDate)
-      : firstOfMonth;
-    this.endDate = is(Date, new Date(endDate))
-      ? new Date(endDate)
-      : lastOfMonth;
+    this.startDate =
+      is(Date, new Date(startDate)) && startDate !== null
+        ? new Date(startDate)
+        : getFirstOfcurrentMonth();
+    this.endDate =
+      is(Date, new Date(endDate)) && endDate !== null
+        ? new Date(endDate)
+        : getLastOfcurrentMonth();
     this.initialCarryoverMinutes = is(Number, initialCarryoverMinutes)
       ? initialCarryoverMinutes
       : 0;
