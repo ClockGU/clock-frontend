@@ -474,6 +474,9 @@
       "noSickOrVacationWithRegularShift": "An diesem Datum existiert bereits eine normale Schicht. Du musst diese löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} anlegen kannst.",
       "insufficientBreaktime": "An diesem Datum existieren Schichten von {worktime}h und Pausen von {pause}h. Laut §4 ArbzG müssen ab einer Arbeitszeit von 6h mindestens 30 Minuten, nach 9h mindestens 45 Minuten Pause (in Summe) eingelegt werden.",
       "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten."
+    },
+    "errors": {
+      "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
     }
   },
   "snackbar": {

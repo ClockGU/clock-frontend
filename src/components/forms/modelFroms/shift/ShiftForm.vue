@@ -8,6 +8,8 @@
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
+      :alert-messages="alertMessages"
+      :time-errors="timeErrors"
       @scheduleShifts="setScheduledShifts($event)"
     ></ShiftFormFields>
     <FormActions
@@ -29,10 +31,11 @@ import FormActions from "@/components/cards/FormActions";
 import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelFroms/shift/ShiftFormFields";
 import { ShiftService } from "@/services/models";
-
+import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
+  mixins: [ShiftValidationMixin],
   props: {
     existingShift: {
       type: [Shift, typeof undefined],

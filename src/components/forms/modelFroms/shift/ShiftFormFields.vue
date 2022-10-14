@@ -4,6 +4,7 @@
       :started="shift.started"
       :stopped="shift.stopped"
       :contract-id="shift.contract"
+      :errors="timeErrors"
       @input="setTime"
     />
     <v-row align="center" justify="start">
@@ -66,12 +67,10 @@ import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
 import { endOfDay, isWithinInterval, startOfDay } from "date-fns";
-import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
-import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 export default {
   name: "ShiftFormFields",
   components: {
@@ -84,11 +83,18 @@ export default {
     ShiftFormRepeat,
     ClockCardAlert
   },
-  mixins: [ShiftUtilityMixin, ShiftValidationMixin],
   props: {
     value: {
       type: Shift,
       required: true
+    },
+    timeErrors: {
+      type: Array,
+      default: () => []
+    },
+    alertMessages: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
