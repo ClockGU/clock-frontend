@@ -6,7 +6,7 @@
       close-action
       @close="closeFn"
     ></CardToolbar>
-
+    <ContractFormFields v-model="newContract"></ContractFormFields>
     <FormActions
       :create-fn="saveContract"
       :delete-fn="deleteContract"
@@ -24,10 +24,11 @@
 import { Contract } from "@/models/ContractModel";
 import CardToolbar from "@/components/cards/CardToolbar";
 import FormActions from "@/components/cards/FormActions";
+import ContractFormFields from "@/components/forms/modelFroms/contract/ContractFormFields";
 
 export default {
   name: "ContractForm",
-  components: { FormActions, CardToolbar },
+  components: { ContractFormFields, FormActions, CardToolbar },
   props: {
     existingContract: {
       type: [Contract, typeof undefined],
