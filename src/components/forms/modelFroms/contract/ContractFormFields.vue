@@ -5,18 +5,34 @@
       :end-date="contract.endDate"
       @input="setDates"
     ></ContractDurationInput>
-    <span> {{ contract.startDate }} - {{ contract.endDate }}</span>
-    <v-row align="center" justify="start"> </v-row>
+    <v-row align="center" justify="start">
+      <v-col cols="12">
+        <ContractFormTimeInput
+          v-model="contract.minutes"
+          :prepend-icon="icons.mdiTimetable"
+          :label="worktimeLabel"
+          :hint="worktimeHint"
+          :disabled="false"
+        />
+      </v-col>
+    </v-row>
   </v-card-text>
 </template>
 
 <script>
 import { Contract } from "@/models/ContractModel";
 import ContractDurationInput from "@/components/contracts/ContractDurationInput";
+import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput";
+import {
+  mdiCalendar,
+  mdiCalendarClock,
+  mdiFolderInformationOutline,
+  mdiTimetable
+} from "@mdi/js";
 
 export default {
   name: "ContractFormFields",
-  components: { ContractDurationInput },
+  components: { ContractDurationInput, ContractFormTimeInput },
   props: {
     value: {
       type: Contract,
@@ -25,8 +41,22 @@ export default {
   },
   data() {
     return {
-      contract: this.value
+      contract: this.value,
+      icons: {
+        mdiFolderInformationOutline,
+        mdiTimetable,
+        mdiCalendar,
+        mdiCalendarClock
+      }
     };
+  },
+  computed: {
+    worktimeLabel() {
+      return this.$t("contracts.hoursPerMonth");
+    },
+    worktimeHint() {
+      return this.$t("contracts.hoursPerMonthSubtitle");
+    }
   },
   watch: {
     value(value) {
