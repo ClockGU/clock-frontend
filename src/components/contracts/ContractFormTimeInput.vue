@@ -8,7 +8,7 @@
   >
     <template #activator="{ attrs }">
       <v-text-field
-        v-model="data"
+        :value="data"
         :prepend-icon="prependIcon"
         :label="label"
         :hint="hint"
@@ -20,13 +20,14 @@
         v-bind="attrs"
         @blur="setTime"
         @focus="$event.target.select()"
+        @focusout="updateData($event.target.value)"
       ></v-text-field>
     </template>
   </v-menu>
 </template>
 
 <script>
-import { validateWorktimeInput } from "@/utils/time";
+import { minutesToHHMM, validateWorktimeInput } from "@/utils/time";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import { mdiTimetable, mdiCalendarClock } from "@mdi/js";
@@ -68,8 +69,8 @@ export default {
   },
   props: {
     value: {
-      type: String,
-      default: ""
+      type: Number,
+      default: 0
     },
     prependIcon: {
       type: String,
@@ -98,28 +99,6 @@ export default {
     icons: { mdiTimetable, mdiCalendarClock }
   }),
   computed: {
-    time: {
-      get() {
-        return this.value;
-      },
-      set(val) {
-        let hours, minutes;
-
-        try {
-          [hours, minutes] = validateWorktimeInput(val).split(":");
-        } catch {
-          if (val === "") {
-            this.data = "";
-            this.$emit("input", this.data);
-            return;
-          }
-          this.data = this.value;
-          return;
-        }
-        this.data = `${hours}:${minutes}`;
-        this.$emit("input", this.data);
-      }
-    },
     timeErrors() {
       const errors = [];
       if (!this.$v.data.$dirty) return errors;
@@ -144,18 +123,34 @@ export default {
       return errors;
     }
   },
-
+  watch: {
+    value(val) {
+      this.data = val === 0 ? "" : minutesToHHMM(val);
+    }
+  },
   created() {
-    this.initialize();
+    this.data = this.value === 0 ? "" : minutesToHHMM(this.value);
   },
   methods: {
-    initialize() {
-      this.value == null ? (this.data = "") : (this.data = this.value);
-    },
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
       this.$v.data.$touch();
+    },
+    updateData(event) {
+      console.log(event, this.data);
+      let minutes = 0;
+      try {
+        minutes = validateWorktimeInput(event);
+        console.log(minutes);
+      } catch {
+        if (event === "") {
+          this.$emit("input", 0);
+          return;
+        }
+      }
+
+      this.$emit("input", minutes);
     }
   }
 };
