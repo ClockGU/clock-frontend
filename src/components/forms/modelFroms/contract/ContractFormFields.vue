@@ -15,6 +15,10 @@
           :disabled="false"
         />
       </v-col>
+      <v-col cols="12">
+        <ContractNameInput v-model="contract.name"></ContractNameInput>
+        <span> {{ contract.name }}</span>
+      </v-col>
     </v-row>
   </v-card-text>
 </template>
@@ -29,10 +33,15 @@ import {
   mdiFolderInformationOutline,
   mdiTimetable
 } from "@mdi/js";
+import ContractNameInput from "@/components/contracts/ContractNameInput";
 
 export default {
   name: "ContractFormFields",
-  components: { ContractDurationInput, ContractFormTimeInput },
+  components: {
+    ContractNameInput,
+    ContractDurationInput,
+    ContractFormTimeInput
+  },
   props: {
     value: {
       type: Contract,
