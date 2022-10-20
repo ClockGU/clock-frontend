@@ -4,15 +4,15 @@
     v-model="menu"
     :close-on-content-click="false"
     transition="scale-transition"
-    offset-y
+    min-width="290px"
+    :nudge-right="40"
+    :nudge-bottom="56"
   >
     <template #activator="{ on, attrs }">
       <v-text-field
         :value="formattedDate"
         readonly
         filled
-        dense
-        hide-details
         :prepend-icon="icon"
         v-bind="attrs"
         :disabled="disabled"
@@ -110,3 +110,4 @@ export default {
   }
 };
 </script>
+<style scoped></style>
