@@ -5,7 +5,10 @@
         <h1>{{ $t("app.faq") }}</h1>
         <v-expansion-panels v-if="!loading" accordion>
           <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
-            <v-expansion-panel-header>
+            <v-expansion-panel-header
+              :style="{ 'font-weight': getQuestionFontWeight(faq) }"
+              @click="setSelectedFaq(faq)"
+            >
               {{ question(faq) }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
@@ -43,6 +46,13 @@ export default {
       title: this.$t("app.faq")
     };
   },
+  data() {
+    return {
+      questionFontWeight: "normal",
+      selectedFaq: null,
+      isExpanded: false
+    };
+  },
   computed: {
     ...mapGetters({
       loading: "faq/loading",
@@ -68,6 +78,20 @@ export default {
     answer(faq) {
       const key = `${this.locale}_answer`;
       return key === undefined ? faq.en_answer : faq[key];
+    },
+    getQuestionFontWeight(faq) {
+      if (this.selectedFaq === faq && this.isExpanded) {
+        return "bold";
+      }
+      return "normal";
+    },
+    setSelectedFaq(faq) {
+      if (faq === this.selectedFaq) {
+        this.isExpanded = !this.isExpanded;
+      } else {
+        this.selectedFaq = faq;
+        this.isExpanded = true;
+      }
     }
   }
 };
