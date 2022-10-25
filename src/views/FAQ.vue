@@ -3,6 +3,7 @@
     <v-row>
       <v-col cols="12">
         <h1>{{ $t("app.faq") }}</h1>
+        <br />
         <v-expansion-panels v-if="!loading" accordion>
           <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
             <v-expansion-panel-header
