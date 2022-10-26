@@ -28,7 +28,6 @@
           <div v-show="showCarryover">
             <!-- The "key" prop is a hack to rerender the vuelidation logic after exiting the form -->
             <ContractFormCarryoverInput
-              :key="contract"
               :carryover="contract.initialCarryoverMinutes"
               :carryover-target-date="contract.carryoverTargetDate"
               :max-date="contract.endDate"

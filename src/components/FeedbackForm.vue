@@ -51,20 +51,20 @@
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-import { required, email } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+// import { required, email } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
 
 import FeedbackService from "@/services/feedback";
 
 export default {
   name: "FeedbackForm",
-  mixins: [validationMixin],
-  validations: {
-    email: { required, email },
-    name: { required },
-    message: { required }
-  },
+  // mixins: [validationMixin],
+  // validations: {
+  //   email: { required, email },
+  //   name: { required },
+  //   message: { required }
+  // },
   data: () => ({
     name: null,
     email: null,

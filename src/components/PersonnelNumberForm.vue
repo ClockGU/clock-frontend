@@ -66,21 +66,21 @@
 
 <script>
 import AuthService from "@/services/auth";
-import { validationMixin } from "vuelidate";
-import { required, minLength } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+// import { required, minLength } from "vuelidate/lib/validators";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { log } from "@/utils/log";
 
 export default {
   name: "PersonnelNumberForm",
   components: { ConfirmationDialog },
-  mixins: [validationMixin],
-  validations: {
-    personnelNumber: {
-      required,
-      minLength: minLength(5)
-    }
-  },
+  // mixins: [validationMixin],
+  // validations: {
+  //   personnelNumber: {
+  //     required,
+  //     minLength: minLength(5)
+  //   }
+  // },
   props: {
     dialog: Boolean
   },

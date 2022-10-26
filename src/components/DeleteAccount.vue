@@ -55,24 +55,24 @@
 <script>
 import AuthService from "@/services/auth";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { validationMixin } from "vuelidate";
-import { required, email, sameAs } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+// import { required, email, sameAs } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
 import { mdiEmail } from "@mdi/js";
 
 export default {
   name: "DeleteAccount",
   components: { ConfirmationDialog },
-  mixins: [validationMixin],
-  validations: {
-    email: {
-      required,
-      email,
-      sameAs: sameAs(function () {
-        return this.user.email;
-      })
-    }
-  },
+  // mixins: [validationMixin],
+  // validations: {
+  //   email: {
+  //     required,
+  //     email,
+  //     sameAs: sameAs(function () {
+  //       return this.user.email;
+  //     })
+  //   }
+  // },
   data: () => ({
     email: "",
     icons: { mdiEmail },

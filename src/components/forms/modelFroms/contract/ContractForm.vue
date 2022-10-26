@@ -7,6 +7,7 @@
       @close="closeFn"
     ></CardToolbar>
     <ContractFormFields v-model="newContract"></ContractFormFields>
+    <span>{{ v$.$errors }}</span>
     <FormActions
       :create-fn="saveContract"
       :delete-fn="deleteContract"
@@ -25,6 +26,8 @@ import { Contract } from "@/models/ContractModel";
 import CardToolbar from "@/components/cards/CardToolbar";
 import FormActions from "@/components/cards/FormActions";
 import ContractFormFields from "@/components/forms/modelFroms/contract/ContractFormFields";
+import { ContractService } from "@/services/models";
+import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "ContractForm",
@@ -40,6 +43,11 @@ export default {
       required: false,
       default: () => {}
     }
+  },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data() {
     return {
@@ -65,7 +73,13 @@ export default {
     this.initializeNewContract();
   },
   methods: {
-    saveContract() {
+    async saveContract() {
+      const savedContract = await ContractService.create(
+        this.newContract.toPayload()
+      );
+      this.$store.commit("contentData/addContract", {
+        contractInstance: savedContract
+      });
       this.closeFn();
     },
     deleteContract() {
@@ -81,6 +95,7 @@ export default {
           : new Contract();
     },
     closeFn() {
+      this.v$.$reset();
       this.initializeNewContract();
       this.close();
     }
