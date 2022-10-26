@@ -138,18 +138,15 @@ export default {
       this.$v.data.$touch();
     },
     updateData(event) {
-      console.log(event, this.data);
       let minutes = 0;
       try {
         minutes = validateWorktimeInput(event);
-        console.log(minutes);
       } catch {
         if (event === "") {
           this.$emit("input", 0);
           return;
         }
       }
-
       this.$emit("input", minutes);
     }
   }
