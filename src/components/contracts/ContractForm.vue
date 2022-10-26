@@ -137,9 +137,9 @@ import {
   parseISO
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
-import { validationMixin } from "vuelidate";
-import contractValidMixin from "@/mixins/contractValid";
-import { required, maxLength, minLength } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+// import contractValidMixin from "@/mixins/contractValid";
+// import { required, maxLength, minLength } from "vuelidate/lib/validators";
 import {
   mdiCalendar,
   mdiCalendarClock,
@@ -157,12 +157,12 @@ export default {
     }
   },
   components: { ContractFormDateInput, ContractFormTimeInput },
-  mixins: [contractValidMixin, validationMixin],
-  validations: {
-    contract: {
-      name: { required, maxLength: maxLength(100), minLength: minLength(2) }
-    }
-  },
+  // mixins: [contractValidMixin, validationMixin],
+  // validations: {
+  //   contract: {
+  //     name: { required, maxLength: maxLength(100), minLength: minLength(2) }
+  //   }
+  // },
   props: {
     uuid: {
       type: String,

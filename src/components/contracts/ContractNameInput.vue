@@ -9,12 +9,14 @@
     counter="100"
     required
     :disabled="disabled"
-    @blur="$v.name.$touch()"
+    @blur="v$.name.$touch()"
   />
 </template>
 
 <script>
 import { mdiFolderInformationOutline } from "@mdi/js";
+import { useVuelidate } from "@vuelidate/core";
+import { minLength, required } from "@vuelidate/validators";
 
 export default {
   name: "ContractNameInput",
@@ -27,18 +29,29 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    },
-    errors: {
-      type: Array,
-      required: false,
-      default: () => []
     }
+  },
+  validations: {
+    name: {
+      minLength: minLength(2),
+      required
+    }
+  },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data() {
     return {
       name: "",
       icons: { mdiFolderInformationOutline }
     };
+  },
+  computed: {
+    errors() {
+      return this.v$.$errors.map((item) => item.$message);
+    }
   },
   watch: {
     value(val) {

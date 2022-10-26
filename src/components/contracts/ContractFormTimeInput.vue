@@ -28,9 +28,8 @@
 
 <script>
 import { minutesToHHMM, validateWorktimeInput } from "@/utils/time";
-import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
-import { mdiTimetable, mdiCalendarClock } from "@mdi/js";
+import { required } from "@vuelidate/validators";
+import { mdiCalendarClock, mdiTimetable } from "@mdi/js";
 
 const timeNotZero = (value) => value !== "00:00";
 const timeValid = (value) => {
@@ -58,7 +57,6 @@ const timeNotNegative = (value) => {
 
 export default {
   name: "ContractFormTimeInput",
-  mixins: [validationMixin],
   validations: {
     data: {
       required,
@@ -100,27 +98,26 @@ export default {
   }),
   computed: {
     timeErrors() {
-      const errors = [];
-      if (!this.$v.data.$dirty) return errors;
-      !this.$v.data.required &&
-        errors.push(
-          this.$tc("errors.nameRequired", 1, {
-            name: this.$t("errors.hours")
-          })
-        );
-      // skip that one as it yet interferes with the versatile parser
-      // the parser should not return invalid worktimes although it is less transparent
-      // !this.$v.data.timeValid && errors.push(this.$t("errors.timeFormat"));
-      !this.allowNegativeValues &&
-        !this.$v.data.timeNotNegative &&
-        errors.push(this.$t("errors.notNegative"));
-      !this.$v.data.timeNotZero &&
-        errors.push(
-          this.$t("errors.durationBiggerZero", {
-            name: this.$tc("errors.hours")
-          })
-        );
-      return errors;
+      // if (!this.$v.data.$dirty) return errors;
+      // !this.$v.data.required &&
+      //   errors.push(
+      //     this.$tc("errors.nameRequired", 1, {
+      //       name: this.$t("errors.hours")
+      //     })
+      //   );
+      // // skip that one as it yet interferes with the versatile parser
+      // // the parser should not return invalid worktimes although it is less transparent
+      // // !this.$v.data.timeValid && errors.push(this.$t("errors.timeFormat"));
+      // !this.allowNegativeValues &&
+      //   !this.$v.data.timeNotNegative &&
+      //   errors.push(this.$t("errors.notNegative"));
+      // !this.$v.data.timeNotZero &&
+      //   errors.push(
+      //     this.$t("errors.durationBiggerZero", {
+      //       name: this.$tc("errors.hours")
+      //     })
+      //   );
+      return [];
     }
   },
   watch: {
