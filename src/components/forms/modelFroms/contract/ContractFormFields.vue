@@ -26,11 +26,14 @@
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showCarryover">
+            <!-- The "key" prop is a hack to rerender the vuelidation logic after exiting the form -->
             <ContractFormCarryoverInput
+              :key="contract"
               :carryover="contract.initialCarryoverMinutes"
               :carryover-target-date="contract.carryoverTargetDate"
               :max-date="contract.endDate"
               :min-date="contract.startDate"
+              @input="setInitialCarryover"
             ></ContractFormCarryoverInput>
           </div>
         </v-expand-transition>
@@ -89,6 +92,9 @@ export default {
   watch: {
     value(value) {
       this.contract = value;
+      if (value.initialCarryoverMinutes === 0) {
+        this.showCarryover = false;
+      }
     },
     contract(value) {
       this.$emit("input", value);
@@ -98,6 +104,10 @@ export default {
     setDates(event) {
       this.contract.startDate = event.startDate;
       this.contract.endDate = event.endDate;
+    },
+    setInitialCarryover(event) {
+      this.contract.initialCarryoverMinutes = event.carryover;
+      this.contract.carryoverTargetDate = event.carryoverTargetDate;
     }
   }
 };
