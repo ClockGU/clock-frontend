@@ -16,17 +16,10 @@
                 <v-toolbar flat>
                   <v-row>
                     <v-col>
-                      <v-btn
-                        :disabled="disabled"
-                        color="primary"
-                        @click="newShift"
-                      >
-                        {{
-                          $t("buttons.newEntity", {
-                            entity: $tc("models.shift")
-                          })
-                        }}
-                      </v-btn>
+                      <ShiftFormDialog
+                        create
+                        btn-color="primary"
+                      ></ShiftFormDialog>
                     </v-col>
                   </v-row>
                 </v-toolbar>
@@ -151,22 +144,15 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <FormDialog
-      v-if="showFormDialog"
-      entity-name="shift"
-      :entity="shiftEntity"
-      @close="closeFormDialog"
-    />
   </v-container>
 </template>
 
 <script>
-import FormDialog from "@/components/FormDialog";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
 import ShiftsTable from "@/components/shifts/ShiftsTable";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 import { mapGetters } from "vuex";
 
@@ -177,7 +163,7 @@ import { firstOfMonth } from "@/utils/date";
 export default {
   name: "Shifts",
   components: {
-    FormDialog,
+    ShiftFormDialog,
     MonthSwitcher,
     SelectContractFilter,
     ShiftBulkActions,
