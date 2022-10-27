@@ -1,13 +1,13 @@
 <template>
   <div>
-    <slot name="head" :destroy-fn="destroy" :selected="selected"></slot>
+    <slot name="head" :selected="selected"></slot>
     <v-data-table
       v-model="selected"
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
       :loading="loading"
-      item-key="uuid"
+      item-key="id"
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
@@ -97,6 +97,7 @@
       <!-- eslint-disable-next-line-->
       <template #item.actions="{ item }">
         <ShiftFormDialog :create="false" icon :shift="item"></ShiftFormDialog>
+        <!-- Commented out, pending due to missing Userfeedback.       -->
         <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
@@ -206,6 +207,7 @@ export default {
   }),
   computed: {
     flexHeaders() {
+      console.log(this.selected.length);
       //check for tags and notes and hide column if none exist
       let tagsAndNotes = 0;
       this.shifts.forEach(
@@ -253,24 +255,24 @@ export default {
         return note.substr(0, 15) + "...";
       } else return note;
     },
-    async destroy() {
-      const promises = [];
-      try {
-        for (const shift of this.selected) {
-          promises.push(ShiftService.delete(shift.id));
-        }
-
-        await Promise.all(promises);
-
-        this.$emit("refresh");
-        this.reset();
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      }
-    },
+    // async destroy() {
+    //   const promises = [];
+    //   try {
+    //     for (const shift of this.selected) {
+    //       promises.push(ShiftService.delete(shift.id));
+    //     }
+    //
+    //     await Promise.all(promises);
+    //
+    //     this.$emit("refresh");
+    //     this.reset();
+    //   } catch (error) {
+    //     // TODO: Set error state for component & allow user to reload page
+    //     // We usually should end up here, if we are already logging out.
+    //     // But a proper error state could mitigate further issues.
+    //     log(error);
+    //   }
+    // },
     async destroySingleShift(shift) {
       try {
         await ShiftService.delete(shift.uuid);

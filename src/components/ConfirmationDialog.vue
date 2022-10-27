@@ -1,5 +1,5 @@
 <template>
-  <TheDialog v-model="dialog" :persistent="false" :max-width="maxWidth">
+  <TheDialog :persistent="false" :max-width="maxWidth">
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
@@ -21,7 +21,7 @@
             data-cy="delete-confirm"
             :color="confirmationObject.color"
             text
-            @click="confirmationObject.onClickHandler"
+            @click="confirm(close)"
           >
             {{ confirmationObject.text }}
           </v-btn>
@@ -94,9 +94,9 @@ export default {
     }
   },
   methods: {
-    confirm() {
+    confirm(closeFn) {
       this.$emit("confirm");
-      this.dialog = false;
+      closeFn();
     }
   }
 };
