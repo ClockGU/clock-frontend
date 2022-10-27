@@ -78,9 +78,7 @@ export default {
       const savedContract = await ContractService.create(
         this.newContract.toPayload()
       );
-      this.$store.commit("contentData/addContract", {
-        contractInstance: savedContract
-      });
+      this.$store.commit("contentData/addContract", savedContract);
       this.closeFn();
     },
     async deleteContract() {
