@@ -16,9 +16,9 @@
               })
         }}
       </v-btn>
-      <v-btn v-else :color="btnColor" icon>
-        {{ create ? icons.mdiPlus : icons.mdiPencil }}</v-btn
-      >
+      <v-btn v-else :color="btnColor" icon v-on="on">
+        <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
+      </v-btn>
     </template>
     <template #content="{ events: { close } }">
       <ShiftForm :existing-shift="shift" :close="close"></ShiftForm>

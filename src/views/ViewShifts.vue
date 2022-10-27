@@ -35,7 +35,6 @@
                   :loading="loading"
                   :search="pastSearch"
                   past-shifts
-                  @edit="editShift"
                 >
                   <template #head="{ destroyFn, selected }">
                     <v-card-title>
