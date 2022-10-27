@@ -60,6 +60,9 @@ export default {
     name(val) {
       this.$emit("input", val);
     }
+  },
+  created() {
+    this.name = this.value;
   }
 };
 </script>
