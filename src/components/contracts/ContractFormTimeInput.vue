@@ -132,7 +132,7 @@ export default {
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
-      this.$v.data.$touch();
+      // this.v$.data.$touch();
     },
     updateData(event) {
       let minutes = 0;
