@@ -96,11 +96,7 @@
 
       <!-- eslint-disable-next-line-->
       <template #item.actions="{ item }">
-        <v-btn icon @click="$emit('edit', item.shift)">
-          <v-icon>
-            {{ icons.mdiPencil }}
-          </v-icon>
-        </v-btn>
+        <ShiftFormDialog :create="false" icon :shift="item"></ShiftFormDialog>
         <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
@@ -167,10 +163,12 @@ import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 export default {
   name: "ShiftsTable",
   components: {
+    ShiftFormDialog,
     //ConfirmationDialog,
     //  ShiftAssignContractDialog,
     ShiftInfoDialog
