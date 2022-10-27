@@ -7,12 +7,13 @@
         <v-expansion-panels v-if="!loading" accordion>
           <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
             <v-expansion-panel-header
-              :style="{ 'font-weight': getQuestionFontWeight(faq) }"
+              class="text-body-1"
+              :class="getQuestionFontWeight(faq)"
               @click="setSelectedFaq(faq)"
             >
               {{ question(faq) }}
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="text-body-1">
               {{ answer(faq) }}
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -81,10 +82,9 @@ export default {
       return key === undefined ? faq.en_answer : faq[key];
     },
     getQuestionFontWeight(faq) {
-      if (this.selectedFaq === faq && this.isExpanded) {
-        return "bold";
-      }
-      return "normal";
+      return this.selectedFaq === faq && this.isExpanded
+        ? "font-weight-bold"
+        : "font-weight-normal";
     },
     setSelectedFaq(faq) {
       if (faq === this.selectedFaq) {
