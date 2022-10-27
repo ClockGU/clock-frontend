@@ -56,7 +56,8 @@ export default {
   data() {
     return {
       newShift: undefined,
-      scheduledShifts: undefined
+      scheduledShifts: undefined,
+      initialContract: ""
     };
   },
   computed: {
@@ -99,10 +100,18 @@ export default {
         this.newShift.toPayload(),
         this.newShift.id
       );
-      this.$store.commit("contentData/updateShift", {
-        contractID: this.newShift.contract,
-        shiftInstance: updatedShift
-      });
+      if (this.initialContract === updatedShift.contract) {
+        this.$store.commit("contentData/updateShift", {
+          contractID: updatedShift.contract,
+          shiftInstance: updatedShift
+        });
+      } else {
+        this.$store.commit("contentData/switchShiftContract", {
+          oldContractID: this.initialContract,
+          newContractID: updatedShift.contract,
+          shiftInstance: updatedShift
+        });
+      }
       this.close();
     },
     initializeNewShift() {
@@ -110,6 +119,7 @@ export default {
         this.existingShift !== undefined
           ? this.existingShift.clone()
           : new Shift();
+      this.initialContract = this.newShift.contract;
     },
     setScheduledShifts(event) {
       this.scheduledShifts = event;
