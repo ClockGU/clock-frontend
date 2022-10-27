@@ -7,7 +7,6 @@
       @close="closeFn"
     ></CardToolbar>
     <ContractFormFields v-model="newContract"></ContractFormFields>
-    <span>{{ v$.$errors }}</span>
     <FormActions
       :create-fn="saveContract"
       :delete-fn="deleteContract"
@@ -85,7 +84,15 @@ export default {
     deleteContract() {
       this.closeFn();
     },
-    updateContract() {
+    async updateContract() {
+      const updatedContract = await ContractService.update(
+        this.newContract.toPayload(),
+        this.newContract.id
+      );
+      this.$store.commit("contentData/updateContract", {
+        contractID: updatedContract.id,
+        contractInstance: updatedContract
+      });
       this.close();
     },
     initializeNewContract() {

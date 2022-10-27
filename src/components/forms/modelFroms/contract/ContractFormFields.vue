@@ -26,7 +26,6 @@
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showCarryover">
-            <!-- The "key" prop is a hack to rerender the vuelidation logic after exiting the form -->
             <ContractFormCarryoverInput
               :carryover="contract.initialCarryoverMinutes"
               :carryover-target-date="contract.carryoverTargetDate"
