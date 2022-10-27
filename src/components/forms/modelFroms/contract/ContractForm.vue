@@ -81,7 +81,11 @@ export default {
       });
       this.closeFn();
     },
-    deleteContract() {
+    async deleteContract() {
+      await ContractService.delete(this.newContract.id);
+      this.$store.commit("contentData/removeContract", {
+        contractID: this.newContract.id
+      });
       this.closeFn();
     },
     async updateContract() {
