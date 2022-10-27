@@ -105,8 +105,10 @@ const mutations = {
     const data = { contract: contractInstance, shifts: [], reports: [] };
     Vue.set(state.contentData, contractInstance.id, data);
   },
-  removeContract(state, contractInstance) {
-    delete state.contentData[contractInstance.id];
+  removeContract(state, { contractID }) {
+    console.log("was called", contractID);
+    // Vue.delete(state.contentData[contractID], "contract");
+    Vue.delete(state.contentData, contractID);
   },
   updateContract(state, { contractID, contractInstance }) {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
