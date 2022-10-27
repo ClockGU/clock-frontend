@@ -54,7 +54,8 @@
   },
   "buttons": {
     "deleteEntity": "{entity} @.lower:actions.delete?",
-    "newEntity": "{entity} @:actions.add"
+    "newEntity": "{entity} @:actions.add",
+    "updateEntity": "{entity} @:actions.update"
   },
   "calendar": {
     "day": "Tag",
