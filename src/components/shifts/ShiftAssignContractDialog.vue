@@ -16,7 +16,8 @@
           :prepend-icon="icons.mdiFileDocumentEditOutline"
           :label="$t('shifts.changeContract')"
           item-text="name"
-          item-value="uuid"
+          item-value="id"
+          return-object
           hide-details
           filled
         ></v-select>
@@ -33,8 +34,6 @@
 :
 <script>
 import { mdiFileDocumentEditOutline } from "@mdi/js";
-import { ShiftService } from "@/services/models";
-import { log } from "@/utils/log";
 import contractValidMixin from "@/mixins/contractValid";
 
 import { mapGetters } from "vuex";
@@ -56,7 +55,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contentData/allContracts"
     }),
     validContracts() {
       return this.contracts.filter(
@@ -66,34 +65,12 @@ export default {
     }
   },
   created() {
-    this.contract = this.shifts[0].contract;
+    this.contract = this.$store.getters["selectedContract/selectedContract"];
   },
   methods: {
-    async save() {
-      const promises = [];
-      this.loading = true;
-      try {
-        for (let item of this.shifts) {
-          const payload = item.shift.toPayload();
-          payload.contract = this.contract;
-          promises.push(ShiftService.update(payload, payload.uuid));
-        }
-
-        await Promise.all(promises);
-
-        this.reset();
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      } finally {
-        this.loading = false;
-        this.dialog = false;
-      }
-    },
-    reset() {
-      this.$emit("reset");
+    save() {
+      this.$emit("save", this.contract);
+      this.dialog = false;
     }
   }
 };
