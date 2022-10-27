@@ -31,6 +31,7 @@ import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelFroms/shift/ShiftFormFields";
 import { ShiftService } from "@/services/models";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
@@ -46,6 +47,11 @@ export default {
       required: false,
       default: () => {}
     }
+  },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data() {
     return {
@@ -78,8 +84,7 @@ export default {
         contractID: savedShift.contract,
         shiftInstance: savedShift
       });
-      this.initializeNewShift();
-      this.close();
+      this.closeFn();
     },
     async deleteShift() {
       await ShiftService.delete(this.newShift.id);
@@ -87,8 +92,7 @@ export default {
         contractID: this.newShift.contract,
         shiftInstance: this.newShift
       });
-      this.initializeNewShift();
-      this.close();
+      this.closeFn();
     },
     async updateShift() {
       const updatedShift = await ShiftService.update(
@@ -111,6 +115,7 @@ export default {
       this.scheduledShifts = event;
     },
     closeFn() {
+      this.v$.$reset();
       this.initializeNewShift();
       this.close();
     }
