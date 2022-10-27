@@ -36,7 +36,7 @@
                   :search="pastSearch"
                   past-shifts
                 >
-                  <template #head="{ destroyFn, selected }">
+                  <template #head="{ selected }">
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
@@ -69,11 +69,9 @@
 
                     <ShiftBulkActions
                       v-if="selected.length > 0"
-                      :destroy-fn="destroyFn"
                       :shifts="selected"
                       can-review
                       :more-than-one-contract="moreThanOneContract"
-                      @edit="editShift"
                     />
                   </template>
                 </ShiftsTable>
@@ -82,9 +80,8 @@
                   :shifts="futureShifts"
                   :loading="loading"
                   :search="futureSearch"
-                  @edit="editShift"
                 >
-                  <template #head="{ destroyFn, selected }">
+                  <template #head="{ selected }">
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
@@ -120,8 +117,6 @@
                       v-if="selected.length > 0"
                       :more-than-one-contract="moreThanOneContract"
                       :shifts="selected"
-                      :destroy-fn="destroyFn"
-                      @edit="editShift"
                     />
                   </template>
                 </ShiftsTable>
@@ -206,10 +201,6 @@ export default {
   methods: {
     toggleTouchOverlay(hover) {
       this.touchOverlay = hover ? false : !this.touchOverlay;
-    },
-    editShift(shift) {
-      this.shiftEntity = shift;
-      this.showFormDialog = true;
     },
     newShift() {
       this.showFormDialog = true;
