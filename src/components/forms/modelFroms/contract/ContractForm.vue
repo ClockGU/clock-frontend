@@ -27,10 +27,12 @@ import FormActions from "@/components/cards/FormActions";
 import ContractFormFields from "@/components/forms/modelFroms/contract/ContractFormFields";
 import { ContractService } from "@/services/models";
 import { useVuelidate } from "@vuelidate/core";
+import ContractValidationMixin from "@/mixins/ContractValidationMixin";
 
 export default {
   name: "ContractForm",
   components: { ContractFormFields, FormActions, CardToolbar },
+  mixins: [ContractValidationMixin],
   props: {
     existingContract: {
       type: [Contract, typeof undefined],
