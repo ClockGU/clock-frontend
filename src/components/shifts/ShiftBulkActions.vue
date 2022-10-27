@@ -24,7 +24,7 @@
           </template>
         </ShiftBulkActionsDialogReview>
 
-        <ShiftAssignContractDialog :shifts="shifts" @reset="$emit('refresh')">
+        <ShiftAssignContractDialog :shifts="shifts" @save="updateFn">
           <template #activator="{ on }">
             <v-btn
               :disabled="!moreThanOneContract || shiftsLength < 1"
@@ -113,6 +113,22 @@ export default {
       this.shifts.forEach((shift) => {
         this.$store.commit("contentData/removeShift", {
           contractID: shift.contract,
+          shiftInstance: shift
+        });
+      });
+      this.$emit("destroy");
+    },
+    async updateFn(contractInstance) {
+      const oldContractID = this.shifts[0].contract;
+      const payloadArray = this.shifts.map((shift) => {
+        shift.contract = contractInstance.id;
+        return shift.toPayload();
+      });
+      const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
+      updatedShifts.forEach((shift) => {
+        this.$store.commit("contentData/switchShiftContract", {
+          oldContractID: oldContractID,
+          newContractID: shift.contract,
           shiftInstance: shift
         });
       });

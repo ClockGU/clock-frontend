@@ -53,7 +53,7 @@ class modelService {
         promises.push(this.create(obj));
       }
       return Promise.all(promises).then((values) => {
-        return values.map((item) => this.mapFunction(item));
+        return values;
       });
     } catch (e) {
       throw Error(e.message);
@@ -69,7 +69,7 @@ class modelService {
         promises.push(this.update(obj, obj.id));
       }
       return Promise.all(promises).then((values) => {
-        return values.map((item) => this.mapFunction(item));
+        return values;
       });
     } catch (e) {
       throw Error(e.message);

@@ -146,6 +146,16 @@ const mutations = {
 
     state.contentData[contractID].shifts.splice(currentIndex, 1, shiftInstance);
   },
+  switchShiftContract(state, { oldContractID, newContractID, shiftInstance }) {
+    this.commit("contentData/removeShift", {
+      contractID: oldContractID,
+      shiftInstance: shiftInstance
+    });
+    this.commit("contentData/addShift", {
+      contractID: newContractID,
+      shiftInstance: shiftInstance
+    });
+  },
   addReport(state, { contractID, reportInstance }) {
     const index = indexOfByMonthYear({
       element: reportInstance,
