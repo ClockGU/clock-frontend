@@ -20,7 +20,17 @@
           </v-col>
 
           <v-col cols="12" md="6" order="2">
-            <DashboardShiftButton :disabled="disabled" @refresh="refresh" />
+            <v-card>
+              <v-card-title>
+                {{ $t("dashboard.newShift.title") }}
+              </v-card-title>
+              <v-card-text>
+                <ShiftFormDialog
+                  :disabled="disabled"
+                  btn-color="primary"
+                ></ShiftFormDialog
+              ></v-card-text>
+            </v-card>
           </v-col>
 
           <v-col cols="12" md="6" order="3">
@@ -50,7 +60,6 @@ import { localizedFormat } from "@/utils/date";
 
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ClockInOutCard from "@/components/ClockInOutCard";
-import DashboardShiftButton from "@/components/dashboard/DashboardShiftButton";
 import DashboardMessageList from "@/components/dashboard/DashboardMessageList";
 import DashboardProgress from "@/components/dashboard/DashboardProgress";
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
@@ -62,6 +71,7 @@ import { Contract } from "@/models/ContractModel";
 import { mapGetters } from "vuex";
 
 import { log } from "@/utils/log";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 export default {
   name: "Dashboard",
@@ -69,8 +79,8 @@ export default {
     title: "Dashboard"
   },
   components: {
+    ShiftFormDialog,
     ClockInOutCard,
-    DashboardShiftButton,
     DashboardMessageList,
     DashboardProgress,
     SelectContractFilter,
