@@ -27,9 +27,9 @@
 
         <template v-if="!loading || ignoreLoading">
           <v-col cols="12">
-            <v-btn color="primary" class="ml-3" @click="newContract">
-              {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
-            </v-btn>
+            <div class="pl-3">
+              <ContractFormDialog btn-color="primary"></ContractFormDialog>
+            </div>
           </v-col>
           <template v-for="(contract, i) in activeContracts">
             <v-col :key="contract.id" cols="12" xl="4" md="6">
@@ -83,21 +83,11 @@
         {{ $t("contracts.empty") }}
       </placeholder>
     </template>
-
-    <template #extra-content>
-      <FormDialog
-        v-if="contractEntity !== null"
-        entity-name="contract"
-        :entity="contractEntity"
-        @close="contractEntity = null"
-      />
-    </template>
   </base-layout>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
-import FormDialog from "@/components/FormDialog";
 import { parseISO, endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
@@ -107,6 +97,7 @@ import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
 import { log } from "@/utils/log";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
 
 export default {
   name: "ViewContractList",
@@ -116,8 +107,8 @@ export default {
     };
   },
   components: {
-    ContractListCard,
-    FormDialog
+    ContractFormDialog,
+    ContractListCard
   },
   beforeRouteLeave(to, from, next) {
     this.ignoreLoading = true;
@@ -163,9 +154,6 @@ export default {
         (contract) => contract.uuid === uuid
       );
       this.contractEntity = new Contract(contract);
-    },
-    newContract() {
-      this.contractEntity = new Contract();
     },
     clockedIntoContract(uuid) {
       if (this.clockedShift === undefined || this.clockedShift === null) {
