@@ -24,7 +24,7 @@
 
     <v-card-actions data-cy="contract-actions">
       <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
-      <ConfirmationDialog @confirm="$emit('delete')">
+      <ConfirmationDialog @confirm="destroyFn">
         <template #activator="{ on }">
           <v-btn text data-cy="delete" v-on="on">
             {{ $t("actions.delete") }}
@@ -57,6 +57,7 @@ import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import { Contract } from "@/models/ContractModel";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
+import { ContractService } from "@/services/models";
 
 function formatDate(date) {
   return localizedFormat(date, "do MMMM yyyy");
@@ -84,6 +85,14 @@ export default {
     },
     worktime() {
       return minutesToHHMM(this.contract.minutes);
+    }
+  },
+  methods: {
+    async destroyFn() {
+      await ContractService.delete(this.contract.id);
+      this.$store.commit("contentData/removeContract", {
+        contractID: this.contract.id
+      });
     }
   }
 };
