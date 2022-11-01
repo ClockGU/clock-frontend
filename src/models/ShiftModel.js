@@ -69,7 +69,7 @@ export class Shift {
   }
 
   get duration() {
-    return differenceInMinutes(this.stopped, this.stopped);
+    return differenceInMinutes(this.stopped, this.started);
   }
 
   representationalDuration(format = "") {
