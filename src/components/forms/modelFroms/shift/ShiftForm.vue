@@ -75,6 +75,11 @@ export default {
       return this.newShift.id === "";
     }
   },
+  watch: {
+    existingShift() {
+      this.initializeNewShift();
+    }
+  },
   created() {
     this.initializeNewShift();
   },

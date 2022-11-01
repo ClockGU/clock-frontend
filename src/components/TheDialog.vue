@@ -39,6 +39,11 @@ export default {
       dialog: false
     };
   },
+  watch: {
+    value(val) {
+      this.dialog = val;
+    }
+  },
   methods: {
     close() {
       this.dialog = false;
