@@ -11,17 +11,10 @@
         v-if="!icon && !disableActivator"
         :disabled="disabled"
         :color="btnColor"
+        :text="textButton"
         v-on="on"
       >
-        {{
-          create
-            ? $t("buttons.newEntity", {
-                entity: $tc("models.contract")
-              })
-            : $t("buttons.updateEntity", {
-                entity: $tc("models.contract")
-              })
-        }}
+        {{ buttonText }}
       </v-btn>
       <v-btn
         v-if="icon && !disableActivator"
@@ -70,6 +63,10 @@ export default {
       type: Boolean,
       default: false
     },
+    textButton: {
+      type: Boolean,
+      default: false
+    },
     value: {
       type: Boolean,
       default: false
@@ -86,7 +83,19 @@ export default {
   },
   computed: {
     create() {
-      return this.shift === undefined;
+      return this.contract === undefined;
+    },
+    buttonText() {
+      if (!this.textButton) {
+        return this.create
+          ? this.$t("buttons.newEntity", {
+              entity: this.$tc("models.contract")
+            })
+          : this.$t("buttons.updateEntity", {
+              entity: this.$tc("models.contract")
+            });
+      }
+      return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
     }
   },
   watch: {
