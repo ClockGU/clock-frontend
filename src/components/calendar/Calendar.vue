@@ -13,9 +13,7 @@
             <SelectContractFilter :disabled="disabled" />
           </v-col>
           <v-col class="px-0" cols="12">
-            <v-btn :disabled="disabled" color="primary" @click="newShift">
-              {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
-            </v-btn>
+            <ShiftFormDialog btn-color="primary"></ShiftFormDialog>
           </v-col>
 
           <v-col class="px-0" cols="12" sm="5">
@@ -58,20 +56,10 @@
         :type="type"
         :weekdays="weekdays"
         :interval-format="intervalFormat"
-        @click:event="editShift"
         @click:more="viewDay"
         @click:date="viewDay"
         @change="updateRange"
       ></v-calendar>
-
-      <FormDialog
-        v-if="showFormDialog"
-        entity-name="shift"
-        :entity="shiftEntity"
-        :now="shiftNow"
-        @close="closeFormDialog"
-        @refresh="refresh"
-      />
     </v-sheet>
   </v-container>
 </template>
@@ -79,10 +67,7 @@
 <script>
 import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
-import { Shift } from "@/models/ShiftModel";
-import { getNextContractParams } from "@/utils";
 
-import FormDialog from "@/components/FormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import SelectContractFilter from "@/components/SelectContractFilter";
@@ -90,13 +75,14 @@ import SelectContractFilter from "@/components/SelectContractFilter";
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 export default {
   name: "Calendar",
   components: {
+    ShiftFormDialog,
     CalendarNavigationButtons,
     CalendarTypeSelect,
-    FormDialog,
     SelectContractFilter
   },
   props: {
@@ -129,9 +115,7 @@ export default {
     weekdays: [1, 2, 3, 4, 5, 6, 0],
     eventClicks: 0,
     doubleClickTimer: null,
-    doubleClickDelay: 500,
-    shiftEntity: null,
-    showFormDialog: false
+    doubleClickDelay: 500
   }),
   computed: {
     ...mapGetters({
@@ -187,27 +171,6 @@ export default {
   methods: {
     formatDate(value) {
       return formatDate(value);
-    },
-    async refresh({ contract }) {
-      if (this.$route.params.contract !== contract) {
-        await this.$router.replace(
-          getNextContractParams(this.$route, contract)
-        );
-      }
-    },
-    editShift({ event }) {
-      const shift = this.visibleShifts.find(
-        (shift) => shift.uuid === event.uuid
-      );
-      this.shiftEntity = new Shift(shift);
-      this.showFormDialog = true;
-    },
-    newShift() {
-      this.showFormDialog = true;
-    },
-    closeFormDialog() {
-      this.showFormDialog = false;
-      this.shiftEntity = null;
     },
     intervalFormat(interval) {
       return interval.time;
