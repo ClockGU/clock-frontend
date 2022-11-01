@@ -37,7 +37,6 @@
                 :key="contract.id"
                 :data-cy="'contract-' + i"
                 :contract="contract"
-                @edit="editContract"
                 @delete="destroy(contract.id)"
               />
             </v-col>
