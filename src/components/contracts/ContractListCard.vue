@@ -23,15 +23,7 @@
     </v-card-text>
 
     <v-card-actions data-cy="contract-actions">
-      <v-btn
-        text
-        color="primary"
-        data-cy="edit"
-        @click="$emit('edit', contract.id)"
-      >
-        {{ $t("actions.edit") }}
-      </v-btn>
-
+      <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
       <ConfirmationDialog @confirm="$emit('delete')">
         <template #activator="{ on }">
           <v-btn text data-cy="delete" v-on="on">
@@ -64,6 +56,7 @@ import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import { Contract } from "@/models/ContractModel";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
 
 function formatDate(date) {
   return localizedFormat(date, "do MMMM yyyy");
@@ -71,7 +64,7 @@ function formatDate(date) {
 
 export default {
   name: "ContractListCard",
-  components: { ConfirmationDialog },
+  components: { ContractFormDialog, ConfirmationDialog },
   props: {
     contract: {
       type: Contract,
