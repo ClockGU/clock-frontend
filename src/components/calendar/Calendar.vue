@@ -56,11 +56,18 @@
         :type="type"
         :weekdays="weekdays"
         :interval-format="intervalFormat"
+        @click:event="editEvent"
         @click:more="viewDay"
         @click:date="viewDay"
         @change="updateRange"
       ></v-calendar>
     </v-sheet>
+    <ShiftFormDialog
+      :shift="shift"
+      :value="editShift"
+      disable-activator
+      @close="editShift = false"
+    ></ShiftFormDialog>
   </v-container>
 </template>
 
@@ -115,7 +122,9 @@ export default {
     weekdays: [1, 2, 3, 4, 5, 6, 0],
     eventClicks: 0,
     doubleClickTimer: null,
-    doubleClickDelay: 500
+    doubleClickDelay: 500,
+    editShift: false,
+    shift: undefined
   }),
   computed: {
     ...mapGetters({
@@ -147,16 +156,12 @@ export default {
             : shift.representationalDuration();
 
         return {
-          id: shift.id,
           start: localizedFormat(shift.started, "yyyy-MM-dd HH:mm"),
           end: localizedFormat(shift.stopped, "yyyy-MM-dd HH:mm"),
-          type: shift.type.value,
           color: this.colorMap(shift),
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
-          reviewed: shift.reviewed,
-          contract: this.selectedContract,
-          locked: shift.locked
+          shift: shift
         };
       });
     }
@@ -169,6 +174,11 @@ export default {
     this.type = this.initialType;
   },
   methods: {
+    editEvent(data) {
+      console.log(JSON.stringify(data.event.shift));
+      this.shift = data.event.shift;
+      this.editShift = true;
+    },
     formatDate(value) {
       return formatDate(value);
     },
