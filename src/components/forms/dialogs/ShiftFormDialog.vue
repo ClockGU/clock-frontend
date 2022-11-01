@@ -5,7 +5,7 @@
     :persistent="false"
   >
     <template #activator="{ on }">
-      <v-btn v-if="!icon" :color="btnColor" v-on="on">
+      <v-btn v-if="!icon" :disabled="disabled" :color="btnColor" v-on="on">
         {{
           create
             ? $t("buttons.newEntity", {
@@ -16,7 +16,7 @@
               })
         }}
       </v-btn>
-      <v-btn v-else :color="btnColor" icon v-on="on">
+      <v-btn v-else :disabled="disabled" :color="btnColor" icon v-on="on">
         <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
       </v-btn>
     </template>
@@ -40,10 +40,6 @@ export default {
       required: false,
       default: undefined
     },
-    create: {
-      type: Boolean,
-      default: false
-    },
     icon: {
       type: Boolean,
       default: false
@@ -51,6 +47,10 @@ export default {
     btnColor: {
       type: String,
       default: ""
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -60,6 +60,11 @@ export default {
         mdiPlus
       }
     };
+  },
+  computed: {
+    create() {
+      return this.shift === undefined;
+    }
   }
 };
 </script>

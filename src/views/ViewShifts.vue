@@ -16,10 +16,7 @@
                 <v-toolbar flat>
                   <v-row>
                     <v-col>
-                      <ShiftFormDialog
-                        create
-                        btn-color="primary"
-                      ></ShiftFormDialog>
+                      <ShiftFormDialog btn-color="primary"></ShiftFormDialog>
                     </v-col>
                   </v-row>
                 </v-toolbar>
