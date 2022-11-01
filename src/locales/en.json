@@ -55,7 +55,7 @@
   "buttons": {
     "deleteEntity": "@:actions.delete {entity}?",
     "newEntity": "@:actions.add {entity}",
-    "updateEntity": "{entity} @:actions.update"
+    "updateEntity": "{entity} @:actions.edit"
   },
   "calendar": {
     "day": "Day",
