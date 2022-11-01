@@ -8,7 +8,6 @@
       @close="$emit('close')"
     >
       <template #activator="{ on }">
-        <slot name="content" v-on="on"></slot>
         <v-btn
           v-if="!icon && !disableActivator"
           :disabled="disabled"
