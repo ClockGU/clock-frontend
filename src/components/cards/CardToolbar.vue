@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar :max-width="maxWidth" flat>
+  <v-toolbar flat>
     <v-toolbar-title>
       {{ title }}
     </v-toolbar-title>
@@ -39,11 +39,6 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    },
-    maxWidth: {
-      type: Number,
-      required: false,
-      default: 600
     }
   },
   data() {
