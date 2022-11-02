@@ -11,6 +11,7 @@ describe("Contracts.js", () => {
 
   it("creates a new Contract instance with date arguments", () => {
     timekeeper.travel(date.startDate);
+    timekeeper.freeze(date.startDate);
     const obj = new Contract(date);
     console.log(obj.carryoverTargetDate);
     expect(obj).toEqual({
