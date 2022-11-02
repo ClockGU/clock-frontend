@@ -53,20 +53,20 @@
         {{ $t("dashboard.clock.problems.deletedAll") }}
       </v-container>
       <v-list-item
-        v-for="(shift, i) in pseudoShifts"
+        v-for="(splitShift, i) in pseudoShifts"
         v-else
-        :key="shift.id"
+        :key="splitShift.id"
         class="px-0"
         two-line
       >
         <v-list-item-content>
           <v-list-item-title>
-            {{ shift.started | formatDay }}
+            {{ splitShift.started | formatDay }}
           </v-list-item-title>
           <v-list-item-subtitle class="text--primary">
-            {{ shift.started | formatTime }} -
-            {{ shift.stopped | formatTime }}
-            ({{ shift.representationalDuration("hm") }})
+            {{ splitShift.started | formatTime }} -
+            {{ splitShift.stopped | formatTime }}
+            ({{ splitShift.representationalDuration("hm") }})
           </v-list-item-subtitle>
           <v-list-item-subtitle>
             <v-chip
@@ -74,15 +74,15 @@
               outlined
               small
               class="my-2"
-              :color="typeColor(shift)"
+              :color="typeColor(splitShift)"
             >
-              {{ $t(`shifts.types.${shift.type}`) }}
+              {{ $t(`shifts.types.${splitShift.type}`) }}
             </v-chip>
 
-            <span v-if="shift.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
+            <span v-if="splitShift.tags.length > 0">&nbsp;&mdash;&nbsp;</span>
 
             <v-chip
-              v-for="(tag, j) in shift.tags"
+              v-for="(tag, j) in splitShift.tags"
               :key="tag"
               :data-cy="'shift-list-item-tag-' + j"
               outlined
@@ -108,12 +108,18 @@
             </template>
 
             <v-list>
-              <v-list-item :data-cy="'edit-' + i" @click="editShift(shift)">
+              <v-list-item
+                :data-cy="'edit-' + i"
+                @click="editShift(splitShift)"
+              >
                 <v-list-item-title>
                   {{ $t("actions.edit") }}
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :data-cy="'delete-' + i" @click="remove(shift.uuid)">
+              <v-list-item
+                :data-cy="'delete-' + i"
+                @click="remove(splitShift.id)"
+              >
                 <v-list-item-title>
                   {{ $t("actions.delete") }}
                 </v-list-item-title>
@@ -123,7 +129,6 @@
         </v-list-item-action>
       </v-list-item>
     </v-list>
-
     <v-card-actions class="px-0">
       <v-btn
         data-cy="save"
@@ -142,7 +147,6 @@
         {{ $t("actions.reset") }}
       </v-btn>
     </v-card-actions>
-
     <ShiftReviewFormDialog
       v-if="showFormDialog"
       :shift-entity="shiftEntity"
@@ -159,11 +163,10 @@ import { eachDayOfInterval, endOfDay, startOfDay } from "date-fns";
 import { mdiDotsVertical } from "@mdi/js";
 const { utcToZonedTime, format } = require("date-fns-tz");
 
-import ShiftReviewFormDialog from "@/components/shifts/ShiftReviewFormDialog";
 import { ShiftService } from "@/services/models";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { mapGetters } from "vuex";
-
+import ShiftReviewFormDialog from "@/components/shifts/ShiftReviewFormDialog";
 export default {
   name: "ClockedShiftSplitWarning",
   filters: {
@@ -206,11 +209,11 @@ export default {
         {
           text: this.$t("dashboard.clock.problems.actions.keepSecond"),
           value: "second"
-        },
-        {
-          text: this.$t("dashboard.clock.problems.actions.advanced"),
-          value: "advanced"
         }
+        // {
+        //   text: this.$t("dashboard.clock.problems.actions.advanced"),
+        //   value: "advanced"
+        // }
       ];
     },
     editShiftIndex() {
@@ -258,10 +261,8 @@ export default {
       };
       this.pseudoShifts = SHIFT_CASES[this.selected]();
     },
-    remove(uuid) {
-      this.pseudoShifts = this.pseudoShifts.filter(
-        (shift) => shift.uuid !== uuid
-      );
+    remove(id) {
+      this.pseudoShifts = this.pseudoShifts.filter((shift) => shift.id !== id);
     },
     editShift(shift) {
       this.shiftEntity = shift;
