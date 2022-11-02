@@ -12,17 +12,10 @@
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
+          :text="textButton"
           v-on="on"
         >
-          {{
-            create
-              ? $t("buttons.newEntity", {
-                  entity: $tc("models.shift")
-                })
-              : $t("buttons.updateEntity", {
-                  entity: $tc("models.shift")
-                })
-          }}
+          {{ buttonText }}
         </v-btn>
         <v-btn
           v-if="icon && !disableActivator"
@@ -43,7 +36,7 @@
 
 <script>
 import TheDialog from "@/components/TheDialog";
-import ShiftForm from "@/components/forms/modelFroms/shift/ShiftForm";
+import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 import { mdiPencil, mdiPlus } from "@mdi/js";
 export default {
@@ -71,6 +64,10 @@ export default {
       type: Boolean,
       default: false
     },
+    textButton: {
+      type: Boolean,
+      default: false
+    },
     value: {
       type: Boolean,
       default: false
@@ -88,6 +85,18 @@ export default {
   computed: {
     create() {
       return this.shift === undefined;
+    },
+    buttonText() {
+      if (!this.textButton) {
+        return this.create
+          ? this.$t("buttons.newEntity", {
+              entity: this.$tc("models.shift")
+            })
+          : this.$t("buttons.updateEntity", {
+              entity: this.$tc("models.shift")
+            });
+      }
+      return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
     }
   },
   watch: {

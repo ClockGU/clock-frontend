@@ -24,7 +24,7 @@
 import { Contract } from "@/models/ContractModel";
 import CardToolbar from "@/components/cards/CardToolbar";
 import FormActions from "@/components/cards/FormActions";
-import ContractFormFields from "@/components/forms/modelFroms/contract/ContractFormFields";
+import ContractFormFields from "@/components/forms/modelForms/contract/ContractFormFields";
 import { ContractService } from "@/services/models";
 import { useVuelidate } from "@vuelidate/core";
 import ContractValidationMixin from "@/mixins/ContractValidationMixin";
