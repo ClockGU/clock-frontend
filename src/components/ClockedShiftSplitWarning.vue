@@ -53,7 +53,7 @@
         {{ $t("dashboard.clock.problems.deletedAll") }}
       </v-container>
       <v-list-item
-        v-for="(splitShift, i) in pseudoShifts"
+        v-for="splitShift in pseudoShifts"
         v-else
         :key="splitShift.id"
         class="px-0"
@@ -93,40 +93,6 @@
             </v-chip>
           </v-list-item-subtitle>
         </v-list-item-content>
-
-        <v-list-item-action
-          v-if="selected === 'advanced'"
-          :data-cy="'options-' + i"
-        >
-          <v-menu offset-y>
-            <template #activator="{ on }">
-              <v-btn icon v-on="on">
-                <v-icon color="grey lighten-1">
-                  {{ icons.mdiDotsVertical }}
-                </v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item
-                :data-cy="'edit-' + i"
-                @click="editShift(splitShift)"
-              >
-                <v-list-item-title>
-                  {{ $t("actions.edit") }}
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                :data-cy="'delete-' + i"
-                @click="remove(splitShift.id)"
-              >
-                <v-list-item-title>
-                  {{ $t("actions.delete") }}
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-list-item-action>
       </v-list-item>
     </v-list>
     <v-card-actions class="px-0">
@@ -147,13 +113,6 @@
         {{ $t("actions.reset") }}
       </v-btn>
     </v-card-actions>
-    <ShiftReviewFormDialog
-      v-if="showFormDialog"
-      :shift-entity="shiftEntity"
-      :uuid="1"
-      @close="close"
-      @update="update"
-    />
   </v-card>
 </template>
 
@@ -166,7 +125,7 @@ const { utcToZonedTime, format } = require("date-fns-tz");
 import { ShiftService } from "@/services/models";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { mapGetters } from "vuex";
-import ShiftReviewFormDialog from "@/components/shifts/ShiftReviewFormDialog";
+
 export default {
   name: "ClockedShiftSplitWarning",
   filters: {
@@ -180,7 +139,6 @@ export default {
       return format(date, "HH':'mm");
     }
   },
-  components: { ShiftReviewFormDialog },
   data: () => ({
     disabled: false,
     icons: { mdiDotsVertical },
@@ -210,10 +168,6 @@ export default {
           text: this.$t("dashboard.clock.problems.actions.keepSecond"),
           value: "second"
         }
-        // {
-        //   text: this.$t("dashboard.clock.problems.actions.advanced"),
-        //   value: "advanced"
-        // }
       ];
     },
     editShiftIndex() {
@@ -241,10 +195,6 @@ export default {
     typeColor(shift) {
       return SHIFT_TYPE_COLORS[shift.type];
     },
-    close() {
-      this.shiftEntity = null;
-      this.showFormDialog = false;
-    },
     update(shift) {
       const shifts = this.pseudoShifts;
       shifts[this.editShiftIndex] = shift;
@@ -264,27 +214,22 @@ export default {
     remove(id) {
       this.pseudoShifts = this.pseudoShifts.filter((shift) => shift.id !== id);
     },
-    editShift(shift) {
-      this.shiftEntity = shift;
-      this.showFormDialog = true;
-    },
-    toggleShortShift(callback) {
-      callback();
-      this.dialog = false;
-    },
-    save() {
+    async save() {
       this.disabled = true;
-      const shiftPromises = this.pseudoShifts.map((shift) =>
-        ShiftService.create(shift.toPayload())
-      );
+      const payloadArray = this.pseudoShifts.map((shift) => {
+        shift.started.setHours(10);
+        shift.stopped.setHours(12);
+        return shift.toPayload();
+      });
+      const savedShifts = await ShiftService.bulkCreate(payloadArray);
 
-      Promise.all(shiftPromises)
-        .then(() => {
-          this.$emit("save", this.pseudoShifts.length);
-        })
-        .catch(() => {
-          this.disabled = false;
+      savedShifts.forEach((shift) => {
+        this.$store.commit("contentData/addShift", {
+          contractID: shift.contract,
+          shiftInstance: shift
         });
+      });
+      this.$emit("save", this.pseudoShifts.length);
     },
     firstShift() {
       let start = this.shift.started;
