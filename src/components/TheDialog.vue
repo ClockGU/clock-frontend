@@ -5,6 +5,7 @@
     :fullscreen="fullscreen"
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
+    @click:outside="$emit('close')"
   >
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
