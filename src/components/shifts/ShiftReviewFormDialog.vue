@@ -64,9 +64,8 @@
 </template>
 
 <script>
-import ShiftForm from "@/components/shifts/ShiftForm";
-
 import { mdiDelete, mdiClose } from "@mdi/js";
+import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
 
 export default {
   name: "ShiftReviewFormDialog",

@@ -35,7 +35,7 @@
 <script>
 import TheDialog from "@/components/TheDialog";
 import { Contract } from "@/models/ContractModel";
-import ContractForm from "@/components/forms/modelFroms/contract/ContractForm";
+import ContractForm from "@/components/forms/modelForms/contract/ContractForm";
 import { mdiPencil, mdiPlus } from "@mdi/js";
 
 export default {
