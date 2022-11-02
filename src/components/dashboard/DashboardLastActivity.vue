@@ -7,7 +7,7 @@
       <template v-if="lastShifts.length > 0">
         <v-list>
           <template v-for="shift in lastShifts">
-            <ShiftListItem :key="shift.id" :editable="true" :item="shift" />
+            <ShiftListItem :key="shift.id" :editable="true" :shift="shift" />
           </template>
         </v-list>
         <v-btn color="success" text :to="allShiftRouter">
