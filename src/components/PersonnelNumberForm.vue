@@ -95,7 +95,6 @@ export default {
   }),
   computed: {
     personnelErrors() {
-      console.log(this.v$.personnelNumber, this.personnelNumber);
       const errors = [];
       if (!this.v$.personnelNumber.$dirty) return errors;
       !this.v$.personnelNumber.required &&
@@ -124,10 +123,7 @@ export default {
   methods: {
     async save() {
       this.v$.$touch();
-      if (this.v$.$invalid) {
-        console.log("blar");
-        return;
-      }
+      if (this.v$.$invalid) return;
 
       this.loading = true;
       try {
