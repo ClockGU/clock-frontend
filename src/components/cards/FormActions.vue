@@ -3,7 +3,7 @@
     <v-btn text :disabled="disableSave" color="primary" @click="save">
       {{ $t("actions.save") }}
     </v-btn>
-    <v-btn data-cy="entity-cancel" text @click="close">
+    <v-btn v-if="!disableCancle" data-cy="entity-cancel" text @click="close">
       {{ $t("actions.cancel") }}
     </v-btn>
     <v-spacer></v-spacer>
@@ -44,6 +44,10 @@ export default {
     disableSave: {
       type: Boolean,
       required: true
+    },
+    disableCancle: {
+      type: Boolean,
+      default: false
     },
     isNewInstance: {
       type: Boolean,

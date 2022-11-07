@@ -27,6 +27,7 @@ export default new Vuex.Store({
   },
   getters: {
     user: (state) => state.user,
+    personnelNumber: (state) => state.user.personal_number,
     userLoading: (state) => state.userLoading,
     locale: (state) => state.locale
   },

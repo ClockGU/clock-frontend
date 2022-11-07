@@ -94,7 +94,8 @@
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind."
-    }
+    },
+    "createContract": "Vertrag erstellen"
   },
   "dashboard": {
     "disabled": {
@@ -295,9 +296,11 @@
     "shift": "Schicht | Schichten"
   },
   "onboarding": {
-    "createContract": {
-      "text": "Bitte gib deine Vertragsdaten ein.",
-      "title": "{entity} erstellen"
+    "setupData": {
+      "text": "Um Clock sofort nutzen zu können kannst du direkt einen Vertrag erstellen und deine Personalnummer speichern.",
+      "title": "Deine ersten Schritte",
+      "noContractExists": "Du besitzt noch keinen @:models.contract",
+      "contractExists": "Du hast bereits einen Vertrag erstellt. Weitere Verträge können im Tab - Verträge - erstellt werden."
     },
     "finished": {
       "text": "Du hast es geschafft!",
@@ -346,8 +349,9 @@
     }
   },
   "personnelNumber": {
-    "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
-    "title": "Optionale Angaben",
+    "noPersonnelNumberSaved": "Um einen Stundenzettel zu erstellen musst du deine Personalnummer eingeben. Solltest du deine Personalnummer noch nicht wissen, kannst du sie auch vor dem Download deines ersten Stundenzettels eingeben.",
+    "personnelNumberSaved": "Du hast deine Personalnummer bereits gespeichert",
+    "title": "Personalnummer speichern",
     "hint": "Deine Personalnummer findest du auf deiner Gehaltsabrechnung.",
     "label": "Personalnummer",
     "changeTitle": "Personalnummer ändern",
