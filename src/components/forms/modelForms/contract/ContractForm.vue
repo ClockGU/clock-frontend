@@ -1,9 +1,15 @@
 <template>
-  <v-card class="mx-auto word-break" min-width="400" :max-width="600">
+  <v-card
+    :elevation="0"
+    class="mx-auto word-break"
+    min-width="400"
+    :max-width="600"
+  >
     <CardToolbar
+      v-if="showToolbar"
       :title="title"
       :logout-action="false"
-      close-action
+      :close-action="!disableCancel"
       @close="closeFn"
     ></CardToolbar>
     <ContractFormFields v-model="newContract"></ContractFormFields>
@@ -15,6 +21,7 @@
       :disable-save="false"
       :is-new-instance="isNewInstance"
       model-name="contract"
+      :disable-cancle="disableCancel"
     >
     </FormActions>
   </v-card>
@@ -43,6 +50,14 @@ export default {
       type: Function,
       required: false,
       default: () => {}
+    },
+    showToolbar: {
+      type: Boolean,
+      default: true
+    },
+    disableCancel: {
+      type: Boolean,
+      default: false
     }
   },
   setup() {
