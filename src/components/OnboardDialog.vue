@@ -278,6 +278,8 @@ export default {
           userData.personal_number = this.personnelNumber;
         }
         await this.$store.dispatch("UPDATE_SETTINGS", userData);
+        // if a user creates a Contract, Reports will be created so we need to fetch the data again on dashboard enter
+        await this.$store.commit("contentData/unsetContentDataInitialized");
         this.routeToDashboard();
       } finally {
         setTimeout(() => {
