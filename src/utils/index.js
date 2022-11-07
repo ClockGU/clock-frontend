@@ -1,3 +1,5 @@
+import store from "@/store";
+
 const groupBy = (key) => (array) =>
   array.reduce((objectsByKeyValue, obj) => {
     const value = obj[key];
@@ -13,6 +15,7 @@ const indexOfBy = (key) => ({
   start = 0,
   end = array.length
 }) => {
+  if (array.length === 0) return 0;
   start = start || 0;
   end = end || array.length;
   const pivot = parseInt(start + (end - start) / 2, 10);
@@ -41,12 +44,14 @@ export const sortByModifiedAt = sortBy("modifiedAt");
 
 export function getContractWithLastActivity({ shifts, contracts }) {
   if (shifts.length === 0) {
-    if (contracts.length === 0) return "";
-    return sortByModifiedAt(contracts)[0].uuid;
+    if (contracts.length === 0) return undefined;
+    return sortByModifiedAt(contracts)[0];
   } else if (shifts.length === 1) {
-    return shifts[0].contract;
+    return store.getters["contentData/contractById"](shifts[0].contract);
   } else {
-    return sortByModifiedAt(shifts)[0].contract;
+    return store.getters["contentData/contractById"](
+      sortByModifiedAt(shifts)[0].contract
+    );
   }
 }
 

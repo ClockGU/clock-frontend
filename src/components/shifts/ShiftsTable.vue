@@ -1,13 +1,13 @@
 <template>
   <div>
-    <slot name="head" :destroy-fn="destroy" :selected="selected"></slot>
+    <slot name="head" :selected="selected"></slot>
     <v-data-table
       v-model="selected"
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
       :loading="loading"
-      item-key="uuid"
+      item-key="id"
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
@@ -15,12 +15,12 @@
     >
       <!-- eslint-disable-next-line -->
       <template #item.date="{ item }">
-        {{ formattedDate(item.date) }}
+        {{ formattedDate(item.started) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.start="{ item }">
-        {{ formattedTime(item.start) }}
+        {{ formattedTime(item.started) }}
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -30,11 +30,11 @@
 
       <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
-        <v-icon :color="colors[item.shift.type.value]">
-          {{ typeIcons[item.shift.type.value] }}
+        <v-icon :color="colors[item.type]">
+          {{ typeIcons[item.type] }}
         </v-icon>
         <v-chip
-          v-if="isRunningShift(item.shift)"
+          v-if="isRunningShift(item)"
           class="ml-2"
           outlined
           x-small
@@ -48,11 +48,11 @@
       <!-- eslint-disable-next-line -->
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
-          v-if="!item.reviewed"
-          :elevation="!isRunningShift(item.shift) ? 3 : 0"
+          v-if="!item.wasReviewed"
+          :elevation="!isRunningShift(item) ? 3 : 0"
           icon
-          :disabled="isRunningShift(item.shift)"
-          @click="reviewSingleShift(item.shift)"
+          :disabled="isRunningShift(item)"
+          @click="reviewSingleShift(item)"
         >
           <v-icon color="red">
             {{ icons.mdiClose }}
@@ -96,11 +96,8 @@
 
       <!-- eslint-disable-next-line-->
       <template #item.actions="{ item }">
-        <v-btn icon @click="$emit('edit', item.shift)">
-          <v-icon>
-            {{ icons.mdiPencil }}
-          </v-icon>
-        </v-btn>
+        <ShiftFormDialog :create="false" icon :shift="item"></ShiftFormDialog>
+        <!-- Commented out, pending due to missing Userfeedback.       -->
         <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
@@ -167,10 +164,12 @@ import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 export default {
   name: "ShiftsTable",
   components: {
+    ShiftFormDialog,
     //ConfirmationDialog,
     //  ShiftAssignContractDialog,
     ShiftInfoDialog
@@ -208,21 +207,22 @@ export default {
   }),
   computed: {
     flexHeaders() {
+      console.log(this.selected.length);
       //check for tags and notes and hide column if none exist
       let tagsAndNotes = 0;
       this.shifts.forEach(
         (shift) => (tagsAndNotes += shift.tags.length && shift.note.length)
       );
-      if (tagsAndNotes == 0) {
-        return this.headers.filter((item) => item.value != "tagsNotes");
+      if (tagsAndNotes === 0) {
+        return this.headers.filter((item) => item.value !== "tagsNotes");
       } else return this.headers;
     }
   },
   methods: {
     isRunningShift(shift) {
       return isWithinInterval(new Date(), {
-        start: shift.date.start,
-        end: shift.date.end
+        start: shift.started,
+        end: shift.stopped
       });
     },
     formattedDate(date) {
@@ -239,9 +239,9 @@ export default {
       items.sort((a, b) => {
         switch (sortBy[0]) {
           case "date":
-            return isBefore(b.date, a.date) ? -desc : desc;
+            return isBefore(b.stated, a.started) ? -desc : desc;
           case "start":
-            return isBefore(getHours(b.start), getHours(a.start))
+            return isBefore(getHours(b.started), getHours(a.started))
               ? -desc
               : desc;
           default:
@@ -255,24 +255,24 @@ export default {
         return note.substr(0, 15) + "...";
       } else return note;
     },
-    async destroy() {
-      const promises = [];
-      try {
-        for (const shift of this.selected) {
-          promises.push(ShiftService.delete(shift.uuid));
-        }
-
-        await Promise.all(promises);
-
-        this.$emit("refresh");
-        this.reset();
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      }
-    },
+    // async destroy() {
+    //   const promises = [];
+    //   try {
+    //     for (const shift of this.selected) {
+    //       promises.push(ShiftService.delete(shift.id));
+    //     }
+    //
+    //     await Promise.all(promises);
+    //
+    //     this.$emit("refresh");
+    //     this.reset();
+    //   } catch (error) {
+    //     // TODO: Set error state for component & allow user to reload page
+    //     // We usually should end up here, if we are already logging out.
+    //     // But a proper error state could mitigate further issues.
+    //     log(error);
+    //   }
+    // },
     async destroySingleShift(shift) {
       try {
         await ShiftService.delete(shift.uuid);
@@ -289,7 +289,7 @@ export default {
     async reviewSingleShift(shift) {
       const promises = [];
       try {
-        shift.reviewed = true;
+        shift.wasReviewed = true;
         const payload = shift.toPayload();
         promises.push(ShiftService.update(payload, payload.uuid));
 

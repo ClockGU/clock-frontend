@@ -7,12 +7,7 @@
       <template v-if="lastShifts.length > 0">
         <v-list>
           <template v-for="shift in lastShifts">
-            <ShiftListItem
-              :key="shift.uuid"
-              :editable="true"
-              :item="shift"
-              @refresh="$emit('refresh')"
-            />
+            <ShiftListItem :key="shift.id" :editable="true" :shift="shift" />
           </template>
         </v-list>
         <v-btn color="success" text :to="allShiftRouter">
@@ -32,7 +27,6 @@
 
 <script>
 import ShiftListItem from "@/components/shifts/ShiftListItem";
-import { Shift } from "@/models/ShiftModel";
 import { isBefore } from "date-fns";
 
 import { mapGetters } from "vuex";
@@ -51,26 +45,17 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts",
-      shifts: "shift/shifts"
+      selectedContract: "selectedContract/selectedContract",
+      shifts: "contentData/selectedShifts"
     }),
     lastShifts() {
+      if (this.disabled) return [];
       return this.shifts
-        .map((shift) => new Shift(shift))
-        .filter(
-          (shift) =>
-            shift.contract === this.selectedContract.uuid &&
-            isBefore(shift.start, new Date())
-        )
+        .filter((shift) => isBefore(shift.started, new Date()))
         .sort((a, b) => {
-          return new Date(b.date.end) - new Date(a.date.end);
+          return new Date(b.stopped) - new Date(a.started);
         })
         .slice(0, 5);
-    },
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-
-      return this.contracts.find((contract) => contract.uuid === uuid);
     }
   }
 };

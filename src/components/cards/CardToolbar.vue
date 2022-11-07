@@ -21,6 +21,7 @@
 <script>
 import { mdiClose } from "@mdi/js";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 export default {
   name: "CardToolbar",
   components: { LanguageSwitcher },

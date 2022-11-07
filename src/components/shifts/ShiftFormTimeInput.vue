@@ -6,11 +6,18 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ on: menuOn, attrs }">
+      <!--      <v-tooltip-->
+      <!--        :value="errorMessages.length > 0"-->
+      <!--        bottom-->
+      <!--        :open-on-hover="false"-->
+      <!--        color="error"-->
+      <!--      >-->
+      <!--        <template #activator="{ on: toolOn }">-->
       <v-text-field
         v-model="data"
+        :class="error ? 'text' : ''"
         :data-time-value="data"
-        :data-cy="type"
         return-masked-value
         hide-details
         filled
@@ -22,8 +29,11 @@
         v-bind="attrs"
         @blur="setTime"
         @focus="$event.target.select()"
-        v-on="$vuetify.breakpoint.smAndDown ? on : ''"
+        v-on="$vuetify.breakpoint.smAndDown ? { ...menuOn, ...toolOn } : ''"
       ></v-text-field>
+      <!--        </template>-->
+      <!--        <span>{{ errorMessages[0] }} </span>-->
+      <!--      </v-tooltip>-->
     </template>
     <v-time-picker
       v-if="menu && $vuetify.breakpoint.smAndDown"
@@ -35,19 +45,8 @@
 </template>
 
 <script>
-import {
-  addMinutes,
-  // format,
-  // isBefore,
-  isTomorrow,
-  setHours,
-  setMinutes
-  // subMinutes
-} from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
-
-import { Shift } from "@/models/ShiftModel";
 
 import { mdiClockOutline } from "@mdi/js";
 
@@ -55,11 +54,7 @@ export default {
   name: "ShiftFormTimeInput",
   props: {
     value: {
-      type: Object,
-      required: true
-    },
-    type: {
-      type: String,
+      type: Date,
       required: true
     },
     error: {
@@ -73,92 +68,57 @@ export default {
     prependIcon: {
       type: Boolean,
       default: false
+    },
+    errorMessages: {
+      type: Array,
+      default: () => []
     }
   },
-  data: () => ({
-    menu: false,
-    data: null,
-    opposites: {
-      start: "end",
-      end: "start"
-    },
-    icons: { mdiClockOutline }
-  }),
-  computed: {
-    time: {
-      get() {
-        return localizedFormat(this.value.date[this.type], "HH:mm");
+  data() {
+    return {
+      menu: false,
+      data: null,
+      opposites: { start: "end", end: "start" },
+      icons: {
+        mdiClockOutline
       },
-      set(val) {
-        //function to set times to "now"
-        if (val == "now" || val == "jetzt") {
-          val = localizedFormat(new Date(), "HH:mm");
-        }
-
-        let hours, minutes;
-
-        try {
-          [hours, minutes] = validateTimeInput(val).split(":");
-        } catch {
-          this.data = localizedFormat(this.value.date[this.type], "HH:mm");
-          return;
-        }
-
-        // Save the old duration and limit to a single days' worth of minutes
-        const oldDuration = this.value.duration % 1440;
-
-        // Grab year, month and day from date entry
-        const [year, month, day] = localizedFormat(
-          this.value.date[this.type],
-          "yyyy-MM-dd"
-        ).split("-");
-
-        const date = new Date(year, month - 1, day, hours, minutes);
-
-        const newValue = { ...this.value };
-        newValue.date[this.type] = date;
-
-        // If we modified the startTime, then also shift the end time
-        if (this.type === "start") {
-          let newEnd = addMinutes(date, oldDuration);
-
-          // Limit the end time at 23:59
-          if (isTomorrow(newEnd)) {
-            newEnd = setHours(newEnd, 23);
-            newEnd = setMinutes(newEnd, 59);
-          }
-
-          newValue.date["end"] = newEnd;
-        }
-
-        const shift = new Shift({ ...newValue });
-
-        this.$emit("input", shift);
-        this.data = `${hours}:${minutes}`;
-      }
-    }
+      time: this.value
+    };
   },
   watch: {
-    // When dynamically adapt the end time, when we change the start time, then
-    // we also need to set `this.data` like we do in created().
-    "value.date": {
-      handler: function () {
-        // Do nothing if we are editing the start time.
-        if (this.type === "start") return;
+    value(val) {
+      this.time = localizedFormat(val, "HH:mm");
+    },
+    time(val) {
+      if (val === "now" || val === "jetzt") {
+        val = localizedFormat(new Date(), "HH:mm");
+      }
 
-        // Run initialize to set the initial value in the input
-        this.initialize();
-      },
-      deep: true
+      let hours, minutes;
+
+      try {
+        [hours, minutes] = validateTimeInput(val).split(":");
+      } catch {
+        this.data = localizedFormat(this.value, "HH:mm");
+        return;
+      }
+      // Grab year, month and day from date entry
+      const [year, month, day] = [
+        this.value.getFullYear(),
+        this.value.getMonth(),
+        this.value.getDate()
+      ];
+      const date = new Date(year, month, day, hours, minutes);
+      this.$emit("input", date);
+      this.data = `${hours}:${minutes}`;
     }
   },
   created() {
     this.initialize();
-    this.data = localizedFormat(this.value.date[this.type], "HH:mm");
   },
   methods: {
     initialize() {
-      this.data = localizedFormat(this.value.date[this.type], "HH:mm");
+      this.data = localizedFormat(this.value, "HH:mm");
     },
     setTime() {
       this.$refs.menu.save(this.time);
@@ -171,3 +131,16 @@ export default {
   }
 };
 </script>
+
+<style>
+.text::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 25%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #ff5252 transparent transparent transparent;
+}
+</style>

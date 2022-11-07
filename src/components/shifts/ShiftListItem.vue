@@ -2,15 +2,15 @@
   <v-list-item @click="editable ? openDialog() : () => {}">
     <v-list-item-content>
       <v-list-item-title>
-        <v-icon class="pr-1" :color="colors[item.type.value]">
-          {{ typeIcons[item.type.value] }}
+        <v-icon class="pr-1" :color="colors[shift.type]">
+          {{ typeIcons[shift.type] }}
         </v-icon>
-        {{ item.date.start | formatDay }}
+        {{ shift.started | formatDay }}
       </v-list-item-title>
       <v-list-item-subtitle class="text--primary">
-        {{ item.date.start | formatTime }} -
-        {{ item.date.end | formatTime }}
-        ({{ item.representationalDuration("hm") }})
+        {{ shift.started | formatTime }} -
+        {{ shift.stopped | formatTime }}
+        ({{ shift.representationalDuration("hm") }})
       </v-list-item-subtitle>
       <v-list-item-subtitle>
         <v-chip
@@ -24,9 +24,9 @@
           live
         </v-chip>
         <v-chip
-          v-for="(tag, i) in item.tags"
+          v-for="(tag, i) in shift.tags"
           :key="tag"
-          :data-cy="'shift-list-item-tag-' + i"
+          :data-cy="'shift-list-shift-tag-' + i"
           outlined
           small
           class="ma-1 ml-0"
@@ -35,8 +35,8 @@
         </v-chip>
 
         <v-chip
-          v-if="!item.reviewed"
-          data-cy="shift-list-item-type"
+          v-if="!shift.wasReviewed"
+          data-cy="shift-list-shift-type"
           outlined
           small
           class="ma-1"
@@ -46,14 +46,12 @@
         </v-chip>
       </v-list-item-subtitle>
     </v-list-item-content>
-
-    <FormDialog
-      v-if="dialog"
-      entity-name="shift"
-      :entity="shiftEntity"
-      @close="closeDialog"
-      @refresh="$emit('refresh')"
-    />
+    <ShiftFormDialog
+      :shift="shift"
+      :value="dialog"
+      disable-activator
+      @close="dialog = false"
+    ></ShiftFormDialog>
   </v-list-item>
 </template>
 
@@ -66,11 +64,12 @@ import { isWithinInterval } from "date-fns";
 
 import { mdiCircleMedium, mdiRecord } from "@mdi/js";
 
-import FormDialog from "@/components/FormDialog";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "ShiftListItem",
-  components: { FormDialog },
+  components: { ShiftFormDialog },
   filters: {
     formatDay(date) {
       return localizedFormat(date, "EEEE',' do MMMM yyyy");
@@ -87,8 +86,8 @@ export default {
       type: Boolean,
       required: true
     },
-    item: {
-      type: Object,
+    shift: {
+      type: Shift,
       required: true
     }
   },
@@ -102,19 +101,13 @@ export default {
   computed: {
     isRunningShift() {
       return isWithinInterval(new Date(), {
-        start: this.item.date.start,
-        end: this.item.date.end
+        start: this.shift.started,
+        end: this.shift.stopped
       });
     }
   },
   methods: {
-    closeDialog() {
-      this.shiftEntity = null;
-      this.dialog = false;
-      this.$emit("refresh");
-    },
     openDialog() {
-      this.shiftEntity = this.item;
       this.dialog = true;
     }
   }

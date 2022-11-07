@@ -105,12 +105,12 @@ export function validateWorktimeInput(value) {
   }
 
   // Convert hours and minutes from strings to integers
-  [hours, minutes] = [parseInt(hours).pad(2), parseInt(minutes).pad(2)];
-
+  let retValue = parseInt(hours) * 60 + parseInt(minutes);
+  console.log(hours, minutes, retValue);
   validateMinutes(minutes);
 
   // handle negative values
-  return (negative ? "-" : "") + `${hours}:${minutes}`;
+  return negative ? -1 * retValue : retValue;
 }
 
 export function parseString(value) {

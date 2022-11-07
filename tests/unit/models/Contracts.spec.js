@@ -11,20 +11,21 @@ describe("Contracts.js", () => {
 
   it("creates a new Contract instance with date arguments", () => {
     timekeeper.travel(date.startDate);
+    timekeeper.freeze(date.startDate);
     const obj = new Contract(date);
     console.log(obj.carryoverTargetDate);
     expect(obj).toEqual({
-      id: null,
-      user: null,
-      name: null,
+      id: "",
+      user: "",
+      name: "",
       minutes: 0,
       startDate: new Date(Date.UTC(2021, 0, 1)),
       endDate: new Date(Date.UTC(2021, 1, 1)),
       initialCarryoverMinutes: 0,
       carryoverTargetDate: new Date(2021, 0, 1, 0),
-      createdAt: null,
-      modifiedAt: null,
-      lastUsed: null
+      createdAt: new Date(Date.UTC(2021, 0, 1)),
+      modifiedAt: new Date(Date.UTC(2021, 0, 1)),
+      lastUsed: new Date(Date.UTC(2021, 0, 1))
     });
     timekeeper.reset();
   });

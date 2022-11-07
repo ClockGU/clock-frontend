@@ -5,7 +5,7 @@
     :items="disabled ? [{ uuid: '' }] : contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
-    item-value="uuid"
+    item-value="id"
     persistent-hint
     solo
     return-object
@@ -35,23 +35,15 @@
 </template>
 
 <script>
-import { log } from "@/utils/log";
 import { mdiRecord } from "@mdi/js";
 
 import contractValidMixin from "@/mixins/contractValid";
+import { mapGetters } from "vuex";
 
 export default {
   name: "SelectContractFilter",
   mixins: [contractValidMixin],
   props: {
-    contracts: {
-      type: Array,
-      required: true
-    },
-    selectedContract: {
-      type: Object,
-      required: true
-    },
     disabled: {
       type: Boolean,
       required: false,
@@ -62,6 +54,10 @@ export default {
     icons: { mdiRecord }
   }),
   computed: {
+    ...mapGetters({
+      contracts: "contentData/allContracts",
+      selectedContract: "selectedContract/selectedContract"
+    }),
     hint() {
       if (this.disabled) {
         return "";
@@ -78,19 +74,9 @@ export default {
     }
   },
   methods: {
-    async changeContract({ uuid }) {
-      if (this.$route.params.contract === uuid) return;
-      await this.$store.dispatch("contract/selectContract", uuid);
-      this.$emit("update");
-
-      this.$router
-        .push({
-          ...this.$route.name,
-          params: { ...this.$route.params, contract: uuid }
-        })
-        .catch((error) => {
-          log("Experienced an error while trying to change contracts: ", error);
-        });
+    async changeContract(contract) {
+      if (this.selectedContract === contract) return;
+      await this.$store.dispatch("selectedContract/selectContract", contract);
     },
     contractStatus(contract) {
       if (this.specificContractInFuture(contract))

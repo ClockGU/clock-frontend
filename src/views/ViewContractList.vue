@@ -27,18 +27,17 @@
 
         <template v-if="!loading || ignoreLoading">
           <v-col cols="12">
-            <v-btn color="primary" class="ml-3" @click="newContract">
-              {{ $t("buttons.newEntity", { entity: $tc("models.contract") }) }}
-            </v-btn>
+            <div class="pl-3">
+              <ContractFormDialog btn-color="primary"></ContractFormDialog>
+            </div>
           </v-col>
           <template v-for="(contract, i) in activeContracts">
-            <v-col :key="contract.uuid" cols="12" xl="4" md="6">
+            <v-col :key="contract.id" cols="12" xl="4" md="6">
               <ContractListCard
-                :key="contract.uuid"
+                :key="contract.id"
                 :data-cy="'contract-' + i"
                 :contract="contract"
-                @edit="editContract"
-                @delete="destroy(contract.uuid)"
+                @delete="destroy(contract.id)"
               />
             </v-col>
           </template>
@@ -60,12 +59,12 @@
                         justify="start"
                       >
                         <ContractListCard
-                          :key="contract.uuid"
+                          :key="contract.id"
                           :data-cy="'contract-' + i"
                           :contract="contract"
                           expired
                           @edit="editContract"
-                          @delete="destroy(contract.uuid)"
+                          @delete="destroy(contract.id)"
                         />
                       </v-col>
                     </template>
@@ -83,22 +82,11 @@
         {{ $t("contracts.empty") }}
       </placeholder>
     </template>
-
-    <template #extra-content>
-      <FormDialog
-        v-if="contractEntity !== null"
-        entity-name="contract"
-        :entity="contractEntity"
-        @close="contractEntity = null"
-        @refresh="refresh"
-      />
-    </template>
   </base-layout>
 </template>
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
-import FormDialog from "@/components/FormDialog";
 import { parseISO, endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
@@ -108,6 +96,7 @@ import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
 import { log } from "@/utils/log";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
 
 export default {
   name: "ViewContractList",
@@ -117,8 +106,8 @@ export default {
     };
   },
   components: {
-    ContractListCard,
-    FormDialog
+    ContractFormDialog,
+    ContractListCard
   },
   beforeRouteLeave(to, from, next) {
     this.ignoreLoading = true;
@@ -132,13 +121,14 @@ export default {
         mdiPlus: mdiPlus
       },
       contractEntity: null,
-      ignoreLoading: false
+      ignoreLoading: false,
+      // TODO: Build Loading functionality
+      loading: false
     };
   },
   computed: {
     ...mapGetters({
-      loading: "contract/loading",
-      contracts: "contract/contracts",
+      contracts: "contentData/allContracts",
       clockedShift: "clock/clockedShift"
     }),
     activeContracts() {
@@ -158,25 +148,11 @@ export default {
     }
   },
   methods: {
-    async refresh() {
-      try {
-        await Promise.all([
-          this.$store.dispatch("shift/queryShifts"),
-          this.$store.dispatch("contract/queryContracts"),
-          this.$store.dispatch("report/list")
-        ]);
-      } catch (error) {
-        log(error);
-      }
-    },
     editContract(uuid) {
       const contract = this.contracts.find(
         (contract) => contract.uuid === uuid
       );
       this.contractEntity = new Contract(contract);
-    },
-    newContract() {
-      this.contractEntity = new Contract();
     },
     clockedIntoContract(uuid) {
       if (this.clockedShift === undefined || this.clockedShift === null) {
@@ -186,7 +162,7 @@ export default {
       return this.clockedShift.contract !== uuid;
     },
     contractExpired(contract) {
-      const date = endOfDay(parseISO(contract.date.end));
+      const date = endOfDay(parseISO(contract.endDate));
       return isPast(date);
     },
     async destroy(uuid) {

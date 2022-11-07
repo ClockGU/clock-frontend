@@ -10,7 +10,7 @@
     </v-toolbar>
 
     <v-card-text>
-      <ClockedShiftSplitWarning :clocked-shift="clockedShift" @save="save" />
+      <ClockedShiftSplitWarning @save="save" />
     </v-card-text>
   </v-card>
 </template>
@@ -24,10 +24,6 @@ export default {
   name: "ClockInOutCardForm",
   components: { ClockedShiftSplitWarning },
   props: {
-    clockedShift: {
-      type: Object,
-      required: true
-    },
     destroy: {
       type: Function,
       required: true

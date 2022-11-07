@@ -1,5 +1,11 @@
 import is from "ramda/src/is";
-import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
+import {
+  format,
+  differenceInCalendarDays,
+  startOfMonth,
+  endOfMonth
+} from "date-fns";
+import { getFirstOfcurrentMonth, getLastOfcurrentMonth } from "@/utils/date";
 
 export function mapContractApiResponse(response) {
   return {
@@ -31,12 +37,18 @@ export class Contract {
     modifiedAt = null,
     lastUsed = null
   } = {}) {
-    this.id = is(String, id) ? id : null;
-    this.user = is(String, user) ? user : null;
-    this.name = is(String, name) ? name : null;
+    this.id = is(String, id) ? id : "";
+    this.user = is(String, user) ? user : "";
+    this.name = is(String, name) ? name : "";
     this.minutes = is(Number, minutes) ? minutes : 0;
-    this.startDate = is(Date, new Date(startDate)) ? new Date(startDate) : null;
-    this.endDate = is(Date, new Date(endDate)) ? new Date(endDate) : null;
+    this.startDate =
+      is(Date, new Date(startDate)) && startDate !== null
+        ? new Date(startDate)
+        : getFirstOfcurrentMonth();
+    this.endDate =
+      is(Date, new Date(endDate)) && endDate !== null
+        ? new Date(endDate)
+        : getLastOfcurrentMonth();
     this.initialCarryoverMinutes = is(Number, initialCarryoverMinutes)
       ? initialCarryoverMinutes
       : 0;
@@ -47,15 +59,15 @@ export class Contract {
     this.createdAt =
       is(Date, new Date(createdAt)) && createdAt !== null
         ? new Date(createdAt)
-        : null;
+        : new Date();
     this.modifiedAt =
       is(Date, new Date(modifiedAt)) && modifiedAt !== null
         ? new Date(modifiedAt)
-        : null;
+        : new Date();
     this.lastUsed =
       is(Date, new Date(lastUsed)) && lastUsed !== null
         ? new Date(lastUsed)
-        : null;
+        : new Date();
   }
 
   get duration() {
@@ -81,17 +93,21 @@ export class Contract {
   }
 
   endDateString() {
-    return format(startOfMonth(this.endDate), "yyyy-MM-dd");
+    return format(endOfMonth(this.endDate), "yyyy-MM-dd");
   }
-
   toPayload() {
     return {
+      id: this.id,
       name: this.name,
       minutes: this.minutes,
       start_date: this.startDateString(),
       end_date: this.endDateString(),
       carryover_target_date: this.CarryoverTargetDateString(),
-      initial_carryover_minutes: this.initialCarryoverMinutes
+      initial_carryover_minutes: this.initialCarryoverMinutes,
+      last_used: this.lastUsed
     };
+  }
+  clone() {
+    return new Contract(mapContractApiResponse(this.toPayload()));
   }
 }

@@ -1,9 +1,8 @@
 <template>
-  <ConfirmationDialog @confirm="$emit('destroy')">
+  <ConfirmationDialog @confirm="destroy">
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
-
     <template #title>
       {{ $t("buttons.deleteEntity", { entity: $tc("models.shift", count) }) }}
     </template>
@@ -31,6 +30,11 @@ export default {
   },
   data: () => ({
     icons: { mdiDelete }
-  })
+  }),
+  methods: {
+    destroy() {
+      this.$emit("destroy");
+    }
+  }
 };
 </script>

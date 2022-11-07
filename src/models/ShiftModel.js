@@ -46,16 +46,18 @@ export class Shift {
     wasReviewed = null,
     locked = null
   } = {}) {
-    this.id = is(String, id) ? id : null;
-    this.user = is(String, user) ? user : null;
-    this.started = is(Date, new Date(started))
-      ? new Date(started)
-      : defaultValueTime("start");
+    this.id = is(String, id) ? id : "";
+    this.user = is(String, user) ? user : "";
+    this.started =
+      is(Date, new Date(started)) && started !== null
+        ? new Date(started)
+        : defaultValueTime("start");
 
-    this.stopped = is(Date, new Date(stopped))
-      ? new Date(stopped)
-      : defaultValueTime("end");
-    this.contract = is(String, contract) ? contract : null;
+    this.stopped =
+      is(Date, new Date(stopped)) && stopped !== null
+        ? new Date(stopped)
+        : defaultValueTime("end");
+    this.contract = is(String, contract) ? contract : "";
     this.type =
       is(String, type) && any(SHIFT_TYPES.map((item) => item.value === type))
         ? type
@@ -67,7 +69,7 @@ export class Shift {
   }
 
   get duration() {
-    return differenceInMinutes(this.stopped, this.stopped);
+    return differenceInMinutes(this.stopped, this.started);
   }
 
   representationalDuration(format = "") {
@@ -116,6 +118,8 @@ export class Shift {
   }
 
   clone() {
-    return new Shift(this.toPayload());
+    let data = this.toPayload();
+    data["wasReviewed"] = this.wasReviewed;
+    return new Shift(data);
   }
 }

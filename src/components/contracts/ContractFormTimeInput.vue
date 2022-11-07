@@ -8,7 +8,7 @@
   >
     <template #activator="{ attrs }">
       <v-text-field
-        v-model="data"
+        :value="data"
         :prepend-icon="prependIcon"
         :label="label"
         :hint="hint"
@@ -20,16 +20,16 @@
         v-bind="attrs"
         @blur="setTime"
         @focus="$event.target.select()"
+        @focusout="updateData($event.target.value)"
       ></v-text-field>
     </template>
   </v-menu>
 </template>
 
 <script>
-import { validateWorktimeInput } from "@/utils/time";
-import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
-import { mdiTimetable, mdiCalendarClock } from "@mdi/js";
+import { minutesToHHMM, validateWorktimeInput } from "@/utils/time";
+import { required } from "@vuelidate/validators";
+import { mdiCalendarClock, mdiTimetable } from "@mdi/js";
 
 const timeNotZero = (value) => value !== "00:00";
 const timeValid = (value) => {
@@ -57,7 +57,6 @@ const timeNotNegative = (value) => {
 
 export default {
   name: "ContractFormTimeInput",
-  mixins: [validationMixin],
   validations: {
     data: {
       required,
@@ -68,8 +67,8 @@ export default {
   },
   props: {
     value: {
-      type: String,
-      default: ""
+      type: Number,
+      default: 0
     },
     prependIcon: {
       type: String,
@@ -98,64 +97,54 @@ export default {
     icons: { mdiTimetable, mdiCalendarClock }
   }),
   computed: {
-    time: {
-      get() {
-        return this.value;
-      },
-      set(val) {
-        let hours, minutes;
-
-        try {
-          [hours, minutes] = validateWorktimeInput(val).split(":");
-        } catch {
-          if (val === "") {
-            this.data = "";
-            this.$emit("input", this.data);
-            return;
-          }
-          this.data = this.value;
-          return;
-        }
-        this.data = `${hours}:${minutes}`;
-        this.$emit("input", this.data);
-      }
-    },
     timeErrors() {
-      const errors = [];
-      if (!this.$v.data.$dirty) return errors;
-      !this.$v.data.required &&
-        errors.push(
-          this.$tc("errors.nameRequired", 1, {
-            name: this.$t("errors.hours")
-          })
-        );
-      // skip that one as it yet interferes with the versatile parser
-      // the parser should not return invalid worktimes although it is less transparent
-      // !this.$v.data.timeValid && errors.push(this.$t("errors.timeFormat"));
-      !this.allowNegativeValues &&
-        !this.$v.data.timeNotNegative &&
-        errors.push(this.$t("errors.notNegative"));
-      !this.$v.data.timeNotZero &&
-        errors.push(
-          this.$t("errors.durationBiggerZero", {
-            name: this.$tc("errors.hours")
-          })
-        );
-      return errors;
+      // if (!this.$v.data.$dirty) return errors;
+      // !this.$v.data.required &&
+      //   errors.push(
+      //     this.$tc("errors.nameRequired", 1, {
+      //       name: this.$t("errors.hours")
+      //     })
+      //   );
+      // // skip that one as it yet interferes with the versatile parser
+      // // the parser should not return invalid worktimes although it is less transparent
+      // // !this.$v.data.timeValid && errors.push(this.$t("errors.timeFormat"));
+      // !this.allowNegativeValues &&
+      //   !this.$v.data.timeNotNegative &&
+      //   errors.push(this.$t("errors.notNegative"));
+      // !this.$v.data.timeNotZero &&
+      //   errors.push(
+      //     this.$t("errors.durationBiggerZero", {
+      //       name: this.$tc("errors.hours")
+      //     })
+      //   );
+      return [];
     }
   },
-
+  watch: {
+    value(val) {
+      this.data = val === 0 ? "" : minutesToHHMM(val);
+    }
+  },
   created() {
-    this.initialize();
+    this.data = this.value === 0 ? "" : minutesToHHMM(this.value);
   },
   methods: {
-    initialize() {
-      this.value == null ? (this.data = "") : (this.data = this.value);
-    },
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
-      this.$v.data.$touch();
+      // this.v$.data.$touch();
+    },
+    updateData(event) {
+      let minutes = 0;
+      try {
+        minutes = validateWorktimeInput(event);
+      } catch {
+        if (event === "") {
+          this.$emit("input", 0);
+          return;
+        }
+      }
+      this.$emit("input", minutes);
     }
   }
 };

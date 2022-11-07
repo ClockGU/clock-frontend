@@ -57,18 +57,11 @@ export default {
   computed: {
     ...mapState(["locale"]),
     ...mapGetters({
-      isLoggedIn: "auth/loggedIn",
-      contracts: "contract/contracts"
-    }),
-    hasContracts() {
-      return this.contracts.length > 0;
-    },
-    showOverride() {
-      return this.$route.name === "imprint" || this.$route.name === "privacy";
-    }
+      isLoggedIn: "auth/loggedIn"
+    })
   },
   async created() {
-    this.$store.dispatch("changeLocale", this.locale);
+    await this.$store.dispatch("changeLocale", this.locale);
     if (!this.isLoggedIn) return;
     try {
       const { data } = await this.$store.dispatch("GET_USER");

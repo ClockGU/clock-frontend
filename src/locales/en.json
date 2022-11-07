@@ -54,7 +54,8 @@
   },
   "buttons": {
     "deleteEntity": "@:actions.delete {entity}?",
-    "newEntity": "@:actions.add {entity}"
+    "newEntity": "@:actions.add {entity}",
+    "updateEntity": "{entity} @:actions.edit"
   },
   "calendar": {
     "day": "Day",
@@ -93,7 +94,8 @@
       "timeLabel": "Carryover",
       "timeSubtitle": "Worktime to be carried over (HH:mm)",
       "locked": "There are locked months. Carryover cannot be modified."
-    }
+    },
+    "createContract": "Create Contract"
   },
   "dashboard": {
     "disabled": {
@@ -294,9 +296,11 @@
     "shift": "Shift | Shifts"
   },
   "onboarding": {
-    "createContract": {
-      "text": "Please fill in your contract details below.",
-      "title": "Create {entity}"
+    "setupData": {
+      "text": "Um Clock sofort nutzen zu können kannst du direkt einen Vertrag erstellen und deine Personalnummer speichern.",
+      "title": "Deine ersten Schritte",
+      "noContractExists": "Du besitzt noch keinen @:models.contract",
+      "contractExists": "Du hast bereits einen @:models.contract erstellt. Weitere @:models.contract können im Tab - @:models.contract - erstellen."
     },
     "finished": {
       "text": "You completed the onboarding!",
@@ -345,8 +349,9 @@
     }
   },
   "personnelNumber": {
-    "text": "You can fill in the below data at a point later in time in your user settings.",
-    "title": "Optional",
+    "noPersonnelNumberSaved": "Um einen Stundenzettel zu erstellen musst du deine Personalnummer eingeben. Solltest du deine Personalnummer noch nicht wissen, kannst du sie auch vor dem Download deines ersten Stundenzettels eingeben.",
+    "personnelNumberSaved": "Du hast deine Personalnummer bereits gespeichert",
+    "title": "Save Personnrlnumber",
     "hint": "You can find your personnel number on your salary printout.",
     "label": "Personnel number",
     "changeTitle": "Change personnel number",
@@ -474,6 +479,9 @@
       "noSickOrVacationWithRegularShift": "There is already a normal shift on this date. Please delete the shift or change its type before creating a shift of type {shiftType}.",
       "insufficientBreaktime": "There are shifts of {worktime}h with breaks of {breaktime}h on this date. According to §4 ArbzG, the work shall be interrupted by breaks of 30 minutes for a shift over 6h, and 45 minutes for a shift over 9h (in all).",
       "maxWorktimeExceeded": "You exceeded your maximum daily worktime of 10h."
+    },
+    "errors": {
+      "startedBeforeStopped": "The start must be before the end of the shift."
     }
   },
   "snackbar": {

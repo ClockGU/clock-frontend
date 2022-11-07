@@ -51,10 +51,11 @@
 </template>
 
 <script>
-import { format } from "date-fns";
 import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap";
+import { mapGetters } from "vuex";
+import { getFirstOfcurrentMonth } from "@/utils/date";
 
 export default {
   name: "DashboardConflicts",
@@ -65,12 +66,8 @@ export default {
       default: false
     },
     month: {
-      type: String,
-      default: format(new Date(), "yyyy-MM")
-    },
-    shifts: {
-      type: Array,
-      required: true
+      type: Date,
+      default: getFirstOfcurrentMonth
     }
   },
   data: () => ({
@@ -83,7 +80,9 @@ export default {
     touchOverlay: false
   }),
   computed: {
+    ...mapGetters({ shifts: "contentData/selectedShifts" }),
     overlappingShifts() {
+      if (this.disabled) return 0;
       const overlaps = getOverlappingShifts(this.shifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
       return overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);

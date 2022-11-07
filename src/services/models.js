@@ -53,7 +53,7 @@ class modelService {
         promises.push(this.create(obj));
       }
       return Promise.all(promises).then((values) => {
-        return values.map((item) => this.mapFunction(item));
+        return values;
       });
     } catch (e) {
       throw Error(e.message);
@@ -69,7 +69,7 @@ class modelService {
         promises.push(this.update(obj, obj.id));
       }
       return Promise.all(promises).then((values) => {
-        return values.map((item) => this.mapFunction(item));
+        return values;
       });
     } catch (e) {
       throw Error(e.message);
@@ -99,6 +99,12 @@ export class ShiftService extends modelService {
   constructor() {
     super();
   }
+  static async filterList(filterString) {
+    const response = await ApiService.get(this.BASE_URL + filterString);
+    return response.data.map(
+      (item) => new this.MODEL_CLASS(this.mapFunction(item))
+    );
+  }
 }
 
 export class ContractService extends modelService {
@@ -107,6 +113,9 @@ export class ContractService extends modelService {
   static MODEL_CLASS = Contract;
   constructor() {
     super();
+  }
+  static async lock({ id, month, year }) {
+    return ApiService.post(`${this.BASE_URL}${id}/${month}/${year}/lock/`);
   }
 }
 
@@ -117,6 +126,15 @@ export class ReportService extends modelService {
   constructor() {
     super();
   }
+  static async get(id) {
+    const requestData = {
+      method: "get",
+      url: this.BASE_URL + `${id}/export/`,
+      responseType: "arraybuffer"
+    };
+    return ApiService.customRequest(requestData);
+  }
+
   static async create() {
     return undefined;
   }

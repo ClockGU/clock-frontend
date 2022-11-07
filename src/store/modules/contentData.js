@@ -1,4 +1,5 @@
 import {
+  // eslint-disable-next-line no-unused-vars
   groupByContract,
   indexOfByMonthYear,
   indexOfByStarted,
@@ -7,6 +8,7 @@ import {
   sortByStarted
 } from "@/utils";
 import Vue from "vue";
+import { ShiftService } from "@/services/models";
 
 const state = {
   contentData: {},
@@ -15,13 +17,26 @@ const state = {
 
 const getters = {
   contentDataInitialized: (state) => state.contentDataInitialized,
-  selectedShifts(state, getters, rootState, rootGetters) {
-    const selectedContractId = rootGetters["contract/selectedContract"].id;
-    return state.contentData[selectedContractId].shifts;
+  contractById: (state) => (id) => {
+    return state.contentData[id].contract;
   },
-  selectedReports(state, rootGetters) {
-    const selectedContractId = rootGetters["contract/selectedContract"].id;
-    return state.contentData[selectedContractId].reports;
+  selectedShifts(state, getters, rootState, rootGetters) {
+    try {
+      const selectedContractId =
+        rootGetters["selectedContract/selectedContract"].id;
+      return state.contentData[selectedContractId].shifts;
+    } catch (err) {
+      return undefined;
+    }
+  },
+  selectedReports(state, getters, rootState, rootGetters) {
+    try {
+      const selectedContractId =
+        rootGetters["selectedContract/selectedContract"].id;
+      return state.contentData[selectedContractId].reports;
+    } catch (err) {
+      return undefined;
+    }
   },
   allShifts(state) {
     let shiftArray = [];
@@ -47,6 +62,7 @@ const getters = {
 };
 
 const mutations = {
+  // eslint-disable-next-line no-unused-vars
   setupContentData(state, { contractData, shiftData, reportData }) {
     const groupedShifts = groupByContract(shiftData);
     const groupedReports = groupByContract(reportData);
@@ -54,20 +70,20 @@ const mutations = {
       for (let contractInstance of contractData) {
         let data = { contract: null, shifts: [], reports: [] };
         const contractID = contractInstance.id;
-        const shiftData = groupedShifts[contractID];
-        const reportData = groupedReports[contractID];
-        Vue.set(state.contentData, contractInstance.id, data);
+        const shiftsOfContract = groupedShifts[contractID] ?? [];
+        const reportsOfContract = groupedReports[contractID] ?? [];
+        Vue.set(state.contentData, contractID, data);
         this.commit("contentData/setContract", {
           contractID,
           contractInstance
         });
         this.commit("contentData/setShifts", {
-          contractID,
-          shiftData
+          contractID: contractID,
+          shiftData: shiftsOfContract
         });
         this.commit("contentData/setReports", {
           contractID,
-          reportData
+          reportData: reportsOfContract
         });
       }
     } catch (e) {
@@ -89,8 +105,8 @@ const mutations = {
     const data = { contract: contractInstance, shifts: [], reports: [] };
     Vue.set(state.contentData, contractInstance.id, data);
   },
-  removeContract(state, contractInstance) {
-    delete state.contentData[contractInstance.id];
+  removeContract(state, { contractID }) {
+    Vue.delete(state.contentData, contractID);
   },
   updateContract(state, { contractID, contractInstance }) {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
@@ -127,7 +143,18 @@ const mutations = {
       );
       return;
     }
-    state.contentData[contractID].shifts[currentIndex] = shiftInstance;
+
+    state.contentData[contractID].shifts.splice(currentIndex, 1, shiftInstance);
+  },
+  switchShiftContract(state, { oldContractID, newContractID, shiftInstance }) {
+    this.commit("contentData/removeShift", {
+      contractID: oldContractID,
+      shiftInstance: shiftInstance
+    });
+    this.commit("contentData/addShift", {
+      contractID: newContractID,
+      shiftInstance: shiftInstance
+    });
   },
   addReport(state, { contractID, reportInstance }) {
     const index = indexOfByMonthYear({
@@ -161,7 +188,11 @@ const mutations = {
       );
       return;
     }
-    state.contentData[contractID].reports[currentIndex] = reportInstance;
+    state.contentData[contractID].reports.splice(
+      currentIndex,
+      1,
+      reportInstance
+    );
   },
   setShifts(state, { contractID, shiftData }) {
     Vue.set(state.contentData[contractID], "shifts", sortByStarted(shiftData));
@@ -190,6 +221,12 @@ const actions = {
   },
   removeContract({ commit }, contractInstance) {
     commit("removeContract", contractInstance);
+  },
+  async updateContractsShifts({ commit }, contractID) {
+    const data = await ShiftService.filterList(`?contract=${contractID}`);
+    data.forEach((item) => {
+      commit("updateShift", { contractID, shiftInstance: item });
+    });
   }
 };
 

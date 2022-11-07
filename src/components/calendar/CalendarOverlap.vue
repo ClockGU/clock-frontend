@@ -1,15 +1,11 @@
 <template>
-  <v-card v-if="lengthAllOverlaps > 0">
-    <v-toolbar flat>
-      <v-btn icon @click="$emit('close')">
-        <v-icon>{{ icons.mdiClose }}</v-icon>
-      </v-btn>
-      <v-toolbar-title
-        >{{ $t("calendar.overlap.resolving") }} {{ month }}</v-toolbar-title
-      >
-    </v-toolbar>
-
-    <v-card-text>
+  <v-card :max-height="800">
+    <CardToolbar
+      :title="title"
+      close-action
+      @close="$emit('close')"
+    ></CardToolbar>
+    <v-card-text style="max-height: 800px">
       <v-row align="center" justify="center">
         <v-btn :disabled="index < 1" text @click="prev">
           <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
@@ -17,36 +13,31 @@
 
         <span>{{ index + 1 }} / {{ lengthAllOverlaps }}</span>
 
-        <v-btn :disabled="index == lengthAllOverlaps - 1" text @click="next">
+        <v-btn :disabled="index === lengthAllOverlaps - 1" text @click="next">
           <v-icon>{{ icons.mdiChevronRight }}</v-icon>
         </v-btn>
       </v-row>
-      <v-calendar
-        ref="calendar"
-        v-model="focus"
-        color="primary"
-        type="category"
-        category-show-all
-        :categories="categories"
-        :events="events"
-        :event-color="getEventColor"
-        :locale="locale"
-        @click:event="handleEventClick"
-      ></v-calendar>
+      <div style="max-height: 600px; overflow-y: scroll">
+        <v-calendar
+          ref="calendar"
+          v-model="focus"
+          color="primary"
+          type="category"
+          category-show-all
+          :categories="categories"
+          :events="events"
+          :event-color="getEventColor"
+          :locale="locale"
+          @click:event="handleEventClick"
+        ></v-calendar>
+      </div>
     </v-card-text>
-
-    <FormDialog
-      v-if="showForm"
-      entity-name="shift"
-      :entity="shiftEntity"
-      @close="closeFormDialog"
-      @refresh="refresh"
-    />
-  </v-card>
-  <v-card v-else>
-    <placeholder name="UndrawEmpty">
-      {{ $t("calendar.overlap.none") }}
-    </placeholder>
+    <ShiftFormDialog
+      :shift="shift"
+      :value="editShift"
+      disable-activator
+      @close="editShift = false"
+    ></ShiftFormDialog>
   </v-card>
 </template>
 
@@ -56,17 +47,16 @@ import { localizedFormat } from "@/utils/date";
 import { getOverlappingShifts } from "@/utils/shift";
 import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
-import { Shift } from "@/models/ShiftModel";
-import FormDialog from "@/components/FormDialog";
-
 import { mapState, mapGetters } from "vuex";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import CardToolbar from "@/components/cards/CardToolbar";
 
 export default {
   name: "CalendarOverlap",
-  components: { FormDialog },
+  components: { CardToolbar, ShiftFormDialog },
   props: {
     month: {
-      type: String,
+      type: Date,
       required: true
     },
     shifts: {
@@ -83,11 +73,13 @@ export default {
     index: 0,
     showForm: false,
     shiftEntity: null,
-    focus: ""
+    focus: "",
+    editShift: false,
+    shift: undefined
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contentData/allContracts"
     }),
     ...mapState({
       locale: "locale"
@@ -100,7 +92,7 @@ export default {
     },
     allOverlappingShifts() {
       return getOverlappingShifts(this.shifts).sort((a, b) => {
-        return new Date(a[0].date.start) - new Date(b[1].date.start);
+        return a[0].started - b[1].started;
       });
     },
     lengthAllOverlaps() {
@@ -114,34 +106,34 @@ export default {
     focussedOverlap() {
       return this.currentOverlap.map((shift, index) => {
         const labels = ["A", "B"];
-        const contract = this.contracts.find(
-          (contract) => contract.uuid === shift.contract
+        const contract = this.$store.getters["contentData/contractById"](
+          shift.contract
         );
         return {
           name:
             `(${labels[index]}, ${contract.name}) ` +
             this.$t(`shifts.types.${shift.type}`),
-          start: new Date(shift.date.start),
-          end: new Date(shift.date.end),
+          start: shift.started,
+          end: shift.stopped,
           category: this.categories[1],
           timed: true,
-          uuid: shift.uuid,
+          shift: shift,
           color: SHIFT_TYPE_COLORS[shift.type]
         };
       });
     },
     otherShifts() {
-      const overlappingId = this.focussedOverlap.map((shift) => shift.uuid);
+      const overlappingId = this.focussedOverlap.map((shift) => shift.id);
       return this.shifts
-        .filter((shift) => !overlappingId.includes(shift.uuid))
+        .filter((shift) => !overlappingId.includes(shift.id))
         .map((shift) => {
           return {
             name: this.$t(`shifts.types.${shift.type}`),
-            start: new Date(shift.date.start),
-            end: new Date(shift.date.end),
+            start: shift.started,
+            end: shift.stopped,
             category: this.categories[0],
             timed: true,
-            uuid: shift.uuid,
+            shift: shift,
             color: "primary"
           };
         });
@@ -150,6 +142,12 @@ export default {
       if (this.allOverlappingShifts.length < 1) return [];
 
       return [...this.focussedOverlap, ...this.otherShifts];
+    },
+    title() {
+      return (
+        this.$t("calendar.overlap.resolving") +
+        localizedFormat(this.month, "MMMM yyyy")
+      );
     }
   },
   watch: {
@@ -161,20 +159,9 @@ export default {
     }
   },
   methods: {
-    async refresh() {
-      await this.$store.dispatch("shift/queryShifts");
-    },
     handleEventClick(event) {
-      this.editShift(event.event.uuid);
-    },
-    editShift(uuid) {
-      const shift = this.shifts.find((shift) => shift.uuid === uuid);
-      this.shiftEntity = new Shift(shift);
-      this.showForm = true;
-    },
-    closeFormDialog() {
-      this.showForm = false;
-      this.shiftEntity = null;
+      this.shift = event.event.shift;
+      this.editShift = true;
     },
     getEventColor(event) {
       return event.color;
@@ -191,3 +178,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.scroll {
+  overflow-y: scroll;
+}
+.percent-height-50 {
+  max-height: 50%;
+}
+</style>
