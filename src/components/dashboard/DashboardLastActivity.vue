@@ -4,16 +4,23 @@
       {{ $t("dashboard.lastActivity") }}
     </v-card-title>
     <v-card-text>
-      <template v-if="lastShifts.length > 0">
+      <div v-if="lastShifts.length > 0">
         <v-list>
-          <template v-for="shift in lastShifts">
-            <ShiftListItem :key="shift.id" :editable="true" :shift="shift" />
-          </template>
+          <ShiftFormDialog
+            v-for="shift in lastShifts"
+            :key="shift.id"
+            :shift="shift"
+            disable-activator
+          >
+            <template #activator="{ on }">
+              <ShiftListItem :editable="true" :shift="shift" v-on="on" />
+            </template>
+          </ShiftFormDialog>
         </v-list>
         <v-btn color="success" text :to="allShiftRouter">
           {{ $t("dashboard.showAll") }}
         </v-btn>
-      </template>
+      </div>
       <v-container v-else>
         {{
           disabled
@@ -27,13 +34,14 @@
 
 <script>
 import ShiftListItem from "@/components/shifts/ShiftListItem";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isBefore } from "date-fns";
 
 import { mapGetters } from "vuex";
 
 export default {
   name: "DashboardLastActivity",
-  components: { ShiftListItem },
+  components: { ShiftListItem, ShiftFormDialog },
   props: {
     disabled: {
       type: Boolean,
@@ -41,7 +49,8 @@ export default {
     }
   },
   data: () => ({
-    allShiftRouter: { name: "shiftList" }
+    allShiftRouter: { name: "shiftList" },
+    dialog: false
   }),
   computed: {
     ...mapGetters({

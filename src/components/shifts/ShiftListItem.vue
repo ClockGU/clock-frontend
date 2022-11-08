@@ -1,5 +1,5 @@
 <template>
-  <v-list-item @click="editable ? openDialog() : () => {}">
+  <v-list-item v-on="$listeners">
     <v-list-item-content>
       <v-list-item-title>
         <v-icon class="pr-1" :color="colors[shift.type]">
@@ -46,12 +46,6 @@
         </v-chip>
       </v-list-item-subtitle>
     </v-list-item-content>
-    <ShiftFormDialog
-      :shift="shift"
-      :value="dialog"
-      disable-activator
-      @close="dialog = false"
-    ></ShiftFormDialog>
   </v-list-item>
 </template>
 
@@ -64,12 +58,10 @@ import { isWithinInterval } from "date-fns";
 
 import { mdiCircleMedium, mdiRecord } from "@mdi/js";
 
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "ShiftListItem",
-  components: { ShiftFormDialog },
   filters: {
     formatDay(date) {
       return localizedFormat(date, "EEEE',' do MMMM yyyy");
@@ -92,8 +84,6 @@ export default {
     }
   },
   data: () => ({
-    dialog: false,
-    shiftEntity: null,
     icons: { mdiCircleMedium, mdiRecord },
     colors: SHIFT_TYPE_COLORS,
     typeIcons: SHIFT_TYPE_ICONS
@@ -104,11 +94,6 @@ export default {
         start: this.shift.started,
         end: this.shift.stopped
       });
-    }
-  },
-  methods: {
-    openDialog() {
-      this.dialog = true;
     }
   }
 };
