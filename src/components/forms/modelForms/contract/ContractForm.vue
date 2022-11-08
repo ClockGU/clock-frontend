@@ -32,7 +32,7 @@ import { Contract } from "@/models/ContractModel";
 import CardToolbar from "@/components/cards/CardToolbar";
 import FormActions from "@/components/cards/FormActions";
 import ContractFormFields from "@/components/forms/modelForms/contract/ContractFormFields";
-import { ContractService } from "@/services/models";
+import { ContractService, ReportService } from "@/services/models";
 import { useVuelidate } from "@vuelidate/core";
 import ContractValidationMixin from "@/mixins/ContractValidationMixin";
 
@@ -94,6 +94,7 @@ export default {
         this.newContract.toPayload()
       );
       this.$store.commit("contentData/addContract", savedContract);
+      await this.updateContractReports(savedContract);
       this.closeFn();
     },
     async deleteContract() {
@@ -112,6 +113,7 @@ export default {
         contractID: updatedContract.id,
         contractInstance: updatedContract
       });
+      await this.updateContractReports(updatedContract);
       this.close();
     },
     initializeNewContract() {
@@ -124,6 +126,13 @@ export default {
       this.v$.$reset();
       this.initializeNewContract();
       this.close();
+    },
+    async updateContractReports(contract) {
+      const reportData = await ReportService.list();
+      this.$store.commit("contentData/setReports", {
+        contractID: contract.id,
+        reportData: reportData
+      });
     }
   }
 };
