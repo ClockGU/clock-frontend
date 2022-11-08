@@ -12,7 +12,7 @@
           v-model="personnelNumber"
           :disabled="loading"
           :error-messages="personnelErrors"
-          @blur="$v.personnelNumber.$touch()"
+          @blur="v$.personnelNumber.$touch()"
         ></v-text-field>
       </v-form>
     </v-card-text>
@@ -20,7 +20,7 @@
     <v-card-actions v-if="personnelNumberInit == null">
       <v-btn
         color="primary"
-        :disabled="loading || $v.$error"
+        :disabled="loading || v$.$error"
         :loading="loading"
         required
         text
@@ -41,9 +41,9 @@
         <template #activator="{ on }">
           <v-btn
             :disabled="
-              personnelNumber == personnelNumberInit ||
-              personnelNumber == '' ||
-              $v.$error
+              personnelNumber === personnelNumberInit ||
+              personnelNumber === '' ||
+              v$.$errors
             "
             text
             color="primary"
@@ -66,23 +66,27 @@
 
 <script>
 import AuthService from "@/services/auth";
-import { validationMixin } from "vuelidate";
-import { required, minLength } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+import { required, minLength } from "@vuelidate/validators";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { log } from "@/utils/log";
+import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "PersonnelNumberForm",
   components: { ConfirmationDialog },
-  mixins: [validationMixin],
-  validations: {
-    personnelNumber: {
-      required,
-      minLength: minLength(5)
-    }
-  },
   props: {
     dialog: Boolean
+  },
+  validations() {
+    return {
+      personnelNumber: { required, minLength: minLength(5) }
+    };
+  },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data: () => ({
     loading: false,
@@ -92,15 +96,15 @@ export default {
   computed: {
     personnelErrors() {
       const errors = [];
-      if (!this.$v.personnelNumber.$dirty) return errors;
-      !this.$v.personnelNumber.required &&
+      if (!this.v$.personnelNumber.$dirty) return errors;
+      !this.v$.personnelNumber.required &&
         errors.push(
           this.$tc("errors.nameRequired", 1, {
             name: this.$t("personnelNumber.label")
           })
         );
 
-      !this.$v.personnelNumber.minLength &&
+      !this.v$.personnelNumber.minLength &&
         errors.push(
           this.$t("errors.minLength", {
             name: this.$t("personnelNumber.label"),
@@ -114,12 +118,12 @@ export default {
   created() {
     this.personnelNumber = this.$store.state.user.personal_number;
     this.personnelNumberInit =
-      this.personnelNumber == "" ? null : this.personnelNumber;
+      this.personnelNumber === "" ? null : this.personnelNumber;
   },
   methods: {
     async save() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
 
       this.loading = true;
       try {

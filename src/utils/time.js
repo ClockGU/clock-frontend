@@ -105,12 +105,12 @@ export function validateWorktimeInput(value) {
   }
 
   // Convert hours and minutes from strings to integers
-  [hours, minutes] = [parseInt(hours).pad(2), parseInt(minutes).pad(2)];
-
+  let retValue = parseInt(hours) * 60 + parseInt(minutes);
+  console.log(hours, minutes, retValue);
   validateMinutes(minutes);
 
   // handle negative values
-  return (negative ? "-" : "") + `${hours}:${minutes}`;
+  return negative ? -1 * retValue : retValue;
 }
 
 export function parseString(value) {
@@ -223,6 +223,19 @@ export function minutesToHHMM(min, format) {
     : `${sign}${hours}:${minutes}`;
 }
 
+export function hoursToHHMM(floatHours, format) {
+  const hours = Math.floor(floatHours);
+  const minutes = parseInt((60 * (floatHours - hours)).toFixed(0));
+
+  return minutesToHHMM(minutes, format);
+}
+
+export function formattedTime(time) {
+  const [hours, minutes] = time.split(":");
+
+  return `${hours}h${minutes}m`;
+}
+
 export function startEndHours(date) {
   const start = new Date(date);
   const end = new Date(date);
@@ -254,13 +267,6 @@ export function startEndHours(date) {
   };
 }
 
-export function hoursToWorktime(value) {
-  const hours = Math.floor(value);
-  const minutes = parseInt((60 * (value - hours)).toFixed(0));
-
-  return `${hours.pad(2)}:${minutes.pad(2)}`;
-}
-
 export function coalescWorktimeAndBreaktime(shifts) {
   if (shifts.length === 0) return { worktime: 0, breaktime: 0 };
 
@@ -283,12 +289,6 @@ export function coalescWorktimeAndBreaktime(shifts) {
   return { worktime: worktimeInMinutes, breaktime: breaktimeInMinutes };
 }
 
-export function formattedTime(time) {
-  const [hours, minutes] = time.split(":");
-
-  return `${hours}h${minutes}m`;
-}
-
 export function formatDate(date, formatString = "do MMMM yyyy") {
   if (date === undefined) return;
   return localizedFormat(parseISO(date), formatString);
@@ -297,4 +297,32 @@ export function formatDate(date, formatString = "do MMMM yyyy") {
 export function formatTime(date, formatString = "HH:mm a") {
   if (date === undefined) return;
   return localizedFormat(parseISO(date), formatString);
+}
+
+export function timestringToMinutes(time) {
+  // Function taking a string og format "-HH:MM" converting
+  // it to the equivalent time in minute representation.
+  // Example:
+  // 08:22 ==> 502
+  // -03:10 ==> -190
+
+  if (time === "") {
+    return 0;
+  }
+  let negative = false;
+  let [hours, minutes] = time.split(":");
+
+  // Is the time negative?
+  if (hours.indexOf("-") === 0) {
+    hours = hours.slice(1);
+    negative = true;
+  }
+
+  minutes = parseFloat(hours) * 60 + parseFloat(minutes);
+
+  if (negative) {
+    minutes = minutes * -1;
+  }
+
+  return minutes;
 }

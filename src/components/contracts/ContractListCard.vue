@@ -23,16 +23,8 @@
     </v-card-text>
 
     <v-card-actions data-cy="contract-actions">
-      <v-btn
-        text
-        color="primary"
-        data-cy="edit"
-        @click="$emit('edit', contract.uuid)"
-      >
-        {{ $t("actions.edit") }}
-      </v-btn>
-
-      <ConfirmationDialog @confirm="$emit('delete')">
+      <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
+      <ConfirmationDialog @confirm="destroyFn">
         <template #activator="{ on }">
           <v-btn text data-cy="delete" v-on="on">
             {{ $t("actions.delete") }}
@@ -61,20 +53,22 @@
 
 <script>
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+import { Contract } from "@/models/ContractModel";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
+import { ContractService } from "@/services/models";
 
 function formatDate(date) {
-  return localizedFormat(parseISO(date), "do MMMM yyyy");
+  return localizedFormat(date, "do MMMM yyyy");
 }
 
 export default {
   name: "ContractListCard",
-  components: { ConfirmationDialog },
+  components: { ContractFormDialog, ConfirmationDialog },
   props: {
     contract: {
-      type: Object,
+      type: Contract,
       required: true
     },
     expired: {
@@ -84,13 +78,21 @@ export default {
   },
   computed: {
     endDate() {
-      return formatDate(this.contract.date.end);
+      return formatDate(this.contract.endDate);
     },
     startDate() {
-      return formatDate(this.contract.date.start);
+      return formatDate(this.contract.startDate);
     },
     worktime() {
-      return minutesToHHMM(this.contract.worktime);
+      return minutesToHHMM(this.contract.minutes);
+    }
+  },
+  methods: {
+    async destroyFn() {
+      await ContractService.delete(this.contract.id);
+      this.$store.commit("contentData/removeContract", {
+        contractID: this.contract.id
+      });
     }
   }
 };

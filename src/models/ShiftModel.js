@@ -10,6 +10,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
+import { any } from "ramda";
 
 function defaultValueTime(type) {
   const today = new Date();
@@ -17,6 +18,12 @@ function defaultValueTime(type) {
   today.setHours(hour, minute, second);
 
   return today;
+}
+
+export function mapShiftApiResponse(response) {
+  response["wasReviewed"] = response["was_reviewed"];
+  delete response["was_reviewed"];
+  return response;
 }
 
 export const SHIFT_TYPES = [
@@ -28,61 +35,41 @@ export const SHIFT_TYPES = [
 
 export class Shift {
   constructor({
-    uuid = null,
+    id = null,
     user = null,
-    date = { start: null, end: null, mod: null },
+    started = null,
+    stopped = null,
     contract = null,
     type = null,
     note = null,
     tags = null,
-    reviewed = null,
+    wasReviewed = null,
     locked = null
   } = {}) {
-    this.uuid = is(String, uuid) ? uuid : null;
-    this.user = is(String, user) ? user : null;
-    this.date = {
-      start: is(Date, new Date(date.start))
-        ? new Date(date.start)
-        : defaultValueTime("start"),
-      end: is(Date, new Date(date.end))
-        ? new Date(date.end)
-        : defaultValueTime("end"),
-      mod: is(Date, new Date(date.mod))
-        ? new Date(date.mod)
-        : defaultValueTime("mod")
-    };
-    this.contract = is(String, contract) ? contract : null;
-    this.type = is(Object, type)
-      ? type
-      : SHIFT_TYPES.find((item) => item.value === type);
+    this.id = is(String, id) ? id : "";
+    this.user = is(String, user) ? user : "";
+    this.started =
+      is(Date, new Date(started)) && started !== null
+        ? new Date(started)
+        : defaultValueTime("start");
+
+    this.stopped =
+      is(Date, new Date(stopped)) && stopped !== null
+        ? new Date(stopped)
+        : defaultValueTime("end");
+    this.contract = is(String, contract) ? contract : "";
+    this.type =
+      is(String, type) && any(SHIFT_TYPES.map((item) => item.value === type))
+        ? type
+        : "st";
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
-    this.reviewed = reviewed === null ? false : reviewed;
-    this.locked = locked === null ? false : locked;
-  }
-
-  get start() {
-    return this.date.start;
-  }
-
-  set start(value) {
-    this.date.start = value;
-  }
-
-  get end() {
-    return this.date.end;
-  }
-
-  get mod() {
-    return this.date.mod;
-  }
-
-  set end(value) {
-    this.date.end = value;
+    this.wasReviewed = is(Boolean, wasReviewed) ? wasReviewed : false;
+    this.locked = is(Boolean, locked) ? locked : false;
   }
 
   get duration() {
-    return differenceInMinutes(this.end, this.start);
+    return differenceInMinutes(this.stopped, this.started);
   }
 
   representationalDuration(format = "") {
@@ -97,50 +84,42 @@ export class Shift {
       getDate(today)
     ];
 
-    this.setDate(year, month, day, "start");
-    this.setDate(year, month, day, "end");
+    this.setDate(year, month, day, "started");
+    this.setDate(year, month, day, "stopped");
   }
 
-  setDate(year, month, day, type) {
-    let date = this.date[type];
+  setDate(year, month, day, attrName) {
+    let date = this[attrName];
 
     date = setYear(date, year);
     date = setMonth(date, month);
     date = setDate(date, day);
 
-    this.date[type] = date;
+    this[attrName] = date;
   }
 
   toPayload() {
     return {
+      id: this.id,
+      user: this.user,
+      started: localizedFormat(this.started, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
+      stopped: localizedFormat(this.stopped, "yyyy-MM-dd HH:mm:ssXXX", {
+        locale: { localize: "en" }
+      }),
       contract: this.contract,
-      tags: this.tags,
-      type: this.type.value,
+      type: this.type,
       note: this.note,
-      uuid: this.uuid,
-      started: localizedFormat(this.start, "yyyy-MM-dd HH:mm:ssXXX", {
-        locale: { localize: "en" }
-      }),
-      stopped: localizedFormat(this.end, "yyyy-MM-dd HH:mm:ssXXX", {
-        locale: { localize: "en" }
-      }),
-      duration: this.representationalDuration,
-      was_reviewed: this.reviewed,
+      tags: this.tags,
+      was_reviewed: this.wasReviewed,
       locked: this.locked
     };
   }
 
   clone() {
-    return new Shift({
-      uudi: this.uuid,
-      user: this.user,
-      date: this.date,
-      contract: this.contract,
-      type: this.type,
-      note: this.note,
-      tags: this.tags,
-      reviewed: this.reviewed,
-      locked: this.locked
-    });
+    let data = this.toPayload();
+    data["wasReviewed"] = this.wasReviewed;
+    return new Shift(data);
   }
 }

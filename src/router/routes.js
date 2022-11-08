@@ -17,7 +17,7 @@ const Reporting = () => import("@/views/Reporting");
 const PrivacyAgreement = () => import("@/views/PrivacyAgreement");
 const ViewGdprText = () => import("@/views/ViewGdprText");
 
-import { RequiredDataGuard } from "@/router/guards";
+import { initializeDataGuard } from "@/router/guards";
 
 export const routes = [
   {
@@ -49,7 +49,8 @@ export const routes = [
       {
         path: "/onboarding",
         name: "onboarding",
-        component: Onboarding
+        component: Onboarding,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/impressum",
@@ -81,53 +82,51 @@ export const routes = [
         path: "/dashboard/:contract?",
         name: "dashboard",
         component: ViewDashboard,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/:type/:year/:month/:day/:contract?",
         name: "calendar",
         component: ViewCalendar,
         props: true,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/shifts/:contract?",
         name: "shiftList",
         component: ViewShifts,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/contracts/create",
         name: "createContract",
-        component: ViewContractList
+        component: ViewContractList,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/contracts/:uuid/edit",
         name: "editContract",
         component: ViewContractList,
-        props: true
+        props: true,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/contracts/",
         name: "contractList",
         component: ViewContractList,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/select/",
         name: "contractSelect",
-        component: ViewContractList
+        component: ViewContractList,
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/reports/:contract?",
         name: "reporting",
         component: Reporting,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/settings",
@@ -138,8 +137,7 @@ export const routes = [
         path: "/debug/:contract?",
         name: "debug",
         component: ViewDebug,
-        beforeEnter: RequiredDataGuard,
-        beforeUpdate: RequiredDataGuard
+        beforeEnter: initializeDataGuard
       },
       {
         path: "/privacyagreement",

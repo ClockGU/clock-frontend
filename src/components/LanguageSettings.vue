@@ -5,28 +5,16 @@
     </v-card-text>
 
     <v-card-actions>
-      <LanguageSwitcher @updateLocale="update" />
+      <LanguageSwitcher />
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import AuthService from "@/services/auth";
-import { log } from "@/utils/log";
 
 export default {
   name: "LanguageSettings",
-  components: { LanguageSwitcher },
-  methods: {
-    async update(locale) {
-      try {
-        await AuthService.updateSettings({ language: locale });
-        this.$store.dispatch("changeLocale", locale);
-      } catch (error) {
-        log(error);
-      }
-    }
-  }
+  components: { LanguageSwitcher }
 };
 </script>

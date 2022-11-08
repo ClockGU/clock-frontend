@@ -88,6 +88,7 @@
                     <template #activator="{ on }">
                       <v-btn
                         :disabled="lockDisabled"
+                        :loading="lockLoading"
                         :text="!lockDisabled"
                         :color="!lockDisabled ? 'warning' : ''"
                         v-on="on"
@@ -131,10 +132,10 @@
 </template>
 
 <script>
-import { parseISO, differenceInMinutes } from "date-fns";
+import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
-import ReportService from "@/services/report";
-import ContractService from "@/services/contract";
+import { ReportService } from "@/services/models";
+import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 import { log } from "@/utils/log";
@@ -168,10 +169,6 @@ export default {
       type: Boolean,
       default: false
     },
-    shifts: {
-      type: Array,
-      required: true
-    },
     isFirstUnlockedMonth: {
       type: Boolean,
       required: true
@@ -181,6 +178,7 @@ export default {
     return {
       pdf: null,
       loading: false,
+      lockLoading: false,
       touchOverlay: false
     };
   },
@@ -189,11 +187,11 @@ export default {
       return [
         {
           name: this.$t("reports.carryoverLast"),
-          value: this.report.carryover.prev
+          value: this.report.carryOverPreviousMonth
         },
         {
           name: this.$t("reports.debit"),
-          value: this.report.debit_worktime
+          value: this.report.debitWorktime
         },
         {
           name: this.$t("reports.timeWorked"),
@@ -201,31 +199,13 @@ export default {
         },
         {
           name: this.$t("reports.carryoverNext"),
-          value: this.report.carryover.next
+          value: this.report.carryover
         }
       ];
     },
-    timeWorked() {
-      return this.shifts.reduce((acc, cur) => {
-        const dateA = new Date(cur.date.start);
-        const dateB = new Date(cur.date.end);
-
-        return acc + differenceInMinutes(dateB, dateA);
-      }, 0);
-    },
     fileName() {
-      const date = localizedFormat(parseISO(this.report.date), "MMMM'_'yyyy");
+      const date = localizedFormat(this.report.monthYear, "MMMM'_'yyyy");
       return `${this.$i18n.t("app.reports")}_${date}.pdf`;
-    },
-    downloadLabel() {
-      return !this.pdfResponse ? "Request" : "Download";
-    },
-    debit() {
-      const contract = this.$store.state.contract.contracts.find(
-        (contract) => contract.uuid === this.report.contract
-      );
-
-      return contract.worktime;
     },
     lockDisabled() {
       return !this.pdf || !this.isLockable;
@@ -244,7 +224,7 @@ export default {
     async request() {
       this.loading = true;
       try {
-        const response = await ReportService.get(this.report.uuid);
+        const response = await ReportService.get(this.report.id);
         this.pdf = Buffer.from(response.data, "binary").toString("base64");
       } catch (error) {
         if (error.response.status === 401) return;
@@ -261,18 +241,22 @@ export default {
       }
     },
     async lock() {
+      this.lockLoading = true;
       try {
-        const date = this.report.date.slice(0, 7);
-        const [year, month] = date.split("-");
         await ContractService.lock({
-          uuid: this.report.contract,
-          year,
-          month
+          id: this.report.contract,
+          year: this.report.monthYear.getFullYear(),
+          month: this.report.monthYear.getMonth() + 1
         });
-
+        await this.$store.dispatch(
+          "contentData/updateContractsShifts",
+          this.report.contract
+        );
         this.$emit("locked");
       } catch (error) {
         log(error);
+      } finally {
+        this.lockLoading = false;
       }
     }
   }

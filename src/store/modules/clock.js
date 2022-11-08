@@ -1,4 +1,4 @@
-import ClockService from "@/services/clock";
+import { ClockedInShiftService } from "@/services/clockedInShift";
 
 const state = {
   clockedShift: undefined,
@@ -11,49 +11,26 @@ const getters = {
 };
 
 const mutations = {
-  CLOCK_SHIFT(state, payload) {
-    state.clockedShift = payload;
+  clockShift(state, shiftInstance) {
+    state.clockedShift = shiftInstance;
   },
-  UNCLOCK_SHIFT() {
-    state.clockedShift = null;
+  unclockShift() {
+    state.clockedShift = undefined;
   }
 };
 
 const actions = {
-  CLOCK_SHIFT({ commit }, payload) {
-    return ClockService.create(payload).then((response) => {
-      payload.id = response.uuid;
-
-      commit("CLOCK_SHIFT", payload);
-
-      return Promise.resolve(response);
+  clockShift({ commit }, payload) {
+    return ClockedInShiftService.create(payload).then((shift) => {
+      commit("clockShift", shift);
+      return shift;
     });
   },
-  DELETE_CLOCKED_SHIFT() {
-    return ClockService.delete(state.clockedShift.id);
+  deleteClockedShift() {
+    return ClockedInShiftService.delete(state.clockedShift.id);
   },
-  UNCLOCK_SHIFT({ commit }) {
-    commit("UNCLOCK_SHIFT");
-  },
-  async GET_CLOCKED_SHIFT({ commit }) {
-    state.status = "loading";
-    try {
-      const response = await ClockService.get();
-
-      if (response.data === undefined) {
-        state.status = "idle";
-        return Promise.reject();
-      }
-
-      commit("CLOCK_SHIFT", response.data);
-
-      state.status = "idle";
-      return Promise.resolve(response.data);
-    } catch (error) {
-      commit("UNCLOCK_SHIFT");
-      state.status = "idle";
-      return Promise.reject(error);
-    }
+  unclockShift({ commit }) {
+    commit("unclockShift");
   }
 };
 

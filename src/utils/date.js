@@ -90,3 +90,16 @@ export function defaultContractDate({
 
   return newDate;
 }
+
+export function getFirstOfcurrentMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), 1, 2);
+}
+
+export function getLastOfcurrentMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0);
+}
+
+export const firstOfMonth = getFirstOfcurrentMonth();
+export const lastOfMonth = getLastOfcurrentMonth();

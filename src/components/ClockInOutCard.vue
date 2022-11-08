@@ -24,7 +24,10 @@
                   {{ overlayMessage }}
                 </p>
               </v-col>
-              <v-col v-if="contracts.length > 1 && clockedShift" cols="12">
+              <v-col
+                v-if="contracts.length > 1 && clockedShift !== undefined"
+                cols="12"
+              >
                 <v-btn color="primary lighten-1" @click="changeContract">
                   {{ $t("actions.switch") }}
                 </v-btn>
@@ -36,7 +39,6 @@
           <ClockInOutCardClock
             :actions="{
               data,
-              clockedContract,
               duration,
               status,
               start,
@@ -44,6 +46,7 @@
               destroy,
               save
             }"
+            :clocked-contract="clockedContract"
             @updateWindow="window += $event"
           />
         </v-window-item>
@@ -79,14 +82,6 @@ export default {
   },
   mixins: [contractValidMixin],
   props: {
-    selectedContract: {
-      required: true,
-      validator: (prop) => typeof prop === "object" || prop === null
-    },
-    clockedShift: {
-      type: Object,
-      default: null
-    },
     disabled: {
       type: Boolean,
       default: false
@@ -99,13 +94,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contentData/allContracts",
+      selectedContract: "selectedContract/selectedContract",
+      clockedShift: "clock/clockedShift"
     }),
     clockedContract() {
-      if (this.clockedShift === null) return this.selectedContract;
+      if (this.clockedShift === undefined) return this.selectedContract;
 
-      return this.contracts.find(
-        (contract) => contract.uuid === this.clockedShift.contract
+      return this.$store.getters["contentData/contractById"](
+        this.clockedShift.contract
       );
     },
     overlayMessage() {
@@ -119,10 +116,7 @@ export default {
       else return this.$t("dashboard.clock.contractInactive");
     },
     showOverlay() {
-      return (
-        this.$route.params.contract !== this.clockedContract.uuid ||
-        !this.contractValid
-      );
+      return this.clockedContract === undefined || !this.contractValid;
     }
   },
   methods: {

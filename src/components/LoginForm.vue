@@ -54,17 +54,17 @@
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-import { required, email } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+// import { required, email } from "vuelidate/lib/validators";
 import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 
 export default {
   name: "LoginForm",
-  mixins: [validationMixin],
-  validations: {
-    email: { required, email },
-    password: { required }
-  },
+  // mixins: [validationMixin],
+  // validations: {
+  //   email: { required, email },
+  //   password: { required }
+  // },
   data: () => ({
     icons: {
       mdiAccount: mdiAccount,

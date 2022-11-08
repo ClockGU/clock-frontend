@@ -24,7 +24,7 @@
           </template>
         </ShiftBulkActionsDialogReview>
 
-        <ShiftAssignContractDialog :shifts="shifts" @reset="$emit('refresh')">
+        <ShiftAssignContractDialog :shifts="shifts" @save="updateFn">
           <template #activator="{ on }">
             <v-btn
               :disabled="!moreThanOneContract || shiftsLength < 1"
@@ -64,6 +64,7 @@ import {
   mdiSwapHorizontal,
   mdiDelete
 } from "@mdi/js";
+import { ShiftService } from "@/services/models";
 
 export default {
   name: "ShiftBulkActions",
@@ -73,12 +74,6 @@ export default {
     ShiftBulkActionsDialogReview
   },
   props: {
-    // We need to pass a destroy function, because we cannot reset the
-    // `this.selected` in `ShiftsTable.vue` otherwise.
-    destroyFn: {
-      type: Function,
-      required: true
-    },
     canReview: {
       type: Boolean,
       default: false
@@ -98,7 +93,7 @@ export default {
   }),
   computed: {
     reviewable() {
-      return this.shifts.filter((shift) => shift.reviewed == false).length;
+      return this.shifts.filter((shift) => shift.reviewed === false).length;
     },
     durationSum() {
       let sum = 0;
@@ -109,6 +104,35 @@ export default {
     },
     shiftsLength() {
       return this.shifts.length;
+    }
+  },
+  methods: {
+    async destroyFn() {
+      const payloadArray = this.shifts.map((shift) => shift.toPayload());
+      await ShiftService.bulkDelete(payloadArray);
+      this.shifts.forEach((shift) => {
+        this.$store.commit("contentData/removeShift", {
+          contractID: shift.contract,
+          shiftInstance: shift
+        });
+      });
+      this.$emit("destroy");
+    },
+    async updateFn(contractInstance) {
+      const oldContractID = this.shifts[0].contract;
+      const payloadArray = this.shifts.map((shift) => {
+        shift.contract = contractInstance.id;
+        return shift.toPayload();
+      });
+      const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
+      updatedShifts.forEach((shift) => {
+        this.$store.commit("contentData/switchShiftContract", {
+          oldContractID: oldContractID,
+          newContractID: shift.contract,
+          shiftInstance: shift
+        });
+      });
+      this.$emit("destroy");
     }
   }
 };

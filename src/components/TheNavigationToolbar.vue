@@ -16,7 +16,6 @@
 
 <script>
 import { getRouterProps } from "@/utils/date";
-import { mapGetters } from "vuex";
 import {
   mdiCalendar,
   mdiHome,
@@ -28,14 +27,12 @@ import {
 export default {
   name: "TheNavigationToolbar",
   computed: {
-    ...mapGetters({ selectedContract: "contract/selectedContract" }),
     links() {
       return [
         {
           text: this.$t("app.dashboard"),
           to: {
-            name: "dashboard",
-            params: { contract: this.selectedContract }
+            name: "dashboard"
           },
           icon: mdiHome,
           loggedOut: false
@@ -45,8 +42,7 @@ export default {
           to: {
             name: "calendar",
             params: {
-              ...getRouterProps("month", new Date()),
-              contract: this.selectedContract
+              ...getRouterProps("month", new Date())
             }
           },
           icon: mdiCalendar,
@@ -55,8 +51,7 @@ export default {
         {
           text: this.$t("app.shifts"),
           to: {
-            name: "shiftList",
-            params: { contract: this.selectedContract }
+            name: "shiftList"
           },
           icon: mdiFormatListNumbered,
           loggedOut: false
@@ -64,8 +59,7 @@ export default {
         {
           text: this.$t("app.contracts"),
           to: {
-            name: "contractList",
-            params: { contract: this.selectedContract }
+            name: "contractList"
           },
           icon: mdiFileDocument,
           loggedOut: false
@@ -73,8 +67,7 @@ export default {
         {
           text: this.$t("app.reports"),
           to: {
-            name: "reporting",
-            params: { contract: this.selectedContract }
+            name: "reporting"
           },
           icon: mdiFileChart,
           loggedOut: false
