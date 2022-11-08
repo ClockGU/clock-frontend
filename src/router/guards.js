@@ -10,7 +10,12 @@ export async function initializeDataGuard(to, from, next) {
   if (!store.getters["contentData/contentDataInitialized"]) {
     await ContentDataService.initialize();
   }
-  if (store.getters["selectedContract/selectedContract"] === undefined) {
+  const selectedContract = store.getters["selectedContract/selectedContract"];
+  if (
+    selectedContract === undefined ||
+    store.getters["contentData/contractById"](selectedContract.id) === undefined
+  ) {
+    console.log("ran");
     const contract = getContractWithLastActivity({
       shifts: store.getters["contentData/allShifts"],
       contracts: store.getters["contentData/allContracts"]

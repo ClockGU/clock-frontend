@@ -18,7 +18,11 @@ const state = {
 const getters = {
   contentDataInitialized: (state) => state.contentDataInitialized,
   contractById: (state) => (id) => {
-    return state.contentData[id].contract;
+    try {
+      return state.contentData[id].contract;
+    } catch (e) {
+      return undefined;
+    }
   },
   selectedShifts(state, getters, rootState, rootGetters) {
     try {
@@ -219,8 +223,8 @@ const actions = {
   addNewContract({ commit }, contractInstance) {
     commit("addNewContract", contractInstance);
   },
-  removeContract({ commit }, contractInstance) {
-    commit("removeContract", contractInstance);
+  removeContract({ commit }, contractID) {
+    commit("removeContract", { contractID });
   },
   async updateContractsShifts({ commit }, contractID) {
     const data = await ShiftService.filterList(`?contract=${contractID}`);
