@@ -1,17 +1,31 @@
 export default {
+  data() {
+    return {
+      errorMessages: [],
+      alertMessages: []
+    };
+  },
   computed: {
-    alertMessages() {
-      return [];
+    getAlertMessages() {
+      return this.alertMessages;
+    },
+    getErrorMessages() {
+      return this.errorMessages;
     },
     valid() {
-      return true;
+      return this.errorMessages.length === 0;
     },
-    timeErrors() {
-      let messages = [];
+    validateStartedBeforeStopped() {
+      console.log("welcome to the first validation computed");
       if (this.newShift.started > this.newShift.stopped) {
-        messages.push(this.$t("shifts.errors.startedBeforeStopped"));
+        this.errorMessages.push(this.$t("shifts.errors.startedBeforeStopped"));
       }
-      return messages;
-    }
+    },
+    validateMaxWorktimePerDay() {},
+    validateNoSunday() {},
+    validateOnlyHolidayOnHolidays() {},
+    validateExclusivityVacationAndSick() {},
+    validateEightTwentyRule() {},
+    validateOverlapping() {}
   }
 };
