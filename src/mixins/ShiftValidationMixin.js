@@ -1,19 +1,25 @@
 import Holidays from "date-holidays";
+import store from "@/store";
 
 export default {
   computed: {
     getAlertMessages() {
       let alertMessages = [];
-      return alertMessages;
+      alertMessages.push(this.validateEightTwentyRule);
+      return alertMessages.filter((message) => message != undefined);
     },
     getErrorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateStartedBeforeStopped);
+      errorMessages.push(this.validateMaxWorktimePerDay);
+      errorMessages.push(this.validateNoSunday);
       errorMessages.push(this.validateOnlyHolidayOnHolidays);
+      errorMessages.push(this.validateExclusivityVacationAndSick);
+      errorMessages.push(this.validateOverlapping);
       return errorMessages.filter((message) => message != undefined);
     },
     valid() {
-      return this.errorMessages.length === 0;
+      return this.getErrorMessages.length === 0;
     },
     validateStartedBeforeStopped() {
       if (this.newShift != undefined) {
@@ -32,9 +38,33 @@ export default {
       }
     },
     validateExclusivityVacationAndSick() {},
-    validateEightTwentyRule() {},
+    validateEightTwentyRule() {
+      console.log("newShift started hours" + this.newShift.started.getHours());
+      if (
+        this.newShift.started.getHours() < 8 ||
+        this.newShift.stopped.getHours() > 20
+      ) {
+        return this.$t("shifts.errors.eightTwentyRule");
+      }
+    },
     validateOverlapping() {},
-    shiftsThisDay() {},
+    shiftsThisDay() {
+      let checkoutUser = store.getters["auth/checkoutUser"];
+      console.log("checkoutUser: " + checkoutUser);
+      let newShiftUser = this.newShift.user;
+      console.log("newShiftUser: " + newShiftUser);
+      let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
+        (shift) => {
+          return (
+            shift.user === newShiftUser &&
+            shift.started.date === this.newShift.started.date &&
+            shift.was_reviewed
+          );
+        }
+      );
+      console.log(allShiftsByThisUser);
+      return allShiftsByThisUser;
+    },
     dateIsHoliday() {
       // Christmas Eve and New Year's Eve are considered half Bank holidays
       // by the date-holidays package.

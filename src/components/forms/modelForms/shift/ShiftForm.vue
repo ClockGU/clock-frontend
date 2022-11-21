@@ -8,7 +8,7 @@
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
-      :alert-messages="getErrorMessages"
+      :alert-messages="getErrorMessages.concat(getAlertMessages)"
       :time-errors="timeErrors"
       @scheduleShifts="setScheduledShifts($event)"
     ></ShiftFormFields>
@@ -17,7 +17,7 @@
       :delete-fn="deleteShift"
       :close-fn="closeFn"
       :update-fn="updateShift"
-      :disable-save="false"
+      :disable-save="!valid"
       :is-new-instance="isNewInstance"
       model-name="shift"
     ></FormActions>

@@ -487,10 +487,11 @@
     "errors": {
       "startedBeforeStopped": "The start must be before the end of the shift.",
       "maximumWorktimePerDay": "The maxium allowed worktime ammount is 10 hours per day.",
-      "workingOnSundays": "It is not allowed to work on a sunday",
-      "workingOnHolidays": "It is just allowed to book a holiday shift on a holiday",
-      "exclusiveVacation": "It is not allowed to combinate vaction shifts with other shifts on a day",
-      "exclusiveSick": "It is not allowed to combinate sick shifts with other shifts on a day"
+      "workingOnSundays": "It is not allowed to work on a sunday.",
+      "workingOnHolidays": "It is just allowed to book a holiday shift on a holiday.",
+      "exclusiveVacation": "It is not allowed to combinate vaction shifts with other shifts on a day.",
+      "exclusiveSick": "It is not allowed to combinate sick shifts with other shifts on a day.",
+      "eightTwentyRule": "Due to internal rules of the Frankfurt University it is not recommended to work before 8 am and after 20om."
     }
   },
   "snackbar": {
