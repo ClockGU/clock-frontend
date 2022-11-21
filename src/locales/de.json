@@ -491,7 +491,8 @@
       "workingOnSundays": "Es ist nicht erlaubt an einem Sonntag zu arbeiten",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
-      "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden."
+      "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden.",
+      "eightTwentyRule": "Nach hochschulinternen Regelungen ist Arbeiten vor 8 Uhr und nach 20 Uhr nicht erwünscht."
     }
   },
   "snackbar": {
