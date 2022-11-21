@@ -22,24 +22,23 @@ export default {
       return this.getErrorMessages.length === 0;
     },
     validateStartedBeforeStopped() {
-      if (this.newShift != undefined) {
-        if (this.newShift.started > this.newShift.stopped) {
-          return this.$t("shifts.errors.startedBeforeStopped");
-        }
+      if (this.newShift.started > this.newShift.stopped) {
+        return this.$t("shifts.errors.startedBeforeStopped");
       }
     },
     validateMaxWorktimePerDay() {},
-    validateNoSunday() {},
+    validateNoSunday() {
+      if (this.newShift.started.getDay() === 0) {
+        return this.$t("shifts.errors.workingOnSundays");
+      }
+    },
     validateOnlyHolidayOnHolidays() {
-      if (this.newShift != undefined) {
-        if (this.dateIsHoliday & (this.newShift.type !== "bh")) {
-          return this.$t("shifts.errors.workingOnHolidays");
-        }
+      if (this.dateIsHoliday & (this.newShift.type !== "bh")) {
+        return this.$t("shifts.errors.workingOnHolidays");
       }
     },
     validateExclusivityVacationAndSick() {},
     validateEightTwentyRule() {
-      console.log("newShift started hours" + this.newShift.started.getHours());
       if (
         this.newShift.started.getHours() < 8 ||
         this.newShift.stopped.getHours() > 20
