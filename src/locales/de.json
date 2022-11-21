@@ -485,7 +485,12 @@
       "faqLinking": "Für weitere Informationen zu den angezeigten Fehlermeldungen bitte in in die FAQs schauen."
     },
     "errors": {
-      "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
+      "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
+      "maximumWorktimePerDay": "Maximal sind 10h Arbeitszeit pro Tag erlaubt.",
+      "workingOnSundays": "Es ist nicht erlaubt an einem Sonntag zu arbeiten",
+      "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
+      "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
+      "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden."
     }
   },
   "snackbar": {
