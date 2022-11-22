@@ -90,6 +90,7 @@ export default {
         contractID: savedShift.contract,
         shiftInstance: savedShift
       });
+      this.$emit("save");
       this.closeFn();
     },
     async deleteShift() {
@@ -98,6 +99,7 @@ export default {
         contractID: this.newShift.contract,
         shiftInstance: this.newShift
       });
+      this.$emit("delete");
       this.closeFn();
     },
     async updateShift() {
@@ -117,6 +119,7 @@ export default {
           shiftInstance: updatedShift
         });
       }
+      this.$emit("update");
       this.close();
     },
     initializeNewShift() {
