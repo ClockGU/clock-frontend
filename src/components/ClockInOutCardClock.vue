@@ -67,23 +67,9 @@
           color="primary"
           block
           text
-          @click="actions.save"
+          @click="saveFn"
         >
           {{ $t("dashboard.clock.out") }}
-        </v-btn>
-        <v-btn
-          v-else-if="
-            overflowedShift &&
-            (actions.status === 'running' || actions.status === 'saving')
-          "
-          key="review-problems"
-          :disabled="actions.status === 'saving'"
-          color="error"
-          block
-          text
-          @click="$emit('updateWindow', 1)"
-        >
-          {{ $t("dashboard.clock.problems.review") }}
         </v-btn>
       </v-slide-x-transition>
     </v-card-text>
@@ -143,6 +129,10 @@ export default {
     actions: {
       type: Object,
       required: true
+    },
+    saveFn: {
+      type: Function,
+      default: () => {}
     },
     clockedContract: {
       type: Contract,

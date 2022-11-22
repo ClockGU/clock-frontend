@@ -1,86 +1,68 @@
 <template>
-  <ClockInOut :selected-contract="selectedContract">
-    <template
-      #default="{
-        data,
-        duration,
-        status,
-        start,
-        stop: pause,
-        reset: destroy,
-        save
-      }"
+  <v-window v-model="window">
+    <v-overlay
+      :value="showOverlay"
+      absolute
+      :opacity="contractValid ? 1.0 : 0.9"
     >
-      <v-window v-model="window">
-        <v-overlay
-          :value="showOverlay"
-          absolute
-          :opacity="contractValid ? 1.0 : 0.9"
-        >
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <p>
-                  {{ overlayMessage }}
-                </p>
-              </v-col>
-              <v-col
-                v-if="contracts.length > 1 && clockedShift !== undefined"
-                cols="12"
-              >
-                <v-btn color="primary lighten-1" @click="changeContract">
-                  {{ $t("actions.switch") }}
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-overlay>
-        <v-window-item :key="0">
-          <ClockInOutCardClock
-            :actions="{
-              data,
-              duration,
-              status,
-              start,
-              pause,
-              destroy,
-              save
-            }"
-            :clocked-contract="clockedContract"
-            @updateWindow="window += $event"
-          />
-        </v-window-item>
-
-        <v-window-item v-if="clockedShift !== null" :key="1">
-          <ClockInOutCardForm
-            :clocked-shift="clockedShift"
-            :destroy="destroy"
-            @updateWindow="window += $event"
-            @refresh="$emit('refresh')"
-          />
-        </v-window-item>
-      </v-window>
-    </template>
-  </ClockInOut>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <p>
+              {{ overlayMessage }}
+            </p>
+          </v-col>
+          <v-col
+            v-if="contracts.length > 1 && clockedShift !== undefined"
+            cols="12"
+          >
+            <v-btn color="primary lighten-1" @click="changeContract">
+              {{ $t("actions.switch") }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-overlay>
+    <v-window-item :key="0">
+      <ClockInOutCardClock
+        :actions="{
+          data: clockData,
+          duration,
+          status,
+          start,
+          destroy: reset
+        }"
+        :save-fn="save"
+        :clocked-contract="clockedContract"
+      />
+    </v-window-item>
+    <v-window-item :key="1">
+      <ClockInOutCardForm
+        :shift="shiftToModify"
+        :destroy="reset"
+        :contract-name="selectedContract.name"
+        @updateWindow="window += $event"
+      ></ClockInOutCardForm>
+    </v-window-item>
+  </v-window>
 </template>
 
 <script>
 import ClockInOut from "@/components/ClockInOut";
 import ClockInOutCardClock from "@/components/ClockInOutCardClock";
-import ClockInOutCardForm from "@/components/ClockInOutCardForm";
-
 import { mapGetters } from "vuex";
 
 import contractValidMixin from "@/mixins/contractValid";
+import { Shift } from "@/models/ShiftModel";
+import ClockInOutCardForm from "@/components/ClockInOutCardForm";
 
 export default {
   name: "ClockInOutCard",
   components: {
-    ClockInOut,
-    ClockInOutCardClock,
-    ClockInOutCardForm
+    ClockInOutCardForm,
+    ClockInOutCardClock
   },
-  mixins: [contractValidMixin],
+  mixins: [contractValidMixin, ClockInOut],
   props: {
     disabled: {
       type: Boolean,
@@ -89,7 +71,8 @@ export default {
   },
   data() {
     return {
-      window: 0
+      window: 0,
+      shiftToModify: new Shift()
     };
   },
   computed: {
