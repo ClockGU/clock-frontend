@@ -123,19 +123,10 @@
         "review": "Probleme beheben",
         "update": "Schicht bearbeiten",
         "create": "Schicht hinzufügen",
-        "actions": {
-          "advanced": "Erweiterter Modus",
-          "keepBoth": "Erstelle alle neue Schichten",
-          "keepFirst": "Behalte die erste Schicht",
-          "keepSecond": "Behalte die letzte Schicht",
-          "label": "Wähle eine Option aus"
-        },
         "clockedShift": "Geclockte Schicht",
-        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne anfangen.",
         "messages": {
-          "allSaved": "Alle Schichten wurden gespeichert.",
-          "noSaved": "Es wurden keine Schichten gespeichert.",
-          "singleSaved": "Die Schicht wurde gespeichert.",
+          "noSaved": "Es wurde keine Schicht gespeichert.",
+          "saved": "Die Schicht wurde gespeichert.",
           "success": "Du wurdest ausgeclockt.",
           "label": {
             "notice": "",
@@ -146,7 +137,8 @@
           }
         },
         "newShifts": "Neue Schichten",
-        "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
+        "text": "Es gibt Probleme beim Speichern deiner Schicht.",
+        "editShift": "Du musst die Schicht bearbeiten bevor sie gespeichert werden kann.",
         "title": "Ungültige Schicht"
       },
       "snacks": {
