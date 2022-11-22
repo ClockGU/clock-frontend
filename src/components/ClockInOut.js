@@ -3,13 +3,15 @@ import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
 import { mapGetters } from "vuex";
+import { ShiftService } from "@/services/models";
 
 export default {
   name: "ClockInOut",
   data: () => ({
     clock: null,
     reselectContract: null,
-    saving: false
+    saving: false,
+    shiftData: {}
   }),
   computed: {
     ...mapGetters({
@@ -47,17 +49,13 @@ export default {
       this.saving = true;
       try {
         this.pause();
-        await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
 
-        const startDate =
-          this.clockedShift.started === undefined
-            ? this.clockedShift.started
-            : this.clockedShift.date.start;
+        const startDate = this.clockedShift.started;
 
         // clocking out at exactly 00:00 would generate a zero-length shift
         // set the shift's end to 23:59:59 on the day the shift was clocked in
         let clockOutDate = new Date();
-        if (getHours(clockOutDate) == 0 && getMinutes(clockOutDate) == 0) {
+        if (getHours(clockOutDate) === 0 && getMinutes(clockOutDate) === 0) {
           clockOutDate = set(this.clockedShift.started, {
             hours: 23,
             minutes: 59,
@@ -66,34 +64,32 @@ export default {
         }
 
         const endDate = clockOutDate;
-
-        if (differenceInSeconds(endDate, new Date(startDate)) < 60) {
+        // Do not accept live clocked shifts shorter than a minute
+        if (differenceInSeconds(endDate, startDate) < 1) {
           await this.$store.dispatch("clock/deleteClockedShift");
-          this.$store.dispatch("clock/unclockShift");
+          await this.$store.dispatch("clock/unclockShift");
           this.stop();
-
           this.$store.dispatch("snackbar/setSnack", {
             snack: this.$t("dashboard.clock.snacks.shiftTooShort"),
             timeout: 4000,
             color: "warning"
           });
         } else {
-          const data = {
-            date: {
-              start: startDate,
-              end: endDate
-            },
+          this.shiftData = {
+            started: startDate,
+            stopped: endDate,
             contract: this.clockedShift.contract,
-            type: { value: "st", text: "Shift" },
-            reviewed: true
+            type: "st",
+            wasReviewed: true
           };
-
-          const payload = new Shift(data).toPayload();
-          await this.$store.dispatch("shift/CREATE_SHIFT", payload);
+          const payload = new Shift(this.shiftData).toPayload();
+          const savedShift = await ShiftService.create(payload);
+          await this.$store.commit("contentData/addShift", {
+            contractID: savedShift.contract,
+            shiftInstance: savedShift
+          });
           await this.$store.dispatch("clock/deleteClockedShift");
           this.$store.dispatch("clock/unclockShift");
-
-          this.stop();
 
           this.$store.dispatch("snackbar/setSnack", {
             snack: this.$t("dashboard.clock.snacks.clockOut"),
@@ -103,10 +99,16 @@ export default {
         }
       } catch (error) {
         if (error.response && error.response.status === 401) return;
-
-        this.reset();
+        if (error.response && error.response.status === 400) {
+          this.shiftToModify = new Shift(this.shiftData);
+          this.window += 1;
+          this.unpause();
+          return;
+        }
+        await this.reset();
       } finally {
         this.saving = false;
+        this.shiftData = {};
       }
     },
     async start() {
