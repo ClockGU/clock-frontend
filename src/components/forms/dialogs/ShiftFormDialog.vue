@@ -29,7 +29,13 @@
         </v-btn>
       </template>
       <template #content="{ events: { close } }">
-        <ShiftForm :existing-shift="shift" :close="close"></ShiftForm>
+        <ShiftForm
+          :existing-shift="shift"
+          :close="close"
+          @save="$emit('save')"
+          @delete="$emit('delete')"
+          @update="$emit('update')"
+        ></ShiftForm>
       </template>
     </TheDialog>
   </div>
