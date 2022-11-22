@@ -65,7 +65,7 @@ export default {
 
         const endDate = clockOutDate;
         // Do not accept live clocked shifts shorter than a minute
-        if (differenceInSeconds(endDate, startDate) < 1) {
+        if (differenceInSeconds(endDate, startDate) < 60) {
           await this.$store.dispatch("clock/deleteClockedShift");
           await this.$store.dispatch("clock/unclockShift");
           this.stop();
