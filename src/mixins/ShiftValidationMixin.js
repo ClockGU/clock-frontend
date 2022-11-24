@@ -46,22 +46,34 @@ export default {
         return this.$t("shifts.errors.eightTwentyRule");
       }
     },
-    validateOverlapping() {},
+    validateOverlapping() {
+      for (let shift of this.shiftsThisDay) {
+        if (
+          shift.started <= this.newShift.started &&
+          this.newShift.started < shift.stopped
+        ) {
+          return this.$t("shifts.errors.overlappingStarted");
+        }
+        if (
+          shift.started < this.newShift.stopped &&
+          this.newShift.stopped <= shift.stopped
+        ) {
+          return this.$t("shifts.errors.overlappingStopped");
+        }
+      }
+    },
     shiftsThisDay() {
-      let checkoutUser = store.getters["auth/checkoutUser"];
-      console.log("checkoutUser: " + checkoutUser);
-      let newShiftUser = this.newShift.user;
-      console.log("newShiftUser: " + newShiftUser);
       let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
         (shift) => {
           return (
-            shift.user === newShiftUser &&
-            shift.started.date === this.newShift.started.date &&
-            shift.was_reviewed
+            shift.started.getDate() === this.newShift.started.getDate() &&
+            shift.started.getMonth() === this.newShift.started.getMonth() &&
+            shift.started.getFullYear() ===
+              this.newShift.started.getFullYear() &&
+            shift.wasReviewed
           );
         }
       );
-      console.log(allShiftsByThisUser);
       return allShiftsByThisUser;
     },
     dateIsHoliday() {
