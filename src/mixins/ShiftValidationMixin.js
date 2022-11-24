@@ -14,7 +14,8 @@ export default {
       errorMessages.push(this.validateMaxWorktimePerDay);
       errorMessages.push(this.validateNoSunday);
       errorMessages.push(this.validateOnlyHolidayOnHolidays);
-      errorMessages.push(this.validateExclusivityVacationAndSick);
+      errorMessages.push(this.validateExclusivityVacation);
+      errorMessages.push(this.validateExclusivitySick);
       errorMessages.push(this.validateOverlapping);
       return errorMessages.filter((message) => message != undefined);
     },
@@ -37,7 +38,26 @@ export default {
         return this.$t("shifts.errors.workingOnHolidays");
       }
     },
-    validateExclusivityVacationAndSick() {},
+    validateExclusivityVacation() {
+      if (
+        (this.newShift.type === "vn" &&
+          this.shiftsThisDay.some((shift) => shift.type != "vn")) ||
+        (this.newShift.type === "st" &&
+          this.shiftsThisDay.some((shift) => shift.type === "vn"))
+      ) {
+        return this.$t("shifts.errors.exclusiveVacation");
+      }
+    },
+    validateExclusivitySick() {
+      if (
+        (this.newShift.type === "sk" &&
+          this.shiftsThisDay.some((shift) => shift.type != "sk")) ||
+        (this.newShift.type === "st" &&
+          this.shiftsThisDay.some((shift) => shift.type === "sk"))
+      ) {
+        return this.$t("shifts.errors.exclusiveSick");
+      }
+    },
     validateEightTwentyRule() {
       if (
         this.newShift.started.getHours() < 8 ||
