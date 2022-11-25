@@ -85,11 +85,10 @@ export default {
   },
   methods: {
     async saveShift() {
-      const savedShift = await ShiftService.create(this.newShift.toPayload());
-      this.$store.commit("contentData/addShift", {
-        contractID: savedShift.contract,
-        shiftInstance: savedShift
-      });
+      await this.$store.dispatch(
+        "contentData/saveShift",
+        this.newShift.toPayload()
+      );
       this.$emit("save");
       this.closeFn();
     },
@@ -103,22 +102,10 @@ export default {
       this.closeFn();
     },
     async updateShift() {
-      const updatedShift = await ShiftService.update(
-        this.newShift.toPayload(),
-        this.newShift.id
-      );
-      if (this.initialContract === updatedShift.contract) {
-        this.$store.commit("contentData/updateShift", {
-          contractID: updatedShift.contract,
-          shiftInstance: updatedShift
-        });
-      } else {
-        this.$store.commit("contentData/switchShiftContract", {
-          oldContractID: this.initialContract,
-          newContractID: updatedShift.contract,
-          shiftInstance: updatedShift
-        });
-      }
+      await this.$store.dispatch("contentData/updateShift", {
+        payload: this.newShift.toPayload(),
+        initialContract: this.initialContract
+      });
       this.$emit("update");
       this.close();
     },

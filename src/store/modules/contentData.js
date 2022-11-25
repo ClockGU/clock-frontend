@@ -8,7 +8,8 @@ import {
   sortByStarted
 } from "@/utils";
 import Vue from "vue";
-import { ShiftService } from "@/services/models";
+import { ReportService, ShiftService } from "@/services/models";
+import { localizedFormat } from "@/utils/date";
 
 const state = {
   contentData: {},
@@ -20,6 +21,13 @@ const getters = {
   contractById: (state) => (id) => {
     try {
       return state.contentData[id].contract;
+    } catch (e) {
+      return undefined;
+    }
+  },
+  getReportsFromContract: (state) => (id) => {
+    try {
+      return state.contentData[id].reports;
     } catch (e) {
       return undefined;
     }
@@ -175,7 +183,7 @@ const mutations = {
   },
   updateReport(state, { contractID, reportInstance }) {
     const currentIndex = state.contentData[contractID].reports.findIndex(
-      (shiftElement) => shiftElement.id === reportInstance.id
+      (reportElement) => reportElement.id === reportInstance.id
     );
     const supposedIndex = indexOfByMonthYear({
       element: reportInstance,
@@ -225,6 +233,58 @@ const actions = {
   },
   removeContract({ commit }, contractID) {
     commit("removeContract", { contractID });
+  },
+  async saveShift({ commit, dispatch }, payload) {
+    const savedShift = await ShiftService.create(payload);
+    commit("addShift", {
+      contractID: savedShift.contract,
+      shiftInstance: savedShift
+    });
+    dispatch("refreshReports", {
+      startDate: savedShift.started,
+      contractID: savedShift.contract
+    });
+  },
+  async updateShift({ commit, dispatch }, { payload, initialContract }) {
+    const updatedShift = await ShiftService.update(payload, payload.id);
+    if (initialContract === updatedShift.contract) {
+      commit("updateShift", {
+        contractID: updatedShift.contract,
+        shiftInstance: updatedShift
+      });
+      dispatch("refreshReports", {
+        startDate: updatedShift.started,
+        contractID: updatedShift.contract
+      });
+    } else {
+      commit("switchShiftContract", {
+        oldContractID: initialContract,
+        newContractID: updatedShift.contract,
+        shiftInstance: updatedShift
+      });
+      // Update the Reports of the old and new Contract
+      dispatch("refreshReports", {
+        startDate: updatedShift.started,
+        contractID: updatedShift.contract
+      });
+      dispatch("refreshReports", {
+        startDate: updatedShift.started,
+        contractID: initialContract
+      });
+    }
+  },
+  async refreshReports({ commit }, { startDate, contractID }) {
+    const searchDate = new Date(startDate);
+    searchDate.setDate(1);
+    const reportsToUpdate = await ReportService.filterList(
+      `?month_year__gte=${localizedFormat(
+        searchDate,
+        "yyyy-MM-dd"
+      )}&contract=${contractID}`
+    );
+    reportsToUpdate.forEach((item) => {
+      commit("updateReport", { contractID, reportInstance: item });
+    });
   },
   async updateContractsShifts({ commit }, contractID) {
     const data = await ShiftService.filterList(`?contract=${contractID}`);
