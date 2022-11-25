@@ -273,6 +273,17 @@ const actions = {
       });
     }
   },
+  async deleteShift({ commit, dispatch }, shiftInstance) {
+    await ShiftService.delete(shiftInstance.id);
+    commit("removeShift", {
+      contractID: shiftInstance.contract,
+      shiftInstance: shiftInstance
+    });
+    dispatch("refreshReports", {
+      startDate: shiftInstance.started,
+      contractID: shiftInstance.contract
+    });
+  },
   async refreshReports({ commit }, { startDate, contractID }) {
     const searchDate = new Date(startDate);
     searchDate.setDate(1);
