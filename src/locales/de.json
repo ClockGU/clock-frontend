@@ -492,9 +492,10 @@
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
       "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden.",
-      "eightTwentyRule": "Nach hochschulinternen Regelungen ist Arbeiten vor 8 Uhr und nach 20 Uhr nicht erwünscht.",
       "overlappingStarted": "Der Startzeitpunkt liegt im Zeitraum einer anderen bereits freigebenen Schichten.",
-      "overlappingStopped": "Der Stopzeitpunkt liegt im Zeitraum einer anderen bereits freigebenen Schichten."
+      "overlappingStopped": "Der Stopzeitpunkt liegt im Zeitraum einer anderen bereits freigebenen Schichten.",
+      "eightTwentyRule": "Nach hochschulinternen Regelungen ist Arbeiten vor 8 Uhr und nach 20 Uhr nicht erwünscht.",
+      "autoWorktimeCutting": "Es sind für diesen Arbeitstag nicht ausreichend Pausenzeit gebucht worden. Clock zieht die fehlende Pausenzeit automatisch von der Arbeitszeit ab."
     }
   },
   "snackbar": {

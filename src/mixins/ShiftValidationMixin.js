@@ -5,7 +5,8 @@ export default {
   computed: {
     getAlertMessages() {
       let alertMessages = [];
-      alertMessages.push(this.validateEightTwentyRule);
+      alertMessages.push(this.checkEightTwentyRule);
+      alertMessages.push(this.checkAutomaticWorktimeCutting);
       return alertMessages.filter((message) => message != undefined);
     },
     getErrorMessages() {
@@ -74,14 +75,6 @@ export default {
         return this.$t("shifts.errors.exclusiveSick");
       }
     },
-    validateEightTwentyRule() {
-      if (
-        this.newShift.started.getHours() < 8 ||
-        this.newShift.stopped.getHours() > 20
-      ) {
-        return this.$t("shifts.errors.eightTwentyRule");
-      }
-    },
     validateOverlapping() {
       for (let shift of this.shiftsThisDay) {
         if (
@@ -96,6 +89,27 @@ export default {
         ) {
           return this.$t("shifts.errors.overlappingStopped");
         }
+      }
+    },
+    checkEightTwentyRule() {
+      if (
+        this.newShift.started.getHours() < 8 ||
+        this.newShift.stopped.getHours() > 20
+      ) {
+        return this.$t("shifts.errors.eightTwentyRule");
+      }
+    },
+    checkAutomaticWorktimeCutting() {
+      var newShiftWorktime =
+        (this.newShift.stopped - this.newShift.started) / 60000;
+      var totalWorktime = newShiftWorktime + this.alreadyClockedWorktime;
+      if (
+        (totalWorktime > 9 * 60 && this.totalBreaktime < 45) ||
+        (totalWorktime <= 9 * 60 &&
+          totalWorktime > 6 * 60 &&
+          this.totalBreaktime < 30)
+      ) {
+        return this.$t("shifts.errors.autoWorktimeCutting");
       }
     },
     shiftsThisDay() {
