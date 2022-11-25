@@ -491,9 +491,10 @@
       "workingOnHolidays": "It is just allowed to book a holiday shift on a holiday.",
       "exclusiveVacation": "It is not allowed to combinate vaction shifts with other shifts on a day.",
       "exclusiveSick": "It is not allowed to combinate sick shifts with other shifts on a day.",
-      "eightTwentyRule": "Due to internal rules of the Frankfurt University it is not recommended to work before 8 am and after 20om.",
       "overlappingStarted": "The started value is in the time of an already existing reviewed shift.",
-      "overlappingStopped": "The stopped value is in the time of an already existing reviewed shift."
+      "overlappingStopped": "The stopped value is in the time of an already existing reviewed shift.",
+      "eightTwentyRule": "Due to internal rules of the Frankfurt University it is not recommended to work before 8 am and after 20om.",
+      "autoWorktimeCutting": "On this workday are mandatory breaktimes missing. Clock will cutt the missing breaktimes out of the worktime automatically."
     }
   },
   "snackbar": {
