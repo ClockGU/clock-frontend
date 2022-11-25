@@ -27,7 +27,23 @@ export default {
         return this.$t("shifts.errors.startedBeforeStopped");
       }
     },
-    validateMaxWorktimePerDay() {},
+    validateMaxWorktimePerDay() {
+      var newShiftWorktime =
+        (this.newShift.stopped - this.newShift.started) / 60000;
+      var totalWorktime = newShiftWorktime + this.alreadyClockedWorktime;
+      if (6 * 60 < totalWorktime && totalWorktime <= 9 * 60) {
+        if (this.totalBreaktime < 30) {
+          newShiftWorktime = newShiftWorktime - 30 + this.totalBreaktime;
+        }
+      } else if (totalWorktime > 9 * 60) {
+        if (this.totalBreaktime < 45) {
+          newShiftWorktime = newShiftWorktime - 45 + this.totalBreaktime;
+        }
+      }
+      if (newShiftWorktime + this.alreadyClockedWorktime > 10 * 60) {
+        return this.$t("shifts.errors.maximumWorktimePerDay");
+      }
+    },
     validateNoSunday() {
       if (this.newShift.started.getDay() === 0) {
         return this.$t("shifts.errors.workingOnSundays");
@@ -94,7 +110,55 @@ export default {
           );
         }
       );
-      return allShiftsByThisUser;
+      return allShiftsByThisUser
+        .filter((shift) => shift.id != this.newShift.id)
+        .sort((a, b) => a.started - b.started);
+    },
+    alreadyClockedWorktime() {
+      var workMinutesThisDay = 0;
+      if (this.shiftsThisDay.length > 0) {
+        workMinutesThisDay = this.shiftsThisDay.reduce(
+          (workMinutes, shift) =>
+            workMinutes + (shift.stopped - shift.started) / 60000,
+          0
+        );
+      }
+      return workMinutesThisDay;
+    },
+    totalBreaktime() {
+      if (this.shiftsThisDay.length === 0) {
+        return 0;
+      }
+      let total_break = 0;
+      for (var i = 0; i < this.shiftsThisDay.length - 1; i++) {
+        var currentShift = this.shiftsThisDay[i];
+        var nextShift = this.shiftsThisDay[i + 1];
+        total_break = total_break + (nextShift.started - currentShift.stopped);
+      }
+      // new shift is after old shifts
+      if (
+        this.newShift.started >=
+        this.shiftsThisDay[this.shiftsThisDay.length - 1].stopped
+      )
+        return (
+          (this.newShift.started -
+            this.shiftsThisDay[this.shiftsThisDay.length - 1].stopped +
+            total_break) /
+          60000
+        );
+      // new shift is before old shifts
+      if (this.newShift.stopped <= this.shiftsThisDay[0].started)
+        return (
+          (this.shiftsThisDay[0].started -
+            this.newShift.stopped +
+            total_break) /
+          60000
+        );
+
+      // new shift is in between old shifts
+      return (
+        (total_break - (this.newShift.stopped - this.newShift.started)) / 60000
+      );
     },
     dateIsHoliday() {
       // Christmas Eve and New Year's Eve are considered half Bank holidays
