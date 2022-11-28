@@ -16,6 +16,22 @@
             type="error"
           ></ClockCardAlert>
         </v-expand-transition>
+        <v-expand-transition hide-on-leave>
+          <div v-if="alertMessages.length > 0">
+            {{ $t("shifts.hints.faqText") }}
+            <router-link v-if="alertMessages.length > 0" to="/faq">{{
+              $t("shifts.hints.faqLinkText")
+            }}</router-link>
+          </div>
+        </v-expand-transition>
+        <v-expand-transition hide-on-leave>
+          <div v-if="alertMessages.length > 0">
+            {{ $t("shifts.hints.ombudsText") }}
+            <router-link v-if="alertMessages.length > 0" to="/feedback">{{
+              $t("shifts.hints.ombudsLinkText")
+            }}</router-link>
+          </div>
+        </v-expand-transition>
       </v-col>
       <v-col cols="12">
         <v-checkbox
