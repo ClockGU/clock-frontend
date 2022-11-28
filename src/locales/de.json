@@ -474,17 +474,6 @@
       "futureShiftsHint": "Alle in der Zukunft liegenden Schichten.",
       "tagsNotes": "Tags/Notizen"
     },
-    "warnings": {
-      "selectedDateIsHoliday": "Das ausgewählte Datum ist ein Feiertag. Du kannst hier nur Schichten vom Typ \"Feiertag\" clocken.",
-      "sickOrVacationShiftExists": "An diesem Datum existiert bereits eine Schicht vom Typ {shiftType}. Du kannst an diesem Tag nur noch Schichten von diesem Typ anlegen.",
-      "noSickOrVacationWithRegularShift": "An diesem Datum existiert bereits eine normale Schicht. Du musst diese löschen oder deren Typ ändern bevor du eine Schicht vom Typ {shiftType} anlegen kannst.",
-      "insufficientBreaktime": "Ab einer Arbeitszeit von 6h müssen mindestens 30 Minuten, ab 9h mindestens 45 Minuten Pause eingelegt werden. ( Arbeitszeit {worktime}h, Pause {breaktime}h)",
-      "maxWorktimeExceeded": "Du hast die maximale tägliche Arbeiszeit von 10h überschritten.",
-      "maxShifttimeExceeded": "Diese Schicht überschreitet die maximal Schichtlänge von 6h.",
-      "shiftIsOverlapping": "Diese Schicht überschneidet sich mit bereits bestehenden Schichten.",
-      "concatenatedShiftTooLong": "Diese Schicht ist mit anderen Schichten verbunden und diese sind in Summe zu lang (max 6h).",
-      "faqLinking": "Für weitere Informationen zu den angezeigten Fehlermeldungen bitte in in die FAQs schauen."
-    },
     "errors": {
       "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
       "maximumWorktimePerDay": "Maximal sind 10h Arbeitszeit pro Tag erlaubt.",
@@ -496,6 +485,12 @@
       "overlappingStopped": "Der Stopzeitpunkt liegt im Zeitraum einer anderen bereits freigebenen Schichten.",
       "eightTwentyRule": "Nach hochschulinternen Regelungen ist Arbeiten vor 8 Uhr und nach 20 Uhr nicht erwünscht.",
       "autoWorktimeCutting": "Es sind für diesen Arbeitstag nicht ausreichend Pausenzeit gebucht worden. Clock zieht die fehlende Pausenzeit automatisch von der Arbeitszeit ab."
+    },
+    "hints": {
+      "faqText": "Hast Du Fragen zu den Fehlermeldungen?",
+      "faqLinkText": "Hier geht es zum FAQ.",
+      "ombudsText": "Möchtest Du geforderte gesetzlich nicht erlaubte Arbeitszeit an Deine Ombudsperson melden?",
+      "ombudsLinkText": "Hier geht es zum Kontaktformular."
     }
   },
   "snackbar": {

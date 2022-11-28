@@ -474,17 +474,6 @@
       "futureShiftsHint": "All shifts scheduled for the future.",
       "tagsNotes": "Tags/Notes"
     },
-    "warnings": {
-      "selectedDateIsHoliday": "The selected date is a bank holiday. You can only create shifts of type \"bank holiday\" on this day.",
-      "sickOrVacationShiftExists": "There are other shifts of type {shiftType} on this date. You can only create shifts of the same type.",
-      "noSickOrVacationWithRegularShift": "There is already a normal shift on this date. Please delete the shift or change its type before creating a shift of type {shiftType}.",
-      "insufficientBreaktime": "There are shifts of {worktime}h with breaks of {breaktime}h on this date. According to §4 ArbzG, the work shall be interrupted by breaks of 30 minutes for a shift over 6h, and 45 minutes for a shift over 9h (in all).",
-      "maxWorktimeExceeded": "You exceeded your maximum daily worktime of 10h.",
-      "maxShifttimeExceeded": "This shift exceeds the maximum shift length of 6h.",
-      "shiftIsOverlapping": "This Shift overlaps with another already existing shift.",
-      "concatenatedShiftTooLong": "This shift is concatenated with other shifts and they are in total to long (max 6h).",
-      "faqLinking": "For further information on the displayed error messages please check the FAQ."
-    },
     "errors": {
       "startedBeforeStopped": "The start must be before the end of the shift.",
       "maximumWorktimePerDay": "The maxium allowed worktime ammount is 10 hours per day.",
@@ -496,6 +485,12 @@
       "overlappingStopped": "The stopped value is in the time of an already existing reviewed shift.",
       "eightTwentyRule": "Due to internal rules of the Frankfurt University it is not recommended to work before 8 am and after 20om.",
       "autoWorktimeCutting": "On this workday are mandatory breaktimes missing. Clock will cutt the missing breaktimes out of the worktime automatically."
+    },
+    "hints": {
+      "faqText": "Hast Du Fragen zu den Fehlermeldungen?",
+      "faqLinkText": "Hier geht es zum FAQ.",
+      "ombudsText": "Möchtest Du geforderte gesetzlich nicht erlaubte Arbeitszeit an Deine Ombudsperson melden?",
+      "ombudsLinkText": "Hier geht es zum Kontaktformular."
     }
   },
   "snackbar": {
