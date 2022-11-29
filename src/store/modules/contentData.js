@@ -302,6 +302,34 @@ const actions = {
       contractID: payloadArray[0].contract
     });
   },
+  async bulkSwitchContract(
+    { commit, dispatch },
+    { shiftArray, initialContract, newContract }
+  ) {
+    const startDate = shiftArray.reduce((prev, curr) => {
+      return prev.started < curr.started ? prev : curr;
+    }).started;
+    const payloadArray = shiftArray.map((shift) => {
+      shift.contract = newContract.id;
+      return shift.toPayload();
+    });
+    const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
+    updatedShifts.forEach((shift) => {
+      commit("switchShiftContract", {
+        oldContractID: initialContract,
+        newContractID: shift.contract,
+        shiftInstance: shift
+      });
+    });
+    dispatch("refreshReports", {
+      startDate: startDate,
+      contractID: initialContract
+    });
+    dispatch("refreshReports", {
+      startDate: startDate,
+      contractID: payloadArray[0].contract
+    });
+  },
   async refreshReports({ commit }, { startDate, contractID }) {
     const searchDate = new Date(startDate);
     searchDate.setDate(1);
