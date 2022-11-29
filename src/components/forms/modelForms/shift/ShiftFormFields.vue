@@ -66,10 +66,6 @@
           v-model="shift.contract"
           :choices="validContracts"
         />
-        <ShiftFormReview
-          v-model="shift.wasReviewed"
-          :error-message="reviewMessage"
-        />
       </v-col>
     </v-row>
   </v-card-text>
@@ -83,7 +79,6 @@ import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
 import { endOfDay, isWithinInterval, startOfDay } from "date-fns";
-import ShiftFormReview from "@/components/shifts/ShiftFormReview";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
@@ -91,7 +86,6 @@ export default {
   name: "ShiftFormFields",
   components: {
     ShiftFormDatetimeInput,
-    ShiftFormReview,
     ShiftFormTags,
     ShiftFormNote,
     ShiftFormType,
@@ -162,6 +156,12 @@ export default {
     setTime(event) {
       this.shift.started = event.started;
       this.shift.stopped = event.stopped;
+      this.setWasReviewed(event.started);
+    },
+    setWasReviewed(startDate) {
+      // All shifts which have started before now are counted as reviewed true
+      // We set that automatically
+      this.shift.wasReviewed = startDate <= new Date();
     }
   }
 };
