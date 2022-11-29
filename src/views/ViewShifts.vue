@@ -33,7 +33,7 @@
                   :search="pastSearch"
                   past-shifts
                 >
-                  <template #head="{ selected }">
+                  <template #head="{ selected, reset }">
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
@@ -69,6 +69,7 @@
                       :shifts="selected"
                       can-review
                       :more-than-one-contract="moreThanOneContract"
+                      :reset-fn="reset"
                     />
                   </template>
                 </ShiftsTable>
@@ -78,7 +79,7 @@
                   :loading="loading"
                   :search="futureSearch"
                 >
-                  <template #head="{ selected }">
+                  <template #head="{ selected, reset }">
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
@@ -114,6 +115,7 @@
                       v-if="selected.length > 0"
                       :more-than-one-contract="moreThanOneContract"
                       :shifts="selected"
+                      :reset-fn="reset"
                     />
                   </template>
                 </ShiftsTable>
