@@ -284,6 +284,24 @@ const actions = {
       contractID: shiftInstance.contract
     });
   },
+  async bulkDeleteShifts({ commit, dispatch }, shiftArray) {
+    const startDate = shiftArray.reduce((prev, curr) => {
+      return prev.started < curr.started ? prev : curr;
+    }).started;
+
+    const payloadArray = shiftArray.map((shift) => shift.toPayload());
+    await ShiftService.bulkDelete(payloadArray);
+    shiftArray.forEach((shift) => {
+      commit("removeShift", {
+        contractID: shift.contract,
+        shiftInstance: shift
+      });
+    });
+    dispatch("refreshReports", {
+      startDate: startDate,
+      contractID: payloadArray[0].contract
+    });
+  },
   async refreshReports({ commit }, { startDate, contractID }) {
     const searchDate = new Date(startDate);
     searchDate.setDate(1);

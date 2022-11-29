@@ -86,6 +86,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    resetFn: {
+      type: Function,
+      required: false,
+      default: () => {}
     }
   },
   data: () => ({
@@ -108,14 +113,8 @@ export default {
   },
   methods: {
     async destroyFn() {
-      const payloadArray = this.shifts.map((shift) => shift.toPayload());
-      await ShiftService.bulkDelete(payloadArray);
-      this.shifts.forEach((shift) => {
-        this.$store.commit("contentData/removeShift", {
-          contractID: shift.contract,
-          shiftInstance: shift
-        });
-      });
+      await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);
+      this.resetFn();
       this.$emit("destroy");
     },
     async updateFn(contractInstance) {
@@ -132,7 +131,7 @@ export default {
           shiftInstance: shift
         });
       });
-      this.$emit("destroy");
+      this.$emit("update");
     }
   }
 };
