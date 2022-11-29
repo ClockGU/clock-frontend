@@ -41,16 +41,13 @@ export default {
   },
   watch: {
     value(val) {
-      try {
+      if (val === "") {
+        this.contract = this.selectedContract;
+      } else {
         this.contract = this.$store.getters["contentData/contractById"](val);
-      } catch {
-        if (this.contract.id === this.selectedContract.id) {
-          this.$emit("input", this.contract.id);
-          return;
-        }
-        this.contract = this.$store.getters[
-          "selectedContract/selectedContract"
-        ];
+      }
+      if (this.contract.id === this.selectedContract.id) {
+        this.$emit("input", this.contract.id);
       }
     },
     contract(val) {
