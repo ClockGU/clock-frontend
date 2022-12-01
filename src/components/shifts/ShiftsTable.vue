@@ -291,7 +291,7 @@ export default {
       try {
         shift.wasReviewed = true;
         const payload = shift.toPayload();
-        promises.push(ShiftService.update(payload, payload.uuid));
+        promises.push(ShiftService.update(payload, payload.id));
 
         await Promise.all(promises);
 

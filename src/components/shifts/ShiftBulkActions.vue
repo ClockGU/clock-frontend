@@ -97,7 +97,7 @@ export default {
   }),
   computed: {
     reviewable() {
-      return this.shifts.filter((shift) => shift.reviewed === false).length;
+      return this.shifts.filter((shift) => shift.wasReviewed === false).length;
     },
     durationSum() {
       let sum = 0;
