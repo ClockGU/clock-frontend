@@ -25,6 +25,7 @@ import { log } from "@/utils/log";
 import { mapGetters } from "vuex";
 
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 export default {
   name: "ShiftBulkActionsDialogReview",
@@ -58,23 +59,16 @@ export default {
   methods: {
     async review() {
       // eslint-disable-next-line no-unreachable
-      const promises = [];
       this.loading = true;
       try {
-        for (let shift of this.shifts) {
-          shift.wasReviewed = true;
-          const payload = shift.toPayload();
-          promises.push(ShiftService.update(payload, payload.id));
-        }
-        await Promise.all(promises);
-        const startDate = this.shifts.reduce((prev, curr) => {
-          return prev.started < curr.started ? prev : curr;
-        }).started;
-
-        this.$store.dispatch("contentData/refreshReports", {
-          contractID: this.contract,
-          startDate
+        const payloadArray = this.shifts.map((shift) => {
+          let payload = shift.toPayload();
+          payload.was_reviewed = true;
+          return payload;
         });
+        const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
+        await this.handleFailedUpdates(updatedShifts);
+        // this.handlesuccessfullUpdates(updatedShifts);
         this.reset();
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
@@ -84,10 +78,42 @@ export default {
       } finally {
         this.loading = false;
         this.dialog = false;
+        const startDate = this.shifts.reduce((prev, curr) => {
+          return prev.started < curr.started ? prev : curr;
+        }).started;
+        this.$store.dispatch("contentData/refreshReports", {
+          contractID: this.contract,
+          startDate
+        });
       }
     },
     reset() {
       this.$emit("reset");
+    },
+    async handleFailedUpdates(promises) {
+      let failedShiftIds = [];
+      for (let prom of promises) {
+        if (prom.status === "rejected") {
+          failedShiftIds.push(JSON.parse(prom.reason.config.data).id);
+        }
+      }
+      for (let shift of this.shifts.filter(
+        (shift) => failedShiftIds.indexOf(shift.id) !== -1
+      )) {
+        await this.$store.dispatch("snackbar/setSnack", {
+          snack: this.$t("feedback.snackbar.error"),
+          timeout: 4000,
+          color: "error",
+          component: ShiftFormDialog,
+          componentProps: {
+            shift: shift,
+            create: false,
+            icon: true
+          },
+          timePassed: 0,
+          show: true
+        });
+      }
     }
   }
 };
