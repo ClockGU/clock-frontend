@@ -13,7 +13,7 @@
         <ShiftBulkActionsDialogReview
           v-if="canReview"
           :shifts="shifts"
-          @reset="$emit('refresh')"
+          @reset="resetFn()"
         >
           <template #activator="{ on }">
             <v-btn :disabled="!reviewable" icon v-on="on">

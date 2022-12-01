@@ -57,17 +57,24 @@ export default {
   },
   methods: {
     async review() {
+      // eslint-disable-next-line no-unreachable
       const promises = [];
       this.loading = true;
       try {
-        for (let item of this.shifts) {
-          item.shift.reviewed = true;
-          const payload = item.shift.toPayload();
-          promises.push(ShiftService.update(payload, payload.uuid));
+        for (let shift of this.shifts) {
+          shift.wasReviewed = true;
+          const payload = shift.toPayload();
+          promises.push(ShiftService.update(payload, payload.id));
         }
-
         await Promise.all(promises);
+        const startDate = this.shifts.reduce((prev, curr) => {
+          return prev.started < curr.started ? prev : curr;
+        }).started;
 
+        this.$store.dispatch("contentData/refreshReports", {
+          contractID: this.contract,
+          startDate
+        });
         this.reset();
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
