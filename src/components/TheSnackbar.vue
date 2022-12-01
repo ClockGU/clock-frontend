@@ -1,30 +1,45 @@
 <template>
-  <v-snackbar
-    v-model="show"
-    data-cy="snackbar"
-    top
-    right
-    :color="color"
-    :timeout="timeout"
-  >
-    {{ message }}
-    <template #action="{ attrs }">
-      <v-btn text v-bind="attrs" @click.native="show = false">
-        {{ $t("actions.close") }}
-      </v-btn>
-    </template>
-  </v-snackbar>
+  <div>
+    <v-snackbar
+      v-for="(snack, i) in snacks"
+      :key="snack.uuid"
+      v-model="snack.show"
+      data-cy="snackbar"
+      top
+      right
+      :color="snack.color"
+      :timeout="snack.timeout"
+      :style="{ 'margin-top': i * 70 + 'px' }"
+    >
+      {{ snack.message }}
+      <component
+        :is="snack.component"
+        v-bind="snack.componentProps"
+      ></component>
+      <template #action="{ attrs }">
+        <v-btn text v-bind="attrs" @click.native="snack.show = false">
+          {{ $t("actions.close") }}
+        </v-btn>
+      </template>
+      <v-progress-linear
+        reverse
+        :value="(timePassed[snack.uuid] / snack.timeout) * 100"
+      ></v-progress-linear>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
+// import { mapGetters } from "vuex";
+import Vue from "vue";
+
 export default {
   name: "TheSnackbar",
   data() {
     return {
-      show: false,
-      message: null,
-      timeout: null,
-      color: null
+      timePassed: {},
+      intervals: {},
+      snacks: []
     };
   },
   watch: {
@@ -34,19 +49,48 @@ export default {
       this.$store.dispatch("snackbar/resetSnack");
     }
   },
-  created: function () {
-    this.$store.watch(
-      (state, getters) => getters["snackbar/snack"],
-      () => {
-        const { snackbar } = this.$store.state.snackbar;
-        if (!snackbar.snack) return;
 
-        this.message = snackbar.snack;
-        this.color = snackbar.color;
-        this.timeout = snackbar.timeout;
-        this.show = true;
+  created() {
+    this.$store.watch(
+      (state, getters) => getters["snackbar/snacks"],
+      () => {
+        this.snacks = this.$store.getters["snackbar/snacks"];
+        this.snacks.forEach((snack) => {
+          if (this.intervals[snack.uuid] === undefined) {
+            this.setupInterval(snack);
+            this.setupTimeout(snack);
+          }
+        });
       }
     );
+  },
+  methods: {
+    async setupInterval(snack) {
+      Vue.set(
+        this.intervals,
+        snack.uuid,
+        setInterval(() => {
+          Vue.set(
+            this.timePassed,
+            snack.uuid,
+            (this.timePassed[snack.uuid] !== undefined
+              ? this.timePassed[snack.uuid]
+              : 0) + 500
+          );
+        }, 500)
+      );
+    },
+    async setupTimeout(snack) {
+      setTimeout(() => {
+        this.removeSnack(snack.uuid);
+      }, snack.timeout);
+    },
+    removeSnack(uuid) {
+      delete this.timePassed[uuid];
+      clearInterval(this.intervals[uuid]);
+      delete this.intervals[uuid];
+      this.$store.dispatch("snackbar/removeSnack", uuid);
+    }
   }
 };
 </script>
