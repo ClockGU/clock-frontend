@@ -207,6 +207,9 @@ export default {
       if (((debitInMinutes - worktimeInMinutes) / debitInMinutes) * 100 > 20) {
         messages.push(this.$t("reports.warnings.insufficientWorktime"));
       }
+      if (worktimeInMinutes > 80 * 60) {
+        messages.push(this.$t("reports.warnings.worktimeOverEightyHours"));
+      }
       return messages;
     }
   }

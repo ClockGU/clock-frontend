@@ -389,7 +389,8 @@
     },
     "warnings": {
       "maxOvertimeExceeded": " Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden in den nächsten Monat übertragen.",
-      "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit. Es werden nur 20% deiner Sollarbeitszeit als Minusstunden in den nächsten Monat übertragen."
+      "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit. Es werden nur 20% deiner Sollarbeitszeit als Minusstunden in den nächsten Monat übertragen.",
+      "worktimeOverEightyHours": "Die gebuchte Monatsarbeitszeit ist > 80h. Bitte achte aus steuerlichen Gründen darauf, dass du in deinen Semesterzeiten maximal 80h im Monat arbeiten darfst."
     }
   },
   "selectContract": {
