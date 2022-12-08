@@ -8,7 +8,7 @@
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
-      :alert-messages="getErrorMessages.concat(getAlertMessages)"
+      :alert-messages="errorMessages.concat(alertMessages)"
       :time-errors="timeErrors"
       @scheduleShifts="setScheduledShifts($event)"
     ></ShiftFormFields>
