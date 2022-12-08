@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import ClockInOut from "@/components/ClockInOut";
+import ClockInOutMixin from "@/mixins/ClockInOutMixin";
 import ClockInOutCardClock from "@/components/ClockInOutCardClock";
 import { mapGetters } from "vuex";
 
@@ -62,7 +62,7 @@ export default {
     ClockInOutCardForm,
     ClockInOutCardClock
   },
-  mixins: [contractValidMixin, ClockInOut],
+  mixins: [contractValidMixin, ClockInOutMixin],
   props: {
     disabled: {
       type: Boolean,
