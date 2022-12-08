@@ -10,7 +10,7 @@
         v-for="type in types"
         :key="type.value"
         class="ml-o"
-        :disabled="disabled || (type.value === 'bh' && !disabled)"
+        :disabled="disabled"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"

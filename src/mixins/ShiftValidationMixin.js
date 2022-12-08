@@ -1,15 +1,16 @@
-import Holidays from "date-holidays";
 import store from "@/store";
+import { dateIsHoliday } from "@/utils/date";
+import isSameDay from "date-fns/isSameDay";
 
 export default {
   computed: {
-    getAlertMessages() {
+    alertMessages() {
       let alertMessages = [];
       alertMessages.push(this.checkEightTwentyRule);
       alertMessages.push(this.checkAutomaticWorktimeCutting);
-      return alertMessages.filter((message) => message != undefined);
+      return alertMessages.filter((message) => message !== undefined);
     },
-    getErrorMessages() {
+    errorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateStartedBeforeStopped);
       errorMessages.push(this.validateMaxWorktimePerDay);
@@ -18,10 +19,10 @@ export default {
       errorMessages.push(this.validateExclusivityVacation);
       errorMessages.push(this.validateExclusivitySick);
       errorMessages.push(this.validateOverlapping);
-      return errorMessages.filter((message) => message != undefined);
+      return errorMessages.filter((message) => message !== undefined);
     },
     valid() {
-      return this.getErrorMessages.length === 0;
+      return this.errorMessages.length === 0;
     },
     validateStartedBeforeStopped() {
       if (this.newShift.started > this.newShift.stopped) {
@@ -51,7 +52,10 @@ export default {
       }
     },
     validateOnlyHolidayOnHolidays() {
-      if (this.dateIsHoliday & (this.newShift.type !== "bh")) {
+      if (
+        dateIsHoliday(this.newShift.started) &
+        (this.newShift.type !== "bh")
+      ) {
         return this.$t("shifts.errors.workingOnHolidays");
       }
     },
@@ -116,17 +120,13 @@ export default {
       let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
         (shift) => {
           return (
-            shift.started.getDate() === this.newShift.started.getDate() &&
-            shift.started.getMonth() === this.newShift.started.getMonth() &&
-            shift.started.getFullYear() ===
-              this.newShift.started.getFullYear() &&
-            shift.wasReviewed
+            isSameDay(shift.started, this.newShift.started) && shift.wasReviewed
           );
         }
       );
-      return allShiftsByThisUser
-        .filter((shift) => shift.id != this.newShift.id)
-        .sort((a, b) => a.started - b.started);
+      return allShiftsByThisUser.filter(
+        (shift) => shift.id != this.newShift.id
+      );
     },
     alreadyClockedWorktime() {
       var workMinutesThisDay = 0;
@@ -140,7 +140,7 @@ export default {
       return workMinutesThisDay;
     },
     totalBreaktime() {
-      if (this.shiftsThisDay.length === 0) {
+      if (!this.shiftsThisDay.length) {
         return 0;
       }
       let total_break = 0;
@@ -172,28 +172,6 @@ export default {
       // new shift is in between old shifts
       return (
         (total_break - (this.newShift.stopped - this.newShift.started)) / 60000
-      );
-    },
-    dateIsHoliday() {
-      // Christmas Eve and New Year's Eve are considered half Bank holidays
-      // by the date-holidays package.
-      // So we need to treat it separately
-      const date = this.newShift.started;
-
-      if (
-        date.getMonth() === 11 &&
-        (date.getDate() === 24 || date.getDate() === 31)
-      ) {
-        return true;
-      }
-      const hd = new Holidays("DE", "HE");
-      const holidayCandidate = hd.isHoliday(date); // returns false or array ... strange
-      if (!holidayCandidate) {
-        return holidayCandidate;
-      }
-      return (
-        holidayCandidate[0].type === "public" ||
-        holidayCandidate[0].type === "bank"
       );
     }
   }
