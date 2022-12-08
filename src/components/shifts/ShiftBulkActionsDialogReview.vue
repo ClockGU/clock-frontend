@@ -26,6 +26,7 @@ import { mapGetters } from "vuex";
 
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "ShiftBulkActionsDialogReview",
@@ -101,8 +102,13 @@ export default {
         (shift) => failedShiftIds.indexOf(shift.id) !== -1
       )) {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("feedback.snackbar.error"),
-          timeout: 4000,
+          message: this.$t("feedback.snackbar.reviewError", {
+            dateAndTime:
+              localizedFormat(shift.started, "EEEE',' do' 'MMMM") +
+              " " +
+              localizedFormat(shift.started, "HH:mm")
+          }),
+          timeout: 10000,
           color: "error",
           component: ShiftFormDialog,
           componentProps: {

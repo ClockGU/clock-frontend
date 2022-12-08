@@ -216,7 +216,8 @@
     },
     "snackbar": {
       "error": "Bitte probiere es später erneut.",
-      "success": "Wir haben deine Nachricht erhalten. Vielen Dank!"
+      "success": "Wir haben deine Nachricht erhalten. Vielen Dank!",
+      "reviewError": "Es ist ein Fehler aufgetreten. Bearbeite die Schicht vom {dateAndTime} vor dem Überprüfen."
     },
     "text": "Du hast Feedback an uns? Wir haben ein offenes Ohr!",
     "title": "Feedback",

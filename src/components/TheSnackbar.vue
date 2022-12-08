@@ -7,22 +7,24 @@
       data-cy="snackbar"
       top
       right
+      multi-line
       :color="snack.color"
       :timeout="snack.timeout"
       :style="{ 'margin-top': i * 70 + 'px' }"
     >
       {{ snack.message }}
-      <component
-        :is="snack.component"
-        v-bind="snack.componentProps"
-      ></component>
       <template #action="{ attrs }">
+        <component
+          :is="snack.component"
+          v-bind="snack.componentProps"
+        ></component>
         <v-btn text v-bind="attrs" @click.native="snack.show = false">
           {{ $t("actions.close") }}
         </v-btn>
       </template>
       <v-progress-linear
         reverse
+        color="white"
         :value="(timePassed[snack.uuid] / snack.timeout) * 100"
       ></v-progress-linear>
     </v-snackbar>
