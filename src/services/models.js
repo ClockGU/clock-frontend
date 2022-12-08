@@ -134,6 +134,12 @@ export class ReportService extends modelService {
     };
     return ApiService.customRequest(requestData);
   }
+  static async filterList(filterString) {
+    const response = await ApiService.get(this.BASE_URL + filterString);
+    return response.data.map(
+      (item) => new this.MODEL_CLASS(this.mapFunction(item))
+    );
+  }
 
   static async create() {
     return undefined;

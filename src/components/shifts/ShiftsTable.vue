@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="head" :selected="selected"></slot>
+    <slot name="head" :selected="selected" :reset="reset"></slot>
     <v-data-table
       v-model="selected"
       :headers="flexHeaders"

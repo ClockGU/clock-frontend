@@ -29,7 +29,6 @@ import { Shift } from "@/models/ShiftModel";
 import FormActions from "@/components/cards/FormActions";
 import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
-import { ShiftService } from "@/services/models";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
 export default {
@@ -85,40 +84,23 @@ export default {
   },
   methods: {
     async saveShift() {
-      const savedShift = await ShiftService.create(this.newShift.toPayload());
-      this.$store.commit("contentData/addShift", {
-        contractID: savedShift.contract,
-        shiftInstance: savedShift
-      });
+      await this.$store.dispatch(
+        "contentData/saveShift",
+        this.newShift.toPayload()
+      );
       this.$emit("save");
       this.closeFn();
     },
     async deleteShift() {
-      await ShiftService.delete(this.newShift.id);
-      this.$store.commit("contentData/removeShift", {
-        contractID: this.newShift.contract,
-        shiftInstance: this.newShift
-      });
+      await this.$store.dispatch("contentData/deleteShift", this.newShift);
       this.$emit("delete");
       this.closeFn();
     },
     async updateShift() {
-      const updatedShift = await ShiftService.update(
-        this.newShift.toPayload(),
-        this.newShift.id
-      );
-      if (this.initialContract === updatedShift.contract) {
-        this.$store.commit("contentData/updateShift", {
-          contractID: updatedShift.contract,
-          shiftInstance: updatedShift
-        });
-      } else {
-        this.$store.commit("contentData/switchShiftContract", {
-          oldContractID: this.initialContract,
-          newContractID: updatedShift.contract,
-          shiftInstance: updatedShift
-        });
-      }
+      await this.$store.dispatch("contentData/updateShift", {
+        payload: this.newShift.toPayload(),
+        initialContract: this.initialContract
+      });
       this.$emit("update");
       this.close();
     },

@@ -64,7 +64,6 @@ import {
   mdiSwapHorizontal,
   mdiDelete
 } from "@mdi/js";
-import { ShiftService } from "@/services/models";
 
 export default {
   name: "ShiftBulkActions",
@@ -86,6 +85,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    resetFn: {
+      type: Function,
+      required: false,
+      default: () => {}
     }
   },
   data: () => ({
@@ -108,31 +112,18 @@ export default {
   },
   methods: {
     async destroyFn() {
-      const payloadArray = this.shifts.map((shift) => shift.toPayload());
-      await ShiftService.bulkDelete(payloadArray);
-      this.shifts.forEach((shift) => {
-        this.$store.commit("contentData/removeShift", {
-          contractID: shift.contract,
-          shiftInstance: shift
-        });
-      });
+      await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);
+      this.resetFn();
       this.$emit("destroy");
     },
     async updateFn(contractInstance) {
-      const oldContractID = this.shifts[0].contract;
-      const payloadArray = this.shifts.map((shift) => {
-        shift.contract = contractInstance.id;
-        return shift.toPayload();
+      await this.$store.dispatch("contentData/bulkSwitchContract", {
+        shiftArray: this.shifts,
+        newContract: contractInstance,
+        initialContract: this.shifts[0].contract
       });
-      const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
-      updatedShifts.forEach((shift) => {
-        this.$store.commit("contentData/switchShiftContract", {
-          oldContractID: oldContractID,
-          newContractID: shift.contract,
-          shiftInstance: shift
-        });
-      });
-      this.$emit("destroy");
+      this.resetFn();
+      this.$emit("update");
     }
   }
 };
