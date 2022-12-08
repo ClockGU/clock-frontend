@@ -6,7 +6,7 @@ import { mapGetters } from "vuex";
 import { ShiftService } from "@/services/models";
 
 export default {
-  name: "ClockInOut",
+  name: "ClockInOutMixin",
   data: () => ({
     clock: null,
     reselectContract: null,
