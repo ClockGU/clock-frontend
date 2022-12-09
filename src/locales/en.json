@@ -413,6 +413,7 @@
     },
     "repeating": {
       "checkboxLabel": "Repeat",
+      "checkboxText": "A recurring appointment can only be created for future shifts.",
       "dialog": {
         "activator": "Show scheduled shifts",
         "text": "The following {numberOfShifts} will be scheduled:",

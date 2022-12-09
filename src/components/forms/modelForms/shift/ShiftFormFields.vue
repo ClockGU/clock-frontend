@@ -38,6 +38,8 @@
           v-model="showRepeat"
           :label="$t('shifts.repeating.checkboxLabel')"
           :prepend-icon="icons.mdiRepeat"
+          :disabled="!isInFuture"
+          :messages="$t('shifts.repeating.checkboxText')"
           class="ma-0"
         ></v-checkbox>
 
@@ -78,7 +80,7 @@ import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
-import { endOfDay, isWithinInterval, startOfDay } from "date-fns";
+import { endOfDay, isWithinInterval, startOfDay, isFuture } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
@@ -139,6 +141,9 @@ export default {
       } else {
         return "";
       }
+    },
+    isInFuture() {
+      return isFuture(this.shift.stopped);
     }
   },
   watch: {

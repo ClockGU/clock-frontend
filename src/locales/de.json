@@ -413,6 +413,7 @@
     },
     "repeating": {
       "checkboxLabel": "Wiederholen",
+      "checkboxText": "Serientermine können nur für zukünftige Schichten erstellt werden.",
       "dialog": {
         "activator": "Geplante Schichten anzeigen",
         "text": "Die folgenden Schichten werden zusätzlich geplant:",
