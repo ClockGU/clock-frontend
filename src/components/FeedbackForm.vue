@@ -12,14 +12,14 @@
           v-model="name"
           :label="$t('feedback.fields.name')"
           :error-messages="nameErrors"
-          @blur="$v.name.$touch()"
+          @blur="v$.name.$touch()"
         ></v-text-field>
 
         <v-text-field
           v-model="email"
           :label="$t('feedback.fields.email')"
           :error-messages="emailErrors"
-          @blur="$v.email.$touch()"
+          @blur="v$.email.$touch()"
         ></v-text-field>
 
         <v-select
@@ -33,7 +33,7 @@
           rows="3"
           :label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
-          @blur="$v.message.$touch()"
+          @blur="v$.message.$touch()"
         ></v-textarea>
       </v-form>
     </v-card-text>
@@ -43,7 +43,7 @@
       <v-btn text @click="close">
         {{ $t("actions.cancel") }}
       </v-btn>
-      <v-btn color="primary" text :disabled="$v.$invalid" @click="submit">
+      <v-btn color="primary" text :disabled="v$.$invalid" @click="submit">
         {{ $t("actions.send") }}
       </v-btn>
     </v-card-actions>
@@ -51,26 +51,32 @@
 </template>
 
 <script>
-// import { validationMixin } from "vuelidate";
-// import { required, email } from "vuelidate/lib/validators";
+import { useVuelidate } from "@vuelidate/core";
+import { required, email } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
 
 import FeedbackService from "@/services/feedback";
 
 export default {
   name: "FeedbackForm",
-  // mixins: [validationMixin],
-  // validations: {
-  //   email: { required, email },
-  //   name: { required },
-  //   message: { required }
-  // },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
+  },
   data: () => ({
     name: null,
     email: null,
     message: null,
     topic: "general"
   }),
+  validations() {
+    return {
+      email: { required, email },
+      name: { required },
+      message: { required }
+    };
+  },
   computed: {
     ...mapGetters({
       user: "user"
@@ -97,21 +103,21 @@ export default {
     },
     emailErrors() {
       const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
+      if (!this.v$.email.$dirty) return errors;
+      !this.v$.email.email && errors.push("Must be valid e-mail");
+      !this.v$.email.required && errors.push("E-mail is required");
       return errors;
     },
     nameErrors() {
       const errors = [];
-      if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.required && errors.push("Name is required");
+      if (!this.v$.name.$dirty) return errors;
+      !this.v$.name.required && errors.push("Name is required");
       return errors;
     },
     messageErrors() {
       const errors = [];
-      if (!this.$v.message.$dirty) return errors;
-      !this.$v.message.required && errors.push("Message is required");
+      if (!this.v$.message.$dirty) return errors;
+      !this.v$.message.required && errors.push("Message is required");
       return errors;
     }
   },
@@ -141,7 +147,7 @@ export default {
 
       setTimeout(() => {
         this.initialize();
-        this.$v.$reset();
+        this.v$.$reset();
       }, 400);
     },
     async submit() {
