@@ -15,6 +15,8 @@
 
     <FeedbackMenu v-if="isLoggedIn" />
 
+    <OmbudsMenu v-if="isLoggedIn" />
+
     <TheSnackbar />
     <TheFooter />
   </v-app>
@@ -27,6 +29,7 @@ import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
 import TheFooter from "@/components/TheFooter";
 import FeedbackMenu from "@/components/FeedbackMenu";
+import OmbudsMenu from "@/components/OmbudsMenu";
 
 import { log } from "@/utils/log";
 
@@ -49,7 +52,8 @@ export default {
     TheNavigationDrawer,
     TheSnackbar,
     TheFooter,
-    FeedbackMenu
+    FeedbackMenu,
+    OmbudsMenu
   },
   data: () => ({
     drawer: false
