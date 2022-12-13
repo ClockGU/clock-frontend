@@ -227,6 +227,15 @@
       "question": "Question"
     }
   },
+  "ombuds": {
+    "fields": {
+      "email": "Email",
+      "message": "Message",
+      "name": "Name"
+    },
+    "text": "Do you want to repart an illegal shift?",
+    "title": "Contact your Ombudsperson"
+  },
   "footer": {
     "acknowledgeGU": {
       "text": "The development of this project was financially supported by {link}.",

@@ -227,6 +227,15 @@
       "question": "Frage"
     }
   },
+  "ombuds": {
+    "fields": {
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "name": "Name"
+    },
+    "text": "Du möchtest eine gestzlich nicht erlaubte Arbeitszeit melden?",
+    "title": "Kontakt zu deiner Ombudsperson"
+  },
   "footer": {
     "acknowledgeGU": {
       "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
