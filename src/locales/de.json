@@ -233,6 +233,10 @@
       "message": "Nachricht",
       "name": "Name"
     },
+    "snackbar": {
+      "error": "Bitte probiere es später erneut.",
+      "success": "Wir haben deine Nachricht an die zuständigen Ombudspersonen zugestellt. Vielen Dank!"
+    },
     "text": "Du möchtest eine gestzlich nicht erlaubte Arbeitszeit melden?",
     "title": "Kontakt zu deiner Ombudsperson"
   },
