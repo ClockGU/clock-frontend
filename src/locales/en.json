@@ -233,6 +233,10 @@
       "message": "Message",
       "name": "Name"
     },
+    "snackbar": {
+      "error": "Please try again later.",
+      "success": "We have received your message. Thank you!"
+    },
     "text": "Do you want to repart an illegal shift?",
     "title": "Contact your Ombudsperson"
   },
