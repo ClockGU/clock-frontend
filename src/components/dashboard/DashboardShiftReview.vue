@@ -6,21 +6,12 @@
     <v-card-text>
       <div v-if="shiftsToReview.length > 0">
         <v-list>
-          <div v-for="shift in shiftsToReview" :key="shift.id">
-            <ShiftListItem :editable="true" :shift="shift">
-              <template #actions>
-                <v-list-item-action>
-                  <ShiftFormDialog icon :shift="shift"></ShiftFormDialog>
-                </v-list-item-action>
-                <v-list-item-action>
-                  <v-btn icon>
-                    <v-icon> {{ icons.mdiCheck }}</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-                <v-list-item-action-text> Review </v-list-item-action-text>
-              </template>
-            </ShiftListItem>
-          </div>
+          <ReviewShiftListItem
+            v-for="shift in shiftsToReview"
+            :key="shift.id"
+            :shift="shift"
+          >
+          </ReviewShiftListItem>
         </v-list>
       </div>
       <v-container v-else>
@@ -31,20 +22,11 @@
 </template>
 
 <script>
-import ShiftListItem from "@/components/shifts/ShiftListItem";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
-import { mdiCheck } from "@mdi/js";
+import ReviewShiftListItem from "@/components/shifts/ReviewShiftListItem";
 
 export default {
   name: "DashboardShiftReview",
-  components: { ShiftFormDialog, ShiftListItem },
-  data() {
-    return {
-      icons: {
-        mdiCheck
-      }
-    };
-  },
+  components: { ReviewShiftListItem },
   computed: {
     shiftsToReview() {
       return this.$store.getters["contentData/selectedShifts"]
