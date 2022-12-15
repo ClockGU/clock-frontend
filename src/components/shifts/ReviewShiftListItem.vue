@@ -5,7 +5,7 @@
         <ShiftFormDialog icon :shift="shift"></ShiftFormDialog>
       </v-list-item-action>
       <v-list-item-action>
-        <v-btn icon color="success" :disabled="!valid">
+        <v-btn icon color="success" :disabled="!valid" @click="review">
           <v-icon> {{ icons.mdiCheck }}</v-icon>
         </v-btn>
       </v-list-item-action>
@@ -45,6 +45,25 @@ export default {
   },
   created() {
     this.newShift = this.shift;
+  },
+  methods: {
+    review() {
+      this.newShift.wasReviewed = true;
+      try {
+        this.$store.dispatch("contentData/updateShift", {
+          payload: this.newShift.toPayload(),
+          initialContract: this.newShift.contract
+        });
+      } catch (e) {
+        this.newShift.wasReviewed = false;
+        throw Error(e);
+      } finally {
+        this.$store.dispatch("contentData/refreshReports", {
+          startDate: this.newShift.started,
+          contractID: this.newShift.contract
+        });
+      }
+    }
   }
 };
 </script>
