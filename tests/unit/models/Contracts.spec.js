@@ -13,7 +13,6 @@ describe("Contracts.js", () => {
     timekeeper.travel(date.startDate);
     timekeeper.freeze(date.startDate);
     const obj = new Contract(date);
-    console.log(obj.carryoverTargetDate);
     expect(obj).toEqual({
       id: "",
       user: "",
@@ -22,7 +21,6 @@ describe("Contracts.js", () => {
       startDate: new Date(Date.UTC(2021, 0, 1)),
       endDate: new Date(Date.UTC(2021, 1, 1)),
       initialCarryoverMinutes: 0,
-      carryoverTargetDate: new Date(2021, 0, 1, 0),
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
       lastUsed: new Date(Date.UTC(2021, 0, 1))
@@ -39,7 +37,6 @@ describe("Contracts.js", () => {
       startDate: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       endDate: new Date(Date.UTC(2021, 1, 1)).toISOString(),
       initialCarryoverMinutes: 0,
-      carryoverTargetDate: new Date(2021, 8, 31, 0).toISOString(),
       createdAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       lastUsed: new Date(Date.UTC(2021, 0, 1)).toISOString()
@@ -52,7 +49,6 @@ describe("Contracts.js", () => {
       startDate: new Date(Date.UTC(2021, 0, 1)),
       endDate: new Date(Date.UTC(2021, 1, 1)),
       initialCarryoverMinutes: 0,
-      carryoverTargetDate: new Date(2021, 8, 31, 0),
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
       lastUsed: new Date(Date.UTC(2021, 0, 1))
