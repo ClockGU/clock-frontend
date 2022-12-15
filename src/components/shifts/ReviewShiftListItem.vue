@@ -1,5 +1,10 @@
 <template>
-  <ShiftListItem :editable="true" :shift="shift">
+  <ShiftListItem
+    :editable="true"
+    :shift="shift"
+    :error="!valid"
+    hide-reviewed-chip
+  >
     <template #actions>
       <v-list-item-action>
         <ShiftFormDialog icon :shift="shift"></ShiftFormDialog>
@@ -9,7 +14,14 @@
           <v-icon> {{ icons.mdiCheck }}</v-icon>
         </v-btn>
       </v-list-item-action>
-      <v-list-item-action-text> Review </v-list-item-action-text>
+      <v-list-item-action-text>
+        {{ $t("shifts.review.review") }}
+      </v-list-item-action-text>
+    </template>
+    <template #extraSubtitle>
+      <v-list-item-subtitle v-if="!valid" class="error--text">
+        {{ $t("shifts.review.unableToReview") }}
+      </v-list-item-subtitle>
     </template>
   </ShiftListItem>
 </template>

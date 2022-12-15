@@ -456,7 +456,10 @@
     },
     "review": {
       "title": "Schichten überprüfen",
-      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
+      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben.",
+      "review": "Überprüfen",
+      "unableToReview": "Überprüfen nicht möglich - Bitte bearbeite die Schicht."
+
     },
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
     "planned": "Die Schicht liegt in der Zukunft und wird als geplant gespeichert.",

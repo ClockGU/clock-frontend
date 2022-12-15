@@ -456,7 +456,9 @@
     },
     "review": {
       "title": "Review shifts",
-      "text": "I confirm that all selected shifts have taken place."
+      "text": "I confirm that all selected shifts have taken place.",
+      "review": "Review",
+      "unableToReview": "Unable to review - Please edit the shift."
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
     "planned": "The shift takes place in the future and will be saved as planned shift.",

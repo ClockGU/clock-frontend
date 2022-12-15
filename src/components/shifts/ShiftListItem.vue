@@ -1,13 +1,13 @@
 <template>
   <v-list-item v-on="$listeners">
     <v-list-item-content>
-      <v-list-item-title>
+      <v-list-item-title :class="error ? 'error--text' : 'text--primary'">
         <v-icon class="pr-1" :color="colors[shift.type]">
           {{ typeIcons[shift.type] }}
         </v-icon>
         {{ shift.started | formatDay }}
       </v-list-item-title>
-      <v-list-item-subtitle class="text--primary">
+      <v-list-item-subtitle :class="error ? 'error--text' : 'text--primary'">
         {{ shift.started | formatTime }} -
         {{ shift.stopped | formatTime }}
         ({{ shift.representationalDuration("hm") }})
@@ -35,7 +35,7 @@
         </v-chip>
 
         <v-chip
-          v-if="!shift.wasReviewed"
+          v-if="!shift.wasReviewed && !hideReviewedChip"
           data-cy="shift-list-shift-type"
           outlined
           small
@@ -45,6 +45,7 @@
           {{ $t("dashboard.notYetReviewed") }}
         </v-chip>
       </v-list-item-subtitle>
+      <slot name="extraSubtitle"></slot>
     </v-list-item-content>
     <slot name="actions"></slot>
   </v-list-item>
@@ -82,6 +83,16 @@ export default {
     shift: {
       type: Shift,
       required: true
+    },
+    error: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    hideReviewedChip: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data: () => ({
