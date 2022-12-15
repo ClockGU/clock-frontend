@@ -157,6 +157,8 @@
     },
     "emptyActivity": "Du hast in diesem Vertrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivitäten",
+    "reviewShifts": "Überprüfe vergangene Schichten",
+    "noReviewableShifts": "Keine Schichten zu überprüfen",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
       "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",

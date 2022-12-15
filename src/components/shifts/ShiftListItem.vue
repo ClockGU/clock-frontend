@@ -46,6 +46,7 @@
         </v-chip>
       </v-list-item-subtitle>
     </v-list-item-content>
+    <slot name="actions"></slot>
   </v-list-item>
 </template>
 

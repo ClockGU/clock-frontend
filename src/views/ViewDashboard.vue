@@ -43,7 +43,7 @@
           </v-col>
 
           <v-col cols="12" md="6" order="4">
-            <DashboardConflicts :disabled="disabled" />
+            <DashboardShiftReview />
           </v-col>
 
           <v-col cols="12" md="6" order="5">
@@ -62,7 +62,6 @@ import SelectContractFilter from "@/components/SelectContractFilter";
 import ClockInOutCard from "@/components/ClockInOutCard";
 import DashboardMessageList from "@/components/dashboard/DashboardMessageList";
 import DashboardProgress from "@/components/dashboard/DashboardProgress";
-import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity";
 import DashboardWelcome from "@/components/dashboard/DashboardWelcome";
 import { isSameDay, isSameWeek, isBefore, differenceInMinutes } from "date-fns";
@@ -72,6 +71,7 @@ import { mapGetters } from "vuex";
 
 import { log } from "@/utils/log";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import DashboardShiftReview from "@/components/dashboard/DashboardShiftReview";
 
 export default {
   name: "Dashboard",
@@ -79,12 +79,12 @@ export default {
     title: "Dashboard"
   },
   components: {
+    DashboardShiftReview,
     ShiftFormDialog,
     ClockInOutCard,
     DashboardMessageList,
     DashboardProgress,
     SelectContractFilter,
-    DashboardConflicts,
     DashboardLastActivity,
     DashboardWelcome
   },

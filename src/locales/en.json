@@ -157,6 +157,8 @@
     },
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
+    "reviewShifts": "Review past shifts",
+    "noReviewableShifts": "No shifts to review",
     "newShift": { "title": "New shift" },
     "overlaps": {
       "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your time sheet.",
