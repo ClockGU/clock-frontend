@@ -459,6 +459,7 @@
       "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
     },
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
+    "planned": "Die Schicht liegt in der Zukunft und wird als geplant gespeichert.",
     "reviewErrorPast": "Eine vergangene Schicht kann nur gespeichert werden, wenn sie überprüft wurde.",
     "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als \"überprüft\" gespeichert werden.",
     "reviewErrorLive": "Eine laufende Schicht kann nicht überprüft werden bevor sie beendet ist.",

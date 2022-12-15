@@ -76,6 +76,7 @@
           v-model="shift.contract"
           :choices="validContracts"
         />
+        <ShiftFormReview :value="shift.wasReviewed"></ShiftFormReview>
       </v-col>
     </v-row>
   </v-card-text>
@@ -93,9 +94,11 @@ import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
+import ShiftFormReview from "@/components/shifts/ShiftFormReview";
 export default {
   name: "ShiftFormFields",
   components: {
+    ShiftFormReview,
     ShiftFormDatetimeInput,
     ShiftFormTags,
     ShiftFormNote,
@@ -166,6 +169,9 @@ export default {
     scheduledShifts(value) {
       this.$emit("scheduleShifts", value);
     }
+  },
+  created() {
+    this.setWasReviewed(this.shift.started);
   },
   methods: {
     setTime(event) {
