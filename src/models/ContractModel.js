@@ -96,7 +96,6 @@ export class Contract {
       minutes: this.minutes,
       start_date: this.startDateString(),
       end_date: this.endDateString(),
-      carryover_target_date: this.CarryoverTargetDateString(),
       initial_carryover_minutes: this.initialCarryoverMinutes,
       last_used: this.lastUsed
     };
