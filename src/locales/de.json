@@ -238,7 +238,8 @@
       "success": "Wir haben deine Nachricht an die zuständigen Ombudspersonen zugestellt. Vielen Dank!"
     },
     "text": "Du möchtest eine gestzlich nicht erlaubte Arbeitszeit melden?",
-    "title": "Kontakt zu deiner Ombudsperson"
+    "title": "Kontakt zu deiner Ombudsperson",
+    "linkText": "Mehr Informationen über die Ombudspersonen auf ihrer eigenen"
   },
   "footer": {
     "acknowledgeGU": {
