@@ -237,8 +237,9 @@
       "error": "Please try again later.",
       "success": "We have received your message. Thank you!"
     },
-    "text": "Do you want to repart an illegal shift?",
-    "title": "Contact your Ombudsperson"
+    "text": "Do you want to report an illegal shift?",
+    "title": "Contact your Ombudsperson",
+    "linkText": "More informationen about the Ombudspersonen you can find on there "
   },
   "footer": {
     "acknowledgeGU": {

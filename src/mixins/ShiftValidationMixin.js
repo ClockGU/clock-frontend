@@ -52,17 +52,14 @@ export default {
       }
     },
     validateOnlyHolidayOnHolidays() {
-      if (
-        dateIsHoliday(this.newShift.started) &
-        (this.newShift.type !== "bh")
-      ) {
+      if (dateIsHoliday(this.newShift.started) && this.newShift.type !== "bh") {
         return this.$t("shifts.errors.workingOnHolidays");
       }
     },
     validateExclusivityVacation() {
       if (
         (this.newShift.type === "vn" &&
-          this.shiftsThisDay.some((shift) => shift.type != "vn")) ||
+          this.shiftsThisDay.some((shift) => shift.type !== "vn")) ||
         (this.newShift.type === "st" &&
           this.shiftsThisDay.some((shift) => shift.type === "vn"))
       ) {
@@ -72,7 +69,7 @@ export default {
     validateExclusivitySick() {
       if (
         (this.newShift.type === "sk" &&
-          this.shiftsThisDay.some((shift) => shift.type != "sk")) ||
+          this.shiftsThisDay.some((shift) => shift.type !== "sk")) ||
         (this.newShift.type === "st" &&
           this.shiftsThisDay.some((shift) => shift.type === "sk"))
       ) {
@@ -125,7 +122,7 @@ export default {
         }
       );
       return allShiftsByThisUser.filter(
-        (shift) => shift.id != this.newShift.id
+        (shift) => shift.id !== this.newShift.id
       );
     },
     alreadyClockedWorktime() {

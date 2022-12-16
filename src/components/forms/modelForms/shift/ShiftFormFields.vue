@@ -19,7 +19,8 @@
         <v-expand-transition hide-on-leave>
           <div v-if="alertMessages.length > 0">
             {{ $t("shifts.hints.faqText") }}
-            <router-link v-if="alertMessages.length > 0" to="/faq">{{
+            <br />
+            <router-link to="/faq">{{
               $t("shifts.hints.faqLinkText")
             }}</router-link>
           </div>
@@ -27,9 +28,16 @@
         <v-expand-transition hide-on-leave>
           <div v-if="alertMessages.length > 0">
             {{ $t("shifts.hints.ombudsText") }}
-            <router-link v-if="alertMessages.length > 0" to="/feedback">{{
-              $t("shifts.hints.ombudsLinkText")
-            }}</router-link>
+            <OmbudsMenu
+              disable-activator
+              :bottom-position="false"
+              offset-y
+              bottom
+            >
+              <template #activator="{ on, attrs }">
+                <a v-bind="attrs" v-on="on">Hier gehts zum Kontakformular</a>
+              </template>
+            </OmbudsMenu>
           </div>
         </v-expand-transition>
       </v-col>
@@ -82,6 +90,7 @@ import { endOfDay, isWithinInterval, startOfDay } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
+import OmbudsMenu from "@/components/OmbudsMenu.vue";
 export default {
   name: "ShiftFormFields",
   components: {
@@ -91,7 +100,8 @@ export default {
     ShiftFormType,
     ShiftFormSelectContract,
     ShiftFormRepeat,
-    ClockCardAlert
+    ClockCardAlert,
+    OmbudsMenu
   },
   props: {
     value: {
@@ -167,4 +177,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.link-coloring {
+  color: blue;
+}
+</style>
