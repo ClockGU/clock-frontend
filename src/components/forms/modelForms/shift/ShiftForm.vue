@@ -8,10 +8,9 @@
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
-      :alert-messages="errorMessages.concat(alertMessages)"
-      :time-errors="timeErrors"
       @scheduleShifts="setScheduledShifts($event)"
     ></ShiftFormFields>
+    <!--      :alert-messages="saving ? [] : errorMessages.concat(alertMessages)"-->
     <FormActions
       :create-fn="saveShift"
       :delete-fn="deleteShift"
@@ -31,6 +30,7 @@ import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
+import { addMinutes, isSameDay } from "date-fns";
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
@@ -56,7 +56,8 @@ export default {
     return {
       newShift: undefined,
       scheduledShifts: undefined,
-      initialContract: ""
+      initialContract: "",
+      saving: false
     };
   },
   computed: {
@@ -72,24 +73,41 @@ export default {
     },
     isNewInstance() {
       return this.newShift.id === "";
+    },
+    defaultStart() {
+      const todaysShifts = this.$store.getters[
+        "contentData/selectedShifts"
+      ].filter((item) => {
+        return isSameDay(item.stopped, new Date());
+      });
+      let defaultStart = new Date();
+      defaultStart.setHours(10, 0, 0);
+      if (todaysShifts.length) {
+        defaultStart = todaysShifts.slice(-1)[0].stopped;
+      }
+      return defaultStart;
     }
   },
   watch: {
     existingShift() {
+      console.log("watcher executed");
       this.initializeNewShift();
     }
   },
   created() {
+    console.log("created run");
     this.initializeNewShift();
   },
   methods: {
     async saveShift() {
+      this.saving = true;
       await this.$store.dispatch(
         "contentData/saveShift",
         this.newShift.toPayload()
       );
       this.$emit("save");
       this.closeFn();
+      this.saving = false;
     },
     async deleteShift() {
       await this.$store.dispatch("contentData/deleteShift", this.newShift);
@@ -108,7 +126,10 @@ export default {
       this.newShift =
         this.existingShift !== undefined
           ? this.existingShift.clone()
-          : new Shift();
+          : new Shift({
+              started: this.defaultStart,
+              stopped: addMinutes(this.defaultStart, 30)
+            });
       this.initialContract = this.newShift.contract;
     },
     setScheduledShifts(event) {
