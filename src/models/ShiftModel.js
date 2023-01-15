@@ -12,13 +12,13 @@ import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import { any } from "ramda";
 
-// function defaultValueTime(type) {
-//   const today = new Date();
-//   const [hour, minute, second] = type === "start" ? [10, 0, 0] : [10, 30, 0];
-//   today.setHours(hour, minute, second);
-//
-//   return today;
-// }
+function defaultValueTime(type) {
+  const today = new Date();
+  const [hour, minute, second] = type === "start" ? [10, 0, 0] : [10, 30, 0];
+  today.setHours(hour, minute, second);
+
+  return today;
+}
 
 export function mapShiftApiResponse(response) {
   response["wasReviewed"] = response["was_reviewed"];
@@ -51,12 +51,12 @@ export class Shift {
     this.started =
       is(Date, new Date(started)) && started !== null
         ? new Date(started)
-        : null;
+        : defaultValueTime("start");
 
     this.stopped =
       is(Date, new Date(stopped)) && stopped !== null
         ? new Date(stopped)
-        : null;
+        : defaultValueTime("stop");
     this.contract = is(String, contract) ? contract : "";
     this.type =
       is(String, type) && any(SHIFT_TYPES.map((item) => item.value === type))

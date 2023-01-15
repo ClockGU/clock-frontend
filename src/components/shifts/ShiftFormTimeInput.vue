@@ -29,7 +29,7 @@
         v-bind="attrs"
         @blur="setTime"
         @focus="$event.target.select()"
-        v-on="$vuetify.breakpoint.smAndDown ? { ...menuOn } : ''"
+        v-on="$vuetify.breakpoint.smAndDown ? menuOn : ''"
       ></v-text-field>
       <!--        </template>-->
       <!--        <span>{{ errorMessages[0] }} </span>-->

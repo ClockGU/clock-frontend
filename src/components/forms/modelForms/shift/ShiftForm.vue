@@ -8,9 +8,9 @@
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
+      :alert-messages="messages"
       @scheduleShifts="setScheduledShifts($event)"
     ></ShiftFormFields>
-    <!--      :alert-messages="saving ? [] : errorMessages.concat(alertMessages)"-->
     <FormActions
       :create-fn="saveShift"
       :delete-fn="deleteShift"
@@ -30,7 +30,6 @@ import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
-import { addMinutes, isSameDay } from "date-fns";
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
@@ -45,6 +44,11 @@ export default {
       type: Function,
       required: false,
       default: () => {}
+    },
+    showErrors: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup() {
@@ -57,7 +61,8 @@ export default {
       newShift: undefined,
       scheduledShifts: undefined,
       initialContract: "",
-      saving: false
+      saving: false,
+      closed: false
     };
   },
   computed: {
@@ -71,27 +76,22 @@ export default {
         entity: this.$tc("models.shift", 1)
       });
     },
+    messages() {
+      return this.saving || this.closed
+        ? []
+        : this.errorMessages.concat(this.alertMessages);
+    },
     isNewInstance() {
       return this.newShift.id === "";
-    },
-    defaultStart() {
-      const todaysShifts = this.$store.getters[
-        "contentData/selectedShifts"
-      ].filter((item) => {
-        return isSameDay(item.stopped, new Date());
-      });
-      let defaultStart = new Date();
-      defaultStart.setHours(10, 0, 0);
-      if (todaysShifts.length) {
-        defaultStart = todaysShifts.slice(-1)[0].stopped;
-      }
-      return defaultStart;
     }
   },
   watch: {
     existingShift() {
-      console.log("watcher executed");
       this.initializeNewShift();
+    },
+    showErrors(opened) {
+      console.log("watcher fired");
+      this.closed = !opened;
     }
   },
   created() {
@@ -126,19 +126,18 @@ export default {
       this.newShift =
         this.existingShift !== undefined
           ? this.existingShift.clone()
-          : new Shift({
-              started: this.defaultStart,
-              stopped: addMinutes(this.defaultStart, 30)
-            });
+          : new Shift();
       this.initialContract = this.newShift.contract;
     },
     setScheduledShifts(event) {
       this.scheduledShifts = event;
     },
     closeFn() {
+      this.closed = true;
       this.v$.$reset();
       this.initializeNewShift();
       this.close();
+      this.$emit("close");
     }
   }
 };
