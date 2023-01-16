@@ -33,7 +33,6 @@ const actions = {
 const mutations = {
   setSnack(state, payload) {
     Vue.set(state, "snacks", [...state.snacks, payload]);
-    // state.snackbar = { ...state.snackbar, ...payload };
   },
   removeSnack(state, uuid) {
     state.snacks = state.snacks.filter((snack) => snack.uuid !== uuid);
