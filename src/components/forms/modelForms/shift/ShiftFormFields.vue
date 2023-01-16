@@ -13,7 +13,7 @@
           <ClockCardAlert
             v-if="alertMessages.length > 0"
             :messages="alertMessages"
-            type="error"
+            :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
@@ -120,6 +120,10 @@ export default {
     alertMessages: {
       type: Array,
       default: () => []
+    },
+    alertType: {
+      type: String,
+      default: "alert"
     }
   },
   data() {
@@ -171,18 +175,18 @@ export default {
     }
   },
   created() {
-    this.setWasReviewed(this.shift.started);
+    this.setWasReviewed();
   },
   methods: {
     setTime(event) {
       this.shift.started = event.started;
       this.shift.stopped = event.stopped;
-      this.setWasReviewed(event.started);
+      this.setWasReviewed();
     },
-    setWasReviewed(startDate) {
+    setWasReviewed() {
       // All shifts which have started before now are counted as reviewed true
       // We set that automatically
-      this.shift.wasReviewed = startDate <= new Date();
+      this.shift.wasReviewed = this.shift.started <= new Date();
     }
   }
 };
