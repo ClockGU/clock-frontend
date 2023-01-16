@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     async review() {
-      // eslint-disable-next-line no-unreachable
       this.loading = true;
       try {
         const payloadArray = this.shifts.map((shift) => {
@@ -69,7 +68,6 @@ export default {
         });
         const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
         await this.handleFailedUpdates(updatedShifts);
-        // this.handlesuccessfullUpdates(updatedShifts);
         this.reset();
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
