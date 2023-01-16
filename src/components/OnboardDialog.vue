@@ -29,7 +29,7 @@
           <v-window-item
             v-if="!dsgvoAccepted"
             key="privacy"
-            :value="titles.length - (contractExists ? 2 : 3)"
+            :value="titles.length - 3"
           >
             <GdprAgreementCard
               disable-actions
