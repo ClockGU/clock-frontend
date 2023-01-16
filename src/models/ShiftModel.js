@@ -56,7 +56,7 @@ export class Shift {
     this.stopped =
       is(Date, new Date(stopped)) && stopped !== null
         ? new Date(stopped)
-        : defaultValueTime("end");
+        : defaultValueTime("stop");
     this.contract = is(String, contract) ? contract : "";
     this.type =
       is(String, type) && any(SHIFT_TYPES.map((item) => item.value === type))

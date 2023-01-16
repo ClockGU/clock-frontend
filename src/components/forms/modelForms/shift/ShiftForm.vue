@@ -8,8 +8,7 @@
     ></CardToolbar>
     <ShiftFormFields
       v-model="newShift"
-      :alert-messages="errorMessages.concat(alertMessages)"
-      :time-errors="timeErrors"
+      :alert-messages="messages"
       @scheduleShifts="setScheduledShifts($event)"
     ></ShiftFormFields>
     <FormActions
@@ -45,6 +44,11 @@ export default {
       type: Function,
       required: false,
       default: () => {}
+    },
+    showErrors: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup() {
@@ -56,7 +60,9 @@ export default {
     return {
       newShift: undefined,
       scheduledShifts: undefined,
-      initialContract: ""
+      initialContract: "",
+      saving: false,
+      closed: false
     };
   },
   computed: {
@@ -70,6 +76,11 @@ export default {
         entity: this.$tc("models.shift", 1)
       });
     },
+    messages() {
+      return this.saving || this.closed
+        ? []
+        : this.errorMessages.concat(this.alertMessages);
+    },
     isNewInstance() {
       return this.newShift.id === "";
     }
@@ -77,6 +88,9 @@ export default {
   watch: {
     existingShift() {
       this.initializeNewShift();
+    },
+    showErrors(opened) {
+      this.closed = !opened;
     }
   },
   created() {
@@ -84,12 +98,14 @@ export default {
   },
   methods: {
     async saveShift() {
+      this.saving = true;
       await this.$store.dispatch(
         "contentData/saveShift",
         this.newShift.toPayload()
       );
       this.$emit("save");
       this.closeFn();
+      this.saving = false;
     },
     async deleteShift() {
       await this.$store.dispatch("contentData/deleteShift", this.newShift);
@@ -115,9 +131,11 @@ export default {
       this.scheduledShifts = event;
     },
     closeFn() {
+      this.closed = true;
       this.v$.$reset();
       this.initializeNewShift();
       this.close();
+      this.$emit("close");
     }
   }
 };

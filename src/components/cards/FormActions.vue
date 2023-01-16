@@ -87,11 +87,9 @@ export default {
       } else {
         await this.updateFn();
       }
-      this.closeFn();
     },
     async destroy() {
       await this.deleteFn();
-      this.closeFn();
     },
     close() {
       this.$emit("close");

@@ -15,6 +15,7 @@
           :color="btnColor"
           :text="textButton"
           v-on="on"
+          @click="opened = true"
         >
           {{ buttonText }}
         </v-btn>
@@ -32,9 +33,11 @@
         <ShiftForm
           :existing-shift="shift"
           :close="close"
+          :show-errors="opened"
           @save="$emit('save')"
           @delete="$emit('delete')"
           @update="$emit('update')"
+          @close="opened = false"
         ></ShiftForm>
       </template>
     </TheDialog>
@@ -86,7 +89,8 @@ export default {
         mdiPencil,
         mdiPlus
       },
-      show: this.value
+      show: this.value,
+      opened: true
     };
   },
   computed: {
