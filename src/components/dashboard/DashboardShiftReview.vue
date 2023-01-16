@@ -1,0 +1,40 @@
+<template>
+  <v-card>
+    <v-card-title>
+      {{ $t("dashboard.reviewShifts") }}
+    </v-card-title>
+    <v-card-text>
+      <div v-if="shiftsToReview.length > 0">
+        <v-list>
+          <ReviewShiftListItem
+            v-for="shift in shiftsToReview"
+            :key="shift.id"
+            :shift="shift"
+          >
+          </ReviewShiftListItem>
+        </v-list>
+      </div>
+      <v-container v-else>
+        {{ $t("dashboard.noReviewableShifts") }}
+      </v-container>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script>
+import ReviewShiftListItem from "@/components/shifts/ReviewShiftListItem";
+
+export default {
+  name: "DashboardShiftReview",
+  components: { ReviewShiftListItem },
+  computed: {
+    shiftsToReview() {
+      return this.$store.getters["contentData/selectedShifts"]
+        .filter((shift) => !shift.wasReviewed)
+        .slice(0, 5);
+    }
+  }
+};
+</script>
+
+<style scoped></style>

@@ -157,6 +157,8 @@
     },
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
+    "reviewShifts": "Review past shifts",
+    "noReviewableShifts": "No shifts to review",
     "newShift": { "title": "New shift" },
     "overlaps": {
       "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your time sheet.",
@@ -454,9 +456,12 @@
     },
     "review": {
       "title": "Review shifts",
-      "text": "I confirm that all selected shifts have taken place."
+      "text": "I confirm that all selected shifts have taken place.",
+      "review": "Review",
+      "unableToReview": "Unable to review - Please edit the shift."
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
+    "planned": "The shift takes place in the future and will be saved as planned shift.",
     "reviewErrorPast": "A past shift must be reviewed before saving.",
     "reviewErrorFuture": "A future shift cannot be saved as \"reviewed\".",
     "reviewErrorLive": "A running shift can not be reviewed before its end.",

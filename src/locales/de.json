@@ -157,6 +157,8 @@
     },
     "emptyActivity": "Du hast in diesem Vertrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivitäten",
+    "reviewShifts": "Überprüfe vergangene Schichten",
+    "noReviewableShifts": "Keine Schichten zu überprüfen",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
       "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
@@ -454,9 +456,12 @@
     },
     "review": {
       "title": "Schichten überprüfen",
-      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
+      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben.",
+      "review": "Überprüfen",
+      "unableToReview": "Überprüfen nicht möglich - Bitte bearbeite die Schicht."
     },
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
+    "planned": "Die Schicht liegt in der Zukunft und wird als geplant gespeichert.",
     "reviewErrorPast": "Eine vergangene Schicht kann nur gespeichert werden, wenn sie überprüft wurde.",
     "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als \"überprüft\" gespeichert werden.",
     "reviewErrorLive": "Eine laufende Schicht kann nicht überprüft werden bevor sie beendet ist.",
