@@ -90,12 +90,10 @@ export default {
       this.initializeNewShift();
     },
     showErrors(opened) {
-      console.log("watcher fired");
       this.closed = !opened;
     }
   },
   created() {
-    console.log("created run");
     this.initializeNewShift();
   },
   methods: {
