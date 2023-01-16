@@ -93,7 +93,8 @@
       "dateLabel": "Carryover into this month",
       "timeLabel": "Carryover",
       "timeSubtitle": "Worktime to be carried over (HH:mm)",
-      "locked": "There are locked months. Carryover cannot be modified."
+      "locked": "There are locked months. Carryover cannot be modified.",
+      "info": "Please enter the worktime carryover, which arises for the selected start date."
     },
     "createContract": "Create Contract"
   },

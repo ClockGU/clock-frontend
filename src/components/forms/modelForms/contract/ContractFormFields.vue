@@ -26,13 +26,16 @@
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showCarryover">
-            <ContractFormCarryoverInput
-              :carryover="contract.initialCarryoverMinutes"
-              :carryover-target-date="contract.carryoverTargetDate"
-              :max-date="contract.endDate"
-              :min-date="contract.startDate"
-              @input="setInitialCarryover"
-            ></ContractFormCarryoverInput>
+            <p>
+              {{ $t("contracts.carryover.info") }}
+            </p>
+            <ContractFormTimeInput
+              v-model="contract.initialCarryoverMinutes"
+              :prepend-icon="icons.mdiCalendarClock"
+              :label="$t('contracts.carryover.timeLabel')"
+              :hint="$t('contracts.carryover.timeSubtitle')"
+              allow-negative-values
+            />
           </div>
         </v-expand-transition>
       </v-col>
@@ -51,12 +54,10 @@ import {
   mdiTimetable
 } from "@mdi/js";
 import ContractNameInput from "@/components/contracts/ContractNameInput";
-import ContractFormCarryoverInput from "@/components/contracts/ContractFormCarryoverInput";
 
 export default {
   name: "ContractFormFields",
   components: {
-    ContractFormCarryoverInput,
     ContractNameInput,
     ContractDurationInput,
     ContractFormTimeInput
