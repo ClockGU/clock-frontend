@@ -13,7 +13,7 @@
           <ClockCardAlert
             v-if="alertMessages.length > 0"
             :messages="alertMessages"
-            type="error"
+            :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
@@ -120,6 +120,10 @@ export default {
     alertMessages: {
       type: Array,
       default: () => []
+    },
+    alertType: {
+      type: String,
+      default: "alert"
     }
   },
   data() {
