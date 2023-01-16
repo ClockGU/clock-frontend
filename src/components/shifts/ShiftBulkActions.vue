@@ -13,7 +13,7 @@
         <ShiftBulkActionsDialogReview
           v-if="canReview"
           :shifts="shifts"
-          @reset="$emit('refresh')"
+          @reset="resetFn()"
         >
           <template #activator="{ on }">
             <v-btn :disabled="!reviewable" icon v-on="on">
@@ -97,7 +97,7 @@ export default {
   }),
   computed: {
     reviewable() {
-      return this.shifts.filter((shift) => shift.reviewed === false).length;
+      return this.shifts.filter((shift) => shift.wasReviewed === false).length;
     },
     durationSum() {
       let sum = 0;

@@ -216,7 +216,8 @@
     },
     "snackbar": {
       "error": "Please try again later.",
-      "success": "We have received your message. Thank you!"
+      "success": "We have received your message. Thank you!",
+      "reviewError": "An error occured. Pleasy modify the shift of {dateAndTime} before reviewing."
     },
     "text": "Send us any feedback you have. We appreciate all comments!",
     "title": "Feedback",

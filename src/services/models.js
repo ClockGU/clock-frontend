@@ -68,11 +68,11 @@ class modelService {
       for (const obj of payloadArray) {
         promises.push(this.update(obj, obj.id));
       }
-      return Promise.all(promises).then((values) => {
+      return Promise.allSettled(promises).then((values) => {
         return values;
       });
     } catch (e) {
-      throw Error(e.message);
+      throw Error(e);
     }
   }
   static async bulkDelete(payloadArray) {
