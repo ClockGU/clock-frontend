@@ -28,8 +28,9 @@
 
 <script>
 import { minutesToHHMM, validateWorktimeInput } from "@/utils/time";
-import { required } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import { mdiCalendarClock, mdiTimetable } from "@mdi/js";
+import { useVuelidate } from "@vuelidate/core";
 
 const timeNotZero = (value) => value !== "00:00";
 const timeValid = (value) => {
@@ -57,18 +58,31 @@ const timeNotNegative = (value) => {
 
 export default {
   name: "ContractFormTimeInput",
-  validations: {
-    data: {
-      required,
-      timeNotZero,
-      timeValid,
-      timeNotNegative
-    }
+  validations() {
+    return {
+      data: {
+        required: helpers.withMessage(
+          this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") }),
+          required
+        ),
+        timeNotZero: helpers.withMessage(
+          this.$t("errors.durationBiggerZero", {
+            name: this.$tc("errors.hours")
+          }),
+          timeNotZero
+        ),
+        timeValid: helpers.withMessage(this.$t("errors.timeFormat"), timeValid),
+        timeNotNegative: helpers.withMessage(
+          this.$t("errors.notNegative"),
+          timeNotNegative
+        )
+      }
+    };
   },
   props: {
     value: {
-      type: Number,
-      default: 0
+      type: [Number, String],
+      default: null
     },
     prependIcon: {
       type: String,
@@ -91,6 +105,11 @@ export default {
       default: false
     }
   },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
+  },
   data: () => ({
     menu: false,
     data: null,
@@ -98,51 +117,51 @@ export default {
   }),
   computed: {
     timeErrors() {
-      // if (!this.$v.data.$dirty) return errors;
-      // !this.$v.data.required &&
-      //   errors.push(
-      //     this.$tc("errors.nameRequired", 1, {
-      //       name: this.$t("errors.hours")
-      //     })
-      //   );
-      // // skip that one as it yet interferes with the versatile parser
-      // // the parser should not return invalid worktimes although it is less transparent
-      // // !this.$v.data.timeValid && errors.push(this.$t("errors.timeFormat"));
-      // !this.allowNegativeValues &&
-      //   !this.$v.data.timeNotNegative &&
-      //   errors.push(this.$t("errors.notNegative"));
-      // !this.$v.data.timeNotZero &&
-      //   errors.push(
-      //     this.$t("errors.durationBiggerZero", {
-      //       name: this.$tc("errors.hours")
-      //     })
-      //   );
-      return [];
+      let errors = [];
+      if (!this.v$.data.$dirty) return errors;
+      if (this.v$.data.$error) {
+        for (let error of this.v$.data.$errors) {
+          errors.push(error.$message);
+        }
+      }
+      return errors;
     }
   },
   watch: {
     value(val) {
-      this.data = val === 0 ? "" : minutesToHHMM(val);
+      try {
+        validateWorktimeInput(minutesToHHMM(val));
+      } catch {
+        console.log("caught");
+        this.data = val;
+        return;
+      }
+      this.data = val === null ? "" : minutesToHHMM(val);
+      console.log("updated", this.data);
     }
   },
   created() {
-    this.data = this.value === 0 ? "" : minutesToHHMM(this.value);
+    this.data = this.value === 0 ? null : minutesToHHMM(this.value);
   },
   methods: {
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
-      // this.v$.data.$touch();
+      this.v$.data.$touch();
     },
     updateData(event) {
       let minutes = 0;
       try {
         minutes = validateWorktimeInput(event);
+        console.log(minutes);
       } catch {
         if (event === "") {
-          this.$emit("input", 0);
+          this.$emit("input", null);
           return;
         }
+        console.log("here");
+        this.$emit("input", event);
+        return;
       }
       this.$emit("input", minutes);
     }
