@@ -132,12 +132,10 @@ export default {
       try {
         validateWorktimeInput(minutesToHHMM(val));
       } catch {
-        console.log("caught");
         this.data = val;
         return;
       }
       this.data = val === null ? "" : minutesToHHMM(val);
-      console.log("updated", this.data);
     }
   },
   created() {
@@ -153,13 +151,11 @@ export default {
       let minutes = 0;
       try {
         minutes = validateWorktimeInput(event);
-        console.log(minutes);
       } catch {
         if (event === "") {
           this.$emit("input", null);
           return;
         }
-        console.log("here");
         this.$emit("input", event);
         return;
       }

@@ -18,7 +18,7 @@
       :delete-fn="deleteContract"
       :close-fn="closeFn"
       :update-fn="updateContract"
-      :disable-save="false"
+      :disable-save="!valid"
       :is-new-instance="isNewInstance"
       model-name="contract"
       :disable-cancle="disableCancel"
