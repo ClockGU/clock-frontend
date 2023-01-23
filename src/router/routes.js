@@ -3,7 +3,6 @@ const ViewLogin = () => import("@/views/ViewLogin");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
 const ViewShifts = () => import("@/views/ViewShifts");
 const ViewContractList = () => import("@/views/ViewContractList");
-const ViewHelp = () => import("@/views/ViewHelp");
 const Settings = () => import("@/views/Settings");
 const ViewDebug = () => import("@/views/ViewDebug");
 const Landing = () => import("@/views/Landing");
@@ -69,14 +68,6 @@ export const routes = [
         name: "loggingIn",
         component: LoggingIn,
         meta: { public: true, onlyWhenLoggedOut: true }
-      },
-      {
-        path: "/help",
-        name: "help",
-        component: ViewHelp,
-        meta: {
-          public: true
-        }
       },
       {
         path: "/dashboard/:contract?",

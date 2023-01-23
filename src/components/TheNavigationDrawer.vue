@@ -109,7 +109,6 @@ import {
   mdiFormatListNumbered,
   mdiFileChart,
   mdiHelp,
-  mdiBackupRestore,
   mdiLogout
 } from "@mdi/js";
 
@@ -156,12 +155,6 @@ export default {
           text: "FAQ",
           to: { name: "faq" },
           icon: mdiHelp,
-          loggedOut: true
-        },
-        {
-          text: this.$t("app.reset"),
-          to: { name: "help" },
-          icon: mdiBackupRestore,
           loggedOut: true
         }
       ];
