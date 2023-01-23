@@ -262,11 +262,6 @@
     "download": "Du kannst hier alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON-Datenformat.",
     "suffix": "DSGVO"
   },
-  "help": {
-    "title": "App zurücksetzen",
-    "blurb1": "Wenn es bei der Benutzung von Clock Probleme gibt, kannst Du die App auf die Grundeinstellungen zurücksetzen. Du wirst dabei ausgeloggt.",
-    "blurb2": "Es werden KEINE Daten gelöscht, alle Schichten und Verträge bleiben unberührt."
-  },
   "hero": {
     "slogan": "Bring Deine Stundenzettel unter Kontrolle",
     "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
