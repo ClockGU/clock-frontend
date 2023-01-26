@@ -157,7 +157,6 @@
         @click:outside="personnelNumberDialog = false"
         ><PersonnelNumberForm dialog @close="personnelNumberDialog = false"
       /></v-dialog>
-      <FeedbackMenu />
     </v-card>
   </v-dialog>
 </template>
@@ -171,7 +170,6 @@ import {
   mdiRecord
 } from "@mdi/js";
 
-import FeedbackMenu from "@/components/FeedbackMenu";
 import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
 import CardToolbar from "@/components/cards/CardToolbar";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
@@ -183,7 +181,6 @@ export default {
   components: {
     PersonnelNumberForm,
     ContractFormDialog,
-    FeedbackMenu,
     GdprAgreementCard,
     CardToolbar
   },
