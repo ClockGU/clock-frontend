@@ -136,6 +136,7 @@ export default {
           endDate.setMonth(startDate.getMonth());
           endDate.setYear(startDate.getFullYear());
           let shift = this.shift.clone();
+          startDate.setHours(this.shift.started.getHours());
           shift.started = startDate;
           shift.stopped = endDate;
           shift.wasReviewed = false;
