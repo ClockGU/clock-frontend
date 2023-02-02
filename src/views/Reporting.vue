@@ -89,7 +89,7 @@ import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
 import { firstOfMonth, localizedFormat } from "@/utils/date";
-import { isSameDay, isSameMonth } from "date-fns";
+import { addMonths, isSameDay, isSameMonth } from "date-fns";
 
 export default {
   name: "Reporting",
@@ -144,7 +144,7 @@ export default {
         const lockedShifts = this.selectedShifts.filter((shift) => {
           return isSameMonth(report.monthYear, shift.started) && shift.locked;
         });
-        if (lockedShifts > 0) {
+        if (lockedShifts.length > 0) {
           months.push(report.monthYear);
         }
       });
@@ -156,7 +156,7 @@ export default {
         return isSameMonth(this.date, this.selectedReports[0].monthYear);
       }
       return isSameMonth(
-        this.lockedMonths[this.lockedMonths.length - 1],
+        addMonths(this.lockedMonths[this.lockedMonths.length - 1], 1),
         this.date
       );
     },
