@@ -77,7 +77,7 @@ export default {
         mdiCalendar,
         mdiCalendarClock
       },
-      showCarryover: false
+      showCarryover: this.value.initialCarryoverMinutes !== 0
     };
   },
   computed: {
