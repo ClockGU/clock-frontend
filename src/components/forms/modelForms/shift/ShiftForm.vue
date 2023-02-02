@@ -30,6 +30,7 @@ import FormActions from "@/components/cards/FormActions";
 import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
@@ -50,6 +51,11 @@ export default {
       required: false,
       default: false
     }
+  },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data() {
     return {
