@@ -15,11 +15,11 @@ export default {
     validateDurationAndExistingShifts() {
       let shifts = this.shiftsThisContract;
       for (var shift of shifts) {
-        if (this.newContract.startDate > shift.started) {
-          return "Start date cannot be after an existing shift";
-        }
-        if (this.newContract.endDate < shift.stopped) {
-          return "End Date cannot be before an existing shift";
+        if (
+          this.newContract.startDate > shift.started ||
+          this.newContract.endDate < shift.stopped
+        ) {
+          return this.$t("contracts.errors.shiftOutOfScope");
         }
       }
     },
