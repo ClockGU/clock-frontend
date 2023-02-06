@@ -5,7 +5,6 @@ export default {
     errorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateDurationAndExistingShifts);
-      errorMessages.push(undefined);
       return errorMessages.filter((message) => message !== undefined);
     },
     valid() {
@@ -23,9 +22,6 @@ export default {
           return "End Date cannot be before an existing shift";
         }
       }
-    },
-    reportsThisContract() {
-      return store.getters["contentData/getReportsFromContract"];
     },
     shiftsThisContract() {
       return store.getters["contentData/allShifts"].filter((shift) => {

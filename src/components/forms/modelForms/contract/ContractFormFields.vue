@@ -12,7 +12,7 @@
           :prepend-icon="icons.mdiTimetable"
           :label="worktimeLabel"
           :hint="worktimeHint"
-          :disabled="false"
+          :disabled="areLockedShiftsInThisContract"
         />
       </v-col>
       <v-col cols="12">
@@ -64,6 +64,7 @@ import {
 } from "@mdi/js";
 import ContractNameInput from "@/components/contracts/ContractNameInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
+import store from "@/store";
 
 export default {
   name: "ContractFormFields",
@@ -105,6 +106,12 @@ export default {
     },
     worktimeHint() {
       return this.$t("contracts.hoursPerMonthSubtitle");
+    },
+    areLockedShiftsInThisContract() {
+      let shifts = store.getters["contentData/allShifts"].filter((shift) => {
+        return shift.contract === this.value.id && shift.locked;
+      });
+      return shifts.length !== 0;
     }
   },
   watch: {
