@@ -1,48 +1,36 @@
-import { useVuelidate } from "@vuelidate/core";
 import store from "@/store";
 
 export default {
-  setup() {
-    return {
-      v$: useVuelidate()
-    };
-  },
   computed: {
     errorMessages() {
       let errorMessages = [];
-      errorMessages.push(this.validateStartDate);
+      errorMessages.push(this.validateDurationAndExistingShifts);
+      errorMessages.push(undefined);
       return errorMessages.filter((message) => message !== undefined);
     },
     valid() {
       return (
-        !this.v$.$silentErrors.length > 0 || this.errorMessages.length === 0
+        !this.v$.$silentErrors.length > 0 && this.errorMessages.length === 0
       );
     },
-    validateStartDate() {
-      let shifts = this.shiftsThisReport;
-      console.log("this.newContract.startDate: " + this.newContract.startDate);
+    validateDurationAndExistingShifts() {
+      let shifts = this.shiftsThisContract;
       for (var shift of shifts) {
-        console.log("shift.started: " + shift.started);
         if (this.newContract.startDate > shift.started) {
-          console.log("Start date cannot be after an existing shift");
           return "Start date cannot be after an existing shift";
+        }
+        if (this.newContract.endDate < shift.stopped) {
+          return "End Date cannot be before an existing shift";
         }
       }
     },
     reportsThisContract() {
-      let reportsOfThisContract =
-        store.getters["contentData/getReportsFromContract"];
-      console.log("reportsOfThisContract: " + reportsOfThisContract);
-      return reportsOfThisContract;
+      return store.getters["contentData/getReportsFromContract"];
     },
-    shiftsThisReport() {
-      let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
-        (shift) => {
-          return shift.contract === this.newContract.id;
-        }
-      );
-      console.log("allShiftsByThisUser: " + allShiftsByThisUser);
-      return allShiftsByThisUser;
+    shiftsThisContract() {
+      return store.getters["contentData/allShifts"].filter((shift) => {
+        return shift.contract === this.newContract.id;
+      });
     }
   }
 };
