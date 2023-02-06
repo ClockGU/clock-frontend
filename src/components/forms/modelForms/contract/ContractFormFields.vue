@@ -19,6 +19,15 @@
         <ContractNameInput v-model="contract.name"></ContractNameInput>
       </v-col>
       <v-col cols="12">
+        <v-expand-transition hide-on-leave>
+          <ClockCardAlert
+            v-if="alertMessages.length > 0"
+            :messages="alertMessages"
+            :type="alertType"
+          ></ClockCardAlert>
+        </v-expand-transition>
+      </v-col>
+      <v-col cols="12">
         <v-checkbox
           v-model="showCarryover"
           :label="$t('contracts.carryover.checkboxLabel')"
@@ -54,18 +63,28 @@ import {
   mdiTimetable
 } from "@mdi/js";
 import ContractNameInput from "@/components/contracts/ContractNameInput";
+import ClockCardAlert from "@/components/ClockCardAlert";
 
 export default {
   name: "ContractFormFields",
   components: {
     ContractNameInput,
     ContractDurationInput,
-    ContractFormTimeInput
+    ContractFormTimeInput,
+    ClockCardAlert
   },
   props: {
     value: {
       type: Contract,
       required: true
+    },
+    alertMessages: {
+      type: Array,
+      default: () => []
+    },
+    alertType: {
+      type: String,
+      default: "alert"
     }
   },
   data() {
