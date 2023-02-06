@@ -1,35 +1,43 @@
 <template>
-  <TheDialog
-    :value="show"
-    :fullscreen="$vuetify.breakpoint.smAndDown"
-    :max-width="600"
-    :persistent="false"
-    @close="$emit('close')"
-  >
-    <template #activator="{ on }">
-      <v-btn
-        v-if="!icon && !disableActivator"
-        :disabled="disabled"
-        :color="btnColor"
-        :text="textButton"
-        v-on="on"
-      >
-        {{ buttonText }}
-      </v-btn>
-      <v-btn
-        v-if="icon && !disableActivator"
-        :disabled="disabled"
-        :color="btnColor"
-        icon
-        v-on="on"
-      >
-        <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
-      </v-btn>
-    </template>
-    <template #content="{ events: { close } }">
-      <ContractForm :existing-contract="contract" :close="close"></ContractForm>
-    </template>
-  </TheDialog>
+  <div>
+    <TheDialog
+      :value="show"
+      :fullscreen="$vuetify.breakpoint.smAndDown"
+      :max-width="600"
+      :persistent="false"
+      @close="$emit('close')"
+    >
+      <template #activator="{ on }">
+        <v-btn
+          v-if="!icon && !disableActivator"
+          :disabled="disabled"
+          :color="btnColor"
+          :text="textButton"
+          v-on="on"
+          @click="opened = true"
+        >
+          {{ buttonText }}
+        </v-btn>
+        <v-btn
+          v-if="icon && !disableActivator"
+          :disabled="disabled"
+          :color="btnColor"
+          icon
+          v-on="on"
+        >
+          <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
+        </v-btn>
+      </template>
+      <template #content="{ events: { close } }">
+        <ContractForm
+          :existing-contract="contract"
+          :close="close"
+          :show-errors="opened"
+          @close="opened = false"
+        ></ContractForm>
+      </template>
+    </TheDialog>
+  </div>
 </template>
 
 <script>
@@ -78,7 +86,8 @@ export default {
         mdiPencil,
         mdiPlus
       },
-      show: this.value
+      show: this.value,
+      opened: true
     };
   },
   computed: {

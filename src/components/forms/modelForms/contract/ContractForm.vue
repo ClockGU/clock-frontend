@@ -62,6 +62,11 @@ export default {
     disableCancel: {
       type: Boolean,
       default: false
+    },
+    showErrors: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup() {
@@ -72,6 +77,7 @@ export default {
   data() {
     return {
       newContract: undefined,
+      saving: false,
       closed: false
     };
   },
@@ -90,9 +96,7 @@ export default {
       });
     },
     messages() {
-      return this.saving || this.closed
-        ? []
-        : this.errorMessages.concat(this.alertMessages);
+      return this.saving || this.closed ? [] : this.errorMessages;
     }
   },
   watch: {
@@ -108,12 +112,14 @@ export default {
   },
   methods: {
     async saveContract() {
+      this.saving = true;
       const savedContract = await ContractService.create(
         this.newContract.toPayload()
       );
       this.$store.commit("contentData/addContract", savedContract);
       await this.updateContractReports(savedContract);
       this.closeFn();
+      this.saving = false;
     },
     async deleteContract() {
       await ContractService.delete(this.newContract.id);
