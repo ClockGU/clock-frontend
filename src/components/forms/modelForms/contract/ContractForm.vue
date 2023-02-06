@@ -12,7 +12,11 @@
       :close-action="!disableCancel"
       @close="closeFn"
     ></CardToolbar>
-    <ContractFormFields v-model="newContract"></ContractFormFields>
+    <ContractFormFields
+      v-model="newContract"
+      :alert-messages="messages"
+      :alert-type="'error'"
+    ></ContractFormFields>
     <FormActions
       :create-fn="saveContract"
       :delete-fn="deleteContract"
@@ -67,7 +71,8 @@ export default {
   },
   data() {
     return {
-      newContract: undefined
+      newContract: undefined,
+      closed: false
     };
   },
   computed: {
@@ -83,6 +88,19 @@ export default {
       return this.$t("forms.titleUpdate", {
         entity: this.$tc("models.contract", 1)
       });
+    },
+    messages() {
+      return this.saving || this.closed
+        ? []
+        : this.errorMessages.concat(this.alertMessages);
+    }
+  },
+  watch: {
+    existingContract() {
+      this.initializeNewContract();
+    },
+    showErrors(opened) {
+      this.closed = !opened;
     }
   },
   created() {
@@ -123,6 +141,7 @@ export default {
           : new Contract();
     },
     closeFn() {
+      this.closed = true;
       this.v$.$reset();
       this.initializeNewContract();
       this.close();
