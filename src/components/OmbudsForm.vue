@@ -9,12 +9,13 @@
       </div>
       <br />
       <div>
-        {{ $t("ombuds.linkText") }}
-        <a
-          href="https://www.uni-frankfurt.de/97234850/Ombudspersonen_f%C3%BCr_Studierende_und_wissenschaftliche_Mitarbeiter_innen_sowie_f%C3%BCr_studentische_und_wissenschaftliche_Hilfskr%C3%A4fte"
+        <base-link
+          class="text-no-wrap"
+          :href="$t('ombuds.url')"
           target="_blank"
-          >Website</a
         >
+          {{ $t("ombuds.linkText") }}
+        </base-link>
       </div>
       <br />
       <v-form>
