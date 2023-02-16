@@ -198,7 +198,7 @@
   },
   "errors": {
     "contractName": "Der Name des Vertrags",
-    "DurationBiggerZero": "{name} darf nicht Null sein.",
+    "durationBiggerZero": "{name} darf nicht Null sein.",
     "hours": "Die Stundenangabe",
     "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
@@ -336,7 +336,7 @@
       },
       "3": {
         "title": "Schichten",
-        "text": "Eine zusammenhängende Arbeitszeit ist eine 'Schicht'. Du kannst Schichten direkt 'clocken ' oder von Hand hinzufügen und sogar im Voraus planen. Eine geplante Schicht muss überprüft werden nachdem sie stattgefunden hat.",
+        "text": "Eine zusammenhängende Arbeitszeit ist eine 'Schicht'. Du kannst Schichten direkt 'clocken' oder von Hand hinzufügen und sogar im Voraus planen. Eine geplante Schicht muss überprüft werden nachdem sie stattgefunden hat.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
@@ -414,7 +414,7 @@
     "account": {
       "dialogTitle": "@:app.account @.lower:actions.delete?",
       "dialogText": "Gib zur Bestätigung bitte deine E-Mail Adresse {email} ein.",
-      "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten, die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können! du kannst jederzeit wieder einen neuen (leeren) Account anlegen.",
+      "text": "Du kannst deinen Account jederzeit löschen. Damit löscht du alle Daten, die wir für dich aufbewahren. Sei dir bitte bewusst, dass wir deinen Account nicht wiederherstellen können! Du kannst jederzeit wieder einen neuen (leeren) Account anlegen.",
       "tryAgainLater": "Bitte probiere es zu einem späteren Zeitpunkt nochmal."
     },
     "language": {
@@ -518,7 +518,7 @@
     "date": "Datum",
     "start": "Start",
     "end": "Ende",
-    "Duration": "Dauer",
+    "duration": "Dauer",
     "reviewed": "Überprüft"
   },
   "faq": {

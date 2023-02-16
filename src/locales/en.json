@@ -45,7 +45,7 @@
     "onboarding": "Onboarding",
     "privacy": "Privacy",
     "privacyagreement": "Privacy agreement",
-    "reports": "timesheets",
+    "reports": "Timesheets",
     "settings": "Settings",
     "shifts": "Shift",
     "language": "Language",
@@ -336,7 +336,7 @@
       },
       "3": {
         "title": "Shifts",
-        "text": "A consecutive working time is called 'Shift'. You can clock Shifts directly in real time on the Dashboard or you can add them manually and schedule Shifts in advance. A Scheduled Shift must be reviewed when it is done.",
+        "text": "A consecutive working time is called 'Shift'. You can clock Shifts directly in real time on the Dashboard or you can add them manually and schedule Shifts in advance. A scheduled Shift must be reviewed when it is done.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
@@ -500,7 +500,7 @@
       "exclusiveSick": "You can not combine 'sick' shifts with other shifts on the same day.",
       "overlappingStarted": "The start time is within the period of an existing and reviewed shift.",
       "overlappingStopped": "The end time is within the period of an already existing and reviewed shift.",
-      "eightTwentyRule": "As a rule, student workers should not be obliged to work before 8 am and after 20pm.",
+      "eightTwentyRule": "As a rule, student workers should not be obliged to work before 08:00 and after 20:00.",
       "autoworking timeCutting": "Mandatory breaktimes are missing on this workday. Clock will subtract the legally required breaktimes automatically from your working time."
     },
     "hints": {
