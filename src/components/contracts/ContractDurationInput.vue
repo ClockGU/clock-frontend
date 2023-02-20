@@ -16,7 +16,6 @@
       <ContractFormDateInput
         v-model="end"
         :min="minEndDate"
-        :max="maxEndDate"
         type="end"
         :disabled="disabled"
       />
@@ -26,7 +25,7 @@
 
 <script>
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
-import { addMonths, format } from "date-fns";
+import { format } from "date-fns";
 import { lastOfMonth } from "@/utils/date";
 
 export default {
@@ -54,9 +53,6 @@ export default {
     },
     minEndDate() {
       return format(lastOfMonth, "yyyy-MM-dd");
-    },
-    maxEndDate() {
-      return format(addMonths(this.start, 7), "yyyy-MM-dd");
     }
   },
   watch: {
