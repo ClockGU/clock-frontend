@@ -13,6 +13,7 @@
           :label="worktimeLabel"
           :hint="worktimeHint"
           :disabled="areLockedShiftsInThisContract"
+          required
         />
       </v-col>
       <v-col cols="12">
