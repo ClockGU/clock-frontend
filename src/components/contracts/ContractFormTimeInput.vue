@@ -1,29 +1,16 @@
 <template>
-  <v-menu
-    ref="menu"
-    v-model="menu"
-    :close-on-content-click="false"
-    transition="scale-transition"
-    offset-y
-  >
-    <template #activator="{ attrs }">
-      <v-text-field
-        :value="data"
-        :prepend-icon="prependIcon"
-        :label="label"
-        :hint="hint"
-        :disabled="disabled"
-        persistent-hint
-        filled
-        required
-        :error-messages="timeErrors"
-        v-bind="attrs"
-        @blur="setTime"
-        @focus="$event.target.select()"
-        @focusout="updateData($event.target.value)"
-      ></v-text-field>
-    </template>
-  </v-menu>
+  <v-text-field
+    :value="data"
+    :prepend-icon="prependIcon"
+    :label="label"
+    :hint="hint"
+    :disabled="disabled"
+    persistent-hint
+    filled
+    required
+    :error-messages="timeErrors"
+    @blur="updateData($event.target.value)"
+  ></v-text-field>
 </template>
 
 <script>
@@ -32,39 +19,38 @@ import { required, helpers } from "@vuelidate/validators";
 import { mdiCalendarClock, mdiTimetable } from "@mdi/js";
 import { useVuelidate } from "@vuelidate/core";
 
-const timeNotZero = (value) => value !== "00:00";
+const timeNotZero = (value) => !helpers.req(value) || value !== "00:00";
 const timeValid = (value) => {
   try {
-    return value.split(":")[1] <= parseInt(59);
+    return !helpers.req(value) || value.split(":")[1] <= parseInt(59);
   } catch {
     return false;
   }
 };
 const timeNotNegative = (value) => {
+  if (value === null) return true;
+  let result;
   if (value.includes(",")) {
     try {
-      return parseFloat(value) >= 0;
+      result = parseFloat(value) >= 0;
     } catch {
-      return false;
+      result = false;
     }
   } else {
     try {
-      return value.split(":")[0] >= 0;
+      result = value.split(":")[0] >= 0;
     } catch {
-      return false;
+      result = false;
     }
   }
+  return !helpers.req(value) || result;
 };
 
 export default {
   name: "ContractFormTimeInput",
   validations() {
-    return {
+    let validations = {
       data: {
-        required: helpers.withMessage(
-          this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") }),
-          required
-        ),
         timeNotZero: helpers.withMessage(
           this.$t("errors.durationBiggerZero", {
             name: this.$tc("errors.hours")
@@ -78,6 +64,13 @@ export default {
         )
       }
     };
+    if (this.required) {
+      validations.data.required = helpers.withMessage(
+        this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") }),
+        required
+      );
+    }
+    return validations;
   },
   props: {
     value: {
@@ -103,6 +96,10 @@ export default {
     allowNegativeValues: {
       type: Boolean,
       default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   setup() {
@@ -110,11 +107,16 @@ export default {
       v$: useVuelidate()
     };
   },
-  data: () => ({
-    menu: false,
-    data: null,
-    icons: { mdiTimetable, mdiCalendarClock }
-  }),
+  data() {
+    return {
+      menu: false,
+      data: null,
+      icons: {
+        mdiTimetable,
+        mdiCalendarClock
+      }
+    };
+  },
   computed: {
     timeErrors() {
       let errors = [];
@@ -149,6 +151,7 @@ export default {
     },
     updateData(event) {
       let minutes = 0;
+      this.v$.data.$touch();
       try {
         minutes = validateWorktimeInput(event);
       } catch {
