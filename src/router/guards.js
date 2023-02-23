@@ -15,7 +15,6 @@ export async function initializeDataGuard(to, from, next) {
     selectedContract === undefined ||
     store.getters["contentData/contractById"](selectedContract.id) === undefined
   ) {
-    console.log("ran");
     const contract = getContractWithLastActivity({
       shifts: store.getters["contentData/allShifts"],
       contracts: store.getters["contentData/allContracts"]

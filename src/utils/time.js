@@ -106,7 +106,6 @@ export function validateWorktimeInput(value) {
 
   // Convert hours and minutes from strings to integers
   let retValue = parseInt(hours) * 60 + parseInt(minutes);
-  console.log(hours, minutes, retValue);
   validateMinutes(minutes);
 
   // handle negative values
@@ -127,7 +126,7 @@ export function parseString(value) {
 
   // If the previous minutes were unset or equal to "00", set them to the new
   // value.
-  if (minutes === "00" || minutes == "") {
+  if (minutes === "00" || minutes === "") {
     minutes = newMinutes;
   }
 
@@ -168,7 +167,7 @@ export function parseStringWithoutColon(value) {
 }
 
 export function parseDublet(value) {
-  // Assume we are only handling a hour value.
+  // Assume we are only handling an hour value.
   const hours = value;
   const minutes = "00";
 
@@ -199,7 +198,7 @@ export function timedeltaToMinutes(timedelta) {
   let days = 0;
   let timeString = splitTimedelta[0];
 
-  if (splitTimedelta.length == 2) {
+  if (splitTimedelta.length === 2) {
     [days, timeString] = splitTimedelta;
   }
   // eslint-disable-next-line no-unused-vars
@@ -245,7 +244,7 @@ export function startEndHours(date) {
     // At the beginning of the day, go one hour to the front.
     start.setHours(0);
     end.setHours(1);
-  } else if (hours == 23) {
+  } else if (hours === 23) {
     // At the end of the day, go one hour back from the last possible time.
     start.setHours(22);
     start.setMinutes(59);
