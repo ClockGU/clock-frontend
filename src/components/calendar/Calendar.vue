@@ -152,7 +152,7 @@ export default {
       return this.visibleShifts.map((shift) => {
         const duration =
           this.type === "month"
-            ? "- " + shift.representationalDuration()
+            ? "| " + shift.representationalDuration()
             : shift.representationalDuration();
 
         return {
