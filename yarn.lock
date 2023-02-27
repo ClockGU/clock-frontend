@@ -2895,7 +2895,7 @@ astral-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-astronomia@^4.1.0:
+astronomia@^4.1.0, astronomia@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/astronomia/-/astronomia-4.1.1.tgz#9ad4d3cd1dc8135b7c9e5cee37cb77160ee7af7f"
   integrity sha512-TcJD9lUC5eAo0/Ji7rnQauX/yQbi0yZWM+JsNr77W3OA5fsrgvuFgubLMFwfw4VlZ29cu9dG/yfJbfvuTSftjg==
@@ -3236,12 +3236,12 @@ bytes@3.1.2:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.2.tgz#8b0beeb98605adf1b128fa4386403c009e0221a5"
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
 
-caldate@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/caldate/-/caldate-2.0.3.tgz#8c5f4ebd9c22404c07c58b07d300aadb90bab240"
-  integrity sha512-5YqrhvP/4lVmg6JlyFff0RXUxwWY8E2B6L6AfAsABMOL/eJ60o7bRnxys847bdjxxYXxHurYMqSRDc62+vrgyQ==
+caldate@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/caldate/-/caldate-2.0.4.tgz#869f00888e962121327d0d2c365d37f9fd562ebd"
+  integrity sha512-EtSyLpXDMAfc2PorMuQCvvfO4QP1H+uTuonzmtvk23sWNB/1oCj+skskw1GEQMlzcGvQrVCFIt58/4BVRWhGdw==
   dependencies:
-    moment-timezone "^0.5.34"
+    moment-timezone "^0.5.39"
 
 call-bind@^1.0.0:
   version "1.0.2"
@@ -3937,26 +3937,26 @@ date-fns@2.16.1:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
   integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
 
-date-holidays-parser@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/date-holidays-parser/-/date-holidays-parser-3.4.1.tgz#6df0513db6c1a64cc79c7bc33096bcdf3167a7ef"
-  integrity sha512-mXoTd8Cp2OAyf1PSimCWmWUpQYJDCxB6j2c6SpFXHYi8natxlE0boGb+5S+X52OyzExzO9RbxSi3FvcV3GqT3g==
+date-holidays-parser@^3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/date-holidays-parser/-/date-holidays-parser-3.4.3.tgz#549ad006521749c078a45ec32f5c2ce316938e25"
+  integrity sha512-o2GYEQC1Ytypz7svRFwKO9DEyg3yc2ZwMJnIVIUU6NDOpsknsewt+QilU/z/nHzI1qj13zVIvFIHgEnjg6neVA==
   dependencies:
-    astronomia "^4.1.0"
-    caldate "^2.0.3"
+    astronomia "^4.1.1"
+    caldate "^2.0.4"
     date-bengali-revised "^2.0.2"
     date-chinese "^2.1.4"
     date-easter "^1.0.2"
     deepmerge "^4.2.2"
     jalaali-js "^1.2.6"
-    moment-timezone "^0.5.34"
+    moment-timezone "^0.5.39"
 
-date-holidays@^3.16.1:
-  version "3.16.1"
-  resolved "https://registry.yarnpkg.com/date-holidays/-/date-holidays-3.16.1.tgz#38cb4d8c64ae47f6294555ca998b2de2ad04d595"
-  integrity sha512-0DhPUn6QI6/EfKx+OSVkixo1Jq7PdkCaULj9rYZLjuh+MQYuxar3cMrANHGrAwilI2X4SdByyQTYhotBHgcm6A==
+date-holidays@^3.16.17:
+  version "3.16.17"
+  resolved "https://registry.yarnpkg.com/date-holidays/-/date-holidays-3.16.17.tgz#a3ae8cfaa81eef12ba8053cf5a2962239b8082e6"
+  integrity sha512-sKp0pWC9MGpxoJZBwVSF20zhpd14FUMoOo40IcZsN9MnX8/djtA/Rh+pKkO4DCzsqiiLTChunwqG4E0mM94iaQ==
   dependencies:
-    date-holidays-parser "^3.4.1"
+    date-holidays-parser "^3.4.3"
     js-yaml "^4.1.0"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
@@ -6656,17 +6656,17 @@ module-alias@^2.2.2:
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
 
-moment-timezone@^0.5.34:
-  version "0.5.34"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.34.tgz#a75938f7476b88f155d3504a9343f7519d9a405c"
-  integrity sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==
+moment-timezone@^0.5.39:
+  version "0.5.41"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.41.tgz#a7ad3285fd24aaf5f93b8119a9d749c8039c64c5"
+  integrity sha512-e0jGNZDOHfBXJGz8vR/sIMXvBIGJJcqFjmlg9lmE+5KX1U7/RZNMswfD8nKnNCnQdKTIj50IaRKwl1fvMLyyRg==
   dependencies:
-    moment ">= 2.9.0"
+    moment "^2.29.4"
 
-"moment@>= 2.9.0":
-  version "2.29.3"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
-  integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 mrmime@^1.0.0:
   version "1.0.1"
