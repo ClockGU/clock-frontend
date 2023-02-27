@@ -47,7 +47,7 @@
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",
     "@mdi/js": "6.6.96",
-    "@sentry/webpack-plugin": "1.14.0",
+    "@sentry/webpack-plugin": "1.20.0",
     "@vue/cli-plugin-babel": "5.0.8",
     "@vue/cli-plugin-eslint": "5.0.8",
     "@vue/cli-plugin-unit-jest": "5.0.8",
