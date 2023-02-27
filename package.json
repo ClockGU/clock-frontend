@@ -61,7 +61,6 @@
     "codecov": "3.8.1",
     "date-fns-tz": "1.0.12",
     "eslint": "7.15.0",
-    "eslint-config": "0.3.0",
     "eslint-loader": "4.0.2",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-prettier": "3.3.0",
