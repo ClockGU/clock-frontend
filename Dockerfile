@@ -20,7 +20,7 @@ RUN addgroup -S app --gid 32769 \
     && adduser -G app --uid 32769 -h /app -D app
 
 RUN apk update \
-    && apk add bash curl git nginx
+    && apk add bash curl git nginx python3
 
 RUN yarn global add @vue/cli
 WORKDIR /app
