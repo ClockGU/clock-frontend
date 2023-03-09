@@ -175,7 +175,6 @@ export default {
   },
   methods: {
     editEvent(data) {
-      console.log(JSON.stringify(data.event.shift));
       this.shift = data.event.shift;
       this.editShift = true;
     },
