@@ -207,7 +207,6 @@ export default {
   }),
   computed: {
     flexHeaders() {
-      console.log(this.selected.length);
       //check for tags and notes and hide column if none exist
       let tagsAndNotes = 0;
       this.shifts.forEach(
