@@ -35,9 +35,5 @@ RUN mkdir -p /run/nginx
 
 COPY docker/dokku/default.conf /etc/nginx/conf.d/default.conf
 
-USER app
-COPY --chown=app:app scripts/sentry-release.sh .
-RUN bash sentry-release.sh
-
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
