@@ -31,8 +31,11 @@ COPY --chown=app:app . .
 RUN export VUE_APP_SENTRY_RELEASE=$(git log -1 --format="%H") \
     && yarn run build
 
+USER app
 COPY --chown=app:app scripts/sentry-release.sh .
 RUN bash sentry-release.sh
+
+USER root
 
 RUN mkdir -p /run/nginx
 
