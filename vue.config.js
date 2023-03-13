@@ -5,9 +5,12 @@ module.exports = {
   productionSourceMap: true,
 
   devServer: {
-    public: process.env.VUE_APP_PUBLIC_URL,
-    allowedHosts: [process.env.VUE_APP_ALLOWED_HOST],
-    disableHostCheck: true
+    client: {
+      overlay: true,
+      progress: true,
+      webSocketURL: process.env.VUE_APP_PUBLIC_URL
+    },
+    allowedHosts: [process.env.VUE_APP_ALLOWED_HOST]
   },
 
   configureWebpack: (config) => {
