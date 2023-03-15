@@ -43,7 +43,7 @@
     "vue-undraw": "^2.0.13",
     "vuetify": "2.6.10",
     "vuex": "3.6.0",
-    "webpack": "^5.0.0"
+    "webpack": "^5.76.0"
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",
