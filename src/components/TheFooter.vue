@@ -13,7 +13,7 @@
         {{ link.text }}
       </v-btn>
       <v-col class="primary lighten-1 text-center white--text" cols="12">
-        <v-row justify="center" class="mx-0">
+        <v-row justify="center" class="mx-0 mb-0">
           <v-col cols="10">
             <p>&copy; {{ new Date().getFullYear() }} Clock</p>
             <i18n path="footer.acknowledgeGU.text" tag="p">
