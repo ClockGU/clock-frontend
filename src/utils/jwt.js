@@ -1,3 +1,5 @@
+import { Buffer } from "buffer";
+
 export const parseJwt = (token) => {
   /* Decode JWT token.
   Source: https://stackoverflow.com/a/38552302
