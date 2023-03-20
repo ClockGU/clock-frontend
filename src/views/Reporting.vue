@@ -32,14 +32,13 @@
         />
       </v-col>
 
-      <v-col>
+      <v-col cols="12">
         <MonthSwitcher
           :disabled="disabled"
           :date="date"
           :allowed-date-fn="monthValidateFn"
           @update="updateDate"
         />
-
         <DashboardConflicts
           :disabled="disabled"
           :shifts="selectedShifts"
@@ -47,11 +46,13 @@
         />
         <ClockCardAlert
           v-if="getAlertMessages(report).length !== 0"
+          class="my-4"
           :messages="getAlertMessages(report)"
           type="error"
         ></ClockCardAlert>
         <ReportCard
           :key="report.id"
+          class="my-4"
           :disabled="disabled"
           :report="report"
           :exported="isCurrentMonthLocked"

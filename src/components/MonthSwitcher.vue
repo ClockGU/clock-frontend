@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row class="my-4" justify="center">
     <v-btn :disabled="!hasPrevMonth" text @click="gotoPrevMonth">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
