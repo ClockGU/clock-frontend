@@ -46,32 +46,34 @@
           </div>
         </div>
       </v-row>
-      <v-slide-x-transition group leave-absolute>
-        <v-btn
-          v-if="actions.duration === 0 && actions.status === 'idle'"
-          key="clock-in"
-          :disabled="actions.status === 'saving'"
-          color="primary"
-          block
-          @click="actions.start"
-        >
-          {{ $t("dashboard.clock.in") }}
-        </v-btn>
-        <v-btn
-          v-else-if="
-            !overflowedShift &&
-            (actions.status === 'running' || actions.status === 'saving')
-          "
-          key="clock-out"
-          :disabled="actions.status === 'saving'"
-          color="primary"
-          block
-          text
-          @click="saveFn"
-        >
-          {{ $t("dashboard.clock.out") }}
-        </v-btn>
-      </v-slide-x-transition>
+      <div class="justify-center mt-3">
+        <v-slide-x-transition group leave-absolute>
+          <v-btn
+            v-if="actions.duration === 0 && actions.status === 'idle'"
+            key="clock-in"
+            :disabled="actions.status === 'saving'"
+            color="primary"
+            block
+            @click="actions.start"
+          >
+            {{ $t("dashboard.clock.in") }}
+          </v-btn>
+          <v-btn
+            v-else-if="
+              !overflowedShift &&
+              (actions.status === 'running' || actions.status === 'saving')
+            "
+            key="clock-out"
+            :disabled="actions.status === 'saving'"
+            color="primary"
+            block
+            text
+            @click="saveFn"
+          >
+            {{ $t("dashboard.clock.out") }}
+          </v-btn>
+        </v-slide-x-transition>
+      </div>
     </v-card-text>
   </v-card>
 </template>
