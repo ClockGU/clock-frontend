@@ -116,7 +116,7 @@ export default {
       selectedShifts: "contentData/selectedShifts"
     }),
     disabled() {
-      return this.selectedContract === undefined;
+      return this.selectedContract === undefined || this.report === undefined;
     },
     personnelNumberMissing() {
       return (
@@ -125,10 +125,13 @@ export default {
       );
     },
     report() {
-      if (this.disabled) return { id: uuidv4() };
-      return this.selectedReports.filter((report) =>
+      const filteredReports = this.selectedReports.filter((report) =>
         isSameDay(report.monthYear, this.date)
-      )[0];
+      );
+      if (filteredReports.length) {
+        return filteredReports[0];
+      }
+      return { id: uuidv4() };
     },
     isCurrentMonthLocked() {
       if (this.disabled) return false;
