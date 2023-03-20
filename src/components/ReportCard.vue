@@ -159,7 +159,8 @@ export default {
     },
     report: {
       type: Object,
-      required: true
+      required: false,
+      default: undefined
     },
     isExportable: {
       type: Boolean,
