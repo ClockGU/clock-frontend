@@ -31,11 +31,12 @@ COPY --chown=app:app . .
 RUN export VUE_APP_SENTRY_RELEASE=$(git log -1 --format="%H") \
     && yarn run build
 
-RUN echo $(ls -l -a)
+USER app
+COPY --chown=app:app scripts/sentry-release.sh .
+RUN bash sentry-release.sh
+
 
 FROM nginx:stable-alpine as production-stage
-# COPY --chown=app:app scripts/sentry-release.sh .
-# RUN bash sentry-release.sh
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY --from=build-stage /app/docker/dokku/default.conf /etc/nginx/conf.d/default.conf
