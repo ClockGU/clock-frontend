@@ -38,7 +38,7 @@ FROM nginx:stable-alpine as production-stage
 # RUN bash sentry-release.sh
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-COPY --from=build-stage docker/dokku/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/docker/dokku/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
