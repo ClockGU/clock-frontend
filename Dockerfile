@@ -1,5 +1,5 @@
 # Setup stage
-FROM node:19.7.0-alpine3.16
+FROM node:19.7.0-alpine3.16 as build-stage
 ARG REPOSITORY_URL
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
@@ -31,12 +31,14 @@ COPY --chown=app:app . .
 RUN export VUE_APP_SENTRY_RELEASE=$(git log -1 --format="%H") \
     && yarn run build
 
+RUN echo $(ls -l -a)
+
+FROM nginx:stable-alpine as production-stage
 # COPY --chown=app:app scripts/sentry-release.sh .
 # RUN bash sentry-release.sh
 
-RUN mkdir -p /run/nginx
-
-COPY docker/dokku/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage docker/dokku/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
