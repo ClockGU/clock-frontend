@@ -25,6 +25,7 @@
     "@vuelidate/validators": "^2.0.0",
     "babel-plugin-transform-require-context": "^0.1.1",
     "browserlist": "^1.0.1",
+    "buffer": "^6.0.3",
     "date-fns": "2.16.1",
     "date-holidays": "^3.16.17",
     "dompurify": "^2.2.6",
