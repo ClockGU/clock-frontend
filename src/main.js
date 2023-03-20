@@ -17,7 +17,8 @@ import VueCompositionAPI from "@vue/composition-api";
 import "@/assets/main.scss";
 
 import { log } from "@/utils/log";
-
+const isProduction = process.env.NODE_ENV === "production";
+export const debugLogger = !isProduction;
 // Initialize ApiService
 ApiService.init(process.env.VUE_APP_API_URL);
 ApiService.mountInterceptor();
@@ -28,14 +29,11 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 
-const isProduction = process.env.NODE_ENV === "production";
-
 Vue.use(VueCompositionAPI);
 Vue.use(VueMeta);
 Vue.use(PortalVue);
 Vue.config.productionTip = false;
 
-export const debugLogger = isProduction ? false : true;
 if (isProduction) {
   // Matomo
   Vue.use(VueMatomo, {
