@@ -123,29 +123,22 @@ export default {
       }
     },
     shiftsThisDay() {
-      let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
-        (shift) => {
-          return (
-            isSameDay(shift.started, this.newShift.started) && shift.wasReviewed
-          );
-        }
-      );
-      return allShiftsByThisUser.filter(
-        (shift) => shift.id !== this.newShift.id
-      );
+      return store.getters["contentData/allShifts"].filter((shift) => {
+        return (
+          isSameDay(shift.started, this.newShift.started) &&
+          shift.wasReviewed &&
+          shift.id !== this.newShift.id
+        );
+      });
     },
     shiftsThisMonth() {
-      let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
-        (shift) => {
-          return (
-            isSameMonth(shift.started, this.newShift.started) &&
-            shift.wasReviewed
-          );
-        }
-      );
-      return allShiftsByThisUser.filter(
-        (shift) => shift.id !== this.newShift.id
-      );
+      return store.getters["contentData/allShifts"].filter((shift) => {
+        return (
+          isSameMonth(shift.started, this.newShift.started) &&
+          shift.wasReviewed &&
+          shift.id !== this.newShift.id
+        );
+      });
     },
     alreadyClockedWorktime() {
       var workMinutesThisDay = 0;
