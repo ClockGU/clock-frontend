@@ -1,6 +1,7 @@
 import store from "@/store";
 import { dateIsHoliday } from "@/utils/date";
 import isSameDay from "date-fns/isSameDay";
+import { isSameMonth } from "date-fns";
 
 export default {
   computed: {
@@ -19,6 +20,7 @@ export default {
       errorMessages.push(this.validateExclusivityVacation);
       errorMessages.push(this.validateExclusivitySick);
       errorMessages.push(this.validateOverlapping);
+      errorMessages.push(this.validateInLockedMonth);
       return errorMessages.filter((message) => message !== undefined);
     },
     valid() {
@@ -92,6 +94,13 @@ export default {
         }
       }
     },
+    validateInLockedMonth() {
+      if (
+        this.shiftsThisMonth.filter((shift) => shift.locked === true).length
+      ) {
+        return this.$t("shifts.errors.month_already_locked");
+      }
+    },
     checkEightTwentyRule() {
       if (
         this.newShift.started.getHours() < 8 ||
@@ -118,6 +127,19 @@ export default {
         (shift) => {
           return (
             isSameDay(shift.started, this.newShift.started) && shift.wasReviewed
+          );
+        }
+      );
+      return allShiftsByThisUser.filter(
+        (shift) => shift.id !== this.newShift.id
+      );
+    },
+    shiftsThisMonth() {
+      let allShiftsByThisUser = store.getters["contentData/allShifts"].filter(
+        (shift) => {
+          return (
+            isSameMonth(shift.started, this.newShift.started) &&
+            shift.wasReviewed
           );
         }
       );
