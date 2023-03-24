@@ -33,14 +33,14 @@
           destroy: reset
         }"
         :save-fn="save"
-        :clocked-contract="clockedContract"
+        :contract-name="contractName"
       />
     </v-window-item>
     <v-window-item :key="1">
       <ClockInOutCardForm
         :shift="shiftToModify"
         :destroy="reset"
-        :contract-name="selectedContract.name"
+        :contract-name="contractName"
         @updateWindow="window += $event"
       ></ClockInOutCardForm>
     </v-window-item>
@@ -100,6 +100,11 @@ export default {
     },
     showOverlay() {
       return this.clockedContract === undefined || !this.contractValid;
+    },
+    contractName() {
+      return this.clockedContract === undefined
+        ? this.$tc("models.noSelectedContract", 1)
+        : this.clockedContract.name;
     }
   },
   methods: {

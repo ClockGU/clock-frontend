@@ -300,6 +300,7 @@
     "contract": "Contract | Contracts",
     "report": "Report | Reports",
     "selectedContract": "the selected contract | the selected contracts",
+    "noSelectedContract": "No contract selected | No contracts selected",
     "selectedShift": "the selected shift | the selected shifts",
     "shift": "Shift | Shifts"
   },
