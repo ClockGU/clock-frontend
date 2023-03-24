@@ -36,7 +36,7 @@
         </span>
         <div v-else class="d-flex flex-column">
           <div class="font-weight-bold">
-            {{ $tc("models.contract") }}: {{ clockedContract.name }}
+            {{ $tc("models.contract") }}: {{ contractName }}
           </div>
           <div class="font-weight-light">
             {{ actions.data.startDate | formatDate }}
@@ -83,9 +83,6 @@ import { addSeconds, isSameDay } from "date-fns";
 import { mdiDelete, mdiInformation } from "@mdi/js";
 
 import { localizedFormat } from "@/utils/date";
-
-import { mapGetters } from "vuex";
-import { Contract } from "@/models/ContractModel";
 
 export default {
   name: "ClockInOutCardClock",
@@ -136,10 +133,9 @@ export default {
       type: Function,
       default: () => {}
     },
-    clockedContract: {
-      type: Contract,
-      required: false,
-      default: undefined
+    contractName: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -148,9 +144,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      contracts: "contract/contracts"
-    }),
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);

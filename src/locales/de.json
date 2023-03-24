@@ -300,6 +300,7 @@
     "contract": "Vertrag | Verträge",
     "report": "Stundenzettel | Stundenzettel",
     "selectedContract": "den ausgewählten Vertrag | die ausgewählten Verträge",
+    "noSelectedContract": "Kein Vertrag ausgewählt | Keine Verträge ausgewählt",
     "selectedShift": "die ausgewählte Schicht | die ausgewählten Schichten",
     "shift": "Schicht | Schichten"
   },

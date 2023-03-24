@@ -29,6 +29,8 @@ export default {
   components: { ReviewShiftListItem },
   computed: {
     shiftsToReview() {
+      if (this.$store.getters["contentData/selectedShifts"] === undefined)
+        return [];
       return this.$store.getters["contentData/selectedShifts"]
         .filter((shift) => !shift.wasReviewed)
         .slice(0, 5);
