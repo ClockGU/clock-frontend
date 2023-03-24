@@ -84,9 +84,6 @@ import { mdiDelete, mdiInformation } from "@mdi/js";
 
 import { localizedFormat } from "@/utils/date";
 
-import { mapGetters } from "vuex";
-import { Contract } from "@/models/ContractModel";
-
 export default {
   name: "ClockInOutCardClock",
   filters: {
