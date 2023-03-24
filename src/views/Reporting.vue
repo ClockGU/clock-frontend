@@ -126,13 +126,11 @@ export default {
       );
     },
     report() {
+      if (this.selectedReports === undefined) return { id: uuidv4() };
       const filteredReports = this.selectedReports.filter((report) =>
         isSameDay(report.monthYear, this.date)
       );
-      if (filteredReports.length) {
-        return filteredReports[0];
-      }
-      return { id: uuidv4() };
+      return filteredReports[0];
     },
     isCurrentMonthLocked() {
       if (this.disabled) return false;
