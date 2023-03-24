@@ -502,7 +502,7 @@
       "overlappingStopped": "Der Endzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",
       "eightTwentyRule": "Grundsätzlich sollen Hilfskräfte nicht vor 8 und nicht nach 20 Uhr arbeiten müssen.",
       "autoWorktimeCutting": "Für diesen Arbeitstag sind nicht ausreichende Pausenzeiten gebucht worden. Clock zieht die fehlende Pausenzeit automatisch von der Arbeitszeit ab.",
-      "month_already_locked": "Dieser Monat ist bereits gesperrt. Das Speichern einer neuen Schicht ist deswegen nicht möglich."
+      "month_already_locked": "Dieser Monat ist bereits gesperrt. Das Speichern einer neuen Schicht ist deshalb nicht möglich."
     },
     "hints": {
       "faqText": "Hast du Fragen zu den Warn- und Fehlermeldungen?",
