@@ -58,12 +58,11 @@ import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { mapGetters } from "vuex";
 import { mdiEmail } from "@mdi/js";
 import { useVuelidate } from "@vuelidate/core";
-import { email, required } from "@vuelidate/validators";
+import { email, required, sameAs } from "@vuelidate/validators";
 
 export default {
   name: "DeleteAccount",
   components: { ConfirmationDialog },
-  // mixins: [validationMixin],
   setup() {
     return {
       v$: useVuelidate()
@@ -74,11 +73,14 @@ export default {
     icons: { mdiEmail },
     loading: false
   }),
-  validations: {
-    email: {
-      required,
-      email
-    }
+  validations() {
+    return {
+      email: {
+        required,
+        email,
+        sameAs: sameAs(this.user.email)
+      }
+    };
   },
   computed: {
     ...mapGetters({
@@ -94,7 +96,8 @@ export default {
             name: this.$t("feedback.fields.email")
           })
         );
-      !this.v$.email.sameAs && errors.push(this.$t("errors.matchEmail"));
+      this.v$.email.sameAs.$invalid &&
+        errors.push(this.$t("errors.matchEmail"));
       return errors;
     }
   },

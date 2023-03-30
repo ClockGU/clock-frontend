@@ -95,6 +95,7 @@ export default {
   },
   methods: {
     confirm(closeFn) {
+      this.confirmationButton.onClickHandler();
       this.$emit("confirm");
       closeFn();
     }
