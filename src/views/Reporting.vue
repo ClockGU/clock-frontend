@@ -170,12 +170,22 @@ export default {
       };
     }
   },
-  // async updated() {
-  //   const shifts = this.selectedShifts.filter((shift) =>
-  //     isSameMonth(this.report.monthYear, shift.started)
-  //   );
-  //   console.log(JSON.stringify(shifts, null, 4));
-  // },
+
+  mounted() {
+    // Add watcher for the case that the selected Contract has no Report for the current month.
+    // In this case set the date to the date of the last Report existing.
+    this.$watch(
+      "report",
+      (value) => {
+        if (value === undefined) {
+          this.updateDate(
+            this.selectedReports[this.selectedReports.length - 1].monthYear
+          );
+        }
+      },
+      { immediate: true }
+    );
+  },
   methods: {
     updateDate(value) {
       this.date = value;
