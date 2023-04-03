@@ -244,7 +244,7 @@
       "success": "We have forwarded your message to the ombudsperson for student affairs. Thank you!"
     },
     "title": "Contact the ombudsperson for student affairs",
-    "text": "Do you want to report a non-compliant working time requirement?",
+    "text": "Do you need support for problems with your working conditions?",
     "linkText": "More information about the ombudsperson",
     "url": "https://www.uni-frankfurt.de/97234850/Ombudspersonen_f%C3%BCr_Studierende_und_wissenschaftliche_Mitarbeiter_innen_sowie_f%C3%BCr_studentische_und_wissenschaftliche_Hilfskr%C3%A4fte"
   },
@@ -357,7 +357,7 @@
       },
       "7": {
         "title": "Legally safe",
-        "text": "Clock warns you if your working times conflict with  rules and legal regulations. If you are required by your supervisors to work outside the rules, you can use our contact form to contact the ombudsperson for student affairs.",
+        "text": "Clock warns you if your working times conflict with rules and legal regulations. If you have trouble solving any conflicts with your supervisor, you may use our contact form to reach the ombudsperson for student affairs.",
         "placeholderName": "UndrawConversation"
       }
     }
@@ -508,8 +508,8 @@
     "hints": {
       "faqText": "Do you have questions regarding the warning/error messages?",
       "faqLinkText": "Check out the FAQ.",
-      "ombudsText": "Do you wish to inform the ombudsperson about non-compliant work hour requirements?",
-      "ombudsLinkText": "Check out the contact form."
+      "ombudsText": "Do you need support fpr problems with your working conditions?",
+      "ombudsLinkText": "Contact the ombudsperson for student affairs."
     }
   },
   "snackbar": {
