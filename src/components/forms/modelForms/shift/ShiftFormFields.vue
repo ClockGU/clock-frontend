@@ -12,12 +12,13 @@
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
             v-if="alertMessages.length > 0"
+            class="mt-2"
             :messages="alertMessages"
             :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
-          <div v-if="alertMessages.length > 0">
+          <div v-if="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.faqText") }}
             <br />
             <router-link to="/faq">{{
@@ -26,7 +27,7 @@
           </div>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
-          <div v-if="alertMessages.length > 0">
+          <div v-if="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.ombudsText") }}
             <OmbudsMenu
               disable-activator
@@ -58,7 +59,7 @@
             :shift="shift"
           />
         </v-expand-transition>
-        <v-divider />
+        <v-divider class="mt-4" />
       </v-col>
       <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" />
