@@ -36,7 +36,9 @@
               bottom
             >
               <template #activator="{ on, attrs }">
-                <a v-bind="attrs" v-on="on">Hier gehts zum Kontakformular</a>
+                <a v-bind="attrs" v-on="on">
+                  {{ $t("shifts.hints.ombudsLinkText") }}
+                </a>
               </template>
             </OmbudsMenu>
           </div>
