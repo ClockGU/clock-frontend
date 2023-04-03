@@ -17,22 +17,22 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            v-bind="confirmationObject.attrs"
+            v-bind="confirmationButton.attrs"
             data-cy="delete-confirm"
-            :color="confirmationObject.color"
+            :color="confirmationButton.color"
             text
             @click="confirm(close)"
           >
-            {{ confirmationObject.text }}
+            {{ confirmationButton.text }}
           </v-btn>
           <v-btn
-            v-bind="cancelObject.attrs"
+            v-bind="cancelButton.attrs"
             data-cy="delete-cancel"
-            :color="cancelObject.color"
+            :color="cancelButton.color"
             text
             @click="close"
           >
-            {{ cancelObject.text }}
+            {{ $t("actions.cancel") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -74,28 +74,14 @@ export default {
   data: () => ({
     dialog: false
   }),
-  computed: {
-    confirmationObject() {
-      return {
-        text: this.$t("actions.delete"),
-        ...this.confirmationButton,
-        onClickHandler:
-          this.confirmationButton.onClickHandler === null ||
-          this.confirmationButton.onClickHandler === undefined
-            ? this.confirm
-            : this.confirmationButton.onClickHandler
-      };
-    },
-    cancelObject() {
-      return {
-        text: this.$t("actions.cancel"),
-        ...this.cancelButton
-      };
-    }
-  },
   methods: {
     confirm(closeFn) {
-      this.confirmationButton.onClickHandler();
+      if (
+        this.confirmationButton.onClickHandler !== null &&
+        this.confirmationButton.onClickHandler !== undefined
+      ) {
+        this.confirmationButton.onClickHandler();
+      }
       this.$emit("confirm");
       closeFn();
     }
