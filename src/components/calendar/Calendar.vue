@@ -10,16 +10,10 @@
           color="white"
         >
           <v-col class="px-0" cols="12">
-            <SelectContractFilter
-              :disabled="disabled"
-              :contracts="contracts"
-              :selected-contract="selectedContract"
-            />
+            <SelectContractFilter :disabled="disabled" />
           </v-col>
           <v-col class="px-0" cols="12">
-            <v-btn :disabled="disabled" color="primary" @click="newShift">
-              {{ $t("buttons.newEntity", { entity: $tc("models.shift") }) }}
-            </v-btn>
+            <ShiftFormDialog btn-color="primary"></ShiftFormDialog>
           </v-col>
 
           <v-col class="px-0" cols="12" sm="5">
@@ -62,46 +56,40 @@
         :type="type"
         :weekdays="weekdays"
         :interval-format="intervalFormat"
-        @click:event="editShift"
+        @click:event="editEvent"
         @click:more="viewDay"
         @click:date="viewDay"
         @change="updateRange"
       ></v-calendar>
-
-      <FormDialog
-        v-if="showFormDialog"
-        entity-name="shift"
-        :entity="shiftEntity"
-        :now="shiftNow"
-        @close="closeFormDialog"
-        @refresh="refresh"
-      />
     </v-sheet>
+    <ShiftFormDialog
+      :shift="shift"
+      :value="editShift"
+      disable-activator
+      @close="editShift = false"
+    ></ShiftFormDialog>
   </v-container>
 </template>
 
 <script>
-import { formatTime, formatDate } from "@/utils/time";
+import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
-import { Shift } from "@/models/ShiftModel";
-import { Contract } from "@/models/ContractModel";
-import { getNextContractParams } from "@/utils";
 
-import FormDialog from "@/components/FormDialog";
 import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 
 export default {
   name: "Calendar",
   components: {
+    ShiftFormDialog,
     CalendarNavigationButtons,
     CalendarTypeSelect,
-    FormDialog,
     SelectContractFilter
   },
   props: {
@@ -135,16 +123,18 @@ export default {
     eventClicks: 0,
     doubleClickTimer: null,
     doubleClickDelay: 500,
-    shiftEntity: null,
-    showFormDialog: false
+    editShift: false,
+    shift: undefined
   }),
   computed: {
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
+    ...mapGetters({
+      selectedContract: "selectedContract/selectedContract",
+      selectedShifts: "contentData/selectedShifts",
+      locale: "locale"
+    }),
+    visibleShifts() {
+      if (this.disabled) return [];
+      return this.selectedShifts;
     },
     shiftNow() {
       const now = new Date();
@@ -158,44 +148,23 @@ export default {
         now.getMinutes()
       );
     },
-    visibleShifts() {
-      if (this.selectedContract === null) return [];
-
-      return this.shifts.filter(
-        (shift) => shift.contract === this.selectedContract.uuid
-      );
-    },
     events() {
-      return this.visibleShifts.map((item) => {
-        const shift = new Shift(item);
-        const contract = new Contract(
-          this.contracts.find((contract) => contract.id === shift.contract)
-        );
-
+      return this.visibleShifts.map((shift) => {
         const duration =
           this.type === "month"
-            ? "- " + shift.representationalDuration()
+            ? "| " + shift.representationalDuration()
             : shift.representationalDuration();
 
         return {
-          uuid: shift.uuid,
-          start: localizedFormat(shift.date.start, "yyyy-MM-dd HH:mm"),
-          end: localizedFormat(shift.date.end, "yyyy-MM-dd HH:mm"),
-          type: shift.type.value,
+          start: localizedFormat(shift.started, "yyyy-MM-dd HH:mm"),
+          end: localizedFormat(shift.stopped, "yyyy-MM-dd HH:mm"),
           color: this.colorMap(shift),
           duration: duration,
           selectedEventDuration: shift.representationalDuration(),
-          reviewed: shift.reviewed,
-          contract: contract,
-          locked: shift.locked
+          shift: shift
         };
       });
-    },
-    ...mapState({
-      contracts: (state) => state.contract.contracts,
-      locale: (state) => state.locale,
-      shifts: (state) => state.shift.shifts
-    })
+    }
   },
   async mounted() {
     this.$refs.calendar.checkChange();
@@ -205,40 +174,18 @@ export default {
     this.type = this.initialType;
   },
   methods: {
-    formatTime(value) {
-      return formatTime(value);
+    editEvent(data) {
+      this.shift = data.event.shift;
+      this.editShift = true;
     },
     formatDate(value) {
       return formatDate(value);
-    },
-    async refresh({ contract }) {
-      if (this.$route.params.contract !== contract) {
-        await this.$router.replace(
-          getNextContractParams(this.$route, contract)
-        );
-      }
-
-      this.$emit("refresh");
-    },
-    editShift({ event }) {
-      const shift = this.visibleShifts.find(
-        (shift) => shift.uuid === event.uuid
-      );
-      this.shiftEntity = new Shift(shift);
-      this.showFormDialog = true;
-    },
-    newShift() {
-      this.showFormDialog = true;
-    },
-    closeFormDialog() {
-      this.showFormDialog = false;
-      this.shiftEntity = null;
     },
     intervalFormat(interval) {
       return interval.time;
     },
     colorMap(event) {
-      return SHIFT_TYPE_COLORS[event.type.value];
+      return SHIFT_TYPE_COLORS[event.type];
     },
     viewDay({ date }) {
       this.focus = date;

@@ -1,6 +1,6 @@
-import { parseISO } from "date-fns";
+import { differenceInMinutes, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
-
+import { sum } from "ramda";
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -105,12 +105,11 @@ export function validateWorktimeInput(value) {
   }
 
   // Convert hours and minutes from strings to integers
-  [hours, minutes] = [parseInt(hours).pad(2), parseInt(minutes).pad(2)];
-
+  let retValue = parseInt(hours) * 60 + parseInt(minutes);
   validateMinutes(minutes);
 
   // handle negative values
-  return (negative ? "-" : "") + `${hours}:${minutes}`;
+  return negative ? -1 * retValue : retValue;
 }
 
 export function parseString(value) {
@@ -127,7 +126,7 @@ export function parseString(value) {
 
   // If the previous minutes were unset or equal to "00", set them to the new
   // value.
-  if (minutes === "00" || minutes == "") {
+  if (minutes === "00" || minutes === "") {
     minutes = newMinutes;
   }
 
@@ -168,7 +167,7 @@ export function parseStringWithoutColon(value) {
 }
 
 export function parseDublet(value) {
-  // Assume we are only handling a hour value.
+  // Assume we are only handling an hour value.
   const hours = value;
   const minutes = "00";
 
@@ -199,7 +198,7 @@ export function timedeltaToMinutes(timedelta) {
   let days = 0;
   let timeString = splitTimedelta[0];
 
-  if (splitTimedelta.length == 2) {
+  if (splitTimedelta.length === 2) {
     [days, timeString] = splitTimedelta;
   }
   // eslint-disable-next-line no-unused-vars
@@ -223,6 +222,19 @@ export function minutesToHHMM(min, format) {
     : `${sign}${hours}:${minutes}`;
 }
 
+export function hoursToHHMM(floatHours, format) {
+  const hours = Math.floor(floatHours);
+  const minutes = parseInt((60 * (floatHours - hours)).toFixed(0));
+
+  return minutesToHHMM(minutes, format);
+}
+
+export function formattedTime(time) {
+  const [hours, minutes] = time.split(":");
+
+  return `${hours}h${minutes}m`;
+}
+
 export function startEndHours(date) {
   const start = new Date(date);
   const end = new Date(date);
@@ -232,7 +244,7 @@ export function startEndHours(date) {
     // At the beginning of the day, go one hour to the front.
     start.setHours(0);
     end.setHours(1);
-  } else if (hours == 23) {
+  } else if (hours === 23) {
     // At the end of the day, go one hour back from the last possible time.
     start.setHours(22);
     start.setMinutes(59);
@@ -254,17 +266,26 @@ export function startEndHours(date) {
   };
 }
 
-export function hoursToWorktime(value) {
-  const hours = Math.floor(value);
-  const minutes = parseInt((60 * (value - hours)).toFixed(0));
+export function coalescWorktimeAndBreaktime(shifts) {
+  if (shifts.length === 0) return { worktime: 0, breaktime: 0 };
 
-  return `${hours.pad(2)}:${minutes.pad(2)}`;
-}
-
-export function formattedTime(time) {
-  const [hours, minutes] = time.split(":");
-
-  return `${hours}h${minutes}m`;
+  const orderedShifts = shifts.sort(
+    (a, b) => parseISO(a.date.start) - parseISO(b.date.start)
+  );
+  const worktimeInMinutes = sum(
+    orderedShifts.map((shift) => {
+      return differenceInMinutes(
+        parseISO(shift.date.end),
+        parseISO(shift.date.start)
+      );
+    })
+  );
+  const worktimeSpanInMinutes = differenceInMinutes(
+    parseISO(orderedShifts[orderedShifts.length - 1].date.end),
+    parseISO(orderedShifts[0].date.start)
+  );
+  const breaktimeInMinutes = worktimeSpanInMinutes - worktimeInMinutes;
+  return { worktime: worktimeInMinutes, breaktime: breaktimeInMinutes };
 }
 
 export function formatDate(date, formatString = "do MMMM yyyy") {
@@ -275,4 +296,32 @@ export function formatDate(date, formatString = "do MMMM yyyy") {
 export function formatTime(date, formatString = "HH:mm a") {
   if (date === undefined) return;
   return localizedFormat(parseISO(date), formatString);
+}
+
+export function timestringToMinutes(time) {
+  // Function taking a string og format "-HH:MM" converting
+  // it to the equivalent time in minute representation.
+  // Example:
+  // 08:22 ==> 502
+  // -03:10 ==> -190
+
+  if (time === "") {
+    return 0;
+  }
+  let negative = false;
+  let [hours, minutes] = time.split(":");
+
+  // Is the time negative?
+  if (hours.indexOf("-") === 0) {
+    hours = hours.slice(1);
+    negative = true;
+  }
+
+  minutes = parseFloat(hours) * 60 + parseFloat(minutes);
+
+  if (negative) {
+    minutes = minutes * -1;
+  }
+
+  return minutes;
 }

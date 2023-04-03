@@ -109,7 +109,6 @@ import {
   mdiFormatListNumbered,
   mdiFileChart,
   mdiHelp,
-  mdiBackupRestore,
   mdiLogout
 } from "@mdi/js";
 
@@ -136,8 +135,7 @@ export default {
     ...mapGetters({
       isLoggedIn: "auth/loggedIn",
       user: "user",
-      userLoading: "userLoading",
-      selectedContract: "contract/selectedContract"
+      userLoading: "userLoading"
     }),
     firstLetter() {
       if (this.user === null) return "";
@@ -158,12 +156,6 @@ export default {
           to: { name: "faq" },
           icon: mdiHelp,
           loggedOut: true
-        },
-        {
-          text: this.$t("app.reset"),
-          to: { name: "help" },
-          icon: mdiBackupRestore,
-          loggedOut: true
         }
       ];
     },
@@ -172,8 +164,7 @@ export default {
         {
           text: this.$t("app.dashboard"),
           to: {
-            name: "dashboard",
-            params: { contract: this.selectedContract }
+            name: "dashboard"
           },
           icon: mdiHome,
           loggedOut: false
@@ -183,8 +174,7 @@ export default {
           to: {
             name: "calendar",
             params: {
-              ...getRouterProps("month", new Date()),
-              contract: this.selectedContract
+              ...getRouterProps("month", new Date())
             }
           },
           icon: mdiCalendar,
@@ -193,8 +183,7 @@ export default {
         {
           text: this.$t("app.shifts"),
           to: {
-            name: "shiftList",
-            params: { contract: this.selectedContract }
+            name: "shiftList"
           },
           icon: mdiFormatListNumbered,
           loggedOut: false
@@ -202,8 +191,7 @@ export default {
         {
           text: this.$t("app.contracts"),
           to: {
-            name: "contractList",
-            params: { contract: this.selectedContract }
+            name: "contractList"
           },
           icon: mdiFileDocument,
           loggedOut: false
@@ -211,8 +199,7 @@ export default {
         {
           text: this.$t("app.reports"),
           to: {
-            name: "reporting",
-            params: { contract: this.selectedContract }
+            name: "reporting"
           },
           icon: mdiFileChart,
           loggedOut: false

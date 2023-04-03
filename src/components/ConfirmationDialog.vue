@@ -1,16 +1,10 @@
 <template>
-  <TheDialog
-    v-model="dialog"
-    :persistent="false"
-    :max-width="maxWidth"
-    @close="cancel"
-    @click:outside="cancel"
-  >
+  <TheDialog :persistent="false" :max-width="maxWidth">
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
 
-    <template #content>
+    <template #content="{ events: { close } }">
       <v-card data-cy="delete-dialog">
         <v-card-title>
           <slot name="title"></slot>
@@ -23,22 +17,22 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            v-bind="confirmationObject.attrs"
+            v-bind="confirmationButton.attrs"
             data-cy="delete-confirm"
-            :color="confirmationObject.color"
+            :color="confirmationButton.color"
             text
-            @click="confirmationObject.onClickHandler"
+            @click="confirm(close)"
           >
-            {{ confirmationObject.text }}
+            {{ confirmationButton.text }}
           </v-btn>
           <v-btn
-            v-bind="cancelObject.attrs"
+            v-bind="cancelButton.attrs"
             data-cy="delete-cancel"
-            :color="cancelObject.color"
+            :color="cancelButton.color"
             text
-            @click="cancel"
+            @click="close"
           >
-            {{ cancelObject.text }}
+            {{ $t("actions.cancel") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -80,36 +74,16 @@ export default {
   data: () => ({
     dialog: false
   }),
-  computed: {
-    confirmationObject() {
-      return {
-        text: this.$t("actions.delete"),
-        ...this.confirmationButton,
-        onClickHandler:
-          this.confirmationButton.onClickHandler === null ||
-          this.confirmationButton.onClickHandler === undefined
-            ? this.confirm
-            : this.confirmationButton.onClickHandler
-      };
-    },
-    cancelObject() {
-      return {
-        text: this.$t("actions.cancel"),
-        ...this.cancelButton
-      };
-    }
-  },
   methods: {
-    cancel() {
-      this.$emit("cancel");
-      this.close();
-    },
-    close() {
-      this.dialog = false;
-    },
-    confirm() {
+    confirm(closeFn) {
+      if (
+        this.confirmationButton.onClickHandler !== null &&
+        this.confirmationButton.onClickHandler !== undefined
+      ) {
+        this.confirmationButton.onClickHandler();
+      }
       this.$emit("confirm");
-      this.close();
+      closeFn();
     }
   }
 };

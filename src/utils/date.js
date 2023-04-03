@@ -6,8 +6,32 @@ import {
   subWeeks,
   addMonths,
   subMonths,
-  format
+  format,
+  addMinutes,
+  subMinutes
 } from "date-fns";
+
+import Holidays from "date-holidays";
+
+export function dateIsHoliday(date) {
+  // Christmas Eve and New Year's Eve are considered half Bank holidays
+  // by the date-holidays package.
+  // So we need to treat it separately
+  if (
+    date.getMonth() === 11 &&
+    (date.getDate() === 24 || date.getDate() === 31)
+  ) {
+    return true;
+  }
+  const hd = new Holidays("DE", "HE");
+  const holidayCandidate = hd.isHoliday(date); // returns false or array ... strange
+  if (!holidayCandidate) {
+    return holidayCandidate;
+  }
+  return (
+    holidayCandidate[0].type === "public" || holidayCandidate[0].type === "bank"
+  );
+}
 
 export const localizedFormat = (date, fmt, options = {}) => {
   return format(date, fmt, { ...options, ...currentLocale });
@@ -23,7 +47,9 @@ export const dateOperations = {
   addWeeks: addWeeks,
   subWeeks: subWeeks,
   addMonths: addMonths,
-  subMonths: subMonths
+  subMonths: subMonths,
+  addMinutes: addMinutes,
+  subMinutes: subMinutes
 };
 
 export const getRouterProps = (type, date = new Date()) => {
@@ -64,3 +90,16 @@ export function defaultContractDate({
 
   return newDate;
 }
+
+export function getFirstOfcurrentMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), 1, 2);
+}
+
+export function getLastOfcurrentMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0);
+}
+
+export const firstOfMonth = getFirstOfcurrentMonth();
+export const lastOfMonth = getLastOfcurrentMonth();

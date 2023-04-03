@@ -3,7 +3,7 @@
     <v-card elevation="0">
       <v-card-actions>
         <!--v-btn
-          :disabled="shifts.length != 1"
+          :disabled="shiftsLength != 1"
           icon
           @click="$emit('edit', shifts[0].shift)"
         >
@@ -13,21 +13,21 @@
         <ShiftBulkActionsDialogReview
           v-if="canReview"
           :shifts="shifts"
-          @reset="$emit('refresh')"
+          @reset="resetFn()"
         >
           <template #activator="{ on }">
             <v-btn :disabled="!reviewable" icon v-on="on">
-              <v-icon>{{
-                shifts.length > 1 ? icons.mdiCheckAll : icons.mdiCheck
-              }}</v-icon>
+              <v-icon
+                >{{ shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck }}
+              </v-icon>
             </v-btn>
           </template>
         </ShiftBulkActionsDialogReview>
 
-        <ShiftAssignContractDialog :shifts="shifts" @reset="$emit('refresh')">
+        <ShiftAssignContractDialog :shifts="shifts" @save="updateFn">
           <template #activator="{ on }">
             <v-btn
-              :disabled="contracts.length < 2 || shifts.length < 1"
+              :disabled="!moreThanOneContract || shiftsLength < 1"
               icon
               v-on="on"
             >
@@ -37,11 +37,11 @@
         </ShiftAssignContractDialog>
 
         <ShiftBulkActionsDialogDelete
-          :count="shifts.length"
+          :count="shiftsLength"
           @destroy="destroyFn"
         >
           <template #activator="{ on }">
-            <v-btn :disabled="shifts.length < 1" icon v-on="on">
+            <v-btn :disabled="shiftsLength < 1" icon v-on="on">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
             </v-btn>
           </template>
@@ -73,12 +73,6 @@ export default {
     ShiftBulkActionsDialogReview
   },
   props: {
-    // We need to pass a destroy function, because we cannot reset the
-    // `this.selected` in `ShiftsTable.vue` otherwise.
-    destroyFn: {
-      type: Function,
-      required: true
-    },
     canReview: {
       type: Boolean,
       default: false
@@ -87,9 +81,15 @@ export default {
       type: Array,
       required: true
     },
-    contracts: {
-      type: Array,
-      required: true
+    moreThanOneContract: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    resetFn: {
+      type: Function,
+      required: false,
+      default: () => {}
     }
   },
   data: () => ({
@@ -97,7 +97,7 @@ export default {
   }),
   computed: {
     reviewable() {
-      return this.shifts.filter((shift) => shift.reviewed == false).length;
+      return this.shifts.filter((shift) => shift.wasReviewed === false).length;
     },
     durationSum() {
       let sum = 0;
@@ -105,6 +105,25 @@ export default {
         sum += shift.duration;
       });
       return "| " + minutesToHHMM(sum, "") + "h";
+    },
+    shiftsLength() {
+      return this.shifts.length;
+    }
+  },
+  methods: {
+    async destroyFn() {
+      await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);
+      this.resetFn();
+      this.$emit("destroy");
+    },
+    async updateFn(contractInstance) {
+      await this.$store.dispatch("contentData/bulkSwitchContract", {
+        shiftArray: this.shifts,
+        newContract: contractInstance,
+        initialContract: this.shifts[0].contract
+      });
+      this.resetFn();
+      this.$emit("update");
     }
   }
 };

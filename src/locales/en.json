@@ -25,36 +25,36 @@
     "skip": "Skip",
     "switch": "Switch",
     "update": "Update",
-    "dontShowAgain": "Don't show the onboarding again"
+    "dontShowAgain": "Do not show the onboarding again"
   },
   "app": {
     "account": "Account",
     "calendar": "Calendar",
-    "contracts": "Contract",
+    "contracts": "Contracts",
     "dashboard": "Dashboard",
     "debug": "Debug",
     "gdpr": "GDPR",
-    "reset": "Reset",
     "faq": "FAQ",
     "help": "Help",
     "imprint": "Imprint",
     "loggingin": "Logging in...",
     "logout": "@:actions.logout",
-    "mainTitle": "Your flexible time sheet",
+    "mainTitle": "Your flexible timesheet",
     "news": "News",
     "notfound": "Not found",
     "onboarding": "Onboarding",
     "privacy": "Privacy",
     "privacyagreement": "Privacy agreement",
-    "reports": "Report",
+    "reports": "Timesheets",
     "settings": "Settings",
     "shifts": "Shift",
     "language": "Language",
-    "enterKey": "enter"
+    "enterKey": "Enter"
   },
   "buttons": {
     "deleteEntity": "@:actions.delete {entity}?",
-    "newEntity": "@:actions.add {entity}"
+    "newEntity": "@:actions.add {entity}",
+    "updateEntity": "{entity} @:actions.edit"
   },
   "calendar": {
     "day": "Day",
@@ -66,20 +66,20 @@
     "type": "Type",
     "week": "Week",
     "overlap": {
-      "resolving": "Resolving",
+      "resolving": "Resolving conflicts",
       "none": "There are no overlapping shifts. You're good!",
       "all": "Other shifts",
       "overlap": "Overlapping shifts"
     }
   },
   "contracts": {
-    "disableDateChangeInfo": "You can move your contract start and end dates closer to your first and last shift, but must include the shift inside the date range.",
-    "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export time sheets.",
+    "disableDateChangeInfo": "You can change your contract's start and end dates, but existing shifts must remain within the date range.",
+    "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export timesheets.",
     "empty": "You will have to create a contract in order to use Clock.",
     "fromTo": "{start} until {end}",
     "to": "to",
     "hoursPerMonth": "Hours per month",
-    "hoursPerMonthSubtitle": "Your monthly worktime in HH:mm or HH,hh",
+    "hoursPerMonthSubtitle": "Your monthly working time in HH:mm or HH,hh",
     "name": "Name your contract",
     "activeContracts": "Active Contracts",
     "noActiveContracts": "There are presently no active contracts",
@@ -88,52 +88,48 @@
     "archived": "Expired contracts",
     "perMonth": "{time} per month",
     "carryover": {
-      "checkboxLabel": "Carryover work time from previous month",
+      "checkboxLabel": "Carryover working time from previous month",
       "dateLabel": "Carryover into this month",
       "timeLabel": "Carryover",
-      "timeSubtitle": "Worktime to be carried over (HH:mm)",
-      "locked": "There are locked months. Carryover cannot be modified."
+      "timeSubtitle": "working time to be carried over (+/-HH:mm)",
+      "locked": "There are locked months. Carryover cannot be modified.",
+      "info": "Please enter the working time carryover to be factored in for the selected start date."
+    },
+    "createContract": "Create Contract",
+    "errors": {
+      "shiftOutOfScope": "Given shifts need to stay in scope after changing the contract duration."
     }
   },
   "dashboard": {
     "disabled": {
       "noContract": "You have no contract yet.",
-      "problemShiftsHere": "Problems with your shifts will be displayed her.",
+      "problemShiftsHere": "Problems with your shifts will be displayed here.",
       "createContractHere": " Create a contract here.",
-      "contractNeededForClocking": " You need to create a contract to clock-in a shift.",
-      "createShiftsHere": "You can clock-in manually here.",
+      "contractNeededForClocking": " You need to create a contract to clock in a shift.",
+      "createShiftsHere": "You can clock in manually here.",
       "progressHere": "Your progress will be shown here.",
-      "reportHere": "You can check your monthly progress here and export your report.",
+      "reportHere": "You can check your monthly progress here and export your timesheet.",
       "shiftsHere": "You can manage your saved shifts here."
     },
     "welcome": {
       "text": "Welcome to Clock! We are constantly working to improve this application. If you need advice, please check out the {link} oder send us your feedback.",
-      "manual": "user manual",
-      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
+      "linktext": "user manual",
+      "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/"
     },
     "clock": {
       "contractInactive": "You are not clocked into the selected contract. You will have to change the contract to clock out.",
-      "contractExpired": "The selected contract has expired - you cannot clock any new shifts.",
-      "contractInFuture": "The selected contract starts in the futur - you cannot clock any shifts yet.",
+      "contractExpired": "The selected contract has expired. You cannot clock any new shifts.",
+      "contractInFuture": "The selected contract starts in the future. You cannot clock any shifts yet.",
       "in": "Clock in",
       "out": "Clock out",
       "problems": {
         "review": "Review problems",
         "update": "Update Shift",
         "create": "Create Shift",
-        "actions": {
-          "advanced": "Advanced mode",
-          "keepBoth": "Create new shifts",
-          "keepFirst": "Keep first shift",
-          "keepSecond": "Keep last shift",
-          "label": "Select an action"
-        },
         "clockedShift": "Clocked shift",
-        "deletedAll": "You have deleted all staged shifts. You can either clock out, without saving new shifts, or reset your actions.",
         "messages": {
-          "allSaved": "All shifts were saved.",
-          "noSaved": "No additional shifts were saved",
-          "singleSaved": "The shift was saved.",
+          "noSaved": "No shift was saved",
+          "saved": "The shift was saved.",
           "success": "You were clocked out.",
           "label": {
             "notice": "",
@@ -144,7 +140,8 @@
           }
         },
         "newShifts": "New shifts",
-        "text": "A shift must end on the same day it started. Therefore, we will need to split your shift. Make a decision on what to do.",
+        "text": "Problems occurred while the shift was being saved.",
+        "editShift": "You have to edit the shift before it can be saved.",
         "title": "Invalid shift"
       },
       "snacks": {
@@ -163,11 +160,13 @@
     },
     "emptyActivity": "You have not clocked any shfits in this contract.",
     "lastActivity": "Last activity",
+    "reviewShifts": "Review past shifts",
+    "noReviewableShifts": "No shifts to review",
     "newShift": { "title": "New shift" },
     "overlaps": {
-      "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your time sheet.",
+      "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your timesheet.",
       "nProblems": "Problems found",
-      "noProblems": "There are no problems with your shifts."
+      "noProblems": "There are no problems with your saved shifts."
     },
     "progress": {
       "title": {
@@ -177,10 +176,10 @@
       },
       "warnings": {
         "title": "Information",
-        "carryover": "Your monthly worktime is exceeded by {n} h.",
-        "carryoverLegal": "Formally, you cannot carry over more than 50% of your monthly worktime ({n} h) into the next month (§2 MiLoG).",
-        "dailyOvertime": "You worked already {n} h today.",
-        "dailyOvertimeLegal": "Your daily worktime should not exceed 8h (§3 ArbzG)."
+        "carryover": "Your monthly working time is exceeded by {n} h.",
+        "carryoverLegal": "Formally, you cannot carry over more than 50% of your monthly working time ({n} h) into the next month (§2 MiLoG).",
+        "dailyOvertime": "You already worked {n} h today.",
+        "dailyOvertimeLegal": "Your daily working time should not exceed 8h (§3 ArbzG)."
       },
       "weeklyText": "You worked {n} h this month.",
       "weeklyBase": "Your weekly due average in this contract is {n} h.",
@@ -205,13 +204,13 @@
     "minLength": "{name} must be at least {length} characters long!",
     "matchEmail": "The emails do not match.",
     "nameRequired": "{name} is required | {name} are required",
-    "shiftDateEndAfterStart": "A shift must must before it starts.",
+    "shiftDateEndAfterStart": "A shift's end must be after its start.",
     "shiftDateEndRequired": "You must specify an end time.",
     "shiftDateStartBeforeEnd": "A shift must start before it ends.",
     "shiftDateStartRequired": "You must specify a start time.",
     "timeFormat": "Please enter a valid format (HH:MM).",
-    "validEmail": "Must be valid email.",
-    "notNegative": "Your worktime must not be negative."
+    "validEmail": "This is not a valid mail address.",
+    "notNegative": "Your working time must not be negative."
   },
   "feedback": {
     "fields": {
@@ -222,7 +221,8 @@
     },
     "snackbar": {
       "error": "Please try again later.",
-      "success": "We have received your message. Thank you!"
+      "success": "We have received your message. Thank you!",
+      "reviewError": "An error occured. Please modify the shift of {dateAndTime} before reviewing."
     },
     "text": "Send us any feedback you have. We appreciate all comments!",
     "title": "Feedback",
@@ -233,9 +233,24 @@
       "question": "Question"
     }
   },
+  "ombuds": {
+    "fields": {
+      "email": "Email",
+      "message": "Message",
+      "name": "Name"
+    },
+    "snackbar": {
+      "error": "Please try again later.",
+      "success": "We have forwarded your message to the ombudsperson for student affairs. Thank you!"
+    },
+    "title": "Contact the ombudsperson for student affairs",
+    "text": "Do you need support for problems with your working conditions?",
+    "linkText": "More information about the ombudsperson",
+    "url": "https://www.uni-frankfurt.de/97234850/Ombudspersonen_f%C3%BCr_Studierende_und_wissenschaftliche_Mitarbeiter_innen_sowie_f%C3%BCr_studentische_und_wissenschaftliche_Hilfskr%C3%A4fte"
+  },
   "footer": {
     "acknowledgeGU": {
-      "text": "The development of this project was financially supported by {link}.",
+      "text": "The development of this project was supported by {link}.",
       "university": "Goethe University Frankfurt",
       "url": "https://www.goethe-university-frankfurt.de/"
     }
@@ -247,18 +262,13 @@
   },
   "gdpr": {
     "accepted": "You agreed with our privacy policy.",
-    "revokeInfo": "If you wish to revoke this agreement, you can delete your account (and thus all your data) since we cannot process your data withour your consent.",
-    "download": "You can request and download all information saved by us. The download is provided in JSON.",
+    "revokeInfo": "If you wish to revoke this agreement, you will have to delete your account (and thus all your data) since we cannot process your data without your consent.",
+    "download": "You can request and download all information saved by us. The download is provided in the JSON format.",
     "suffix": "GDPR"
   },
-  "help": {
-    "title": "Reset App",
-    "blurb1": "If you are experiencing problems, you can reset the app to its factory settings. You will be logged out.",
-    "blurb2": "This will NOT delete any of your data. All your shifts and contracts will remain untouched."
-  },
   "hero": {
-    "slogan": "Master your time sheets",
-    "text": "Clock allows you to easily edit your time sheets on your mobile device or PC.",
+    "slogan": "Master your timesheets",
+    "text": "Clock allows you to easily edit your timesheets on your mobile device or PC.",
     "login": "Login with HRZ Account",
     "landing": {
       "blurb1": {
@@ -266,8 +276,8 @@
         "text": "Simply start your shift with the clock button and close your browser. You can clock out on any device later if your work is done."
       },
       "blurb2": {
-        "title": "Forgot to clock? No problem!",
-        "text": "Past shifts can easily be added. All shifts can be edited or even deleted - you decide which shifts will be printed on your time sheet!"
+        "title": "Did your forgot to clock? No problem!",
+        "text": "Past shifts can easily be added. All shifts can be edited or even deleted - you decide which shifts will be printed on your timesheet!"
       }
     }
   },
@@ -290,21 +300,24 @@
     "contract": "Contract | Contracts",
     "report": "Report | Reports",
     "selectedContract": "the selected contract | the selected contracts",
+    "noSelectedContract": "No contract selected | No contracts selected",
     "selectedShift": "the selected shift | the selected shifts",
     "shift": "Shift | Shifts"
   },
   "onboarding": {
-    "createContract": {
-      "text": "Please fill in your contract details below.",
-      "title": "Create {entity}"
+    "setupData": {
+      "title": "Your first steps",
+      "text": "If you want directly get started using Clock, you can create a contract and save your personnel number.",
+      "noContractExists": "You do not have a contract yet.",
+      "contractExists": "You already created a contract. You can create further contracts in the 'contract' tab."
     },
     "finished": {
-      "text": "You completed the onboarding!",
-      "title": "Finished"
+      "title": "Finished",
+      "text": "You completed the onboarding!"
     },
 
     "underConstruction": {
-      "text": "We value your feedback. We are continuously exploring new functionality for Clock. Do not hesitate to contact us.",
+      "text": "We are continuously exploring new functionality for Clock and value your feedback. Do not hesitate to contact us.",
       "title": "Under construction"
     },
     "welcome": {
@@ -314,22 +327,22 @@
     "cards": {
       "1": {
         "title": "What is Clock?",
-        "text": "Clock is an online tool to help you register your worktime and generate your monthly Time Sheets. You control all of your data and you decide when your Time Sheet is ready to be turned in.",
+        "text": "Clock is an online tool to help you register your working time and generate your monthly timesheets. You control all of your data and you decide when your timesheet is ready to be turned in.",
         "placeholderName": "UndrawTimeManagement"
       },
       "2": {
         "title": "Contracts",
-        "text": "A Contract is a virtual duplicate of your real contract and should have the same runtime and the same work hours. If you have more than one Job, you can create additional Contracts and clock your worktime separately.",
+        "text": "A Contract is a virtual duplicate of your real contract and should have the same duration and the same number of work hours. If you have more than one job, you can create additional Contracts and clock your working time separately.",
         "placeholderName": "UndrawNoData"
       },
       "3": {
         "title": "Shifts",
-        "text": "A consecutive worktime is called \"Shift\". You can clock Shifts directly in real time on the Dashboard or you can add them manually and schedule Shifts in advance. Scheduled Shifts must be reviewed when they are past.",
+        "text": "A consecutive working time is called 'Shift'. You can clock Shifts directly in real time on the Dashboard or you can add them manually and schedule Shifts in advance. A scheduled Shift must be reviewed when it is done.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
         "title": "The Dashboard",
-        "text": "The Clock Dashboard features the \"Clock in\" button and displays useful information about your Shifts and work time. You will receive a warning if your Shifts overlap or if you forgot to clock out.",
+        "text": "The Clock Dashboard features the 'Clock in' button and displays useful information about your Shifts and working time. You will receive a warning if your Shifts overlap or if you forgot to clock out.",
         "placeholderName": "UndrawSocialDashboard"
       },
       "5": {
@@ -338,23 +351,29 @@
         "placeholderName": "UndrawCalendar"
       },
       "6": {
-        "title": "Generate a Time Sheet",
-        "text": "At the end of a month you can generate a Time Sheet with all Shifts summed up for every day of the current month. You can download your Time Sheet and turn it in at your supervisor's office.",
+        "title": "Generate a timesheet",
+        "text": "At the end of a month, you can generate a timesheet with all Shifts summed up for every day of the current month. You can download your timesheet and turn it in at your supervisor's office.",
         "placeholderName": "UndrawNewsletter"
+      },
+      "7": {
+        "title": "Legally safe",
+        "text": "Clock warns you if your working times conflict with rules and legal regulations. If you have trouble solving any conflicts with your supervisor, you may use our contact form to reach the ombudsperson for student affairs.",
+        "placeholderName": "UndrawConversation"
       }
     }
   },
   "personnelNumber": {
-    "text": "You can fill in the below data at a point later in time in your user settings.",
-    "title": "Optional",
+    "noPersonnelNumberSaved": "To create a timesheet, you need to enter your personnel number. If you do not know the number yet, you can add it later before downloading your first timesheet.",
+    "personnelNumberSaved": "You alreadey saved your personnel number",
+    "title": "Save personnel number",
     "hint": "You can find your personnel number on your salary printout.",
     "label": "Personnel number",
     "changeTitle": "Change personnel number",
-    "changeInfo": "Your personnel number should is independent of your contract(s) and should not change.",
-    "changeConfirmText": "Are you sure you want to change it? "
+    "changeInfo": "Your personnel number is independent of your contract(s) and should not change.",
+    "changeConfirmText": "Are you sure you want to change your personnel number? "
   },
   "privacyagreement": {
-    "text": "You have to accept the {privacyAgreement} before using Clock.",
+    "text": "You need to accept the {privacyAgreement} before using Clock.",
     "checkbox": "I have read and agree with the privacy policy.",
     "revokeInfo": "The agreement can be revoked by deleting your account."
   },
@@ -368,7 +387,7 @@
     "exported": "Exported",
     "generate": "Generate report",
     "hints": {
-      "request": "You can request and subsequently download your months report for review. You cannot request a report for the current month before locking the report for previous month of the same contract.",
+      "request": "You can request and subsequently download your months report for review. You cannot request a report for the current month before locking the report for the previous month of the same contract.",
       "personnelnumber": "You will also have to supply your personnel number.",
       "lock": "You can only lock the month after generating the report for review."
     },
@@ -381,6 +400,11 @@
       "label": "Lock this month",
       "confirm": "Lock this month?",
       "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
+    },
+    "warnings": {
+      "maxOvertimeExceeded": "You gathered more than 50% of your debit working time in overtime. Only 50% of you debit working time will be carried over to the next month as surplus hours.",
+      "insufficientworking time": "You are missing more than 20% of your debit working time.",
+      "working timeOverEightyHours": "Your total working time for this month is greater than 80h. Please keep in mind that you lose your students insurance status if you work more than 80h during the semester."
     }
   },
   "selectContract": {
@@ -404,12 +428,14 @@
     "changeContract": "Selected contract",
     "dave": "I'm sorry Dave, I'm afraid I can't do that!",
     "empty": "You have not created any shifts for this contract yet.",
+    "splitWithBreaktimeLabel": "Insert required breaktime on save",
     "note": {
       "note": "Note",
       "label": "Write a note for yourself"
     },
     "repeating": {
       "checkboxLabel": "Repeat",
+      "checkboxText": "A recurring appointment can only be created for future shifts.",
       "dialog": {
         "activator": "Show scheduled shifts",
         "text": "The following {numberOfShifts} will be scheduled:",
@@ -430,24 +456,28 @@
       "repeatUntil": {
         "title": "When should we stop repeating the shift?",
         "contractDate": "Until the end of the contract",
-        "customDate": "Let me set an end date myself"
+        "customDate": "Set an end date"
       }
     },
     "review": {
       "title": "Review shifts",
-      "text": "I confirm that all selected shifts have taken place."
+      "text": "I confirm that all selected shifts have taken place.",
+      "review": "Review",
+      "unableToReview": "Unable to review - Please edit the shift."
     },
     "reviewed": "The shift has taken place. I reviewed the data for correctness.",
+    "planned": "The shift takes place in the future and will be saved as planned shift.",
     "reviewErrorPast": "A past shift must be reviewed before saving.",
-    "reviewErrorFuture": "A future shift cannot be saved as \"reviewed\".",
+    "reviewErrorFuture": "A future shift cannot be saved as 'reviewed'.",
     "reviewErrorLive": "A running shift can not be reviewed before its end.",
     "tags": {
-      "createHint": "No results matching \"{search}\". Press {enter} to create a new one",
+      "createHint": "No results matching '{search}'. Press {enter} to create a new tag.",
       "label": "Add tags"
     },
     "to": "to",
+    "trimBreaktime": "Split shift and insert break",
     "types": {
-      "label": "What category does this shift fall into?",
+      "label": "Which category does this shift belong to?",
       "sk": "Sick",
       "st": "Shift",
       "vn": "Vacation",
@@ -457,10 +487,29 @@
     "wasExportedAlert": "The report for this shift was already exported. This shift cannot be edited anymore.",
     "table": {
       "pastShiftsTitle": "Past shifts",
-      "pastShiftsHint": "Clocked shifts and shifts manually entered with past dates are considered as \"reviewed\".",
+      "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past.",
       "futureShiftsTitle": "Scheduled shifts",
       "futureShiftsHint": "All shifts scheduled for the future.",
       "tagsNotes": "Tags/Notes"
+    },
+    "errors": {
+      "startedBeforeStopped": "The start must be before the end of the shift.",
+      "maximumworking timePerDay": "The maxium allowed working time amount is 10 hours per day.",
+      "workingOnSundays": "It is not allowed to work on a sunday.",
+      "workingOnHolidays": "You can only book 'holiday' shifts on a holiday.",
+      "exclusiveVacation": "You can not combine 'vacation' shifts with other shifts on the same day.",
+      "exclusiveSick": "You can not combine 'sick' shifts with other shifts on the same day.",
+      "overlappingStarted": "The start time is within the period of an existing and reviewed shift.",
+      "overlappingStopped": "The end time is within the period of an already existing and reviewed shift.",
+      "eightTwentyRule": "As a rule, student workers should not be obliged to work before 08:00 and after 20:00.",
+      "autoworking timeCutting": "Mandatory breaktimes are missing on this workday. Clock will subtract the legally required breaktimes automatically from your working time.",
+      "month_already_locked": "This month has already been locked. You cannot save new shifts within this month."
+    },
+    "hints": {
+      "faqText": "Do you have questions regarding the warning/error messages?",
+      "faqLinkText": "Check out the FAQ.",
+      "ombudsText": "Do you need support fpr problems with your working conditions?",
+      "ombudsLinkText": "Contact the ombudsperson for student affairs."
     }
   },
   "snackbar": {
@@ -473,5 +522,10 @@
     "end": "End",
     "duration": "Duration",
     "reviewed": "Reviewed"
+  },
+  "faq": {
+    "text": "Please refer to the {link} for further information.",
+    "linktext": "user manual",
+    "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/"
   }
 }

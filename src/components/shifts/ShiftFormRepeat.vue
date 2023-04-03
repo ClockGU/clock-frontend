@@ -56,8 +56,8 @@
           v-model="customEnd"
           no-title
           first-day-of-week="1"
-          :min="date"
-          :max="contractEndDate"
+          :min="currentDateString"
+          :max="contractEndDateString"
         />
       </v-menu>
     </v-col>
@@ -88,12 +88,10 @@
 
 <script>
 import { localizedFormat } from "@/utils/date";
-import { parseISO } from "date-fns";
 import { RRule } from "rrule";
-import { Shift } from "@/models/ShiftModel";
-import { v4 as uuidv4 } from "uuid";
 
 import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog";
+import { formatISO, parseISO } from "date-fns";
 
 const ALL_DAYS = {
   0: RRule.SU,
@@ -115,44 +113,50 @@ export default {
   name: "ShiftFormRepeat",
   components: { ShiftFormRepeatDialog },
   props: {
-    contractEndDate: {
-      type: String,
-      required: true
-    },
-    date: {
-      type: String,
-      required: true
-    },
     shift: {
       type: Object,
       required: true
     }
   },
-  data: () => ({
-    repeatUntil: "contractDate",
-    menu: false,
-    selected: "WEEKLY",
-    customEnd: null,
-    interval: 1
-    // icons: { mdiRepeat }
-  }),
+  data() {
+    return {
+      repeatUntil: "contractDate",
+      menu: false,
+      selected: "WEEKLY",
+      customEnd: undefined,
+      interval: 1
+    };
+  },
   computed: {
     shifts() {
       return this.generatedSchedule
         .map((startDate) => {
-          const endDate = new Date(this.shift.date.end);
+          const endDate = this.shift.stopped;
           endDate.setDate(startDate.getDate());
           endDate.setMonth(startDate.getMonth());
           endDate.setYear(startDate.getFullYear());
-
-          return new Shift({
-            ...this.shift,
-            date: { start: startDate, end: endDate },
-            uuid: uuidv4(),
-            reviewed: false
-          });
+          let shift = this.shift.clone();
+          startDate.setHours(this.shift.started.getHours());
+          shift.started = startDate;
+          shift.stopped = endDate;
+          shift.wasReviewed = false;
+          return shift;
         })
         .slice(1);
+    },
+    currentDate() {
+      return this.shift.started;
+    },
+    contractEndDate() {
+      return this.$store.getters["contentData/contractById"](
+        this.shift.contract
+      ).endDate;
+    },
+    currentDateString() {
+      return formatISO(this.currentDate);
+    },
+    contractEndDateString() {
+      return formatISO(this.contractEndDate);
     },
     isDatePickerDisabled() {
       return this.repeatUntil === "contractDate";
@@ -160,20 +164,16 @@ export default {
     repeatUntilDate() {
       const OPTIONS = {
         contractDate: this.contractEndDate,
-        customDate: this.customEnd
+        customDate: parseISO(this.customEnd)
       };
-
       return OPTIONS[this.repeatUntil];
     },
     endDate() {
-      return localizedFormat(
-        parseISO(this.repeatUntilDate),
-        "EEEE',' do MMMM yyyy"
-      );
+      return localizedFormat(this.repeatUntilDate, "EEEE',' do MMMM yyyy");
     },
     frequency() {
-      const dayOfMonth = localizedFormat(parseISO(this.date), "do");
-      const weekdayName = localizedFormat(parseISO(this.date), "EEEE");
+      const dayOfMonth = localizedFormat(this.currentDate, "do");
+      const weekdayName = localizedFormat(this.currentDate, "EEEE");
 
       return [
         { text: this.$t("shifts.repeating.frequencies.daily"), value: "DAILY" },
@@ -243,19 +243,19 @@ export default {
       const rule = new RRule({
         ...this.schedules[this.selected],
         interval: this.interval,
-        dtstart: this.shift.date.start,
-        until: parseISO(this.repeatUntilDate)
+        dtstart: this.shift.started,
+        until: this.repeatUntilDate
       });
       return rule.all();
     }
   },
   watch: {
     shifts() {
-      this.$emit("update", this.shifts);
+      this.$emit("input", this.shifts);
     }
   },
   created() {
-    this.customEnd = this.contractEndDate;
+    this.customEnd = this.contractEndDateString;
   }
 };
 </script>

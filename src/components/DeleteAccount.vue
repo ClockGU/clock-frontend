@@ -11,7 +11,7 @@
     <v-card-actions>
       <ConfirmationDialog
         :confirmation-button="{
-          attrs: { disabled: $v.$invalid },
+          attrs: { disabled: v$.$invalid },
           color: 'error',
           onClickHandler: destroy
         }"
@@ -43,7 +43,7 @@
             type="text"
             autocomplete="email"
             :error-messages="emailErrors"
-            @blur="$v.email.$touch()"
+            @blur="v$.email.$touch()"
             @keyup.enter="destroy"
           ></v-text-field>
         </template>
@@ -55,58 +55,63 @@
 <script>
 import AuthService from "@/services/auth";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { validationMixin } from "vuelidate";
-import { required, email, sameAs } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
 import { mdiEmail } from "@mdi/js";
+import { useVuelidate } from "@vuelidate/core";
+import { email, required, sameAs } from "@vuelidate/validators";
 
 export default {
   name: "DeleteAccount",
   components: { ConfirmationDialog },
-  mixins: [validationMixin],
-  validations: {
-    email: {
-      required,
-      email,
-      sameAs: sameAs(function () {
-        return this.user.email;
-      })
-    }
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data: () => ({
     email: "",
     icons: { mdiEmail },
     loading: false
   }),
+  validations() {
+    return {
+      email: {
+        required,
+        email,
+        sameAs: sameAs(this.user.email)
+      }
+    };
+  },
   computed: {
     ...mapGetters({
       user: "user"
     }),
     emailErrors() {
       const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push(this.$t("errors.validEmail"));
-      !this.$v.email.required &&
+      if (!this.v$.email.$dirty) return errors;
+      !this.v$.email.email && errors.push(this.$t("errors.validEmail"));
+      !this.v$.email.required &&
         errors.push(
           this.$tc("errors.nameRequired", 1, {
             name: this.$t("feedback.fields.email")
           })
         );
-      !this.$v.email.sameAs && errors.push(this.$t("errors.matchEmail"));
+      this.v$.email.sameAs.$invalid &&
+        errors.push(this.$t("errors.matchEmail"));
       return errors;
     }
   },
   methods: {
     async destroy() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
 
       this.loading = true;
       try {
         await AuthService.deleteAccount();
-        this.$store.dispatch("auth/LOGOUT");
+        await this.$store.dispatch("auth/LOGOUT");
       } catch (error) {
-        this.$store.dispatch("snackbar/setSnack", {
+        await this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("settings.account.tryAgainLater"),
           timeout: 4000,
           color: "error"
@@ -117,7 +122,7 @@ export default {
     resetForm() {
       setTimeout(() => {
         this.email = null;
-        this.$v.$reset();
+        this.v$.$reset();
       }, 400);
     }
   }

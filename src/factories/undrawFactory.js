@@ -13,7 +13,8 @@ const repositories = {
   UndrawSocialDashboard: () => import("vue-undraw/UndrawSocialDashboard"),
   UndrawCalendar: () => import("vue-undraw/UndrawCalendar"),
   UndrawNewsletter: () => import("vue-undraw/UndrawNewsletter"),
-  UndrawNotes: () => import("vue-undraw/UndrawNotes")
+  UndrawNotes: () => import("vue-undraw/UndrawNotes"),
+  UndrawConversation: () => import("vue-undraw/UndrawConversation")
 };
 
 export const UndrawFactory = {

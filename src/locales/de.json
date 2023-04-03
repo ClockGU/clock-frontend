@@ -34,7 +34,6 @@
     "dashboard": "Dashboard",
     "debug": "Debug",
     "gdpr": "DSGVO",
-    "reset": "Zurücksetzen",
     "faq": "FAQ",
     "help": "Hilfe",
     "imprint": "Impressum",
@@ -54,7 +53,8 @@
   },
   "buttons": {
     "deleteEntity": "{entity} @.lower:actions.delete?",
-    "newEntity": "{entity} @:actions.add"
+    "newEntity": "{entity} @:actions.add",
+    "updateEntity": "{entity} @:actions.edit"
   },
   "calendar": {
     "day": "Tag",
@@ -67,13 +67,13 @@
     "week": "Woche",
     "overlap": {
       "resolving": "Konflikte beheben",
-      "none": "Es gibt keine überlappenden Schichten - Sieht gut aus!",
+      "none": "Es gibt keine überlappenden Schichten. Sieht gut aus!",
       "all": "Weitere Schichten",
       "overlap": "Überlappende Schichten"
     }
   },
   "contracts": {
-    "disableDateChangeInfo": "Du kannst das Start-/Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben. Das Startdatum muss vor der ersten und das Enddatum nach der letzten Schicht liegen.",
+    "disableDateChangeInfo": "Du kannst das Start oder Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben.",
     "expiredVerbose": "Dieser Vertrag ist abgelaufen und kann nicht mehr geändert werden. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "empty": "Du musst einen Vertrag erstellen, um Clock benutzen zu können.",
     "fromTo": "{start} bis {end}",
@@ -92,7 +92,12 @@
       "dateLabel": "Übertrag in diesen Monat",
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
-      "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind."
+      "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
+      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum gewählten Startdatum anfällt."
+    },
+    "createContract": "Vertrag erstellen",
+    "errors": {
+      "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen."
     }
   },
   "dashboard": {
@@ -107,8 +112,8 @@
       "shiftsHere": "Hier kannst du deine gespeicherten Schichten ansehen und verwalten."
     },
     "welcome": {
-      "text": "Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn Du mal nicht weiter weißt, wirf einen Blick ins {link} oder sende uns dein Feedback.",
-      "manual": "Handbuch",
+      "text": "Willkommen bei Clock! Wir arbeiten stetig daran, die Anwendung zu verbessern. Wenn du mal nicht weiter weißt, wirf einen Blick ins {link} oder sende uns dein Feedback.",
+      "linktext": "Handbuch",
       "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/"
     },
     "clock": {
@@ -121,19 +126,10 @@
         "review": "Probleme beheben",
         "update": "Schicht bearbeiten",
         "create": "Schicht hinzufügen",
-        "actions": {
-          "advanced": "Erweiterter Modus",
-          "keepBoth": "Erstelle alle neue Schichten",
-          "keepFirst": "Behalte die erste Schicht",
-          "keepSecond": "Behalte die letzte Schicht",
-          "label": "Wähle eine Option aus"
-        },
         "clockedShift": "Geclockte Schicht",
-        "deletedAll": "Du hast alle neuen Schichten gelöscht. Du kannst entweder ausclocken und die ungültige Schicht verwerfen oder die Bearbeitung zurücksetzen und von vorne anfangen.",
         "messages": {
-          "allSaved": "Alle Schichten wurden gespeichert.",
-          "noSaved": "Es wurden keine Schichten gespeichert.",
-          "singleSaved": "Die Schicht wurde gespeichert.",
+          "noSaved": "Es wurde keine Schicht gespeichert.",
+          "saved": "Die Schicht wurde gespeichert.",
           "success": "Du wurdest ausgeclockt.",
           "label": {
             "notice": "",
@@ -144,7 +140,8 @@
           }
         },
         "newShifts": "Neue Schichten",
-        "text": "Eine Schicht muss am gleichen Tag enden, an dem sie begonnen hat. Wir müssen deine Schicht bearbeiten, damit sie diesen Anforderungen entspricht.",
+        "text": "Es gibt Probleme beim Speichern deiner Schicht.",
+        "editShift": "Du musst die Schicht bearbeiten bevor sie gespeichert werden kann.",
         "title": "Ungültige Schicht"
       },
       "snacks": {
@@ -163,6 +160,8 @@
     },
     "emptyActivity": "Du hast in diesem Vertrag noch keine Aktivitäten.",
     "lastActivity": "Letzte Aktivitäten",
+    "reviewShifts": "Überprüfe vergangene Schichten",
+    "noReviewableShifts": "Es sind keine Schichten zu überprüfen",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
       "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
@@ -198,14 +197,14 @@
     "dataWillBeLost": "Du hast Daten eingegeben, die beim Fortfahren verworfen werden."
   },
   "errors": {
-    "contractName": "Der Vertragsname",
+    "contractName": "Der Name des Vertrags",
     "durationBiggerZero": "{name} darf nicht Null sein.",
     "hours": "Die Stundenangabe",
     "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
     "matchEmail": "Die E-Mail Adresse ist nicht korrekt.",
     "nameRequired": "{name} wird benötigt | {name} werden benötigt",
-    "shiftDateEndAfterStart": "Eine Schicht muss nach ihrem Start enden.",
+    "shiftDateEndAfterStart": "Das Schichtende muss nach dem Start liegen.",
     "shiftDateEndRequired": "Du musst eine Endzeit festlegen.",
     "shiftDateStartBeforeEnd": "Eine Schicht muss starten bevor sie endet.",
     "shiftDateStartRequired": "Du musst eine Startzeit festlegen.",
@@ -222,7 +221,8 @@
     },
     "snackbar": {
       "error": "Bitte probiere es später erneut.",
-      "success": "Wir haben deine Nachricht erhalten. Vielen Dank!"
+      "success": "Wir haben deine Nachricht erhalten. Vielen Dank!",
+      "reviewError": "Es ist ein Fehler aufgetreten. Bitte bearbeite die Schicht vom {dateAndTime} vor dem Überprüfen."
     },
     "text": "Du hast Feedback an uns? Wir haben ein offenes Ohr!",
     "title": "Feedback",
@@ -232,6 +232,21 @@
       "general": "Allgemein",
       "question": "Frage"
     }
+  },
+  "ombuds": {
+    "fields": {
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "name": "Name"
+    },
+    "snackbar": {
+      "error": "Bitte probiere es später erneut.",
+      "success": "Wir haben deine Nachricht an die zuständigen Ombudspersonen zugestellt. Vielen Dank!"
+    },
+    "title": "Kontakt zu deiner Ombudsperson",
+    "text": "Suchst Du Unterstützung bei Problemen mit deinen Arbeitsbedingungen?",
+    "linkText": "Mehr Informationen über die Ombudsperson",
+    "url": "https://www.uni-frankfurt.de/97234850/Ombudspersonen_f%C3%BCr_Studierende_und_wissenschaftliche_Mitarbeiter_innen_sowie_f%C3%BCr_studentische_und_wissenschaftliche_Hilfskr%C3%A4fte"
   },
   "footer": {
     "acknowledgeGU": {
@@ -246,18 +261,13 @@
     "titleUpdate": "{entity} @.lower:actions.update"
   },
   "gdpr": {
-    "accepted": "Du hast in die Verarbeitung Deiner Daten mit Clock eingewilligt.",
-    "revokeInfo": "Wenn Du die Einwilligung widerrufen möchtest, dürfen wir Deine Daten nicht mehr verarbeiten. Der Widerruf ist daher nur möglich, indem Du Deinen Account und damit all Deine Daten löschst.",
+    "accepted": "Du hast in die Verarbeitung deiner Daten mit Clock eingewilligt.",
+    "revokeInfo": "Wenn du die Einwilligung widerrufen möchtest, dürfen wir deine Daten nicht mehr verarbeiten. Der Widerruf ist daher nur möglich, indem du deinen Account und damit all deine Daten löschst.",
     "download": "Du kannst hier alle deine von uns gespeicherten Daten herunterladen. Der Download erfolgt im JSON-Datenformat.",
     "suffix": "DSGVO"
   },
-  "help": {
-    "title": "App zurücksetzen",
-    "blurb1": "Wenn es bei der Benutzung von Clock Probleme gibt, kannst Du die App auf die Grundeinstellungen zurücksetzen. Du wirst dabei ausgeloggt.",
-    "blurb2": "Es werden KEINE Daten gelöscht, alle Schichten und Verträge bleiben unberührt."
-  },
   "hero": {
-    "slogan": "Bring Deine Stundenzettel unter Kontrolle",
+    "slogan": "Bring deine Stundenzettel unter Kontrolle",
     "text": "Mit Clock kannst du deinen Stundenzettel ganz bequem unterwegs oder am Computer bearbeiten.",
     "login": "Login mit HRZ Account",
     "landing": {
@@ -273,7 +283,7 @@
   },
   "logout": {
     "message": "Du kannst jederzeit wiederkommen.",
-    "title": "Möchtest du dich @:actions.logout?"
+    "title": "Möchtest du dich abmelden?"
   },
   "news": {
     "showAll": "Alle anzeigen",
@@ -290,68 +300,77 @@
     "contract": "Vertrag | Verträge",
     "report": "Stundenzettel | Stundenzettel",
     "selectedContract": "den ausgewählten Vertrag | die ausgewählten Verträge",
+    "noSelectedContract": "Kein Vertrag ausgewählt | Keine Verträge ausgewählt",
     "selectedShift": "die ausgewählte Schicht | die ausgewählten Schichten",
     "shift": "Schicht | Schichten"
   },
   "onboarding": {
-    "createContract": {
-      "text": "Bitte gib deine Vertragsdaten ein.",
-      "title": "{entity} erstellen"
+    "setupData": {
+      "title": "Deine ersten Schritte",
+      "text": "Um Clock sofort nutzen zu können, kannst du direkt einen Vertrag erstellen und deine Personalnummer speichern.",
+      "noContractExists": "Du besitzt noch keinen Vertrag.",
+      "contractExists": "Du hast bereits einen Vertrag erstellt. Weitere Verträge können im Tab - Verträge - erstellt werden."
     },
     "finished": {
-      "text": "Du hast es geschafft!",
-      "title": "Abschluss"
+      "title": "Abschluss",
+      "text": "Du hast es geschafft!"
     },
 
     "underConstruction": {
-      "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System schneller zu verbessern. Zögere nicht, uns zu kontaktieren, wenn dir etwas auf dem Herzen liegt!",
-      "title": "Im Umbau"
+      "title": "Im Umbau",
+      "text": "Wir erweitern Clock weiterhin mit neuen Funktionen. Dein Feedback kann uns helfen, das System zu verbessern. Bitte kontaktiere uns wenn dir etwas auf dem Herzen liegt!"
     },
     "welcome": {
-      "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Das Ganze dauert weniger als eine Minute und wir helfen dir, dich einzurichten!",
-      "title": "@:app.onboarding"
+      "title": "@:app.onboarding",
+      "text": "Du scheinst neu zu sein. Bevor du Clock nutzen kannst, musst du ein paar Dinge erledigen. Wir helfen dir, dich einzurichten!"
     },
     "cards": {
       "1": {
         "title": "Was ist Clock?",
-        "text": "Clock hilft Dir beim Erfassen Deiner Arbeitszeit und beim Erstellen Deiner monatlichen Stundenzettel. Du behältst dabei die Kontrolle über Deine Daten und entscheidest, wann Dein Stundenzettel fertig zur Abgabe ist.",
+        "text": "Clock hilft dir beim Erfassen deiner Arbeitszeit und beim Erstellen deiner monatlichen Stundenzettel. Du behältst dabei die Kontrolle über deine Daten und entscheidest, wann dein Stundenzettel fertig zur Abgabe ist.",
         "placeholderName": "UndrawTimeManagement"
       },
       "2": {
         "title": "Verträge",
-        "text": "Ein Vertrag in Clock entspricht Deinem realen Arbeitsvertrag und sollte die gleiche Laufzeit und die gleiche Stundenzahl haben. Wenn Du mehrere Jobs hast, kannst Du in Clock mehrere Verträge anlegen und Zeiten getrennt erfassen.",
+        "text": "Ein Vertrag in Clock entspricht deinem realen Arbeitsvertrag und sollte die gleiche Laufzeit und die gleiche Stundenzahl haben. Wenn du mehrere Jobs hast, kannst du in Clock mehrere Verträge anlegen und Zeiten getrennt erfassen.",
         "placeholderName": "UndrawNoData"
       },
       "3": {
         "title": "Schichten",
-        "text": "Eine zusammenhängende Arbeitszeit ist eine \"Schicht\". Du kannst Schichten direkt \"clocken \" oder von Hand hinzufügen und sogar im Voraus planen. Eine geplante Schicht muss überprüft werden nachdem sie stattgefunden hat.",
+        "text": "Eine zusammenhängende Arbeitszeit ist eine 'Schicht'. Du kannst Schichten direkt 'clocken' oder von Hand hinzufügen und sogar im Voraus planen. Eine geplante Schicht muss überprüft werden nachdem sie stattgefunden hat.",
         "placeholderName": "UndrawNotes"
       },
       "4": {
         "title": "Das Dashboard",
-        "text": "Auf dem Dashboard kannst Du \"clocken\" und behältst die Arbeitszeit in Deinem Vertrag im Blick. Falls es Überschneidungen Deiner Schichten gibt oder Du das Ausclocken vergessen hast, wird eine Warnung angezeigt.",
+        "text": "Auf dem Dashboard kannst du 'clocken' und behältst die Arbeitszeit in deinem Vertrag im Blick. Falls es Überschneidungen deiner Schichten gibt oder du das Ausclocken vergessen hast, wird eine Warnung angezeigt.",
         "placeholderName": "UndrawSocialDashboard"
       },
       "5": {
         "title": "Kalender und Schichttabelle",
-        "text": "Deine vergangenen und geplanten Schichten kannst Du entweder in einer Kalenderansicht oder in der Schichttabelle ansehen und bearbeiten. In der Schichttabelle siehst Du auch zusätzliche Informationen auf einen Blick.",
+        "text": "Deine vergangenen und geplanten Schichten kannst du entweder in einer Kalenderansicht oder in der Schichttabelle ansehen und bearbeiten. In der Schichttabelle siehst du auch zusätzliche Informationen auf einen Blick.",
         "placeholderName": "UndrawCalendar"
       },
       "6": {
         "title": "Einen Stundenzettel exportieren",
-        "text": "Am Ende des Monats kannst Du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst Du herunterladen und bei Deiner Dienststelle abgeben.",
+        "text": "Am Ende des Monats kannst du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst du herunterladen und bei deiner Dienststelle abgeben.",
         "placeholderName": "UndrawNewsletter"
+      },
+      "7": {
+        "title": "Rechtlicher Rahmen",
+        "text": "Clock warnt dich bei Problemen mit gesetzlichen und allgemeinen Regelungen zu Arbeitszeiten. Lassen sich Probleme mit deiner vorgesetzten Person nicht lösen, kannst Du dich über ein Kontaktformular an die Ombudspersonen wenden.",
+        "placeholderName": "UndrawConversation"
       }
     }
   },
   "personnelNumber": {
-    "text": "Du kannst die folgenden Daten auch zu einem späteren Zeitpunkt in den Einstellungen nachtragen.",
-    "title": "Optionale Angaben",
+    "noPersonnelNumberSaved": "Um einen Stundenzettel zu erstellen musst du deine Personalnummer eingeben. Solltest du deine Personalnummer noch nicht wissen, kannst du sie auch vor dem Download deines ersten Stundenzettels eingeben.",
+    "personnelNumberSaved": "Du hast deine Personalnummer bereits gespeichert",
+    "title": "Personalnummer speichern",
     "hint": "Deine Personalnummer findest du auf deiner Gehaltsabrechnung.",
     "label": "Personalnummer",
     "changeTitle": "Personalnummer ändern",
     "changeInfo": "Die Personalnummer ist unabhängig von laufenden Verträgen und sollte sich nicht ändern.",
-    "changeConfirmText": "Möchtest Du die Personalnummer wirklich ändern?"
+    "changeConfirmText": "Möchtest du die Personalnummer wirklich ändern?"
   },
   "privacyagreement": {
     "text": "Du musst der {privacyAgreement} zustimmen, bevor du Clock nutzen kannst.",
@@ -369,7 +388,7 @@
     "generate": "Stundenzettel erstellen",
     "hints": {
       "request": "Du kannst deinen Stundenzettel zur Ansicht anfordern und herunterladen. Bevor du den Stundenzettel für diesen Monat generieren kannst, musst du den vorherigen Monat sperren.",
-      "personnelnumber": "Außerdem musst Du Deine Personalnummer angeben.",
+      "personnelnumber": "Außerdem musst du deine Personalnummer angeben.",
       "lock": "Du kannst diesen Monat erst sperren nachdem du deinen Stundenzettel generiert hast."
     },
     "of": "von",
@@ -377,10 +396,15 @@
     "summary": "Zusammenfassung",
     "lock": {
       "lock": "Sperren",
-      "locked": "gesperrt",
+      "locked": "Gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
+    },
+    "warnings": {
+      "maxOvertimeExceeded": "Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden in den nächsten Monat übertragen.",
+      "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit.",
+      "worktimeOverEightyHours": "Deine Monatsarbeitszeit überschreitet 80h. Beachte, dass du während der Vorlesungszeit nicht mehr als 80h pro Monat arbeiten darfst, um deinen studentischen Versicherungsstatus zu behalten."
     }
   },
   "selectContract": {
@@ -404,12 +428,14 @@
     "changeContract": "Zugeordneter Vertrag",
     "dave": "Tut mir leid, aber ich kann dich das leider nicht machen lassen!",
     "empty": "Für diesen Vertrag hast du noch keine Schichten erstellt.",
+    "splitWithBreaktimeLabel": "Notwendige Pause beim Speichern einpflegen",
     "note": {
       "note": "Notiz",
       "label": "Schreibe eine Notiz"
     },
     "repeating": {
       "checkboxLabel": "Wiederholen",
+      "checkboxText": "Serientermine können nur für zukünftige Schichten erstellt werden.",
       "dialog": {
         "activator": "Geplante Schichten anzeigen",
         "text": "Die folgenden Schichten werden zusätzlich geplant:",
@@ -435,19 +461,23 @@
     },
     "review": {
       "title": "Schichten überprüfen",
-      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben."
+      "text": "Ich bestätige, dass alle markierten Schichten stattgefunden haben.",
+      "review": "Überprüfen",
+      "unableToReview": "Überprüfen nicht möglich - Bitte bearbeite die Schicht."
     },
     "reviewed": "Die Schicht hat stattgefunden. Ich habe die Angaben überprüft.",
+    "planned": "Die Schicht liegt in der Zukunft und wird als geplant gespeichert.",
     "reviewErrorPast": "Eine vergangene Schicht kann nur gespeichert werden, wenn sie überprüft wurde.",
-    "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als \"überprüft\" gespeichert werden.",
+    "reviewErrorFuture": "Eine zukünftige Schicht kann nicht als 'überprüft' gespeichert werden.",
     "reviewErrorLive": "Eine laufende Schicht kann nicht überprüft werden bevor sie beendet ist.",
     "tags": {
-      "createHint": "Keine Ergebnisse für \"{search}\". Drücke die {enter} um einen neuen Tag zu kreieren.",
+      "createHint": "Keine Ergebnisse für '{search}'. Drücke die {enter} um einen neuen Tag zu erzeugen.",
       "label": "Füge Tags hinzu"
     },
     "to": "bis",
+    "trimBreaktime": "Schicht teilen und Pause einfügen",
     "types": {
-      "label": "In welche Kategorie gehört dieser Eintrag?",
+      "label": "In welche Kategorie gehört diese Schicht?",
       "sk": "Krank",
       "st": "Schicht",
       "vn": "Urlaub",
@@ -457,10 +487,29 @@
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
       "pastShiftsTitle": "Vergangene Schichten",
-      "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als \"überprüft\".",
+      "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als 'überprüft'.",
       "futureShiftsTitle": "Geplante Schichten",
       "futureShiftsHint": "Alle in der Zukunft liegenden Schichten.",
       "tagsNotes": "Tags/Notizen"
+    },
+    "errors": {
+      "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
+      "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
+      "workingOnSundays": "Es ist nicht erlaubt, an einem Sonntag zu arbeiten",
+      "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
+      "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
+      "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden.",
+      "overlappingStarted": "Der Startzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",
+      "overlappingStopped": "Der Endzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",
+      "eightTwentyRule": "Hilfskräfte sollten allgemein nicht vor 8 und nicht nach 20 Uhr arbeiten müssen.",
+      "autoWorktimeCutting": "Für diesen Arbeitstag sind nicht ausreichende Pausenzeiten gebucht worden. Clock zieht die fehlende Pausenzeit automatisch von der Arbeitszeit ab.",
+      "month_already_locked": "Dieser Monat ist bereits gesperrt. Das Speichern einer neuen Schicht ist deshalb nicht möglich."
+    },
+    "hints": {
+      "faqText": "Hast du Fragen zu den Warn- und Fehlermeldungen?",
+      "faqLinkText": "Hier geht es zu den FAQ.",
+      "ombudsText": "Benötigst du Unterstützung bei Problemen mit deinen Arbeitsbedingungen?",
+      "ombudsLinkText": "Kontaktiere die Ombudsperson für Studierende."
     }
   },
   "snackbar": {
@@ -473,5 +522,10 @@
     "end": "Ende",
     "duration": "Dauer",
     "reviewed": "Überprüft"
+  },
+  "faq": {
+    "text": "Weitere Informationen findest du in unserem {link}.",
+    "linktext": "Benutzerhandbuch",
+    "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch"
   }
 }

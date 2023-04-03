@@ -12,3 +12,12 @@ export const MESSAGE_TYPE_COLORS = {
   WN: "error",
   TP: "primary lighten-2"
 };
+
+export function mdShortToClassString(mdName) {
+  const splitValues = mdName.split(" ");
+  let classString = splitValues[0] + "--text ";
+  if (splitValues.length !== 0) {
+    classString += " " + "text--" + splitValues[1];
+  }
+  return classString;
+}

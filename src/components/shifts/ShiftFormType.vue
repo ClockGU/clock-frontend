@@ -1,21 +1,33 @@
 <template>
   <v-row align="end" class="pl-3">
-    <v-radio-group
-      v-model="radios"
-      row
-      hide-details
-      dense
-      class="mt-0 pt-0"
-      :prepend-icon="typeIcons[value.value]"
-    >
+    <v-radio-group v-model="radios" row hide-details dense class="mt-0 pt-0">
+      <template #prepend>
+        <v-icon :color="typeColors[value]">
+          {{ typeIcons[value] }}
+        </v-icon>
+      </template>
       <v-radio
         v-for="type in types"
         :key="type.value"
-        class="ml-0"
+        class="ml-o"
+        :disabled="disabled"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"
-      ></v-radio>
+      >
+        <template #label>
+          <label
+            :class="
+              'v-label theme--light ' +
+              (type.value === radios
+                ? getRadioColor(typeColors[type.value])
+                : '')
+            "
+            style="left: 0; right: auto; position: relative"
+            >{{ type.text }}</label
+          >
+        </template>
+      </v-radio>
     </v-radio-group>
   </v-row>
 </template>
@@ -23,24 +35,31 @@
 <script>
 import { mdiBriefcaseOutline } from "@mdi/js";
 import { SHIFT_TYPES } from "@/models/ShiftModel";
-import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { SHIFT_TYPE_COLORS, mdShortToClassString } from "@/utils/colors";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
 export default {
   name: "ShiftFormType",
   props: {
     value: {
-      type: Object,
-      default: () => ({ text: "Shift", value: "st" })
+      type: String,
+      default: "st"
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
-  data: () => ({
-    icons: {
-      mdiBriefcaseOutline
-    },
-    typeColors: SHIFT_TYPE_COLORS,
-    typeIcons: SHIFT_TYPE_ICONS
-  }),
+  data() {
+    return {
+      icons: {
+        mdiBriefcaseOutline
+      },
+      typeColors: SHIFT_TYPE_COLORS,
+      typeIcons: SHIFT_TYPE_ICONS,
+      radios: this.value
+    };
+  },
   computed: {
     types() {
       return SHIFT_TYPES.map((type) => {
@@ -50,18 +69,27 @@ export default {
         };
       });
     },
-    radios: {
-      get() {
-        return this.value.value;
-      },
-      set(value) {
-        const selected = this.types.find((type) => type.value === value);
-        this.$emit("input", selected);
-      }
-    },
     icon() {
       return this.typeIcons["sk"];
+    }
+  },
+  watch: {
+    value(val) {
+      this.radios = val;
+    },
+    radios(val) {
+      this.$emit("input", val);
+    }
+  },
+  methods: {
+    getRadioColor(colorName) {
+      return mdShortToClassString(colorName);
     }
   }
 };
 </script>
+
+<style scoped>
+.green-lighten-1 {
+}
+</style>

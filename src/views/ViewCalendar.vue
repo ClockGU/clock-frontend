@@ -7,7 +7,6 @@
           :initial-focus="focus"
           :initial-type="type"
           @updateRange="updateRange"
-          @refresh="refresh"
         >
         </Calendar>
       </v-col>
@@ -60,10 +59,11 @@ export default {
     ...mapGetters({
       contracts: "contract/contracts",
       loading: "shift/loading",
-      shifts: "shift/shifts"
+      shifts: "shift/shifts",
+      selectedContract: "selectedContract/selectedContract"
     }),
     disabled() {
-      return this.$route.params.contract === undefined;
+      return this.selectedContract === undefined;
     },
     focus() {
       return `${this.year}-${this.month}-${this.day}`;
@@ -82,10 +82,6 @@ export default {
     }
   },
   methods: {
-    async refresh() {
-      await this.$store.dispatch("shift/queryShifts");
-      await this.$store.dispatch("contract/queryContracts");
-    },
     updateRange({ type, start: { day, month, year } }) {
       this.now = type === "day" ? new Date(year, month - 1, day) : new Date();
 

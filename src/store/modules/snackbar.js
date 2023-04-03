@@ -1,3 +1,6 @@
+import Vue from "vue";
+import { v4 as uuidv4 } from "uuid";
+
 const defaultState = {
   snack: null,
   timeout: 5000,
@@ -7,30 +10,32 @@ const defaultState = {
 const state = {
   snackbar: {
     ...defaultState
-  }
+  },
+  snacks: []
 };
 
 const getters = {
-  snack: (status) => status.snackbar.snack
+  snacks: (status) => status.snacks
 };
 
 const actions = {
   setSnack({ commit }, payload) {
+    payload.uuid = uuidv4();
     commit("setSnack", payload);
 
     return Promise.resolve();
   },
-  resetSnack({ commit }) {
-    commit("resetSnack");
+  removeSnack({ commit }, uuid) {
+    commit("removeSnack", uuid);
   }
 };
 
 const mutations = {
   setSnack(state, payload) {
-    state.snackbar = { ...state.snackbar, ...payload };
+    Vue.set(state, "snacks", [...state.snacks, payload]);
   },
-  resetSnack(state) {
-    state.snackbar = defaultState;
+  removeSnack(state, uuid) {
+    state.snacks = state.snacks.filter((snack) => snack.uuid !== uuid);
   }
 };
 

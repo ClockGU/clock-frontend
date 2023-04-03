@@ -1,75 +1,81 @@
 <template>
-  <v-menu
-    ref="menu"
-    v-model="menu"
-    :close-on-content-click="false"
-    transition="scale-transition"
-    offset-y
-  >
-    <template #activator="{ attrs }">
-      <v-text-field
-        v-model="data"
-        :prepend-icon="prependIcon"
-        :label="label"
-        :hint="hint"
-        :disabled="disabled"
-        persistent-hint
-        filled
-        required
-        :error-messages="timeErrors"
-        v-bind="attrs"
-        @blur="setTime"
-        @focus="$event.target.select()"
-      ></v-text-field>
-    </template>
-  </v-menu>
+  <v-text-field
+    :value="data"
+    :prepend-icon="prependIcon"
+    :label="label"
+    :hint="hint"
+    :disabled="disabled"
+    persistent-hint
+    filled
+    required
+    :error-messages="timeErrors"
+    @blur="updateData($event.target.value)"
+  ></v-text-field>
 </template>
 
 <script>
-import { validateWorktimeInput } from "@/utils/time";
-import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
-import { mdiTimetable, mdiCalendarClock } from "@mdi/js";
+import { minutesToHHMM, validateWorktimeInput } from "@/utils/time";
+import { required, helpers } from "@vuelidate/validators";
+import { mdiCalendarClock, mdiTimetable } from "@mdi/js";
+import { useVuelidate } from "@vuelidate/core";
 
-const timeNotZero = (value) => value !== "00:00";
+const timeNotZero = (value) => !helpers.req(value) || value !== "00:00";
 const timeValid = (value) => {
   try {
-    return value.split(":")[1] <= parseInt(59);
+    return !helpers.req(value) || value.split(":")[1] <= parseInt(59);
   } catch {
     return false;
   }
 };
 const timeNotNegative = (value) => {
+  if (value === null) return true;
+  let result;
   if (value.includes(",")) {
     try {
-      return parseFloat(value) >= 0;
+      result = parseFloat(value) >= 0;
     } catch {
-      return false;
+      result = false;
     }
   } else {
     try {
-      return value.split(":")[0] >= 0;
+      result = value.split(":")[0] >= 0;
     } catch {
-      return false;
+      result = false;
     }
   }
+  return !helpers.req(value) || result;
 };
 
 export default {
   name: "ContractFormTimeInput",
-  mixins: [validationMixin],
-  validations: {
-    data: {
-      required,
-      timeNotZero,
-      timeValid,
-      timeNotNegative
+  validations() {
+    let validations = {
+      data: {
+        timeNotZero: helpers.withMessage(
+          this.$t("errors.durationBiggerZero", {
+            name: this.$tc("errors.hours")
+          }),
+          timeNotZero
+        ),
+        timeValid: helpers.withMessage(this.$t("errors.timeFormat"), timeValid),
+        timeNotNegative: helpers.withMessage(
+          this.$t("errors.notNegative"),
+          timeNotNegative
+        )
+      }
+    };
+    if (this.required) {
+      validations.data.required = helpers.withMessage(
+        this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") }),
+        required
+      );
     }
+    return validations;
   },
   props: {
     value: {
-      type: String,
-      default: ""
+      type: [Number, String],
+      default: null
     },
     prependIcon: {
       type: String,
@@ -90,72 +96,73 @@ export default {
     allowNegativeValues: {
       type: Boolean,
       default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
-  data: () => ({
-    menu: false,
-    data: null,
-    icons: { mdiTimetable, mdiCalendarClock }
-  }),
-  computed: {
-    time: {
-      get() {
-        return this.value;
-      },
-      set(val) {
-        let hours, minutes;
-
-        try {
-          [hours, minutes] = validateWorktimeInput(val).split(":");
-        } catch {
-          if (val === "") {
-            this.data = "";
-            this.$emit("input", this.data);
-            return;
-          }
-          this.data = this.value;
-          return;
-        }
-        this.data = `${hours}:${minutes}`;
-        this.$emit("input", this.data);
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
+  },
+  data() {
+    return {
+      menu: false,
+      data: null,
+      icons: {
+        mdiTimetable,
+        mdiCalendarClock
       }
-    },
+    };
+  },
+  computed: {
     timeErrors() {
-      const errors = [];
-      if (!this.$v.data.$dirty) return errors;
-      !this.$v.data.required &&
-        errors.push(
-          this.$tc("errors.nameRequired", 1, {
-            name: this.$t("errors.hours")
-          })
-        );
-      // skip that one as it yet interferes with the versatile parser
-      // the parser should not return invalid worktimes although it is less transparent
-      // !this.$v.data.timeValid && errors.push(this.$t("errors.timeFormat"));
-      !this.allowNegativeValues &&
-        !this.$v.data.timeNotNegative &&
-        errors.push(this.$t("errors.notNegative"));
-      !this.$v.data.timeNotZero &&
-        errors.push(
-          this.$t("errors.durationBiggerZero", {
-            name: this.$tc("errors.hours")
-          })
-        );
+      let errors = [];
+      if (!this.v$.data.$dirty) return errors;
+      if (this.v$.data.$error) {
+        for (let error of this.v$.data.$errors) {
+          errors.push(error.$message);
+        }
+      }
       return errors;
     }
   },
-
+  watch: {
+    value(val) {
+      try {
+        validateWorktimeInput(minutesToHHMM(val));
+      } catch {
+        this.data = val;
+        return;
+      }
+      this.data = val === null ? "" : minutesToHHMM(val);
+    }
+  },
   created() {
-    this.initialize();
+    this.data = this.value === 0 ? null : minutesToHHMM(this.value);
   },
   methods: {
-    initialize() {
-      this.value == null ? (this.data = "") : (this.data = this.value);
-    },
     setTime() {
       this.$refs.menu.save(this.time);
       this.time = this.data;
-      this.$v.data.$touch();
+      this.v$.data.$touch();
+    },
+    updateData(event) {
+      let minutes = 0;
+      this.v$.data.$touch();
+      try {
+        minutes = validateWorktimeInput(event);
+      } catch {
+        if (event === "") {
+          this.$emit("input", null);
+          return;
+        }
+        this.$emit("input", event);
+        return;
+      }
+      this.$emit("input", minutes);
     }
   }
 };

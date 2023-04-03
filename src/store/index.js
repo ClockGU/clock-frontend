@@ -6,12 +6,12 @@ import AuthService from "@/services/auth";
 
 import auth from "@/store/modules/auth";
 import clock from "@/store/modules/clock";
-import shift from "@/store/modules/shift";
-import contract from "@/store/modules/contract";
+import selectedContract from "@/store/modules/selectedContract";
 import snackbar from "@/store/modules/snackbar";
-import report from "@/store/modules/report";
+import contentData from "@/store/modules/contentData";
+import faq from "@/store/modules/faq";
 
-import i18n, { selectedLocale } from "@/plugins/i18n";
+import i18n, { selectedLocale, switchDateFnsLocale } from "@/plugins/i18n";
 
 Vue.use(Vuex);
 
@@ -28,7 +28,9 @@ export default new Vuex.Store({
   },
   getters: {
     user: (state) => state.user,
-    userLoading: (state) => state.userLoading
+    personnelNumber: (state) => state.user.personal_number,
+    userLoading: (state) => state.userLoading,
+    locale: (state) => state.locale
   },
   actions: {
     skipOnboarding({ commit }) {
@@ -36,6 +38,7 @@ export default new Vuex.Store({
     },
     changeLocale({ commit }, locale) {
       i18n.locale = locale;
+      switchDateFnsLocale(locale);
       commit("updateLocale", locale);
     },
     toggleBackend({ commit }) {
@@ -101,10 +104,10 @@ export default new Vuex.Store({
   modules: {
     auth,
     clock,
-    shift,
-    contract,
+    contentData,
+    selectedContract,
     snackbar,
-    report
+    faq
   },
   plugins: [
     createPersistedState({

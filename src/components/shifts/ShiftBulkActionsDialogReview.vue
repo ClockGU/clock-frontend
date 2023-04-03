@@ -19,12 +19,14 @@
 
 <script>
 import { mdiFileDocumentEditOutline } from "@mdi/js";
-import ShiftService from "@/services/shift";
+import { ShiftService } from "@/services/models";
 import { log } from "@/utils/log";
 
 import { mapGetters } from "vuex";
 
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "ShiftBulkActionsDialogReview",
@@ -57,17 +59,15 @@ export default {
   },
   methods: {
     async review() {
-      const promises = [];
       this.loading = true;
       try {
-        for (let item of this.shifts) {
-          item.shift.reviewed = true;
-          const payload = item.shift.toPayload();
-          promises.push(ShiftService.update(payload, payload.uuid));
-        }
-
-        await Promise.all(promises);
-
+        const payloadArray = this.shifts.map((shift) => {
+          let payload = shift.toPayload();
+          payload.was_reviewed = true;
+          return payload;
+        });
+        const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
+        await this.handleFailedUpdates(updatedShifts);
         this.reset();
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
@@ -77,10 +77,47 @@ export default {
       } finally {
         this.loading = false;
         this.dialog = false;
+        const startDate = this.shifts.reduce((prev, curr) => {
+          return prev.started < curr.started ? prev : curr;
+        }).started;
+        this.$store.dispatch("contentData/refreshReports", {
+          contractID: this.contract,
+          startDate
+        });
       }
     },
     reset() {
       this.$emit("reset");
+    },
+    async handleFailedUpdates(promises) {
+      let failedShiftIds = [];
+      for (let prom of promises) {
+        if (prom.status === "rejected") {
+          failedShiftIds.push(JSON.parse(prom.reason.config.data).id);
+        }
+      }
+      for (let shift of this.shifts.filter(
+        (shift) => failedShiftIds.indexOf(shift.id) !== -1
+      )) {
+        await this.$store.dispatch("snackbar/setSnack", {
+          message: this.$t("feedback.snackbar.reviewError", {
+            dateAndTime:
+              localizedFormat(shift.started, "EEEE',' do' 'MMMM") +
+              " " +
+              localizedFormat(shift.started, "HH:mm")
+          }),
+          timeout: 10000,
+          color: "error",
+          component: ShiftFormDialog,
+          componentProps: {
+            shift: shift,
+            create: false,
+            icon: true
+          },
+          timePassed: 0,
+          show: true
+        });
+      }
     }
   }
 };

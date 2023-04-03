@@ -7,47 +7,72 @@
       <v-toolbar-title>
         {{ $t("dashboard.clock.problems.title") }}
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="finish(false)">
+        <v-icon>{{ icons.mdiDelete }}</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <v-card-text>
-      <ClockedShiftSplitWarning :clocked-shift="clockedShift" @save="save" />
+      <v-row justify="center">
+        <div class="d-flex flex-column error--text">
+          <div class="font-weight-bold">
+            {{ $tc("dashboard.clock.problems.text") }}
+          </div>
+          <div class="font-weight-light">
+            {{ $tc("models.contract") }}: {{ contractName }}
+          </div>
+          <div class="font-weight-light text-center">
+            {{ $tc("dashboard.clock.problems.editShift") }}
+          </div>
+        </div>
+      </v-row>
+      <v-row justify="center">
+        <ShiftFormDialog
+          :shift="shift"
+          btn-color="primary"
+          text-button
+          @save="finish(true)"
+        ></ShiftFormDialog>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import ClockedShiftSplitWarning from "@/components/ClockedShiftSplitWarning";
-
-import { mdiArrowLeft } from "@mdi/js";
+import { mdiArrowLeft, mdiDelete } from "@mdi/js";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "ClockInOutCardForm",
-  components: { ClockedShiftSplitWarning },
+  components: { ShiftFormDialog },
   props: {
-    clockedShift: {
-      type: Object,
-      required: true
-    },
     destroy: {
       type: Function,
+      required: true
+    },
+    shift: {
+      type: Shift,
+      required: true
+    },
+    contractName: {
+      type: String,
       required: true
     }
   },
   data: () => ({
     dialog: false,
-    icons: { mdiArrowLeft }
+    icons: { mdiArrowLeft, mdiDelete }
   }),
   methods: {
-    save(length) {
-      this.$emit("refresh");
+    finish(saved) {
       this.$emit("updateWindow", -1);
       this.destroy(false).then(() => {
         let message =
           this.$t("dashboard.clock.problems.messages.success") + " ";
-        if (length > 1) {
-          message += this.$t("dashboard.clock.problems.messages.allSaved");
-        } else if (length === 1) {
-          message += this.$t("dashboard.clock.problems.messages.singleSaved");
+        if (saved) {
+          message += this.$t("dashboard.clock.problems.messages.saved");
         } else {
           message += this.$t("dashboard.clock.problems.messages.noSaved");
         }

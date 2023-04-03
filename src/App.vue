@@ -7,16 +7,15 @@
     />
 
     <TheAppBar @toggle="toggleDrawer" />
-    <TheNavigationToolbar
-      v-if="isLoggedIn && !showOverride"
-      class="hidden-sm-and-down"
-    />
+    <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
 
     <router-view></router-view>
 
     <portal-target name="dialog"></portal-target>
 
     <FeedbackMenu v-if="isLoggedIn" />
+
+    <OmbudsMenu v-if="isLoggedIn" />
 
     <TheSnackbar />
     <TheFooter />
@@ -30,6 +29,7 @@ import TheNavigationDrawer from "@/components/TheNavigationDrawer";
 import TheSnackbar from "@/components/TheSnackbar";
 import TheFooter from "@/components/TheFooter";
 import FeedbackMenu from "@/components/FeedbackMenu";
+import OmbudsMenu from "@/components/OmbudsMenu";
 
 import { log } from "@/utils/log";
 
@@ -52,7 +52,8 @@ export default {
     TheNavigationDrawer,
     TheSnackbar,
     TheFooter,
-    FeedbackMenu
+    FeedbackMenu,
+    OmbudsMenu
   },
   data: () => ({
     drawer: false
@@ -60,18 +61,11 @@ export default {
   computed: {
     ...mapState(["locale"]),
     ...mapGetters({
-      isLoggedIn: "auth/loggedIn",
-      contracts: "contract/contracts"
-    }),
-    hasContracts() {
-      return this.contracts.length > 0;
-    },
-    showOverride() {
-      return this.$route.name === "imprint" || this.$route.name === "privacy";
-    }
+      isLoggedIn: "auth/loggedIn"
+    })
   },
   async created() {
-    this.$store.dispatch("changeLocale", this.locale);
+    await this.$store.dispatch("changeLocale", this.locale);
     if (!this.isLoggedIn) return;
     try {
       const { data } = await this.$store.dispatch("GET_USER");

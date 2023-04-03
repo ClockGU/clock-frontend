@@ -7,18 +7,18 @@ import i18n from "./plugins/i18n";
 import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
-import Vuelidate from "vuelidate";
 import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 import BaseLayout from "@/layouts/BaseLayout";
 import Link from "@/components/base/Link";
 import Placeholder from "@/components/Placeholder";
-
+import VueCompositionAPI from "@vue/composition-api";
 import "@/assets/main.scss";
 
 import { log } from "@/utils/log";
-
+const isProduction = process.env.NODE_ENV === "production";
+export const debugLogger = !isProduction;
 // Initialize ApiService
 ApiService.init(process.env.VUE_APP_API_URL);
 ApiService.mountInterceptor();
@@ -29,14 +29,11 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 
-const isProduction = process.env.NODE_ENV === "production";
-
+Vue.use(VueCompositionAPI);
 Vue.use(VueMeta);
 Vue.use(PortalVue);
-Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 
-export const debugLogger = isProduction ? false : true;
 if (isProduction) {
   // Matomo
   Vue.use(VueMatomo, {

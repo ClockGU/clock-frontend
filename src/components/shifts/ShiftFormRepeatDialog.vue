@@ -33,7 +33,7 @@
           :items="shifts"
         >
           <template #default="{ item }">
-            <ShiftListItem :item="item" :editable="false" />
+            <ShiftListItem :shift="item" :editable="false" />
           </template>
         </v-virtual-scroll>
       </v-card-text>

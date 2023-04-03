@@ -36,7 +36,7 @@
         </span>
         <div v-else class="d-flex flex-column">
           <div class="font-weight-bold">
-            {{ $tc("models.contract") }}: {{ clockedContract.name }}
+            {{ $tc("models.contract") }}: {{ contractName }}
           </div>
           <div class="font-weight-light">
             {{ actions.data.startDate | formatDate }}
@@ -46,46 +46,34 @@
           </div>
         </div>
       </v-row>
-      <v-slide-x-transition group leave-absolute>
-        <v-btn
-          v-if="actions.duration === 0 && actions.status === 'idle'"
-          key="clock-in"
-          :disabled="actions.status === 'saving'"
-          color="primary"
-          block
-          @click="actions.start"
-        >
-          {{ $t("dashboard.clock.in") }}
-        </v-btn>
-        <v-btn
-          v-else-if="
-            !overflowedShift &&
-            (actions.status === 'running' || actions.status === 'saving')
-          "
-          key="clock-out"
-          :disabled="actions.status === 'saving'"
-          color="primary"
-          block
-          text
-          @click="actions.save"
-        >
-          {{ $t("dashboard.clock.out") }}
-        </v-btn>
-        <v-btn
-          v-else-if="
-            overflowedShift &&
-            (actions.status === 'running' || actions.status === 'saving')
-          "
-          key="review-problems"
-          :disabled="actions.status === 'saving'"
-          color="error"
-          block
-          text
-          @click="$emit('updateWindow', 1)"
-        >
-          {{ $t("dashboard.clock.problems.review") }}
-        </v-btn>
-      </v-slide-x-transition>
+      <div class="justify-center mt-3">
+        <v-slide-x-transition group leave-absolute>
+          <v-btn
+            v-if="actions.duration === 0 && actions.status === 'idle'"
+            key="clock-in"
+            :disabled="actions.status === 'saving'"
+            color="primary"
+            block
+            @click="actions.start"
+          >
+            {{ $t("dashboard.clock.in") }}
+          </v-btn>
+          <v-btn
+            v-else-if="
+              !overflowedShift &&
+              (actions.status === 'running' || actions.status === 'saving')
+            "
+            key="clock-out"
+            :disabled="actions.status === 'saving'"
+            color="primary"
+            block
+            text
+            @click="saveFn"
+          >
+            {{ $t("dashboard.clock.out") }}
+          </v-btn>
+        </v-slide-x-transition>
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -95,8 +83,6 @@ import { addSeconds, isSameDay } from "date-fns";
 import { mdiDelete, mdiInformation } from "@mdi/js";
 
 import { localizedFormat } from "@/utils/date";
-
-import { mapGetters } from "vuex";
 
 export default {
   name: "ClockInOutCardClock",
@@ -142,6 +128,14 @@ export default {
     actions: {
       type: Object,
       required: true
+    },
+    saveFn: {
+      type: Function,
+      default: () => {}
+    },
+    contractName: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -150,20 +144,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      contracts: "contract/contracts"
-    }),
-    clockedContract() {
-      return this.contracts.find(
-        (contract) => contract.uuid === this.actions.clockedContract.uuid
-      );
-    },
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
-    },
-    daystr(days) {
-      return this.$tc("dashboard.clock.display.day", days);
     }
   }
 };

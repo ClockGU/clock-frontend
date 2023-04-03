@@ -1,36 +1,26 @@
-import {
-  differenceInSeconds,
-  getHours,
-  getMinutes,
-  parseISO,
-  set
-} from "date-fns";
+import { differenceInSeconds, getHours, getMinutes, set } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
+import { mapGetters } from "vuex";
+import { ShiftService } from "@/services/models";
 
 export default {
-  name: "ClockInOut",
+  name: "ClockInOutMixin",
   data: () => ({
     clock: null,
     reselectContract: null,
     saving: false,
-    clockedShift: null
+    shiftData: {}
   }),
-  props: {
-    selectedContract: {
-      type: Object || null,
-      required: true
-    }
-  },
   computed: {
+    ...mapGetters({
+      clockedShift: "clock/clockedShift"
+    }),
     clockData() {
       if (this.clock === null) return {};
 
       return { startDate: this.clock.startDate, duration: this.duration };
-    },
-    contract() {
-      return this.selectedContract;
     },
     duration() {
       if (this.clock === null || this.clock.duration === null) return 0;
@@ -45,17 +35,11 @@ export default {
     }
   },
   async created() {
-    try {
-      // Only start the clock if there is a clockedShift when mounting the component.
-      this.clockedShift = await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
-      this.clock = new ClockModel({
-        startDate: parseISO(this.clockedShift.started)
-      });
-      this.clock.start();
-    } catch (error) {
-      // Do nothing if there is no clocked shift
-      return;
-    }
+    if (this.clockedShift === undefined) return;
+    this.clock = new ClockModel({
+      startDate: this.clockedShift.started
+    });
+    this.clock.start();
   },
   destroyed() {
     this.stop();
@@ -65,18 +49,14 @@ export default {
       this.saving = true;
       try {
         this.pause();
-        await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
 
-        const startDate =
-          this.clockedShift.date === undefined
-            ? this.clockedShift.started
-            : this.clockedShift.date.start;
+        const startDate = this.clockedShift.started;
 
         // clocking out at exactly 00:00 would generate a zero-length shift
         // set the shift's end to 23:59:59 on the day the shift was clocked in
         let clockOutDate = new Date();
-        if (getHours(clockOutDate) == 0 && getMinutes(clockOutDate) == 0) {
-          clockOutDate = set(parseISO(this.clockedShift.date.start), {
+        if (getHours(clockOutDate) === 0 && getMinutes(clockOutDate) === 0) {
+          clockOutDate = set(this.clockedShift.started, {
             hours: 23,
             minutes: 59,
             seconds: 59
@@ -84,34 +64,32 @@ export default {
         }
 
         const endDate = clockOutDate;
-
-        if (differenceInSeconds(endDate, new Date(startDate)) < 60) {
-          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
-          this.$store.dispatch("clock/UNCLOCK_SHIFT");
+        // Do not accept live clocked shifts shorter than a minute
+        if (differenceInSeconds(endDate, startDate) < 60) {
+          await this.$store.dispatch("clock/deleteClockedShift");
+          await this.$store.dispatch("clock/unclockShift");
           this.stop();
-
           this.$store.dispatch("snackbar/setSnack", {
             snack: this.$t("dashboard.clock.snacks.shiftTooShort"),
             timeout: 4000,
             color: "warning"
           });
         } else {
-          const data = {
-            date: {
-              start: startDate,
-              end: endDate
-            },
+          this.shiftData = {
+            started: startDate,
+            stopped: endDate,
             contract: this.clockedShift.contract,
-            type: { value: "st", text: "Shift" },
-            reviewed: true
+            type: "st",
+            wasReviewed: true
           };
-
-          const payload = new Shift(data).toPayload();
-          await this.$store.dispatch("shift/CREATE_SHIFT", payload);
-          await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
-          this.$store.dispatch("clock/UNCLOCK_SHIFT");
-
-          this.stop();
+          const payload = new Shift(this.shiftData).toPayload();
+          const savedShift = await ShiftService.create(payload);
+          await this.$store.commit("contentData/addShift", {
+            contractID: savedShift.contract,
+            shiftInstance: savedShift
+          });
+          await this.$store.dispatch("clock/deleteClockedShift");
+          this.$store.dispatch("clock/unclockShift");
 
           this.$store.dispatch("snackbar/setSnack", {
             snack: this.$t("dashboard.clock.snacks.clockOut"),
@@ -121,18 +99,21 @@ export default {
         }
       } catch (error) {
         if (error.response && error.response.status === 401) return;
-
-        this.reset();
+        if (error.response && error.response.status === 400) {
+          this.shiftToModify = new Shift(this.shiftData);
+          this.window += 1;
+          this.unpause();
+          return;
+        }
+        await this.reset();
       } finally {
         this.saving = false;
+        this.shiftData = {};
       }
     },
     async start() {
       this.saving = true;
       try {
-        this.clockedShift = await this.$store.dispatch(
-          "clock/GET_CLOCKED_SHIFT"
-        );
         this.clock = new ClockModel({ startDate: this.clockedShift.startDate });
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
@@ -145,14 +126,12 @@ export default {
         // No shift is clocked in. Do the deed!
         const date = new Date();
         this.clock = new ClockModel({ startDate: date });
-        const shift = {
+        const shift = new Shift({
           started: date,
-          contract: this.contract.uuid
-        };
-
-        this.clockedShift = await this.$store.dispatch("clock/CLOCK_SHIFT", {
-          ...shift
+          contract: this.$store.getters["selectedContract/selectedContract"].id
         });
+
+        await this.$store.dispatch("clock/clockShift", shift);
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("dashboard.clock.snacks.clockedIn"),
@@ -179,15 +158,14 @@ export default {
         log("Tried to destroy clock, while it was already destroyed.");
       } finally {
         this.clock = null;
-        this.clockedShift = null;
+        this.$store.commit("clock/unclockShift");
       }
     },
     async reset(snackbar = true) {
       this.pause();
       this.saving = true;
       try {
-        await this.$store.dispatch("clock/GET_CLOCKED_SHIFT");
-        await this.$store.dispatch("clock/DELETE_CLOCKED_SHIFT");
+        await this.$store.dispatch("clock/deleteClockedShift");
         this.stop();
 
         if (snackbar) {
@@ -209,7 +187,7 @@ export default {
           color: "warning"
         });
       }
-      this.$store.dispatch("clock/UNCLOCK_SHIFT");
+      this.$store.dispatch("clock/unclockShift");
 
       this.saving = false;
     },

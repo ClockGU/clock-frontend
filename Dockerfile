@@ -1,5 +1,5 @@
 # Setup stage
-FROM node:12.18.0-alpine3.9
+FROM node:19.7.0-alpine3.16 as build-stage
 ARG REPOSITORY_URL
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
@@ -20,7 +20,7 @@ RUN addgroup -S app --gid 32769 \
     && adduser -G app --uid 32769 -h /app -D app
 
 RUN apk update \
-    && apk add bash curl git nginx
+    && apk add bash curl git nginx python3
 
 RUN yarn global add @vue/cli
 WORKDIR /app
@@ -31,12 +31,15 @@ COPY --chown=app:app . .
 RUN export VUE_APP_SENTRY_RELEASE=$(git log -1 --format="%H") \
     && yarn run build
 
+USER app
 COPY --chown=app:app scripts/sentry-release.sh .
 RUN bash sentry-release.sh
 
-RUN mkdir -p /run/nginx
 
-COPY docker/dokku/default.conf /etc/nginx/conf.d/default.conf
+FROM nginx:stable-alpine as production-stage
+
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/docker/dokku/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

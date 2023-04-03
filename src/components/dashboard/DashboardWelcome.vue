@@ -8,7 +8,7 @@
             :href="$t('dashboard.welcome.url')"
             target="_blank"
           >
-            <template #default>{{ $t("dashboard.welcome.manual") }}</template>
+            <template #default>{{ $t("dashboard.welcome.linktext") }}</template>
           </base-link>
         </template>
       </i18n>

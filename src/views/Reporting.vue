@@ -32,35 +32,34 @@
         />
       </v-col>
 
-      <v-col>
-        <DataFilter
+      <v-col cols="12">
+        <MonthSwitcher
           :disabled="disabled"
           :date="date"
-          :contract="selectedContract"
-          use-locked-months
+          :allowed-date-fn="monthValidateFn"
           @update="updateDate"
-        >
-          <template #default="{ data }">
-            <MonthSwitcher :data="data" :date="date" @update="updateDate" />
-
-            <DashboardConflicts
-              :disabled="disabled"
-              :shifts="data.shifts"
-              :month="data.date"
-            />
-            <ReportCard
-              :key="data.report.uuid"
-              :disabled="disabled"
-              :report="data.report"
-              :exported="data.isCurrentMonthLocked"
-              :is-exportable="!personnelNumberMissing"
-              :is-lockable="!data.isCurrentMonthLocked"
-              :is-first-unlocked-month="data.firstUnlockedMonth === date"
-              :shifts="data.shifts"
-              @locked="refresh"
-            ></ReportCard>
-          </template>
-        </DataFilter>
+        />
+        <DashboardConflicts
+          :disabled="disabled"
+          :shifts="selectedShifts"
+          :month="date"
+        />
+        <ClockCardAlert
+          v-if="getAlertMessages(report).length !== 0"
+          class="my-4"
+          :messages="getAlertMessages(report)"
+          type="error"
+        ></ClockCardAlert>
+        <ReportCard
+          :key="report.id"
+          class="my-4"
+          :disabled="disabled"
+          :report="report"
+          :exported="isCurrentMonthLocked"
+          :is-exportable="!personnelNumberMissing"
+          :is-lockable="!isCurrentMonthLocked"
+          :is-first-unlocked-month="isFirstUnlockedMonth"
+        ></ReportCard>
       </v-col>
     </v-row>
     <v-dialog
@@ -70,55 +69,122 @@
       @click:outside="closeDialog"
       ><PersonnelNumberForm dialog @close="closeDialog"
     /></v-dialog>
+    <ShiftWarnings
+      v-if="warnDialog"
+      :warnings="warnings"
+      @close="dialog = false"
+    ></ShiftWarnings>
   </v-container>
 </template>
 
 <script>
-import DataFilter from "@/components/DataFilter";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ReportCard from "@/components/ReportCard";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings";
+import ClockCardAlert from "@/components/ClockCardAlert";
+
+import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
-import { localizedFormat } from "@/utils/date";
+import { firstOfMonth, localizedFormat } from "@/utils/date";
+import { addMonths, isSameDay, isSameMonth } from "date-fns";
 
 export default {
   name: "Reporting",
   components: {
-    DataFilter,
     MonthSwitcher,
     DashboardConflicts,
     ReportCard,
     SelectContractFilter,
-    PersonnelNumberForm
+    PersonnelNumberForm,
+    ShiftWarnings,
+    ClockCardAlert
   },
   data: () => ({
-    date: localizedFormat(new Date(), "yyyy-MM"),
+    date: firstOfMonth,
     dialog: false,
-    icons: { mdiBadgeAccountHorizontal }
+    icons: { mdiBadgeAccountHorizontal },
+    warnDialog: false
   }),
   computed: {
     ...mapGetters({
-      contracts: "contract/contracts"
+      contracts: "contentData/allContracts",
+      selectedContract: "selectedContract/selectedContract",
+      selectedReports: "contentData/selectedReports",
+      selectedShifts: "contentData/selectedShifts"
     }),
     disabled() {
-      return this.$route.params.contract === undefined;
-    },
-    selectedContract() {
-      const uuid = this.$route.params.contract;
-      if (this.disabled) {
-        return { uuid: null, date: { start: "2019-01-01", end: "2019-01-31" } };
-      }
-      return this.contracts.find((contract) => contract.uuid === uuid);
+      return this.selectedContract === undefined || this.report === undefined;
     },
     personnelNumberMissing() {
       return (
         !this.$store.state.user.personal_number &&
         this.$store.state.user.personal_number !== undefined
       );
+    },
+    report() {
+      if (this.selectedReports === undefined) return { id: uuidv4() };
+      const filteredReports = this.selectedReports.filter((report) =>
+        isSameDay(report.monthYear, this.date)
+      );
+      return filteredReports[0];
+    },
+    isCurrentMonthLocked() {
+      if (this.disabled) return false;
+      const lockedShifts = this.selectedShifts.filter(
+        (shift) => isSameMonth(shift.started, this.date) && shift.locked
+      );
+      return lockedShifts.length > 0;
+    },
+    lockedMonths() {
+      let months = [];
+      if (this.disabled) return months;
+      this.selectedReports.map((report) => {
+        const lockedShifts = this.selectedShifts.filter((shift) => {
+          return isSameMonth(report.monthYear, shift.started) && shift.locked;
+        });
+        if (lockedShifts.length > 0) {
+          months.push(report.monthYear);
+        }
+      });
+      return months;
+    },
+    isFirstUnlockedMonth() {
+      if (this.disabled) return false;
+      if (this.lockedMonths.length === 0) {
+        return isSameMonth(this.date, this.selectedReports[0].monthYear);
+      }
+      return isSameMonth(
+        addMonths(this.lockedMonths[this.lockedMonths.length - 1], 1),
+        this.date
+      );
+    },
+    monthValidateFn() {
+      return (value) => {
+        return this.selectedReports
+          .map((report) => localizedFormat(report.monthYear, "yyyy-MM"))
+          .includes(value);
+      };
     }
+  },
+
+  mounted() {
+    // Add watcher for the case that the selected Contract has no Report for the current month.
+    // In this case set the date to the date of the last Report existing.
+    this.$watch(
+      "report",
+      (value) => {
+        if (value === undefined) {
+          this.updateDate(
+            this.selectedReports[this.selectedReports.length - 1].monthYear
+          );
+        }
+      },
+      { immediate: true }
+    );
   },
   methods: {
     updateDate(value) {
@@ -140,6 +206,23 @@ export default {
       ]);
 
       this.updateDate(selectedMonth);
+    },
+    getAlertMessages(report) {
+      if (this.disabled) return [];
+      let messages = [];
+      const worktimeInMinutes = report.worktimeInMinutes;
+      const debitInMinutes = report.debitWorktimeInMinutes;
+
+      if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {
+        messages.push(this.$t("reports.warnings.maxOvertimeExceeded"));
+      }
+      if (((debitInMinutes - worktimeInMinutes) / debitInMinutes) * 100 > 20) {
+        messages.push(this.$t("reports.warnings.insufficientWorktime"));
+      }
+      if (worktimeInMinutes > 80 * 60) {
+        messages.push(this.$t("reports.warnings.worktimeOverEightyHours"));
+      }
+      return messages;
     }
   }
 };
