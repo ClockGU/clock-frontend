@@ -244,7 +244,7 @@
       "success": "Wir haben deine Nachricht an die zuständigen Ombudspersonen zugestellt. Vielen Dank!"
     },
     "title": "Kontakt zu deiner Ombudsperson",
-    "text": "Möchtest Du eine nicht-konforme Arbeitszeit melden?",
+    "text": "Suchst Du Unterstützung bei Problemen mit deinen Arbeitsbedingungen?",
     "linkText": "Mehr Informationen über die Ombudsperson",
     "url": "https://www.uni-frankfurt.de/97234850/Ombudspersonen_f%C3%BCr_Studierende_und_wissenschaftliche_Mitarbeiter_innen_sowie_f%C3%BCr_studentische_und_wissenschaftliche_Hilfskr%C3%A4fte"
   },
@@ -308,7 +308,7 @@
     "setupData": {
       "title": "Deine ersten Schritte",
       "text": "Um Clock sofort nutzen zu können, kannst du direkt einen Vertrag erstellen und deine Personalnummer speichern.",
-      "noContractExists": "Du besitzt noch keinen @:models.contract.",
+      "noContractExists": "Du besitzt noch keinen Vertrag.",
       "contractExists": "Du hast bereits einen Vertrag erstellt. Weitere Verträge können im Tab - Verträge - erstellt werden."
     },
     "finished": {
@@ -327,7 +327,7 @@
     "cards": {
       "1": {
         "title": "Was ist Clock?",
-        "text": "Clock hilft dir beim Erfassen deiner Arbeitszeit und beim Erstellen deiner monatlichen Stundenzettel. Du behältst dabei die Kontrolle über deine Daten und entscheidest, wann Dein Stundenzettel fertig zur Abgabe ist.",
+        "text": "Clock hilft dir beim Erfassen deiner Arbeitszeit und beim Erstellen deiner monatlichen Stundenzettel. Du behältst dabei die Kontrolle über deine Daten und entscheidest, wann dein Stundenzettel fertig zur Abgabe ist.",
         "placeholderName": "UndrawTimeManagement"
       },
       "2": {
@@ -357,7 +357,7 @@
       },
       "7": {
         "title": "Rechtlicher Rahmen",
-        "text": "Clock warnt Dich bei Problemen mit gesetzlichen und allgemeinen Regelungen zu Arbeitszeiten. Wenn deine vorgesetzte Person unzulässige Arbeitszeiten verlangt, kannst Du Dich über ein Kontaktformular an die Ombudspersonen wenden.",
+        "text": "Clock warnt dich bei Problemen mit gesetzlichen und allgemeinen Regelungen zu Arbeitszeiten. Lassen sich Probleme mit deiner vorgesetzten Person nicht lösen, kannst Du dich über ein Kontaktformular an die Ombudspersonen wenden.",
         "placeholderName": "UndrawConversation"
       }
     }
@@ -501,15 +501,15 @@
       "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden.",
       "overlappingStarted": "Der Startzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",
       "overlappingStopped": "Der Endzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",
-      "eightTwentyRule": "Grundsätzlich sollen Hilfskräfte nicht vor 8 und nicht nach 20 Uhr arbeiten müssen.",
+      "eightTwentyRule": "Hilfskräfte sollten allgemein nicht vor 8 und nicht nach 20 Uhr arbeiten müssen.",
       "autoWorktimeCutting": "Für diesen Arbeitstag sind nicht ausreichende Pausenzeiten gebucht worden. Clock zieht die fehlende Pausenzeit automatisch von der Arbeitszeit ab.",
       "month_already_locked": "Dieser Monat ist bereits gesperrt. Das Speichern einer neuen Schicht ist deshalb nicht möglich."
     },
     "hints": {
       "faqText": "Hast du Fragen zu den Warn- und Fehlermeldungen?",
-      "faqLinkText": "Hier geht es zum FAQ.",
-      "ombudsText": "Möchtest du deine Ombudsperson über nicht-konforme Arbeitszeiten informieren?",
-      "ombudsLinkText": "Verwende das Kontaktformular."
+      "faqLinkText": "Hier geht es zu den FAQ.",
+      "ombudsText": "Benötigst du Unterstützung bei Problemen mit deinen Arbeitsbedingungen?",
+      "ombudsLinkText": "Kontaktiere die Ombudsperson für Studierende."
     }
   },
   "snackbar": {
