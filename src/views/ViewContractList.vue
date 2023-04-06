@@ -31,45 +31,68 @@
               <ContractFormDialog btn-color="primary"></ContractFormDialog>
             </div>
           </v-col>
-          <template v-for="(contract, i) in activeContracts">
-            <v-col :key="contract.id" cols="12" xl="4" md="6">
-              <ContractListCard
-                :key="contract.id"
-                :data-cy="'contract-' + i"
-                :contract="contract"
-                @delete="destroy(contract.id)"
-              />
-            </v-col>
-          </template>
+
+          <v-expansion-panels
+            v-if="activeContracts.length > 0"
+            v-model="panel"
+            flat
+            focusable
+          >
+            <v-expansion-panel v-model="panel">
+              <v-expansion-panel-header class="text-h6 font-weight-regular">
+                {{ $t("contracts.activeContracts") }} ({{
+                  activeContracts.length
+                }})
+              </v-expansion-panel-header>
+              <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                <v-container>
+                  <v-row>
+                    <v-col
+                      v-for="(contract, i) in activeContracts"
+                      :key="contract.uuid"
+                      cols="12"
+                      xl="4"
+                      md="6"
+                    >
+                      <ContractListCard
+                        :key="contract.id"
+                        :data-cy="'contract-' + i"
+                        :contract="contract"
+                        class="no-margin"
+                        @delete="destroy(contract.id)"
+                      />
+                    </v-col> </v-row
+                ></v-container>
+              </v-expansion-panel-content> </v-expansion-panel
+          ></v-expansion-panels>
 
           <v-expansion-panels v-if="expiredContracts.length > 0" flat focusable>
             <v-expansion-panel>
               <v-expansion-panel-header class="text-h6 font-weight-regular">
                 {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
               </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-row>
-                  <template v-if="!loading || ignoreLoading">
-                    <template v-for="(contract, i) in expiredContracts">
-                      <v-col
-                        :key="contract.uuid"
-                        cols="12"
-                        xl="4"
-                        md="6"
-                        justify="start"
-                      >
-                        <ContractListCard
-                          :key="contract.id"
-                          :data-cy="'contract-' + i"
-                          :contract="contract"
-                          expired
-                          @edit="editContract"
-                          @delete="destroy(contract.id)"
-                        />
-                      </v-col>
-                    </template>
-                  </template> </v-row
-              ></v-expansion-panel-content> </v-expansion-panel
+              <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                <v-container>
+                  <v-row>
+                    <v-col
+                      v-for="(contract, i) in expiredContracts"
+                      :key="contract.uuid"
+                      cols="12"
+                      xl="4"
+                      md="6"
+                    >
+                      <ContractListCard
+                        :key="contract.id"
+                        :data-cy="'contract-' + i"
+                        :contract="contract"
+                        expired
+                        class="no-margin"
+                        @edit="editContract"
+                        @delete="destroy(contract.id)"
+                      />
+                    </v-col> </v-row
+                ></v-container>
+              </v-expansion-panel-content> </v-expansion-panel
           ></v-expansion-panels>
         </template>
       </v-row>
@@ -123,7 +146,8 @@ export default {
       contractEntity: null,
       ignoreLoading: false,
       // TODO: Build Loading functionality
-      loading: false
+      loading: false,
+      panel: 0
     };
   },
   computed: {
@@ -180,3 +204,12 @@ export default {
   }
 };
 </script>
+
+<style lang="css" scoped>
+.v-expansion-panel-content__wrap >>> {
+  padding-left: 12px;
+}
+.no-margin {
+  margin: 0 !important;
+}
+</style>
