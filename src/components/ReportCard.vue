@@ -228,7 +228,6 @@ export default {
         const response = await ReportService.get(this.report.id);
         this.pdf = Buffer.from(response.data, "binary").toString("base64");
       } catch (error) {
-        console.log(error);
         if (error.response.status === 401) return;
         // TODO: Set error state in component
         const uint8array = new Uint8Array(error.response.data);
