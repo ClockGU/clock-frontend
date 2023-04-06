@@ -137,7 +137,7 @@ import { localizedFormat } from "@/utils/date";
 import { ReportService } from "@/services/models";
 import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-
+import { Buffer } from "buffer";
 import { log } from "@/utils/log";
 
 export default {
@@ -228,11 +228,12 @@ export default {
         const response = await ReportService.get(this.report.id);
         this.pdf = Buffer.from(response.data, "binary").toString("base64");
       } catch (error) {
+        console.log(error);
         if (error.response.status === 401) return;
         // TODO: Set error state in component
         const uint8array = new Uint8Array(error.response.data);
         const decoded = JSON.parse(new TextDecoder().decode(uint8array));
-        this.$store.dispatch("snackbar/setSnack", {
+        await this.$store.dispatch("snackbar/setSnack", {
           snack: decoded.message,
           timeout: 4000,
           color: "error"
