@@ -87,7 +87,7 @@
 
 <script>
 import ContractListCard from "@/components/contracts/ContractListCard";
-import { parseISO, endOfDay, isPast } from "date-fns";
+import { endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
 import { ContractService } from "@/services/models";
@@ -162,7 +162,7 @@ export default {
       return this.clockedShift.contract !== uuid;
     },
     contractExpired(contract) {
-      const date = endOfDay(parseISO(contract.endDate));
+      const date = endOfDay(contract.endDate);
       return isPast(date);
     },
     async destroy(uuid) {
