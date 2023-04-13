@@ -12,6 +12,7 @@
       <ConfirmationDialog
         :confirmation-button="{
           attrs: { disabled: v$.$invalid },
+          text: $t('actions.delete'),
           color: 'error',
           onClickHandler: destroy
         }"
