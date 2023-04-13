@@ -107,7 +107,8 @@ export default {
     date: firstOfMonth,
     dialog: false,
     icons: { mdiBadgeAccountHorizontal },
-    warnDialog: false
+    warnDialog: false,
+    report: { id: uuidv4() }
   }),
   computed: {
     ...mapGetters({
@@ -124,13 +125,6 @@ export default {
         !this.$store.state.user.personal_number &&
         this.$store.state.user.personal_number !== undefined
       );
-    },
-    report() {
-      if (this.selectedReports === undefined) return { id: uuidv4() };
-      const filteredReports = this.selectedReports.filter((report) =>
-        isSameDay(report.monthYear, this.date)
-      );
-      return filteredReports[0];
     },
     isCurrentMonthLocked() {
       if (this.disabled) return false;
@@ -175,13 +169,19 @@ export default {
     // Add watcher for the case that the selected Contract has no Report for the current month.
     // In this case set the date to the date of the last Report existing.
     this.$watch(
-      "report",
+      "date",
       (value) => {
-        if (value === undefined) {
+        const filteredReports = this.selectedReports.filter((report) =>
+          isSameDay(report.monthYear, value)
+        );
+        let report = filteredReports[0];
+        if (report === undefined) {
           this.updateDate(
             this.selectedReports[this.selectedReports.length - 1].monthYear
           );
+          return;
         }
+        this.report = report;
       },
       { immediate: true }
     );

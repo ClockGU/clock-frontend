@@ -137,7 +137,7 @@ import { localizedFormat } from "@/utils/date";
 import { ReportService } from "@/services/models";
 import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-
+import { Buffer } from "buffer";
 import { log } from "@/utils/log";
 
 export default {
@@ -232,7 +232,7 @@ export default {
         // TODO: Set error state in component
         const uint8array = new Uint8Array(error.response.data);
         const decoded = JSON.parse(new TextDecoder().decode(uint8array));
-        this.$store.dispatch("snackbar/setSnack", {
+        await this.$store.dispatch("snackbar/setSnack", {
           snack: decoded.message,
           timeout: 4000,
           color: "error"
