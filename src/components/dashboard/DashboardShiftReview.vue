@@ -32,7 +32,7 @@ export default {
       if (this.$store.getters["contentData/selectedShifts"] === undefined)
         return [];
       return this.$store.getters["contentData/selectedShifts"]
-        .filter((shift) => !shift.wasReviewed)
+        .filter((shift) => !shift.wasReviewed && shift.stopped <= Date.now())
         .slice(0, 5);
     }
   }
