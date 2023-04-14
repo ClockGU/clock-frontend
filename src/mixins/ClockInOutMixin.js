@@ -70,8 +70,10 @@ export default {
           await this.$store.dispatch("clock/unclockShift");
           this.stop();
           this.$store.dispatch("snackbar/setSnack", {
-            snack: this.$t("dashboard.clock.snacks.shiftTooShort"),
+            message: this.$t("dashboard.clock.snacks.shiftTooShort"),
             timeout: 4000,
+            timePassed: 0,
+            show: true,
             color: "warning"
           });
         } else {
@@ -89,11 +91,13 @@ export default {
             shiftInstance: savedShift
           });
           await this.$store.dispatch("clock/deleteClockedShift");
-          this.$store.dispatch("clock/unclockShift");
+          await this.$store.dispatch("clock/unclockShift");
 
-          this.$store.dispatch("snackbar/setSnack", {
-            snack: this.$t("dashboard.clock.snacks.clockOut"),
+          await this.$store.dispatch("snackbar/setSnack", {
+            message: this.$t("dashboard.clock.snacks.clockOut"),
             timeout: 4000,
+            timePassed: 0,
+            show: true,
             color: "success"
           });
         }
@@ -107,6 +111,7 @@ export default {
         }
         await this.reset();
       } finally {
+        await this.stop();
         this.saving = false;
         this.shiftData = {};
       }
@@ -117,8 +122,10 @@ export default {
         this.clock = new ClockModel({ startDate: this.clockedShift.startDate });
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("dashboard.clock.snacks.alreadyClockedIn"),
+          message: this.$t("dashboard.clock.snacks.alreadyClockedIn"),
           timeout: 4000,
+          timePassed: 0,
+          show: true,
           color: "warning"
         });
       } catch (error) {
@@ -134,8 +141,10 @@ export default {
         await this.$store.dispatch("clock/clockShift", shift);
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("dashboard.clock.snacks.clockedIn"),
+          message: this.$t("dashboard.clock.snacks.clockedIn"),
           timeout: 4000,
+          timePassed: 0,
+          show: true,
           color: "success"
         });
       } finally {
@@ -170,8 +179,10 @@ export default {
 
         if (snackbar) {
           this.$store.dispatch("snackbar/setSnack", {
-            snack: this.$t("dashboard.clock.snacks.deleted"),
+            message: this.$t("dashboard.clock.snacks.deleted"),
             timeout: 4000,
+            timePassed: 0,
+            show: true,
             color: "success"
           });
         }
@@ -184,6 +195,8 @@ export default {
         this.$store.dispatch("snackbar/setSnack", {
           snack: this.$t("dashboard.clock.snacks.alreadyClockedOut"),
           timeout: 4000,
+          timePassed: 0,
+          show: true,
           color: "warning"
         });
       }
