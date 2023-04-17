@@ -22,8 +22,6 @@ const actions = {
   setSnack({ commit }, payload) {
     payload.uuid = uuidv4();
     commit("setSnack", payload);
-
-    return Promise.resolve();
   },
   removeSnack({ commit }, uuid) {
     commit("removeSnack", uuid);
