@@ -24,7 +24,10 @@
 
     <v-card-actions data-cy="contract-actions">
       <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
-      <ConfirmationDialog @confirm="destroyFn">
+      <ConfirmationDialog
+        :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
+        @confirm="destroyFn"
+      >
         <template #activator="{ on }">
           <v-btn text data-cy="delete" v-on="on">
             {{ $t("actions.delete") }}

@@ -7,7 +7,11 @@
       {{ $t("actions.cancel") }}
     </v-btn>
     <v-spacer></v-spacer>
-    <ConfirmationDialog v-if="!isNewInstance" @confirm="destroy">
+    <ConfirmationDialog
+      v-if="!isNewInstance"
+      :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
+      @confirm="destroy"
+    >
       <template #activator="{ on }">
         <v-btn data-cy="entity-form-delete-button" text color="error" v-on="on">
           {{ $t("actions.delete") }}
