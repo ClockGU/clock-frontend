@@ -104,6 +104,12 @@ export default {
         "contentData/saveShift",
         this.newShift.toPayload()
       );
+      if (this.scheduledShifts !== undefined) {
+        await this.$store.dispatch(
+          "contentData/bulkCreateShifts",
+          this.scheduledShifts
+        );
+      }
       this.$emit("save");
       this.closeFn();
       this.saving = false;

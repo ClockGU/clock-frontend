@@ -252,7 +252,7 @@ const actions = {
 
     const savedShifts = await ShiftService.bulkCreate(payloadArray);
     savedShifts.forEach((shift) => {
-      commit("updateShift", {
+      commit("addShift", {
         contractID: shift.contract,
         shiftInstance: shift
       });
