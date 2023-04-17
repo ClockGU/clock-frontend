@@ -140,7 +140,7 @@ export default {
           shift.started = startDate;
           shift.stopped = endDate;
           shift.wasReviewed = false;
-          return shift;
+          return shift.toPayload();
         })
         .slice(1);
     },
