@@ -245,6 +245,23 @@ const actions = {
       contractID: savedShift.contract
     });
   },
+  async bulkCreateShifts({ commit, dispatch }, payloadArray) {
+    const startDate = payloadArray.reduce((prev, curr) => {
+      return new Date(prev.started) < new Date(curr.started) ? prev : curr;
+    }).started;
+
+    const savedShifts = await ShiftService.bulkCreate(payloadArray);
+    savedShifts.forEach((shift) => {
+      commit("addShift", {
+        contractID: shift.contract,
+        shiftInstance: shift
+      });
+    });
+    dispatch("refreshReports", {
+      startDate: startDate,
+      contractID: payloadArray[0].contract
+    });
+  },
   async updateShift({ commit, dispatch }, { payload, initialContract }) {
     const updatedShift = await ShiftService.update(payload, payload.id);
     if (initialContract === updatedShift.contract) {
