@@ -1,10 +1,5 @@
 import is from "ramda/src/is";
-import {
-  format,
-  differenceInCalendarDays,
-  startOfMonth,
-  endOfMonth
-} from "date-fns";
+import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { getFirstOfcurrentMonth, getLastOfcurrentMonth } from "@/utils/date";
 
 export function mapContractApiResponse(response) {
@@ -83,11 +78,11 @@ export class Contract {
     return format(startOfMonth(this.carryoverTargetDate), "yyyy-MM-dd");
   }
   startDateString() {
-    return format(startOfMonth(this.startDate), "yyyy-MM-dd");
+    return format(this.startDate, "yyyy-MM-dd");
   }
 
   endDateString() {
-    return format(endOfMonth(this.endDate), "yyyy-MM-dd");
+    return format(this.endDate, "yyyy-MM-dd");
   }
   toPayload() {
     return {
