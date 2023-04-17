@@ -131,7 +131,7 @@ export default {
     shifts() {
       return this.generatedSchedule
         .map((startDate) => {
-          const endDate = this.shift.stopped;
+          const endDate = new Date(this.shift.stopped);
           endDate.setDate(startDate.getDate());
           endDate.setMonth(startDate.getMonth());
           endDate.setYear(startDate.getFullYear());
