@@ -245,10 +245,11 @@ const actions = {
       contractID: savedShift.contract
     });
   },
-  async bulkCreateShifts({ commit, dispatch }, payloadArray) {
-    const startDate = payloadArray.reduce((prev, curr) => {
-      return new Date(prev.started) < new Date(curr.started) ? prev : curr;
+  async bulkCreateShifts({ commit, dispatch }, shiftArray) {
+    const startDate = shiftArray.reduce((prev, curr) => {
+      return prev.started < curr.started ? prev : curr;
     }).started;
+    const payloadArray = shiftArray.map((shift) => shift.toPayload());
 
     const savedShifts = await ShiftService.bulkCreate(payloadArray);
     savedShifts.forEach((shift) => {
