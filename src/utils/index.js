@@ -50,7 +50,7 @@ export function getContractWithLastActivity({ shifts, contracts }) {
     return store.getters["contentData/contractById"](shifts[0].contract);
   } else {
     return store.getters["contentData/contractById"](
-      sortByModifiedAt(shifts)[0].contract
+      sortByModifiedAt(shifts).at(-1).contract
     );
   }
 }
