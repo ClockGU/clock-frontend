@@ -22,6 +22,8 @@ function defaultValueTime(type) {
 
 export function mapShiftApiResponse(response) {
   response["wasReviewed"] = response["was_reviewed"];
+  response["modifiedAt"] = response["modified_at"];
+  response["createdAt"] = response["created_at"];
   delete response["was_reviewed"];
   return response;
 }
@@ -44,6 +46,8 @@ export class Shift {
     note = null,
     tags = null,
     wasReviewed = null,
+    createdAt = null,
+    modifiedAt = null,
     locked = null
   } = {}) {
     this.id = is(String, id) ? id : "";
@@ -65,6 +69,12 @@ export class Shift {
     this.note = is(String, note) ? note : "";
     this.tags = is(Array, tags) ? tags : [];
     this.wasReviewed = is(Boolean, wasReviewed) ? wasReviewed : false;
+    this.modifiedAt = is(Date, new Date(modifiedAt))
+      ? new Date(modifiedAt)
+      : this.started;
+    this.createdAt = is(Date, new Date(createdAt))
+      ? new Date(createdAt)
+      : this.started;
     this.locked = is(Boolean, locked) ? locked : false;
   }
 
