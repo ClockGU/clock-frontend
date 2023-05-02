@@ -5,6 +5,7 @@ export default {
     errorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateDurationAndExistingShifts);
+      errorMessages.push(this.validateNoCarryoverForFutureContracts);
       return errorMessages.filter((message) => message !== undefined);
     },
     valid() {
@@ -21,6 +22,15 @@ export default {
         ) {
           return this.$t("contracts.errors.shiftOutOfScope");
         }
+      }
+    },
+    validateNoCarryoverForFutureContracts() {
+      const today = new Date();
+      if (
+        this.newContract.startDate > today &&
+        this.newContract.initialCarryoverMinutes !== 0
+      ) {
+        return this.$t("contracts.errors.carryoverForFutureContracts");
       }
     },
     shiftsThisContract() {
