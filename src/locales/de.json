@@ -97,7 +97,8 @@
     },
     "createContract": "Vertrag erstellen",
     "errors": {
-      "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen."
+      "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen.",
+      "carryoverForFutureContracts": "Der Übertrag für einen zukünftigen Vertrag muss 00:00 sein."
     }
   },
   "dashboard": {
