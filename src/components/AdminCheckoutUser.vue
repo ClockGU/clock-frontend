@@ -41,14 +41,19 @@ export default {
       this.userUUID = val;
     }
   },
+  created() {
+    this.userUUID = this.value;
+  },
   methods: {
     save() {
       ApiService.setHeader("Checkoutuser", this.userUUID);
-      this.$store.commit("SET_CHECKOUT_USER", this.userUUID);
+      this.$store.commit("auth/SET_CHECKOUT_USER", this.userUUID);
+      this.$store.commit("contentData/clearContentData");
     },
     clear() {
       ApiService.removeSingleHeader("Checkoutuser");
-      this.$store.commit("CLEAR_CHECKOUT_USER");
+      this.$store.commit("auth/CLEAR_CHECKOUT_USER");
+      this.$store.commit("contentData/clearContentData");
     }
   }
 };
