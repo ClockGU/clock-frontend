@@ -103,9 +103,9 @@ const mutations = {
     }
     this.commit("contentData/setContentDataInitialized");
   },
-  clearContentData({ state, commit }) {
+  clearContentData(state) {
     state.contentData = {};
-    commit("contentData/unsetContentDataInitialized");
+    this.commit("contentData/unsetContentDataInitialized");
   },
   setContentDataInitialized(state) {
     state.contentDataInitialized = true;
