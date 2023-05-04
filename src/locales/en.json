@@ -495,7 +495,7 @@
     },
     "errors": {
       "startedBeforeStopped": "The start must be before the end of the shift.",
-      "maximumworking timePerDay": "The maxium allowed working time amount is 10 hours per day.",
+      "maximumWorktimePerDay": "The maxium allowed working time amount is 10 hours per day.",
       "workingOnSundays": "It is not allowed to work on a sunday.",
       "workingOnHolidays": "You can only book 'holiday' shifts on a holiday.",
       "exclusiveVacation": "You can not combine 'vacation' shifts with other shifts on the same day.",
@@ -503,7 +503,7 @@
       "overlappingStarted": "The start time is within the period of an existing and reviewed shift.",
       "overlappingStopped": "The end time is within the period of an already existing and reviewed shift.",
       "eightTwentyRule": "As a rule, student workers should not be obliged to work before 08:00 and after 20:00.",
-      "autoworking timeCutting": "Mandatory breaktimes are missing on this workday. Clock will subtract the legally required breaktimes automatically from your working time.",
+      "autoWorktimeCutting": "Mandatory breaktimes are missing on this workday. Clock will subtract the legally required breaktimes automatically from your working time.",
       "month_already_locked": "This month has already been locked. You cannot save new shifts within this month."
     },
     "hints": {
