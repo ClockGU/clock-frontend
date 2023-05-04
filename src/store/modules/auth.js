@@ -7,7 +7,7 @@ const state = {
   accessToken: null,
   refreshToken: null,
   refreshTokenPromise: null,
-  checkoutUser: "String"
+  checkoutUser: ""
 };
 
 const getters = {
