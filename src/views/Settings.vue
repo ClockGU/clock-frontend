@@ -63,7 +63,7 @@
         </v-tab-item>
 
         <v-tab-item>
-          <AdminCheckoutUser />
+          <AdminCheckoutUser :value="checkoutUserID" />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -113,6 +113,9 @@ export default {
   computed: {
     isSuperUser() {
       return this.$store.getters.user.is_superuser;
+    },
+    checkoutUserID() {
+      return this.$store.getters["auth/checkoutUser"];
     }
   }
 };

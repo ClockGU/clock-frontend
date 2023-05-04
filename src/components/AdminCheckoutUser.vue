@@ -25,13 +25,21 @@
 import ApiService from "@/services/api.js";
 export default {
   name: "AdminCheckoutUser",
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       userUUID: ""
     };
   },
-  created() {
-    this.userUUID = this.$store.getters.checkoutUser;
+  watch: {
+    value(val) {
+      this.userUUID = val;
+    }
   },
   methods: {
     save() {
