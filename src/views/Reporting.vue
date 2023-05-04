@@ -164,16 +164,16 @@ export default {
       };
     }
   },
-  // watch: {
-  //   selectedContract() {
-  //     // This watcher is yet a dirty hack. By updating the date re-run the code
-  //     // determining the correct report.
-  //     // TODO: Refactor both watchers into a reactive patern
-  //     this.updateDate(
-  //       this.selectedReports[this.selectedReports.length - 1].monthYear
-  //     );
-  //   }
-  // },
+  watch: {
+    selectedContract() {
+      // This watcher is yet a dirty hack. By updating the date re-run the code
+      // determining the correct report.
+      // TODO: Refactor both watchers into a reactive patern
+      this.updateDate(
+        this.selectedReports[this.selectedReports.length - 1].monthYear
+      );
+    }
+  },
 
   mounted() {
     // Add watcher for the case that the selected Contract has no Report for the current month.
