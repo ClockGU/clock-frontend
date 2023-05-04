@@ -2,7 +2,6 @@ import { differenceInSeconds, getHours, getMinutes, set } from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
-import { mapGetters } from "vuex";
 import { ShiftService } from "@/services/models";
 
 export default {
@@ -14,9 +13,6 @@ export default {
     shiftData: {}
   }),
   computed: {
-    ...mapGetters({
-      clockedShift: "clock/clockedShift"
-    }),
     clockData() {
       if (this.clock === null) return {};
 
@@ -137,7 +133,6 @@ export default {
           started: date,
           contract: this.$store.getters["selectedContract/selectedContract"].id
         });
-
         await this.$store.dispatch("clock/clockShift", shift);
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
@@ -167,7 +162,6 @@ export default {
         log("Tried to destroy clock, while it was already destroyed.");
       } finally {
         this.clock = null;
-        this.$store.commit("clock/unclockShift");
       }
     },
     async reset(snackbar = true) {
