@@ -1,4 +1,10 @@
-import { differenceInSeconds, getHours, getMinutes, set } from "date-fns";
+import {
+  differenceInSeconds,
+  getHours,
+  getMinutes,
+  isSameDay,
+  set
+} from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
@@ -99,11 +105,13 @@ export default {
       } catch (error) {
         if (error.response && error.response.status === 401) return;
         if (error.response && error.response.status === 400) {
-          this.shiftData.stopped = set(this.clockedShift.started, {
-            hours: 23,
-            minutes: 59,
-            seconds: 59
-          });
+          if (!isSameDay(this.shiftData.started, this.shiftData.stopped)) {
+            this.shiftData.stopped = set(this.clockedShift.started, {
+              hours: 23,
+              minutes: 59,
+              seconds: 59
+            });
+          }
           this.shiftToModify = new Shift(this.shiftData);
           this.window += 1;
           this.unpause();
