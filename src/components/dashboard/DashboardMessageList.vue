@@ -30,12 +30,13 @@
           <template #content="{ events: { close } }">
             <v-card>
               <v-toolbar flat>
-                <v-btn icon @click="close()">
-                  <v-icon>{{ icons.mdiClose }}</v-icon>
-                </v-btn>
                 <v-toolbar-title>
                   {{ $t("app.news") }}
                 </v-toolbar-title>
+                <v-spacer />
+                <v-btn icon @click="close()">
+                  <v-icon>{{ icons.mdiClose }}</v-icon>
+                </v-btn>
               </v-toolbar>
 
               <v-card-text>
