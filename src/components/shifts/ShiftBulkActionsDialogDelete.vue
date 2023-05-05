@@ -1,5 +1,11 @@
 <template>
-  <ConfirmationDialog @confirm="destroy">
+  <ConfirmationDialog
+    :confirmation-button="{
+      text: $t('actions.delete'),
+      color: 'error'
+    }"
+    @confirm="destroy"
+  >
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
