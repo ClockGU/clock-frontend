@@ -22,7 +22,7 @@ const mutations = {
 const actions = {
   clockShift({ commit }, payload) {
     return ClockedInShiftService.create(payload).then((shift) => {
-      commit("clock/clockShift", shift);
+      commit("clockShift", shift);
       return shift;
     });
   },
