@@ -64,7 +64,6 @@ export default {
         if (differenceInSeconds(endDate, startDate) < 60) {
           await this.$store.dispatch("clock/deleteClockedShift");
           await this.$store.dispatch("clock/unclockShift");
-          this.stop();
           this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.shiftTooShort"),
             timeout: 4000,
