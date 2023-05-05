@@ -28,15 +28,9 @@
             <CalendarTypeSelect v-model="type" />
           </v-col>
 
-          <v-col
-            v-if="$refs.calendar"
-            class="px-0"
-            cols="12"
-            sm="4"
-            order-sm="2"
-          >
+          <v-col class="px-0" cols="12" sm="4" order-sm="2">
             <span data-cy="calendar-title">
-              {{ $refs.calendar.title }}
+              {{ monthYearDisplay }}
             </span>
           </v-col>
         </v-row>
@@ -136,17 +130,8 @@ export default {
       if (this.disabled) return [];
       return this.selectedShifts;
     },
-    shiftNow() {
-      const now = new Date();
-      const [year, month, day] = this.focus.split("-");
-
-      return new Date(
-        parseInt(year),
-        parseInt(month) - 1,
-        parseInt(day),
-        now.getHours(),
-        now.getMinutes()
-      );
+    monthYearDisplay() {
+      return localizedFormat(new Date(this.focus), "MMMM yyyy");
     },
     events() {
       return this.visibleShifts.map((shift) => {
@@ -209,10 +194,7 @@ export default {
       this.start = start;
       this.end = end;
 
-      const [year, month, day] = localizedFormat(
-        this.shiftNow,
-        "yyyy-MM-dd"
-      ).split("-");
+      const [year, month, day] = this.focus.split("-");
 
       // Tell parent component the range updated
       this.$emit("updateRange", {
