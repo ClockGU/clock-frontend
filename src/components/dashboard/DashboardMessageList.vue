@@ -29,16 +29,12 @@
 
           <template #content="{ events: { close } }">
             <v-card>
-              <v-toolbar flat>
-                <v-toolbar-title>
-                  {{ $t("app.news") }}
-                </v-toolbar-title>
-                <v-spacer />
-                <v-btn icon @click="close()">
-                  <v-icon>{{ icons.mdiClose }}</v-icon>
-                </v-btn>
-              </v-toolbar>
-
+              <CardToolbar
+                :title="$t('app.news')"
+                :logout-action="false"
+                close-action
+                @close="close"
+              ></CardToolbar>
               <v-card-text>
                 <MessageList :messages="messages" />
               </v-card-text>
@@ -61,12 +57,14 @@ import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 
 import { mdiClose } from "@mdi/js";
+import CardToolbar from "@/components/cards/CardToolbar";
 
 export default {
   name: "DashboardMessageList",
   components: {
     MessageList,
-    TheDialog
+    TheDialog,
+    CardToolbar
   },
   data: () => ({
     dialog: false,
