@@ -99,6 +99,11 @@ export default {
       } catch (error) {
         if (error.response && error.response.status === 401) return;
         if (error.response && error.response.status === 400) {
+          this.shiftData.stopped = set(this.clockedShift.started, {
+            hours: 23,
+            minutes: 59,
+            seconds: 59
+          });
           this.shiftToModify = new Shift(this.shiftData);
           this.window += 1;
           this.unpause();
