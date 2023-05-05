@@ -27,10 +27,10 @@
             </v-btn>
           </template>
 
-          <template #content>
+          <template #content="{ events: { close } }">
             <v-card>
               <v-toolbar flat>
-                <v-btn icon @click="dialog = false">
+                <v-btn icon @click="close()">
                   <v-icon>{{ icons.mdiClose }}</v-icon>
                 </v-btn>
                 <v-toolbar-title>
