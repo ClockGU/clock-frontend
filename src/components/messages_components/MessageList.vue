@@ -1,5 +1,5 @@
 <template>
-  <v-list two-line subheader>
+  <v-list two-line subheader :max-height="200" style="overflow-y: scroll">
     <template v-for="(message, index) in messages">
       <MessageListItem
         :key="message.id"
