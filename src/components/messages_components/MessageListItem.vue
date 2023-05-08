@@ -13,11 +13,14 @@
           {{ typeTag(message) }}
         </v-chip>
       </v-list-item-title>
-
       <v-list-item-subtitle
+        v-if="lineRestriction"
         class="text--primary"
         v-text="text"
       ></v-list-item-subtitle>
+      <v-list-item-content v-else>
+        {{ text }}
+      </v-list-item-content>
     </v-list-item-content>
 
     <v-list-item-action>
@@ -44,6 +47,11 @@ export default {
   computed: {
     text() {
       return stripHTML(marked.parse(this.message.text));
+    },
+    lineRestriction() {
+      return ["three-line", "two-line"]
+        .map((restriction) => restriction in this.$attrs)
+        .some((item) => item);
     }
   },
   methods: {
