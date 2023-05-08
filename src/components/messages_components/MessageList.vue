@@ -5,7 +5,6 @@
         :key="message.id"
         :message="message"
         three-line
-        @show="showMessage"
       />
       <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
     </template>
@@ -38,15 +37,6 @@ export default {
     },
     typeTag(message) {
       return MESSAGE_TYPE_TAGS[message.type];
-    },
-    closeMessage() {
-      this.visibleMessage = null;
-      this.dialog = false;
-    },
-    showMessage(message) {
-      this.visibleMessage = message;
-      this.dialog = true;
     }
-  }
 };
 </script>
