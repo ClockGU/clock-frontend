@@ -4,6 +4,7 @@
       <MessageListItem
         :key="message.id"
         :message="message"
+        three-line
         @show="showMessage"
       />
       <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />

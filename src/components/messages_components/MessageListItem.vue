@@ -1,5 +1,5 @@
 <template>
-  <v-list-item v-bind="$attrs" three-line @click="$emit('show', message)">
+  <v-list-item v-bind="$attrs" @click="$emit('show', message)">
     <v-list-item-content>
       <v-list-item-title>
         {{ message.title }}
