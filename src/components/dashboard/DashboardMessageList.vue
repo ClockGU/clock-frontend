@@ -54,7 +54,7 @@ import { log } from "@/utils/log";
 import MessageService from "@/services/message";
 
 import TheDialog from "@/components/TheDialog";
-import MessageList from "@/components/MessageList";
+import MessageList from "@/components/messages_components/MessageList";
 
 import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";

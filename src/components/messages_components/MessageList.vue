@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import MessageListItem from "@/components/MessageListItem";
-import MessageListText from "@/components/MessageListText";
+import MessageListItem from "@/components/messages_components/MessageListItem";
+import MessageListText from "@/components/messages_components/MessageListText";
 import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { mdiClose } from "@mdi/js";
