@@ -6,7 +6,7 @@
         :message="message"
         @show="showMessage"
       />
-      <v-divider v-if="index < messages.length - 1" :key="index" />
+      <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
     </template>
   </v-list>
 </template>
