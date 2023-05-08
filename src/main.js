@@ -13,7 +13,6 @@ import * as Integrations from "@sentry/integrations";
 import BaseLayout from "@/layouts/BaseLayout";
 import Link from "@/components/base/Link";
 import Placeholder from "@/components/Placeholder";
-import VueCompositionAPI from "@vue/composition-api";
 import "@/assets/main.scss";
 
 import { log } from "@/utils/log";
@@ -29,7 +28,6 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 
-Vue.use(VueCompositionAPI);
 Vue.use(VueMeta);
 Vue.use(PortalVue);
 Vue.config.productionTip = false;
