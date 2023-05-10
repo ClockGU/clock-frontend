@@ -1,5 +1,5 @@
 <template>
-  <v-list two-line subheader :max-height="200" style="overflow-y: scroll">
+  <v-list two-line subheader :max-height="maxHeight" style="overflow-y: scroll">
     <template v-for="(message, index) in messages">
       <MessageListItem
         :key="message.id"
@@ -28,6 +28,11 @@ export default {
     threeLine: {
       type: Boolean,
       default: false
+    },
+    maxHeight: {
+      type: Number,
+      requried: false,
+      default: 200
     }
   },
   data: () => ({
