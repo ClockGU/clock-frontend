@@ -407,7 +407,7 @@
       "insufficientWorktime": "You are missing more than 20% of your debit working time.",
       "worktimeOverEightyHours": "Your total working time for this month is greater than 80h. Please keep in mind that you lose your students insurance status if you work more than 80h during the semester."
     },
-    "monthlyReminder" : "Please remember to donwload your reports of the previous month."
+    "monthlyReminder": "Please remember to export your timesheets for the previous month!"
   },
   "selectContract": {
     "hint": "Change the contract to see different data.",
