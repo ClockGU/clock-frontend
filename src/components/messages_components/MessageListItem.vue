@@ -33,6 +33,7 @@
 import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 const stripHTML = (string) => string.replace(/(<([^>]+)>)/gi, "");
 
@@ -46,7 +47,7 @@ export default {
   },
   computed: {
     text() {
-      return stripHTML(marked.parse(this.message.text));
+      return stripHTML(DOMPurify.sanitize(marked.parse(this.message.text)));
     },
     lineRestriction() {
       return ["three-line", "two-line"]
