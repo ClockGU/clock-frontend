@@ -70,9 +70,10 @@ export default {
       await ApiService.setHeader("Accept-Language", locale);
       try {
         await AuthService.updateSettings({ language: locale });
-        await this.$store.dispatch("changeLocale", locale);
       } catch (error) {
         log(error);
+      } finally {
+        await this.$store.dispatch("changeLocale", locale);
       }
     }
   }
