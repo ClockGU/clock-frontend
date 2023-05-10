@@ -18,12 +18,6 @@
           close-action
           @close="close"
         ></CardToolbar>
-        <v-toolbar flat>
-          <v-toolbar-title>
-            {{ $t("app.news") }}
-          </v-toolbar-title>
-        </v-toolbar>
-
         <v-card-text>
           <MessageList :messages="messages" />
         </v-card-text>
