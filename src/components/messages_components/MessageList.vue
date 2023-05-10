@@ -1,11 +1,7 @@
 <template>
   <v-list two-line subheader :max-height="200" style="overflow-y: scroll">
     <template v-for="(message, index) in messages">
-      <MessageListItem
-        :key="message.id"
-        :message="message"
-        three-line
-      />
+      <MessageListItem :key="message.id" :message="message" three-line />
       <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
     </template>
   </v-list>
@@ -38,5 +34,6 @@ export default {
     typeTag(message) {
       return MESSAGE_TYPE_TAGS[message.type];
     }
+  }
 };
 </script>
