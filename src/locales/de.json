@@ -407,7 +407,7 @@
       "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit.",
       "worktimeOverEightyHours": "Deine Monatsarbeitszeit überschreitet 80h. Beachte, dass du während der Vorlesungszeit nicht mehr als 80h pro Monat arbeiten darfst, um deinen studentischen Versicherungsstatus zu behalten."
     },
-    "monthlyReminder" : "Denk daran deine Stundenzettel für den vergangenen Monat zu downloaden."
+    "monthlyReminder": "Denke daran, deine Stundenzettel für den vergangenen Monat zu exportieren!"
   },
   "selectContract": {
     "hint": "Wechsle den Vertrag, um andere Daten zu sehen",
