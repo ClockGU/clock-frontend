@@ -1,5 +1,6 @@
 import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
+import i18n from "@/plugins/i18n";
 
 const defaultState = {
   snack: null,
@@ -25,6 +26,16 @@ const actions = {
   },
   removeSnack({ commit }, uuid) {
     commit("removeSnack", uuid);
+  },
+  setReportReminderSnack({ commit }) {
+    commit("setSnack", {
+      message: i18n.t("reports.monthlyReminder"),
+      timeout: 10000,
+      color: "warning",
+      timePassed: 0,
+      show: true,
+      uuid: uuidv4()
+    });
   }
 };
 
