@@ -50,7 +50,9 @@ export default {
     },
     lineRestriction() {
       return ["three-line", "two-line"]
-        .map((restriction) => restriction in this.$attrs)
+        .map((restriction) =>
+          restriction in this.$attrs ? this.$attrs[restriction] : false
+        )
         .some((item) => item);
     }
   },
