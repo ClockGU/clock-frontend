@@ -3,28 +3,46 @@
     <v-card-title>Select a UUID of a User to checkout</v-card-title>
 
     <v-card-text>
-      <p>Select a User to get his data for support or debuggin purpose</p>
-
+      <p>Select a User to view his data for support or debugging purposes</p>
       <v-form>
         <v-text-field v-model="userUUID"></v-text-field>
       </v-form>
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="primary" text @click="save">
-        {{ $t("actions.save") }}
-      </v-btn>
-      <v-btn color="alert" text @click="clear">
-        {{ $t("actions.delete") }}
-      </v-btn>
+      <ConfirmationDialog
+        :confirmation-button="{ text: 'Checkout', color: 'primary' }"
+        :max-width="480"
+        @confirm="checkout"
+      >
+        <template #activator="{ on }">
+          <v-btn :disabled="userUUID === ''" text color="primary" v-on="on">
+            Checkout
+          </v-btn>
+        </template>
+
+        <template #title>Checkout User</template>
+
+        <template #text>
+          <v-alert type="warning">
+            This function should only be used with the consent of the selected
+            user. Proceed?
+          </v-alert>
+        </template>
+      </ConfirmationDialog>
+
+      <v-btn color="alert" text @click="clear">Clear</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import ApiService from "@/services/api.js";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
+
 export default {
   name: "AdminCheckoutUser",
+  components: { ConfirmationDialog },
   props: {
     value: {
       type: String,
@@ -45,7 +63,7 @@ export default {
     this.userUUID = this.value;
   },
   methods: {
-    save() {
+    checkout() {
       ApiService.setHeader("Checkoutuser", this.userUUID);
       this.$store.commit("auth/SET_CHECKOUT_USER", this.userUUID);
       this.$store.commit("contentData/clearContentData");
