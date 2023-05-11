@@ -1,6 +1,9 @@
 <template>
   <v-main>
-    <v-alert v-if="staging" type="warning" dark>{{ infostring }}</v-alert>
+    <v-alert v-if="userCheckedOut !== ''" type="info" color="purple" dense>
+      You are viewing data of a different user.
+    </v-alert>
+    <v-alert v-if="staging" type="warning" dense>{{ infostring }}</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
@@ -10,9 +13,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Home",
   computed: {
+    ...mapGetters({ userCheckedOut: "auth/checkoutUser" }),
     showingCalendar() {
       return this.$route.name === "calendar" || this.$route.name === "c";
     },
