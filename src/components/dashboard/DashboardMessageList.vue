@@ -38,14 +38,14 @@ export default {
   },
   data: () => ({
     dialog: false,
-    loading: true,
     icons: {
       mdiClose
     }
   }),
   computed: {
     ...mapGetters({
-      messages: "message/messages"
+      messages: "message/messages",
+      loading: "message/loading"
     }),
     lastMessage() {
       return this.messages.slice(0, 1);
