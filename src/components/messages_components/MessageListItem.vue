@@ -2,7 +2,7 @@
   <v-list-item v-bind="$attrs">
     <v-list-item-content>
       <v-list-item-title>
-        {{ message.title }}
+        {{ title_value(message) }}
         <v-chip
           v-if="typeTag(message) !== ''"
           outlined
@@ -34,6 +34,7 @@ import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
+import { mapGetters } from "vuex";
 
 const stripHTML = (string) => string.replace(/(<([^>]+)>)/gi, "");
 
@@ -46,8 +47,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      locale: "locale"
+    }),
     text() {
-      return stripHTML(DOMPurify.sanitize(marked.parse(this.message.text)));
+      return stripHTML(
+        DOMPurify.sanitize(marked.parse(this.text_value(this.message)))
+      );
     },
     lineRestriction() {
       return ["three-line", "two-line"]
@@ -58,6 +64,14 @@ export default {
     }
   },
   methods: {
+    title_value(message) {
+      const key = `${this.locale}_title`;
+      return key === undefined ? message.en_title : message[key];
+    },
+    text_value(message) {
+      const key = `${this.locale}_text`;
+      return key === undefined ? message.en_text : message[key];
+    },
     typeColor(message) {
       return MESSAGE_TYPE_COLORS[message.type];
     },
