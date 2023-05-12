@@ -23,15 +23,12 @@
 
 <script>
 import { log } from "@/utils/log";
-import MessageService from "@/services/message";
 
 import MessageList from "@/components/messages_components/MessageList";
 
-import { parseISO } from "date-fns";
-import { localizedFormat } from "@/utils/date";
-
 import { mdiClose } from "@mdi/js";
 import FullMessageListDialog from "@/components/messages_components/fullMessageListDialog";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DashboardMessageList",
@@ -44,10 +41,12 @@ export default {
     loading: true,
     icons: {
       mdiClose
-    },
-    messages: []
+    }
   }),
   computed: {
+    ...mapGetters({
+      messages: "message/messages"
+    }),
     lastMessage() {
       return this.messages.slice(0, 1);
     },
@@ -55,30 +54,14 @@ export default {
       return this.messages.length < 1;
     }
   },
-  created() {
-    this.request();
-  },
-  methods: {
-    async request() {
-      this.loading = true;
-      try {
-        const { data } = await MessageService.get();
-        this.messages = data
-          .map((item) => {
-            return {
-              ...item,
-              date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
-            };
-          })
-          //sort by valid_from date or ID (= message last entered)
-          //.sort((a, b) => new Date(a.date) - new Date(b.date));
-          .sort((a, b) => b.id - a.id);
-      } catch (error) {
-        this.messages = [];
-        log(error);
-      } finally {
-        this.loading = false;
-      }
+  async created() {
+    try {
+      await Promise.all([this.$store.dispatch("message/queryMessage")]);
+    } catch (error) {
+      log(error);
+      this.error = true;
+    } finally {
+      this.loading = false;
     }
   }
 };
