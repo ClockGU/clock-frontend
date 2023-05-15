@@ -19,7 +19,7 @@
           @close="close"
         ></CardToolbar>
         <v-card-text>
-          <MessageList :messages="messages" :max-height="600" />
+          <MessageList :messages="messages" :max-height="550" />
         </v-card-text>
       </v-card>
     </template>
