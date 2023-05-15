@@ -162,15 +162,19 @@ export default {
         await FeedbackService.post(feedback);
 
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("feedback.snackbar.success"),
+          message: this.$t("feedback.snackbar.success"),
           timeout: 4000,
+          timePassed: 0,
+          show: true,
           color: "success"
         });
         this.close();
       } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("feedback.snackbar.error"),
+          message: this.$t("feedback.snackbar.error"),
           timeout: 4000,
+          timePassed: 0,
+          show: true,
           color: "error"
         });
       }
