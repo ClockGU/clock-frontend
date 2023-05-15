@@ -384,13 +384,13 @@
     "timeWorked": "Time worked",
     "carryoverLast": "Carryover from last month",
     "carryoverNext": "Carryover to next month",
-    "exportAlert": "Once you generate the report, you will not be able to add or update shifts in the corresponding month",
+    "exportAlert": "Once you generate the timesheet, you will not be able to add or update shifts in the corresponding month",
     "exported": "Exported",
-    "generate": "Generate report",
+    "generate": "Generate timesheet",
     "hints": {
-      "request": "You can request and subsequently download your months report for review. You cannot request a report for the current month before locking the report for the previous month of the same contract.",
+      "request": "You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
       "personnelnumber": "You will also have to supply your personnel number.",
-      "lock": "You can only lock the month after generating the report for review."
+      "lock": "You can only lock the month after generating the timesheet for review."
     },
     "of": "of",
     "personnelNumberMissing": "Please add your personnel number.",
@@ -406,7 +406,8 @@
       "maxOvertimeExceeded": "You gathered more than 50% of your debit working time in overtime. Only 50% of you debit working time will be carried over to the next month as surplus hours.",
       "insufficientWorktime": "You are missing more than 20% of your debit working time.",
       "worktimeOverEightyHours": "Your total working time for this month is greater than 80h. Please keep in mind that you lose your students insurance status if you work more than 80h during the semester."
-    }
+    },
+    "monthlyReminder": "Please remember to export your timesheets for the previous month!"
   },
   "selectContract": {
     "hint": "Change the contract to see different data.",
@@ -485,7 +486,7 @@
       "bh": "Bank holiday"
     },
     "running": "running",
-    "wasExportedAlert": "The report for this shift was already exported. This shift cannot be edited anymore.",
+    "wasExportedAlert": "The timesheet this shift belongs to has already been exported. This shift cannot be edited anymore.",
     "table": {
       "pastShiftsTitle": "Past shifts",
       "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past.",

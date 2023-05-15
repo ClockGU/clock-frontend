@@ -28,7 +28,7 @@
     "buffer": "^6.0.3",
     "date-fns": "2.16.1",
     "date-holidays": "^3.16.17",
-    "dompurify": "^2.2.6",
+    "dompurify": "^3.0.3",
     "jest": "^27.1.0",
     "marked": "^4.0.16",
     "portal-vue": "2.1.7",

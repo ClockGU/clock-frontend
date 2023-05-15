@@ -60,8 +60,7 @@
           </v-btn>
           <v-btn
             v-else-if="
-              !overflowedShift &&
-              (actions.status === 'running' || actions.status === 'saving')
+              actions.status === 'running' || actions.status === 'saving'
             "
             key="clock-out"
             :disabled="actions.status === 'saving'"
