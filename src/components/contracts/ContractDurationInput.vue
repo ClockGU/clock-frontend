@@ -26,7 +26,7 @@
 <script>
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
 import { format } from "date-fns";
-import { lastOfMonth } from "@/utils/date";
+import { lastOfCurrentMonth } from "@/utils/date";
 
 export default {
   name: "ContractDurationInput",
@@ -52,7 +52,7 @@ export default {
       return false;
     },
     minEndDate() {
-      return format(lastOfMonth, "yyyy-MM-dd");
+      return format(lastOfCurrentMonth, "yyyy-MM-dd");
     }
   },
   watch: {

@@ -89,7 +89,7 @@ import ClockCardAlert from "@/components/ClockCardAlert";
 import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
-import { firstOfMonth, localizedFormat } from "@/utils/date";
+import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import { addMonths, isSameDay, isSameMonth } from "date-fns";
 
 export default {
@@ -104,7 +104,7 @@ export default {
     ClockCardAlert
   },
   data: () => ({
-    date: firstOfMonth,
+    date: firstOfCurrentMonth,
     dialog: false,
     icons: { mdiBadgeAccountHorizontal },
     warnDialog: false,

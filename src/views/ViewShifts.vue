@@ -151,7 +151,7 @@ import { mapGetters } from "vuex";
 
 import { mdiMagnify } from "@mdi/js";
 import { isFuture, isPast, isSameMonth } from "date-fns";
-import { firstOfMonth } from "@/utils/date";
+import { firstOfCurrentMonth } from "@/utils/date";
 
 export default {
   name: "Shifts",
@@ -164,7 +164,7 @@ export default {
   },
   data: () => ({
     icons: { mdiMagnify },
-    date: firstOfMonth,
+    date: firstOfCurrentMonth,
     loading: false,
     shiftEntity: null,
     showFormDialog: false,
