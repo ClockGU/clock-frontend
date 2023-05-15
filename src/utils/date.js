@@ -91,15 +91,15 @@ export function defaultContractDate({
   return newDate;
 }
 
-export function getFirstOfcurrentMonth() {
+export function getFirstOfCurrentMonth() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1, 2);
 }
 
-export function getLastOfcurrentMonth() {
+export function getLastOfCurrentMonth() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth() + 1, 0);
 }
 
-export const firstOfMonth = getFirstOfcurrentMonth();
-export const lastOfMonth = getLastOfcurrentMonth();
+export const firstOfCurrentMonth = getFirstOfCurrentMonth();
+export const lastOfCurrentMonth = getLastOfCurrentMonth();
