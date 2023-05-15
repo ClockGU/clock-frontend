@@ -26,6 +26,8 @@
       <v-spacer></v-spacer>
 
       <template v-if="showLoggedOutButtons">
+        <LanguageSwitcher />
+
         <v-btn text :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
 
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
@@ -102,10 +104,11 @@ import {
 
 import LogoutDialog from "@/components/LogoutDialog";
 import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default {
   name: "TheAppBar",
-  components: { ButtonGoetheOAuth, LogoutDialog },
+  components: { LanguageSwitcher, ButtonGoetheOAuth, LogoutDialog },
   data: () => ({
     icons: {
       mdiMenu,

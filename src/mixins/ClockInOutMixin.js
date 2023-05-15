@@ -1,8 +1,13 @@
-import { differenceInSeconds, getHours, getMinutes, set } from "date-fns";
+import {
+  differenceInSeconds,
+  getHours,
+  getMinutes,
+  isSameDay,
+  set
+} from "date-fns";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { log } from "@/utils/log";
-import { mapGetters } from "vuex";
 import { ShiftService } from "@/services/models";
 
 export default {
@@ -14,9 +19,6 @@ export default {
     shiftData: {}
   }),
   computed: {
-    ...mapGetters({
-      clockedShift: "clock/clockedShift"
-    }),
     clockData() {
       if (this.clock === null) return {};
 
@@ -68,7 +70,6 @@ export default {
         if (differenceInSeconds(endDate, startDate) < 60) {
           await this.$store.dispatch("clock/deleteClockedShift");
           await this.$store.dispatch("clock/unclockShift");
-          this.stop();
           this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.shiftTooShort"),
             timeout: 4000,
@@ -104,6 +105,13 @@ export default {
       } catch (error) {
         if (error.response && error.response.status === 401) return;
         if (error.response && error.response.status === 400) {
+          if (!isSameDay(this.shiftData.started, this.shiftData.stopped)) {
+            this.shiftData.stopped = set(this.clockedShift.started, {
+              hours: 23,
+              minutes: 59,
+              seconds: 59
+            });
+          }
           this.shiftToModify = new Shift(this.shiftData);
           this.window += 1;
           this.unpause();
@@ -137,7 +145,6 @@ export default {
           started: date,
           contract: this.$store.getters["selectedContract/selectedContract"].id
         });
-
         await this.$store.dispatch("clock/clockShift", shift);
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
@@ -167,7 +174,6 @@ export default {
         log("Tried to destroy clock, while it was already destroyed.");
       } finally {
         this.clock = null;
-        this.$store.commit("clock/unclockShift");
       }
     },
     async reset(snackbar = true) {

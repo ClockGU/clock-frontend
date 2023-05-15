@@ -11,36 +11,11 @@
       <v-card-title>{{ $t("app.news") }}</v-card-title>
 
       <v-card-text v-if="noMessages">{{ $t("news.noNews") }}</v-card-text>
-
-      <MessageList v-else :messages="lastMessage" />
-
+      <v-card-text v-else>
+        <MessageList :messages="messages" three-line />
+      </v-card-text>
       <v-card-actions v-if="!noMessages">
-        <TheDialog
-          v-model="dialog"
-          :persistent="false"
-          :fullscreen="$vuetify.breakpoint.smAndDown"
-          :max-width="800"
-        >
-          <template #activator="{ on }">
-            <v-btn text color="primary" block v-on="on">
-              {{ $t("news.showAll") }}
-            </v-btn>
-          </template>
-
-          <template #content="{ events: { close } }">
-            <v-card>
-              <CardToolbar
-                :title="$t('app.news')"
-                :logout-action="false"
-                close-action
-                @close="close"
-              ></CardToolbar>
-              <v-card-text>
-                <MessageList :messages="messages" />
-              </v-card-text>
-            </v-card>
-          </template>
-        </TheDialog>
+        <FullMessageListDialog :messages="messages" />
       </v-card-actions>
     </template>
   </v-card>
@@ -48,33 +23,30 @@
 
 <script>
 import { log } from "@/utils/log";
-import MessageService from "@/services/message";
 
-import TheDialog from "@/components/TheDialog";
-import MessageList from "@/components/MessageList";
-
-import { parseISO } from "date-fns";
-import { localizedFormat } from "@/utils/date";
+import MessageList from "@/components/messages_components/MessageList";
 
 import { mdiClose } from "@mdi/js";
-import CardToolbar from "@/components/cards/CardToolbar";
+import FullMessageListDialog from "@/components/messages_components/fullMessageListDialog";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DashboardMessageList",
   components: {
     MessageList,
-    TheDialog,
-    CardToolbar
+    FullMessageListDialog
   },
   data: () => ({
     dialog: false,
-    loading: true,
     icons: {
       mdiClose
-    },
-    messages: []
+    }
   }),
   computed: {
+    ...mapGetters({
+      messages: "message/messages",
+      loading: "message/loading"
+    }),
     lastMessage() {
       return this.messages.slice(0, 1);
     },
@@ -82,30 +54,14 @@ export default {
       return this.messages.length < 1;
     }
   },
-  created() {
-    this.request();
-  },
-  methods: {
-    async request() {
-      this.loading = true;
-      try {
-        const { data } = await MessageService.get();
-        this.messages = data
-          .map((item) => {
-            return {
-              ...item,
-              date: localizedFormat(parseISO(item.valid_from), "do MMMM yyyy")
-            };
-          })
-          //sort by valid_from date or ID (= message last entered)
-          //.sort((a, b) => new Date(a.date) - new Date(b.date));
-          .sort((a, b) => b.id - a.id);
-      } catch (error) {
-        this.messages = [];
-        log(error);
-      } finally {
-        this.loading = false;
-      }
+  async created() {
+    try {
+      await Promise.all([this.$store.dispatch("message/queryMessage")]);
+    } catch (error) {
+      log(error);
+      this.error = true;
+    } finally {
+      this.loading = false;
     }
   }
 };
