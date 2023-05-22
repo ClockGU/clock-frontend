@@ -36,7 +36,11 @@
 <script>
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import { addMonths, isAfter, isBefore, subMonths } from "date-fns";
-import { firstOfMonth, localizedFormat } from "@/utils/date";
+import {
+  getFirstOfMonth,
+  firstOfCurrentMonth,
+  localizedFormat
+} from "@/utils/date";
 import { mapGetters } from "vuex";
 
 export default {
@@ -87,16 +91,18 @@ export default {
       if (this.disabled) return false;
       const prevMonth = subMonths(this.date, 1);
       return (
-        !isBefore(prevMonth, this.selectedContract.startDate) &&
-        this.allowedMonths(localizedFormat(prevMonth, "yyyy-MM"))
+        !isBefore(
+          prevMonth,
+          getFirstOfMonth(this.selectedContract.startDate)
+        ) && this.allowedMonths(localizedFormat(prevMonth, "yyyy-MM"))
       );
     },
     minMonth() {
-      if (this.disabled) return localizedFormat(firstOfMonth, "yyyy-MM");
+      if (this.disabled) return localizedFormat(firstOfCurrentMonth, "yyyy-MM");
       return localizedFormat(this.selectedContract.startDate, "yyyy-MM");
     },
     maxMonth() {
-      if (this.disabled) return localizedFormat(firstOfMonth, "yyyy-MM");
+      if (this.disabled) return localizedFormat(firstOfCurrentMonth, "yyyy-MM");
       return localizedFormat(this.selectedContract.endDate, "yyyy-MM");
     }
   },

@@ -189,6 +189,11 @@ export default {
       return duration;
     }
   },
+  created() {
+    if (new Date().getDate() <= 5) {
+      this.$store.dispatch("snackbar/setReportReminderSnack");
+    }
+  },
   methods: {
     async refresh() {
       try {

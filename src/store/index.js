@@ -10,6 +10,7 @@ import selectedContract from "@/store/modules/selectedContract";
 import snackbar from "@/store/modules/snackbar";
 import contentData from "@/store/modules/contentData";
 import faq from "@/store/modules/faq";
+import message from "@/store/modules/message";
 
 import i18n, { selectedLocale, switchDateFnsLocale } from "@/plugins/i18n";
 
@@ -107,7 +108,8 @@ export default new Vuex.Store({
     contentData,
     selectedContract,
     snackbar,
-    faq
+    faq,
+    message
   },
   plugins: [
     createPersistedState({
