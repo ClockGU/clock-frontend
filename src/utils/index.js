@@ -21,7 +21,7 @@ const indexOfBy = (key) => ({
   const pivot = parseInt(start + (end - start) / 2, 10);
   if (array[pivot][key] === element[key]) return pivot;
   if (end - start <= 1) {
-    return array[pivot][key] > element[key] ? pivot - 1 : pivot;
+    return array[pivot][key] > element[key] ? pivot : pivot + 1;
   }
   if (array[pivot][key] < element[key]) {
     return indexOfBy(key)({ element, array, start: pivot, end });
