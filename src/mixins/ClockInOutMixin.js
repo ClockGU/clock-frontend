@@ -118,11 +118,10 @@ export default {
           return;
         }
         await this.reset();
-      } finally {
-        await this.stop();
-        this.saving = false;
-        this.shiftData = {};
       }
+      await this.stop();
+      this.saving = false;
+      this.shiftData = {};
     },
     async start() {
       this.saving = true;
