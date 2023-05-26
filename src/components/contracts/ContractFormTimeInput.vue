@@ -57,13 +57,15 @@ export default {
           }),
           timeNotZero
         ),
-        timeValid: helpers.withMessage(this.$t("errors.timeFormat"), timeValid),
-        timeNotNegative: helpers.withMessage(
-          this.$t("errors.notNegative"),
-          timeNotNegative
-        )
+        timeValid: helpers.withMessage(this.$t("errors.timeFormat"), timeValid)
       }
     };
+    if (!this.allowNegativeValues) {
+      validations.data.timeNotNegative = helpers.withMessage(
+        this.$t("errors.notNegative"),
+        timeNotNegative
+      );
+    }
     if (this.required) {
       validations.data.required = helpers.withMessage(
         this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") }),
