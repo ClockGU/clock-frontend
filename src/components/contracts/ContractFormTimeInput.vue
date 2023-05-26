@@ -27,24 +27,6 @@ const timeValid = (value) => {
     return false;
   }
 };
-const timeNotNegative = (value) => {
-  if (value === null) return true;
-  let result;
-  if (value.includes(",")) {
-    try {
-      result = parseFloat(value) >= 0;
-    } catch {
-      result = false;
-    }
-  } else {
-    try {
-      result = value.split(":")[0] >= 0;
-    } catch {
-      result = false;
-    }
-  }
-  return !helpers.req(value) || result;
-};
 
 export default {
   name: "ContractFormTimeInput",
@@ -57,11 +39,7 @@ export default {
           }),
           timeNotZero
         ),
-        timeValid: helpers.withMessage(this.$t("errors.timeFormat"), timeValid),
-        timeNotNegative: helpers.withMessage(
-          this.$t("errors.notNegative"),
-          timeNotNegative
-        )
+        timeValid: helpers.withMessage(this.$t("errors.timeFormat"), timeValid)
       }
     };
     if (this.required) {
@@ -90,10 +68,6 @@ export default {
       default: ""
     },
     disabled: {
-      type: Boolean,
-      default: false
-    },
-    allowNegativeValues: {
       type: Boolean,
       default: false
     },

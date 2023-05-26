@@ -44,7 +44,6 @@
               :prepend-icon="icons.mdiCalendarClock"
               :label="$t('contracts.carryover.timeLabel')"
               :hint="$t('contracts.carryover.timeSubtitle')"
-              allow-negative-values
               :required="showCarryover"
             />
           </div>
