@@ -182,10 +182,6 @@ export default {
           value: "WEEKDAYS"
         },
         {
-          text: this.$t("shifts.repeating.frequencies.weekends"),
-          value: "WEEKENDS"
-        },
-        {
           text: this.$t("shifts.repeating.frequencies.weekly", {
             weekday: weekdayName
           }),
@@ -204,7 +200,6 @@ export default {
         DAILY: this.dailySchedule,
         MONTHLY: this.monthlySchedule,
         WEEKDAYS: this.weekdaySchedule,
-        WEEKENDS: this.weekendSchedule,
         WEEKLY: this.weeklySchedule
       };
     },
@@ -229,14 +224,6 @@ export default {
       return {
         ...this.dailySchedule,
         byweekday: weekdays
-      };
-    },
-    weekendSchedule() {
-      const weekend = [ALL_DAYS[0], ALL_DAYS[6]];
-
-      return {
-        ...this.dailySchedule,
-        byweekday: weekend
       };
     },
     generatedSchedule() {
