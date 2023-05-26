@@ -185,7 +185,7 @@ export default {
       );
     },
     pastShifts() {
-      return this.shifts.filter((shift) => isPast(shift.started));
+      return this.shifts.filter((shift) => isPast(shift.stopped));
     },
     futureShifts() {
       return this.shifts.filter((shift) => isFuture(shift.started));
