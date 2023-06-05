@@ -133,9 +133,9 @@ export default {
       this.close();
     },
     initializeNewShift() {
-      let started = this.initialDate;
+      let started = new Date(this.initialDate);
       started.setHours(10, 0, 0, 0);
-      let stopped = this.initialDate;
+      let stopped = new Date(this.initialDate);
       stopped.setHours(10, 30, 0, 0);
       this.newShift =
         this.existingShift !== undefined
