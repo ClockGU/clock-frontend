@@ -32,6 +32,7 @@
       <template #content="{ events: { close } }">
         <ShiftForm
           :existing-shift="shift"
+          :initial-date="initialDate"
           :close="close"
           :show-errors="opened"
           @save="$emit('save')"
@@ -57,6 +58,11 @@ export default {
       type: Shift,
       required: false,
       default: undefined
+    },
+    initialDate: {
+      type: Date,
+      required: false,
+      default: () => new Date()
     },
     icon: {
       type: Boolean,
