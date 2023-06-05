@@ -41,6 +41,11 @@ export default {
       required: false,
       default: undefined
     },
+    initialDate: {
+      type: Date,
+      required: false,
+      default: () => new Date()
+    },
     close: {
       type: Function,
       required: false,
@@ -128,10 +133,14 @@ export default {
       this.close();
     },
     initializeNewShift() {
+      let started = this.initialDate;
+      started.setHours(10, 0, 0, 0);
+      let stopped = this.initialDate;
+      stopped.setHours(10, 30, 0, 0);
       this.newShift =
         this.existingShift !== undefined
           ? this.existingShift.clone()
-          : new Shift();
+          : new Shift({ started: started, stopped: stopped });
       this.initialContract = this.newShift.contract;
     },
     setScheduledShifts(event) {
