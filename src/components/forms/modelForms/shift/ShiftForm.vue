@@ -68,7 +68,8 @@ export default {
       scheduledShifts: undefined,
       initialContract: "",
       saving: false,
-      closed: false
+      closed: false,
+      date: this.initialDate
     };
   },
   computed: {
@@ -97,6 +98,10 @@ export default {
     },
     showErrors(opened) {
       this.closed = !opened;
+    },
+    initialDate(val) {
+      this.date = val;
+      this.initializeNewShift();
     }
   },
   created() {
@@ -133,9 +138,9 @@ export default {
       this.close();
     },
     initializeNewShift() {
-      let started = new Date(this.initialDate);
+      let started = new Date(this.date);
       started.setHours(10, 0, 0, 0);
-      let stopped = new Date(this.initialDate);
+      let stopped = new Date(this.date);
       stopped.setHours(10, 30, 0, 0);
       this.newShift =
         this.existingShift !== undefined
