@@ -195,7 +195,8 @@
   "dialogs": {
     "textConfirmDelete": "Are you sure you want to @.lower:actions.delete {selectedEntity}?. @:dialogs.textPermanent",
     "textPermanent": "This action is not reversible.",
-    "dataWillBeLost": "You entered data which will be lost."
+    "dataWillBeLost": "You entered data which will be lost.",
+    "contractDeleteConsequences": "All shifts of this contract will be deleted too."
   },
   "errors": {
     "contractName": "Contract name",
