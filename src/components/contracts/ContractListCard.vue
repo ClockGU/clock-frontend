@@ -49,6 +49,9 @@
             })
           }}
         </template>
+        <template #consequencesText>
+          {{ $t("dialogs.contractDeleteConsequences") }}
+        </template>
       </ConfirmationDialog>
     </v-card-actions>
   </v-card>
