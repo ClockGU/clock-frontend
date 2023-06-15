@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     clear() {
-      console.log("clearing!");
       ApiService.removeSingleHeader("Checkoutuser");
       this.$store.commit("auth/CLEAR_CHECKOUT_USER");
       this.$store.commit("contentData/clearContentData");

@@ -76,7 +76,7 @@ import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationB
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 import SelectContractFilter from "@/components/SelectContractFilter";
 
-import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
+import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
