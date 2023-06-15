@@ -181,6 +181,7 @@ export default {
     this.$watch(
       "date",
       (value) => {
+        if (this.selectedReports === undefined) return;
         const filteredReports = this.selectedReports.filter((report) =>
           isSameDay(report.monthYear, value)
         );
