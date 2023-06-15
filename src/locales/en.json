@@ -140,6 +140,7 @@
             "tip": "Tip"
           }
         },
+        "overflowedShift": "The shift surpassed midnight and will be terminated at 23:59 h.",
         "newShifts": "New shifts",
         "text": "Problems occurred while the shift was being saved.",
         "editShift": "You have to edit the shift before it can be saved.",

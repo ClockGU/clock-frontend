@@ -140,6 +140,7 @@
             "tip": "Tipp"
           }
         },
+        "overflowedShift": "Die Schicht lief über das Tagesende hinaus und wird um 23:59 Uhr beendet.",
         "newShifts": "Neue Schichten",
         "text": "Es gibt Probleme beim Speichern deiner Schicht.",
         "editShift": "Du musst die Schicht bearbeiten bevor sie gespeichert werden kann.",

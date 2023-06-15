@@ -22,6 +22,9 @@
           <div class="font-weight-light">
             {{ $tc("models.contract") }}: {{ contractName }}
           </div>
+          <div v-if="overflow" class="font-weight-light">
+            {{ $t("dashboard.clock.problems.overflowedShift") }}
+          </div>
           <div class="font-weight-light text-center">
             {{ $tc("dashboard.clock.problems.editShift") }}
           </div>
@@ -59,6 +62,10 @@ export default {
     contractName: {
       type: String,
       required: true
+    },
+    overflow: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
