@@ -38,6 +38,7 @@
     </v-window-item>
     <v-window-item :key="1">
       <ClockInOutCardForm
+        :overflow="overflow"
         :shift="shiftToModify"
         :destroy="reset"
         :contract-name="contractName"
@@ -105,6 +106,13 @@ export default {
       return this.clockedContract === undefined
         ? this.$tc("models.noSelectedContract", 1)
         : this.clockedContract.name;
+    },
+    overflow() {
+      console.log(this.shiftToModify.started);
+      return (
+        this.shiftToModify.stopped.getHours() === 23 &&
+        this.shiftToModify.stopped.getMinutes() === 59
+      );
     }
   },
   methods: {
