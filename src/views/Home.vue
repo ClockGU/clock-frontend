@@ -1,6 +1,10 @@
 <template>
   <v-main>
-    <v-alert v-if="staging" type="warning" dark>{{ infostring }}</v-alert>
+    <v-alert v-if="userCheckedOut !== ''" type="info" color="purple" dense>
+      You are viewing data of a different user.
+      <v-btn small outlined class="ml-4" @click="clear">Clear User</v-btn>
+    </v-alert>
+    <v-alert v-if="staging" type="warning" dense>{{ infostring }}</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
@@ -10,9 +14,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import ApiService from "@/services/api.js";
+
 export default {
   name: "Home",
   computed: {
+    ...mapGetters({ userCheckedOut: "auth/checkoutUser" }),
     showingCalendar() {
       return this.$route.name === "calendar" || this.$route.name === "c";
     },
@@ -37,6 +45,15 @@ export default {
       return process.env.VUE_APP_LOCAL === "true"
         ? "Staging (local)"
         : "Staging (server)";
+    }
+  },
+  methods: {
+    clear() {
+      console.log("clearing!");
+      ApiService.removeSingleHeader("Checkoutuser");
+      this.$store.commit("auth/CLEAR_CHECKOUT_USER");
+      this.$store.commit("contentData/clearContentData");
+      this.$router.go();
     }
   }
 };
