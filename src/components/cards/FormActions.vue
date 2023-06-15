@@ -25,13 +25,15 @@
           })
         }}
       </template>
-
       <template #text>
         {{
           $t(`dialogs.textConfirmDelete`, {
             selectedEntity: $tc(`models.selected${capitalizedModelName}`)
           })
         }}
+      </template>
+      <template #consequencesText>
+        {{ consequencesText }}
       </template>
     </ConfirmationDialog>
   </v-card-actions>
@@ -82,6 +84,10 @@ export default {
   computed: {
     capitalizedModelName() {
       return capitalizeFirstLetter(this.modelName);
+    },
+    consequencesText() {
+      if (this.modelName !== "contract") return "";
+      return this.$t("dialogs.contractDeleteConsequences");
     }
   },
   methods: {
