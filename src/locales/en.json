@@ -140,6 +140,7 @@
             "tip": "Tip"
           }
         },
+        "overflowedShift": "The shift surpassed midnight and was set to 23:59 of the strat day.",
         "newShifts": "New shifts",
         "text": "Problems occurred while the shift was being saved.",
         "editShift": "You have to edit the shift before it can be saved.",

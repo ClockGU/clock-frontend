@@ -140,6 +140,7 @@
             "tip": "Tipp"
           }
         },
+        "overflowedShift": "Die Schicht lief über einen Tag hinaus und wurde auf 23:59 des Start-Tages gesetzt.",
         "newShifts": "Neue Schichten",
         "text": "Es gibt Probleme beim Speichern deiner Schicht.",
         "editShift": "Du musst die Schicht bearbeiten bevor sie gespeichert werden kann.",
