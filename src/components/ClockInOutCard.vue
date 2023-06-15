@@ -108,7 +108,6 @@ export default {
         : this.clockedContract.name;
     },
     overflow() {
-      console.log(this.shiftToModify.started);
       return (
         this.shiftToModify.stopped.getHours() === 23 &&
         this.shiftToModify.stopped.getMinutes() === 59
