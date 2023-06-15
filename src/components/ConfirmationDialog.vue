@@ -14,6 +14,10 @@
           <slot name="text"></slot>
         </v-card-text>
 
+        <v-card-text class="error--text">
+          <slot name="consequencesText"></slot>
+        </v-card-text>
+
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
