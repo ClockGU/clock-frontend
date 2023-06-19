@@ -131,7 +131,7 @@ export default {
           .catch(() => {});
       } catch (error) {
         this.$store.dispatch("snackbar/setSnack", {
-          snack:
+          message:
             "Something went wrong with the login. Please contact the support, if this keeps happening.",
           color: "error"
         });

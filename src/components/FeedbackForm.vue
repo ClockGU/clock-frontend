@@ -164,8 +164,6 @@ export default {
         await this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("feedback.snackbar.success"),
           timeout: 4000,
-          timePassed: 0,
-          show: true,
           color: "success"
         });
         this.close();
@@ -173,8 +171,6 @@ export default {
         await this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("feedback.snackbar.error"),
           timeout: 4000,
-          timePassed: 0,
-          show: true,
           color: "error"
         });
       }

@@ -24,7 +24,7 @@ const actions = {
     { commit },
     payload = {
       message: "Snack Message",
-      timeout: 10000,
+      timeout: 4000,
       color: "success",
       timePassed: 0,
       show: true,

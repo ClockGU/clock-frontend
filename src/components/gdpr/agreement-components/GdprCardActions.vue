@@ -40,7 +40,7 @@ export default {
           .catch(() => {});
       } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("snackbar.error"),
+          message: this.$t("snackbar.error"),
           timeout: 4000,
           color: "warning"
         });

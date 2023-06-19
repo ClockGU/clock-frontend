@@ -113,7 +113,7 @@ export default {
         await this.$store.dispatch("auth/LOGOUT");
       } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("settings.account.tryAgainLater"),
+          message: this.$t("settings.account.tryAgainLater"),
           timeout: 4000,
           color: "error"
         });

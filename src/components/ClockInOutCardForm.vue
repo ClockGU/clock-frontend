@@ -84,7 +84,7 @@ export default {
           message += this.$t("dashboard.clock.problems.messages.noSaved");
         }
         this.$store.dispatch("snackbar/setSnack", {
-          snack: message,
+          message: message,
           timeout: 4000,
           color: "success"
         });

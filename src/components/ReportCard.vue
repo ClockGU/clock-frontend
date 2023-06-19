@@ -233,7 +233,7 @@ export default {
         const uint8array = new Uint8Array(error.response.data);
         const decoded = JSON.parse(new TextDecoder().decode(uint8array));
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: decoded.message,
+          message: decoded.message,
           timeout: 4000,
           color: "error"
         });
