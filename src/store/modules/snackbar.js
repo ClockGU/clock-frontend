@@ -20,7 +20,17 @@ const getters = {
 };
 
 const actions = {
-  setSnack({ commit }, payload) {
+  setSnack(
+    { commit },
+    payload = {
+      message: "Snack Message",
+      timeout: 10000,
+      color: "success",
+      timePassed: 0,
+      show: true,
+      uuid: uuidv4()
+    }
+  ) {
     payload.uuid = uuidv4();
     commit("setSnack", payload);
   },
