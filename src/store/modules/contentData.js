@@ -235,14 +235,10 @@ const actions = {
     commit("removeContract", { contractID });
   },
   async saveShift({ commit, dispatch }, payload) {
+    let savedShift;
     try {
-      const savedShift = await ShiftService.create(payload);
+      savedShift = await ShiftService.create(payload);
     } catch (error) {
-      if (error.response.status === 400) {
-        dispatch("snackbar/setErrorSnacks", error.response.data, {
-          root: true
-        });
-      }
       return;
     }
     commit("addShift", {

@@ -3,6 +3,7 @@ import { mapShiftApiResponse, Shift } from "@/models/ShiftModel";
 import { mapContractApiResponse, Contract } from "@/models/ContractModel";
 import { mapReportApiResponse, Report } from "@/models/ReportModel";
 import is from "ramda/src/is";
+import store from "@/store";
 
 class modelService {
   static BASE_URL = "";
@@ -17,12 +18,17 @@ class modelService {
     );
   }
   static async create(payload) {
-    const response = await ApiService.post(this.BASE_URL, payload);
-    if (response.status === 201) {
-      return new this.MODEL_CLASS(this.mapFunction(response.data));
-    } else {
+    try {
+      const response = await ApiService.post(this.BASE_URL, payload);
+      if (response.status === 201) {
+        return new this.MODEL_CLASS(this.mapFunction(response.data));
+      }
+    } catch (error) {
       // TODO: Appwide errorhandling
-      throw Error(response.data);
+      store.dispatch("snackbar/setErrorSnacks", error.response.data, {
+        root: true
+      });
+      throw Error(error.response.data);
     }
   }
   static async update(payload, id) {
