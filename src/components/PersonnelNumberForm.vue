@@ -35,7 +35,7 @@
     <v-card-actions v-else>
       <ConfirmationDialog
         :confirmation-button="{ text: $t('actions.change'), color: 'primary' }"
-        :max-width="280"
+        :max-width="600"
         @confirm="save"
       >
         <template #activator="{ on }">

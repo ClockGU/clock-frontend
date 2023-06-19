@@ -12,7 +12,7 @@
     <v-card-actions>
       <ConfirmationDialog
         :confirmation-button="{ text: 'Checkout', color: 'primary' }"
-        :max-width="480"
+        :max-width="600"
         @confirm="checkout"
       >
         <template #activator="{ on }">
