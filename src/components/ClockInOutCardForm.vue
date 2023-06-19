@@ -85,7 +85,6 @@ export default {
         }
         this.$store.dispatch("snackbar/setSnack", {
           message: message,
-          timeout: 4000,
           color: "success"
         });
       });

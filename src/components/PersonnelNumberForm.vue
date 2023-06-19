@@ -135,14 +135,12 @@ export default {
 
         this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("snackbar.success"),
-          timeout: 4000,
           color: "success"
         });
         this.personnelNumberInit = this.personnelNumber;
       } catch (error) {
         this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("snackbar.error"),
-          timeout: 4000,
           color: "warning"
         });
 

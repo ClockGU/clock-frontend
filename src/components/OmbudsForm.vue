@@ -148,14 +148,12 @@ export default {
 
         await this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("ombuds.snackbar.success"),
-          timeout: 4000,
           color: "success"
         });
         this.close();
       } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("ombuds.snackbar.error"),
-          timeout: 4000,
           color: "error"
         });
       }

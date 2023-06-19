@@ -114,7 +114,6 @@ export default {
       } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("settings.account.tryAgainLater"),
-          timeout: 4000,
           color: "error"
         });
       }

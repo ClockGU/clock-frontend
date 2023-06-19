@@ -234,7 +234,6 @@ export default {
         const decoded = JSON.parse(new TextDecoder().decode(uint8array));
         await this.$store.dispatch("snackbar/setSnack", {
           message: decoded.message,
-          timeout: 4000,
           color: "error"
         });
       } finally {
