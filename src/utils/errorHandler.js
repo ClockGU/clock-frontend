@@ -2,7 +2,6 @@ import store from "@/store";
 
 export function handle400Errors(target, name, descriptor) {
   const original = descriptor.value;
-  console.log("Was here", typeof original);
   if (typeof original === "function") {
     descriptor.value = function (payload) {
       return original.apply(this, [payload]).catch((error) => {

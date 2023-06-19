@@ -1,7 +1,10 @@
 module.exports = {
   env: {
     test: {
-      plugins: ["transform-require-context"]
+      plugins: [
+        ["@babel/plugin-proposal-decorators", { legacy: true }],
+        ["transform-require-context"]
+      ]
     }
   },
   plugins: ["@babel/plugin-proposal-decorators", { legacy: true }],
