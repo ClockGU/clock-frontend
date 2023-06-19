@@ -88,7 +88,7 @@ export default {
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
             message: "Debug: done.",
-            timePAssed: 0,
+            timePassed: 0,
             timeout: 4000,
             color: "success",
             show: true
@@ -113,7 +113,7 @@ export default {
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
             message: "Debug: done.",
-            timePAssed: 0,
+            timePassed: 0,
             timeout: 4000,
             color: "success",
             show: true
@@ -126,15 +126,24 @@ export default {
       const contract = this.$store.getters["selectedContract/selectedContract"]
         .id;
 
-      const shift = { started, contract };
-
-      this.$store.dispatch("clock/CLOCK_SHIFT", { ...shift }).then(() => {
-        this.$store.dispatch("snackbar/setSnack", {
-          snack: "Debug: done.",
-          timeout: 4000,
-          color: "success"
-        });
+      const shift = new Shift({
+        started,
+        stopped: now,
+        contract,
+        wasReviewed: true
       });
+
+      this.$store
+        .dispatch("contentData/saveShift", shift.toPayload())
+        .then(() => {
+          this.$store.dispatch("snackbar/setSnack", {
+            message: "Debug: done.",
+            timePassed: 0,
+            timeout: 4000,
+            color: "success",
+            show: true
+          });
+        });
     }
   }
 };
