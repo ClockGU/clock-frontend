@@ -4,6 +4,6 @@ module.exports = {
       plugins: ["transform-require-context"]
     }
   },
-  plugins: ["@babel/plugin-proposal-private-methods"],
-  presets: ["@vue/app"]
+  plugins: ["@babel/plugin-proposal-decorators", { legacy: true }],
+  presets: [["@vue/app"], ["@babel/preset-env"]]
 };
