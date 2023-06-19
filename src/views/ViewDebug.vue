@@ -87,7 +87,7 @@ export default {
         .dispatch("contentData/saveShift", shift.toPayload())
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
-            message: "Debug: done.",
+            message: "Debug: Shirt shift created.",
             timePassed: 0,
             timeout: 4000,
             color: "success",
@@ -112,7 +112,7 @@ export default {
         .dispatch("contentData/saveShift", shift.toPayload())
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
-            message: "Debug: done.",
+            message: "Debug: Overflowing shift created.",
             timePassed: 0,
             timeout: 4000,
             color: "success",
@@ -137,7 +137,7 @@ export default {
         .dispatch("contentData/saveShift", shift.toPayload())
         .then(() => {
           this.$store.dispatch("snackbar/setSnack", {
-            message: "Debug: done.",
+            message: "Debug: Very long shift created.",
             timePassed: 0,
             timeout: 4000,
             color: "success",
