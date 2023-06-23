@@ -93,7 +93,7 @@
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum gewählten Startdatum anfällt."
+      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
     "createContract": "Vertrag erstellen",
     "errors": {
