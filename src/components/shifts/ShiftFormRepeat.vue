@@ -214,7 +214,13 @@ export default {
     weekdaySchedule() {
       return {
         freq: FREQUENCY["DAILY"],
-        byweekday: [ALL_DAYS[1], ALL_DAYS[2], ALL_DAYS[3], ALL_DAYS[4], ALL_DAYS[5]]
+        byweekday: [
+          ALL_DAYS[1],
+          ALL_DAYS[2],
+          ALL_DAYS[3],
+          ALL_DAYS[4],
+          ALL_DAYS[5]
+        ]
       };
     },
     generatedSchedule() {
