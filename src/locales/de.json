@@ -140,6 +140,7 @@
             "tip": "Tipp"
           }
         },
+        "overflowedShift": "Die Schicht lief über das Tagesende hinaus und wird um 23:59 Uhr beendet.",
         "newShifts": "Neue Schichten",
         "text": "Es gibt Probleme beim Speichern deiner Schicht.",
         "editShift": "Du musst die Schicht bearbeiten bevor sie gespeichert werden kann.",
@@ -195,7 +196,8 @@
   "dialogs": {
     "textConfirmDelete": "Bist du sicher, dass du {selectedEntity} @.lower:actions.delete möchtest? @:dialogs.textPermanent",
     "textPermanent": "Diese Aktion lässt sich nicht rückgängig machen.",
-    "dataWillBeLost": "Du hast Daten eingegeben, die beim Fortfahren verworfen werden."
+    "dataWillBeLost": "Du hast Daten eingegeben, die beim Fortfahren verworfen werden.",
+    "contractDeleteConsequences": "Alle Schichten dieses Vertrages werden auch gelöscht."
   },
   "errors": {
     "contractName": "Der Name des Vertrags",

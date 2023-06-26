@@ -140,6 +140,7 @@
             "tip": "Tip"
           }
         },
+        "overflowedShift": "The shift surpassed midnight and will be terminated at 23:59 h.",
         "newShifts": "New shifts",
         "text": "Problems occurred while the shift was being saved.",
         "editShift": "You have to edit the shift before it can be saved.",
@@ -195,7 +196,8 @@
   "dialogs": {
     "textConfirmDelete": "Are you sure you want to @.lower:actions.delete {selectedEntity}?. @:dialogs.textPermanent",
     "textPermanent": "This action is not reversible.",
-    "dataWillBeLost": "You entered data which will be lost."
+    "dataWillBeLost": "You entered data which will be lost.",
+    "contractDeleteConsequences": "All shifts of this contract will be deleted too."
   },
   "errors": {
     "contractName": "Contract name",

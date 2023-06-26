@@ -13,7 +13,10 @@
             <SelectContractFilter :disabled="disabled" />
           </v-col>
           <v-col class="px-0" cols="12">
-            <ShiftFormDialog btn-color="primary"></ShiftFormDialog>
+            <ShiftFormDialog
+              btn-color="primary"
+              :initial-date="shiftInitialDate"
+            ></ShiftFormDialog>
           </v-col>
 
           <v-col class="px-0" cols="12" sm="5">
@@ -77,6 +80,7 @@ import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import { isSameMonth, isSameWeek } from "date-fns";
 
 export default {
   name: "Calendar",
@@ -129,6 +133,16 @@ export default {
     visibleShifts() {
       if (this.disabled) return [];
       return this.selectedShifts;
+    },
+    shiftInitialDate() {
+      const focusMonth = new Date(this.focus);
+      if (
+        (this.type === "month" && isSameMonth(focusMonth, new Date())) ||
+        (this.type === "week" && isSameWeek(focusMonth, new Date()))
+      ) {
+        return new Date();
+      }
+      return new Date(this.focus);
     },
     monthYearDisplay() {
       return localizedFormat(new Date(this.focus), "MMMM yyyy");

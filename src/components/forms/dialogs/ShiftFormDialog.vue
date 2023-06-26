@@ -32,6 +32,7 @@
       <template #content="{ events: { close } }">
         <ShiftForm
           :existing-shift="shift"
+          :initial-date="date"
           :close="close"
           :show-errors="opened"
           @save="$emit('save')"
@@ -57,6 +58,11 @@ export default {
       type: Shift,
       required: false,
       default: undefined
+    },
+    initialDate: {
+      type: Date,
+      required: false,
+      default: () => new Date()
     },
     icon: {
       type: Boolean,
@@ -90,7 +96,8 @@ export default {
         mdiPlus
       },
       show: this.value,
-      opened: true
+      opened: true,
+      date: this.initialDate
     };
   },
   computed: {
@@ -113,6 +120,9 @@ export default {
   watch: {
     value(val) {
       this.show = val;
+    },
+    initialDate(val) {
+      this.date = val;
     }
   }
 };
