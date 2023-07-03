@@ -3,6 +3,7 @@
     <ContractDurationInput
       :start-date="contract.startDate"
       :end-date="contract.endDate"
+      :disable-start="areLockedShiftsInThisContract"
       @input="setDates"
     ></ContractDurationInput>
     <v-row align="center" justify="start">
@@ -32,11 +33,12 @@
         <v-checkbox
           v-model="showCarryover"
           :label="$t('contracts.carryover.checkboxLabel')"
+          :disabled="areLockedShiftsInThisContract"
           :error-messages="false ? $t('contracts.carryover.locked') : ''"
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showCarryover">
-            <p>
+            <p v-show="!areLockedShiftsInThisContract">
               {{ $t("contracts.carryover.info") }}
             </p>
             <ContractFormTimeInput
@@ -45,6 +47,7 @@
               :label="$t('contracts.carryover.timeLabel')"
               :hint="$t('contracts.carryover.timeSubtitle')"
               allow-negative-values
+              :disabled="areLockedShiftsInThisContract"
               :required="showCarryover"
             />
           </div>

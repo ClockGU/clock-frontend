@@ -4,7 +4,7 @@
       <ContractFormDateInput
         v-model="start"
         type="start"
-        :disabled="disabled"
+        :disabled="disabled || disableStart"
       />
     </v-col>
 
@@ -39,6 +39,11 @@ export default {
     endDate: {
       type: Date,
       required: true
+    },
+    disableStart: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
