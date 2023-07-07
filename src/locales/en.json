@@ -93,7 +93,7 @@
       "timeLabel": "Carryover",
       "timeSubtitle": "working time to be carried over (+/-HH:mm)",
       "locked": "There are locked months. Carryover cannot be modified.",
-      "info": "Please enter the working time carryover to be factored in for the selected start date."
+      "info": " Please enter the working time carryover to be factored in at the start of your new contract."
     },
     "createContract": "Create Contract",
     "errors": {
