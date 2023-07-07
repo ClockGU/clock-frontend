@@ -501,6 +501,7 @@
       "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
       "workingOnSundays": "Es ist nicht erlaubt, an einem Sonntag zu arbeiten",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
+      "holidayOnWorkday": "An regulären Arbeitstagen können keine Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
       "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden.",
       "overlappingStarted": "Der Startzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",

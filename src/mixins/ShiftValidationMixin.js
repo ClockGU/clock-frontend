@@ -17,6 +17,7 @@ export default {
       errorMessages.push(this.validateMaxWorktimePerDay);
       errorMessages.push(this.validateNoSunday);
       errorMessages.push(this.validateOnlyHolidayOnHolidays);
+      errorMessages.push(this.validateHolidayOnWorkdays);
       errorMessages.push(this.validateExclusivityVacation);
       errorMessages.push(this.validateExclusivitySick);
       errorMessages.push(this.validateOverlapping);
@@ -56,6 +57,11 @@ export default {
     validateOnlyHolidayOnHolidays() {
       if (dateIsHoliday(this.newShift.started) && this.newShift.type !== "bh") {
         return this.$t("shifts.errors.workingOnHolidays");
+      }
+    },
+    validateHolidayOnWorkdays() {
+      if (this.newShift.type == "bh" && !dateIsHoliday(this.newShift.started)) {
+        return this.$t("shifts.errors.holidayOnWorkday");
       }
     },
     validateExclusivityVacation() {
