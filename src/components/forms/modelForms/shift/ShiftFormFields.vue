@@ -163,7 +163,7 @@ export default {
       }
     },
     isInFuture() {
-      return isFuture(this.shift.started);
+      return isFuture(this.shift.stopped);
     }
   },
   watch: {
@@ -189,7 +189,7 @@ export default {
     setWasReviewed() {
       // All shifts which have stopped before now are counted as reviewed true
       // We set that automatically
-      this.shift.wasReviewed = this.shift.stopped <= new Date();
+      this.shift.wasReviewed = !this.isInFuture;
     }
   }
 };
