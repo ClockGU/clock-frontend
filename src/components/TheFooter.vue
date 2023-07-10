@@ -28,6 +28,18 @@
                 </base-link>
               </template>
             </i18n>
+            <i18n path="footer.github_repo.text" tag="p">
+              <template #link>
+                <base-link
+                    class="text-no-wrap"
+                    :href="$t('footer.github_repo.url')"
+                >
+                  <template #default>{{
+                      $t("footer.github_repo.github")
+                    }}</template>
+                </base-link>
+              </template>
+            </i18n>
           </v-col>
         </v-row>
       </v-col>
