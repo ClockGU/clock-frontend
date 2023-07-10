@@ -19,15 +19,17 @@
         >
           {{ buttonText }}
         </v-btn>
-        <v-btn
-          v-if="icon && !disableActivator"
-          :disabled="disabled"
-          :color="btnColor"
-          icon
-          v-on="on"
-        >
-          <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
-        </v-btn>
+        <div v-if="icon && !disableActivator">
+          <v-btn :disabled="disabled" :color="btnColor" icon v-on="on">
+            <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }} </v-icon>
+          </v-btn>
+          <v-icon
+            v-if="alertMessages.length > 0"
+            color="warning"
+            style="transform: translate(-65%, -50%)"
+            >{{ icons.mdiExclamation }}</v-icon
+          >
+        </div>
       </template>
       <template #content="{ events: { close } }">
         <ShiftForm
@@ -49,10 +51,12 @@
 import TheDialog from "@/components/TheDialog";
 import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
-import { mdiPencil, mdiPlus } from "@mdi/js";
+import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
+import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
+  mixins: [ShiftValidationMixin],
   props: {
     shift: {
       type: Shift,
@@ -93,7 +97,8 @@ export default {
     return {
       icons: {
         mdiPencil,
-        mdiPlus
+        mdiPlus,
+        mdiExclamation
       },
       show: this.value,
       opened: true,
@@ -115,6 +120,9 @@ export default {
             });
       }
       return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
+    },
+    newShift() {
+      return this.create ? new Shift() : this.shift;
     }
   },
   watch: {
