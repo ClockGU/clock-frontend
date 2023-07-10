@@ -129,7 +129,7 @@
       <v-dialog
         v-model="showAreYouSureDialog"
         :fullscreen="$vuetify.breakpoint.smAndDown"
-        max-width="400"
+        max-width="600"
       >
         <v-card>
           <v-card-title class="warning white--text">
