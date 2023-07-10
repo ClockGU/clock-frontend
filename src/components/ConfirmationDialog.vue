@@ -72,7 +72,7 @@ export default {
     },
     maxWidth: {
       type: Number,
-      default: 290
+      default: 400
     }
   },
   data: () => ({
