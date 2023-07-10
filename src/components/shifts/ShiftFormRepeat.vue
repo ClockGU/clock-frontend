@@ -153,10 +153,10 @@ export default {
       ).endDate;
     },
     currentDateString() {
-      return formatISO(this.currentDate);
+      return formatISO(this.currentDate, { representation: "date" });
     },
     contractEndDateString() {
-      return formatISO(this.contractEndDate);
+      return formatISO(this.contractEndDate, { representation: "date" });
     },
     isDatePickerDisabled() {
       return this.repeatUntil === "contractDate";
@@ -164,7 +164,7 @@ export default {
     repeatUntilDate() {
       const OPTIONS = {
         contractDate: this.contractEndDate,
-        customDate: parseISO(this.customEnd)
+        customDate: parseISO(this.customEnd + "T23:59:59")
       };
       return OPTIONS[this.repeatUntil];
     },
