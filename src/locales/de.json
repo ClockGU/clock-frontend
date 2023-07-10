@@ -256,6 +256,11 @@
       "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
       "university": "Goethe-Universität Frankfurt",
       "url": "https://www.uni-frankfurt.de/"
+    },
+    "github_repo": {
+      "text": "Code auf {link} ansehen.",
+      "github": "Github",
+      "url": "https://github.com/ClockGU"
     }
   },
   "forms": {
