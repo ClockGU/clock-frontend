@@ -147,15 +147,13 @@ export default {
         await FeedbackService.post(ombuds);
 
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("ombuds.snackbar.success"),
-          timeout: 4000,
+          message: this.$t("ombuds.snackbar.success"),
           color: "success"
         });
         this.close();
       } catch (error) {
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("ombuds.snackbar.error"),
-          timeout: 4000,
+          message: this.$t("ombuds.snackbar.error"),
           color: "error"
         });
       }

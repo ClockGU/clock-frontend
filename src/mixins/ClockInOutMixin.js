@@ -72,9 +72,6 @@ export default {
           await this.$store.dispatch("clock/unclockShift");
           this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.shiftTooShort"),
-            timeout: 4000,
-            timePassed: 0,
-            show: true,
             color: "warning"
           });
         } else {
@@ -96,9 +93,6 @@ export default {
 
           await this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.clockOut"),
-            timeout: 4000,
-            timePassed: 0,
-            show: true,
             color: "success"
           });
         }
@@ -130,9 +124,6 @@ export default {
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("dashboard.clock.snacks.alreadyClockedIn"),
-          timeout: 4000,
-          timePassed: 0,
-          show: true,
           color: "warning"
         });
       } catch (error) {
@@ -148,9 +139,6 @@ export default {
         this.clock.start();
         this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("dashboard.clock.snacks.clockedIn"),
-          timeout: 4000,
-          timePassed: 0,
-          show: true,
           color: "success"
         });
       } finally {
@@ -185,9 +173,6 @@ export default {
         if (snackbar) {
           this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.deleted"),
-            timeout: 4000,
-            timePassed: 0,
-            show: true,
             color: "success"
           });
         }
@@ -198,10 +183,7 @@ export default {
         this.clock = null;
 
         this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("dashboard.clock.snacks.alreadyClockedOut"),
-          timeout: 4000,
-          timePassed: 0,
-          show: true,
+          message: this.$t("dashboard.clock.snacks.alreadyClockedOut"),
           color: "warning"
         });
       }

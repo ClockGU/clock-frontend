@@ -235,7 +235,12 @@ const actions = {
     commit("removeContract", { contractID });
   },
   async saveShift({ commit, dispatch }, payload) {
-    const savedShift = await ShiftService.create(payload);
+    let savedShift;
+    try {
+      savedShift = await ShiftService.create(payload);
+    } catch (error) {
+      return;
+    }
     commit("addShift", {
       contractID: savedShift.contract,
       shiftInstance: savedShift

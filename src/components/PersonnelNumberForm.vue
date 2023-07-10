@@ -134,15 +134,13 @@ export default {
         await this.$store.dispatch("GET_USER");
 
         this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("snackbar.success"),
-          timeout: 4000,
+          message: this.$t("snackbar.success"),
           color: "success"
         });
         this.personnelNumberInit = this.personnelNumber;
       } catch (error) {
         this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("snackbar.error"),
-          timeout: 4000,
+          message: this.$t("snackbar.error"),
           color: "warning"
         });
 
