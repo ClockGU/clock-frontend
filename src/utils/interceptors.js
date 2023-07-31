@@ -13,7 +13,7 @@ const ignoreClockedShiftNotFound = function (error) {
 
 const sessionExpiredSnack = function () {
   store.dispatch("snackbar/setSnack", {
-    snack: "Your session has expired.",
+    message: "Your session has expired.",
     timeout: 10000,
     color: "warning"
   });
@@ -39,8 +39,7 @@ export const handleNetworkError = function (error) {
   log("handleNetworkError called:", error);
 
   store.dispatch("snackbar/setSnack", {
-    snack: "We cannot phone home. Please try again later.",
-    timeout: 0,
+    message: "We cannot phone home. Please try again later.",
     color: "error"
   });
 
@@ -73,8 +72,7 @@ export const handleGenericError = function (error) {
   message = message === null ? data : message;
 
   store.dispatch("snackbar/setSnack", {
-    snack: message,
-    timeout: 5000,
+    message: message,
     color: "error"
   });
 

@@ -16,7 +16,10 @@
                 <v-toolbar flat>
                   <v-row>
                     <v-col>
-                      <ShiftFormDialog btn-color="primary"></ShiftFormDialog>
+                      <ShiftFormDialog
+                        :initial-date="initialDate"
+                        btn-color="primary"
+                      ></ShiftFormDialog>
                     </v-col>
                   </v-row>
                 </v-toolbar>
@@ -195,6 +198,10 @@ export default {
     },
     disabled() {
       return this.selectedContract === undefined;
+    },
+    initialDate() {
+      if (isSameMonth(this.date, new Date())) return new Date();
+      return this.date;
     }
   },
   methods: {

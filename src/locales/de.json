@@ -93,7 +93,7 @@
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum gewählten Startdatum anfällt."
+      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
     "createContract": "Vertrag erstellen",
     "errors": {
@@ -256,6 +256,11 @@
       "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
       "university": "Goethe-Universität Frankfurt",
       "url": "https://www.uni-frankfurt.de/"
+    },
+    "github_repo": {
+      "text": "Code auf {link} ansehen.",
+      "github": "Github",
+      "url": "https://github.com/ClockGU"
     }
   },
   "forms": {
@@ -501,6 +506,7 @@
       "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
       "workingOnSundays": "Es ist nicht erlaubt, an einem Sonntag zu arbeiten",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
+      "holidayOnWorkday": "An regulären Arbeitstagen können keine Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
       "exclusiveSick": "An Krankheitstagen können ausschließlich Schichten vom Typ 'Krank' gebucht werden.",
       "overlappingStarted": "Der Startzeitpunkt liegt im Zeitraum einer anderen bereits überprüften Schicht.",

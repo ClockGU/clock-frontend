@@ -1,7 +1,7 @@
 <template>
   <ConfirmationDialog
     :confirmation-button="{ text: $t('actions.logout'), color: 'primary' }"
-    :max-width="280"
+    :max-width="600"
     @confirm="logout"
   >
     <template #activator="{ on }">

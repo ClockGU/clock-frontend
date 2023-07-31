@@ -34,8 +34,7 @@ export default {
       } catch (error) {
         // TODO: Put component into error state
         await this.$store.dispatch("snackbar/setSnack", {
-          snack: this.$t("feedback.snackbar.error"),
-          timeout: 4000,
+          message: this.$t("feedback.snackbar.error"),
           color: "error"
         });
         this.loading = false;

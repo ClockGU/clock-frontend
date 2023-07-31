@@ -153,10 +153,10 @@ export default {
       ).endDate;
     },
     currentDateString() {
-      return formatISO(this.currentDate);
+      return formatISO(this.currentDate, { representation: "date" });
     },
     contractEndDateString() {
-      return formatISO(this.contractEndDate);
+      return formatISO(this.contractEndDate, { representation: "date" });
     },
     isDatePickerDisabled() {
       return this.repeatUntil === "contractDate";
@@ -164,7 +164,7 @@ export default {
     repeatUntilDate() {
       const OPTIONS = {
         contractDate: this.contractEndDate,
-        customDate: parseISO(this.customEnd)
+        customDate: parseISO(this.customEnd + "T23:59:59")
       };
       return OPTIONS[this.repeatUntil];
     },
@@ -176,7 +176,6 @@ export default {
       const weekdayName = localizedFormat(this.currentDate, "EEEE");
 
       return [
-        { text: this.$t("shifts.repeating.frequencies.daily"), value: "DAILY" },
         {
           text: this.$t("shifts.repeating.frequencies.weekdays"),
           value: "WEEKDAYS"
@@ -197,15 +196,9 @@ export default {
     },
     schedules() {
       return {
-        DAILY: this.dailySchedule,
         MONTHLY: this.monthlySchedule,
         WEEKDAYS: this.weekdaySchedule,
         WEEKLY: this.weeklySchedule
-      };
-    },
-    dailySchedule() {
-      return {
-        freq: FREQUENCY["DAILY"]
       };
     },
     monthlySchedule() {
@@ -219,11 +212,15 @@ export default {
       };
     },
     weekdaySchedule() {
-      const weekdays = Object.values(ALL_DAYS).slice(1, 6);
-
       return {
-        ...this.dailySchedule,
-        byweekday: weekdays
+        freq: FREQUENCY["DAILY"],
+        byweekday: [
+          ALL_DAYS[1],
+          ALL_DAYS[2],
+          ALL_DAYS[3],
+          ALL_DAYS[4],
+          ALL_DAYS[5]
+        ]
       };
     },
     generatedSchedule() {
