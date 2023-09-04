@@ -138,7 +138,7 @@ export default {
       });
     },
     shiftsThisMonth() {
-      return store.getters["contentData/allShifts"].filter((shift) => {
+      return store.getters["contentData/selectedShifts"].filter((shift) => {
         return (
           isSameMonth(shift.started, this.newShift.started) &&
           shift.wasReviewed &&
