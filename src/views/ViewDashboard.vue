@@ -7,7 +7,7 @@
 
       <v-card min-width="100%" :elevation="0">
         <v-row class="mx-0">
-          <v-col cols="12" order="-10">
+          <v-col class="mt-4" cols="12" order="-10">
             <DashboardWelcome />
           </v-col>
 
