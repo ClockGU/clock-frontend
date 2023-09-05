@@ -1,44 +1,39 @@
 <template>
-  <v-container class="pb-0" style="height: 100%">
-    <v-sheet>
-      <v-container>
-        <v-row
-          align="center"
-          justify="space-between"
-          height="100px"
-          flat
-          color="white"
-        >
-          <v-col class="px-0" cols="12">
-            <SelectContractFilter :disabled="disabled" />
-          </v-col>
-          <v-col class="px-0" cols="12">
-            <ShiftFormDialog
-              btn-color="primary"
-              :initial-date="shiftInitialDate"
-            ></ShiftFormDialog>
-          </v-col>
+  <v-card>
+    <v-container>
+      <v-row
+        align="center"
+        justify="space-between"
+        height="100px"
+        flat
+        color="white"
+      >
+        <v-col cols="12">
+          <ShiftFormDialog
+            btn-color="primary"
+            :initial-date="shiftInitialDate"
+          ></ShiftFormDialog>
+        </v-col>
 
-          <v-col class="px-0" cols="12" sm="5">
-            <CalendarNavigationButtons
-              @today="setToday"
-              @next="next"
-              @prev="prev"
-            />
-          </v-col>
+        <v-col cols="12" sm="5">
+          <CalendarNavigationButtons
+            @today="setToday"
+            @next="next"
+            @prev="prev"
+          />
+        </v-col>
 
-          <v-col class="px-0" cols="12" sm="3" order-sm="3">
-            <CalendarTypeSelect v-model="type" />
-          </v-col>
+        <v-col cols="12" sm="3" order-sm="3">
+          <CalendarTypeSelect v-model="type" />
+        </v-col>
 
-          <v-col class="px-0" cols="12" sm="4" order-sm="2">
-            <span data-cy="calendar-title">
-              {{ monthYearDisplay }}
-            </span>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-sheet>
+        <v-col cols="12" sm="4" order-sm="2">
+          <span data-cy="calendar-title">
+            {{ monthYearDisplay }}
+          </span>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-sheet height="600px">
       <v-calendar
         ref="calendar"
@@ -59,13 +54,7 @@
         @change="updateRange"
       ></v-calendar>
     </v-sheet>
-    <ShiftFormDialog
-      :shift="shift"
-      :value="editShift"
-      disable-activator
-      @close="editShift = false"
-    ></ShiftFormDialog>
-  </v-container>
+  </v-card>
 </template>
 
 <script>
