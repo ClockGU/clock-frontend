@@ -1,10 +1,15 @@
 <template>
-  <v-list two-line subheader :max-height="maxHeight" style="overflow-y: scroll">
+  <v-list
+    three-line
+    subheader
+    :max-height="maxHeight"
+    style="overflow-y: scroll"
+  >
     <template v-for="(message, index) in messages">
       <MessageListItem
         :key="message.id"
         :message="message"
-        :three-line="threeLine"
+        :dashboard="dashboard"
       />
       <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
     </template>
@@ -25,7 +30,7 @@ export default {
       type: Array,
       default: () => []
     },
-    threeLine: {
+    dashboard: {
       type: Boolean,
       default: false
     },

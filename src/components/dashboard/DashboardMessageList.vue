@@ -12,7 +12,7 @@
 
       <v-card-text v-if="noMessages">{{ $t("news.noNews") }}</v-card-text>
       <v-card-text v-else>
-        <MessageList :messages="messages" three-line />
+        <MessageList :messages="messages" dashboard />
       </v-card-text>
       <v-card-actions v-if="!noMessages">
         <FullMessageListDialog :messages="messages" />
