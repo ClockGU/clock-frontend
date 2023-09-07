@@ -26,11 +26,15 @@
                           ></ShiftFormDialog>
                         </v-col>
                       </v-row>
-                      <MonthSwitcher
-                        :disabled="disabled"
-                        :date="date"
-                        @update="updateDate"
-                      />
+                      <v-row>
+                        <v-col class="text-center" cols="12">
+                          <MonthSwitcher
+                            :disabled="disabled"
+                            :date="date"
+                            @update="updateDate"
+                          />
+                        </v-col>
+                      </v-row>
                       <v-row>
                         <v-col cols="12">
                           <ShiftsTable
@@ -157,7 +161,6 @@
 </template>
 
 <script>
-import MonthSwitcher from "@/components/MonthSwitcher";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
 import ShiftsTable from "@/components/shifts/ShiftsTable";
@@ -168,12 +171,13 @@ import { mapGetters } from "vuex";
 import { mdiMagnify } from "@mdi/js";
 import { isFuture, isPast, isSameMonth } from "date-fns";
 import { firstOfCurrentMonth } from "@/utils/date";
+import MonthSwitcher from "@/components/MonthSwitcher";
 
 export default {
   name: "Shifts",
   components: {
-    ShiftFormDialog,
     MonthSwitcher,
+    ShiftFormDialog,
     SelectContractFilter,
     ShiftBulkActions,
     ShiftsTable

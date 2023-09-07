@@ -31,8 +31,8 @@
                     <ShiftFormDialog
                       :disabled="disabled"
                       btn-color="primary"
-                    ></ShiftFormDialog
-                  ></v-card-text>
+                    ></ShiftFormDialog>
+                  </v-card-text>
                 </v-card>
               </v-col>
 

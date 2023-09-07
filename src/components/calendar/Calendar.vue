@@ -11,21 +11,17 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <CalendarNavigationButtons
-            @today="setToday"
-            @next="next"
-            @prev="prev"
+          <TodayButton @update="updateDate" />
+        </v-col>
+        <v-col class="text-center" cols="4">
+          <MonthSwitcher
+            :disabled="disabled"
+            :date="date"
+            @update="updateDate"
           />
         </v-col>
-
         <v-col class="text-end" cols="4" order-sm="3">
           <CalendarTypeSelect v-model="type" />
-        </v-col>
-
-        <v-col class="text-center" cols="4" order-sm="2">
-          <span>
-            {{ monthYearDisplay }}
-          </span>
         </v-col>
       </v-row>
       <v-row>
@@ -60,21 +56,24 @@
 import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
-import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
+// import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
-import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
+import MonthSwitcher from "@/components/MonthSwitcher";
+import TodayButton from "@/components/calendar/TodayButton";
 
 export default {
   name: "Calendar",
   components: {
+    TodayButton,
+    MonthSwitcher,
     ShiftFormDialog,
-    CalendarNavigationButtons,
+    // CalendarNavigationButtons,
     CalendarTypeSelect
   },
   props: {
@@ -109,7 +108,8 @@ export default {
     doubleClickTimer: null,
     doubleClickDelay: 500,
     editShift: false,
-    shift: undefined
+    shift: undefined,
+    date: null
   }),
   computed: {
     ...mapGetters({
@@ -157,6 +157,7 @@ export default {
   },
   created() {
     this.focus = this.initialFocus;
+    this.date = new Date(this.focus);
     this.type = this.initialType;
   },
   methods: {
@@ -182,15 +183,6 @@ export default {
         ? event.color + " lighten-1"
         : event.color + " lighten-3";
     },
-    setToday() {
-      this.focus = this.today;
-    },
-    prev() {
-      this.$refs.calendar.prev();
-    },
-    next() {
-      this.$refs.calendar.next();
-    },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
@@ -202,6 +194,10 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
+    },
+    updateDate(value) {
+      this.focus = localizedFormat(value, "yyyy-MM-dd");
+      this.date = value;
     }
   }
 };
