@@ -1,20 +1,15 @@
 <template>
-  <v-card>
+  <v-card min-width="100%">
     <v-container>
-      <v-row
-        align="center"
-        justify="space-between"
-        height="100px"
-        flat
-        color="white"
-      >
+      <v-row>
         <v-col cols="12">
           <ShiftFormDialog
             btn-color="primary"
             :initial-date="shiftInitialDate"
           ></ShiftFormDialog>
         </v-col>
-
+      </v-row>
+      <v-row justify="space-between">
         <v-col cols="12" sm="5">
           <CalendarNavigationButtons
             @today="setToday"
@@ -28,32 +23,36 @@
         </v-col>
 
         <v-col cols="12" sm="4" order-sm="2">
-          <span data-cy="calendar-title">
+          <span>
             {{ monthYearDisplay }}
           </span>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-sheet height="600px">
+            <v-calendar
+              ref="calendar"
+              v-model="focus"
+              color="primary lighten-1"
+              event-name="duration"
+              :events="events"
+              :event-color="getEventColor"
+              :event-margin-bottom="3"
+              :locale="locale"
+              :now="today"
+              :type="type"
+              :weekdays="weekdays"
+              :interval-format="intervalFormat"
+              @click:event="editEvent"
+              @click:more="viewDay"
+              @click:date="viewDay"
+              @change="updateRange"
+            ></v-calendar>
+          </v-sheet>
+        </v-col>
+      </v-row>
     </v-container>
-    <v-sheet height="600px">
-      <v-calendar
-        ref="calendar"
-        v-model="focus"
-        color="primary lighten-1"
-        event-name="duration"
-        :events="events"
-        :event-color="getEventColor"
-        :event-margin-bottom="3"
-        :locale="locale"
-        :now="today"
-        :type="type"
-        :weekdays="weekdays"
-        :interval-format="intervalFormat"
-        @click:event="editEvent"
-        @click:more="viewDay"
-        @click:date="viewDay"
-        @change="updateRange"
-      ></v-calendar>
-    </v-sheet>
   </v-card>
 </template>
 
@@ -76,8 +75,7 @@ export default {
   components: {
     ShiftFormDialog,
     CalendarNavigationButtons,
-    CalendarTypeSelect,
-    SelectContractFilter
+    CalendarTypeSelect
   },
   props: {
     disabled: {

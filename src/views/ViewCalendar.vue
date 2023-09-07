@@ -1,9 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col>
         <SelectContractFilter :disabled="disabled" />
       </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12">
         <Calendar
           :disabled="disabled"
