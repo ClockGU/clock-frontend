@@ -31,101 +31,107 @@
                         :date="date"
                         @update="updateDate"
                       />
+                      <v-row>
+                        <v-col cols="12">
+                          <ShiftsTable
+                            :shifts="pastShifts"
+                            :loading="loading"
+                            :search="pastSearch"
+                            past-shifts
+                          >
+                            <template #head="{ selected, reset }">
+                              <v-card-title>
+                                <v-row>
+                                  <v-col cols="12" md="5">
+                                    <span>{{
+                                      $t("shifts.table.pastShiftsTitle")
+                                    }}</span>
+                                  </v-col>
 
-                      <ShiftsTable
-                        :shifts="pastShifts"
-                        :loading="loading"
-                        :search="pastSearch"
-                        past-shifts
-                      >
-                        <template #head="{ selected, reset }">
-                          <v-card-title>
-                            <v-row>
-                              <v-col cols="12" md="5">
-                                <span>{{
-                                  $t("shifts.table.pastShiftsTitle")
-                                }}</span>
-                              </v-col>
+                                  <v-spacer></v-spacer>
 
-                              <v-spacer></v-spacer>
+                                  <v-col
+                                    cols="12"
+                                    sm="5"
+                                    :offset-sm="selected.length > 0 ? 0 : 7"
+                                    offset-md="0"
+                                    md="3"
+                                  >
+                                    <v-text-field
+                                      v-model="pastSearch"
+                                      :append-icon="icons.mdiMagnify"
+                                      :label="$t('actions.search')"
+                                      dense
+                                      hide-details
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                              </v-card-title>
 
-                              <v-col
-                                cols="12"
-                                sm="5"
-                                :offset-sm="selected.length > 0 ? 0 : 7"
-                                offset-md="0"
-                                md="3"
-                              >
-                                <v-text-field
-                                  v-model="pastSearch"
-                                  :append-icon="icons.mdiMagnify"
-                                  :label="$t('actions.search')"
-                                  dense
-                                  hide-details
-                                ></v-text-field>
-                              </v-col>
-                            </v-row>
-                          </v-card-title>
+                              <v-card-text>
+                                {{ $t("shifts.table.pastShiftsHint") }}
+                              </v-card-text>
 
-                          <v-card-text>
-                            {{ $t("shifts.table.pastShiftsHint") }}
-                          </v-card-text>
+                              <ShiftBulkActions
+                                v-if="selected.length > 0"
+                                :shifts="selected"
+                                can-review
+                                :more-than-one-contract="moreThanOneContract"
+                                :reset-fn="reset"
+                              />
+                            </template>
+                          </ShiftsTable>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="12">
+                          <ShiftsTable
+                            :shifts="futureShifts"
+                            :loading="loading"
+                            :search="futureSearch"
+                          >
+                            <template #head="{ selected, reset }">
+                              <v-card-title>
+                                <v-row>
+                                  <v-col cols="12" md="5">
+                                    <span>{{
+                                      $t("shifts.table.futureShiftsTitle")
+                                    }}</span>
+                                  </v-col>
 
-                          <ShiftBulkActions
-                            v-if="selected.length > 0"
-                            :shifts="selected"
-                            can-review
-                            :more-than-one-contract="moreThanOneContract"
-                            :reset-fn="reset"
-                          />
-                        </template>
-                      </ShiftsTable>
+                                  <v-spacer></v-spacer>
 
-                      <ShiftsTable
-                        :shifts="futureShifts"
-                        :loading="loading"
-                        :search="futureSearch"
-                      >
-                        <template #head="{ selected, reset }">
-                          <v-card-title>
-                            <v-row>
-                              <v-col cols="12" md="5">
-                                <span>{{
-                                  $t("shifts.table.futureShiftsTitle")
-                                }}</span>
-                              </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="5"
+                                    :offset-sm="selected.length > 0 ? 0 : 7"
+                                    offset-md="0"
+                                    md="3"
+                                  >
+                                    <v-text-field
+                                      v-model="futureSearch"
+                                      :append-icon="icons.mdiMagnify"
+                                      :label="$t('actions.search')"
+                                      dense
+                                      hide-details
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                              </v-card-title>
 
-                              <v-spacer></v-spacer>
-
-                              <v-col
-                                cols="12"
-                                sm="5"
-                                :offset-sm="selected.length > 0 ? 0 : 7"
-                                offset-md="0"
-                                md="3"
-                              >
-                                <v-text-field
-                                  v-model="futureSearch"
-                                  :append-icon="icons.mdiMagnify"
-                                  :label="$t('actions.search')"
-                                  dense
-                                  hide-details
-                                ></v-text-field>
-                              </v-col>
-                            </v-row>
-                          </v-card-title>
-
-                          <v-card-text>
-                            {{ $t("shifts.table.futureShiftsHint") }}
-                          </v-card-text>
-                          <ShiftBulkActions
-                            v-if="selected.length > 0"
-                            :more-than-one-contract="moreThanOneContract"
-                            :shifts="selected"
-                            :reset-fn="reset"
-                          />
-                        </template>
-                      </ShiftsTable>
+                              <v-card-text>
+                                {{ $t("shifts.table.futureShiftsHint") }}
+                              </v-card-text>
+                              <ShiftBulkActions
+                                v-if="selected.length > 0"
+                                :more-than-one-contract="moreThanOneContract"
+                                :shifts="selected"
+                                :reset-fn="reset"
+                              />
+                            </template>
+                          </ShiftsTable>
+                        </v-col>
+                      </v-row>
                       <v-fade-transition>
                         <v-overlay
                           v-if="disabled && (hover || touchOverlay)"
