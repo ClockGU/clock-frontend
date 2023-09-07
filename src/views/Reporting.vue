@@ -46,6 +46,7 @@
           :disabled="disabled"
           :shifts="selectedShifts"
           :month="date"
+          class="mb-4"
         />
       </v-col>
     </v-row>
@@ -53,7 +54,6 @@
       <v-col cols="12">
         <ClockCardAlert
           v-if="getAlertMessages(report).length !== 0"
-          class="my-4"
           :messages="getAlertMessages(report)"
           type="error"
         ></ClockCardAlert>
@@ -63,7 +63,6 @@
       <v-col cols="12">
         <ReportCard
           :key="report.id"
-          class="my-4"
           :disabled="disabled"
           :report="report"
           :exported="isCurrentMonthLocked"
