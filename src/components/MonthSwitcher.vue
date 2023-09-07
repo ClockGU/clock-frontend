@@ -1,35 +1,37 @@
 <template>
-  <v-row class="my-4" justify="center">
-    <v-btn :disabled="!hasPrevMonth" text @click="gotoPrevMonth">
-      <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
-    </v-btn>
+  <v-row>
+    <v-col class="text-center" cols="12">
+      <v-btn :disabled="!hasPrevMonth" text @click="gotoPrevMonth">
+        <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
+      </v-btn>
 
-    <v-menu
-      v-model="menu"
-      :close-on-content-click="false"
-      :nudge-right="40"
-      transition="scale-transition"
-      offset-y
-      min-width="290px"
-    >
-      <template #activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on">
-          {{ formattedDate }}
-        </v-btn>
-      </template>
-      <v-date-picker
-        :value="dateString"
-        :allowed-dates="allowedMonths"
-        :min="minMonth"
-        :max="maxMonth"
-        type="month"
-        @input="inputDate"
-      ></v-date-picker>
-    </v-menu>
+      <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template #activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">
+            {{ formattedDate }}
+          </span>
+        </template>
+        <v-date-picker
+          :value="dateString"
+          :allowed-dates="allowedMonths"
+          :min="minMonth"
+          :max="maxMonth"
+          type="month"
+          @input="inputDate"
+        ></v-date-picker>
+      </v-menu>
 
-    <v-btn :disabled="!hasNextMonth" text @click="gotoNextMonth">
-      <v-icon>{{ icons.mdiChevronRight }}</v-icon>
-    </v-btn>
+      <v-btn :disabled="!hasNextMonth" text @click="gotoNextMonth">
+        <v-icon>{{ icons.mdiChevronRight }}</v-icon>
+      </v-btn>
+    </v-col>
   </v-row>
 </template>
 

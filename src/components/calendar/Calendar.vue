@@ -9,8 +9,8 @@
           ></ShiftFormDialog>
         </v-col>
       </v-row>
-      <v-row justify="space-between">
-        <v-col cols="12" sm="5">
+      <v-row>
+        <v-col cols="4">
           <CalendarNavigationButtons
             @today="setToday"
             @next="next"
@@ -18,11 +18,11 @@
           />
         </v-col>
 
-        <v-col cols="12" sm="3" order-sm="3">
+        <v-col class="text-end" cols="4" order-sm="3">
           <CalendarTypeSelect v-model="type" />
         </v-col>
 
-        <v-col cols="12" sm="4" order-sm="2">
+        <v-col class="text-center" cols="4" order-sm="2">
           <span>
             {{ monthYearDisplay }}
           </span>
