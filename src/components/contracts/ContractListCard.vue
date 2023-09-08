@@ -1,10 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="350"
-    outlined
-    :color="!expired ? undefined : 'grey lighten-3'"
-  >
+  <v-card class="mx-auto" max-width="350" outlined>
     <v-card-title>
       <span class="primary--text text-subtitle-2">
         {{ $t("contracts.perMonth", { time: worktime }) }}
@@ -54,6 +49,7 @@
         </template>
       </ConfirmationDialog>
     </v-card-actions>
+    <v-overlay absolute :value="expired" color="grey lighten-1" />
   </v-card>
 </template>
 
