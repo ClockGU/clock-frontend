@@ -1,21 +1,23 @@
 <template>
-  <v-toolbar flat>
-    <v-toolbar-title>
-      {{ title }}
-    </v-toolbar-title>
+  <v-card-title flat>
+    <v-toolbar flat>
+      <v-toolbar-title>
+        {{ title }}
+      </v-toolbar-title>
 
-    <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
-    <LanguageSwitcher />
-    <v-btn v-if="logoutAction" text @click="logout">
-      {{ $t("actions.logout") }}
-    </v-btn>
-    <v-btn v-if="closeAction" icon @click="close">
-      <v-icon>
-        {{ icons.mdiClose }}
-      </v-icon>
-    </v-btn>
-  </v-toolbar>
+      <LanguageSwitcher />
+      <v-btn v-if="logoutAction" text @click="logout">
+        {{ $t("actions.logout") }}
+      </v-btn>
+      <v-btn v-if="closeAction" icon @click="close">
+        <v-icon>
+          {{ icons.mdiClose }}
+        </v-icon>
+      </v-btn>
+    </v-toolbar>
+  </v-card-title>
 </template>
 
 <script>
@@ -58,3 +60,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.theme--dark.v-toolbar.v-sheet {
+  background-color: #1e1e1e;
+}
+</style>
