@@ -1,26 +1,30 @@
 <template>
-  <v-row align="center" justify="start">
-    <v-col cols="12" md="5">
-      <ContractFormDateInput
-        v-model="start"
-        type="start"
-        :disabled="disabled || disableStart"
-      />
-    </v-col>
+  <v-container>
+    <v-row>
+      <v-col cols="5" md="5">
+        <ContractFormDateInput
+          v-model="start"
+          type="start"
+          :disabled="disabled || disableStart"
+        />
+      </v-col>
 
-    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2" class="text-center">
-      {{ $t("contracts.to") }}
-    </v-col>
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" class="text-center" cols="2">
+        <div class="mt-4 flex">
+          {{ $t("contracts.to") }}
+        </div>
+      </v-col>
 
-    <v-col cols="12" md="5">
-      <ContractFormDateInput
-        v-model="end"
-        :min="minEndDate"
-        type="end"
-        :disabled="disabled"
-      />
-    </v-col>
-  </v-row>
+      <v-col class="text-center" cols="5" md="5">
+        <ContractFormDateInput
+          v-model="end"
+          :min="minEndDate"
+          type="end"
+          :disabled="disabled"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
