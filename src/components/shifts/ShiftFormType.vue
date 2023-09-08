@@ -18,7 +18,7 @@
         <template #label>
           <label
             :class="
-              'v-label theme--light ' +
+              'v-label ' +
               (type.value === radios
                 ? getRadioColor(typeColors[type.value])
                 : '')
