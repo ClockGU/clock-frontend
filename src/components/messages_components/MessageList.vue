@@ -1,6 +1,6 @@
 <template>
   <v-list
-    three-line
+    lines="two"
     subheader
     :max-height="maxHeight"
     style="overflow-y: scroll"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import MessageListItem from "@/components/messages_components/MessageListItem";
+import MessageListItem from "@/components/messages_components/MessageListItem.vue";
 import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { mdiClose } from "@mdi/js";

@@ -1,6 +1,11 @@
 <template>
   <v-card-actions>
-    <v-btn text color="primary" :disabled="!value || loading" @click="save">
+    <v-btn
+      variant="text"
+      color="primary"
+      :disabled="!value || loading"
+      @click="save"
+    >
       {{ $t("actions.complete") }}
     </v-btn>
   </v-card-actions>

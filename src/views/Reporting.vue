@@ -23,6 +23,30 @@
     </v-alert>
     <v-row>
       <v-col cols="12">
+        <v-alert
+          v-if="personnelNumberMissing"
+          :icon="icons.mdiBadgeAccountHorizontal"
+          prominent
+          type="warning"
+        >
+          <v-row align="center">
+            <v-col class="grow">
+              {{ $t("reports.personnelNumberMissing") }}
+            </v-col>
+            <v-col class="shrink">
+              <v-btn color="white" variant="outlined" @click="openDialog">
+                {{
+                  $t("buttons.newEntity", {
+                    entity: $tc("personnelNumber.label")
+                  })
+                }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-col>
+      <v-col cols="12">
+
         <SelectContractFilter
           :disabled="disabled"
           :contracts="contracts"
@@ -94,12 +118,13 @@
 </template>
 
 <script>
-import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
-import SelectContractFilter from "@/components/SelectContractFilter";
-import ReportCard from "@/components/ReportCard";
+import MonthSwitcher from "@/components/MonthSwitcher.vue";
+import DashboardConflicts from "@/components/dashboard/DashboardConflicts.vue";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ReportCard from "@/components/ReportCard.vue";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
-import ShiftWarnings from "@/components/shifts/ShiftWarnings";
-import ClockCardAlert from "@/components/ClockCardAlert";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings.vue";
+import ClockCardAlert from "@/components/ClockCardAlert.vue";
 
 import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";

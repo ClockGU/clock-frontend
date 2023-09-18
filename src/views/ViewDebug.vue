@@ -19,7 +19,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" text @click="shortShift">Create</v-btn>
+        <v-btn color="primary" variant="text" @click="shortShift">Create</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -32,7 +32,9 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" text @click="overflowShift">Create</v-btn>
+        <v-btn color="primary" variant="text" @click="overflowShift"
+          >Create</v-btn
+        >
       </v-card-actions>
     </v-card>
 
@@ -45,7 +47,9 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" text @click="veryLongShift">Create</v-btn>
+        <v-btn color="primary" variant="text" @click="veryLongShift"
+          >Create</v-btn
+        >
       </v-card-actions>
     </v-card>
 
@@ -64,7 +68,7 @@
 
 <script>
 import { subMinutes, subDays } from "date-fns";
-import SelectContractFilter from "@/components/SelectContractFilter";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import { Shift } from "@/models/ShiftModel";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 

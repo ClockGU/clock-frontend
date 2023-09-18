@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 export default {
   name: "LogoutDialog",

@@ -1,14 +1,14 @@
 <template>
   <v-menu
-    bottom
-    left
+    location="bottom"
+    location="left"
     offset-y
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
   >
     <template #activator="{ attrs, on }">
-      <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">
-        <v-icon :left="$vuetify.breakpoint.smAndUp">
+      <v-btn class="text-capitalize" variant="text" v-bind="attrs" v-on="on">
+        <v-icon :start="$vuetify.breakpoint.smAndUp">
           {{ icons.mdiTranslate }}
         </v-icon>
 
@@ -16,13 +16,13 @@
           class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
           v-text="selectedLocale"
         />
-        <v-icon class="hidden-sm-and-down" right>
+        <v-icon class="hidden-sm-and-down" end>
           {{ icons.mdiChevronDown }}
         </v-icon>
       </v-btn>
     </template>
 
-    <v-list dense nav>
+    <v-list density="compact" nav>
       <v-list-item
         v-for="item in locales"
         :key="item.locale"

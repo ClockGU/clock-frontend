@@ -1,12 +1,12 @@
 <template>
   <v-text-field
-    :value="data"
+    :model-value="data"
     :prepend-icon="prependIcon"
     :label="label"
     :hint="hint"
     :disabled="disabled"
     persistent-hint
-    filled
+    variant="filled"
     required
     :error-messages="timeErrors"
     @blur="updateData($event.target.value)"

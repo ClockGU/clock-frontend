@@ -32,6 +32,22 @@
                             v-model="date"
                             :disabled="disabled"
                           />
+                        <v-spacer></v-spacer>
+
+                        <v-col
+                          cols="12"
+                          sm="5"
+                          :offset-sm="selected.length > 0 ? 0 : 7"
+                          offset-md="0"
+                          md="3"
+                        >
+                          <v-text-field
+                            v-model="pastSearch"
+                            :append-icon="icons.mdiMagnify"
+                            :label="$t('actions.search')"
+                            density="compact"
+                            hide-details
+                          ></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
@@ -107,7 +123,6 @@
                                   </v-col>
 
                                   <v-spacer></v-spacer>
-
                                   <v-col
                                     cols="12"
                                     sm="5"
@@ -137,6 +152,20 @@
                               />
                             </template>
                           </ShiftsTable>
+                        <v-col
+                          cols="12"
+                          sm="5"
+                          :offset-sm="selected.length > 0 ? 0 : 7"
+                          offset-md="0"
+                          md="3"
+                        >
+                          <v-text-field
+                            v-model="futureSearch"
+                            :append-icon="icons.mdiMagnify"
+                            :label="$t('actions.search')"
+                            density="compact"
+                            hide-details
+                          ></v-text-field>
                         </v-col>
                       </v-row>
                       <v-fade-transition>
@@ -164,10 +193,12 @@
 </template>
 
 <script>
-import SelectContractFilter from "@/components/SelectContractFilter";
-import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
-import ShiftsTable from "@/components/shifts/ShiftsTable";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+
+import MonthSwitcher from "@/components/MonthSwitcher.vue";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ShiftBulkActions from "@/components/shifts/ShiftBulkActions.vue";
+import ShiftsTable from "@/components/shifts/ShiftsTable.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 import { mapGetters } from "vuex";
 

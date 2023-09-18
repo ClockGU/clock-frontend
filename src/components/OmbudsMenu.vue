@@ -13,7 +13,7 @@
         <slot name="activator" :on="on" v-bind="attrs"></slot>
         <v-sheet
           v-if="!disableActivator"
-          class="py-2 red darken-5 rounded-t"
+          class="py-2 bg-red darken-5 rounded-t"
           dark
           v-bind="attrs"
           v-on="on"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import OmbudsForm from "@/components/OmbudsForm";
+import OmbudsForm from "@/components/OmbudsForm.vue";
 import { mdiExclamation } from "@mdi/js";
 
 export default {

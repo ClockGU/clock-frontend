@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import GdprText from "@/components/gdpr/text-components/GdprText";
+import GdprText from "@/components/gdpr/text-components/GdprText.vue";
 export default {
   name: "Privacy",
   components: { GdprText },

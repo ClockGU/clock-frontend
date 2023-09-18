@@ -20,8 +20,8 @@
         :data-time-value="data"
         return-masked-value
         hide-details
-        filled
-        dense
+        variant="filled"
+        density="compact"
         :error="error"
         mask="time"
         :readonly="$vuetify.breakpoint.smAndDown"

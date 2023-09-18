@@ -1,52 +1,51 @@
 <template>
   <v-list-item v-on="$listeners">
-    <v-list-item-content>
-      <v-list-item-title :class="error ? 'error--text' : 'text--primary'">
-        <v-icon class="pr-1" :color="colors[shift.type]">
-          {{ typeIcons[shift.type] }}
-        </v-icon>
-        {{ shift.started | formatDay }}
-      </v-list-item-title>
-      <v-list-item-subtitle :class="error ? 'error--text' : 'text--primary'">
-        {{ shift.started | formatTime }} -
-        {{ shift.stopped | formatTime }}
-        ({{ shift.representationalDuration("hm") }})
-      </v-list-item-subtitle>
-      <v-list-item-subtitle>
-        <v-chip
-          v-if="isRunningShift"
-          class="ml-0"
-          outlined
-          small
-          dense
-          color="red"
-        >
-          live
-        </v-chip>
-        <v-chip
-          v-for="(tag, i) in shift.tags"
-          :key="tag"
-          :data-cy="'shift-list-shift-tag-' + i"
-          outlined
-          small
-          class="ma-1 ml-0"
-        >
-          {{ tag }}
-        </v-chip>
+    <v-list-item-title :class="error ? 'error--text' : 'text--primary'">
+      <v-icon class="pr-1" :color="colors[shift.type]">
+        {{ typeIcons[shift.type] }}
+      </v-icon>
+      {{ shift.started | formatDay }}
+    </v-list-item-title>
+    <v-list-item-subtitle :class="error ? 'error--text' : 'text--primary'">
+      {{ shift.started | formatTime }} -
+      {{ shift.stopped | formatTime }}
+      ({{ shift.representationalDuration("hm") }})
+    </v-list-item-subtitle>
+    <v-list-item-subtitle>
+      <v-chip
+        v-if="isRunningShift"
+        class="ml-0"
+        variant="outlined"
+        small
+        dense
+        color="red"
+      >
+        live
+      </v-chip>
+      <v-chip
+        v-for="(tag, i) in shift.tags"
+        :key="tag"
+        :data-cy="'shift-list-shift-tag-' + i"
+        variant="outlined"
+        small
+        class="ma-1 ml-0"
+      >
+        {{ tag }}
+      </v-chip>
 
-        <v-chip
-          v-if="!shift.wasReviewed && !hideReviewedChip"
-          data-cy="shift-list-shift-type"
-          outlined
-          small
-          class="ma-1"
-          color="warning"
-        >
-          {{ $t("dashboard.notYetReviewed") }}
-        </v-chip>
-      </v-list-item-subtitle>
-      <slot name="extraSubtitle"></slot>
-    </v-list-item-content>
+      <v-chip
+        v-if="!shift.wasReviewed && !hideReviewedChip"
+        data-cy="shift-list-shift-type"
+        variant="outlined"
+        small
+        class="ma-1"
+        color="warning"
+      >
+        {{ $t("dashboard.notYetReviewed") }}
+      </v-chip>
+    </v-list-item-subtitle>
+    <slot name="extraSubtitle"></slot>
+
     <slot name="actions"></slot>
   </v-list-item>
 </template>

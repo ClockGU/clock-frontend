@@ -1,24 +1,24 @@
 <template>
-  <v-list-item>
-    <v-list-item-content>
-      <v-list-item-title>
-        {{ messageDate }}&nbsp;|&nbsp;{{ title_value(message) }}
-        <v-chip
-          v-if="typeTag(message) !== ''"
-          outlined
-          small
-          class="ma-2"
-          :color="typeColor(message)"
-        >
-          {{ typeTag(message) }}
-        </v-chip>
-      </v-list-item-title>
-      <v-list-item-subtitle v-if="dashboard" class="text--primary">
-        {{ strippedText }}
-      </v-list-item-subtitle>
-      <!-- we already sanitized the message text with DOMpurify, so... -->
-      <!-- eslint-disable vue/no-v-html -->
-      <div v-if="!dashboard" class="message" v-html="text"></div>
+  <v-list-item v-bind="$attrs">
+    <v-list-item-title>
+      {{ title_value(message) }}
+      <v-chip
+        v-if="typeTag(message) !== ''"
+        variant="outlined"
+        small
+        class="ma-2"
+        :color="typeColor(message)"
+      >
+        {{ typeTag(message) }}
+      </v-chip>
+    </v-list-item-title>
+    <v-list-item-subtitle
+      v-if="lineRestriction"
+      class="text--primary"
+      v-text="text"
+    ></v-list-item-subtitle>
+    <v-list-item-content v-else>
+      {{ text }}
     </v-list-item-content>
   </v-list-item>
 </template>

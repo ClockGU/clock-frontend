@@ -22,7 +22,7 @@
         </v-card-text>
       </v-card>
       <v-card-actions class="justify-center">
-        <v-btn text color="primary" @click="dialog = false">OK</v-btn>
+        <v-btn variant="text" color="primary" @click="dialog = false">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

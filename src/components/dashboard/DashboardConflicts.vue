@@ -2,9 +2,13 @@
   <v-card v-if="overlappingShifts === 0">
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
-        <v-icon :class="disabled ? 'warning--text' : 'green--text'" x-large>{{
-          disabled ? icons.mdiHelpCircleOutline : icons.mdiCheckBold
-        }}</v-icon>
+        <v-icon
+          :class="disabled ? 'warning--text' : 'green--text'"
+          size="x-large"
+          >{{
+            disabled ? icons.mdiHelpCircleOutline : icons.mdiCheckBold
+          }}</v-icon
+        >
       </v-col>
       <v-col cols="8" xs="10">
         <div v-if="disabled">
@@ -20,7 +24,7 @@
   <v-card v-else>
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
-        <v-icon class="red--text" x-large>{{ icons.mdiAlert }}</v-icon>
+        <v-icon class="text-red" size="x-large">{{ icons.mdiAlert }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
         {{ $tc("dashboard.overlaps.description", overlappingShifts) }}
@@ -28,7 +32,7 @@
     </v-row>
 
     <v-card-actions>
-      <v-btn color="error" text block @click="dialog = true">
+      <v-btn color="error" variant="text" block @click="dialog = true">
         {{ $t("actions.resolve") }}
       </v-btn>
     </v-card-actions>
@@ -53,7 +57,7 @@
 <script>
 import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
-import CalendarOverlap from "@/components/calendar/CalendarOverlap";
+import CalendarOverlap from "@/components/calendar/CalendarOverlap.vue";
 import { mapGetters } from "vuex";
 import { getFirstOfCurrentMonth } from "@/utils/date";
 

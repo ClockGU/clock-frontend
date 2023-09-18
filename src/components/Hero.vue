@@ -3,7 +3,7 @@
     <v-img
       :min-height="minHeight"
       :src="require('@/assets/home-hero.jpg')"
-      class="white--text"
+      class="text-white"
       gradient="to right, rgba(5, 11, 31, .3), rgba(5, 11, 31, .3)"
     >
       <v-container class="fill-height px-4 py-12">

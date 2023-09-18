@@ -24,7 +24,6 @@
             </v-expansion-panels>
           </v-row>
         </v-row>
-
         <p class="mt-10">
           <br />
           <i18n path="faq.text">

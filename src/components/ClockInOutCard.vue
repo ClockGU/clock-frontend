@@ -1,7 +1,7 @@
 <template>
   <v-window v-model="window">
     <v-overlay
-      :value="showOverlay"
+      :model-value="showOverlay"
       absolute
       :opacity="contractValid ? 1.0 : 0.9"
     >
@@ -16,7 +16,7 @@
             v-if="contracts.length > 1 && clockedShift !== undefined"
             cols="12"
           >
-            <v-btn color="primary lighten-1" @click="changeContract">
+            <v-btn color="primary-lighten-1" @click="changeContract">
               {{ $t("actions.switch") }}
             </v-btn>
           </v-col>
@@ -50,12 +50,12 @@
 
 <script>
 import ClockInOutMixin from "@/mixins/ClockInOutMixin";
-import ClockInOutCardClock from "@/components/ClockInOutCardClock";
+import ClockInOutCardClock from "@/components/ClockInOutCardClock.vue";
 import { mapGetters } from "vuex";
 
 import contractValidMixin from "@/mixins/contractValid";
 import { Shift } from "@/models/ShiftModel";
-import ClockInOutCardForm from "@/components/ClockInOutCardForm";
+import ClockInOutCardForm from "@/components/ClockInOutCardForm.vue";
 
 export default {
   name: "ClockInOutCard",

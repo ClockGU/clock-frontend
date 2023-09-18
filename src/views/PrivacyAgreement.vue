@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
-import FeedbackMenu from "@/components/FeedbackMenu";
+import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
+import FeedbackMenu from "@/components/FeedbackMenu.vue";
 export default {
   name: "PrivacyAgreement",
   metaInfo() {

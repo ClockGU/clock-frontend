@@ -1,13 +1,13 @@
 <template>
   <v-select
-    :value="value"
+    :model-value="value"
     :items="items"
     label="Type"
-    item-text="text"
+    item-title="text"
     item-value="value"
     return-object
-    filled
-    @input="$emit('input', $event)"
+    variant="filled"
+    @update:model-value="$emit('input', $event)"
   >
   </v-select>
 </template>

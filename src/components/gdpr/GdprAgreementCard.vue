@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import CardToolbar from "@/components/cards/CardToolbar";
-import GdprCardText from "@/components/gdpr/agreement-components/GdprCardText";
-import GdprCardActions from "@/components/gdpr/agreement-components/GdprCardActions";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
+import GdprCardText from "@/components/gdpr/agreement-components/GdprCardText.vue";
+import GdprCardActions from "@/components/gdpr/agreement-components/GdprCardActions.vue";
 
 export default {
   name: "GdprAgreementCard",

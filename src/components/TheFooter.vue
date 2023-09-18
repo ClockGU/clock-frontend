@@ -11,7 +11,7 @@
         :key="link.text"
         :to="{ name: link.to }"
         color="white"
-        text
+        variant="text"
         rounded
         class="my-2"
       >

@@ -10,9 +10,9 @@
   >
     <template #activator="{ on, attrs }">
       <v-text-field
-        :value="formattedDate"
+        :model-value="formattedDate"
         readonly
-        filled
+        variant="filled"
         :prepend-icon="icon"
         v-bind="attrs"
         :disabled="disabled"

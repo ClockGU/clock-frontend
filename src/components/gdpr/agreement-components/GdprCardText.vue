@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import GdprTextDialog from "@/components/gdpr/text-components/GdprTextDialog";
+import GdprTextDialog from "@/components/gdpr/text-components/GdprTextDialog.vue";
 export default {
   name: "GdprCardText",
   components: { GdprTextDialog },
