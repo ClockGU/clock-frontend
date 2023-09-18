@@ -12,7 +12,7 @@
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          :text="textButton"
+          :variant="textButton && 'text'"
           v-on="on"
           @click="opened = true"
         >
@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
+import TheDialog from "@/components/TheDialog.vue";
 import { Contract } from "@/models/ContractModel";
-import ContractForm from "@/components/forms/modelForms/contract/ContractForm";
+import ContractForm from "@/components/forms/modelForms/contract/ContractForm.vue";
 import { mdiPencil, mdiPlus } from "@mdi/js";
 
 export default {

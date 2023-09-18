@@ -5,8 +5,7 @@
       :key="snack.uuid"
       v-model="snack.show"
       data-cy="snackbar"
-      top
-      right
+      location="top right"
       multi-line
       :color="snack.color"
       :timeout="snack.timeout"
@@ -18,14 +17,14 @@
           :is="snack.component"
           v-bind="snack.componentProps"
         ></component>
-        <v-btn text v-bind="attrs" @click.native="snack.show = false">
+        <v-btn variant="text" v-bind="attrs" @click.native="snack.show = false">
           {{ $t("actions.close") }}
         </v-btn>
       </template>
       <v-progress-linear
         reverse
         color="white"
-        :value="(timePassed[snack.uuid] / snack.timeout) * 100"
+        :model-value="(timePassed[snack.uuid] / snack.timeout) * 100"
       ></v-progress-linear>
     </v-snackbar>
   </div>

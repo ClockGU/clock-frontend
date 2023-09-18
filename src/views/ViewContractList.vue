@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import ContractListCard from "@/components/contracts/ContractListCard";
+import ContractListCard from "@/components/contracts/ContractListCard.vue";
 import { endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
@@ -119,7 +119,7 @@ import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
 import { log } from "@/utils/log";
-import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 
 export default {
   name: "ViewContractList",

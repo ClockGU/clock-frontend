@@ -4,10 +4,10 @@
     :items="choices"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :label="$t('shifts.changeContract')"
-    item-text="name"
+    item-title="name"
     item-value="id"
     return-object
-    filled
+    variant="filled"
   ></v-select>
 </template>
 

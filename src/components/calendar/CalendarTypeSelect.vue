@@ -1,9 +1,9 @@
 <template>
-  <v-menu bottom right>
+  <v-menu location="bottom" location="right">
     <template #activator="{ on }">
-      <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
+      <v-btn variant="outlined" data-cy="calendar-type-select-button" v-on="on">
         <span>{{ valueName }}</span>
-        <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
+        <v-icon end>{{ icons.mdiArrowDown }}</v-icon>
       </v-btn>
     </template>
     <v-list data-cy="calendar-type-select">

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
   name: "LanguageSettings",

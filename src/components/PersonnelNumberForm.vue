@@ -23,12 +23,12 @@
         :disabled="loading || v$.$error"
         :loading="loading"
         required
-        text
+        variant="text"
         @click="save"
       >
         {{ $t("actions.save") }}
       </v-btn>
-      <v-btn v-if="dialog" text @click="$emit('close')">
+      <v-btn v-if="dialog" variant="text" @click="$emit('close')">
         {{ $t("actions.cancel") }}
       </v-btn>
     </v-card-actions>
@@ -45,7 +45,7 @@
               personnelNumber === '' ||
               v$.$errors
             "
-            text
+            variant="text"
             color="primary"
             v-on="on"
           >
@@ -68,7 +68,7 @@
 import AuthService from "@/services/auth";
 // import { validationMixin } from "vuelidate";
 import { required, minLength } from "@vuelidate/validators";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { log } from "@/utils/log";
 import { useVuelidate } from "@vuelidate/core";
 

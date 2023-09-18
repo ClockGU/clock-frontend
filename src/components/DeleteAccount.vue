@@ -19,7 +19,7 @@
         @cancel="resetForm"
       >
         <template #activator="{ on }">
-          <v-btn text color="error" v-on="on">
+          <v-btn variant="text" color="error" v-on="on">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>
@@ -55,7 +55,7 @@
 
 <script>
 import AuthService from "@/services/auth";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { mapGetters } from "vuex";
 import { mdiEmail } from "@mdi/js";
 import { useVuelidate } from "@vuelidate/core";

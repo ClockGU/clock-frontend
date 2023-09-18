@@ -1,10 +1,10 @@
 <template>
   <v-textarea
-    :value="value"
+    :model-value="value"
     :label="$t('shifts.note.label')"
-    filled
+    variant="filled"
     :prepend-icon="icons.mdiNoteOutline"
-    @input="update($event)"
+    @update:model-value="update($event)"
   />
 </template>
 

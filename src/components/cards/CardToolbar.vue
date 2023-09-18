@@ -7,7 +7,7 @@
     <v-spacer></v-spacer>
 
     <LanguageSwitcher />
-    <v-btn v-if="logoutAction" text @click="logout">
+    <v-btn v-if="logoutAction" variant="text" @click="logout">
       {{ $t("actions.logout") }}
     </v-btn>
     <v-btn v-if="closeAction" icon @click="close">
@@ -20,7 +20,7 @@
 
 <script>
 import { mdiClose } from "@mdi/js";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
   name: "CardToolbar",

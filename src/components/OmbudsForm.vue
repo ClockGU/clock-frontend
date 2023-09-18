@@ -45,10 +45,15 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn text @click="close">
+      <v-btn variant="text" @click="close">
         {{ $t("actions.cancel") }}
       </v-btn>
-      <v-btn color="primary" text :disabled="v$.$invalid" @click="submit">
+      <v-btn
+        color="primary"
+        variant="text"
+        :disabled="v$.$invalid"
+        @click="submit"
+      >
         {{ $t("actions.send") }}
       </v-btn>
     </v-card-actions>

@@ -1,5 +1,10 @@
 <template>
-  <v-list two-line subheader :max-height="maxHeight" style="overflow-y: scroll">
+  <v-list
+    lines="two"
+    subheader
+    :max-height="maxHeight"
+    style="overflow-y: scroll"
+  >
     <template v-for="(message, index) in messages">
       <MessageListItem
         :key="message.id"
@@ -12,7 +17,7 @@
 </template>
 
 <script>
-import MessageListItem from "@/components/messages_components/MessageListItem";
+import MessageListItem from "@/components/messages_components/MessageListItem.vue";
 import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { mdiClose } from "@mdi/js";

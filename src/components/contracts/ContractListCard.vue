@@ -2,11 +2,11 @@
   <v-card
     class="mx-auto"
     max-width="350"
-    outlined
+    variant="outlined"
     :color="!expired ? undefined : 'grey lighten-3'"
   >
     <v-card-title>
-      <span class="primary--text text-subtitle-2">
+      <span class="text-primary text-subtitle-2">
         {{ $t("contracts.perMonth", { time: worktime }) }}
         {{ !expired ? "" : $t("contracts.expired") }}
       </span>
@@ -29,7 +29,7 @@
         @confirm="destroyFn"
       >
         <template #activator="{ on }">
-          <v-btn text data-cy="delete" v-on="on">
+          <v-btn variant="text" data-cy="delete" v-on="on">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>
@@ -58,11 +58,11 @@
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import { Contract } from "@/models/ContractModel";
-import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 import { ContractService } from "@/services/models";
 
 function formatDate(date) {

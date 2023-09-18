@@ -1,12 +1,12 @@
 <template>
   <v-navigation-drawer
-    :value="drawer"
+    :model-value="drawer"
     app
     left
-    class="grey lighten-4"
+    class="bg-grey-lighten-4"
     disable-resize-watcher
     clipped
-    @input="closeDrawer"
+    @update:model-value="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
       <router-link to="/dashboard" tag="span" style="cursor: pointer">
@@ -35,20 +35,18 @@
           <v-list-item-avatar>
             <v-avatar
               size="32px"
-              color="blue lighten-2"
+              color="blue-lighten-2"
               style="cursor: pointer"
             >
-              <span class="white--text">
+              <span class="text-white">
                 {{ firstLetter }}
               </span>
             </v-avatar>
           </v-list-item-avatar>
 
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              {{ user.first_name }}
-            </v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title class="text-h6">
+            {{ user.first_name }}
+          </v-list-item-title>
         </template>
 
         <v-list-item
@@ -60,9 +58,8 @@
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item-content>
+
+          <v-list-item-title>{{ item.text }}</v-list-item-title>
         </v-list-item>
 
         <LogoutDialog>
@@ -71,9 +68,8 @@
               <v-list-item-icon>
                 <v-icon v-text="icons.mdiLogout"></v-icon>
               </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
-              </v-list-item-content>
+
+              <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
             </v-list-item>
           </template>
         </LogoutDialog>
@@ -82,13 +78,13 @@
 
     <v-divider></v-divider>
 
-    <v-list nav dense data-cy="menu-list">
+    <v-list nav density="compact" data-cy="menu-list">
       <v-list-item v-for="link in links" :key="link.text" :to="link.to">
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-action>
 
-        <v-list-item-content>{{ link.text }}</v-list-item-content>
+        {{ link.text }}
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -98,7 +94,7 @@
 import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
 
-import LogoutDialog from "@/components/LogoutDialog";
+import LogoutDialog from "@/components/LogoutDialog.vue";
 
 import {
   mdiAccountCog,

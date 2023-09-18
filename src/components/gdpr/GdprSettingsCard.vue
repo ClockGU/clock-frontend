@@ -1,6 +1,6 @@
 <template>
   <v-card :elevation="0">
-    <v-alert type="success" outlined class="ma-4">{{
+    <v-alert type="success" variant="outlined" class="ma-4">{{
       $t("gdpr.accepted")
     }}</v-alert>
 
@@ -13,8 +13,8 @@
     <v-card-actions>
       <v-btn
         :loading="loading"
-        :outlined="loading"
-        text
+        :variant="loading && 'outlined'"
+        variant="text"
         color="primary"
         @click="action"
       >

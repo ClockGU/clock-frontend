@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
-import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete";
-import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview";
+import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog.vue";
+import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete.vue";
+import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview.vue";
 import { minutesToHHMM } from "@/utils/time";
 import {
   mdiCheck,

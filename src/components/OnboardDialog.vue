@@ -91,17 +91,17 @@
         </v-window>
       </v-card-text>
       <v-progress-linear
-        :value="(step / titles.length) * 100"
+        :model-value="(step / titles.length) * 100"
       ></v-progress-linear>
       <v-card-actions>
-        <v-btn :disabled="step === 0" text @click="step--">
+        <v-btn :disabled="step === 0" variant="text" @click="step--">
           {{ $t("actions.back") }}
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           v-if="step < titles.length - 1"
           color="primary"
-          text
+          variant="text"
           :disabled="
             !dsgvoAccepted && !privacyagreement && step === titles.length - 3
           "
@@ -111,7 +111,7 @@
         </v-btn>
         <v-btn
           v-if="step === titles.length - 1"
-          text
+          variant="text"
           color="primary"
           :loading="loading"
           @click="finishOnboarding"
@@ -132,7 +132,7 @@
         max-width="600"
       >
         <v-card>
-          <v-card-title class="warning white--text">
+          <v-card-title class="bg-warning text-white">
             {{ $t("news.label.warning") }} !
           </v-card-title>
           <v-card-text style="padding: 20px">
@@ -141,11 +141,15 @@
             </p>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="error" text @click="showAreYouSureDialog = false">
+            <v-btn
+              color="error"
+              variant="text"
+              @click="showAreYouSureDialog = false"
+            >
               {{ $t("actions.close") }}
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="success" text @click="closeOnboarding()">
+            <v-btn color="success" variant="text" @click="closeOnboarding()">
               {{ $t("actions.continue") }}
             </v-btn>
           </v-card-actions>
@@ -170,10 +174,10 @@ import {
   mdiRecord
 } from "@mdi/js";
 
-import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
-import CardToolbar from "@/components/cards/CardToolbar";
-import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm";
+import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
+import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
 
 export default {

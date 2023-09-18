@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card variant="outlined">
     <v-hover>
       <template #default="{ hover }">
         <div @click="toggleTouchOverlay(hover)">
@@ -8,13 +8,13 @@
               {{ $t("reports.summary") }}
             </span>
             <v-spacer></v-spacer>
-            <v-chip v-if="exported" outlined color="primary">
+            <v-chip v-if="exported" variant="outlined" color="primary">
               {{ $t("reports.exported") }}
             </v-chip>
           </v-card-title>
 
           <v-card-text>
-            <v-simple-table>
+            <v-table>
               <template #default>
                 <tbody>
                   <tr v-for="row in rows" :key="row.name">
@@ -23,21 +23,21 @@
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
+            </v-table>
           </v-card-text>
 
           <v-card-actions class="px-1">
             <v-container>
               <v-row align="center">
                 <v-col cols="8">
-                  <span class="subtitle-2">
+                  <span class="text-subtitle-2">
                     1. {{ $t("reports.generate") }}
                   </span>
 
-                  <p class="caption">
+                  <p class="text-caption">
                     {{ $t("reports.hints.request") }}
 
-                    <span v-if="!isExportable" class="caption warn">
+                    <span v-if="!isExportable" class="text-caption warn">
                       {{ $t("reports.hints.personnelnumber") }}
                     </span>
                   </p>
@@ -48,7 +48,7 @@
                   <v-btn
                     v-if="!pdf"
                     :loading="loading"
-                    :outlined="loading"
+                    :variant="loading && 'outlined'"
                     :disabled="!isFirstUnlockedMonth && !exported"
                     color="primary"
                     @click="request"
@@ -59,7 +59,7 @@
                   <v-btn
                     v-else
                     :loading="loading"
-                    :outlined="loading"
+                    :variant="loading && 'outlined'"
                     color="primary"
                     @click="download"
                   >
@@ -70,11 +70,11 @@
 
               <v-row align="center">
                 <v-col cols="8">
-                  <span class="subtitle-2">
+                  <span class="text-subtitle-2">
                     2. {{ $t("reports.lock.label") }}
                   </span>
 
-                  <p class="caption">{{ $t("reports.hints.lock") }}</p>
+                  <p class="text-caption">{{ $t("reports.hints.lock") }}</p>
                 </v-col>
 
                 <v-col cols="4">
@@ -89,7 +89,7 @@
                       <v-btn
                         :disabled="lockDisabled"
                         :loading="lockLoading"
-                        :text="!lockDisabled"
+                        :variant="!lockDisabled && 'text'"
                         :color="!lockDisabled ? 'warning' : ''"
                         v-on="on"
                       >
@@ -117,7 +117,7 @@
             <v-overlay
               v-if="disabled && (hover || touchOverlay)"
               absolute
-              color="primary"
+              scrim="primary"
               style="align-items: start"
             >
               <p style="margin-top: 17%" class="text-center">
@@ -136,7 +136,7 @@ import { parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { ReportService } from "@/services/models";
 import { ContractService } from "@/services/models";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { Buffer } from "buffer";
 import { log } from "@/utils/log";
 

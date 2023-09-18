@@ -56,7 +56,7 @@
                             v-model="pastSearch"
                             :append-icon="icons.mdiMagnify"
                             :label="$t('actions.search')"
-                            dense
+                            density="compact"
                             hide-details
                           ></v-text-field>
                         </v-col>
@@ -104,7 +104,7 @@
                             v-model="futureSearch"
                             :append-icon="icons.mdiMagnify"
                             :label="$t('actions.search')"
-                            dense
+                            density="compact"
                             hide-details
                           ></v-text-field>
                         </v-col>
@@ -126,7 +126,7 @@
                   <v-overlay
                     v-if="disabled && (hover || touchOverlay)"
                     absolute
-                    color="primary"
+                    scrim="primary"
                     style="align-items: start"
                   >
                     <p style="margin-top: 17%" class="text-center">
@@ -144,11 +144,11 @@
 </template>
 
 <script>
-import MonthSwitcher from "@/components/MonthSwitcher";
-import SelectContractFilter from "@/components/SelectContractFilter";
-import ShiftBulkActions from "@/components/shifts/ShiftBulkActions";
-import ShiftsTable from "@/components/shifts/ShiftsTable";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import MonthSwitcher from "@/components/MonthSwitcher.vue";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ShiftBulkActions from "@/components/shifts/ShiftBulkActions.vue";
+import ShiftsTable from "@/components/shifts/ShiftsTable.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 import { mapGetters } from "vuex";
 

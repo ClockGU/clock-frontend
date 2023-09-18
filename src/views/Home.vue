@@ -1,10 +1,19 @@
 <template>
   <v-main>
-    <v-alert v-if="userCheckedOut !== ''" type="info" color="purple" dense>
+    <v-alert
+      v-if="userCheckedOut !== ''"
+      type="info"
+      color="purple"
+      density="compact"
+    >
       You are viewing data of a different user.
-      <v-btn small outlined class="ml-4" @click="clear">Clear User</v-btn>
+      <v-btn size="small" variant="outlined" class="ml-4" @click="clear"
+        >Clear User</v-btn
+      >
     </v-alert>
-    <v-alert v-if="staging" type="warning" dense>{{ infostring }}</v-alert>
+    <v-alert v-if="staging" type="warning" density="compact">{{
+      infostring
+    }}</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
@@ -39,10 +48,10 @@ export default {
       return styles;
     },
     staging() {
-      return process.env.VUE_APP_ENV === "staging";
+      return import.meta.env.VUE_APP_ENV === "staging";
     },
     infostring() {
-      return process.env.VUE_APP_LOCAL === "true"
+      return import.meta.env.VUE_APP_LOCAL === "true"
         ? "Staging (local)"
         : "Staging (server)";
     }

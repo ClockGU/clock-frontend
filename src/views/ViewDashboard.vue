@@ -58,20 +58,20 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 
-import SelectContractFilter from "@/components/SelectContractFilter";
-import ClockInOutCard from "@/components/ClockInOutCard";
-import DashboardMessageList from "@/components/dashboard/DashboardMessageList";
-import DashboardProgress from "@/components/dashboard/DashboardProgress";
-import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity";
-import DashboardWelcome from "@/components/dashboard/DashboardWelcome";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ClockInOutCard from "@/components/ClockInOutCard.vue";
+import DashboardMessageList from "@/components/dashboard/DashboardMessageList.vue";
+import DashboardProgress from "@/components/dashboard/DashboardProgress.vue";
+import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity.vue";
+import DashboardWelcome from "@/components/dashboard/DashboardWelcome.vue";
 import { isSameDay, isSameWeek, isBefore, differenceInMinutes } from "date-fns";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
 
 import { log } from "@/utils/log";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
-import DashboardShiftReview from "@/components/dashboard/DashboardShiftReview";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+import DashboardShiftReview from "@/components/dashboard/DashboardShiftReview.vue";
 
 export default {
   name: "Dashboard",

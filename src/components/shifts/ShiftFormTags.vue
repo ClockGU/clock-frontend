@@ -3,40 +3,38 @@
     v-model="model"
     data-cy="tags"
     :items="usedTags"
-    :search-input.sync="search"
+    :search.sync="search"
     :hide-no-data="!search"
     hide-selected
     :label="$t('shifts.tags.label')"
     chips
     multiple
-    filled
+    variant="filled"
     clearable
     :prepend-icon="icons.mdiTagOutline"
-    @input="$emit('input', $event)"
+    @update:model-value="$emit('input', $event)"
     @change="search = null"
   >
     <template #no-data>
       <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>
-            <i18n path="shifts.tags.createHint" tag="span">
-              <template #search>
-                <strong>{{ search }}</strong>
-              </template>
-              <template #enter>
-                <kbd>{{ $t("app.enterKey") }}</kbd>
-              </template>
-            </i18n>
-          </v-list-item-title>
-        </v-list-item-content>
+        <v-list-item-title>
+          <i18n path="shifts.tags.createHint" tag="span">
+            <template #search>
+              <strong>{{ search }}</strong>
+            </template>
+            <template #enter>
+              <kbd>{{ $t("app.enterKey") }}</kbd>
+            </template>
+          </i18n>
+        </v-list-item-title>
       </v-list-item>
     </template>
     <template #selection="{ attrs, item, selected }">
       <v-chip
         class="mt-2 ml-0"
         v-bind="attrs"
-        :input-value="selected"
-        close
+        :model-value="selected"
+        closable
         @click:close="remove(item)"
       >
         <strong>{{ item }}</strong>

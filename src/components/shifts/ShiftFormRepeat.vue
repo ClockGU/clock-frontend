@@ -4,7 +4,7 @@
       <v-select
         v-model="selected"
         :items="frequency"
-        item-text="text"
+        item-title="text"
         item-value="value"
         hide-details
         :label="$t('shifts.repeating.frequencyLabel')"
@@ -90,7 +90,7 @@
 import { localizedFormat } from "@/utils/date";
 import { RRule } from "rrule";
 
-import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog";
+import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog.vue";
 import { formatISO, parseISO } from "date-fns";
 
 const ALL_DAYS = {

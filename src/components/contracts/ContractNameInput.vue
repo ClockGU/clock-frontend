@@ -5,7 +5,7 @@
     :label="$t('contracts.name')"
     :error-messages="errors"
     :prepend-icon="icons.mdiFolderInformationOutline"
-    filled
+    variant="filled"
     counter="100"
     required
     :disabled="disabled"

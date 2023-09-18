@@ -1,3 +1,4 @@
+.vue
 <template>
   <v-card-text class="pb-0">
     <ShiftFormDatetimeInput
@@ -87,17 +88,17 @@
 
 <script>
 import { Shift } from "@/models/ShiftModel";
-import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
-import ShiftFormNote from "@/components/shifts/ShiftFormNote";
-import ShiftFormTags from "@/components/shifts/ShiftFormTags";
-import ShiftFormType from "@/components/shifts/ShiftFormType";
-import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
+import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat.vue";
+import ShiftFormNote from "@/components/shifts/ShiftFormNote.vue";
+import ShiftFormTags from "@/components/shifts/ShiftFormTags.vue";
+import ShiftFormType from "@/components/shifts/ShiftFormType.vue";
+import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract.vue";
 import { endOfDay, isWithinInterval, startOfDay, isFuture } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
-import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
-import ClockCardAlert from "@/components/ClockCardAlert";
+import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput.vue";
+import ClockCardAlert from "@/components/ClockCardAlert.vue";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
-import ShiftFormReview from "@/components/shifts/ShiftFormReview";
+import ShiftFormReview from "@/components/shifts/ShiftFormReview.vue";
 export default {
   name: "ShiftFormFields",
   components: {

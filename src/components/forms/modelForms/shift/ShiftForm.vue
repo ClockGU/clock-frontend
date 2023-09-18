@@ -26,9 +26,9 @@
 
 <script>
 import { Shift } from "@/models/ShiftModel";
-import FormActions from "@/components/cards/FormActions";
-import CardToolbar from "@/components/cards/CardToolbar";
-import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
+import FormActions from "@/components/cards/FormActions.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
+import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields.vue";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
 export default {

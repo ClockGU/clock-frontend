@@ -8,7 +8,7 @@
     >
       <template #activator="{ on, attrs }">
         <v-sheet
-          class="py-2 orange darken-2 rounded-t"
+          class="py-2 bg-orange-darken-2 rounded-t"
           dark
           v-bind="attrs"
           v-on="on"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import FeedbackForm from "@/components/FeedbackForm";
+import FeedbackForm from "@/components/FeedbackForm.vue";
 import { mdiHelp } from "@mdi/js";
 
 export default {

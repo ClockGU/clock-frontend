@@ -43,7 +43,7 @@
       <v-calendar
         ref="calendar"
         v-model="focus"
-        color="primary lighten-1"
+        color="primary-lighten-1"
         event-name="duration"
         :events="events"
         :event-color="getEventColor"

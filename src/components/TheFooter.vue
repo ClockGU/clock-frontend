@@ -1,18 +1,18 @@
 <template>
-  <v-footer color="primary darken-2" dark min-height="72" padless>
+  <v-footer color="primary-darken-2" dark min-height="72" padless>
     <v-row justify="center" no-gutters>
       <v-btn
         v-for="link in links"
         :key="link.text"
         :to="{ name: link.to }"
         color="white"
-        text
+        variant="text"
         rounded
         class="my-2"
       >
         {{ link.text }}
       </v-btn>
-      <v-col class="primary lighten-1 text-center white--text" cols="12">
+      <v-col class="bg-primary-lighten-1 text-center text-white" cols="12">
         <v-row justify="center" class="mx-0 mb-0">
           <v-col cols="10">
             <p>&copy; {{ new Date().getFullYear() }} Clock</p>

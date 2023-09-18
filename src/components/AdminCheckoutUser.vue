@@ -16,7 +16,12 @@
         @confirm="checkout"
       >
         <template #activator="{ on }">
-          <v-btn :disabled="userUUID === ''" text color="primary" v-on="on">
+          <v-btn
+            :disabled="userUUID === ''"
+            variant="text"
+            color="primary"
+            v-on="on"
+          >
             Checkout
           </v-btn>
         </template>
@@ -31,14 +36,14 @@
         </template>
       </ConfirmationDialog>
 
-      <v-btn color="alert" text @click="clear">Clear</v-btn>
+      <v-btn color="alert" variant="text" @click="clear">Clear</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import ApiService from "@/services/api.js";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 export default {
   name: "AdminCheckoutUser",

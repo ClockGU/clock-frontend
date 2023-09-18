@@ -10,8 +10,8 @@
       <v-text-field
         v-model="formattedDate"
         readonly
-        filled
-        dense
+        variant="filled"
+        density="compact"
         hide-details
         :prepend-icon="icons.mdiCalendar"
         v-bind="attrs"

@@ -19,7 +19,7 @@
       </v-list-item-action-text>
     </template>
     <template #extraSubtitle>
-      <v-list-item-subtitle v-if="!valid" class="error--text">
+      <v-list-item-subtitle v-if="!valid" class="text-error">
         {{ $t("shifts.review.unableToReview") }}
       </v-list-item-subtitle>
     </template>
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import ShiftListItem from "@/components/shifts/ShiftListItem";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { mdiCheck } from "@mdi/js";
 import { Shift } from "@/models/ShiftModel";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";

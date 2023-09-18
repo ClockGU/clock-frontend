@@ -32,10 +32,10 @@
     <v-row align="center" justify="start" class="ma-0">
       <v-col cols="12" class="pa-0">
         <v-tooltip
-          :value="errors.length > 0"
+          :model-value="errors.length > 0"
           :open-on-hover="false"
           color="error"
-          top
+          location="top"
           :nudge-bottom="45"
           :min-width="400"
           class="align-text-center"
@@ -53,8 +53,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { formatISO } from "date-fns";
-import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
-import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
+import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput.vue";
+import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput.vue";
 
 export default {
   name: "ShiftFormDatetimeInput",

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
+import ContractFormDateInput from "@/components/contracts/ContractFormDateInput.vue";
 import { format } from "date-fns";
 import { lastOfCurrentMonth } from "@/utils/date";
 

@@ -2,7 +2,7 @@
   <!-- TODO: we shold probably also use 'TheDialog' here -->
   <v-dialog v-model="dialog" :max-width="500">
     <template #activator="{ on }">
-      <v-btn :disabled="shifts.length < 1" text block v-on="on">{{
+      <v-btn :disabled="shifts.length < 1" variant="text" block v-on="on">{{
         $t("shifts.repeating.dialog.activator")
       }}</v-btn>
     </template>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import ShiftListItem from "@/components/shifts/ShiftListItem";
+import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
 import { mdiClose } from "@mdi/js";
 
 export default {

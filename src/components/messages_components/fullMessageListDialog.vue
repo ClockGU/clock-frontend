@@ -5,7 +5,7 @@
     :max-width="800"
   >
     <template #activator="{ on }">
-      <v-btn text color="primary" block v-on="on">
+      <v-btn variant="text" color="primary" block v-on="on">
         {{ $t("news.showAll") }}
       </v-btn>
     </template>
@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
-import MessageList from "@/components/messages_components/MessageList";
-import CardToolbar from "@/components/cards/CardToolbar";
+import TheDialog from "@/components/TheDialog.vue";
+import MessageList from "@/components/messages_components/MessageList.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
 export default {
   name: "FullMessageListDialog",
   components: { TheDialog, MessageList, CardToolbar },

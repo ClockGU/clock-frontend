@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Calendar from "@/components/calendar/Calendar";
+import Calendar from "@/components/calendar/Calendar.vue";
 
 import { mdiPlus } from "@mdi/js";
 

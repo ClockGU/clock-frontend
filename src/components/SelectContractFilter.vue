@@ -1,16 +1,16 @@
 <template>
   <v-select
     :readonly="disabled"
-    :value="disabled ? { uuid: '' } : selectedContract"
+    :model-value="disabled ? { uuid: '' } : selectedContract"
     :items="disabled ? [{ uuid: '' }] : contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
     item-value="id"
     persistent-hint
-    solo
+    variant="solo"
     return-object
-    :background-color="bgColor"
-    @input="changeContract"
+    :bg-color="bgColor"
+    @update:model-value="changeContract"
   >
     <template #selection="contract">
       <div v-if="disabled">

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ReviewShiftListItem from "@/components/shifts/ReviewShiftListItem";
+import ReviewShiftListItem from "@/components/shifts/ReviewShiftListItem.vue";
 
 export default {
   name: "DashboardShiftReview",

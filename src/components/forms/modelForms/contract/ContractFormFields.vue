@@ -59,16 +59,16 @@
 
 <script>
 import { Contract } from "@/models/ContractModel";
-import ContractDurationInput from "@/components/contracts/ContractDurationInput";
-import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput";
+import ContractDurationInput from "@/components/contracts/ContractDurationInput.vue";
+import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput.vue";
 import {
   mdiCalendar,
   mdiCalendarClock,
   mdiFolderInformationOutline,
   mdiTimetable
 } from "@mdi/js";
-import ContractNameInput from "@/components/contracts/ContractNameInput";
-import ClockCardAlert from "@/components/ClockCardAlert";
+import ContractNameInput from "@/components/contracts/ContractNameInput.vue";
+import ClockCardAlert from "@/components/ClockCardAlert.vue";
 import store from "@/store";
 
 export default {

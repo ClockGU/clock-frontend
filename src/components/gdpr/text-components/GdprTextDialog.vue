@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import GdprTextCard from "@/components/gdpr/text-components/GdprTextCard";
+import GdprTextCard from "@/components/gdpr/text-components/GdprTextCard.vue";
 export default {
   name: "GdprTextDialog",
   components: { GdprTextCard },

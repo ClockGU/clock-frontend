@@ -14,7 +14,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="close">
+      <v-btn variant="text" color="primary" @click="close">
         {{ $t("actions.close") }}
       </v-btn>
     </v-card-actions>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import GdprText from "@/components/gdpr/text-components/GdprText";
+import GdprText from "@/components/gdpr/text-components/GdprText.vue";
 import { mdiClose } from "@mdi/js";
 
 export default {

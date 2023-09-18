@@ -1,8 +1,5 @@
 <template>
-  <a
-    class="link blue-grey--text text--darken-4 font-weight-medium"
-    :href="href"
-  >
+  <a class="link text-blue-grey-darken-4 font-weight-medium" :href="href">
     <slot></slot>
   </a>
 </template>

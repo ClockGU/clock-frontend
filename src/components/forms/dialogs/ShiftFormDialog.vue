@@ -13,7 +13,7 @@
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          :text="textButton"
+          :variant="textButton && 'text'"
           v-on="on"
           @click="opened = true"
         >
@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
-import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
+import TheDialog from "@/components/TheDialog.vue";
+import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
