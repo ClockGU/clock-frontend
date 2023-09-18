@@ -15,7 +15,7 @@
 
     <v-card-text>
       <v-row justify="center">
-        <div class="d-flex flex-column error--text">
+        <div class="d-flex flex-column text-error">
           <div class="font-weight-bold">
             {{ $tc("dashboard.clock.problems.text") }}
           </div>
@@ -44,7 +44,7 @@
 
 <script>
 import { mdiArrowLeft, mdiDelete } from "@mdi/js";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { Shift } from "@/models/ShiftModel";
 
 export default {

@@ -55,10 +55,10 @@ function checkDefaultLanguage() {
   return matched;
 }
 export const selectedLocale =
-  checkDefaultLanguage() || process.env.VUE_APP_I18N_LOCALE || "de";
+  checkDefaultLanguage() || import.meta.env.VUE_APP_I18N_LOCALE || "de";
 
 export default new VueI18n({
   locale: selectedLocale,
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
+  fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: loadLocaleMessages()
 });

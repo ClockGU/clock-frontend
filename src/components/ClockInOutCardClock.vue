@@ -66,7 +66,7 @@
             :disabled="actions.status === 'saving'"
             color="primary"
             block
-            text
+            variant="text"
             @click="saveFn"
           >
             {{ $t("dashboard.clock.out") }}

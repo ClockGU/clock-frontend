@@ -1,6 +1,6 @@
 <template>
-  <v-card outlined>
-    <v-card-text class="body-1"
+  <v-card variant="outlined">
+    <v-card-text class="text-body-1"
       ><i18n path="dashboard.welcome.text">
         <template #link>
           <base-link

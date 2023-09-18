@@ -26,12 +26,18 @@
           <v-btn
             v-if="isLoggedIn"
             color="primary"
-            text
+            variant="text"
             :to="{ name: 'dashboard' }"
           >
             Zurück zum Dashboard
           </v-btn>
-          <v-btn v-else color="primary" text exact :to="{ name: 'home' }">
+          <v-btn
+            v-else
+            color="primary"
+            variant="text"
+            exact
+            :to="{ name: 'home' }"
+          >
             Zurück zur Startseite
           </v-btn>
         </v-row>

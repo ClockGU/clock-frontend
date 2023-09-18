@@ -24,8 +24,8 @@ import { log } from "@/utils/log";
 
 import { mapGetters } from "vuex";
 
-import ConfirmationDialog from "@/components/ConfirmationDialog";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { localizedFormat } from "@/utils/date";
 
 export default {

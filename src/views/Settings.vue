@@ -20,29 +20,32 @@
     </template>
 
     <template #content>
-      <v-tabs :vertical="$vuetify.breakpoint.smAndUp" class="tabs">
+      <v-tabs
+        :direction="$vuetify.breakpoint.smAndUp && 'vertical'"
+        class="tabs"
+      >
         <v-tab>
-          <v-icon left>{{ icons.mdiWeb }}</v-icon>
+          <v-icon start>{{ icons.mdiWeb }}</v-icon>
           {{ $t("app.language") }}
         </v-tab>
 
         <v-tab>
-          <v-icon left>{{ icons.mdiFormatSection }}</v-icon>
+          <v-icon start>{{ icons.mdiFormatSection }}</v-icon>
           {{ $t("app.gdpr") }}
         </v-tab>
 
         <v-tab>
-          <v-icon left>{{ icons.mdiBadgeAccountHorizontal }}</v-icon>
+          <v-icon start>{{ icons.mdiBadgeAccountHorizontal }}</v-icon>
           {{ $t("personnelNumber.label") }}
         </v-tab>
 
         <v-tab>
-          <v-icon left>{{ icons.mdiAccountRemove }}</v-icon>
+          <v-icon start>{{ icons.mdiAccountRemove }}</v-icon>
           {{ $t("app.account") }}
         </v-tab>
 
         <v-tab v-if="isSuperUser">
-          <v-icon left>{{ icons.mdiAccountReactivate }}</v-icon>
+          <v-icon start>{{ icons.mdiAccountReactivate }}</v-icon>
           Checkout User
         </v-tab>
 
@@ -80,11 +83,11 @@ import {
   mdiAccountReactivate
 } from "@mdi/js";
 
-import DeleteAccount from "@/components/DeleteAccount";
-import GDPR from "@/components/gdpr/GdprSettingsCard";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm";
-import LanguageSettings from "@/components/LanguageSettings";
-import AdminCheckoutUser from "@/components/AdminCheckoutUser";
+import DeleteAccount from "@/components/DeleteAccount.vue";
+import GDPR from "@/components/gdpr/GdprSettingsCard.vue";
+import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import LanguageSettings from "@/components/LanguageSettings.vue";
+import AdminCheckoutUser from "@/components/AdminCheckoutUser.vue";
 
 export default {
   name: "Settings",

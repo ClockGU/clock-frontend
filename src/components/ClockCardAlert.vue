@@ -1,7 +1,7 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <v-alert :type="type" text dense border="left" class="ma-0">
+    <v-col cols="12" class="ma-0">
+      <v-alert :type="type" text density="compact" border="start" class="ma-0">
         <div class="ma-0">
           <div class="font-weight-bold">{{ $t("news.label.warning") }}</div>
           <ul>

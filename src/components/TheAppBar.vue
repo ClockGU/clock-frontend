@@ -25,7 +25,7 @@
       <template v-if="showLoggedOutButtons">
         <LanguageSwitcher />
 
-        <v-btn text :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
+        <v-btn variant="text" :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
 
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
@@ -40,16 +40,16 @@
             <div class="d-flex align-center" v-on="on">
               <v-avatar
                 size="30px"
-                color="blue lighten-2"
+                color="blue-lighten-2"
                 class="ml-2"
                 style="cursor: pointer"
               >
-                <span class="white--text">
+                <span class="text-white">
                   {{ firstLetter }}
                 </span>
               </v-avatar>
               <div>
-                <v-btn text class="pa-1">
+                <v-btn variant="text" class="pa-1">
                   <span class="text-capitalize">{{ user.first_name }}</span>
                   <v-icon>{{ icons.mdiChevronDown }}</v-icon>
                 </v-btn>
@@ -66,7 +66,7 @@
               <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
               </v-list-item-icon>
-              <v-list-item-content>{{ item.text }}</v-list-item-content>
+              {{ item.text }}
             </v-list-item>
 
             <LogoutDialog>
@@ -75,9 +75,8 @@
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiLogout }}</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-content>
-                    {{ $t("actions.logout") }}
-                  </v-list-item-content>
+
+                  {{ $t("actions.logout") }}
                 </v-list-item>
               </template>
             </LogoutDialog>
@@ -99,10 +98,11 @@ import {
   mdiLogout
 } from "@mdi/js";
 
-import LogoutDialog from "@/components/LogoutDialog";
-import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import ThemeToggle from "@/components/ThemeToggle";
+
+import ThemeToggle from "@/components/ThemeToggle.vue";
+import LogoutDialog from "@/components/LogoutDialog.vue";
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
   name: "TheAppBar",

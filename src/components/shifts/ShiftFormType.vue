@@ -1,6 +1,12 @@
 <template>
   <v-row align="end" class="pl-3">
-    <v-radio-group v-model="radios" row hide-details dense class="mt-0 pt-0">
+    <v-radio-group
+      v-model="radios"
+      row
+      hide-details
+      density="compact"
+      class="mt-0 pt-0"
+    >
       <template #prepend>
         <v-icon :color="typeColors[value]">
           {{ typeIcons[value] }}

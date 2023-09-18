@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 import { mdiDelete } from "@mdi/js";
 

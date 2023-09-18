@@ -32,13 +32,13 @@
                         width="6"
                         rotate="270"
                         class="pa-2"
-                        :value="disabled ? 0 : monthlyProgress"
+                        :model-value="disabled ? 0 : monthlyProgress"
                       >
                         {{ disabled ? 0 : printProgress(monthlyProgress) }}%
                       </v-progress-circular>
                     </v-col>
                     <v-col cols="9">
-                      <v-simple-table>
+                      <v-table>
                         <template #default>
                           <tbody>
                             <tr
@@ -55,7 +55,7 @@
                             </tr>
                           </tbody>
                         </template>
-                      </v-simple-table>
+                      </v-table>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -82,7 +82,7 @@
                             width="6"
                             rotate="270"
                             class="pa-2"
-                            :value="disabled ? 0 : weeklyProgress"
+                            :model-value="disabled ? 0 : weeklyProgress"
                           >
                             {{ disabled ? 0 : printProgress(weeklyProgress) }}%
                           </v-progress-circular>
@@ -146,7 +146,7 @@
               <v-overlay
                 v-if="disabled && (hover || touchOverlay)"
                 absolute
-                color="primary"
+                scrim="primary"
                 style="align-items: start"
               >
                 <p style="margin-top: 15%" class="text-center">
@@ -166,7 +166,7 @@
     ></ShiftWarnings>
 
     <v-card-actions class="justify-space-between">
-      <v-btn text @click="step === 0 ? (step = 2) : step--">
+      <v-btn variant="text" @click="step === 0 ? (step = 2) : step--">
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
       <v-item-group v-model="step" class="text-center" mandatory>
@@ -180,7 +180,7 @@
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn text @click="step === 2 ? (step = 0) : step++">
+      <v-btn variant="text" @click="step === 2 ? (step = 0) : step++">
         <v-icon>{{ icons.mdiChevronRight }}</v-icon>
       </v-btn>
     </v-card-actions>
@@ -189,7 +189,7 @@
 
 <script>
 import { minutesToHHMM } from "@/utils/time";
-import ShiftWarnings from "@/components/shifts/ShiftWarnings";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings.vue";
 import {
   mdiRecord,
   mdiCircleMedium,

@@ -36,7 +36,7 @@
         <v-chip
           v-if="isRunningShift(item)"
           class="ml-2"
-          outlined
+          variant="outlined"
           x-small
           dense
           color="red"
@@ -141,7 +141,7 @@
 <script>
 //import ConfirmationDialog from "@/components/ConfirmationDialog";
 //import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
-import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog";
+import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog.vue";
 
 import { isWithinInterval, isBefore, getHours } from "date-fns";
 
@@ -164,7 +164,7 @@ import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 export default {
   name: "ShiftsTable",

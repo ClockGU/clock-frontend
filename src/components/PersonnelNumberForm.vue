@@ -23,14 +23,43 @@
         :disabled="loading || v$.$error"
         :loading="loading"
         required
-        text
+        variant="text"
         @click="save"
       >
         {{ $t("actions.save") }}
       </v-btn>
-      <v-btn v-if="dialog" text @click="$emit('close')">
+      <v-btn v-if="dialog" variant="text" @click="$emit('close')">
         {{ $t("actions.cancel") }}
       </v-btn>
+    </v-card-actions>
+    <v-card-actions v-else>
+      <ConfirmationDialog
+        :confirmation-button="{ text: $t('actions.change'), color: 'primary' }"
+        :max-width="600"
+        @confirm="save"
+      >
+        <template #activator="{ on }">
+          <v-btn
+            :disabled="
+              personnelNumber === personnelNumberInit ||
+              personnelNumber === '' ||
+              v$.$errors
+            "
+            variant="text"
+            color="primary"
+            v-on="on"
+          >
+            {{ $t("actions.change") }}
+          </v-btn>
+        </template>
+
+        <template #title>{{ $t("personnelNumber.changeTitle") }}</template>
+
+        <template #text>
+          <p>{{ $t("personnelNumber.changeInfo") }}</p>
+          <p>{{ $t("personnelNumber.changeConfirmText") }}</p>
+        </template>
+      </ConfirmationDialog>
     </v-card-actions>
   </v-card>
 </template>
@@ -38,6 +67,7 @@
 <script>
 import AuthService from "@/services/auth";
 import { required, minLength } from "@vuelidate/validators";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { log } from "@/utils/log";
 import { useVuelidate } from "@vuelidate/core";
 

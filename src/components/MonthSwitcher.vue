@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn :disabled="!hasPrevMonth" text @click="gotoPrevMonth">
+    <v-btn :disabled="!hasPrevMonth" variant="text" @click="gotoPrevMonth">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -13,9 +13,9 @@
       min-width="290px"
     >
       <template #activator="{ on, attrs }">
-        <span v-bind="attrs" v-on="on">
+        <v-btn variant="text" v-bind="attrs" v-on="on">
           {{ formattedDate }}
-        </span>
+        </v-btn>
       </template>
       <v-date-picker
         :value="dateString"
@@ -27,7 +27,7 @@
       ></v-date-picker>
     </v-menu>
 
-    <v-btn :disabled="!hasNextMonth" text @click="gotoNextMonth">
+    <v-btn :disabled="!hasNextMonth" variant="text" @click="gotoNextMonth">
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </div>

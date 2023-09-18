@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import TheAppBar from "@/components/TheAppBar";
-import TheNavigationToolbar from "@/components/TheNavigationToolbar";
-import TheNavigationDrawer from "@/components/TheNavigationDrawer";
-import TheSnackbar from "@/components/TheSnackbar";
-import TheFooter from "@/components/TheFooter";
-import FeedbackMenu from "@/components/FeedbackMenu";
-import OmbudsMenu from "@/components/OmbudsMenu";
+import TheAppBar from "@/components/TheAppBar.vue";
+import TheNavigationToolbar from "@/components/TheNavigationToolbar.vue";
+import TheNavigationDrawer from "@/components/TheNavigationDrawer.vue";
+import TheSnackbar from "@/components/TheSnackbar.vue";
+import TheFooter from "@/components/TheFooter.vue";
+import FeedbackMenu from "@/components/FeedbackMenu.vue";
+import OmbudsMenu from "@/components/OmbudsMenu.vue";
 
 import { log } from "@/utils/log";
 
@@ -41,7 +41,7 @@ export default {
     return {
       title: this.$t("app.mainTitle"),
       titleTemplate:
-        process.env.VUE_APP_ENV === "staging"
+        import.meta.env.VUE_APP_ENV === "staging"
           ? "Clock-Staging - %s"
           : "Clock - %s"
     };
