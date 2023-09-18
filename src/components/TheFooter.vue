@@ -1,5 +1,10 @@
 <template>
-  <v-footer color="primary darken-2" dark min-height="72" padless>
+  <v-footer
+    :class="$vuetify.theme.currentTheme.footerPrimary"
+    dark
+    min-height="72"
+    padless
+  >
     <v-row justify="center" no-gutters>
       <v-btn
         v-for="link in links"
@@ -12,7 +17,13 @@
       >
         {{ link.text }}
       </v-btn>
-      <v-col class="primary lighten-1 text-center white--text" cols="12">
+      <v-col
+        :class="
+          $vuetify.theme.currentTheme.footerSecondary +
+          ' text-center white--text'
+        "
+        cols="12"
+      >
         <v-row justify="center" class="mx-0 mb-0">
           <v-col cols="10">
             <p>&copy; {{ new Date().getFullYear() }} Clock</p>
@@ -52,6 +63,7 @@ export default {
   name: "TheFooter",
   computed: {
     links() {
+      console.log(this.$vuetify.theme.currentTheme);
       return [
         { text: this.$t("app.privacy"), to: "privacy" },
         { text: this.$t("app.imprint"), to: "imprint" }
