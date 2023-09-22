@@ -2,13 +2,6 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-banner>
-          {{ activeContractsTitle }}
-        </v-banner>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
         <v-card>
           <v-col cols="12">
             <div class="pl-3">
