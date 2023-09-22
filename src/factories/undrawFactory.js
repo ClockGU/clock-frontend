@@ -1,20 +1,20 @@
 const repositories = {
-  UndrawContentCreator: () => import("vue-undraw/UndrawContentCreator"),
-  UndrawWorkTime: () => import("vue-undraw/UndrawWorkTime"),
-  UndrawSubway: () => import("vue-undraw/UndrawSubway"),
-  UndrawWorkInProgress: () => import("vue-undraw/UndrawUnderConstruction"),
-  UndrawFinishLine: () => import("vue-undraw/UndrawFinishLine"),
-  UndrawDigitalNomad: () => import("vue-undraw/UndrawDigitalNomad"),
-  UndrawSynchronize: () => import("vue-undraw/UndrawSynchronize"),
-  UndrawBlankCanvas: () => import("vue-undraw/UndrawBlankCanvas"),
-  UndrawEmpty: () => import("vue-undraw/UndrawEmpty"),
-  UndrawTimeManagement: () => import("vue-undraw/UndrawTimeManagement"),
-  UndrawNoData: () => import("vue-undraw/UndrawNoData"),
-  UndrawSocialDashboard: () => import("vue-undraw/UndrawSocialDashboard"),
-  UndrawCalendar: () => import("vue-undraw/UndrawCalendar"),
-  UndrawNewsletter: () => import("vue-undraw/UndrawNewsletter"),
-  UndrawNotes: () => import("vue-undraw/UndrawNotes"),
-  UndrawConversation: () => import("vue-undraw/UndrawConversation")
+  UndrawContentCreator: () => import("vue-undraw/UndrawContentCreator.vue"),
+  UndrawWorkTime: () => import("vue-undraw/UndrawWorkTime.vue"),
+  UndrawSubway: () => import("vue-undraw/UndrawSubway.vue"),
+  UndrawWorkInProgress: () => import("vue-undraw/UndrawUnderConstruction.vue"),
+  UndrawFinishLine: () => import("vue-undraw/UndrawFinishLine.vue"),
+  UndrawDigitalNomad: () => import("vue-undraw/UndrawDigitalNomad.vue"),
+  UndrawSynchronize: () => import("vue-undraw/UndrawSynchronize.vue"),
+  UndrawBlankCanvas: () => import("vue-undraw/UndrawBlankCanvas.vue"),
+  UndrawEmpty: () => import("vue-undraw/UndrawEmpty.vue"),
+  UndrawTimeManagement: () => import("vue-undraw/UndrawTimeManagement.vue"),
+  UndrawNoData: () => import("vue-undraw/UndrawNoData.vue"),
+  UndrawSocialDashboard: () => import("vue-undraw/UndrawSocialDashboard.vue"),
+  UndrawCalendar: () => import("vue-undraw/UndrawCalendar.vue"),
+  UndrawNewsletter: () => import("vue-undraw/UndrawNewsletter.vue"),
+  UndrawNotes: () => import("vue-undraw/UndrawNotes.vue"),
+  UndrawConversation: () => import("vue-undraw/UndrawConversation.vue")
 };
 
 export const UndrawFactory = {

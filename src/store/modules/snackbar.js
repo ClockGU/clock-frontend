@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
 import i18n from "@/plugins/i18n";
 
@@ -65,7 +64,7 @@ const actions = {
 
 const mutations = {
   setSnack(state, payload) {
-    Vue.set(state, "snacks", [...state.snacks, payload]);
+    state.snacks.push(payload)
   },
   removeSnack(state, uuid) {
     state.snacks = state.snacks.filter((snack) => snack.uuid !== uuid);

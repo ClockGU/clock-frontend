@@ -4,7 +4,7 @@
       <v-col cols="12" sm="12" md="6" :order="orderPlaceholder">
         <component
           :is="component"
-          :height="$vuetify.breakpoint.mdAndUp ? '250' : '200'"
+          :height="mdAndUp ? '250' : '200'"
         />
       </v-col>
       <v-col cols="12" sm="12" md="6" :order="orderText">
@@ -19,6 +19,7 @@
 
 <script>
 import { UndrawFactory } from "@/factories/undrawFactory";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "HeroPlaceholder",
@@ -40,11 +41,17 @@ export default {
     component: null
   }),
   computed: {
+    mdAndUp() {
+      return useDisplay().mdAndUp;
+    },
+    smAndDown() {
+      return useDisplay().smAndDown
+    },
     orderPlaceholder() {
       return this.rtl ? 2 : 1;
     },
     orderText() {
-      if (this.$vuetify.breakpoint.smAndDown) return 2;
+      if (this.smAndDown) return 2;
 
       return this.rtl ? 1 : 2;
     }

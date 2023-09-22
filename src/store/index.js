@@ -1,5 +1,3 @@
-import Vue from "vue";
-import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
 import AuthService from "@/services/auth";
@@ -13,10 +11,9 @@ import faq from "@/store/modules/faq";
 import message from "@/store/modules/message";
 
 import i18n, { selectedLocale, switchDateFnsLocale } from "@/plugins/i18n";
+import { createStore } from "vuex";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default new createStore({
   state: {
     loadingData: true,
     locale: selectedLocale,

@@ -9,7 +9,12 @@
   >
     <v-row class="mt-4 mb-4" justify="center">
       <router-link to="/dashboard" tag="span" style="cursor: pointer">
-        <v-img width="240px" height="36px" :src="imgSrc" contain />
+        <v-img
+          width="240px"
+          height="36px"
+          :src="logo"
+          cover
+        />
       </router-link>
     </v-row>
 
@@ -87,6 +92,7 @@
 <script>
 import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
+import svg from "@/assets/clock_full.svg"
 
 import LogoutDialog from "@/components/LogoutDialog.vue";
 
@@ -127,6 +133,9 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    logo(){
+      return svg;
+    },
     firstLetter() {
       if (this.user === null) return "";
 
