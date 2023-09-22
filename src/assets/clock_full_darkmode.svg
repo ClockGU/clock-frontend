@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 396.7 97.2" enable-background="new 0 0 396.7 97.2" xml:space="preserve">
+<defs>
+  <radialGradient id="gradWhite" cx="50%" cy="50%" r="65%" fx="50%" fy="50%">
+    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+  	<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+  </radialGradient>
+	<radialGradient id="gradBlue" cx="50%" cy="50%" r="100%" fx="50%" fy="50%">
+    <stop offset="0%" stop-color="#1452A2" stop-opacity="1" />
+		<stop offset="100%" stop-color="#1452A2" stop-opacity="0" />
+  </radialGradient>
+</defs>
+	<filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+		<feMerge>
+    <feMergeNode in="blur" />
+			<feMergeNode in="SourceGraphic" />
+  </feMerge>
+</filter>
+
+
+
+
+	<g>
+	<path fill="url(#gradWhite)" d="M144.1,48.6c0,20.5,16.7,37.7,37.3,37.7c20.7,0,37.3-17.1,37.3-37.7c0-20.7-16.4-37.7-37.3-37.7
+		C160.6,10.9,144.1,28,144.1,48.6z"/>
+	<g>
+			<path fill="url(#gradWhite)" filter="url(#glowFilter)" d="M76.1,23c-7.2-7.5-17.3-12.1-27.8-12.1c-20.3,0-36.7,17.6-36.7,37.7c0,20,16.5,37.7,37,37.7
+		c10.3,0,20.3-4.8,27.5-12.1v12.6c-7.9,5.7-17.5,8.9-27.2,8.9C23.2,95.7,1.5,74.8,1.5,49C1.5,22.9,22.9,1.5,49,1.5
+		c10.1,0,19.1,2.9,27.2,8.9V23z M103.4,84.7h25.1v9.4H93.3V3.1h10.1V84.7z M312.1,23c-7.2-7.5-17.3-12.1-27.8-12.1
+		c-20.3,0-36.7,17.6-36.7,37.7c0,20,16.5,37.7,37,37.7c10.3,0,20.3-4.8,27.5-12.1v12.6c-7.8,5.7-17.5,8.9-27.2,8.9
+		c-25.7,0-47.5-20.9-47.5-46.7c0-26.1,21.4-47.5,47.5-47.5c10.1,0,19.1,2.9,27.2,8.9V23z M378.2,3.1h13.6l-42.8,42.4l44.2,48.7h-14
+		l-37.3-41.8l-2.5,2.5v39.3h-10.1V3.1h10.1v39L378.2,3.1z"/>
+		<polygon fill="url(#gradBlue)" points="167.5,67.5 162.6,62.5 177.9,47.1 177.9,19.6 184.9,19.6 184.9,50 	"/>
+		<polygon opacity="0.15" fill="url(#gradBlue)" points="184.9,19.6 184.9,50 167.5,67.5 165.1,65 165.1,65 193,93 225.7,60.3 	"/>
+		<path fill="url(#gradBlue)" d="M228.9,48.7c0,26.2-21.5,47-47.5,47c-26,0-47.5-20.8-47.5-47c0-26.1,21.5-47.2,47.5-47.2
+		C207.4,1.5,228.9,22.6,228.9,48.7z M144.1,48.6c0,20.5,16.7,37.7,37.3,37.7c20.7,0,37.3-17.2,37.3-37.7c0-20.7-16.4-37.7-37.3-37.7
+		C160.6,10.9,144.1,28,144.1,48.6z"/>
+	</g>
+</g>
+</svg>
