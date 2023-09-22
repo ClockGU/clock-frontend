@@ -5,9 +5,8 @@
     :max-height="maxHeight"
     style="overflow-y: scroll"
   >
-    <template v-for="(message, index) in messages">
+    <template v-for="(message, index) in messages" :key="message.id">
       <MessageListItem
-        :key="message.id"
         :message="message"
         :dashboard="dashboard"
       />

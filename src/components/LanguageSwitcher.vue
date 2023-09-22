@@ -1,14 +1,13 @@
 <template>
   <v-menu
-    location="bottom"
-    location="left"
+    location="bottom left"
     offset-y
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
   >
     <template #activator="{ attrs, on }">
       <v-btn class="text-capitalize" variant="text" v-bind="attrs" v-on="on">
-        <v-icon :start="$vuetify.breakpoint.smAndUp">
+        <v-icon :start="smAndUp">
           {{ icons.mdiTranslate }}
         </v-icon>
 
@@ -39,6 +38,7 @@ import { mdiChevronDown, mdiTranslate } from "@mdi/js";
 import ApiService from "@/services/api";
 import AuthService from "@/services/auth";
 import { log } from "@/utils/log";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "LanguageSwitcher",
@@ -51,6 +51,10 @@ export default {
     ]
   }),
   computed: {
+    smAndUp() {
+      const { smAndUp } = useDisplay();
+      return smAndUp;
+    },
     selectedLocale() {
       const match = this.locales.find(
         (locale) => locale.locale === this.$i18n.locale

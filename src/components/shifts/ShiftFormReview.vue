@@ -49,10 +49,10 @@ export default {
 </script>
 
 <style scoped>
-.v-radio--is-disabled >>> .v-label {
+.v-radio--is-disabled :deep(.v-label) {
   color: var(--color) !important;
 }
-.theme--light.v-radio--is-disabled >>> .v-icon {
+.theme--light.v-radio--is-disabled :deep(.v-icon) {
   color: var(--color) !important;
 }
 </style>

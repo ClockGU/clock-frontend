@@ -14,7 +14,11 @@
 
       <v-toolbar-title>
         <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
-          <v-img width="96px" height="32px" :src="imgSrc" contain />
+          <v-img
+            width="96px"
+            height="32px"
+            :src="logo"
+          />
         </router-link>
       </v-toolbar-title>
 
@@ -89,6 +93,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import svg from '@/assets/clock_full.svg';
 
 import {
   mdiChevronDown,
@@ -127,6 +132,9 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    logo() {
+      return svg;
+    },
     showLoggedOutButtons() {
       return !this.isLoggedIn && this.$route.name !== "loggingIn";
     },

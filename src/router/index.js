@@ -1,15 +1,14 @@
-import Vue from "vue";
-import Router from "vue-router";
 import store from "@/store";
 import { parseJwt } from "@/utils/jwt";
 import { log } from "@/utils/log";
 import { routes } from "./routes";
+import { createRouter, createWebHistory } from "vue-router";
 
-Vue.use(Router);
-
-const router = new Router({
+const router = createRouter({
   mode: "history",
   base: import.meta.env.BASE_URL,
+  history: createWebHistory(),
+  routes: routes,
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
       return {
@@ -20,10 +19,9 @@ const router = new Router({
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { x: 0, y: 0 };
+      return { left: 0, top: 0 };
     }
-  },
-  routes: routes
+  }
 });
 
 // Creates a `nextMiddleware()` function which not only

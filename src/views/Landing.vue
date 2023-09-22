@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import Hero from "@/components/Hero";
-import HeroPlaceholder from "@/components/HeroPlaceholder";
+import Hero from "@/components/Hero.vue";
+import HeroPlaceholder from "@/components/HeroPlaceholder.vue";
 
 export default {
   name: "Landing",

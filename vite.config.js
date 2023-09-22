@@ -3,10 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import babel from 'vite-plugin-babel';
 
 const path = require("path");
-export default ({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-
-  return defineConfig({
+export default defineConfig({
   plugins: [vue(), babel({
     babelConfig: {
       babelrc: false,
@@ -25,6 +22,13 @@ export default ({ mode }) => {
     },
   },
   server: {
-    port:8080
+    port: 8080,
+    hmr: {
+      clientPort: 443,
+      protocol: "wss"
+    }
   },
-});};
+  preview: {
+    port: 8080,
+  }
+});
