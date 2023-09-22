@@ -7,7 +7,6 @@ import {
   sortByStartDate,
   sortByStarted
 } from "@/utils";
-import Vue from "vue";
 import { ReportService, ShiftService } from "@/services/models";
 import { localizedFormat } from "@/utils/date";
 
@@ -84,7 +83,7 @@ const mutations = {
         const contractID = contractInstance.id;
         const shiftsOfContract = groupedShifts[contractID] ?? [];
         const reportsOfContract = groupedReports[contractID] ?? [];
-        Vue.set(state.contentData, contractID, data);
+        state.contentData[contractID] = data;
         this.commit("contentData/setContract", {
           contractID,
           contractInstance
@@ -115,13 +114,13 @@ const mutations = {
   },
   addContract(state, contractInstance) {
     const data = { contract: contractInstance, shifts: [], reports: [] };
-    Vue.set(state.contentData, contractInstance.id, data);
+    state.contentData[contractInstance.id] = data;
   },
   removeContract(state, { contractID }) {
-    Vue.delete(state.contentData, contractID);
+    delete state.contentData[contractID];
   },
   updateContract(state, { contractID, contractInstance }) {
-    Vue.set(state.contentData[contractID], "contract", contractInstance);
+    state.contentData[contractID]["contract"] = contractInstance;
   },
   addShift(state, { contractID, shiftInstance }) {
     const index = indexOfByStarted({
@@ -207,17 +206,13 @@ const mutations = {
     );
   },
   setShifts(state, { contractID, shiftData }) {
-    Vue.set(state.contentData[contractID], "shifts", sortByStarted(shiftData));
+    state.contentData[contractID]["shifts"] = sortByStarted(shiftData);
   },
   setReports(state, { contractID, reportData }) {
-    Vue.set(
-      state.contentData[contractID],
-      "reports",
-      sortByMonthYear(reportData)
-    );
+    state.contentData[contractID]["reports"] = sortByMonthYear(reportData);
   },
   setContract(state, { contractID, contractInstance }) {
-    Vue.set(state.contentData[contractID], "contract", contractInstance);
+    state.contentData[contractID]["contract"] = contractInstance;
   }
 };
 

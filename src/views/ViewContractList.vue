@@ -206,7 +206,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.v-expansion-panel-content__wrap >>> {
+:deep(.v-expansion-panel-content__wrap) {
   padding-left: 12px;
 }
 .no-margin {

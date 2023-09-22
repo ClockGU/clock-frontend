@@ -13,8 +13,8 @@
         <v-img
           width="240px"
           height="36px"
-          :src="require('@/assets/clock_full.svg')"
-          contain
+          :src="logo"
+          cover
         />
       </router-link>
     </v-row>
@@ -93,6 +93,7 @@
 <script>
 import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
+import svg from "@/assets/clock_full.svg"
 
 import LogoutDialog from "@/components/LogoutDialog.vue";
 
@@ -133,6 +134,9 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    logo(){
+      return svg;
+    },
     firstLetter() {
       if (this.user === null) return "";
 

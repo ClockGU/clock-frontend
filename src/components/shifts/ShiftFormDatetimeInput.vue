@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style scoped>
-.v-tooltip__content >>> {
+:deep(.v-tooltip__content) {
   text-align: center;
 }
 </style>

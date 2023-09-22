@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 
 export default {
   name: "TheSnackbar",
@@ -66,19 +65,10 @@ export default {
   },
   methods: {
     async setupInterval(snack) {
-      Vue.set(
-        this.intervals,
-        snack.uuid,
-        setInterval(() => {
-          Vue.set(
-            this.timePassed,
-            snack.uuid,
-            (this.timePassed[snack.uuid] !== undefined
-              ? this.timePassed[snack.uuid]
-              : 0) + 500
-          );
-        }, 500)
-      );
+      this.intervals[snack.uuid] = setInterval(() => {
+        this.timePassed[snack.uuid] = (this.timePassed[snack.uuid] !== undefined
+          ? this.timePassed[snack.uuid]
+          : 0) + 500;}, 500);
     },
     async setupTimeout(snack) {
       setTimeout(() => {

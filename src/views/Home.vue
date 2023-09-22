@@ -25,6 +25,7 @@
 <script>
 import { mapGetters } from "vuex";
 import ApiService from "@/services/api.js";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "Home",
@@ -35,8 +36,9 @@ export default {
     },
     styles() {
       let styles;
+      const {smAndDown} = useDisplay();
       const removePadding =
-        this.$vuetify.breakpoint.smAndDown ||
+        smAndDown ||
         this.showingCalendar ||
         this.$route.path === "/";
       if (removePadding) {
