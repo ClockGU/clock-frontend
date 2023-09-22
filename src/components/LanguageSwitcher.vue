@@ -5,12 +5,9 @@
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
   >
-    <template #activator="{ attrs, on }">
-      <v-btn class="text-capitalize" variant="text" v-bind="attrs" v-on="on">
-        <v-icon :start="smAndUp">
-          {{ icons.mdiTranslate }}
-        </v-icon>
-
+    <template v-slot:activator="{ props }">
+      <v-btn class="text-capitalize" variant="text" v-bind="props">
+        <v-icon :start="smAndUp" :icon="`mdiSvg:${mdiTranslate}`"></v-icon>
         <span
           class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
           v-text="selectedLocale"
@@ -45,6 +42,7 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiChevronDown, mdiTranslate },
+    mdiTranslate,
     locales: [
       { name: "Deutsch", locale: "de" },
       { name: "English", locale: "en" }
@@ -52,10 +50,10 @@ export default {
   }),
   computed: {
     smAndUp() {
-      const { smAndUp } = useDisplay();
-      return smAndUp;
+      return useDisplay().smAndUp.value;
     },
     selectedLocale() {
+      console.log(this.smAndUp);
       const match = this.locales.find(
         (locale) => locale.locale === this.$i18n.locale
       );
