@@ -1,8 +1,8 @@
 <template>
-  <v-list-item v-bind="$attrs">
+  <v-list-item>
     <v-list-item-content>
       <v-list-item-title>
-        {{ title_value(message) }}
+        {{ messageDate }}&nbsp;|&nbsp;{{ title_value(message) }}
         <v-chip
           v-if="typeTag(message) !== ''"
           outlined
@@ -13,19 +13,13 @@
           {{ typeTag(message) }}
         </v-chip>
       </v-list-item-title>
-      <v-list-item-subtitle
-        v-if="lineRestriction"
-        class="text--primary"
-        v-text="text"
-      ></v-list-item-subtitle>
-      <v-list-item-content v-else>
-        {{ text }}
-      </v-list-item-content>
+      <v-list-item-subtitle v-if="dashboard" class="text--primary">
+        {{ strippedText }}
+      </v-list-item-subtitle>
+      <!-- we already sanitized the message text with DOMpurify, so... -->
+      <!-- eslint-disable vue/no-v-html -->
+      <div v-if="!dashboard" class="message" v-html="text"></div>
     </v-list-item-content>
-
-    <v-list-item-action>
-      <v-list-item-action-text v-text="message.date"></v-list-item-action-text>
-    </v-list-item-action>
   </v-list-item>
 </template>
 
@@ -35,6 +29,8 @@ import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import { mapGetters } from "vuex";
+import { parseISO } from "date-fns";
+import { localizedFormat } from "@/utils/date";
 
 const stripHTML = (string) => string.replace(/(<([^>]+)>)/gi, "");
 
@@ -44,6 +40,10 @@ export default {
     message: {
       type: Object,
       required: true
+    },
+    dashboard: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -51,16 +51,13 @@ export default {
       locale: "locale"
     }),
     text() {
-      return stripHTML(
-        DOMPurify.sanitize(marked.parse(this.text_value(this.message)))
-      );
+      return DOMPurify.sanitize(marked.parse(this.text_value(this.message)));
     },
-    lineRestriction() {
-      return ["three-line", "two-line"]
-        .map((restriction) =>
-          restriction in this.$attrs ? this.$attrs[restriction] : false
-        )
-        .some((item) => item);
+    strippedText() {
+      return stripHTML(this.text);
+    },
+    messageDate() {
+      return localizedFormat(parseISO(this.message.valid_from), "dd.MM.yyyy");
     }
   },
   methods: {
@@ -81,3 +78,9 @@ export default {
   }
 };
 </script>
+
+<style lang="css" scoped>
+.message {
+  line-height: 1.75em;
+}
+</style>
