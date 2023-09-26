@@ -20,7 +20,7 @@
       <v-col cols="12">
         <ContractNameInput v-model="contract.name"></ContractNameInput>
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="pa-0">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
             v-if="alertMessages.length > 0"

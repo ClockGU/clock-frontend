@@ -1,29 +1,27 @@
 <template>
   <v-container>
+    <v-alert
+      v-if="personnelNumberMissing"
+      :icon="icons.mdiBadgeAccountHorizontal"
+      prominent
+      type="warning"
+    >
+      <v-row align="center">
+        <v-col class="grow">
+          {{ $t("reports.personnelNumberMissing") }}
+        </v-col>
+        <v-col class="shrink">
+          <v-btn color="white" outlined @click="openDialog">
+            {{
+              $t("buttons.newEntity", {
+                entity: $tc("personnelNumber.label")
+              })
+            }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-alert>
     <v-row>
-      <v-col cols="12">
-        <v-alert
-          v-if="personnelNumberMissing"
-          :icon="icons.mdiBadgeAccountHorizontal"
-          prominent
-          type="warning"
-        >
-          <v-row align="center">
-            <v-col class="grow">
-              {{ $t("reports.personnelNumberMissing") }}
-            </v-col>
-            <v-col class="shrink">
-              <v-btn color="white" outlined @click="openDialog">
-                {{
-                  $t("buttons.newEntity", {
-                    entity: $tc("personnelNumber.label")
-                  })
-                }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-alert>
-      </v-col>
       <v-col cols="12">
         <SelectContractFilter
           :disabled="disabled"
@@ -31,28 +29,40 @@
           :selected-contract="selectedContract"
         />
       </v-col>
-
-      <v-col cols="12">
+    </v-row>
+    <v-row>
+      <v-col class="text-center" cols="12">
         <MonthSwitcher
           :disabled="disabled"
           :date="date"
           :allowed-date-fn="monthValidateFn"
           @update="updateDate"
         />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
         <DashboardConflicts
           :disabled="disabled"
           :shifts="selectedShifts"
           :month="date"
+          class="mb-4"
         />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
         <ClockCardAlert
           v-if="getAlertMessages(report).length !== 0"
-          class="my-4"
           :messages="getAlertMessages(report)"
           type="error"
         ></ClockCardAlert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
         <ReportCard
           :key="report.id"
-          class="my-4"
           :disabled="disabled"
           :report="report"
           :exported="isCurrentMonthLocked"

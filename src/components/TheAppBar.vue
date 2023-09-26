@@ -3,7 +3,7 @@
     :slot-props="{ action: () => toggleNavigationdrawer() }"
     name="app-bar"
   >
-    <v-app-bar app flat fixed color="white">
+    <v-app-bar app flat fixed elevation="0" :color="bgColor">
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
         class="hidden-md-and-up"
@@ -14,16 +14,13 @@
 
       <v-toolbar-title>
         <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
-          <v-img
-            width="96px"
-            height="32px"
-            :src="require('@/assets/clock_full.svg')"
-            contain
-          />
+          <v-img width="96px" height="32px" :src="imgSrc" contain />
         </router-link>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
+
+      <ThemeToggle />
 
       <template v-if="showLoggedOutButtons">
         <LanguageSwitcher />
@@ -105,10 +102,16 @@ import {
 import LogoutDialog from "@/components/LogoutDialog";
 import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default {
   name: "TheAppBar",
-  components: { LanguageSwitcher, ButtonGoetheOAuth, LogoutDialog },
+  components: {
+    ThemeToggle,
+    LanguageSwitcher,
+    ButtonGoetheOAuth,
+    LogoutDialog
+  },
   data: () => ({
     icons: {
       mdiMenu,
@@ -151,6 +154,15 @@ export default {
     },
     showSelectContractButton() {
       return this.selectedContract !== null;
+    },
+    bgColor() {
+      if (this.$vuetify.theme.dark) return "#121212";
+      return "#FFFFFF";
+    },
+    imgSrc() {
+      if (this.$vuetify.theme.dark)
+        return require("@/assets/clock_full_darkmode.svg");
+      return require("@/assets/clock_full.svg");
     }
   },
   methods: {

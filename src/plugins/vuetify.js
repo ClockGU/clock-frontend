@@ -12,5 +12,20 @@ export default new Vuetify({
   lang: {
     locales: { de, en },
     current: "de"
+  },
+  theme: {
+    options: {
+      customProperties: true
+    },
+    themes: {
+      dark: {
+        footerPrimary: "primary darken-4",
+        footerSecondary: "primary darken-3"
+      },
+      light: {
+        footerPrimary: "primary darken-2",
+        footerSecondary: "primary lighten-1"
+      }
+    }
   }
 });
