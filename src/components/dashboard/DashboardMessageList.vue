@@ -38,14 +38,14 @@ export default {
   },
   data: () => ({
     dialog: false,
+    loading: false,
     icons: {
       mdiClose
     }
   }),
   computed: {
     ...mapGetters({
-      messages: "message/messages",
-      loading: "message/loading"
+      messages: "message/messages"
     }),
     lastMessage() {
       return this.messages.slice(0, 1);
@@ -56,6 +56,7 @@ export default {
   },
   async created() {
     try {
+      this.loading = true;
       await Promise.all([this.$store.dispatch("message/queryMessage")]);
     } catch (error) {
       log(error);

@@ -18,7 +18,7 @@
       </v-list-item-subtitle>
       <!-- we already sanitized the message text with DOMpurify, so... -->
       <!-- eslint-disable vue/no-v-html -->
-      <div v-if="!dashboard" class="messageMd" v-html="text"></div>
+      <div v-if="!dashboard" class="message" v-html="text"></div>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -79,8 +79,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.messageMd {
+<style lang="css" scoped>
+.message {
   line-height: 1.75em;
 }
 </style>
