@@ -56,7 +56,6 @@
 import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
-// import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 
 import { localizedFormat } from "@/utils/date";

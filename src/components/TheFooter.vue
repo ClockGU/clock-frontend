@@ -63,7 +63,6 @@ export default {
   name: "TheFooter",
   computed: {
     links() {
-      console.log(this.$vuetify.theme.currentTheme);
       return [
         { text: this.$t("app.privacy"), to: "privacy" },
         { text: this.$t("app.imprint"), to: "imprint" }
