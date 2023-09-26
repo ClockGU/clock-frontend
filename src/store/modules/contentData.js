@@ -10,6 +10,7 @@ import {
 import Vue from "vue";
 import { ReportService, ShiftService } from "@/services/models";
 import { localizedFormat } from "@/utils/date";
+import store from "@/store";
 
 const state = {
   contentData: {},
@@ -122,6 +123,12 @@ const mutations = {
   },
   updateContract(state, { contractID, contractInstance }) {
     Vue.set(state.contentData[contractID], "contract", contractInstance);
+    if (
+      contractInstance.id ===
+      store.getters["selectedContract/selectedContract"].id
+    ) {
+      store.dispatch("selectedContract/selectContract", contractInstance);
+    }
   },
   addShift(state, { contractID, shiftInstance }) {
     const index = indexOfByStarted({
