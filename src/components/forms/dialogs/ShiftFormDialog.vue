@@ -7,20 +7,20 @@
       :persistent="false"
       @close="$emit('close')"
     >
-      <template #activator="{ on }">
-        <slot name="activator" :on="on"></slot>
+      <template #activator="props">
+        <slot name="activator" v-bind="props"></slot>
         <v-btn
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
           :variant="textButton && 'text'"
-          v-on="on"
+          v-bind="props"
           @click="opened = true"
         >
           {{ buttonText }}
         </v-btn>
         <div v-if="icon && !disableActivator">
-          <v-btn :disabled="disabled" :color="btnColor" icon v-on="on">
+          <v-btn :disabled="disabled" :color="btnColor" icon v-bind="props">
             <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }} </v-icon>
           </v-btn>
           <v-icon

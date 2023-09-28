@@ -4,8 +4,8 @@
     :fullscreen="smAndDown"
     :max-width="800"
   >
-    <template #activator="{ on }">
-      <v-btn variant="text" color="primary" block v-on="on">
+    <template #activator="props">
+      <v-btn variant="text" color="primary" block v-bind="props">
         {{ $t("news.showAll") }}
       </v-btn>
     </template>
