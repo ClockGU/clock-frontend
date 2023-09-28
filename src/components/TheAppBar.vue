@@ -13,12 +13,14 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
+        <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom style="cursor: pointer">
+          <span role="link" @click="navigate" @keypress.enter="navigate">
           <v-img
             width="96px"
             height="32px"
             :src="logo"
           />
+          </span>
         </router-link>
       </v-toolbar-title>
 
