@@ -1,6 +1,6 @@
 import { createMetaManager } from "vue-meta";
 import VueMatomo from "vue-matomo";
-import VueI18n from "./plugins/i18n"
+import VueI18n from "./plugins/i18n";
 import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
@@ -24,8 +24,7 @@ import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
 // Locales
-import { de, en } from "vuetify/locale"
-
+import { de, en } from "vuetify/locale";
 
 import { log } from "@/utils/log";
 const isProduction = import.meta.env.NODE_ENV === "production";
@@ -47,6 +46,39 @@ const vuetify = createVuetify({
     locales: { de, en },
     current: "de"
   },
+  theme: {
+    defaultTheme: "light",
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          accent: "#82B1FF",
+          error: "#FF5252",
+          footerPrimary: "primary darken-2",
+          footerSecondary: "primary lighten-1",
+          info: "#2196F3",
+          primary: "#1976D2",
+          secondary: "#424242",
+          success: "#4CAF50",
+          warning: "#FB8C00"
+        }
+      },
+      dark: {
+        dark: true,
+        colors: {
+          accent: "#FF4081",
+          error: "#FF5252",
+          footerPrimary: "primary darken-4",
+          footerSecondary: "primary darken-3",
+          info: "#2196F3",
+          primary: "#2196F3",
+          secondary: "#424242",
+          success: "#4CAF50",
+          warning: "#FB8C00"
+        }
+      }
+    }
+  },
   components,
   directives
 });
@@ -55,7 +87,7 @@ const app = createApp(App);
 
 app.use(router);
 app.use(store);
-app.use(VueI18n)
+app.use(VueI18n);
 app.use(vuetify);
 app.use(createMetaManager());
 app.use(PortalVue);
