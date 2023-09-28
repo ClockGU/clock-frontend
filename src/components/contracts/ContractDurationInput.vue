@@ -8,7 +8,7 @@
       />
     </v-col>
 
-    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2" class="text-center">
+    <v-col v-if="mdAndUp" cols="2" class="text-center">
       {{ $t("contracts.to") }}
     </v-col>
 
@@ -27,6 +27,7 @@
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput.vue";
 import { format } from "date-fns";
 import { lastOfCurrentMonth } from "@/utils/date";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "ContractDurationInput",
@@ -53,6 +54,10 @@ export default {
     };
   },
   computed: {
+    mdAndUp() {
+      const { mdAndUp } = useDisplay();
+      return mdAndUp;
+    },
     disabled() {
       return false;
     },

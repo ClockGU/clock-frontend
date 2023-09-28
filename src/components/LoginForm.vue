@@ -1,9 +1,9 @@
 <template>
   <v-form>
-    <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+    <v-card :elevation="smAndDown ? 0 : null">
       <portal-target name="card-toolbar"></portal-target>
 
-      <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+      <portal :to="smAndDown ? 'app-bar' : 'card-toolbar'">
         <v-toolbar :elevation="0">
           <v-toolbar-title> Login Form </v-toolbar-title>
         </v-toolbar>
@@ -61,6 +61,7 @@
 import { useVuelidate } from "@vuelidate/core";
 import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 import { required, email } from "@vuelidate/validators";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "LoginForm",
@@ -88,6 +89,10 @@ export default {
     loading: false
   }),
   computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     emailErrors() {
       const errors = [];
       if (!this.v$.email.$dirty) return errors;

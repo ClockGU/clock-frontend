@@ -18,7 +18,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon v-if="$vuetify.breakpoint.smAndDown" class="mx-2">
+          <v-icon v-if="smAndDown" class="mx-2">
             {{ icons.mdiExclamation }}
           </v-icon>
           <span v-else class="px-4">Ombudsperson</span>
@@ -33,6 +33,7 @@
 <script>
 import OmbudsForm from "@/components/OmbudsForm.vue";
 import { mdiExclamation } from "@mdi/js";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "OmbudsMenu",
@@ -58,7 +59,13 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiExclamation }
-  })
+  }),
+  computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    }
+  }
 };
 </script>
 

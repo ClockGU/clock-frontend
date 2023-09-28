@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.smAndDown"
+    :fullscreen="smAndDown"
     max-width="600"
     persistent
     no-click-animation
@@ -128,7 +128,7 @@
       </v-card-actions>
       <v-dialog
         v-model="showAreYouSureDialog"
-        :fullscreen="$vuetify.breakpoint.smAndDown"
+        :fullscreen="smAndDown"
         max-width="600"
       >
         <v-card>
@@ -179,6 +179,7 @@ import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "OnboardDialog",
@@ -227,6 +228,10 @@ export default {
     ...mapGetters({
       personnelNumber: "personnelNumber"
     }),
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     titles() {
       let returnValue = Object.values(this.$t("onboarding.cards")).map(
         function (el) {

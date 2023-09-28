@@ -2,7 +2,7 @@
   <div>
     <TheDialog
       :value="show"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
+      :fullscreen="smAndDown"
       :max-width="600"
       :persistent="false"
       @close="$emit('close')"
@@ -53,6 +53,7 @@ import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import { useDisplay } from "vuetify";
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
@@ -106,6 +107,10 @@ export default {
     };
   },
   computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     create() {
       return this.shift === undefined;
     },

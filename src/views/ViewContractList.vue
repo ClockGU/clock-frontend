@@ -6,7 +6,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="smAndDown"
         icon
         @click="action"
       ></v-app-bar-nav-icon>
@@ -120,6 +120,7 @@ import { mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import { log } from "@/utils/log";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "ViewContractList",
@@ -155,6 +156,10 @@ export default {
       contracts: "contentData/allContracts",
       clockedShift: "clock/clockedShift"
     }),
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     activeContracts() {
       return this.contracts.filter(
         (contract) => !this.contractExpired(contract)

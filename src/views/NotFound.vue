@@ -1,7 +1,7 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
+    :card-elevation="smAndDown ? 0 : null"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -9,7 +9,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="smAndDown"
         icon
         @click="action"
       ></v-app-bar-nav-icon>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { useDisplay } from "vuetify";
+
 export default {
   name: "NotFound",
   metaInfo() {
@@ -55,6 +57,10 @@ export default {
     };
   },
   computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     isLoggedIn() {
       return this.$store.getters["auth/loggedIn"];
     }
