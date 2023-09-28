@@ -113,7 +113,7 @@ export default {
   },
   components: {
     ContractFormDialog,
-    ContractListCard
+    ContractListCard,
   },
   beforeRouteLeave(to, from, next) {
     this.ignoreLoading = true;
