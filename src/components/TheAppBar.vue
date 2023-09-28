@@ -34,7 +34,7 @@
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
 
-      <v-skeleton-loader
+      <VSkeletonLoader
         v-if="isLoggedIn && mdAndUp"
         :loading="userLoading"
         type="avatar"
@@ -86,7 +86,7 @@
             </LogoutDialog>
           </v-list>
         </v-menu>
-      </v-skeleton-loader>
+      </VSkeletonLoader>
     </v-app-bar>
   </portal-target>
 </template>

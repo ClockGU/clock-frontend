@@ -4,13 +4,11 @@ module.exports = {
     node: true,
     es2022: true
   },
-  plugins: ["vuetify"],
   extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
     "plugin:vue/base",
-    // 'plugin:vuetify/base',
-    "plugin:prettier/recommended",
-    "eslint:recommended",
-    "prettier/vue"
+    "prettier"
   ],
   rules: {
     "vue/component-name-in-template-casing": ["error", "PascalCase"],
@@ -18,5 +16,5 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
   },
-  parser: "@babel/eslint-parser"
+  parser: "vue-eslint-parser"
 };
