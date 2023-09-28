@@ -7,9 +7,9 @@ import enLocale from "../locales/en.json";
 const LOCALES = { de, en };
 
 const localeMessages = {
-  "de" : deLocale,
-  "en": enLocale
-}
+  de: deLocale,
+  en: enLocale
+};
 export const switchDateFnsLocale = (locale) => {
   currentLocale.locale = LOCALES[locale];
 };
@@ -23,20 +23,20 @@ export const currentLocale = reactive({ locale: de });
 //     "de" : de,
 //     "en" : en
 //   };
-  // const locales = require.context(
-  //   "../locales",
-  //   true,
-  //   /[A-Za-z0-9-_,\s]+\.json$/i
-  // );
-  // const messages = {};
-  // locales.keys().forEach((key) => {
-  //   const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-  //   if (matched && matched.length > 1) {
-  //     const locale = matched[1];
-  //     messages[locale] = locales(key);
-  //   }
-  // });
-  // return messages;
+// const locales = require.context(
+//   "../locales",
+//   true,
+//   /[A-Za-z0-9-_,\s]+\.json$/i
+// );
+// const messages = {};
+// locales.keys().forEach((key) => {
+//   const matched = key.match(/([A-Za-z0-9-_]+)\./i);
+//   if (matched && matched.length > 1) {
+//     const locale = matched[1];
+//     messages[locale] = locales(key);
+//   }
+// });
+// return messages;
 // }
 
 function checkDefaultLanguage() {
