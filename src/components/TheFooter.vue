@@ -16,7 +16,7 @@
         <v-row justify="center" class="mx-0 mb-0">
           <v-col cols="10">
             <p>&copy; {{ new Date().getFullYear() }} Clock</p>
-            <i18n path="footer.acknowledgeGU.text" tag="p">
+            <i18n-t keypath="footer.acknowledgeGU.text" tag="p" scope="global">
               <template #link>
                 <base-link
                   class="text-no-wrap"
@@ -27,8 +27,8 @@
                   }}</template>
                 </base-link>
               </template>
-            </i18n>
-            <i18n path="footer.github_repo.text" tag="p">
+            </i18n-t>
+            <i18n-t keypath="footer.github_repo.text" tag="p" scope="global">
               <template #link>
                 <base-link
                   class="text-no-wrap"
@@ -39,7 +39,7 @@
                   }}</template>
                 </base-link>
               </template>
-            </i18n>
+            </i18n-t>
           </v-col>
         </v-row>
       </v-col>

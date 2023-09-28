@@ -13,8 +13,8 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom style="cursor: pointer">
-          <span role="link" @click="navigate" @keypress.enter="navigate">
+        <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
+          <span role="link" style="cursor: pointer" @click="navigate" @keypress.enter="navigate">
           <v-img
             width="96px"
             height="32px"
@@ -40,8 +40,8 @@
         type="avatar"
       >
         <v-menu offset-y>
-          <template #activator="{ props }" class="ml-4">
-            <div class="d-flex align-center" v-bind="props">
+          <template #activator="{ props }">
+            <div class="d-flex align-center ml-4" v-bind="props">
               <v-avatar
                 size="30px"
                 color="blue-lighten-2"
@@ -64,12 +64,10 @@
             <v-list-item
               v-for="item in menuItems"
               :key="item.text"
+              :prepend-icon="item.icon"
               :to="item.to"
               router
             >
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
               {{ item.text }}
             </v-list-item>
 
@@ -108,6 +106,7 @@ import { VSkeletonLoader } from "vuetify/labs/components";
 export default {
   name: "TheAppBar",
   components: { LanguageSwitcher, ButtonGoetheOAuth, LogoutDialog, VSkeletonLoader },
+  emits:["toggle"],
   data: () => ({
     icons: {
       mdiMenu,

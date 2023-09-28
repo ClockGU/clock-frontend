@@ -1,5 +1,4 @@
-import i18n from "@/plugins/i18n";
-
+import i18n from "@/plugins/i18n.js";
 import {
   mdiBriefcaseClockOutline,
   mdiMedicalBag,
@@ -7,33 +6,35 @@ import {
   mdiWhiteBalanceSunny
 } from "@mdi/js";
 
+const { t } = i18n.global;
+
 export const SHIFT_TABLE_HEADERS = [
   {
-    text: i18n.t("time.date"),
+    text: t("time.date"),
     align: "start",
     sortable: true,
     value: "date"
   },
   {
-    text: i18n.t("time.start"),
+    text: t("time.start"),
     align: "start",
     sortable: true,
     value: "start"
   },
   {
-    text: i18n.t("time.duration"),
+    text: t("time.duration"),
     align: "start",
     sortable: true,
     value: "duration"
   },
   {
-    text: i18n.t("calendar.type"),
+    text: t("calendar.type"),
     align: "start",
     sortable: true,
     value: "type"
   },
   {
-    text: i18n.t("time.reviewed"),
+    text: t("time.reviewed"),
     align: "start",
     sortable: true,
     value: "reviewed"
@@ -58,11 +59,11 @@ export const SHIFT_TABLE_HEADERS = [
 ];
 
 export const MESSAGE_TYPE_TAGS = {
-  CL: i18n.t("news.label.changelog"),
-  NO: i18n.t("news.label.notice"),
-  UD: i18n.t("news.label.update"),
-  WN: i18n.t("news.label.warning"),
-  TP: i18n.t("news.label.tip")
+  CL: t("news.label.changelog"),
+  NO: t("news.label.notice"),
+  UD: t("news.label.update"),
+  WN: t("news.label.warning"),
+  TP: t("news.label.tip")
 };
 
 export const SHIFT_TYPE_ICONS = {
