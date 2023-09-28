@@ -7,13 +7,13 @@
       :persistent="false"
       @close="$emit('close')"
     >
-      <template #activator="{ on }">
+      <template #activator="props">
         <v-btn
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
           :variant="textButton && 'text'"
-          v-on="on"
+          v-bind="props"
           @click="opened = true"
         >
           {{ buttonText }}
@@ -23,7 +23,7 @@
           :disabled="disabled"
           :color="btnColor"
           icon
-          v-on="on"
+          v-bind="props"
         >
           <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
         </v-btn>

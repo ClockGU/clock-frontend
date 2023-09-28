@@ -1,7 +1,7 @@
 <template>
   <TheDialog :persistent="false" :max-width="maxWidth">
-    <template #activator="{ on }">
-      <slot name="activator" :on="on"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
 
     <template #content="{ events: { close } }">
