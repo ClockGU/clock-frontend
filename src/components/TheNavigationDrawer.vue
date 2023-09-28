@@ -31,7 +31,7 @@
     <v-list v-else>
       <v-list-group no-action>
         <template #activator>
-          <v-list-item-avatar>
+          <v-list-item>
             <v-avatar
               size="32px"
               color="blue-lighten-2"
@@ -41,11 +41,10 @@
                 {{ firstLetter }}
               </span>
             </v-avatar>
-          </v-list-item-avatar>
-
-          <v-list-item-title class="text-h6">
-            {{ user.first_name }}
-          </v-list-item-title>
+            <v-list-item-title class="text-h6">
+              {{ user.first_name }}
+            </v-list-item-title>
+          </v-list-item>
         </template>
 
         <v-list-item
@@ -53,21 +52,14 @@
           :key="item.text"
           :to="item.to"
           class="pl-5"
+          :prepend-icon="item.icon"
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
           <v-list-item-title>{{ item.text }}</v-list-item-title>
         </v-list-item>
 
         <LogoutDialog>
           <template #activator="{ on }">
-            <v-list-item data-cy="menu-logout" class="pl-5" v-on="on">
-              <v-list-item-icon>
-                <v-icon v-text="icons.mdiLogout"></v-icon>
-              </v-list-item-icon>
-
+            <v-list-item data-cy="menu-logout" class="pl-5" :prepend-icon="icons.mdiLogout" v-on="on">
               <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
             </v-list-item>
           </template>
