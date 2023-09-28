@@ -160,7 +160,7 @@ export default {
     }),
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     activeContracts() {
       return this.contracts.filter(

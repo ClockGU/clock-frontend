@@ -1,28 +1,5 @@
 <template>
   <v-window v-model="window">
-    <v-overlay
-      :model-value="showOverlay"
-      absolute
-      :opacity="contractValid ? 1.0 : 0.9"
-    >
-      <v-container>
-        <v-row>
-          <v-col cols="12">
-            <p>
-              {{ overlayMessage }}
-            </p>
-          </v-col>
-          <v-col
-            v-if="contracts.length > 1 && clockedShift !== undefined"
-            cols="12"
-          >
-            <v-btn color="primary-lighten-1" @click="changeContract">
-              {{ $t("actions.switch") }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-overlay>
     <v-window-item :key="0">
       <ClockInOutCardClock
         :actions="{
@@ -45,6 +22,29 @@
         @updateWindow="window += $event"
       ></ClockInOutCardForm>
     </v-window-item>
+    <v-overlay
+      :model-value="showOverlay"
+      contained
+      :opacity="contractValid ? 1.0 : 0.9"
+    >
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <p>
+              {{ overlayMessage }}
+            </p>
+          </v-col>
+          <v-col
+            v-if="contracts.length > 1 && clockedShift !== undefined"
+            cols="12"
+          >
+            <v-btn color="primary-lighten-1" @click="changeContract">
+              {{ $t("actions.switch") }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-overlay>
   </v-window>
 </template>
 

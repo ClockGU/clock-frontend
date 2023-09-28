@@ -230,7 +230,7 @@ export default {
     }),
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     titles() {
       let returnValue = Object.values(this.$t("onboarding.cards")).map(

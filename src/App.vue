@@ -3,7 +3,7 @@
     <TheNavigationDrawer
       class="hidden-md-and-up"
       :drawer="drawer"
-      @closeDrawer="drawer = false"
+      @close-drawer="drawer = false"
     />
 
     <TheAppBar @toggle="toggleDrawer" />

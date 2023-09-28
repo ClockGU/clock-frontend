@@ -42,12 +42,12 @@ export default {
     dialog: false,
     icons: {
       mdiClose
-    }
+    },
+    loading: false
   }),
   computed: {
     ...mapGetters({
       messages: "message/messages",
-      loading: "message/loading"
     }),
     lastMessage() {
       return this.messages.slice(0, 1);
