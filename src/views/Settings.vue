@@ -1,7 +1,7 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
+    :card-elevation="smAndDown ? 0 : null"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -9,7 +9,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="smAndDown"
         icon
         @click="action"
       ></v-app-bar-nav-icon>
@@ -21,7 +21,7 @@
 
     <template #content>
       <v-tabs
-        :direction="$vuetify.breakpoint.smAndUp && 'vertical'"
+        :direction="smAndUp && 'vertical'"
         class="tabs"
       >
         <v-tab>
@@ -88,6 +88,7 @@ import GDPR from "@/components/gdpr/GdprSettingsCard.vue";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import LanguageSettings from "@/components/LanguageSettings.vue";
 import AdminCheckoutUser from "@/components/AdminCheckoutUser.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "Settings",
@@ -114,6 +115,14 @@ export default {
     }
   }),
   computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
+    smAndUp() {
+      const { smAndUp } = useDisplay();
+      return smAndUp;
+    },
     isSuperUser() {
       return this.$store.getters.user.is_superuser;
     },

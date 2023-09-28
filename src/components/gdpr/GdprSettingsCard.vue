@@ -6,7 +6,7 @@
 
     <v-card-text>{{ $t("gdpr.revokeInfo") }}</v-card-text>
 
-    <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
+    <v-card-text :class="mdAndUp ? 'py-0' : ''">
       {{ $t("gdpr.download") }}
     </v-card-text>
 
@@ -29,6 +29,7 @@ import { log } from "@/utils/log";
 import { localizedFormat } from "@/utils/date";
 import { mapGetters } from "vuex";
 import GDPRService from "@/services/gdpr";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "GdprSettingsCard",
@@ -42,6 +43,10 @@ export default {
     ...mapGetters({
       user: "user"
     }),
+    mdAndUp() {
+      const { mdAndUp } = useDisplay();
+      return mdAndUp;
+    },
     downloadLabel() {
       return this.response === null
         ? this.$t("actions.request")

@@ -13,7 +13,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon v-if="$vuetify.breakpoint.smAndDown" class="mx-2">
+          <v-icon v-if="smAndDown" class="mx-2">
             {{ icons.mdiHelp }}
           </v-icon>
           <span v-else class="px-4">Feedback</span>
@@ -28,6 +28,7 @@
 <script>
 import FeedbackForm from "@/components/FeedbackForm.vue";
 import { mdiHelp } from "@mdi/js";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "FeedbackMenu",
@@ -35,7 +36,13 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiHelp }
-  })
+  }),
+  computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    }
+  }
 };
 </script>
 

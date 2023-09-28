@@ -2,8 +2,8 @@
   <v-container>
     <v-row
       class="mx-0"
-      :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
-      :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+      :align="mdAndUp ? 'center' : null"
+      :justify="mdAndUp ? 'center' : null"
     >
       <v-col cols="12" md="8" :class="colClasses" class="px-0">
         <v-card :elevation="cardElevation">
@@ -11,7 +11,7 @@
 
           <portal
             :to="
-              $vuetify.breakpoint.smAndDown
+              smAndDown
                 ? 'app-bar'
                 : alternativePortalTarget
             "
@@ -19,7 +19,7 @@
             <v-toolbar slot-scope="{ action }" :elevation="toolbarElevation">
               <slot name="pre-toolbar-title" :action="() => action()">
                 <v-app-bar-nav-icon
-                  v-if="$vuetify.breakpoint.smAndDown"
+                  v-if="smAndDown"
                   icon
                   @click="action"
                 ></v-app-bar-nav-icon>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { useDisplay } from "vuetify";
+
 export default {
   name: "BaseLayout",
   props: {
@@ -64,6 +66,16 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
+    mdAndUp() {
+      const { mdAndUp } = useDisplay();
+      return mdAndUp;
+    },
   }
 };
 </script>
