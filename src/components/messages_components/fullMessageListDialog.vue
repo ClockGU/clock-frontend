@@ -1,7 +1,7 @@
 <template>
   <TheDialog
     :persistent="false"
-    :fullscreen="$vuetify.breakpoint.smAndDown"
+    :fullscreen="smAndDown"
     :max-width="800"
   >
     <template #activator="{ on }">
@@ -30,6 +30,7 @@
 import TheDialog from "@/components/TheDialog.vue";
 import MessageList from "@/components/messages_components/MessageList.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
+import { useDisplay } from "vuetify";
 export default {
   name: "FullMessageListDialog",
   components: { TheDialog, MessageList, CardToolbar },
@@ -38,6 +39,12 @@ export default {
       type: Array,
       required: true
     }
+  },
+  computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
   }
 };
 </script>

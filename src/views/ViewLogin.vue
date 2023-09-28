@@ -1,7 +1,7 @@
 <template>
   <v-row
-    :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
-    :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+    :align="mdAndUp ? 'center' : null"
+    :justify="mdAndUp ? 'center' : null"
   >
     <v-col cols="12" md="6" class="py-0">
       <LoginForm />
@@ -11,9 +11,16 @@
 
 <script>
 import LoginForm from "@/components/LoginForm.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "ViewLogin",
-  components: { LoginForm }
+  components: { LoginForm },
+  computed: {
+    mdAndUp() {
+      const { mdAndUp } = useDisplay();
+      return mdAndUp;
+    },
+  }
 };
 </script>

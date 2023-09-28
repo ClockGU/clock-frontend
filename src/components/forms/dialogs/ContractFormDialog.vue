@@ -2,7 +2,7 @@
   <div>
     <TheDialog
       :value="show"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
+      :fullscreen="smAndDown"
       :max-width="600"
       :persistent="false"
       @close="$emit('close')"
@@ -45,6 +45,7 @@ import TheDialog from "@/components/TheDialog.vue";
 import { Contract } from "@/models/ContractModel";
 import ContractForm from "@/components/forms/modelForms/contract/ContractForm.vue";
 import { mdiPencil, mdiPlus } from "@mdi/js";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "ContractFormDialog",
@@ -95,6 +96,10 @@ export default {
     };
   },
   computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     create() {
       return this.contract === undefined;
     },

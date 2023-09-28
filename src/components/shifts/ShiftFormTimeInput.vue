@@ -24,19 +24,19 @@
         density="compact"
         :error="error"
         mask="time"
-        :readonly="$vuetify.breakpoint.smAndDown"
+        :readonly="smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
         v-bind="attrs"
         @blur="setTime"
         @focus="$event.target.select()"
-        v-on="$vuetify.breakpoint.smAndDown ? menuOn : ''"
+        v-on="$smAndDown ? menuOn : ''"
       ></v-text-field>
       <!--        </template>-->
       <!--        <span>{{ errorMessages[0] }} </span>-->
       <!--      </v-tooltip>-->
     </template>
     <v-time-picker
-      v-if="menu && $vuetify.breakpoint.smAndDown"
+      v-if="menu && smAndDown"
       v-model="data"
       format="24hr"
       @click:minute="setTime"
@@ -49,6 +49,7 @@ import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
 
 import { mdiClockOutline } from "@mdi/js";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "ShiftFormTimeInput",
@@ -84,6 +85,12 @@ export default {
       },
       time: this.value
     };
+  },
+  computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
   },
   watch: {
     value(val) {

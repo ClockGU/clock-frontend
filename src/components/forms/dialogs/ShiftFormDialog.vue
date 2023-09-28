@@ -1,8 +1,8 @@
 <template>
   <div>
     <TheDialog
-      v-model="show"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
+      :value="show"
+      :fullscreen="smAndDown"
       :max-width="600"
       :persistent="false"
       @close="closeFormDialog"
@@ -56,6 +56,7 @@ import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 // eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import { isBefore } from "date-fns";
+import { useDisplay } from "vuetify";
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
@@ -109,6 +110,10 @@ export default {
     };
   },
   computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     create() {
       return this.shift === undefined;
     },

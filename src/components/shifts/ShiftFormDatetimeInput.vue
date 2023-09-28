@@ -17,7 +17,7 @@
           v-model="timeStart"
           :error-messages="errors"
           :error="errors.length > 0"
-          :prepend-icon="$vuetify.breakpoint.smAndDown"
+          :prepend-icon="smAndDown"
         />
       </v-col>
 
@@ -55,6 +55,7 @@ import { mapGetters } from "vuex";
 import { formatISO } from "date-fns";
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput.vue";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "ShiftFormDatetimeInput",
@@ -91,6 +92,10 @@ export default {
       getContractInstance: "contentData/contractById",
       selectedContract: "selectedContract/selectedContract"
     }),
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    },
     contract() {
       if (this.contractId === "") return this.selectedContract;
       return this.getContractInstance(this.contractId);

@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       v-model="dialog"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
+      :fullscreen="smAndDown"
       max-width="600"
       persistent
       no-click-animation
@@ -17,6 +17,7 @@
 <script>
 import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
 import FeedbackMenu from "@/components/FeedbackMenu.vue";
+import { useDisplay } from "vuetify";
 export default {
   name: "PrivacyAgreement",
   metaInfo() {
@@ -29,6 +30,12 @@ export default {
     return {
       dialog: true
     };
+  },
+  computed: {
+    smAndDown() {
+      const { smAndDown } = useDisplay();
+      return smAndDown;
+    }
   },
   methods: {
     closeDialog() {
