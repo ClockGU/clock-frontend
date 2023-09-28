@@ -59,7 +59,7 @@ export default {
   computed: {
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     isLoggedIn() {
       return this.$store.getters["auth/loggedIn"];
