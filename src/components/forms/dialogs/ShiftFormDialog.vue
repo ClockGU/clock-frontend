@@ -13,7 +13,7 @@
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          :variant="textButton && 'text'"
+          variant="text"
           v-bind="props['props']"
           @click="opened = true"
         >
@@ -98,6 +98,7 @@ export default {
       default: false
     }
   },
+  emits:["close", "save", "update", "delete"],
   data() {
     return {
       icons: {
@@ -113,7 +114,7 @@ export default {
   computed: {
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     create() {
       return this.shift === undefined;
