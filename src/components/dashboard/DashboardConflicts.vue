@@ -88,7 +88,7 @@ export default {
     ...mapGetters({ shifts: "contentData/selectedShifts" }),
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     overlappingShifts() {
       if (this.disabled) return 0;

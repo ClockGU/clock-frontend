@@ -94,7 +94,7 @@ export default {
     }),
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     contract() {
       if (this.contractId === "") return this.selectedContract;

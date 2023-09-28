@@ -62,7 +62,7 @@ export default {
     },
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     minHeight() {
       const { mdAndUp } = useDisplay();

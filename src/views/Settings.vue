@@ -117,11 +117,11 @@ export default {
   computed: {
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
     smAndUp() {
       const { smAndUp } = useDisplay();
-      return smAndUp;
+      return smAndUp.value;
     },
     isSuperUser() {
       return this.$store.getters.user.is_superuser;

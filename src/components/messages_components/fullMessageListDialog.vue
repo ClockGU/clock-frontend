@@ -43,7 +43,7 @@ export default {
   computed: {
     smAndDown() {
       const { smAndDown } = useDisplay();
-      return smAndDown;
+      return smAndDown.value;
     },
   }
 };
