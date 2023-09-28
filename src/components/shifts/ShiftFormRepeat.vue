@@ -43,13 +43,12 @@
         max-width="290px"
         min-width="290px"
       >
-        <template #activator="{ on, attrs }">
+        <template #activator="{ props }">
           <v-text-field
             v-model="endDate"
             :disabled="isDatePickerDisabled"
             readonly
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
           ></v-text-field>
         </template>
         <v-date-picker

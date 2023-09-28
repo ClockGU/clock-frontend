@@ -18,8 +18,8 @@
         }"
         @cancel="resetForm"
       >
-        <template #activator="{ on }">
-          <v-btn variant="text" color="error" v-on="on">
+        <template #activator="{ props }">
+          <v-btn variant="text" color="error" v-bind="props">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>

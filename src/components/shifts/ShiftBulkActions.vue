@@ -15,8 +15,8 @@
           :shifts="shifts"
           @reset="resetFn()"
         >
-          <template #activator="{ on }">
-            <v-btn :disabled="!reviewable" icon v-on="on">
+          <template #activator="{ props }">
+            <v-btn :disabled="!reviewable" icon v-bind="props">
               <v-icon
                 >{{ shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck }}
               </v-icon>
@@ -25,11 +25,11 @@
         </ShiftBulkActionsDialogReview>
 
         <ShiftAssignContractDialog :shifts="shifts" @save="updateFn">
-          <template #activator="{ on }">
+          <template #activator="{ props }">
             <v-btn
               :disabled="!moreThanOneContract || shiftsLength < 1"
               icon
-              v-on="on"
+              v-bind="props"
             >
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
@@ -40,8 +40,8 @@
           :count="shiftsLength"
           @destroy="destroyFn"
         >
-          <template #activator="{ on }">
-            <v-btn :disabled="shiftsLength < 1" icon v-on="on">
+          <template #activator="{ props }">
+            <v-btn :disabled="shiftsLength < 1" icon v-bind="props">
               <v-icon>{{ icons.mdiDelete }}</v-icon>
             </v-btn>
           </template>

@@ -15,12 +15,12 @@
         :max-width="600"
         @confirm="checkout"
       >
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             :disabled="userUUID === ''"
             variant="text"
             color="primary"
-            v-on="on"
+            v-bind="props"
           >
             Checkout
           </v-btn>

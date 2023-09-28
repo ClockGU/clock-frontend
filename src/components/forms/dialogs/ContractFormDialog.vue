@@ -7,7 +7,7 @@
       :persistent="false"
       @close="$emit('close')"
     >
-      <template #activator="props">
+      <template #activator="{ props }">
         <v-btn
           v-if="!icon && !disableActivator"
           :disabled="disabled"

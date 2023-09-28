@@ -85,13 +85,13 @@
                     }"
                     @confirm="lock"
                   >
-                    <template #activator="{ on }">
+                    <template #activator="{ props }">
                       <v-btn
                         :disabled="lockDisabled"
                         :loading="lockLoading"
                         :variant="!lockDisabled && 'text'"
                         :color="!lockDisabled ? 'warning' : ''"
-                        v-on="on"
+                        v-bind="props"
                       >
                         {{
                           isLockable

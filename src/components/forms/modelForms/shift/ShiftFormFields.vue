@@ -36,8 +36,8 @@
               offset-y
               bottom
             >
-              <template #activator="{ on, attrs }">
-                <a v-bind="attrs" v-on="on">
+              <template #activator="{ props }">
+                <a v-bind="props">
                   {{ $t("shifts.hints.ombudsLinkText") }}
                 </a>
               </template>

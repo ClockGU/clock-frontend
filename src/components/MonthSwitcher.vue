@@ -12,8 +12,8 @@
       offset-y
       min-width="290px"
     >
-      <template #activator="{ on, attrs }">
-        <v-btn variant="text" v-bind="attrs" v-on="on">
+      <template #activator="{ props }">
+        <v-btn variant="text" v-bind="props">
           {{ formattedDate }}
         </v-btn>
       </template>
