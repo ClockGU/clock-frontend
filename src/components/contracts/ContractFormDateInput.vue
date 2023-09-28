@@ -8,16 +8,15 @@
     :nudge-right="40"
     :nudge-bottom="56"
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <v-text-field
         :model-value="formattedDate"
         readonly
         variant="filled"
         :prepend-icon="icon"
-        v-bind="attrs"
         :disabled="disabled"
         :error="error"
-        v-on="on"
+        v-bind="props"
       ></v-text-field>
     </template>
     <v-date-picker

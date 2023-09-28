@@ -40,8 +40,8 @@
           :min-width="400"
           class="align-text-center"
         >
-          <template #activator="{ on }">
-            <v-spacer /><span v-on="on"></span>
+          <template #activator="{ props }">
+            <v-spacer /><span v-bind="props"></span>
           </template>
           <div>{{ errors[0] }}</div>
         </v-tooltip>

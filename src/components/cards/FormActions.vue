@@ -17,12 +17,12 @@
       :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
       @confirm="destroy"
     >
-      <template #activator="{ on }">
+      <template #activator="{ props }">
         <v-btn
           data-cy="entity-form-delete-button"
           variant="text"
           color="error"
-          v-on="on"
+          v-bind="props"
         >
           {{ $t("actions.delete") }}
         </v-btn>

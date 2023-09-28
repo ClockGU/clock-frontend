@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" scrollable max-width="600">
-    <template #activator="{ on, attrs }">
-      <a v-bind="attrs" v-on="on">{{ $t("app.privacyagreement") }}</a>
+    <template #activator="{ props }">
+      <a v-bind="props">{{ $t("app.privacyagreement") }}</a>
     </template>
     <GdprTextCard @close="dialog = false"></GdprTextCard>
   </v-dialog>

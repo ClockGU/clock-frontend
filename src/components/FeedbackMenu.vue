@@ -6,12 +6,11 @@
       :nudge-width="400"
       transition="slide-y-transition"
     >
-      <template #activator="{ on, attrs }">
+      <template #activator="{ props }">
         <v-sheet
           class="py-2 bg-orange-darken-2 rounded-t"
           dark
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         >
           <v-icon v-if="smAndDown" class="mx-2">
             {{ icons.mdiHelp }}

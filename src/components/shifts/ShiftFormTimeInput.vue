@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on: menuOn, attrs }">
+    <template #activator="{ props}">
       <!--      <v-tooltip-->
       <!--        :value="errorMessages.length > 0"-->
       <!--        bottom-->
@@ -26,10 +26,9 @@
         mask="time"
         :readonly="smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
-        v-bind="attrs"
+        v-bind="props"
         @blur="setTime"
         @focus="$event.target.select()"
-        v-on="$smAndDown ? menuOn : ''"
       ></v-text-field>
       <!--        </template>-->
       <!--        <span>{{ errorMessages[0] }} </span>-->
