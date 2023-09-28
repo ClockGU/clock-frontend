@@ -5,14 +5,14 @@
     :items="disabled ? [{ uuid: '' }] : contracts"
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
-    item-value="id"
+    item-title="name"
     persistent-hint
     variant="solo"
     return-object
     :bg-color="bgColor"
     @update:model-value="changeContract"
   >
-    <template #selection="contract">
+    <template #selection="{ item }">
       <div v-if="disabled">
         {{ $t("dashboard.disabled.noContract") }}
         <router-link v-if="disabled" to="/contracts">{{
@@ -20,16 +20,13 @@
         }}</router-link>
       </div>
       <div v-else>
-        {{ contract.item.name + contractStatus(contract.item) }}
+        {{ item.title + contractStatus(item.raw) }}
       </div>
     </template>
 
-    <template #item="contract">
-      {{
-        disabled
-          ? $t("dashboard.disabled.noContract")
-          : contract.item.name + contractStatus(contract.item)
-      }}
+    <template #item="{ item, props }">
+      <v-list-item v-bind="props" :subtitle="disabled ? $t('dashboard.disabled.noContract') : contractStatus(item.raw)">
+      </v-list-item>
     </template>
   </v-select>
 </template>
