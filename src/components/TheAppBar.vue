@@ -32,7 +32,7 @@
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
 
-      <v-skeleton-loader
+      <VSkeletonLoader
         v-if="isLoggedIn && mdAndUp"
         :loading="userLoading"
         type="avatar"
@@ -84,7 +84,7 @@
             </LogoutDialog>
           </v-list>
         </v-menu>
-      </v-skeleton-loader>
+      </VSkeletonLoader>
     </v-app-bar>
   </portal-target>
 </template>
@@ -105,10 +105,11 @@ import LogoutDialog from "@/components/LogoutDialog.vue";
 import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 import { useDisplay } from "vuetify";
+import { VSkeletonLoader } from "vuetify/labs/components";
 
 export default {
   name: "TheAppBar",
-  components: { LanguageSwitcher, ButtonGoetheOAuth, LogoutDialog },
+  components: { LanguageSwitcher, ButtonGoetheOAuth, LogoutDialog, VSkeletonLoader },
   data: () => ({
     icons: {
       mdiMenu,

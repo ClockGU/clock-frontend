@@ -16,13 +16,13 @@
     <template #content>
       <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
         <v-col v-if="loading && !ignoreLoading" cols="12" md="6">
-          <v-skeleton-loader
+          <VSkeletonLoader
             v-if="loading"
             data-cy="skeleton"
             type="card"
             width="90%"
             :loading="true"
-          ></v-skeleton-loader>
+          ></VSkeletonLoader>
         </v-col>
 
         <template v-if="!loading || ignoreLoading">
@@ -121,6 +121,7 @@ import { mapGetters } from "vuex";
 import { log } from "@/utils/log";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 import { useDisplay } from "vuetify";
+import { VSkeletonLoader } from "vuetify/labs/components";
 
 export default {
   name: "ViewContractList",
@@ -131,7 +132,8 @@ export default {
   },
   components: {
     ContractFormDialog,
-    ContractListCard
+    ContractListCard,
+    VSkeletonLoader
   },
   beforeRouteLeave(to, from, next) {
     this.ignoreLoading = true;

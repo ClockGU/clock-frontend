@@ -7,8 +7,8 @@
     transition="slide-y-reverse-transition"
     @click:outside="$emit('close')"
   >
-    <template #activator="{ on }">
-      <slot name="activator" :on="on"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
     <slot name="content" :events="{ close }" @close="close"></slot>
   </v-dialog>
@@ -17,6 +17,10 @@
 <script>
 export default {
   name: "TheDialog",
+  model: {
+    prop: "show",
+    event: "change"
+  },
   props: {
     maxWidth: {
       type: Number,
@@ -30,18 +34,19 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    show: {
       type: Boolean,
       default: false
     }
   },
+  emits: ["close"],
   data() {
     return {
       dialog: false
     };
   },
   watch: {
-    value(val) {
+    show(val) {
       this.dialog = val;
     }
   },

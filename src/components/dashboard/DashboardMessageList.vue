@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-skeleton-loader
+    <VSkeletonLoader
       v-if="loading"
       class="mx-auto pt-4"
       max-width="300"
@@ -29,12 +29,14 @@ import MessageList from "@/components/messages_components/MessageList.vue";
 import { mdiClose } from "@mdi/js";
 import FullMessageListDialog from "@/components/messages_components/fullMessageListDialog.vue";
 import { mapGetters } from "vuex";
+import { VSkeletonLoader } from "vuetify/labs/components";
 
 export default {
   name: "DashboardMessageList",
   components: {
     MessageList,
-    FullMessageListDialog
+    FullMessageListDialog,
+    VSkeletonLoader
   },
   data: () => ({
     dialog: false,
