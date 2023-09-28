@@ -38,7 +38,7 @@
         :max-width="600"
         @confirm="save"
       >
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             :disabled="
               personnelNumber === personnelNumberInit ||
@@ -47,7 +47,7 @@
             "
             variant="text"
             color="primary"
-            v-on="on"
+            v-bind="props"
           >
             {{ $t("actions.change") }}
           </v-btn>

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500" transition="dialog-bottom-transition">
-    <template #activator="{ on, attrs }">
-      <slot name="activator" :on="on" :attrs="attrs"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
 
     <v-card>

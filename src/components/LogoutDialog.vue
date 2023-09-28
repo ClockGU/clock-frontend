@@ -4,8 +4,8 @@
     :max-width="600"
     @confirm="logout"
   >
-    <template #activator="{ on }">
-      <slot name="activator" :on="on"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
 
     <template #title>{{ $t("logout.title") }}</template>

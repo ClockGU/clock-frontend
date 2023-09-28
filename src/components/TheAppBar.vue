@@ -38,8 +38,8 @@
         type="avatar"
       >
         <v-menu offset-y>
-          <template #activator="{ on }" class="ml-4">
-            <div class="d-flex align-center" v-on="on">
+          <template #activator="{ props }" class="ml-4">
+            <div class="d-flex align-center" v-bind="props">
               <v-avatar
                 size="30px"
                 color="blue-lighten-2"
@@ -72,12 +72,8 @@
             </v-list-item>
 
             <LogoutDialog>
-              <template #activator="{ on }">
-                <v-list-item data-cy="menu-logout" v-on="on">
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiLogout }}</v-icon>
-                  </v-list-item-icon>
-
+              <template #activator="{ props }">
+                <v-list-item :prepend-icon="icons.mdiLogout" data-cy="menu-logout" v-bind="props">
                   {{ $t("actions.logout") }}
                 </v-list-item>
               </template>

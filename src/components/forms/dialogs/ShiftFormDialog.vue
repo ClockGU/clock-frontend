@@ -14,13 +14,13 @@
           :disabled="disabled"
           :color="btnColor"
           :variant="textButton && 'text'"
-          v-bind="props"
+          v-bind="props['props']"
           @click="opened = true"
         >
           {{ buttonText }}
         </v-btn>
         <div v-if="icon && !disableActivator">
-          <v-btn :disabled="disabled" :color="btnColor" icon v-bind="props">
+          <v-btn :disabled="disabled" :color="btnColor" icon v-bind="props['props']">
             <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }} </v-icon>
           </v-btn>
           <v-icon

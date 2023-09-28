@@ -31,8 +31,8 @@
     </VSkeletonLoader>
     <v-list v-else>
       <v-list-group no-action>
-        <template #activator>
-          <v-list-item>
+        <template #activator="{ props }">
+          <v-list-item v-bind="props">
             <v-avatar
               size="32px"
               color="blue-lighten-2"
@@ -59,8 +59,8 @@
         </v-list-item>
 
         <LogoutDialog>
-          <template #activator="{ on }">
-            <v-list-item data-cy="menu-logout" class="pl-5" :prepend-icon="icons.mdiLogout" v-on="on">
+          <template #activator="{ props }">
+            <v-list-item data-cy="menu-logout" class="pl-5" :prepend-icon="icons.mdiLogout" v-bind="props">
               <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
             </v-list-item>
           </template>

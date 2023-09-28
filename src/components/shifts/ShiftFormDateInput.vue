@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <v-text-field
         v-model="formattedDate"
         readonly
@@ -14,8 +14,7 @@
         density="compact"
         hide-details
         :prepend-icon="icons.mdiCalendar"
-        v-bind="attrs"
-        v-on="on"
+        v-bind="props"
       ></v-text-field>
     </template>
     <v-date-picker

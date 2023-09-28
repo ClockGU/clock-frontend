@@ -28,8 +28,8 @@
         :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
         @confirm="destroyFn"
       >
-        <template #activator="{ on }">
-          <v-btn variant="text" data-cy="delete" v-on="on">
+        <template #activator="{ props }">
+          <v-btn variant="text" data-cy="delete" v-bind="props">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>

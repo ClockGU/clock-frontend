@@ -1,7 +1,7 @@
 <template>
   <v-menu location="bottom" location="right">
-    <template #activator="{ on }">
-      <v-btn variant="outlined" data-cy="calendar-type-select-button" v-on="on">
+    <template #activator="{ props }">
+      <v-btn variant="outlined" data-cy="calendar-type-select-button" v-bind="props">
         <span>{{ valueName }}</span>
         <v-icon end>{{ icons.mdiArrowDown }}</v-icon>
       </v-btn>

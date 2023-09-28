@@ -12,8 +12,8 @@
             :shift="shift"
             disable-activator
           >
-            <template #activator="{ on }">
-              <ShiftListItem :editable="true" :shift="shift" v-on="on" />
+            <template #activator="{ props }">
+              <ShiftListItem :editable="true" :shift="shift" v-bind="props" />
             </template>
           </ShiftFormDialog>
         </v-list>

@@ -77,8 +77,8 @@
           {{ tag }}
         </v-chip>
         <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
-          <template #activator="{ on }">
-            <v-chip small class="mx-1" v-on="on">...</v-chip>
+          <template #activator="{ props }">
+            <v-chip small class="mx-1" v-bind="props">...</v-chip>
           </template>
         </ShiftInfoDialog>
       </template>
@@ -86,8 +86,8 @@
       <!-- eslint-disable-next-line -->
       <template #item.note="{ item }">
         <ShiftInfoDialog :item="item">
-          <template #activator="{ on }">
-            <span on v-on="on">
+          <template #activator="{ props }">
+            <span v-bind="props">
               {{ noteDisplay(item.note) }}
             </span>
           </template>
