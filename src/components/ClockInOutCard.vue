@@ -19,7 +19,7 @@
         :shift="shiftToModify"
         :destroy="reset"
         :contract-name="contractName"
-        @updateWindow="window += $event"
+        @update-indow="window += $event"
       ></ClockInOutCardForm>
     </v-window-item>
     <v-overlay
