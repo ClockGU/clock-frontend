@@ -67,9 +67,9 @@
       <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" />
         <ShiftFormNote v-model="shift.note" />
-        <v-subheader class="pl-8">
+        <v-list-subheader class="pl-8">
           {{ $t("shifts.types.label") }}
-        </v-subheader>
+        </v-list-subheader>
         <ShiftFormType v-model="shift.type" />
       </v-col>
       <v-col cols="12">
@@ -115,7 +115,7 @@ export default {
     OmbudsMenu
   },
   props: {
-    value: {
+    modelValue: {
       type: Shift,
       required: true
     },
@@ -132,9 +132,10 @@ export default {
       default: "alert"
     }
   },
+  emits:["update:modelValue", "scheduleShifts"],
   data() {
     return {
-      shift: this.value,
+      shift: this.modelValue,
       showRepeat: false,
       icons: {
         mdiRepeat
@@ -159,11 +160,11 @@ export default {
     }
   },
   watch: {
-    value(value) {
+    modelValue(value) {
       this.shift = value;
     },
     shift(value) {
-      this.$emit("input", value);
+      this.$emit("update:modelValue", value);
     },
     scheduledShifts(value) {
       this.$emit("scheduleShifts", value);
