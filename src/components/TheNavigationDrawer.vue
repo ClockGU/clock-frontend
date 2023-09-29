@@ -34,18 +34,21 @@
       <v-list-group no-action>
         <template #activator="{ props }">
           <v-list-item v-bind="props">
-            <v-avatar
-              size="32px"
-              color="blue-lighten-2"
-              style="cursor: pointer"
-            >
+            <template #prepend="prependProps">
+              <v-avatar
+                v-bind="prependProps"
+                size="32px"
+                color="blue-lighten-2"
+                style="cursor: pointer"
+              >
               <span class="text-white">
                 {{ firstLetter }}
               </span>
-            </v-avatar>
-            <v-list-item-title class="text-h6">
+              </v-avatar>
+            </template>
+            <p class="text-h6">
               {{ user.first_name }}
-            </v-list-item-title>
+            </p>
           </v-list-item>
         </template>
 
