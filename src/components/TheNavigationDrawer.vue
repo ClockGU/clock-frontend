@@ -9,7 +9,7 @@
     @update:model-value="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
-      <router-link v-slot="{ navigate }" :to="{ name: 'home' }">
+      <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
         <span role="link" style="cursor: pointer" @click="navigate" @keypress.enter="navigate">
           <v-img
             width="240px"
@@ -87,12 +87,8 @@
     <v-divider></v-divider>
 
     <v-list nav density="compact" data-cy="menu-list">
-      <v-list-item v-for="link in links" :key="link.text" :to="link.to">
-        <v-list-item-action>
-          <v-icon>{{ link.icon }}</v-icon>
-        </v-list-item-action>
-
-        {{ link.text }}
+      <v-list-item v-for="link in links" :key="link.text" :prepend-icon="link.icon" :to="link.to">
+        <p>{{ link.text }}</p>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
