@@ -1,5 +1,5 @@
 <template>
-  <v-main>
+  <v-main style="--v-layout-top: 0">
     <v-alert
       v-if="userCheckedOut !== ''"
       type="info"
@@ -33,9 +33,9 @@ export default {
     ...mapGetters({ userCheckedOut: "auth/checkoutUser" }),
     styles() {
       let styles;
-      const {smAndDown} = useDisplay();
+      const { smAndDown } = useDisplay();
       const removePadding =
-        smAndDown ||
+        smAndDown.value ||
         this.showingCalendar ||
         this.$route.path === "/";
       if (removePadding) {
@@ -47,10 +47,10 @@ export default {
       return styles;
     },
     staging() {
-      return import.meta.env.VUE_APP_ENV === "staging";
+      return import.meta.env.VITE_ENV === "staging";
     },
     infostring() {
-      return import.meta.env.VUE_APP_LOCAL === "true"
+      return import.meta.env.VITE_LOCAL === "true"
         ? "Staging (local)"
         : "Staging (server)";
     }
