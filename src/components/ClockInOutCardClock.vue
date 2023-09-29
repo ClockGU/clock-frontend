@@ -39,10 +39,10 @@
             {{ $tc("models.contract") }}: {{ contractName }}
           </div>
           <div class="font-weight-light">
-            {{ actions.data.startDate | formatDate }}
+            {{ formatDate(actions.data.startDate) }}
           </div>
           <div class="text-h6 font-weight-light text-center">
-            {{ actions.duration | toHHMM }}
+            {{ toHHMM(actions.duration) }}
           </div>
         </div>
       </v-row>
@@ -85,43 +85,6 @@ import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "ClockInOutCardClock",
-  filters: {
-    formatDate(date) {
-      if (date === undefined) return "";
-      return localizedFormat(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
-    },
-    toTime(seconds) {
-      let string = "";
-
-      const date = addSeconds(new Date(1970, 1, 1), seconds);
-      const days = Math.floor(seconds / (60 * 60 * 24));
-      const hours = localizedFormat(date, "HH");
-      const minutes = localizedFormat(date, "mm");
-      const sec = localizedFormat(date, "ss");
-
-      if (days > 0) {
-        string += `${days}d `;
-      }
-      string += `${hours}h `;
-      string += `${minutes}m `;
-      string += `${sec}s`;
-
-      if (string === "") return "00 secs";
-
-      return string;
-    },
-    toHHMM(seconds) {
-      let string = "";
-      const date = addSeconds(new Date(1970, 1, 1), seconds);
-      const hours = Math.floor(seconds / (60 * 60));
-      const minutes = localizedFormat(date, "mm");
-      const sec = localizedFormat(date, "ss");
-
-      string += `${hours}:${minutes}:${sec}`;
-
-      return string;
-    }
-  },
   inheritAttrs: false,
   props: {
     actions: {
@@ -146,6 +109,43 @@ export default {
     overflowedShift() {
       const today = new Date();
       return !isSameDay(today, this.actions.data.startDate);
+    }
+  },
+  methods: {
+    toHHMM(seconds) {
+      let string = "";
+      const date = addSeconds(new Date(1970, 1, 1), seconds);
+      const hours = Math.floor(seconds / (60 * 60));
+      const minutes = localizedFormat(date, "mm");
+      const sec = localizedFormat(date, "ss");
+
+      string += `${hours}:${minutes}:${sec}`;
+
+      return string;
+    },
+    toTime(seconds) {
+      let string = "";
+
+      const date = addSeconds(new Date(1970, 1, 1), seconds);
+      const days = Math.floor(seconds / (60 * 60 * 24));
+      const hours = localizedFormat(date, "HH");
+      const minutes = localizedFormat(date, "mm");
+      const sec = localizedFormat(date, "ss");
+
+      if (days > 0) {
+        string += `${days}d `;
+      }
+      string += `${hours}h `;
+      string += `${minutes}m `;
+      string += `${sec}s`;
+
+      if (string === "") return "00 secs";
+
+      return string;
+    },
+    formatDate(date) {
+      if (date === undefined) return "";
+      return localizedFormat(date, "EEEE',' do' 'MMMM' 'yyyy '-' HH':'mm");
     }
   }
 };
