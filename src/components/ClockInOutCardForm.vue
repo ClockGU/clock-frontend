@@ -68,6 +68,7 @@ export default {
       default: false
     }
   },
+  emits: ["updateWindow"],
   data: () => ({
     dialog: false,
     icons: { mdiArrowLeft, mdiDelete }
