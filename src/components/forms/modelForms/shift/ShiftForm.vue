@@ -10,7 +10,7 @@
       v-model="newShift"
       :alert-messages="messages"
       :alert-type="errorMessages.length > 0 ? 'error' : 'warning'"
-      @scheduleShifts="setScheduledShifts($event)"
+      @schedule-shifts="setScheduledShifts($event)"
     ></ShiftFormFields>
     <FormActions
       :create-fn="saveShift"
