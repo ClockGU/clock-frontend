@@ -9,13 +9,14 @@
     @update:model-value="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
-      <router-link to="/dashboard" tag="span" style="cursor: pointer">
-        <v-img
-          width="240px"
-          height="36px"
-          :src="logo"
-          cover
-        />
+      <router-link v-slot="{ navigate }" :to="{ name: 'home' }">
+        <span role="link" style="cursor: pointer" @click="navigate" @keypress.enter="navigate">
+          <v-img
+            width="240px"
+            height="36px"
+            :src="logo"
+          />
+        </span>
       </router-link>
     </v-row>
 
