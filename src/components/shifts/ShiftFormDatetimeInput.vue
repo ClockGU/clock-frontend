@@ -80,6 +80,7 @@ export default {
       default: () => []
     }
   },
+  emits: ["input"],
   data() {
     return {
       date: this.started,
