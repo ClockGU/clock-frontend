@@ -41,26 +41,24 @@
         :loading="userLoading"
         type="avatar"
       >
-        <v-menu offset-y>
+        <v-menu class="py-3">
           <template #activator="{ props }">
-            <div class="d-flex align-center ml-4" v-bind="props">
+            <v-btn variant="text">
+            <div class="d-flex align-center" v-bind="props">
               <v-avatar
                 size="30px"
                 color="blue-lighten-2"
-                class="ml-2"
                 style="cursor: pointer"
+                class="mr-2"
               >
                 <span class="text-white">
                   {{ firstLetter }}
                 </span>
               </v-avatar>
-              <div>
-                <v-btn variant="text" class="pa-1">
-                  <span class="text-capitalize">{{ user.first_name }}</span>
-                  <v-icon>{{ icons.mdiChevronDown }}</v-icon>
-                </v-btn>
+              <span class="text-capitalize">{{ user.first_name }}</span>
               </div>
-            </div>
+                <v-icon :icon="icons.mdiChevronDown"></v-icon>
+            </v-btn>
           </template>
           <v-list>
             <v-list-item
