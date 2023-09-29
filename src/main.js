@@ -11,6 +11,7 @@ import BaseLayout from "@/layouts/BaseLayout.vue";
 import Link from "@/components/base/Link.vue";
 import Placeholder from "@/components/Placeholder.vue";
 import "@/assets/main.scss";
+import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 
 // Vue
 
@@ -40,7 +41,11 @@ if (isLoggedIn) {
 }
 const vuetify = createVuetify({
   icons: {
-    iconfont: "mdiSvg"
+    defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi
+    }
   },
   lang: {
     locales: { de, en },
