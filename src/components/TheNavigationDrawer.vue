@@ -41,9 +41,9 @@
                 color="blue-lighten-2"
                 style="cursor: pointer"
               >
-              <span class="text-white">
+              <div class="text-white">
                 {{ firstLetter }}
-              </span>
+              </div>
               </v-avatar>
             </template>
             <p class="text-h6">
@@ -56,16 +56,28 @@
           v-for="item in menuItems"
           :key="item.text"
           :to="item.to"
-          class="pl-5"
-          :prepend-icon="item.icon"
+          style="--indent-padding: calc(var(--list-indent-size) - 12px)"
         >
-          <v-list-item-title>{{ item.text }}</v-list-item-title>
+          <template #prepend="prependProps">
+            <v-icon :icon="item.icon" v-bind="prependProps">
+            </v-icon>
+          </template>
+          <p style="padding-left: 4px">{{ item.text }}</p>
         </v-list-item>
 
         <LogoutDialog>
           <template #activator="{ props }">
-            <v-list-item data-cy="menu-logout" class="pl-5" :prepend-icon="icons.mdiLogout" v-bind="props">
-              <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
+            <v-list-item
+              data-cy="menu-logout"
+              :prepend-icon="icons.mdiLogout"
+              v-bind="props"
+              style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+            >
+              <template #prepend="prependProps">
+                <v-icon :icon="icons.mdiLogout" v-bind="prependProps">
+                </v-icon>
+              </template>
+              <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
             </v-list-item>
           </template>
         </LogoutDialog>
