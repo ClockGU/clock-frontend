@@ -34,12 +34,14 @@
       <!--        <span>{{ errorMessages[0] }} </span>-->
       <!--      </v-tooltip>-->
     </template>
-    <v-time-picker
-      v-if="menu && smAndDown"
-      v-model="data"
-      format="24hr"
-      @click:minute="setTime"
-    ></v-time-picker>
+<!--  Time Picker not available yet (29.09.23)  -->
+<!--    <v-time-picker-->
+<!--      v-if="menu && smAndDown"-->
+<!--      v-model="data"-->
+<!--      format="24hr"-->
+<!--      @click:minute="setTime"-->
+<!--    ></v-time-picker>-->
+    <p v-if="menu && smAndDown">Imagine Time picker here</p>
   </v-menu>
 </template>
 
@@ -53,7 +55,7 @@ import { useDisplay } from "vuetify";
 export default {
   name: "ShiftFormTimeInput",
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -74,6 +76,7 @@ export default {
       default: () => []
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
       menu: false,
@@ -82,7 +85,7 @@ export default {
       icons: {
         mdiClockOutline
       },
-      time: this.value
+      time: this.modelValue
     };
   },
   computed: {
@@ -92,7 +95,7 @@ export default {
     },
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.time = localizedFormat(val, "HH:mm");
     },
     time(val) {
@@ -105,17 +108,17 @@ export default {
       try {
         [hours, minutes] = validateTimeInput(val).split(":");
       } catch {
-        this.data = localizedFormat(this.value, "HH:mm");
+        this.data = localizedFormat(this.modelValue, "HH:mm");
         return;
       }
       // Grab year, month and day from date entry
       const [year, month, day] = [
-        this.value.getFullYear(),
-        this.value.getMonth(),
-        this.value.getDate()
+        this.modelValue.getFullYear(),
+        this.modelValue.getMonth(),
+        this.modelValue.getDate()
       ];
       const date = new Date(year, month, day, hours, minutes);
-      this.$emit("input", date);
+      this.$emit("update:modelValue", date);
       this.data = `${hours}:${minutes}`;
     }
   },
@@ -124,7 +127,7 @@ export default {
   },
   methods: {
     initialize() {
-      this.data = localizedFormat(this.value, "HH:mm");
+      this.data = localizedFormat(this.modelValue, "HH:mm");
     },
     setTime() {
       this.$refs.menu.save(this.time);
