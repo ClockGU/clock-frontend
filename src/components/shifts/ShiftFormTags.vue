@@ -18,7 +18,7 @@
     <template #no-data>
       <v-list-item>
         <v-list-item-title>
-          <i18n-t path="shifts.tags.createHint" tag="span">
+          <i18n-t keypath="shifts.tags.createHint" scope="global" tag="span">
             <template #search>
               <strong>{{ search }}</strong>
             </template>
