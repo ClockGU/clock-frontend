@@ -18,13 +18,15 @@
       ></v-text-field>
     </template>
     <VDatePicker
-      v-model="date"
+      :model-value="date"
       no-title
       :allowed-dates="allowed"
       :min="min"
       :max="max"
       :first-day-of-week="1"
-      @click:date="menu = false"
+      @click:save="menu = false"
+      @click:cancel="menu = false"
+      @update:model-value="$emit('update:modelValue', $event)"
     ></VDatePicker>
   </v-menu>
 </template>
@@ -41,7 +43,7 @@ export default {
   name: "ShiftFormDateInput",
   components: { VDatePicker },
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -58,29 +60,26 @@ export default {
       default: ""
     }
   },
+emits: ['update:modelValue'],
   data() {
     return {
       icons: {
         mdiCalendar
       },
       menu: false,
-      date: localizedFormat(this.value, "yyyy-MM-dd")
+      date: this.modelValue
     };
   },
   computed: {
     formattedDate() {
       //perhaps not ideal, but most users will be DE
       //TODO check date-fns documentation
-      return localizedFormat(parseISO(this.date), "eee, dd.MM.yyyy");
+      return localizedFormat(this.date, "eee, dd.MM.yyyy");
     }
   },
   watch: {
-    value(val) {
-      this.date = localizedFormat(val, "yyyy-MM-dd");
-    },
-    date(val) {
-      const [year, month, day] = val.split("-");
-      this.$emit("input", new Date(year, month - 1, day));
+    modelValue(val) {
+      this.date = val;
     }
   },
   methods: {
