@@ -2,35 +2,30 @@
   <v-row align="end" class="pl-3">
     <v-radio-group
       v-model="radios"
-      row
+      inline
       hide-details
-      density="compact"
       class="mt-0 pt-0"
     >
       <template #prepend>
-        <v-icon :color="typeColors[value]">
-          {{ typeIcons[value] }}
-        </v-icon>
+        <v-icon :icon="typeIcons[modelValue]" :color="typeColors[modelValue]"></v-icon>
       </template>
       <v-radio
         v-for="type in types"
         :key="type.value"
-        class="ml-o"
         :disabled="disabled"
         :label="type.text"
         :value="type.value"
         :color="typeColors[type.value]"
       >
         <template #label>
-          <label
+          <div
             :class="
-              'v-label ' +
+              'theme--light ' +
               (type.value === radios
                 ? getRadioColor(typeColors[type.value])
                 : '')
             "
-            style="left: 0; right: auto; position: relative"
-            >{{ type.text }}</label
+            >{{ type.text }}</div
           >
         </template>
       </v-radio>
@@ -47,7 +42,7 @@ import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 export default {
   name: "ShiftFormType",
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: "st"
     },
@@ -56,14 +51,16 @@ export default {
       default: false
     }
   },
+emits: ['update:modelValue'],
   data() {
+    console.log(this.modelValue);
     return {
       icons: {
         mdiBriefcaseOutline
       },
       typeColors: SHIFT_TYPE_COLORS,
       typeIcons: SHIFT_TYPE_ICONS,
-      radios: this.value
+      radios: this.modelValue
     };
   },
   computed: {
@@ -80,11 +77,11 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.radios = val;
     },
     radios(val) {
-      this.$emit("input", val);
+      this.$emit("update:modelValue", val);
     }
   },
   methods: {
@@ -94,8 +91,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.green-lighten-1 {
-}
-</style>
