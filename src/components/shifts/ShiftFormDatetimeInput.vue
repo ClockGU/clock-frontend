@@ -3,12 +3,12 @@
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ShiftFormDateInput
-          :value="date"
+          :model-value="date"
           data-cy="shift-date"
           :min="dateMin"
           :max="dateMax"
           label="Date"
-          @input="setDate"
+          @update:model-value="setDate"
         />
       </v-col>
 
