@@ -45,8 +45,9 @@
       </v-chip>
     </v-list-item-subtitle>
     <slot name="extraSubtitle"></slot>
-
-    <slot name="actions"></slot>
+    <template #append="props">
+        <slot name="actions" v-bind="props"></slot>
+    </template>
   </v-list-item>
 </template>
 
