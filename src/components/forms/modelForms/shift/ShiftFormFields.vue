@@ -2,11 +2,14 @@
 <template>
   <v-card-text class="pb-0">
     <ShiftFormDatetimeInput
-      :started="shift.started"
-      :stopped="shift.stopped"
+      v-model:started="shift.started"
+      v-model:stopped="shift.stopped"
       :contract-id="shift.contract"
       :errors="timeErrors"
+<<<<<<< HEAD
       @input="handleTimeInput($event)"
+=======
+>>>>>>> Migrate Date and Time Input.
     />
     <v-row align="center" justify="start">
       <v-col cols="12" class="ma-0">
@@ -164,6 +167,8 @@ export default {
       this.shift = value;
     },
     shift(value) {
+
+      value.wasReviewed = !this.isInFuture;
       this.$emit("update:modelValue", value);
     },
     scheduledShifts(value) {
@@ -176,8 +181,9 @@ export default {
     }
   },
   created() {
-    this.setWasReviewed();
+    this.shift.wasReviewed = !this.isInFuture;
   },
+<<<<<<< HEAD
   methods: {
     setTime(event) {
       this.shift.started = event.started;
@@ -216,6 +222,8 @@ export default {
       }
     }
   }
+=======
+>>>>>>> Migrate Date and Time Input.
 };
 </script>
 
