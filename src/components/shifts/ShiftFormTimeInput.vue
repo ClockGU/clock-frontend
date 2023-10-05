@@ -130,9 +130,7 @@ export default {
       this.data = localizedFormat(this.modelValue, "HH:mm");
     },
     setTime() {
-      this.$refs.menu.save(this.time);
       this.time = this.data;
-
       if (this.dialog) {
         this.dialog = false;
       }

@@ -18,6 +18,7 @@
           :error-messages="errors"
           :error="errors.length > 0"
           :prepend-icon="smAndDown"
+          @update:model-value="$emit('update:started', $event);"
         />
       </v-col>
 
@@ -26,7 +27,11 @@
       </v-col>
 
       <v-col cols="5" md="3">
-        <ShiftFormTimeInput v-model="timeStop" :error="errors.length > 0" />
+        <ShiftFormTimeInput
+          v-model="timeStop"
+          :error="errors.length > 0"
+          @update:model-value="$emit('update:stopped', $event);"
+        />
       </v-col>
     </v-row>
     <v-row align="center" justify="start" class="ma-0">
@@ -80,7 +85,7 @@ export default {
       default: () => []
     }
   },
-  emits: ["input"],
+  emits: ["update:started", "update:stopped"],
   data() {
     return {
       date: this.started,
@@ -110,17 +115,11 @@ export default {
   },
   watch: {
     started(val) {
-      this.date = val;
+      // this.date = val;
       this.timeStart = val;
     },
     stopped(val) {
       this.timeStop = val;
-    },
-    timeStart() {
-      this.input();
-    },
-    timeStop() {
-      this.input();
     }
   },
   methods: {
@@ -147,12 +146,7 @@ export default {
         this.timeStop.getHours(),
         this.timeStop.getMinutes()
       );
-
-      this.input();
     },
-    input() {
-      this.$emit("input", { started: this.timeStart, stopped: this.timeStop });
-    }
   }
 };
 </script>
