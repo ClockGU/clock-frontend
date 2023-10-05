@@ -6,17 +6,17 @@
     hide-reviewed-chip
   >
     <template #actions>
-      <v-list-item-action>
+      <v-list-item-action start end>
         <ShiftFormDialog icon :shift="shift"></ShiftFormDialog>
       </v-list-item-action>
-      <v-list-item-action>
-        <v-btn icon color="success" :disabled="!valid" @click="review">
-          <v-icon> {{ icons.mdiCheck }}</v-icon>
+      <v-list-item-action start>
+        <v-btn flat icon :disabled="!valid" @click="review">
+          <v-icon :icon="icons.mdiCheck" color="success" :disabled="!valid" @click="review"></v-icon>
         </v-btn>
       </v-list-item-action>
-      <v-list-item-action-text>
+      <v-list-item-action>
         {{ $t("shifts.review.review") }}
-      </v-list-item-action-text>
+      </v-list-item-action>
     </template>
     <template #extraSubtitle>
       <v-list-item-subtitle v-if="!valid" class="text-error">
