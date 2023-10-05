@@ -66,6 +66,7 @@ export default {
       default: false
     }
   },
+emits: ['delete', 'update', 'close', 'save'],
   setup() {
     return {
       v$: useVuelidate()
