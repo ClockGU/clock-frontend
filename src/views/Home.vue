@@ -21,15 +21,10 @@ export default {
   name: "Home",
   computed: {
     ...mapGetters({ userCheckedOut: "auth/checkoutUser" }),
-    showingCalendar() {
-      return this.$route.name === "calendar" || this.$route.name === "c";
-    },
     styles() {
       let styles;
       const removePadding =
-        this.$vuetify.breakpoint.smAndDown ||
-        this.showingCalendar ||
-        this.$route.path === "/";
+        this.$vuetify.breakpoint.smAndDown || this.$route.path === "/";
       if (removePadding) {
         styles = {
           padding: "0"

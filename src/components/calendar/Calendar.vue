@@ -1,94 +1,79 @@
 <template>
-  <v-container class="pb-0" style="height: 100%">
-    <v-sheet>
-      <v-container>
-        <v-row
-          align="center"
-          justify="space-between"
-          height="100px"
-          flat
-          color="white"
-        >
-          <v-col class="px-0" cols="12">
-            <SelectContractFilter :disabled="disabled" />
-          </v-col>
-          <v-col class="px-0" cols="12">
-            <ShiftFormDialog
-              btn-color="primary"
-              :initial-date="shiftInitialDate"
-            ></ShiftFormDialog>
-          </v-col>
-
-          <v-col class="px-0" cols="12" sm="5">
-            <CalendarNavigationButtons
-              @today="setToday"
-              @next="next"
-              @prev="prev"
-            />
-          </v-col>
-
-          <v-col class="px-0" cols="12" sm="3" order-sm="3">
-            <CalendarTypeSelect v-model="type" />
-          </v-col>
-
-          <v-col class="px-0" cols="12" sm="4" order-sm="2">
-            <span data-cy="calendar-title">
-              {{ monthYearDisplay }}
-            </span>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-sheet>
-    <v-sheet height="600px">
-      <v-calendar
-        ref="calendar"
-        v-model="focus"
-        color="primary lighten-1"
-        event-name="duration"
-        :events="events"
-        :event-color="getEventColor"
-        :event-margin-bottom="3"
-        :locale="locale"
-        :now="today"
-        :type="type"
-        :weekdays="weekdays"
-        :interval-format="intervalFormat"
-        @click:event="editEvent"
-        @click:more="viewDay"
-        @click:date="viewDay"
-        @change="updateRange"
-      ></v-calendar>
-    </v-sheet>
-    <ShiftFormDialog
-      :shift="shift"
-      :value="editShift"
-      disable-activator
-      @close="editShift = false"
-    ></ShiftFormDialog>
-  </v-container>
+  <v-card min-width="100%">
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <ShiftFormDialog
+            btn-color="primary"
+            :initial-date="shiftInitialDate"
+          ></ShiftFormDialog>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="4">
+          <TodayButton @update="updateDate" />
+        </v-col>
+        <v-col class="text-center" cols="4">
+          <MonthSwitcher
+            :disabled="disabled"
+            :date="date"
+            @update="updateDate"
+          />
+        </v-col>
+        <v-col class="text-end" cols="4" order-sm="3">
+          <CalendarTypeSelect v-model="type" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-sheet height="600px">
+            <v-calendar
+              ref="calendar"
+              v-model="focus"
+              color="primary lighten-1"
+              event-name="duration"
+              :events="events"
+              :event-color="getEventColor"
+              :event-margin-bottom="3"
+              :locale="locale"
+              :now="today"
+              :type="type"
+              :weekdays="weekdays"
+              :interval-format="intervalFormat"
+              @click:event="editEvent"
+              @click:more="viewDay"
+              @click:date="viewDay"
+              @change="updateRange"
+            ></v-calendar>
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
 import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
-import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
-import SelectContractFilter from "@/components/SelectContractFilter";
 
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
+import MonthSwitcher from "@/components/MonthSwitcher";
+import TodayButton from "@/components/calendar/TodayButton";
 
 export default {
   name: "Calendar",
   components: {
+    TodayButton,
+    MonthSwitcher,
     ShiftFormDialog,
-    CalendarNavigationButtons,
-    CalendarTypeSelect,
-    SelectContractFilter
+    // CalendarNavigationButtons,
+    CalendarTypeSelect
   },
   props: {
     disabled: {
@@ -122,7 +107,8 @@ export default {
     doubleClickTimer: null,
     doubleClickDelay: 500,
     editShift: false,
-    shift: undefined
+    shift: undefined,
+    date: null
   }),
   computed: {
     ...mapGetters({
@@ -170,6 +156,7 @@ export default {
   },
   created() {
     this.focus = this.initialFocus;
+    this.date = new Date(this.focus);
     this.type = this.initialType;
   },
   methods: {
@@ -195,15 +182,6 @@ export default {
         ? event.color + " lighten-1"
         : event.color + " lighten-3";
     },
-    setToday() {
-      this.focus = this.today;
-    },
-    prev() {
-      this.$refs.calendar.prev();
-    },
-    next() {
-      this.$refs.calendar.next();
-    },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
@@ -215,6 +193,10 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
+    },
+    updateDate(value) {
+      this.focus = localizedFormat(value, "yyyy-MM-dd");
+      this.date = value;
     }
   }
 };

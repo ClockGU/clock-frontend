@@ -1,6 +1,11 @@
 <template>
   <v-container>
     <v-row>
+      <v-col>
+        <SelectContractFilter :disabled="disabled" />
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12">
         <Calendar
           :disabled="disabled"
@@ -20,6 +25,7 @@ import Calendar from "@/components/calendar/Calendar";
 import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
+import SelectContractFilter from "@/components/SelectContractFilter";
 
 export default {
   name: "ViewCalendar",
@@ -29,6 +35,7 @@ export default {
     };
   },
   components: {
+    SelectContractFilter,
     Calendar
   },
   props: {

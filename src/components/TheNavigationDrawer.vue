@@ -3,19 +3,13 @@
     :value="drawer"
     app
     left
-    class="grey lighten-4"
     disable-resize-watcher
     clipped
     @input="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
       <router-link to="/dashboard" tag="span" style="cursor: pointer">
-        <v-img
-          width="240px"
-          height="36px"
-          :src="require('@/assets/clock_full.svg')"
-          contain
-        />
+        <v-img width="240px" height="36px" :src="imgSrc" contain />
       </router-link>
     </v-row>
 
@@ -205,6 +199,11 @@ export default {
           loggedOut: false
         }
       ];
+    },
+    imgSrc() {
+      if (this.$vuetify.theme.dark)
+        return require("@/assets/clock_full_darkmode.svg");
+      return require("@/assets/clock_full.svg");
     }
   },
   methods: {

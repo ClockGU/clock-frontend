@@ -1,111 +1,93 @@
 <template>
-  <base-layout alternative-portal-target="card-toolbar">
-    <template #card-top>
-      <portal-target name="card-toolbar"></portal-target>
-    </template>
-
-    <template #pre-toolbar-title="{ action }">
-      <v-app-bar-nav-icon
-        v-if="$vuetify.breakpoint.smAndDown"
-        icon
-        @click="action"
-      ></v-app-bar-nav-icon>
-    </template>
-
-    <template #title>{{ activeContractsTitle }}</template>
-    <template #content>
-      <v-row :justify="loading && !ignoreLoading ? 'center' : 'start'">
-        <v-col v-if="loading && !ignoreLoading" cols="12" md="6">
-          <v-skeleton-loader
-            v-if="loading"
-            data-cy="skeleton"
-            type="card"
-            width="90%"
-            :loading="true"
-          ></v-skeleton-loader>
-        </v-col>
-
-        <template v-if="!loading || ignoreLoading">
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-card>
           <v-col cols="12">
             <div class="pl-3">
               <ContractFormDialog btn-color="primary"></ContractFormDialog>
             </div>
           </v-col>
+          <v-col cols="12">
+            <v-expansion-panels
+              v-if="activeContracts.length > 0"
+              v-model="panel"
+              flat
+              focusable
+            >
+              <v-expansion-panel v-model="panel">
+                <v-expansion-panel-header class="text-h6 font-weight-regular">
+                  {{ $t("contracts.activeContracts") }} ({{
+                    activeContracts.length
+                  }})
+                </v-expansion-panel-header>
+                <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        v-for="(contract, i) in activeContracts"
+                        :key="contract.uuid"
+                        cols="12"
+                        xl="4"
+                        md="6"
+                      >
+                        <ContractListCard
+                          :key="contract.id"
+                          :data-cy="'contract-' + i"
+                          :contract="contract"
+                          class="no-margin"
+                          @delete="destroy(contract.id)"
+                        />
+                      </v-col> </v-row
+                  ></v-container>
+                </v-expansion-panel-content> </v-expansion-panel
+            ></v-expansion-panels>
 
-          <v-expansion-panels
-            v-if="activeContracts.length > 0"
-            v-model="panel"
-            flat
-            focusable
+            <v-expansion-panels
+              v-if="expiredContracts.length > 0"
+              flat
+              focusable
+            >
+              <v-expansion-panel>
+                <v-expansion-panel-header class="text-h6 font-weight-regular">
+                  {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
+                </v-expansion-panel-header>
+                <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        v-for="(contract, i) in expiredContracts"
+                        :key="contract.uuid"
+                        cols="12"
+                        xl="4"
+                        md="6"
+                      >
+                        <ContractListCard
+                          :key="contract.id"
+                          :data-cy="'contract-' + i"
+                          :contract="contract"
+                          expired
+                          class="no-margin"
+                          @edit="editContract"
+                          @delete="destroy(contract.id)"
+                        />
+                      </v-col> </v-row
+                  ></v-container>
+                </v-expansion-panel-content> </v-expansion-panel
+            ></v-expansion-panels>
+          </v-col>
+
+          <placeholder
+            v-if="(!loading || ignoreLoading) && contracts.length === 0"
+            data-cy="contract-list-empty-placeholder"
+            name="UndrawContentCreator"
           >
-            <v-expansion-panel v-model="panel">
-              <v-expansion-panel-header class="text-h6 font-weight-regular">
-                {{ $t("contracts.activeContracts") }} ({{
-                  activeContracts.length
-                }})
-              </v-expansion-panel-header>
-              <v-expansion-panel-content v-if="!loading || ignoreLoading">
-                <v-container>
-                  <v-row>
-                    <v-col
-                      v-for="(contract, i) in activeContracts"
-                      :key="contract.uuid"
-                      cols="12"
-                      xl="4"
-                      md="6"
-                    >
-                      <ContractListCard
-                        :key="contract.id"
-                        :data-cy="'contract-' + i"
-                        :contract="contract"
-                        class="no-margin"
-                        @delete="destroy(contract.id)"
-                      />
-                    </v-col> </v-row
-                ></v-container>
-              </v-expansion-panel-content> </v-expansion-panel
-          ></v-expansion-panels>
-
-          <v-expansion-panels v-if="expiredContracts.length > 0" flat focusable>
-            <v-expansion-panel>
-              <v-expansion-panel-header class="text-h6 font-weight-regular">
-                {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
-              </v-expansion-panel-header>
-              <v-expansion-panel-content v-if="!loading || ignoreLoading">
-                <v-container>
-                  <v-row>
-                    <v-col
-                      v-for="(contract, i) in expiredContracts"
-                      :key="contract.uuid"
-                      cols="12"
-                      xl="4"
-                      md="6"
-                    >
-                      <ContractListCard
-                        :key="contract.id"
-                        :data-cy="'contract-' + i"
-                        :contract="contract"
-                        expired
-                        class="no-margin"
-                        @edit="editContract"
-                        @delete="destroy(contract.id)"
-                      />
-                    </v-col> </v-row
-                ></v-container>
-              </v-expansion-panel-content> </v-expansion-panel
-          ></v-expansion-panels>
-        </template>
-      </v-row>
-
-      <placeholder
-        v-if="(!loading || ignoreLoading) && contracts.length === 0"
-        data-cy="contract-list-empty-placeholder"
-        name="UndrawContentCreator"
-      >
-        {{ $t("contracts.empty") }}
-      </placeholder>
-    </template>
-  </base-layout>
+            {{ $t("contracts.empty") }}
+          </placeholder>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

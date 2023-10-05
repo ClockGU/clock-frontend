@@ -70,7 +70,7 @@ export default {
       if (this.disabled) {
         return undefined;
       }
-      return this.contractExpired ? "grey lighten-2" : undefined;
+      return this.contractExpired ? "grey--text text--lighten-2" : undefined;
     }
   },
   methods: {
