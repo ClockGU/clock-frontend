@@ -45,7 +45,7 @@ export default {
   name: "ShiftFormSelectContract",
   mixins: [contractValidMixin],
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -55,6 +55,7 @@ export default {
       default: () => new Date()
     }
   },
+  emits: ['update:modelValue'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -87,27 +88,27 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       if (val === "") {
         this.contract = this.selectedContract;
       } else {
         this.contract = this.$store.getters["contentData/contractById"](val);
       }
       if (this.contract.id === this.selectedContract.id) {
-        this.$emit("input", this.contract.id);
+        this.$emit("update:modelValue", this.contract.id);
       }
     },
     validationDate(val) {
       this.dateToValidate = val;
     },
     contract(val) {
-      this.$emit("input", val.id);
+      this.$emit("update:modelValue", val.id);
     }
   },
   created() {
-    if (this.value !== "") {
+    if (this.modelValue !== "") {
       this.contract = this.$store.getters["contentData/contractById"](
-        this.value
+        this.modelValue
       );
     } else {
       this.contract = this.$store.getters["selectedContract/selectedContract"];
