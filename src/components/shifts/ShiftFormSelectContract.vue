@@ -17,7 +17,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "ShiftFormSelectContract",
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -26,6 +26,7 @@ export default {
       required: true
     }
   },
+emits: ['update:modelValue'],
   data() {
     return {
       icons: {
@@ -40,24 +41,24 @@ export default {
     })
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       if (val === "") {
         this.contract = this.selectedContract;
       } else {
         this.contract = this.$store.getters["contentData/contractById"](val);
       }
       if (this.contract.id === this.selectedContract.id) {
-        this.$emit("input", this.contract.id);
+        this.$emit("update:modelValue", this.contract.id);
       }
     },
     contract(val) {
-      this.$emit("input", val.id);
+      this.$emit("update:modelValue", val.id);
     }
   },
   created() {
-    if (this.value !== "") {
+    if (this.modelValue !== "") {
       this.contract = this.$store.getters["contentData/contractById"](
-        this.value
+        this.modelValue
       );
     } else {
       this.contract = this.$store.getters["selectedContract/selectedContract"];
