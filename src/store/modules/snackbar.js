@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
-import i18n from "@/plugins/i18n";
+import i18n from "@/plugins/i18n.js";
+
+const { t } = i18n.global;
 
 const defaultState = {
   snack: null,
@@ -54,7 +56,7 @@ const actions = {
   },
   setReportReminderSnack({ commit }) {
     commit("setSnack", {
-      message: i18n.t("reports.monthlyReminder"),
+      message: t("reports.monthlyReminder"),
       timeout: 10000,
       color: "warning",
       timePassed: 0,
@@ -66,7 +68,7 @@ const actions = {
 
 const mutations = {
   setSnack(state, payload) {
-    state.snacks.push(payload)
+    state.snacks.push(payload);
   },
   removeSnack(state, uuid) {
     state.snacks = state.snacks.filter((snack) => snack.uuid !== uuid);
