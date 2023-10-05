@@ -1,14 +1,14 @@
 <template>
-  <v-list-item v-on="$listeners">
+  <v-list-item v-bind="$attrs">
     <v-list-item-title :class="error ? 'error--text' : 'text--primary'">
       <v-icon class="pr-1" :color="colors[shift.type]">
         {{ typeIcons[shift.type] }}
       </v-icon>
-      {{ shift.started | formatDay }}
+      {{ formatDay(shift.started) }}
     </v-list-item-title>
     <v-list-item-subtitle :class="error ? 'error--text' : 'text--primary'">
-      {{ shift.started | formatTime }} -
-      {{ shift.stopped | formatTime }}
+      {{ formatTime(shift.started) }} -
+      {{ formatTime(shift.stopped) }}
       ({{ shift.representationalDuration("hm") }})
     </v-list-item-subtitle>
     <v-list-item-subtitle>
@@ -63,17 +63,6 @@ import { Shift } from "@/models/ShiftModel";
 
 export default {
   name: "ShiftListItem",
-  filters: {
-    formatDay(date) {
-      return localizedFormat(date, "EEEE',' do MMMM yyyy");
-    },
-    formatDate(date) {
-      return localizedFormat(date, "dd'.'MM'.' HH':'mm");
-    },
-    formatTime(date) {
-      return localizedFormat(date, "HH':'mm");
-    }
-  },
   props: {
     editable: {
       type: Boolean,
@@ -105,6 +94,17 @@ export default {
         start: this.shift.started,
         end: this.shift.stopped
       });
+    }
+  },
+  methods: {
+    formatDay(date) {
+      return localizedFormat(date, "EEEE',' do MMMM yyyy");
+    },
+    formatDate(date) {
+      return localizedFormat(date, "dd'.'MM'.' HH':'mm");
+    },
+    formatTime(date) {
+      return localizedFormat(date, "HH':'mm");
     }
   }
 };
