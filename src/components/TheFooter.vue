@@ -60,3 +60,7 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+p { margin-bottom: 16px}
+</style>
