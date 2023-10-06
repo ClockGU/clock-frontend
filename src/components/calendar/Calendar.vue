@@ -72,14 +72,15 @@
 import { formatDate } from "@/utils/time";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
-import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons";
-import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
-import SelectContractFilter from "@/components/SelectContractFilter";
+import CalendarNavigationButtons from "@/components/calendar/CalendarNavigationButtons.vue";
+import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect.vue";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+
 
 import { localizedFormat } from "@/utils/date";
 import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
 
 export default {
