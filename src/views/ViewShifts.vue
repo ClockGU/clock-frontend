@@ -15,9 +15,32 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-hover>
-                  <template #default="{ hover }">
-                    <div @click="toggleTouchOverlay(hover)">
+          <v-hover>
+            <template #default="{ hover }">
+              <div @click="toggleTouchOverlay(hover)">
+                <v-toolbar flat>
+                  <v-row>
+                    <v-col>
+                      <ShiftFormDialog
+                        :initial-date="initialDate"
+                        btn-color="primary"
+                      ></ShiftFormDialog>
+                    </v-col>
+                  </v-row>
+                </v-toolbar>
+
+                <MonthSwitcher
+                  v-model="date"
+                  :disabled="disabled"
+                />
+
+                <ShiftsTable
+                  :shifts="pastShifts"
+                  :loading="loading"
+                  :search="pastSearch"
+                  past-shifts
+                >
+                  <template #head="{ selected, reset }">
                       <v-row>
                         <v-col>
                           <ShiftFormDialog
@@ -32,6 +55,7 @@
                             v-model="date"
                             :disabled="disabled"
                           />
+                          </v-col>
                         <v-spacer></v-spacer>
 
                         <v-col
@@ -50,6 +74,8 @@
                           ></v-text-field>
                         </v-col>
                       </v-row>
+                  </template>
+                </ShiftsTable>
                       <v-row>
                         <v-col cols="12">
                           <ShiftsTable
@@ -152,6 +178,7 @@
                               />
                             </template>
                           </ShiftsTable>
+                        </v-col>
                         <v-col
                           cols="12"
                           sm="5"
