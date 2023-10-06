@@ -17,14 +17,16 @@
           {{ formattedDate }}
         </v-btn>
       </template>
-      <v-date-picker
-        :value="dateString"
+      <VDatePicker
+        :value="modelValue"
         :allowed-dates="allowedMonths"
         :min="minMonth"
         :max="maxMonth"
         type="month"
-        @input="inputDate"
-      ></v-date-picker>
+        @click:save="menu = false"
+        @click:cancel="menu = false"
+        @update:model-value="$emit('update:modelValue', $event)"
+      ></VDatePicker>
     </v-menu>
 
     <v-btn :disabled="!hasNextMonth" variant="text" @click="gotoNextMonth">
@@ -42,11 +44,13 @@ import {
   localizedFormat
 } from "@/utils/date";
 import { mapGetters } from "vuex";
+import { VDatePicker } from "vuetify/labs/VDatePicker";
 
 export default {
   name: "MonthSwitcher",
+  components: { VDatePicker },
   props: {
-    date: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -61,6 +65,7 @@ export default {
       default: false
     }
   },
+  emits: ['update:modelValue'],
   data: () => ({
     menu: false,
     icons: { mdiChevronLeft, mdiChevronRight }
@@ -70,18 +75,12 @@ export default {
       selectedContract: "selectedContract/selectedContract",
       selectedReports: "contentData/selectedReports"
     }),
-    dateString() {
-      return localizedFormat(this.date, "yyyy-MM");
-    },
     formattedDate() {
-      return localizedFormat(this.date, "MMMM yyyy");
-    },
-    months() {
-      return this.selectedReports.map((item) => item.monthYear);
+      return localizedFormat(this.modelValue, "MMMM yyyy");
     },
     hasNextMonth() {
       if (this.disabled) return false;
-      const nextMonth = addMonths(this.date, 1);
+      const nextMonth = addMonths(this.modelValue, 1);
       return (
         !isAfter(nextMonth, this.selectedContract.endDate) &&
         this.allowedMonths(localizedFormat(nextMonth, "yyyy-MM"))
@@ -89,7 +88,7 @@ export default {
     },
     hasPrevMonth() {
       if (this.disabled) return false;
-      const prevMonth = subMonths(this.date, 1);
+      const prevMonth = subMonths(this.modelValue, 1);
       return (
         !isBefore(
           prevMonth,
@@ -108,25 +107,22 @@ export default {
   },
   methods: {
     setDate(value) {
-      this.$emit("update", value);
+      this.$emit("update:modelValue", value);
     },
     gotoPrevMonth() {
       if (!this.hasPrevMonth) return;
-      const date = subMonths(this.date, 1);
+      const date = subMonths(this.modelValue, 1);
       this.setDate(date);
     },
     gotoNextMonth() {
       if (!this.hasNextMonth) return;
-      const date = addMonths(this.date, 1);
+      const date = addMonths(this.modelValue, 1);
       this.setDate(date);
     },
     allowedMonths(value) {
       if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
       return parseInt(value.split("-")[1], 10);
     },
-    inputDate(value) {
-      this.setDate(new Date(value));
-    }
   }
 };
 </script>

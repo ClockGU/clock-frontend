@@ -25,9 +25,8 @@
                 </v-toolbar>
 
                 <MonthSwitcher
+                  v-model="date"
                   :disabled="disabled"
-                  :date="date"
-                  @update="updateDate"
                 />
 
                 <ShiftsTable
