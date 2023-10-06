@@ -6,7 +6,7 @@
           :disabled="disabled"
           :initial-focus="focus"
           :initial-type="type"
-          @updateRange="updateRange"
+          @update-range="updateRange"
         >
         </Calendar>
       </v-col>
