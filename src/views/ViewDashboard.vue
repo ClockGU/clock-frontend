@@ -9,7 +9,7 @@
       <v-col cols="12">
         <v-card min-width="100%" :elevation="0">
           <v-container>
-            <v-row>
+            <v-row class="mx-0">
               <v-col cols="12" order="-10">
                 <DashboardWelcome />
               </v-col>
@@ -17,7 +17,6 @@
               <v-col cols="12" md="6" order="0" order-md="0">
                 <ClockInOutCard :disabled="disabled" />
               </v-col>
-
               <v-col cols="12" md="6" order="1" order-md="1">
                 <DashboardMessageList />
               </v-col>
@@ -48,12 +47,12 @@
               <v-col cols="12" md="6" order="4">
                 <DashboardShiftReview />
               </v-col>
+              <v-col cols="12" md="6" order="4">
+                <DashboardShiftReview />
+              </v-col>
 
               <v-col cols="12" md="6" order="5">
-                <DashboardLastActivity
-                  :disabled="disabled"
-                  @refresh="refresh"
-                />
+                <DashboardLastActivity :disabled="disabled" @refresh="refresh" />
               </v-col>
             </v-row>
           </v-container>
