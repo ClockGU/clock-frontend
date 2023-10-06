@@ -4,8 +4,10 @@
       <v-col cols="12">
         <SelectContractFilter :disabled="disabled" />
       </v-col>
-
+    </v-row>
+    <v-row>
       <v-card min-width="100%" :elevation="0">
+        <v-container>
         <v-row class="mx-0">
           <v-col cols="12" order="-10">
             <DashboardWelcome />
@@ -50,6 +52,7 @@
             <DashboardLastActivity :disabled="disabled" @refresh="refresh" />
           </v-col>
         </v-row>
+        </v-container>
       </v-card>
     </v-row>
   </v-container>
