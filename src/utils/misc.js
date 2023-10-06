@@ -13,48 +13,48 @@ export const SHIFT_TABLE_HEADERS = [
     text: t("time.date"),
     align: "start",
     sortable: true,
-    value: "date"
+    key: "date"
   },
   {
     text: t("time.start"),
     align: "start",
     sortable: true,
-    value: "start"
+    key: "start"
   },
   {
     text: t("time.duration"),
     align: "start",
     sortable: true,
-    value: "duration"
+    key: "duration"
   },
   {
     text: t("calendar.type"),
     align: "start",
     sortable: true,
-    value: "type"
+    key: "type"
   },
   {
     text: t("time.reviewed"),
     align: "start",
     sortable: true,
-    value: "reviewed"
+    key: "reviewed"
   },
   {
     text: "Tags",
     align: "start",
     sortable: true,
-    value: "tags"
+    key: "tags"
   },
   {
     text: "Notes",
     align: "start",
     sortable: true,
-    value: "note"
+    key: "note"
   },
   {
     align: "start",
     sortable: false,
-    value: "actions"
+    key: "actions"
   }
 ];
 
