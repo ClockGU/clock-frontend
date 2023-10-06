@@ -105,12 +105,13 @@
 </template>
 
 <script>
-import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
+import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+
 
 import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mdiCircleSlice8, mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
 import TodayButton from "@/components/calendar/TodayButton";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
