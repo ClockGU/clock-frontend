@@ -105,6 +105,7 @@ export default {
       default: "month"
     }
   },
+emits: ['updateRange'],
   data: () => ({
     icons: {
       mdiClose: mdiClose,
