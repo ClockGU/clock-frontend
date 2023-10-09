@@ -54,11 +54,11 @@
           :disabled="isRunningShift(item.raw)"
           @click="reviewSingleShift(item.raw)"
         >
-          <v-icon color="red">
-            {{ icons.mdiClose }}
-          </v-icon>
+          <v-icon :icon="icons.mdiClose" color="red" />
         </v-btn>
-        <v-icon v-else color="green" class="pl-1">{{ icons.mdiCheck }}</v-icon>
+        <v-btn v-else flat icon>
+          <v-icon :icon="icons.mdiCheck" color="green"/>
+        </v-btn>
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -230,7 +230,6 @@ emits: ['refresh'],
       });
     },
     formattedDate(date) {
-      console.log(JSON.stringify(date, null, 4));
       return localizedFormat(date, "EEEE',' do' 'MMMM");
     },
     formattedTime(time) {
