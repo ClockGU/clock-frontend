@@ -76,7 +76,7 @@
         >
           {{ tag }}
         </v-chip>
-        <ShiftInfoDialog v-if="item.raw.tags.length > 2" :item="item">
+        <ShiftInfoDialog v-if="item.raw.tags.length > 2" :item="item.raw">
           <template #activator="{ props }">
             <v-chip small class="mx-1" v-bind="props">...</v-chip>
           </template>
