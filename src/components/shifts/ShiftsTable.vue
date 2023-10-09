@@ -8,6 +8,7 @@
       :search="search"
       :loading="loading"
       item-key="id"
+      return-object
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
@@ -291,15 +292,13 @@ emits: ['refresh'],
       }
     },
     async reviewSingleShift(shift) {
-      const promises = [];
       try {
-        shift.wasReviewed = true;
         const payload = shift.toPayload();
-        promises.push(ShiftService.update(payload, payload.id));
-
-        await Promise.all(promises);
-
-        this.$emit("refresh");
+        payload.was_reviewed = true;
+        await this.$store.dispatch(
+          "contentData/updateShift",
+          { payload, initialContract: payload.contract}
+        );
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
         // We usually should end up here, if we are already logging out.
