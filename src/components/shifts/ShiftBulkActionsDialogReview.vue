@@ -37,6 +37,7 @@ export default {
       required: true
     }
   },
+emits: ['reset'],
   data: () => ({
     contract: null,
     dialog: false,
@@ -66,8 +67,21 @@ export default {
           payload.was_reviewed = true;
           return payload;
         });
-        const updatedShifts = await ShiftService.bulkUpdate(payloadArray);
-        await this.handleFailedUpdates(updatedShifts);
+        // Try reviewing
+        const settledPromises = await ShiftService.bulkUpdate(payloadArray);
+        // Filter and handle failed SHifts
+        let failedPromises = settledPromises.filter((prom) => prom.status ==="rejected");
+        await this.handleFailedUpdates(failedPromises);
+        for ( const promise of settledPromises.filter((prom) => prom.status !== "rejected")) {
+          this.$store.commit(
+            "contentData/updateShift",
+            {
+              contractID: promise.value.contract,
+              shiftInstance: promise.value
+            }
+          );
+        }
+
         this.reset();
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
@@ -89,28 +103,20 @@ export default {
     reset() {
       this.$emit("reset");
     },
-    async handleFailedUpdates(promises) {
-      let failedShiftIds = [];
-      for (let prom of promises) {
-        if (prom.status === "rejected") {
-          failedShiftIds.push(JSON.parse(prom.reason.config.data).id);
-        }
-      }
-      for (let shift of this.shifts.filter(
-        (shift) => failedShiftIds.indexOf(shift.id) !== -1
-      )) {
+    async handleFailedUpdates(failedPromises) {
+      for (let promise of failedPromises) {
         await this.$store.dispatch("snackbar/setSnack", {
           message: this.$t("feedback.snackbar.reviewError", {
             dateAndTime:
-              localizedFormat(shift.started, "EEEE',' do' 'MMMM") +
+              localizedFormat(promise.value.started, "EEEE',' do' 'MMMM") +
               " " +
-              localizedFormat(shift.started, "HH:mm")
+              localizedFormat(promise.value.started, "HH:mm")
           }),
           timeout: 10000,
           color: "error",
           component: ShiftFormDialog,
           componentProps: {
-            shift: shift,
+            shift: promise.value,
             create: false,
             icon: true
           },
