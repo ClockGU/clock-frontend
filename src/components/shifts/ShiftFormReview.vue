@@ -5,7 +5,7 @@
     :prepend-icon="icons.mdiProgressCheck"
     :label="label"
     :style="`--color: ${color}`"
-    class="mt-0 pt-0 v-radio--is-disabled"
+    class="mt-0 pt-0 disable-input"
   ></v-checkbox>
 </template>
 
@@ -49,10 +49,16 @@ export default {
 </script>
 
 <style scoped>
-.v-radio--is-disabled :deep(.v-label) {
+.disable-input :deep(.v-label) {
+  color: var(--color) !important;
+  width: 100%;
+  opacity: 1;
+}
+.disable-input :deep(.v-icon) {
   color: var(--color) !important;
 }
-.theme--light.v-radio--is-disabled :deep(.v-icon) {
-  color: var(--color) !important;
+.disable-input {
+  pointer-events: none;
+  cursor: default;
 }
 </style>
