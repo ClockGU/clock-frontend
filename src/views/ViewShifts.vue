@@ -23,12 +23,16 @@
                     </v-col>
                   </v-row>
                 </v-toolbar>
-
-                <MonthSwitcher
-                  v-model="date"
-                  :disabled="disabled"
-                />
-
+                <v-row>
+                  <v-col>
+                    <MonthSwitcher
+                      v-model="date"
+                      :disabled="disabled"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
                 <ShiftsTable
                   :shifts="pastShifts"
                   :loading="loading"
@@ -75,7 +79,10 @@
                     />
                   </template>
                 </ShiftsTable>
-
+      </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
                 <ShiftsTable
                   :shifts="futureShifts"
                   :loading="loading"
@@ -121,6 +128,8 @@
                     />
                   </template>
                 </ShiftsTable>
+                  </v-col>
+                </v-row>
                 <v-fade-transition>
                   <v-overlay
                     v-if="disabled && (hover || touchOverlay)"
