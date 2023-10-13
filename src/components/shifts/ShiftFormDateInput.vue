@@ -32,6 +32,7 @@
 
 <script>
 import { localizedFormat } from "@/utils/date";
+// eslint-disable-next-line no-unused-vars
 import { isSunday, parseISO } from "date-fns";
 
 import { mdiCalendar } from "@mdi/js";
@@ -82,6 +83,7 @@ export default {
     }
   },
   methods: {
+    // eslint-disable-next-line no-unused-vars
     allowed(value) {
       // Commented out for including the UB
       // const parsedValue = parseISO(value);
