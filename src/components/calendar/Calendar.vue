@@ -49,6 +49,12 @@
         </v-col>
       </v-row>
     </v-container>
+    <ShiftFormDialog
+      :shift="shift"
+      :value="editShift"
+      disable-activator
+      @close="editShift = false"
+    ></ShiftFormDialog>
   </v-card>
 </template>
 
