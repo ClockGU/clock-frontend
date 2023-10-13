@@ -43,6 +43,7 @@ export default {
       default: false
     }
   },
+emits: ['close'],
   data() {
     return {
       icons: {
@@ -61,8 +62,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .theme--dark.v-toolbar.v-sheet {
   background-color: #1e1e1e;
+}
+:deep(.v-toolbar-title__placeholder) {
+  text-overflow: unset;
 }
 </style>
