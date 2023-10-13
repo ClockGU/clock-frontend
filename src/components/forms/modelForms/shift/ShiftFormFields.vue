@@ -166,10 +166,12 @@ export default {
     modelValue(value) {
       this.shift = value;
     },
-    shift(value) {
-
-      value.wasReviewed = !this.isInFuture;
-      this.$emit("update:modelValue", value);
+    shift: {
+      handler(value) {
+        value.wasReviewed = !this.isInFuture;
+        this.$emit("update:modelValue", value);
+      },
+      deep: true
     },
     scheduledShifts(value) {
       this.$emit("scheduleShifts", value);
