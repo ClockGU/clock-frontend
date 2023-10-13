@@ -19,35 +19,37 @@
 
     <v-card-actions data-cy="contract-actions">
       <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
-      <ConfirmationDialog
-        :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
-        @confirm="destroyFn"
-      >
-        <template #activator="{ on }">
-          <v-btn text data-cy="delete" v-on="on">
-            {{ $t("actions.delete") }}
-          </v-btn>
-        </template>
+      <div style="z-index: 6">
+        <ConfirmationDialog
+          :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
+          @confirm="destroyFn"
+        >
+          <template #activator="{ on }">
+            <v-btn text data-cy="delete" v-on="on">
+              {{ $t("actions.delete") }}
+            </v-btn>
+          </template>
 
-        <template #title>
-          {{
-            $t("buttons.deleteEntity", {
-              entity: $tc(`models.contract`)
-            })
-          }}
-        </template>
+          <template #title>
+            {{
+              $t("buttons.deleteEntity", {
+                entity: $tc(`models.contract`)
+              })
+            }}
+          </template>
 
-        <template #text>
-          {{
-            $t(`dialogs.textConfirmDelete`, {
-              selectedEntity: $tc(`models.selectedContract`)
-            })
-          }}
-        </template>
-        <template #consequencesText>
-          {{ $t("dialogs.contractDeleteConsequences") }}
-        </template>
-      </ConfirmationDialog>
+          <template #text>
+            {{
+              $t(`dialogs.textConfirmDelete`, {
+                selectedEntity: $tc(`models.selectedContract`)
+              })
+            }}
+          </template>
+          <template #consequencesText>
+            {{ $t("dialogs.contractDeleteConsequences") }}
+          </template>
+        </ConfirmationDialog>
+      </div>
     </v-card-actions>
     <v-overlay absolute :value="expired" color="grey lighten-1" />
   </v-card>
