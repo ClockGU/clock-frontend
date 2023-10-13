@@ -14,7 +14,6 @@
           :disabled="disabled"
           :color="btnColor"
           :flat="flatButton"
-          variant="text"
           v-bind="props['props']"
           @click="opened = true"
         >

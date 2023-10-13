@@ -13,7 +13,7 @@
           <v-hover>
             <template #default="{ hover }">
               <div @click="toggleTouchOverlay(hover)">
-                <v-toolbar flat>
+                <v-card-title>
                   <v-row>
                     <v-col>
                       <ShiftFormDialog
@@ -22,7 +22,7 @@
                       ></ShiftFormDialog>
                     </v-col>
                   </v-row>
-                </v-toolbar>
+                </v-card-title>
                 <v-row>
                   <v-col>
                     <MonthSwitcher
