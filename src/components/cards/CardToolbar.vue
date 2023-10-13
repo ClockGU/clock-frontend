@@ -41,6 +41,7 @@ export default {
       default: false
     }
   },
+emits: ['close'],
   data() {
     return {
       icons: {
@@ -58,3 +59,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+:deep(.v-toolbar-title__placeholder) {
+  text-overflow: unset;
+}
+</style>
