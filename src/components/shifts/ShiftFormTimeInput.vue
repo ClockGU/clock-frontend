@@ -51,6 +51,7 @@ import { validateTimeInput } from "@/utils/time";
 
 import { mdiClockOutline } from "@mdi/js";
 import { useDisplay } from "vuetify";
+import { isSameMinute } from "date-fns";
 
 export default {
   name: "ShiftFormTimeInput",
@@ -118,7 +119,9 @@ export default {
         this.modelValue.getDate()
       ];
       const date = new Date(year, month, day, hours, minutes);
-      this.$emit("update:modelValue", date);
+      if (!isSameMinute(date, this.modelValue)){
+        this.$emit("update:modelValue", date);
+      }
       this.data = `${hours}:${minutes}`;
     }
   },

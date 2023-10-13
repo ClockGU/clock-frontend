@@ -132,20 +132,19 @@ export default {
       ];
       // Vue ONLY wraps GET and SET not all other modifcations... so setFullYear does not work
       // sadly ...
-      this.timeStart = new Date(
+      this.$emit("update:started", new Date(
         year,
         month,
         day,
         this.timeStart.getHours(),
         this.timeStart.getMinutes()
-      );
-      this.timeStop = new Date(
+      ));
+      this.$emit("update:stopped", new Date(
         year,
         month,
         day,
         this.timeStop.getHours(),
-        this.timeStop.getMinutes()
-      );
+        this.timeStop.getMinutes()));
     },
   }
 };
