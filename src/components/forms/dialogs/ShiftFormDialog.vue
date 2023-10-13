@@ -96,7 +96,7 @@ export default {
     },
     flatButton: {
       type: Boolean,
-      default: true
+      default: false
     },
     value: {
       type: Boolean,
