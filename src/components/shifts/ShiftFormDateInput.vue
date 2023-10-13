@@ -83,8 +83,10 @@ export default {
   },
   methods: {
     allowed(value) {
-      const parsedValue = parseISO(value);
-      return !isSunday(parsedValue);
+      // Commented out for including the UB
+      // const parsedValue = parseISO(value);
+      // return !isSunday(parsedValue);
+      return true;
     }
   }
 };
