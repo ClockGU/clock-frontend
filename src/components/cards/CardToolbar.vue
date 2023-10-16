@@ -1,9 +1,8 @@
 <template>
-  <v-card-title flat>
-    <v-toolbar flat>
-      <v-toolbar-title>
-        {{ title }}
-      </v-toolbar-title>
+  <v-toolbar :color="color" flat>
+    <v-toolbar-title>
+      {{ title }}
+    </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -17,7 +16,6 @@
         </v-icon>
       </v-btn>
     </v-toolbar>
-  </v-card-title>
 </template>
 
 <script>
@@ -41,6 +39,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    color: {
+      type: String,
+      required:false,
+      default: undefined
     }
   },
 emits: ['close'],
