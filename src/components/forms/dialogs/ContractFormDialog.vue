@@ -12,7 +12,6 @@
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          :variant="textButton && 'text'"
           v-bind="props"
           @click="opened = true"
         >
@@ -81,6 +80,7 @@ export default {
       default: false
     }
   },
+emits: ['close'],
   data() {
     return {
       icons: {
