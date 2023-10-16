@@ -5,11 +5,13 @@
         <h1>Debug</h1>
       </v-col>
     </v-row>
-
-    <v-card>
+    <v-row>
+      <v-col>
       <SelectContractFilter />
-    </v-card>
-
+      </v-col>
+    </v-row>
+        <v-row>
+          <v-col>
     <v-card>
       <v-card-title> Short shift </v-card-title>
 
@@ -22,7 +24,10 @@
         <v-btn color="primary" variant="text" @click="shortShift">Create</v-btn>
       </v-card-actions>
     </v-card>
-
+          </v-col>
+        </v-row>
+            <v-row>
+              <v-col>
     <v-card>
       <v-card-title> Overflow shift </v-card-title>
 
@@ -37,7 +42,10 @@
         >
       </v-card-actions>
     </v-card>
-
+              </v-col>
+            </v-row>
+                <v-row>
+                  <v-col>
     <v-card>
       <v-card-title> Very long shift </v-card-title>
 
@@ -52,6 +60,8 @@
         >
       </v-card-actions>
     </v-card>
+                  </v-col>
+                </v-row>
   </v-container>
 </template>
 
