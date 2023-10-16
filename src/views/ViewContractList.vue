@@ -16,12 +16,12 @@
               focusable
             >
               <v-expansion-panel v-model="panel">
-                <v-expansion-panel-header class="text-h6 font-weight-regular">
+                <v-expansion-panel-title class="text-h6 font-weight-regular">
                   {{ $t("contracts.activeContracts") }} ({{
                     activeContracts.length
                   }})
-                </v-expansion-panel-header>
-                <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                </v-expansion-panel-title>
+                <v-expansion-panel-text v-if="!loading || ignoreLoading">
                   <v-container>
                     <v-row>
                       <v-col
@@ -40,19 +40,15 @@
                         />
                       </v-col> </v-row
                   ></v-container>
-                </v-expansion-panel-content> </v-expansion-panel
+                </v-expansion-panel-text> </v-expansion-panel
             ></v-expansion-panels>
 
-            <v-expansion-panels
-              v-if="expiredContracts.length > 0"
-              flat
-              focusable
-            >
+            <v-expansion-panels v-if="expiredContracts.length > 0" flat focusable>
               <v-expansion-panel>
-                <v-expansion-panel-header class="text-h6 font-weight-regular">
+                <v-expansion-panel-title class="text-h6 font-weight-regular">
                   {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
-                </v-expansion-panel-header>
-                <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                </v-expansion-panel-title>
+                <v-expansion-panel-text v-if="!loading || ignoreLoading">
                   <v-container>
                     <v-row>
                       <v-col
@@ -71,10 +67,13 @@
                           @edit="editContract"
                           @delete="destroy(contract.id)"
                         />
-                      </v-col> </v-row
+                      </v-col>
+                    </v-row
                   ></v-container>
-                </v-expansion-panel-content> </v-expansion-panel
-            ></v-expansion-panels>
+                </v-expansion-panel-text>
+              </v-expansion-panel
+            >
+            </v-expansion-panels>
           </v-col>
 
           <placeholder
