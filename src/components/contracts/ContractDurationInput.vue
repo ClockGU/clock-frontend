@@ -73,15 +73,10 @@ export default {
       this.end = val;
     },
     start() {
-      this.input();
+      this.$emit("update:start-date", this.start);
     },
     end() {
-      this.input();
-    }
-  },
-  methods: {
-    input() {
-      this.$emit("input", { startDate: this.start, endDate: this.end });
+      this.$emit("update:end-date", this.end);
     }
   }
 };
