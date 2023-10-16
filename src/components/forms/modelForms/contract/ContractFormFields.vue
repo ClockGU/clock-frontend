@@ -132,7 +132,7 @@ export default {
     ClockCardAlert
   },
   props: {
-    value: {
+    modelValue: {
       type: Contract,
       required: true
     },
@@ -147,7 +147,7 @@ export default {
   },
   data() {
     return {
-      contract: this.value,
+      contract: this.modelValue,
       icons: {
         mdiFolderInformationOutline,
         mdiTimetable,
@@ -167,7 +167,7 @@ export default {
     },
     areLockedShiftsInThisContract() {
       let shifts = store.getters["contentData/allShifts"].filter((shift) => {
-        return shift.contract === this.value.id && shift.locked;
+        return shift.contract === this.modelValue.id && shift.locked;
       });
       return shifts.length !== 0;
     },
@@ -181,7 +181,7 @@ export default {
     }
   },
   watch: {
-    value(value) {
+    modelValue(value) {
       this.contract = value;
       if (value.initialCarryoverMinutes === 0) {
         this.showCarryover = false;
