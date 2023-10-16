@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import OnboardDialog from "@/components/OnboardDialog";
+import OnboardDialog from "@/components/OnboardDialog.vue";
 
 export default {
   name: "Onboarding",
