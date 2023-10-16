@@ -26,13 +26,15 @@
       :max="max"
       :min="min"
       no-title
-      @click:date="menu = false"
+      @click:save="menu = false"
+      @click:cancel="menu = false"
+      @update:model-value="$emit('update:modelValue', $event)"
     ></VDatePicker>
   </v-menu>
 </template>
 
 <script>
-import { parseISO, isLastDayOfMonth, format } from "date-fns";
+import { parseISO, isLastDayOfMonth } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 import { VDatePicker } from "vuetify/labs/VDatePicker";
@@ -95,10 +97,6 @@ emits: ['update:modelValue'],
     modelValue(val) {
       this.date = val;
     },
-    date(val) {
-      console.log(val);
-      this.$emit("update:modelValue", val);
-    }
   },
   methods: {
     allowedStartDates(val) {
