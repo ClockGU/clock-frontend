@@ -52,8 +52,8 @@ import { getOverlappingShifts } from "@/utils/shift";
 import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
 import { mapState, mapGetters } from "vuex";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
-import CardToolbar from "@/components/cards/CardToolbar";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
 
 export default {
   name: "CalendarOverlap",
