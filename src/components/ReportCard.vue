@@ -48,7 +48,7 @@
                   <v-btn
                     v-if="!pdf"
                     :loading="loading"
-                    :variant="loading ? 'outlined' : undefined"
+                    :variant="loading ? 'outlined' : 'elevated'"
                     :disabled="!isFirstUnlockedMonth && !exported"
                     color="primary"
                     @click="request"
@@ -59,7 +59,7 @@
                   <v-btn
                     v-else
                     :loading="loading"
-                    :variant="loading && 'outlined'"
+                    :variant="loading ? 'outlined' : 'elevated'"
                     color="primary"
                     @click="download"
                   >
@@ -89,7 +89,7 @@
                       <v-btn
                         :disabled="lockDisabled"
                         :loading="lockLoading"
-                        :variant="!lockDisabled ? 'text' : undefined"
+                        :variant="!lockDisabled ? 'text' : 'elevated'"
                         :color="!lockDisabled ? 'warning' : ''"
                         v-bind="props"
                       >
