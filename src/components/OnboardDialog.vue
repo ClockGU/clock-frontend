@@ -39,6 +39,7 @@
           </v-window-item>
 
           <v-window-item key="contractForm" eager :value="titles.length - 2">
+            <v-container>
             <p>{{ $t("onboarding.setupData.text") }}</p>
             <v-row>
               <v-col cols="12">
@@ -91,6 +92,7 @@
                 </v-btn>
               </v-col>
             </v-row>
+            </v-container>
           </v-window-item>
 
           <v-window-item key="finish" eager :value="titles.length - 1">
