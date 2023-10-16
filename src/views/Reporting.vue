@@ -118,7 +118,6 @@
 </template>
 
 <script>
-import MonthSwitcher from "@/components/MonthSwitcher.vue";
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts.vue";
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import ReportCard from "@/components/ReportCard.vue";
@@ -247,9 +246,6 @@ export default {
     );
   },
   methods: {
-    updateDate(value) {
-      this.date = value;
-    },
     openDialog() {
       this.dialog = true;
     },
