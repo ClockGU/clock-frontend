@@ -11,9 +11,11 @@
 
       <v-card-text>
         <v-fade-transition>
-          <v-overlay v-if="loading" absolute scrim="#036358">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-overlay>
+          <div>
+            <v-overlay v-if="loading" absolute scrim="#036358">
+              <v-progress-circular indeterminate size="64"></v-progress-circular>
+            </v-overlay>
+          </div>
         </v-fade-transition>
 
         <v-text-field
@@ -49,7 +51,7 @@
           color="primary"
           :disabled="v$.$error || !v$.$dirty"
           variant="text"
-          @click.native="submit"
+          @click="submit"
           >Login</v-btn
         >
       </v-card-actions>
