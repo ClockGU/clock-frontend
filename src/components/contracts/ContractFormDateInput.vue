@@ -39,7 +39,7 @@ import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 export default {
   name: "ContractFormDateInput",
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -68,6 +68,7 @@ export default {
       default: false
     }
   },
+emits: ['update:modelValue'],
   data() {
     return {
       icons: {
@@ -75,7 +76,7 @@ export default {
         mdiCalendarArrowRight
       },
       menu: false,
-      date: format(this.value, "yyyy-MM-dd")
+      date: format(this.modelValue, "yyyy-MM-dd")
     };
   },
   computed: {
@@ -85,16 +86,16 @@ export default {
       return this.icons.mdiCalendarArrowLeft;
     },
     formattedDate() {
-      return localizedFormat(this.value, "eee do MMM yyyy");
+      return localizedFormat(this.modelValue, "eee do MMM yyyy");
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.date = localizedFormat(val, "yyyy-MM-dd");
     },
     date(val) {
       const [year, month, day] = val.split("-");
-      this.$emit("input", new Date(year, month - 1, day));
+      this.$emit("update:modelValue", new Date(year, month - 1, day));
     }
   },
   methods: {
