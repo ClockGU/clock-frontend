@@ -9,10 +9,10 @@
           type="warning"
         >
           <v-row align="center">
-            <v-col class="grow">
+            <v-col class="flex-grow-1 flex-shrink-0">
               {{ $t("reports.personnelNumberMissing") }}
             </v-col>
-            <v-col class="shrink">
+            <v-col class="flex-grow-0 flex-shrink-1">
               <v-btn color="white" variant="outlined" @click="openDialog">
                 {{
                   $t("buttons.newEntity", {
