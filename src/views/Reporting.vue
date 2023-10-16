@@ -34,10 +34,9 @@
 
       <v-col cols="12">
         <MonthSwitcher
+          v-model="date"
           :disabled="disabled"
-          :date="date"
           :allowed-date-fn="monthValidateFn"
-          @update="updateDate"
         />
         <DashboardConflicts
           :disabled="disabled"
@@ -198,9 +197,6 @@ export default {
     );
   },
   methods: {
-    updateDate(value) {
-      this.date = value;
-    },
     openDialog() {
       this.dialog = true;
     },
