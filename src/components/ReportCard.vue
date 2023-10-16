@@ -48,7 +48,7 @@
                   <v-btn
                     v-if="!pdf"
                     :loading="loading"
-                    :variant="loading && 'outlined'"
+                    :variant="loading ? 'outlined' : undefined"
                     :disabled="!isFirstUnlockedMonth && !exported"
                     color="primary"
                     @click="request"
