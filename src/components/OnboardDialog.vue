@@ -32,8 +32,9 @@
             :value="titles.length - 3"
           >
             <GdprAgreementCard
+              v-model="privacyagreement"
+              hide-toolbar
               disable-actions
-              @checkbox-updated="updatePrivacyagreement"
             ></GdprAgreementCard>
           </v-window-item>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar flat>
+  <v-toolbar :color="color" flat>
     <v-toolbar-title>
       {{ title }}
     </v-toolbar-title>
@@ -39,6 +39,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    color: {
+      type: String,
+      required:false,
+      default: undefined
     }
   },
 emits: ['close'],
