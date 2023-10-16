@@ -186,9 +186,7 @@ export default {
         );
         let report = filteredReports[0];
         if (report === undefined) {
-          this.updateDate(
-            this.selectedReports[this.selectedReports.length - 1].monthYear
-          );
+          this.date = this.selectedReports[this.selectedReports.length - 1].monthYear;
           return;
         }
         this.report = report;
