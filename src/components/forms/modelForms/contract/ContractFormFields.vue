@@ -145,6 +145,7 @@ export default {
       default: "alert"
     }
   },
+emits: ['update:modelValue'],
   data() {
     return {
       contract: this.modelValue,
@@ -191,7 +192,7 @@ export default {
       }
     },
     contract(value) {
-      this.$emit("input", value);
+      this.$emit("update:modelValue", value);
     }
   },
   methods: {
