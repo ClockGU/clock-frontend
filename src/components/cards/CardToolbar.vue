@@ -63,5 +63,6 @@ emits: ['close'],
 <style scoped>
 :deep(.v-toolbar-title__placeholder) {
   text-overflow: unset;
+  overflow: unset;
 }
 </style>
