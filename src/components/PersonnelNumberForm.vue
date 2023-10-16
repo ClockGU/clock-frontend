@@ -83,6 +83,7 @@ export default {
       personnelNumber: { required, minLength: minLength(5) }
     };
   },
+emits: ['close'],
   setup() {
     return {
       v$: useVuelidate()
