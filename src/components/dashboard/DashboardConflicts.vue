@@ -3,11 +3,10 @@
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
         <v-icon
-          :class="disabled ? 'warning--text' : 'green--text'"
-          size="x-large"
-          >{{
-            disabled ? icons.mdiHelpCircleOutline : icons.mdiCheckBold
-          }}</v-icon
+          :color=" disabled ? 'warning' : 'success'"
+          :icon="disabled ? icons.mdiHelpCircleOutline : icons.mdiCheckBold"
+          :size="40"
+          ></v-icon
         >
       </v-col>
       <v-col cols="8" xs="10">
