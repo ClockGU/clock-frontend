@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { parseISO, isLastDayOfMonth } from "date-fns";
+import { parseISO, isLastDayOfMonth, getDate } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 import { VDatePicker } from "vuetify/labs/VDatePicker";
@@ -100,12 +100,12 @@ emits: ['update:modelValue'],
   },
   methods: {
     allowedStartDates(val) {
-      const day = parseInt(val.split("-")[2], 10);
+      const day = getDate(val);
       return day === 1 || day === 16;
     },
     allowedEndDates(val) {
-      const day = parseInt(val.split("-")[2], 10);
-      return day === 15 || isLastDayOfMonth(parseISO(val));
+      const day = getDate(val);
+      return day === 15 || isLastDayOfMonth(val);
     }
   }
 };
