@@ -16,7 +16,7 @@
       <v-card-text class="pb-0">
         <v-window v-model="step">
           <v-window-item
-            v-for="(card, i) in Object.values($t('onboarding.cards'))"
+            v-for="(card, i) in Object.values($tm('onboarding.cards'))"
             :key="i"
             :value="i"
             eager
@@ -233,7 +233,7 @@ export default {
       return smAndDown.value;
     },
     titles() {
-      let returnValue = Object.values(this.$t("onboarding.cards")).map(
+      let returnValue = Object.values(this.$tm("onboarding.cards")).map(
         function (el) {
           return el.title;
         }
