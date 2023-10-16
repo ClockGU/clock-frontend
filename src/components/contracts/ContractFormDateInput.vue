@@ -19,7 +19,7 @@
         v-bind="props"
       ></v-text-field>
     </template>
-    <v-date-picker
+    <VDatePicker
       v-model="date"
       :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
       :first-day-of-week="1"
@@ -27,7 +27,7 @@
       :min="min"
       no-title
       @click:date="menu = false"
-    ></v-date-picker>
+    ></VDatePicker>
   </v-menu>
 </template>
 
@@ -35,9 +35,11 @@
 import { parseISO, isLastDayOfMonth, format } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
+import { VDatePicker } from "vuetify/labs/VDatePicker";
 
 export default {
   name: "ContractFormDateInput",
+  components: {VDatePicker},
   props: {
     modelValue: {
       type: Date,
@@ -76,7 +78,7 @@ emits: ['update:modelValue'],
         mdiCalendarArrowRight
       },
       menu: false,
-      date: format(this.modelValue, "yyyy-MM-dd")
+      date: this.modelValue
     };
   },
   computed: {
@@ -91,11 +93,11 @@ emits: ['update:modelValue'],
   },
   watch: {
     modelValue(val) {
-      this.date = localizedFormat(val, "yyyy-MM-dd");
+      this.date = val;
     },
     date(val) {
-      const [year, month, day] = val.split("-");
-      this.$emit("update:modelValue", new Date(year, month - 1, day));
+      console.log(val);
+      this.$emit("update:modelValue", val);
     }
   },
   methods: {
