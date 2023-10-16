@@ -100,6 +100,10 @@
         </v-window>
       </v-card-text>
       <v-progress-linear
+        height="4"
+        bg-color="primary"
+        color="primary"
+        bg-opacity="0.3"
         :model-value="(step / titles.length) * 100"
       ></v-progress-linear>
       <v-card-actions>
@@ -131,6 +135,7 @@
       <v-card-actions>
         <v-checkbox
           v-model="dontShowOnboardingAgain"
+          density="compact"
           :label="$t('actions.dontShowAgain')"
           style="scale: 0.85"
         ></v-checkbox>
