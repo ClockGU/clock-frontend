@@ -1,10 +1,9 @@
 <template>
   <v-card-text>
     <ContractDurationInput
-      :start-date="contract.startDate"
-      :end-date="contract.endDate"
+      v-model:start-date="contract.startDate"
+      v-model:end-date="contract.endDate"
       :disable-start="areLockedShiftsInThisContract"
-      @input="setDates"
     ></ContractDurationInput>
     <v-row align="center" justify="start">
       <v-col cols="12">
@@ -132,10 +131,6 @@ emits: ['update:modelValue'],
     }
   },
   methods: {
-    setDates(event) {
-      this.contract.startDate = event.startDate;
-      this.contract.endDate = event.endDate;
-    },
     setInitialCarryover(event) {
       this.contract.initialCarryoverMinutes = event.carryover;
       this.contract.carryoverTargetDate = event.carryoverTargetDate;
