@@ -75,7 +75,7 @@ export default {
     return validations;
   },
   props: {
-    value: {
+    modelValue: {
       type: [Number, String],
       default: null
     },
@@ -104,6 +104,7 @@ export default {
       default: false
     }
   },
+  emits: ['update:modelValue'],
   setup() {
     return {
       v$: useVuelidate()
@@ -132,7 +133,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       try {
         validateWorktimeInput(minutesToHHMM(val));
       } catch {
@@ -143,7 +144,7 @@ export default {
     }
   },
   created() {
-    this.data = this.value === 0 ? null : minutesToHHMM(this.value);
+    this.data = this.modelValue === 0 ? null : minutesToHHMM(this.modelValue);
   },
   methods: {
     setTime() {
@@ -158,13 +159,13 @@ export default {
         minutes = validateWorktimeInput(event);
       } catch {
         if (event === "") {
-          this.$emit("input", null);
+          this.$emit("update:modelValue", null);
           return;
         }
-        this.$emit("input", event);
+        this.$emit("update:modelValue", event);
         return;
       }
-      this.$emit("input", minutes);
+      this.$emit("update:modelValue", minutes);
     }
   }
 };
