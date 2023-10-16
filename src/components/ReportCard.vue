@@ -89,7 +89,7 @@
                       <v-btn
                         :disabled="lockDisabled"
                         :loading="lockLoading"
-                        :variant="!lockDisabled && 'text'"
+                        :variant="!lockDisabled ? 'text' : undefined"
                         :color="!lockDisabled ? 'warning' : ''"
                         v-bind="props"
                       >
