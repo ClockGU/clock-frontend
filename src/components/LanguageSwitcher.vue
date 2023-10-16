@@ -5,7 +5,7 @@
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn class="text-capitalize" variant="text" v-bind="props">
         <v-icon :start="smAndUp" :icon="`mdiSvg:${mdiTranslate}`"></v-icon>
         <span
@@ -66,7 +66,7 @@ export default {
 
       this.$i18n.locale = locale;
       // Update Vuetify settings
-      this.$vuetify.lang.current = locale;
+      this.$vuetify.locale.current = locale;
 
       // Update locale for API requests
       await ApiService.setHeader("Accept-Language", locale);
