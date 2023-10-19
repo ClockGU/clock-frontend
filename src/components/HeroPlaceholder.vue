@@ -20,6 +20,7 @@
 <script>
 import { UndrawFactory } from "@/factories/undrawFactory";
 import { useDisplay } from "vuetify";
+import { markRaw } from "vue";
 
 export default {
   name: "HeroPlaceholder",
@@ -42,10 +43,10 @@ export default {
   }),
   computed: {
     mdAndUp() {
-      return useDisplay().mdAndUp;
+      return useDisplay().mdAndUp.value;
     },
     smAndDown() {
-      return useDisplay().smAndDown
+      return useDisplay().smAndDown.value;
     },
     orderPlaceholder() {
       return this.rtl ? 2 : 1;
@@ -58,7 +59,7 @@ export default {
   },
   created() {
     UndrawFactory.get(this.name).then((resolvedComponent) => {
-      this.component = resolvedComponent["default"];
+      this.component = markRaw(resolvedComponent["default"]);
     });
   }
 };
