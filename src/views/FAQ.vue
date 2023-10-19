@@ -2,25 +2,25 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>{{ $t("app.faq") }}</h1>
+        <h1>{{ $t("app.faq") }} {{smth}}</h1>
         <br />
         <v-expansion-panels v-if="!loading" variant="accordion">
           <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
-            <v-expansion-panel-header
+            <v-expansion-panel-title
               class="text-body-1"
               :class="getQuestionFontWeight(faq)"
               @click="setSelectedFaq(faq)"
             >
               {{ question(faq) }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content class="text-body-1">
+            </v-expansion-panel-title>
+            <v-expansion-panel-text class="text-body-1">
               {{ answer(faq) }}
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
 
         <p class="mt-8">
-          <i18n path="faq.text">
+          <i18n-t keypath="faq.text" scope="global">
             <template #link>
               <base-link
                 class="text-no-wrap"
@@ -30,7 +30,7 @@
                 <template #default>{{ $t("faq.linktext") }}</template>
               </base-link>
             </template>
-          </i18n>
+          </i18n-t>
         </p>
       </v-col>
     </v-row>
@@ -60,17 +60,13 @@ export default {
       loading: "faq/loading",
       faqs: "faq/faqs",
       locale: "locale"
-    })
+    }),
+    smth() {
+      return this.$store.getters["faq/status"];
+    }
   },
   async created() {
-    try {
-      await Promise.all([this.$store.dispatch("faq/queryFaq")]);
-    } catch (error) {
-      log(error);
-      this.error = true;
-    } finally {
-      this.loading = false;
-    }
+    await this.$store.dispatch("faq/queryFaq");
   },
   methods: {
     question(faq) {
