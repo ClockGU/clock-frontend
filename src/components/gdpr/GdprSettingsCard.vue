@@ -13,8 +13,7 @@
     <v-card-actions>
       <v-btn
         :loading="loading"
-        :variant="loading && 'outlined'"
-        variant="text"
+        :variant="loading ? 'outlined' : 'text'"
         color="primary"
         @click="action"
       >
