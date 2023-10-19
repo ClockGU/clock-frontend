@@ -20,55 +20,65 @@
     </template>
 
     <template #content>
-      <v-tabs
-        :direction="smAndUp && 'vertical'"
-        class="tabs"
-      >
-        <v-tab>
-          <v-icon start>{{ icons.mdiWeb }}</v-icon>
-          {{ $t("app.language") }}
-        </v-tab>
+      <v-container>
+        <v-row>
+          <v-col cols="3">
+            <v-tabs
+              v-model="tab"
+              :direction="smAndUp ? 'vertical' : 'horizontal'"
+              class="tabs"
+            >
+              <v-tab>
+                <v-icon :icon="icons.mdiWeb" start />
+                {{ $t("app.language") }}
+              </v-tab>
 
-        <v-tab>
-          <v-icon start>{{ icons.mdiFormatSection }}</v-icon>
-          {{ $t("app.gdpr") }}
-        </v-tab>
+              <v-tab>
+                <v-icon :icon="icons.mdiFormatSection" start />
+                {{ $t("app.gdpr") }}
+              </v-tab>
 
-        <v-tab>
-          <v-icon start>{{ icons.mdiBadgeAccountHorizontal }}</v-icon>
-          {{ $t("personnelNumber.label") }}
-        </v-tab>
+              <v-tab>
+                <v-icon :icon="icons.mdiBadgeAccountHorizontal" start />
+                {{ $t("personnelNumber.label") }}
+              </v-tab>
 
-        <v-tab>
-          <v-icon start>{{ icons.mdiAccountRemove }}</v-icon>
-          {{ $t("app.account") }}
-        </v-tab>
+              <v-tab>
+                <v-icon :icon="icons.mdiAccountRemove" start />
+                {{ $t("app.account") }}
+              </v-tab>
 
-        <v-tab v-if="isSuperUser">
-          <v-icon start>{{ icons.mdiAccountReactivate }}</v-icon>
-          Checkout User
-        </v-tab>
+              <v-tab v-if="isSuperUser">
+                <v-icon :icon="icons.mdiAccountReactivate" start />
+                Checkout User
+              </v-tab>
+            </v-tabs>
+          </v-col>
+          <v-col cols="9">
+            <v-window  v-model="tab">
+              <v-window-item value="first">
+                <LanguageSettings />
+              </v-window-item>
 
-        <v-tab-item>
-          <LanguageSettings />
-        </v-tab-item>
+              <v-window-item value="second">
+                <GDPR />
+              </v-window-item>
 
-        <v-tab-item>
-          <GDPR />
-        </v-tab-item>
+              <v-window-item value="third">
+                <PersonnelNumberForm />
+              </v-window-item>
 
-        <v-tab-item>
-          <PersonnelNumberForm />
-        </v-tab-item>
+              <v-window-item value="fourth">
+                <DeleteAccount />
+              </v-window-item>
 
-        <v-tab-item>
-          <DeleteAccount />
-        </v-tab-item>
-
-        <v-tab-item>
-          <AdminCheckoutUser :value="checkoutUserID" />
-        </v-tab-item>
-      </v-tabs>
+              <v-window-item value="fifth">
+                <AdminCheckoutUser :value="checkoutUserID" />
+              </v-window-item>
+            </v-window>
+          </v-col>
+        </v-row>
+      </v-container>
     </template>
   </base-layout>
 </template>
@@ -112,7 +122,8 @@ export default {
       mdiFormatSection,
       mdiWeb,
       mdiAccountReactivate
-    }
+    },
+    tab: "first"
   }),
   computed: {
     smAndDown() {
