@@ -66,7 +66,7 @@ export default {
     },
     minHeight() {
       const { mdAndUp } = useDisplay();
-      const height = mdAndUp ? "100vh" : "50vh";
+      const height = mdAndUp.value ? "100vh" : "50vh";
       const { mainRect } = useLayout();
       return `calc(${height} - ${mainRect}px)`;
     }
