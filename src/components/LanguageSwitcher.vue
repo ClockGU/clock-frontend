@@ -7,14 +7,12 @@
   >
     <template #activator="{ props }">
       <v-btn class="text-capitalize" variant="text" v-bind="props">
-        <v-icon :start="smAndUp" :icon="`mdiSvg:${mdiTranslate}`"></v-icon>
+        <v-icon :start="smAndUp" :icon="icons.mdiTranslate" />
         <span
           class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
           v-text="selectedLocale"
         />
-        <v-icon class="hidden-sm-and-down" end>
-          {{ icons.mdiChevronDown }}
-        </v-icon>
+        <v-icon class="hidden-sm-and-down" :icon="icons.mdiChevronDown" end />
       </v-btn>
     </template>
 
@@ -42,7 +40,6 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiChevronDown, mdiTranslate },
-    mdiTranslate,
     locales: [
       { name: "Deutsch", locale: "de" },
       { name: "English", locale: "en" }
