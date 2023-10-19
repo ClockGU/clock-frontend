@@ -75,6 +75,7 @@ export default {
       default: 400
     }
   },
+emits: ['confirm'],
   data: () => ({
     dialog: false
   }),
