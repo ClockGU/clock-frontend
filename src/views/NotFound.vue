@@ -19,27 +19,34 @@
 
     <template #content>
       <placeholder name="UndrawBlankCanvas">
-        Hmm, hier ist irgendetwas schief gegangen. Die angeforderte Seite
-        existiert nicht.
 
-        <v-row justify="center">
-          <v-btn
-            v-if="isLoggedIn"
-            color="primary"
-            variant="text"
-            :to="{ name: 'dashboard' }"
-          >
-            Zurück zum Dashboard
-          </v-btn>
-          <v-btn
-            v-else
-            color="primary"
-            variant="text"
-            exact
-            :to="{ name: 'home' }"
-          >
-            Zurück zur Startseite
-          </v-btn>
+        <v-row justify="center" align="center">
+          <v-col cols="12" class="d-flex justify-center align-center">
+            <p>
+              Hmm, hier ist irgendetwas schief gegangen. Die angeforderte Seite existiert nicht.
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" class="d-flex justify-center align-center">
+            <v-btn
+              v-if="isLoggedIn"
+              color="primary"
+              variant="text"
+              :to="{ name: 'dashboard' }"
+            >
+              Zurück zum Dashboard
+            </v-btn>
+            <v-btn
+              v-else
+              color="primary"
+              variant="text"
+              exact
+              :to="{ name: 'home' }"
+            >
+              Zurück zur Startseite
+            </v-btn>
+          </v-col>
         </v-row>
       </placeholder>
     </template>
