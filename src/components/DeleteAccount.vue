@@ -29,11 +29,11 @@
         </template>
 
         <template #text>
-          <i18n path="settings.account.dialogText" tag="span">
+          <i18n-t keypath="settings.account.dialogText" tag="span" scope="global">
             <template #email>
               <strong>{{ user.email }}</strong>
             </template>
-          </i18n>
+          </i18n-t>
 
           <v-text-field
             v-model="email"
