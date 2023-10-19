@@ -43,7 +43,7 @@
             :disabled="
               personnelNumber === personnelNumberInit ||
               personnelNumber === '' ||
-              v$.$errors
+              v$.$error
             "
             variant="text"
             color="primary"
