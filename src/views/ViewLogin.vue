@@ -19,7 +19,7 @@ export default {
   computed: {
     mdAndUp() {
       const { mdAndUp } = useDisplay();
-      return mdAndUp;
+      return mdAndUp.value;
     },
   }
 };
