@@ -10,23 +10,23 @@
             </h2>
             <v-expansion-panels variant="Popout">
               <v-expansion-panel v-for="(faq, i) in faq_group" :key="i">
-                <v-expansion-panel-header
+                <v-expansion-panel-title
                   class="text-body-1"
                   :class="getQuestionFontWeight(faq)"
                   @click="setSelectedFaq(faq)"
                 >
                   {{ question(faq) }}
-                </v-expansion-panel-header>
-                <v-expansion-panel-content class="text-body-1">
+                </v-expansion-panel-title>
+                <v-expansion-panel-text class="text-body-1">
                   {{ answer(faq) }}
-                </v-expansion-panel-content>
+                </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
           </v-row>
         </v-row>
         <p class="mt-10">
           <br />
-          <i18n path="faq.text">
+          <i18n-t path="faq.text">
             <template #link>
               <base-link
                 class="text-no-wrap"
@@ -36,7 +36,7 @@
                 <template #default>{{ $t("faq.linktext") }}</template>
               </base-link>
             </template>
-          </i18n>
+          </i18n-t>
         </p>
       </v-col>
     </v-row>
@@ -45,7 +45,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { log } from "@/utils/log";
 
 export default {
   name: "FAQ",
@@ -66,17 +65,13 @@ export default {
       loading: "faq/loading",
       faqs_object: "faq/faqs",
       locale: "locale"
-    })
+    }),
+    smth() {
+      return this.$store.getters["faq/status"];
+    }
   },
   async created() {
-    try {
-      await Promise.all([this.$store.dispatch("faq/queryFaq")]);
-    } catch (error) {
-      log(error);
-      this.error = true;
-    } finally {
-      this.loading = false;
-    }
+    await this.$store.dispatch("faq/queryFaq");
   },
   methods: {
     heading(faq_group_zero) {
