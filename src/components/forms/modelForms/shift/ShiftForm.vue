@@ -31,7 +31,9 @@ import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
-import { isAfter, isBefore } from "date-fns";
+import store from "@/store";
+import { isBefore } from "date-fns";
+
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
@@ -69,8 +71,7 @@ export default {
       scheduledShifts: undefined,
       initialContract: "",
       saving: false,
-      closed: false,
-      date: this.initialDate
+      closed: false
     };
   },
   computed: {
@@ -91,6 +92,16 @@ export default {
     },
     isNewInstance() {
       return this.newShift.id === "";
+    },
+    date() {
+      if (this.newShift.contract === "") {
+        let date = store.getters["selectedContract/selectedContract"].startDate;
+        date.setHours(10, 0, 0);
+        if (isBefore(this.initialDate, date)) {
+          return date;
+        }
+      }
+      return this.initialDate;
     }
   },
   watch: {
