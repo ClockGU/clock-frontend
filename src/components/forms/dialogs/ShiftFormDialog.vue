@@ -53,6 +53,8 @@ import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import store from "@/store";
+import { isBefore } from "date-fns";
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
@@ -101,8 +103,7 @@ export default {
         mdiExclamation
       },
       show: this.value,
-      opened: true,
-      date: this.initialDate
+      opened: true
     };
   },
   computed: {
@@ -123,14 +124,21 @@ export default {
     },
     newShift() {
       return this.create ? new Shift() : this.shift;
+    },
+    date() {
+      if (this.newShift.contract === "") {
+        let date = store.getters["selectedContract/selectedContract"].startDate;
+        date.setHours(10, 0, 0);
+        if (isBefore(this.initialDate, date)) {
+          return date;
+        }
+      }
+      return this.initialDate;
     }
   },
   watch: {
     value(val) {
       this.show = val;
-    },
-    initialDate(val) {
-      this.date = val;
     }
   }
 };
