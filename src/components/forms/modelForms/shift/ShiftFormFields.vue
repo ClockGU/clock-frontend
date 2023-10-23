@@ -98,7 +98,6 @@ import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
-import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "ShiftFormFields",
