@@ -60,7 +60,10 @@ export default {
       }
     },
     validateHolidayOnWorkdays() {
-      if (this.newShift.type == "bh" && !dateIsHoliday(this.newShift.started)) {
+      if (
+        this.newShift.type === "bh" &&
+        !dateIsHoliday(this.newShift.started)
+      ) {
         return this.$t("shifts.errors.holidayOnWorkday");
       }
     },
