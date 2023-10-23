@@ -40,14 +40,7 @@ const notContractExpired = (date) =>
   helpers.withParams(
     { type: "notContractExpired", value: date },
     (contract) => {
-      console.log(contract);
       const contractEndDate = endOfDay(contract.endDate);
-      console.log(
-        date,
-        "Is NOT expired:",
-        !(isAfter(date, contractEndDate) && contract.id !== null),
-        contractEndDate
-      );
       return !(isAfter(date, contractEndDate) && contract.id !== null);
     }
   );
