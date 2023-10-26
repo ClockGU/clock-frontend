@@ -117,9 +117,6 @@ export default {
       this.closed = !opened;
     }
   },
-  mounted() {
-    console.log("ShiftForm mounted");
-  },
   methods: {
     async saveShift() {
       this.saving = true;

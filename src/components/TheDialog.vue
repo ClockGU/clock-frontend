@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     close() {
-      console.log("close called");
       this.dialog = false;
       this.$emit("input", false);
       this.$emit("close");
