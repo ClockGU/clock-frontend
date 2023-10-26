@@ -153,7 +153,9 @@ export default {
       this.close();
     },
     async updateContractReports(contract) {
-      const reportData = await ReportService.list();
+      const reportData = await ReportService.filterList(
+        `?contract=${contract.id}`
+      );
       this.$store.commit("contentData/setReports", {
         contractID: contract.id,
         reportData: reportData
