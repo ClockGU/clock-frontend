@@ -2,8 +2,12 @@ import store from "@/store";
 import { dateIsHoliday } from "@/utils/date";
 import isSameDay from "date-fns/isSameDay";
 import { isSameMonth } from "date-fns";
+import { useVuelidate } from "@vuelidate/core";
 
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   computed: {
     alertMessages() {
       let alertMessages = [];
@@ -25,7 +29,7 @@ export default {
       return errorMessages.filter((message) => message !== undefined);
     },
     valid() {
-      return this.errorMessages.length === 0;
+      return this.errorMessages.length === 0 && !this.v$.$error;
     },
     validateStartedBeforeStopped() {
       if (this.newShift.started > this.newShift.stopped) {
@@ -60,7 +64,10 @@ export default {
       }
     },
     validateHolidayOnWorkdays() {
-      if (this.newShift.type == "bh" && !dateIsHoliday(this.newShift.started)) {
+      if (
+        this.newShift.type === "bh" &&
+        !dateIsHoliday(this.newShift.started)
+      ) {
         return this.$t("shifts.errors.holidayOnWorkday");
       }
     },

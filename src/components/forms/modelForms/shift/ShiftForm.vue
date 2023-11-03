@@ -31,6 +31,9 @@ import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
+import store from "@/store";
+import { isBefore } from "date-fns";
+
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
@@ -68,8 +71,7 @@ export default {
       scheduledShifts: undefined,
       initialContract: "",
       saving: false,
-      closed: false,
-      date: this.initialDate
+      closed: false
     };
   },
   computed: {
@@ -90,6 +92,16 @@ export default {
     },
     isNewInstance() {
       return this.newShift.id === "";
+    },
+    date() {
+      if (this.newShift.contract === "") {
+        let date = store.getters["selectedContract/selectedContract"].startDate;
+        date.setHours(10, 0, 0);
+        if (isBefore(this.initialDate, date)) {
+          return date;
+        }
+      }
+      return this.initialDate;
     }
   },
   watch: {
@@ -99,13 +111,15 @@ export default {
     showErrors(opened) {
       this.closed = !opened;
     },
-    initialDate(val) {
-      this.date = val;
+    initialDate() {
       this.initializeNewShift();
     }
   },
   created() {
     this.initializeNewShift();
+  },
+  mounted() {
+    console.log("ShiftForm mounted");
   },
   methods: {
     async saveShift() {
@@ -138,9 +152,19 @@ export default {
       this.close();
     },
     initializeNewShift() {
-      let started = new Date(this.date);
+      let date = this.initialDate;
+      if (this.existingShift === undefined) {
+        const contractStartDate = this.$store.getters[
+          "selectedContract/selectedContract"
+        ].startDate;
+
+        if (isBefore(this.initialDate, contractStartDate)) {
+          date = contractStartDate;
+        }
+      }
+      let started = new Date(date);
       started.setHours(10, 0, 0, 0);
-      let stopped = new Date(this.date);
+      let stopped = new Date(date);
       stopped.setHours(10, 30, 0, 0);
       this.newShift =
         this.existingShift !== undefined

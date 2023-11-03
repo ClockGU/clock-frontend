@@ -77,7 +77,7 @@
       <v-col cols="12" class="pb-0">
         <ShiftFormSelectContract
           v-model="shift.contract"
-          :choices="validContracts"
+          :validation-date="shift.started"
         />
         <ShiftFormReview :value="shift.wasReviewed"></ShiftFormReview>
       </v-col>
@@ -92,12 +92,13 @@ import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
-import { endOfDay, isWithinInterval, startOfDay, isFuture } from "date-fns";
+import { isFuture } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
+
 export default {
   name: "ShiftFormFields",
   components: {
@@ -140,17 +141,6 @@ export default {
     };
   },
   computed: {
-    validContracts() {
-      return this.$store.getters["contentData/allContracts"].filter(
-        //TODO: Solve this with a mixin
-        (contract) => {
-          return isWithinInterval(this.shift.started, {
-            start: startOfDay(contract.startDate),
-            end: endOfDay(contract.endDate)
-          });
-        }
-      );
-    },
     reviewMessage() {
       if (this.isRunningShift) {
         return this.$t("shifts.reviewErrorLive");
