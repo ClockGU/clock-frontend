@@ -32,13 +32,12 @@ export default {
       return this.errorMessages.length === 0 && !this.v$.$error;
     },
     validateStartedBeforeStopped() {
-      if (this.newShift.started > this.newShift.stopped) {
+      if (this.shift.started > this.shift.stopped) {
         return this.$t("shifts.errors.startedBeforeStopped");
       }
     },
     validateMaxWorktimePerDay() {
-      var newShiftWorktime =
-        (this.newShift.stopped - this.newShift.started) / 60000;
+      var newShiftWorktime = (this.shift.stopped - this.shift.started) / 60000;
       var totalWorktime = newShiftWorktime + this.alreadyClockedWorktime;
       if (6 * 60 < totalWorktime && totalWorktime <= 9 * 60) {
         if (this.totalBreaktime < 30) {
@@ -54,28 +53,25 @@ export default {
       }
     },
     validateNoSunday() {
-      if (this.newShift.started.getDay() === 0) {
+      if (this.shift.started.getDay() === 0) {
         return this.$t("shifts.errors.workingOnSundays");
       }
     },
     validateOnlyHolidayOnHolidays() {
-      if (dateIsHoliday(this.newShift.started) && this.newShift.type !== "bh") {
+      if (dateIsHoliday(this.shift.started) && this.shift.type !== "bh") {
         return this.$t("shifts.errors.workingOnHolidays");
       }
     },
     validateHolidayOnWorkdays() {
-      if (
-        this.newShift.type === "bh" &&
-        !dateIsHoliday(this.newShift.started)
-      ) {
+      if (this.shift.type === "bh" && !dateIsHoliday(this.shift.started)) {
         return this.$t("shifts.errors.holidayOnWorkday");
       }
     },
     validateExclusivityVacation() {
       if (
-        (this.newShift.type === "vn" &&
+        (this.shift.type === "vn" &&
           this.shiftsThisDay.some((shift) => shift.type !== "vn")) ||
-        (this.newShift.type === "st" &&
+        (this.shift.type === "st" &&
           this.shiftsThisDay.some((shift) => shift.type === "vn"))
       ) {
         return this.$t("shifts.errors.exclusiveVacation");
@@ -83,9 +79,9 @@ export default {
     },
     validateExclusivitySick() {
       if (
-        (this.newShift.type === "sk" &&
+        (this.shift.type === "sk" &&
           this.shiftsThisDay.some((shift) => shift.type !== "sk")) ||
-        (this.newShift.type === "st" &&
+        (this.shift.type === "st" &&
           this.shiftsThisDay.some((shift) => shift.type === "sk"))
       ) {
         return this.$t("shifts.errors.exclusiveSick");
@@ -94,14 +90,14 @@ export default {
     validateOverlapping() {
       for (let shift of this.shiftsThisDay) {
         if (
-          shift.started <= this.newShift.started &&
-          this.newShift.started < shift.stopped
+          shift.started <= this.shift.started &&
+          this.shift.started < shift.stopped
         ) {
           return this.$t("shifts.errors.overlappingStarted");
         }
         if (
-          shift.started < this.newShift.stopped &&
-          this.newShift.stopped <= shift.stopped
+          shift.started < this.shift.stopped &&
+          this.shift.stopped <= shift.stopped
         ) {
           return this.$t("shifts.errors.overlappingStopped");
         }
@@ -116,15 +112,14 @@ export default {
     },
     checkEightTwentyRule() {
       if (
-        this.newShift.started.getHours() < 8 ||
-        this.newShift.stopped.getHours() > 20
+        this.shift.started.getHours() < 8 ||
+        this.shift.stopped.getHours() > 20
       ) {
         return this.$t("shifts.errors.eightTwentyRule");
       }
     },
     checkAutomaticWorktimeCutting() {
-      var newShiftWorktime =
-        (this.newShift.stopped - this.newShift.started) / 60000;
+      var newShiftWorktime = (this.shift.stopped - this.shift.started) / 60000;
       var totalWorktime = newShiftWorktime + this.alreadyClockedWorktime;
       if (
         (totalWorktime > 9 * 60 && this.totalBreaktime < 45) ||
@@ -138,18 +133,18 @@ export default {
     shiftsThisDay() {
       return store.getters["contentData/allShifts"].filter((shift) => {
         return (
-          isSameDay(shift.started, this.newShift.started) &&
+          isSameDay(shift.started, this.shift.started) &&
           shift.wasReviewed &&
-          shift.id !== this.newShift.id
+          shift.id !== this.shift.id
         );
       });
     },
     shiftsThisMonth() {
       return store.getters["contentData/selectedShifts"].filter((shift) => {
         return (
-          isSameMonth(shift.started, this.newShift.started) &&
+          isSameMonth(shift.started, this.shift.started) &&
           shift.wasReviewed &&
-          shift.id !== this.newShift.id
+          shift.id !== this.shift.id
         );
       });
     },
@@ -176,28 +171,24 @@ export default {
       }
       // new shift is after old shifts
       if (
-        this.newShift.started >=
+        this.shift.started >=
         this.shiftsThisDay[this.shiftsThisDay.length - 1].stopped
       )
         return (
-          (this.newShift.started -
+          (this.shift.started -
             this.shiftsThisDay[this.shiftsThisDay.length - 1].stopped +
             total_break) /
           60000
         );
       // new shift is before old shifts
-      if (this.newShift.stopped <= this.shiftsThisDay[0].started)
+      if (this.shift.stopped <= this.shiftsThisDay[0].started)
         return (
-          (this.shiftsThisDay[0].started -
-            this.newShift.stopped +
-            total_break) /
+          (this.shiftsThisDay[0].started - this.shift.stopped + total_break) /
           60000
         );
 
       // new shift is in between old shifts
-      return (
-        (total_break - (this.newShift.stopped - this.newShift.started)) / 60000
-      );
+      return (total_break - (this.shift.stopped - this.shift.started)) / 60000;
     }
   }
 };

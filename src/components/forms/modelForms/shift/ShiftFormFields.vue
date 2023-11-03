@@ -78,6 +78,7 @@
         <ShiftFormSelectContract
           v-model="shift.contract"
           :validation-date="shift.started"
+          @input="setValidDate"
         />
         <ShiftFormReview :value="shift.wasReviewed"></ShiftFormReview>
       </v-col>
@@ -92,12 +93,13 @@ import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
-import { isFuture } from "date-fns";
+import { isAfter, isBefore, isFuture } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
+import { ifElse } from "ramda";
 
 export default {
   name: "ShiftFormFields",
@@ -180,6 +182,29 @@ export default {
       // All shifts which have stopped before now are counted as reviewed true
       // We set that automatically
       this.shift.wasReviewed = !this.isInFuture;
+    },
+    setValidDate() {
+      // If a user changes the coontract of a shift we want to
+      // set the start date to the first valid date possible in the newly
+      // selected contract.
+      const contractObj = this.$store.getters["contentData/contractById"](
+        this.shift.contract
+      );
+      let date = this.shift.started;
+      if (
+        isBefore(this.shift.started, contractObj.startDate) ||
+        isAfter(this.shift.started, contractObj.endDate)
+      ) {
+        date = contractObj.startDate;
+        date.setHours(10, 0, 0);
+      } else if (
+        isBefore(contractObj.startDate, new Date()) ||
+        isAfter(contractObj.endDate, new Date())
+      ) {
+        date = new Date();
+        date.setHours(10, 0, 0);
+      }
+      this.shift.started = date;
     }
   }
 };

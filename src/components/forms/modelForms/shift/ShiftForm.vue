@@ -7,7 +7,7 @@
       @close="closeFn"
     ></CardToolbar>
     <ShiftFormFields
-      v-model="newShift"
+      v-model="shift"
       :alert-messages="messages"
       :alert-type="errorMessages.length > 0 ? 'error' : 'warning'"
       @scheduleShifts="setScheduledShifts($event)"
@@ -31,18 +31,19 @@ import CardToolbar from "@/components/cards/CardToolbar";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
-import store from "@/store";
+
 import { isBefore } from "date-fns";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ShiftForm",
   components: { ShiftFormFields, FormActions, CardToolbar },
   mixins: [ShiftValidationMixin],
   props: {
-    existingShift: {
+    value: {
       type: [Shift, typeof undefined],
       required: false,
-      default: undefined
+      default: () => new Shift()
     },
     initialDate: {
       type: Date,
@@ -67,14 +68,17 @@ export default {
   },
   data() {
     return {
-      newShift: undefined,
       scheduledShifts: undefined,
       initialContract: "",
       saving: false,
-      closed: false
+      closed: false,
+      shift: this.value
     };
   },
   computed: {
+    ...mapGetters({
+      selectedContract: "selectedContract/selectedContract"
+    }),
     title() {
       if (this.isNewInstance) {
         return this.$t("forms.titleAdd", {
@@ -91,11 +95,12 @@ export default {
         : this.errorMessages.concat(this.alertMessages);
     },
     isNewInstance() {
-      return this.newShift.id === "";
+      return this.shift === undefined;
     },
     date() {
       if (this.newShift.contract === "") {
-        let date = store.getters["selectedContract/selectedContract"].startDate;
+        let date = this.$store.getters["selectedContract/selectedContract"]
+          .startDate;
         date.setHours(10, 0, 0);
         if (isBefore(this.initialDate, date)) {
           return date;
@@ -105,28 +110,19 @@ export default {
     }
   },
   watch: {
-    existingShift() {
-      this.initializeNewShift();
+    value(val) {
+      this.shift = val;
     },
     showErrors(opened) {
       this.closed = !opened;
-    },
-    initialDate() {
-      this.initializeNewShift();
     }
-  },
-  created() {
-    this.initializeNewShift();
-  },
-  mounted() {
-    console.log("ShiftForm mounted");
   },
   methods: {
     async saveShift() {
       this.saving = true;
       await this.$store.dispatch(
         "contentData/saveShift",
-        this.newShift.toPayload()
+        this.shift.toPayload()
       );
       if (this.scheduledShifts !== undefined) {
         await this.$store.dispatch(
@@ -139,38 +135,17 @@ export default {
       this.saving = false;
     },
     async deleteShift() {
-      await this.$store.dispatch("contentData/deleteShift", this.newShift);
+      await this.$store.dispatch("contentData/deleteShift", this.shift);
       this.$emit("delete");
       this.closeFn();
     },
     async updateShift() {
       await this.$store.dispatch("contentData/updateShift", {
-        payload: this.newShift.toPayload(),
+        payload: this.shift.toPayload(),
         initialContract: this.initialContract
       });
       this.$emit("update");
       this.close();
-    },
-    initializeNewShift() {
-      let date = this.initialDate;
-      if (this.existingShift === undefined) {
-        const contractStartDate = this.$store.getters[
-          "selectedContract/selectedContract"
-        ].startDate;
-
-        if (isBefore(this.initialDate, contractStartDate)) {
-          date = contractStartDate;
-        }
-      }
-      let started = new Date(date);
-      started.setHours(10, 0, 0, 0);
-      let stopped = new Date(date);
-      stopped.setHours(10, 30, 0, 0);
-      this.newShift =
-        this.existingShift !== undefined
-          ? this.existingShift.clone()
-          : new Shift({ started: started, stopped: stopped });
-      this.initialContract = this.newShift.contract;
     },
     setScheduledShifts(event) {
       this.scheduledShifts = event;
@@ -178,7 +153,6 @@ export default {
     closeFn() {
       this.closed = true;
       this.v$.$reset();
-      this.initializeNewShift();
       this.close();
       this.$emit("close");
     }

@@ -5,7 +5,8 @@
     :fullscreen="fullscreen"
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
-    @click:outside="$emit('close')"
+    @click:outside="close"
+    @input="$emit('input', $event)"
   >
     <template #activator="{ on }">
       <slot name="activator" :on="on"></slot>
@@ -48,6 +49,7 @@ export default {
   methods: {
     close() {
       this.dialog = false;
+      this.$emit("input", false);
       this.$emit("close");
     }
   }

@@ -1,11 +1,11 @@
 <template>
   <div>
     <TheDialog
-      :value="show"
+      v-model="show"
       :fullscreen="$vuetify.breakpoint.smAndDown"
       :max-width="600"
       :persistent="false"
-      @close="$emit('close')"
+      @close="closeFormDialog"
     >
       <template #activator="{ on }">
         <slot name="activator" :on="on"></slot>
@@ -15,7 +15,6 @@
           :color="btnColor"
           :text="textButton"
           v-on="on"
-          @click="opened = true"
         >
           {{ buttonText }}
         </v-btn>
@@ -33,14 +32,14 @@
       </template>
       <template #content="{ events: { close } }">
         <ShiftForm
-          :existing-shift="shift"
+          v-model="newShift"
           :initial-date="date"
           :close="close"
-          :show-errors="opened"
+          :show-errors="show"
           @save="$emit('save')"
           @delete="$emit('delete')"
           @update="$emit('update')"
-          @close="opened = false"
+          @close="closeFormDialog"
         ></ShiftForm>
       </template>
     </TheDialog>
@@ -103,7 +102,7 @@ export default {
         mdiExclamation
       },
       show: this.value,
-      opened: true
+      newShift: this.shift
     };
   },
   computed: {
@@ -122,11 +121,8 @@ export default {
       }
       return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
     },
-    newShift() {
-      return this.create ? new Shift() : this.shift;
-    },
     date() {
-      if (this.newShift.contract === "") {
+      if (this.create) {
         let date = store.getters["selectedContract/selectedContract"].startDate;
         date.setHours(10, 0, 0);
         if (isBefore(this.initialDate, date)) {
@@ -139,6 +135,37 @@ export default {
   watch: {
     value(val) {
       this.show = val;
+    },
+    show(val) {
+      if (val) {
+        this.initializeNewShift();
+      }
+    }
+  },
+  methods: {
+    initializeNewShift() {
+      let date = this.initialDate;
+      if (this.create) {
+        const contractStartDate = this.$store.getters[
+          "selectedContract/selectedContract"
+        ].startDate;
+
+        if (isBefore(this.initialDate, contractStartDate)) {
+          date = contractStartDate;
+        }
+      }
+      let started = new Date(date);
+      started.setHours(10, 0, 0, 0);
+      let stopped = new Date(date);
+      stopped.setHours(10, 30, 0, 0);
+      this.newShift = !this.create
+        ? this.shift.clone()
+        : new Shift({ started: started, stopped: stopped });
+      this.initialContract = this.newShift.contract;
+    },
+    closeFormDialog() {
+      this.$emit("close");
+      this.$emit("input", false);
     }
   }
 };

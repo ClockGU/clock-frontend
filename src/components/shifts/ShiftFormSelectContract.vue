@@ -30,24 +30,13 @@ import { mdiFileDocumentEditOutline } from "@mdi/js";
 import { mapGetters } from "vuex";
 import contractValidMixin from "@/mixins/contractValid";
 import { helpers } from "@vuelidate/validators";
-import { endOfDay, isAfter, isBefore, startOfDay } from "date-fns";
+import { endOfDay, isAfter } from "date-fns";
 import { useVuelidate } from "@vuelidate/core";
-const notContractFuture = (date) => (value) => {
-  const contractStartDate = startOfDay(value.startDate);
-  return !(isBefore(date, contractStartDate) && value.id !== null);
-};
 const notContractExpired = (date) =>
   helpers.withParams(
     { type: "notContractExpired", value: date },
     (contract) => {
-      console.log(contract);
       const contractEndDate = endOfDay(contract.endDate);
-      console.log(
-        date,
-        "Is NOT expired:",
-        !(isAfter(date, contractEndDate) && contract.id !== null),
-        contractEndDate
-      );
       return !(isAfter(date, contractEndDate) && contract.id !== null);
     }
   );
@@ -81,12 +70,8 @@ export default {
   validations() {
     return {
       contract: {
-        notContractFuture: helpers.withMessage(
-          "Is Future.",
-          notContractFuture(this.dateToValidate)
-        ),
         notContractExpired: helpers.withMessage(
-          "Is Expired",
+          this.$t("contracts.isExpired"),
           notContractExpired(this.dateToValidate)
         )
       }
