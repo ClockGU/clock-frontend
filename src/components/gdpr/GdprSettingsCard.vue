@@ -51,7 +51,7 @@ export default {
       const date = localizedFormat(new Date(), "yyyyMMdd");
       return `${date}_${this.user.first_name}_${
         this.user.last_name
-      }_${this.$i18n.t("gdpr.suffix")}.pdf`;
+      }_${this.$i18n.t("gdpr.suffix")}.json`;
     }
   },
   methods: {
