@@ -99,7 +99,6 @@ import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
-import { ifElse } from "ramda";
 
 export default {
   name: "ShiftFormFields",
