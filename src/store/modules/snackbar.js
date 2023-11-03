@@ -18,20 +18,18 @@ const state = {
 const getters = {
   snacks: (status) => status.snacks
 };
+const defaultSnackPayload = {
+  message: "Snack Message",
+  timeout: 4000,
+  color: "success",
+  timePassed: 0,
+  show: true
+};
 
 const actions = {
-  setSnack(
-    { commit },
-    payload = {
-      message: "Snack Message",
-      timeout: 4000,
-      color: "success",
-      timePassed: 0,
-      show: true
-    }
-  ) {
+  setSnack({ commit }, payload) {
     payload.uuid = uuidv4();
-    commit("setSnack", payload);
+    commit("setSnack", { ...defaultSnackPayload, ...payload });
   },
   setErrorSnacks(
     { commit },
