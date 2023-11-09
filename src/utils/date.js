@@ -106,11 +106,7 @@ export function getFirstOfMonth(date) {
 }
 
 export function getFirstOfWeek(date) {
-
-  date = new Date(date);
-  let day = date.getDay(),
-      diff = date.getDate() - day + (day === 0 ? -6:1); // adjust when day is sunday
-  return new Date(date.setDate(diff));
+  return new Date(date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6:1)));
 }
 
 export const firstOfCurrentMonth = getFirstOfCurrentMonth();
