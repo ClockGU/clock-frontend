@@ -14,9 +14,10 @@
           <TodayButton @update="updateDate" />
         </v-col>
         <v-col class="text-center" cols="4">
-          <MonthSwitcher
+          <TimeIntervalSwitcher
             :disabled="disabled"
             :date="date"
+            :type="type"
             @update="updateDate"
           />
         </v-col>
@@ -71,10 +72,12 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
 import MonthSwitcher from "@/components/MonthSwitcher";
 import TodayButton from "@/components/calendar/TodayButton";
+import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
 export default {
   name: "Calendar",
   components: {
+    TimeIntervalSwitcher,
     TodayButton,
     MonthSwitcher,
     ShiftFormDialog,
