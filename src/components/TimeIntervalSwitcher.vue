@@ -22,7 +22,7 @@
         :allowed-dates="allowedDates"
         :min="minDate"
         :max="maxDate"
-        type="getInterval"
+        :type="pickerType"
         @input="inputDate"
       ></v-date-picker>
     </v-menu>
@@ -63,7 +63,6 @@ export default {
     },
     type: {
       type: String,
-      required: true,
       default: "month"
     },
     allowedDateFn: {
@@ -95,15 +94,15 @@ export default {
     formattedInterval() {
       if (this.type === "month") {
         return localizedFormat(this.date, "MMMM yyyy");
-      } else if (this.type === "week") {
+      }
+      if (this.type === "week") {
         return (
           localizedFormat(getFirstOfWeek(this.date), "dd.MM.yyyy") +
           " - " +
           localizedFormat(addDays(getFirstOfWeek(this.date), 6), "dd.MM.yyyy")
         );
-      } else {
-        return localizedFormat(this.date, "dd.MM.yyyy");
       }
+      return localizedFormat(this.date, "dd.MM.yyyy");
     },
     hasNext() {
       if (this.disabled) return false;
@@ -174,14 +173,15 @@ export default {
       if (this.disabled)
         return localizedFormat(lastOfCurrentMonth, "yyyy-MM-dd");
       return localizedFormat(this.selectedContract.endDate, "yyyy-MM-dd");
+    },
+    pickerType() {
+      if (this.type === "month") return "month";
+      return "date";
     }
   },
   methods: {
     setDate(value) {
       this.$emit("update", value);
-    },
-    getInterval() {
-      return this.type;
     },
     gotoPrev() {
       if (!this.hasPrev) return;
