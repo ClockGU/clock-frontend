@@ -70,7 +70,6 @@ import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
-import MonthSwitcher from "@/components/MonthSwitcher";
 import TodayButton from "@/components/calendar/TodayButton";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
@@ -79,7 +78,6 @@ export default {
   components: {
     TimeIntervalSwitcher,
     TodayButton,
-    MonthSwitcher,
     ShiftFormDialog,
     // CalendarNavigationButtons,
     CalendarTypeSelect

@@ -32,7 +32,7 @@
     </v-row>
     <v-row>
       <v-col class="text-center" cols="12">
-        <MonthSwitcher
+        <TimeIntervalSwitcher
           :disabled="disabled"
           :date="date"
           :allowed-date-fn="monthValidateFn"
@@ -88,7 +88,6 @@
 </template>
 
 <script>
-import MonthSwitcher from "@/components/MonthSwitcher";
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import ReportCard from "@/components/ReportCard";
@@ -101,11 +100,12 @@ import { mapGetters } from "vuex";
 import { mdiBadgeAccountHorizontal } from "@mdi/js";
 import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import { addMonths, isSameDay, isSameMonth } from "date-fns";
+import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
 export default {
   name: "Reporting",
   components: {
-    MonthSwitcher,
+    TimeIntervalSwitcher,
     DashboardConflicts,
     ReportCard,
     SelectContractFilter,

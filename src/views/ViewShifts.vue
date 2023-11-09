@@ -28,7 +28,7 @@
                       </v-row>
                       <v-row>
                         <v-col class="text-center" cols="12">
-                          <MonthSwitcher
+                          <TimeIntervalSwitcher
                             :disabled="disabled"
                             :date="date"
                             @update="updateDate"
@@ -171,12 +171,12 @@ import { mapGetters } from "vuex";
 import { mdiMagnify } from "@mdi/js";
 import { isFuture, isPast, isSameMonth } from "date-fns";
 import { firstOfCurrentMonth } from "@/utils/date";
-import MonthSwitcher from "@/components/MonthSwitcher";
+import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
 export default {
   name: "Shifts",
   components: {
-    MonthSwitcher,
+    TimeIntervalSwitcher,
     ShiftFormDialog,
     SelectContractFilter,
     ShiftBulkActions,
