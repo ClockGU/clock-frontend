@@ -39,7 +39,9 @@ import { mapGetters } from "vuex";
 import {
   firstOfCurrentMonth,
   getFirstOfMonth,
-  getFirstOfWeek,
+  getLastOfMonth,
+  getMondayOfWeek,
+  getSundayOfWeek,
   lastOfCurrentMonth,
   localizedFormat
 } from "@/utils/date";
@@ -105,9 +107,9 @@ export default {
       }
       if (this.type === "week") {
         return (
-          localizedFormat(getFirstOfWeek(this.date), "dd.MM.yyyy") +
+          localizedFormat(getMondayOfWeek(this.date), "dd.MM.yyyy") +
           " - " +
-          localizedFormat(addDays(getFirstOfWeek(this.date), 6), "dd.MM.yyyy")
+          localizedFormat(addDays(getMondayOfWeek(this.date), 6), "dd.MM.yyyy")
         );
       }
       return localizedFormat(this.date, "dd.MM.yyyy");
@@ -123,10 +125,11 @@ export default {
         );
       }
       if (this.type === "week") {
-        const nextWeek = addWeeks(this.date, 1);
+        const nextWeeksMonday = getMondayOfWeek(addWeeks(this.date, 1));
+        console.log("nextWeeksMonday", nextWeeksMonday);
         return (
-          !isAfter(nextWeek, this.selectedContract.endDate) &&
-          this.allowedDates(localizedFormat(nextWeek, "yyyy-MM-dd"))
+          !isAfter(nextWeeksMonday, this.selectedContract.endDate) &&
+          this.allowedDates(localizedFormat(nextWeeksMonday, "yyyy-MM-dd"))
         );
       }
       if (this.type === "day") {
@@ -152,12 +155,13 @@ export default {
         );
       }
       if (this.type === "week") {
-        const prevWeek = subWeeks(this.date, 1);
+        const prevWeeksSunday = getSundayOfWeek(subWeeks(this.date, 1));
+        console.log("prevWeeksSunday", prevWeeksSunday);
         return (
           !isBefore(
-            prevWeek,
+            prevWeeksSunday,
             getFirstOfMonth(this.selectedContract.startDate)
-          ) && this.allowedDates(localizedFormat(prevWeek, "yyyy-MM-dd"))
+          ) && this.allowedDates(localizedFormat(prevWeeksSunday, "yyyy-MM-dd"))
         );
       }
       if (this.type === "day") {
@@ -195,28 +199,32 @@ export default {
       if (!this.hasPrev) return;
 
       if (this.type === "month") {
-        const date = subMonths(this.date, 1);
-        this.setDate(date);
+        const newDate = subMonths(this.date, 1);
+        this.setDate(newDate);
       } else if (this.type === "week") {
-        const date = subWeeks(this.date, 1);
-        this.setDate(date);
+        const newDate = subWeeks(this.date, 1);
+        if (this.date.getMonth() !== newDate.getMonth())
+          this.setDate(getFirstOfMonth(newDate));
+        this.setDate(newDate);
       } else if (this.type === "day") {
-        const date = subDays(this.date, 1);
-        this.setDate(date);
+        const newDate = subDays(this.date, 1);
+        this.setDate(newDate);
       }
     },
     gotoNext() {
       if (!this.hasNext) return;
 
       if (this.type === "month") {
-        const date = addMonths(this.date, 1);
-        this.setDate(date);
+        const newDate = addMonths(this.date, 1);
+        this.setDate(newDate);
       } else if (this.type === "week") {
-        const date = addWeeks(this.date, 1);
-        this.setDate(date);
+        const newDate = addWeeks(this.date, 1);
+        if (this.date.getMonth() !== newDate.getMonth())
+          this.setDate(getLastOfMonth(newDate));
+        this.setDate(newDate);
       } else if (this.type === "day") {
-        const date = addDays(this.date, 1);
-        this.setDate(date);
+        const newDate = addDays(this.date, 1);
+        this.setDate(newDate);
       }
     },
     allowedDates(value) {
