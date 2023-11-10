@@ -106,7 +106,11 @@ export function getFirstOfMonth(date) {
 }
 
 export function getFirstOfWeek(date) {
-  return new Date(date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6:1)));
+  return new Date(
+    date.setDate(
+      date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1)
+    )
+  );
 }
 
 export const firstOfCurrentMonth = getFirstOfCurrentMonth();
