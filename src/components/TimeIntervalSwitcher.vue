@@ -23,7 +23,7 @@
         :min="minDate"
         :max="maxDate"
         :type="pickerType"
-        @input="inputDate"
+        @change="inputDate"
       ></v-date-picker>
     </v-menu>
 
@@ -57,7 +57,7 @@ import {
 export default {
   name: "TimeIntervalSwitcher",
   props: {
-    date: {
+    value: {
       type: Date,
       required: true
     },
@@ -76,10 +76,18 @@ export default {
       default: false
     }
   },
-  data: () => ({
-    menu: false,
-    icons: { mdiChevronLeft, mdiChevronRight }
-  }),
+  data() {
+    return {
+      menu: false,
+      icons: { mdiChevronLeft, mdiChevronRight },
+      date: this.value
+    };
+  },
+  watch: {
+    value(val) {
+      this.date = val;
+    }
+  },
   computed: {
     ...mapGetters({
       selectedContract: "selectedContract/selectedContract",
@@ -180,8 +188,8 @@ export default {
     }
   },
   methods: {
-    setDate(value) {
-      this.$emit("update", value);
+    setDate(date) {
+      this.$emit("input", date);
     },
     gotoPrev() {
       if (!this.hasPrev) return;

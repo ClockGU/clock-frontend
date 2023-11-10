@@ -11,14 +11,13 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <TodayButton @update="updateDate" />
+          <TodayButton @update="date = $event" />
         </v-col>
         <v-col class="text-center" cols="4">
           <TimeIntervalSwitcher
+            v-model="date"
             :disabled="disabled"
-            :date="date"
             :type="type"
-            @update="updateDate"
           />
         </v-col>
         <v-col class="text-end" cols="4" order-sm="3">
@@ -158,6 +157,11 @@ export default {
       });
     }
   },
+  watch: {
+    date(val) {
+      this.focus = localizedFormat(val, "yyyy-MM-dd");
+    }
+  },
   async mounted() {
     this.$refs.calendar.checkChange();
   },
@@ -200,10 +204,6 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
-    },
-    updateDate(value) {
-      this.focus = localizedFormat(value, "yyyy-MM-dd");
-      this.date = value;
     }
   }
 };
