@@ -5,7 +5,7 @@
       :stopped="shift.stopped"
       :contract-id="shift.contract"
       :errors="timeErrors"
-      @input="setTime"
+      @input="handleTimeInput($event)"
     />
     <v-row align="center" justify="start">
       <v-col cols="12" class="ma-0">
@@ -93,7 +93,7 @@ import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
-import { isAfter, isBefore, isFuture } from "date-fns";
+import { isAfter, isBefore, isFuture, isPast, startOfDay } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
@@ -165,7 +165,13 @@ export default {
       this.$emit("input", value);
     },
     scheduledShifts(value) {
+      console.log(value);
       this.$emit("scheduleShifts", value);
+    },
+    showRepeat(value) {
+      if (!value) {
+        this.resetScheduledShifts();
+      }
     }
   },
   created() {
@@ -198,6 +204,15 @@ export default {
         date.setHours(10, 0, 0);
       }
       this.shift.started = date;
+    },
+    resetScheduledShifts() {
+      this.scheduledShifts = [];
+    },
+    handleTimeInput(event) {
+      this.setTime(event);
+      if (isPast(startOfDay(this.shift.started)) && this.showRepeat) {
+        this.showRepeat = false;
+      }
     }
   }
 };
