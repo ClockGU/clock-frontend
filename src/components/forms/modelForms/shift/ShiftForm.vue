@@ -95,7 +95,7 @@ export default {
         : this.errorMessages.concat(this.alertMessages);
     },
     isNewInstance() {
-      return this.shift === undefined;
+      return this.shift.id === "";
     },
     date() {
       if (this.newShift.contract === "") {
