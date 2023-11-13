@@ -95,7 +95,8 @@ export class Contract {
       start_date: this.startDateString(),
       end_date: this.endDateString(),
       initial_carryover_minutes: this.initialCarryoverMinutes,
-      last_used: this.lastUsed
+      last_used: this.lastUsed,
+      color: this.color
     };
   }
   clone() {
