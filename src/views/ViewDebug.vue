@@ -48,6 +48,17 @@
         <v-btn color="primary" text @click="veryLongShift">Create</v-btn>
       </v-card-actions>
     </v-card>
+
+    <v-card>
+      <v-card-title> Test ShiftFormDialog</v-card-title>
+      <v-card-text>
+        This is the activator for the ShiftFormDialog component.
+      </v-card-text>
+      <v-card-actions>
+        <ShiftFormDialog v-model="show"></ShiftFormDialog>
+        <v-btn @click="show = true"> OPEN FORM EXTERNALLY</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-container>
 </template>
 
@@ -55,6 +66,7 @@
 import { subMinutes, subDays } from "date-fns";
 import SelectContractFilter from "@/components/SelectContractFilter";
 import { Shift } from "@/models/ShiftModel";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 export default {
   name: "ViewDebug",
@@ -63,12 +75,13 @@ export default {
       title: this.$t("app.debug")
     };
   },
-  components: { SelectContractFilter },
+  components: { ShiftFormDialog, SelectContractFilter },
   data: () => ({
     shift: {
       start: null,
       contract: null
-    }
+    },
+    show: false
   }),
   methods: {
     shortShift() {

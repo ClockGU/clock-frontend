@@ -1,11 +1,11 @@
 <template>
   <div>
     <TheDialog
-      :value="show"
+      v-model="show"
       :fullscreen="$vuetify.breakpoint.smAndDown"
       :max-width="600"
       :persistent="false"
-      @close="$emit('close')"
+      @close="closeFormDialog"
     >
       <template #activator="{ on }">
         <slot name="activator" :on="on"></slot>
@@ -15,7 +15,6 @@
           :color="btnColor"
           :text="textButton"
           v-on="on"
-          @click="opened = true"
         >
           {{ buttonText }}
         </v-btn>
@@ -33,14 +32,14 @@
       </template>
       <template #content="{ events: { close } }">
         <ShiftForm
-          :existing-shift="shift"
+          v-model="newShift"
           :initial-date="date"
           :close="close"
-          :show-errors="opened"
+          :show-errors="show"
           @save="$emit('save')"
           @delete="$emit('delete')"
           @update="$emit('update')"
-          @close="opened = false"
+          @close="closeFormDialog"
         ></ShiftForm>
       </template>
     </TheDialog>
@@ -53,6 +52,8 @@ import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import store from "@/store";
+import { isBefore } from "date-fns";
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
@@ -101,8 +102,7 @@ export default {
         mdiExclamation
       },
       show: this.value,
-      opened: true,
-      date: this.initialDate
+      newShift: this.shift
     };
   },
   computed: {
@@ -121,16 +121,51 @@ export default {
       }
       return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
     },
-    newShift() {
-      return this.create ? new Shift() : this.shift;
+    date() {
+      if (this.create) {
+        let date = store.getters["selectedContract/selectedContract"].startDate;
+        date.setHours(10, 0, 0);
+        if (isBefore(this.initialDate, date)) {
+          return date;
+        }
+      }
+      return this.initialDate;
     }
   },
   watch: {
     value(val) {
       this.show = val;
     },
-    initialDate(val) {
-      this.date = val;
+    show(val) {
+      if (val) {
+        this.initializeNewShift();
+      }
+    }
+  },
+  methods: {
+    initializeNewShift() {
+      let date = this.initialDate;
+      if (this.create) {
+        const contractStartDate = this.$store.getters[
+          "selectedContract/selectedContract"
+        ].startDate;
+
+        if (isBefore(this.initialDate, contractStartDate)) {
+          date = contractStartDate;
+        }
+      }
+      let started = new Date(date);
+      started.setHours(10, 0, 0, 0);
+      let stopped = new Date(date);
+      stopped.setHours(10, 30, 0, 0);
+      this.newShift = !this.create
+        ? this.shift.clone()
+        : new Shift({ started: started, stopped: stopped });
+      this.initialContract = this.newShift.contract;
+    },
+    closeFormDialog() {
+      this.$emit("close");
+      this.$emit("input", false);
     }
   }
 };

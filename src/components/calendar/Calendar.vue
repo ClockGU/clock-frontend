@@ -11,13 +11,13 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <TodayButton @update="updateDate" />
+          <TodayButton @update="date = $event" />
         </v-col>
         <v-col class="text-center" cols="4">
-          <MonthSwitcher
+          <TimeIntervalSwitcher
+            v-model="date"
             :disabled="disabled"
-            :date="date"
-            @update="updateDate"
+            :type="type"
           />
         </v-col>
         <v-col class="text-end" cols="4" order-sm="3">
@@ -69,14 +69,14 @@ import { mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
-import MonthSwitcher from "@/components/MonthSwitcher";
 import TodayButton from "@/components/calendar/TodayButton";
+import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
 export default {
   name: "Calendar",
   components: {
+    TimeIntervalSwitcher,
     TodayButton,
-    MonthSwitcher,
     ShiftFormDialog,
     // CalendarNavigationButtons,
     CalendarTypeSelect
@@ -157,6 +157,11 @@ export default {
       });
     }
   },
+  watch: {
+    date(val) {
+      this.focus = localizedFormat(val, "yyyy-MM-dd");
+    }
+  },
   async mounted() {
     this.$refs.calendar.checkChange();
   },
@@ -199,10 +204,6 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
-    },
-    updateDate(value) {
-      this.focus = localizedFormat(value, "yyyy-MM-dd");
-      this.date = value;
     }
   }
 };

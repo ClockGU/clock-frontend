@@ -77,7 +77,8 @@
       <v-col cols="12" class="pb-0">
         <ShiftFormSelectContract
           v-model="shift.contract"
-          :choices="validContracts"
+          :validation-date="shift.started"
+          @input="setValidDate"
         />
         <ShiftFormReview :value="shift.wasReviewed"></ShiftFormReview>
       </v-col>
@@ -92,12 +93,13 @@ import ShiftFormNote from "@/components/shifts/ShiftFormNote";
 import ShiftFormTags from "@/components/shifts/ShiftFormTags";
 import ShiftFormType from "@/components/shifts/ShiftFormType";
 import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
-import { endOfDay, isWithinInterval, startOfDay, isFuture } from "date-fns";
+import { isAfter, isBefore, isFuture } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview";
+
 export default {
   name: "ShiftFormFields",
   components: {
@@ -140,17 +142,6 @@ export default {
     };
   },
   computed: {
-    validContracts() {
-      return this.$store.getters["contentData/allContracts"].filter(
-        //TODO: Solve this with a mixin
-        (contract) => {
-          return isWithinInterval(this.shift.started, {
-            start: startOfDay(contract.startDate),
-            end: endOfDay(contract.endDate)
-          });
-        }
-      );
-    },
     reviewMessage() {
       if (this.isRunningShift) {
         return this.$t("shifts.reviewErrorLive");
@@ -190,6 +181,23 @@ export default {
       // All shifts which have stopped before now are counted as reviewed true
       // We set that automatically
       this.shift.wasReviewed = !this.isInFuture;
+    },
+    setValidDate() {
+      // If a user changes the coontract of a shift we want to
+      // set the start date to the first valid date possible in the newly
+      // selected contract.
+      const contractObj = this.$store.getters["contentData/contractById"](
+        this.shift.contract
+      );
+      let date = this.shift.started;
+      if (isBefore(this.shift.started, contractObj.startDate)) {
+        date = contractObj.startDate;
+        date.setHours(10, 0, 0);
+      } else if (isAfter(this.shift.started, contractObj.endDate)) {
+        date = contractObj.endDate;
+        date.setHours(10, 0, 0);
+      }
+      this.shift.started = date;
     }
   }
 };

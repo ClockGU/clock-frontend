@@ -92,17 +92,34 @@ export function defaultContractDate({
 }
 
 export function getFirstOfCurrentMonth() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), 1, 2);
+  return getFirstOfMonth(new Date());
 }
 
 export function getLastOfCurrentMonth() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  return getLastOfMonth(new Date());
 }
 
 export function getFirstOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1, 2);
+}
+
+export function getLastOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+export function getMondayOfWeek(date) {
+  if (date.getDay() === 1) return date;
+  return new Date(
+    date.setDate(
+      date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1)
+    )
+  );
+}
+
+export function getSundayOfWeek(date) {
+  if (date.getDay() === 0) return date;
+  // needs to add one week because sunday in germany is last day of the week
+  return addWeeks(new Date(date.setDate(date.getDate() - date.getDay())), 1);
 }
 
 export const firstOfCurrentMonth = getFirstOfCurrentMonth();

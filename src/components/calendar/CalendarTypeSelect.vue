@@ -40,8 +40,7 @@ export default {
       return [
         { text: this.$t("calendar.day"), value: "day" },
         { text: this.$t("calendar.week"), value: "week" },
-        { text: this.$t("calendar.month"), value: "month" },
-        { text: this.$t("calendar.fourdays"), value: "4day" }
+        { text: this.$t("calendar.month"), value: "month" }
       ];
     },
     valueName() {
