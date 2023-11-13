@@ -126,7 +126,6 @@ export default {
       }
       if (this.type === "week") {
         const nextWeeksMonday = getMondayOfWeek(addWeeks(this.date, 1));
-        console.log("nextWeeksMonday", nextWeeksMonday);
         return (
           !isAfter(nextWeeksMonday, this.selectedContract.endDate) &&
           this.allowedDates(localizedFormat(nextWeeksMonday, "yyyy-MM-dd"))
@@ -156,7 +155,6 @@ export default {
       }
       if (this.type === "week") {
         const prevWeeksSunday = getSundayOfWeek(subWeeks(this.date, 1));
-        console.log("prevWeeksSunday", prevWeeksSunday);
         return (
           !isBefore(
             prevWeeksSunday,
@@ -199,7 +197,7 @@ export default {
       if (!this.hasPrev) return;
 
       if (this.type === "month") {
-        const newDate = subMonths(this.date, 1);
+        const newDate = getFirstOfMonth(subMonths(this.date, 1));
         this.setDate(newDate);
       } else if (this.type === "week") {
         const newDate = subWeeks(this.date, 1);
@@ -215,7 +213,7 @@ export default {
       if (!this.hasNext) return;
 
       if (this.type === "month") {
-        const newDate = addMonths(this.date, 1);
+        const newDate = getFirstOfMonth(addMonths(this.date, 1));
         this.setDate(newDate);
       } else if (this.type === "week") {
         const newDate = addWeeks(this.date, 1);
