@@ -121,7 +121,7 @@ export default {
         const nextMonth = addMonths(this.date, 1);
         return (
           !isAfter(nextMonth, this.selectedContract.endDate) &&
-          this.allowedDates(localizedFormat(nextMonth, "yyyy-MM-dd"))
+          this.allowedDates(localizedFormat(nextMonth, "yyyy-MM"))
         );
       }
       if (this.type === "week") {
@@ -150,7 +150,7 @@ export default {
           !isBefore(
             prevMonth,
             getFirstOfMonth(this.selectedContract.startDate)
-          ) && this.allowedDates(localizedFormat(prevMonth, "yyyy-MM-dd"))
+          ) && this.allowedDates(localizedFormat(prevMonth, "yyyy-MM"))
         );
       }
       if (this.type === "week") {
