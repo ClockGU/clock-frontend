@@ -44,7 +44,23 @@
               @click:more="viewDay"
               @click:date="viewDay"
               @change="updateRange"
-            ></v-calendar>
+            >
+              <template
+                #event="{ event, eventParsed, eventSummary, formatTime }"
+              >
+                <div
+                  class="v-event-summary"
+                  :style="{ backgroundColor: event.color }"
+                >
+                  <span class="pl-2">{{
+                    formatTime(eventParsed.start) + event.duration
+                  }}</span>
+                  <v-icon class="pr-2" style="float: right" dense>
+                    {{ event.icon }}
+                  </v-icon>
+                </div>
+              </template>
+            </v-calendar>
           </v-sheet>
         </v-col>
       </v-row>
@@ -71,6 +87,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
 import TodayButton from "@/components/calendar/TodayButton";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
+import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 
 export default {
   name: "Calendar",
@@ -140,21 +157,30 @@ export default {
       return localizedFormat(new Date(this.focus), "MMMM yyyy");
     },
     events() {
-      return this.visibleShifts.map((shift) => {
-        const duration =
-          this.type === "month"
-            ? "| " + shift.representationalDuration()
-            : shift.representationalDuration();
+      let events = [];
+      for (const contract of this.$store.getters["contentData/allContracts"]) {
+        events = events.concat(
+          this.$store.getters["contentData/shiftsByContractId"](
+            contract.id
+          ).map((shift) => {
+            const duration =
+              this.type === "month"
+                ? "| " + shift.representationalDuration()
+                : shift.representationalDuration();
 
-        return {
-          start: localizedFormat(shift.started, "yyyy-MM-dd HH:mm"),
-          end: localizedFormat(shift.stopped, "yyyy-MM-dd HH:mm"),
-          color: this.colorMap(shift),
-          duration: duration,
-          selectedEventDuration: shift.representationalDuration(),
-          shift: shift
-        };
-      });
+            return {
+              start: localizedFormat(shift.started, "yyyy-MM-dd HH:mm"),
+              end: localizedFormat(shift.stopped, "yyyy-MM-dd HH:mm"),
+              color: contract.color,
+              duration: duration,
+              selectedEventDuration: shift.representationalDuration(),
+              icon: SHIFT_TYPE_ICONS[shift.type]
+            };
+          })
+        );
+      }
+      console.log(events);
+      return events;
     }
   },
   watch: {
