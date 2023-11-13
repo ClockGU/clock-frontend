@@ -26,6 +26,13 @@ const getters = {
       return undefined;
     }
   },
+  shiftsByContractId: (state) => (id) => {
+    try {
+      return state.contentData[id].shifts;
+    } catch (e) {
+      return undefined;
+    }
+  },
   getReportsFromContract: (state) => (id) => {
     try {
       return state.contentData[id].reports;
