@@ -165,7 +165,6 @@ export default {
       this.$emit("input", value);
     },
     scheduledShifts(value) {
-      console.log(value);
       this.$emit("scheduleShifts", value);
     },
     showRepeat(value) {
