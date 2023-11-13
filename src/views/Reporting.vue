@@ -33,10 +33,9 @@
     <v-row>
       <v-col class="text-center" cols="12">
         <TimeIntervalSwitcher
+          v-model="date"
           :disabled="disabled"
-          :date="date"
           :allowed-date-fn="monthValidateFn"
-          @update="updateDate"
         />
       </v-col>
     </v-row>
