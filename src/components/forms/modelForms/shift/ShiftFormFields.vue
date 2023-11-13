@@ -190,17 +190,11 @@ export default {
         this.shift.contract
       );
       let date = this.shift.started;
-      if (
-        isBefore(this.shift.started, contractObj.startDate) ||
-        isAfter(this.shift.started, contractObj.endDate)
-      ) {
+      if (isBefore(this.shift.started, contractObj.startDate)) {
         date = contractObj.startDate;
         date.setHours(10, 0, 0);
-      } else if (
-        isBefore(contractObj.startDate, new Date()) ||
-        isAfter(contractObj.endDate, new Date())
-      ) {
-        date = new Date();
+      } else if (isAfter(this.shift.started, contractObj.endDate)) {
+        date = contractObj.endDate;
         date.setHours(10, 0, 0);
       }
       this.shift.started = date;
