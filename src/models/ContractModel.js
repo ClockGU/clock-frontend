@@ -13,7 +13,8 @@ export function mapContractApiResponse(response) {
     initialCarryoverMinutes: response.initial_carryover_minutes,
     createdAt: response.created_at,
     modifiedAt: response.modified_at,
-    lastUsed: response.last_used
+    lastUsed: response.last_used,
+    color: response.color
   };
 }
 
@@ -28,7 +29,8 @@ export class Contract {
     initialCarryoverMinutes = null,
     createdAt = null,
     modifiedAt = null,
-    lastUsed = null
+    lastUsed = null,
+    color = null
   } = {}) {
     this.id = is(String, id) ? id : "";
     this.user = is(String, user) ? user : "";
@@ -49,6 +51,7 @@ export class Contract {
       is(Date, new Date(createdAt)) && createdAt !== null
         ? new Date(createdAt)
         : new Date();
+    this.color = is(String, color) ? color : "#8ac5ff";
     this.modifiedAt =
       is(Date, new Date(modifiedAt)) && modifiedAt !== null
         ? new Date(modifiedAt)
