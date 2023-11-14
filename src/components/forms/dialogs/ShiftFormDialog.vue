@@ -36,6 +36,7 @@
           :initial-date="date"
           :close="close"
           :show-errors="show"
+          :initial-contract="initialContract"
           @save="$emit('save')"
           @delete="$emit('delete')"
           @update="$emit('update')"
@@ -102,7 +103,8 @@ export default {
         mdiExclamation
       },
       show: this.value,
-      newShift: this.shift
+      newShift: this.shift,
+      initialContract: ""
     };
   },
   computed: {
