@@ -50,6 +50,11 @@ export default {
       required: false,
       default: () => new Date()
     },
+    initialContract: {
+      type: String,
+      required: false,
+      default: ""
+    },
     close: {
       type: Function,
       required: false,
@@ -69,7 +74,6 @@ export default {
   data() {
     return {
       scheduledShifts: undefined,
-      initialContract: "",
       saving: false,
       closed: false,
       shift: this.value

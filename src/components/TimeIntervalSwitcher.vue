@@ -85,11 +85,6 @@ export default {
       date: this.value
     };
   },
-  watch: {
-    value(val) {
-      this.date = val;
-    }
-  },
   computed: {
     ...mapGetters({
       selectedContract: "selectedContract/selectedContract",
@@ -187,6 +182,11 @@ export default {
     pickerType() {
       if (this.type === "month") return "month";
       return "date";
+    }
+  },
+  watch: {
+    value(val) {
+      this.date = val;
     }
   },
   methods: {
