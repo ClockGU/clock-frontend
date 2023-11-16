@@ -45,19 +45,17 @@
               @click:date="viewDay"
               @change="updateRange"
             >
-              <template
-                #event="{ event, eventParsed, eventSummary, formatTime }"
-              >
-                <div
-                  class="v-event-summary"
-                  :style="{ backgroundColor: event.color }"
-                >
-                  <span class="pl-2">{{
-                    formatTime(eventParsed.start) + event.duration
-                  }}</span>
-                  <v-icon class="pr-2" style="float: right" dense>
-                    {{ event.icon }}
-                  </v-icon>
+              <template #event="{ event, eventParsed, formatTime }">
+                <div :id="event.id" class="pl-1">
+                  <div class="v-event-summary">
+                    <span>
+                      <strong>{{ formatTime(eventParsed.start) }} </strong>
+                      {{ event.duration }}</span
+                    >
+                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>
+                      {{ event.icon }}
+                    </v-icon>
+                  </div>
                 </div>
               </template>
             </v-calendar>
@@ -174,6 +172,7 @@ export default {
               color: contract.color,
               duration: duration,
               selectedEventDuration: shift.representationalDuration(),
+              id: shift.id,
               icon: SHIFT_TYPE_ICONS[shift.type]
             };
           })
@@ -188,13 +187,17 @@ export default {
       this.focus = localizedFormat(val, "yyyy-MM-dd");
     }
   },
-  async mounted() {
-    this.$refs.calendar.checkChange();
-  },
   created() {
     this.focus = this.initialFocus;
     this.date = new Date(this.focus);
     this.type = this.initialType;
+  },
+  async mounted() {
+    this.$refs.calendar.checkChange();
+    this.updateEventRangeColors();
+  },
+  updated() {
+    this.updateEventRangeColors();
   },
   methods: {
     editEvent(data) {
@@ -230,6 +233,16 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
+    },
+    updateEventRangeColors() {
+      for (const event of this.events) {
+        let timedEventDiv = document.getElementById(event.id);
+        if (timedEventDiv === null) {
+          console.log(event.id);
+          continue;
+        }
+        timedEventDiv.parentElement.style["background"] = event.color;
+      }
     }
   }
 };
