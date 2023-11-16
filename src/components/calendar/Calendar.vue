@@ -33,7 +33,6 @@
               color="primary lighten-1"
               event-name="duration"
               :events="events"
-              :event-color="getEventColor"
               :event-margin-bottom="3"
               :locale="locale"
               :now="today"
@@ -46,7 +45,7 @@
               @change="updateRange"
             >
               <template #event="{ event, eventParsed, formatTime }">
-                <div :id="event.id" class="pl-1">
+                <div class="pl-1">
                   <div class="v-event-summary">
                     <span>
                       <strong>{{ formatTime(eventParsed.start) }} </strong>
@@ -73,9 +72,6 @@
 </template>
 
 <script>
-import { formatDate } from "@/utils/time";
-import { SHIFT_TYPE_COLORS } from "@/utils/colors";
-
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 
 import { localizedFormat } from "@/utils/date";
@@ -93,7 +89,6 @@ export default {
     TimeIntervalSwitcher,
     TodayButton,
     ShiftFormDialog,
-    // CalendarNavigationButtons,
     CalendarTypeSelect
   },
   props: {
@@ -137,10 +132,11 @@ export default {
       selectedShifts: "contentData/selectedShifts",
       locale: "locale"
     }),
-    visibleShifts() {
-      if (this.disabled) return [];
-      return this.selectedShifts;
-    },
+    // Keep this for future update of filterable calendar
+    // visibleShifts() {
+    //   if (this.disabled) return [];
+    //   return this.selectedShifts;
+    // },
     shiftInitialDate() {
       const focusMonth = new Date(this.focus);
       if (
@@ -150,9 +146,6 @@ export default {
         return new Date();
       }
       return new Date(this.focus);
-    },
-    monthYearDisplay() {
-      return localizedFormat(new Date(this.focus), "MMMM yyyy");
     },
     events() {
       let events = [];
@@ -175,12 +168,12 @@ export default {
               duration: duration,
               selectedEventDuration: shift.representationalDuration(),
               id: shift.id,
+              shift: shift,
               icon: SHIFT_TYPE_ICONS[shift.type]
             };
           })
         );
       }
-      console.log(events);
       return events;
     }
   },
@@ -196,55 +189,30 @@ export default {
   },
   async mounted() {
     this.$refs.calendar.checkChange();
-    this.updateEventRangeColors();
-  },
-  updated() {
-    this.updateEventRangeColors();
   },
   methods: {
     editEvent(data) {
       this.shift = data.event.shift;
       this.editShift = true;
     },
-    formatDate(value) {
-      return formatDate(value);
-    },
     intervalFormat(interval) {
       return interval.time;
     },
-    colorMap(event) {
-      return SHIFT_TYPE_COLORS[event.type];
-    },
+
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
-    },
-    getEventColor(event) {
-      return event.reviewed
-        ? event.color + " lighten-1"
-        : event.color + " lighten-3";
     },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
 
       const [year, month, day] = this.focus.split("-");
-
       // Tell parent component the range updated
       this.$emit("updateRange", {
         type: this.type,
         start: { day, month, year }
       });
-    },
-    updateEventRangeColors() {
-      for (const event of this.events) {
-        let timedEventDiv = document.getElementById(event.id);
-        if (timedEventDiv === null) {
-          console.log(event.id);
-          continue;
-        }
-        timedEventDiv.parentElement.style["background"] = event.color;
-      }
     }
   }
 };
