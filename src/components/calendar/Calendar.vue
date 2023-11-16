@@ -2,11 +2,28 @@
   <v-card min-width="100%">
     <v-container>
       <v-row>
-        <v-col cols="12">
+        <v-col cols="8">
           <ShiftFormDialog
             btn-color="primary"
             :initial-date="shiftInitialDate"
           ></ShiftFormDialog>
+        </v-col>
+        <v-col>
+          <v-combobox
+            v-model="displayedContracts"
+            :label="$t('contracts.displayedContracts') + ':'"
+            :items="allContracts"
+            item-text="name"
+            multiple
+          >
+            <template #item="{ item }">
+              {{ item.name }}
+              <v-spacer />
+              <v-icon :color="item.color" style="float: right">{{
+                mdiCircleSlice8()
+              }}</v-icon>
+            </template>
+          </v-combobox>
         </v-col>
       </v-row>
       <v-row>
@@ -75,7 +92,7 @@
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 
 import { localizedFormat } from "@/utils/date";
-import { mdiClose, mdiPlus } from "@mdi/js";
+import { mdiCircleSlice8, mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
@@ -124,12 +141,14 @@ export default {
     doubleClickDelay: 500,
     editShift: false,
     shift: undefined,
-    date: null
+    date: null,
+    displayedContracts: []
   }),
   computed: {
     ...mapGetters({
       selectedContract: "selectedContract/selectedContract",
       selectedShifts: "contentData/selectedShifts",
+      allContracts: "contentData/allContracts",
       locale: "locale"
     }),
     // Keep this for future update of filterable calendar
@@ -149,7 +168,7 @@ export default {
     },
     events() {
       let events = [];
-      for (const contract of this.$store.getters["contentData/allContracts"]) {
+      for (const contract of this.displayedContracts) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         let contractShifts = this.$store.getters[
           "contentData/shiftsByContractId"
@@ -189,8 +208,12 @@ export default {
   },
   async mounted() {
     this.$refs.calendar.checkChange();
+    this.displayedContracts = this.allContracts;
   },
   methods: {
+    mdiCircleSlice8() {
+      return mdiCircleSlice8;
+    },
     editEvent(data) {
       this.shift = data.event.shift;
       this.editShift = true;

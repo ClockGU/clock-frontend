@@ -95,6 +95,7 @@
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
       "info": "Trage bitte den Arbeitszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
+    "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
     "errors": {
       "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen.",
