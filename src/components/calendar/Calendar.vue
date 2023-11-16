@@ -157,10 +157,12 @@ export default {
     events() {
       let events = [];
       for (const contract of this.$store.getters["contentData/allContracts"]) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        let contractShifts = this.$store.getters[
+          "contentData/shiftsByContractId"
+        ](contract.id);
         events = events.concat(
-          this.$store.getters["contentData/shiftsByContractId"](
-            contract.id
-          ).map((shift) => {
+          contractShifts.map((shift) => {
             const duration =
               this.type === "month"
                 ? "| " + shift.representationalDuration()
