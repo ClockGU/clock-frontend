@@ -1,4 +1,5 @@
 import FaqService from "@/services/faq";
+import { sortByPrioritization } from "@/utils";
 
 const state = {
   faqs: [],
@@ -7,7 +8,14 @@ const state = {
 
 const getters = {
   loading: (state) => state.status === "loading",
-  faqs: (state) => state.faqs
+  faqs(state) {
+    let faqArray = [];
+    for (let faq of Object.values(state.faqs)) {
+      faqArray.push(faq);
+    }
+    return sortByPrioritization(faqArray);
+  }
+  // faqs: (state) => state.faqs
 };
 
 const mutations = {
