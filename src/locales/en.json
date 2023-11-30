@@ -496,9 +496,9 @@
     "running": "running",
     "wasExportedAlert": "The timesheet this shift belongs to has already been exported. This shift cannot be edited anymore.",
     "table": {
-      "pastShiftsTitle": "Past shifts",
+      "pastShiftsTitle": "Past shifts ({month})",
       "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past.",
-      "futureShiftsTitle": "Scheduled shifts",
+      "futureShiftsTitle": "Future shifts ({month})",
       "futureShiftsHint": "All shifts scheduled for the future.",
       "tagsNotes": "Tags/Notes"
     },
