@@ -9,11 +9,30 @@ const state = {
 const getters = {
   loading: (state) => state.status === "loading",
   faqs(state) {
-    let faqArray = [];
+    let faqArrayWithHeading = [];
+    let faqArrayNoHeading = [];
+
     for (let faq of Object.values(state.faqs)) {
-      faqArray.push(faq);
+      if (!faq.faq_heading) faqArrayNoHeading.push(faq);
+      else faqArrayWithHeading.push(faq);
     }
-    return sortByPrioritization(faqArray);
+
+    let groupedfaqArray = Object;
+
+    if (faqArrayWithHeading !== []) {
+      groupedfaqArray = Object.groupBy(
+        faqArrayWithHeading,
+        ({ faq_heading }) => faq_heading.prio_level
+      );
+    }
+
+    groupedfaqArray["0"] = faqArrayNoHeading;
+
+    for (let group in groupedfaqArray) {
+      groupedfaqArray[group] = sortByPrioritization(groupedfaqArray[group]);
+    }
+
+    return groupedfaqArray;
   }
   // faqs: (state) => state.faqs
 };
