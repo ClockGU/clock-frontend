@@ -1,5 +1,10 @@
 <template>
-  <v-card class="mx-auto" max-width="350" outlined>
+  <v-card
+    class="mx-auto faded-color"
+    max-width="350"
+    outlined
+    :color="contract.color"
+  >
     <v-card-title>
       <span class="primary--text text-subtitle-2">
         {{ $t("contracts.perMonth", { time: worktime }) }}
@@ -101,3 +106,14 @@ export default {
   }
 };
 </script>
+
+<style lang="css">
+.faded-color {
+  background-image: linear-gradient(
+    to right,
+    white 0%,
+    white 90%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+</style>
