@@ -62,6 +62,21 @@
               @click:date="viewDay"
               @change="updateRange"
             >
+              <template #day-label="{ day, date }">
+                <button
+                  type="button"
+                  class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
+                  @click="viewDay(date)"
+                >
+                  <span class="v-btn__content">{{ day }}</span>
+                </button>
+                <v-icon
+                  v-if="isBankHoliday(date)"
+                  :color="bhIconColor"
+                  style="align-self: center"
+                  >{{ icons.bhIcon }}</v-icon
+                >
+              </template>
               <template #event="{ event, eventParsed, formatTime }">
                 <div class="pl-1">
                   <div class="v-event-summary">
@@ -92,7 +107,7 @@
 <script>
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
 
-import { localizedFormat } from "@/utils/date";
+import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mdiCircleSlice8, mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
@@ -100,6 +115,7 @@ import { isSameMonth, isSameWeek } from "date-fns";
 import TodayButton from "@/components/calendar/TodayButton";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
+import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 
 export default {
   name: "Calendar",
@@ -126,7 +142,8 @@ export default {
   data: () => ({
     icons: {
       mdiClose: mdiClose,
-      mdiPlus
+      mdiPlus,
+      bhIcon: SHIFT_TYPE_ICONS.bh
     },
     today: localizedFormat(new Date(), "yyyy-MM-dd"),
     focus: null,
@@ -143,7 +160,8 @@ export default {
     editShift: false,
     shift: undefined,
     date: null,
-    displayedContracts: []
+    displayedContracts: [],
+    bhIconColor: SHIFT_TYPE_COLORS.bh
   }),
   computed: {
     ...mapGetters({
@@ -237,6 +255,9 @@ export default {
         type: this.type,
         start: { day, month, year }
       });
+    },
+    isBankHoliday(date) {
+      return dateIsHoliday(new Date(date));
     }
   }
 };
