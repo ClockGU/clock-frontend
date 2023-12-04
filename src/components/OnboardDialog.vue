@@ -53,6 +53,13 @@
                 <br />
 
                 <ContractFormDialog
+                  btn-color="primary"
+                  text-button
+                  :override-button-text="
+                    $t('buttons.newEntity', {
+                      entity: $tc('models.contract')
+                    })
+                  "
                   :disabled="contractExists"
                 ></ContractFormDialog>
               </v-col>
@@ -69,8 +76,11 @@
                   {{ $t("personnelNumber.noPersonnelNumberSaved") }}
                 </span>
                 <br />
+                <p>{{ personnelNumber === "" }}</p>
                 <v-btn
-                  :disabled="personnelNumber !== ''"
+                  color="primary"
+                  text
+                  :disabled="personnelNumber !== null"
                   @click="personnelNumberDialog = true"
                 >
                   {{
