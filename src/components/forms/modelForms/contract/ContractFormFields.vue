@@ -36,8 +36,14 @@
         <v-checkbox
           v-model="showCarryover"
           :label="$t('contracts.carryover.checkboxLabel')"
-          :disabled="areLockedShiftsInThisContract"
-          :error-messages="false ? $t('contracts.carryover.locked') : ''"
+          :disabled="areLockedShiftsInThisContract || contractInFuture"
+          :hint="contractInFutureHint"
+          persistent-hint
+          :error-messages="
+            areLockedShiftsInThisContract
+              ? $t('contracts.carryover.locked')
+              : ''
+          "
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showCarryover">
@@ -98,6 +104,7 @@ import ContractNameInput from "@/components/contracts/ContractNameInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import store from "@/store";
 import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
+import { isFuture } from "date-fns";
 
 export default {
   name: "ContractFormFields",
@@ -147,6 +154,14 @@ export default {
         return shift.contract === this.value.id && shift.locked;
       });
       return shifts.length !== 0;
+    },
+    contractInFuture() {
+      return isFuture(this.contract.startDate);
+    },
+    contractInFutureHint() {
+      if (this.contractInFuture)
+        return this.$t("contracts.carryover.contractInFuture");
+      return "";
     }
   },
   watch: {
@@ -167,6 +182,9 @@ export default {
     setDates(event) {
       this.contract.startDate = event.startDate;
       this.contract.endDate = event.endDate;
+      if (this.contractInFuture) {
+        this.showCarryover = false;
+      }
     },
     setInitialCarryover(event) {
       this.contract.initialCarryoverMinutes = event.carryover;
