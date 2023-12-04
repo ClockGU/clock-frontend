@@ -35,6 +35,7 @@
             v-model="date"
             :disabled="disabled"
             :type="type"
+            :is_calendar="true"
           />
         </v-col>
         <v-col class="text-end" cols="4" order-sm="3">

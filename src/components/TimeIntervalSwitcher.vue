@@ -76,6 +76,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    is_calendar: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -114,6 +119,8 @@ export default {
 
       if (this.type === "month") {
         const nextMonth = addMonths(this.date, 1);
+        if (this.is_calender)
+          return this.allowedDates(localizedFormat(nextMonth, "yyyy-MM"));
         return (
           !isAfter(nextMonth, this.selectedContract.endDate) &&
           this.allowedDates(localizedFormat(nextMonth, "yyyy-MM"))
@@ -121,6 +128,10 @@ export default {
       }
       if (this.type === "week") {
         const nextWeeksMonday = getMondayOfWeek(addWeeks(this.date, 1));
+        if (this.is_calender)
+          return this.allowedDates(
+            localizedFormat(nextWeeksMonday, "yyyy-MM-dd")
+          );
         return (
           !isAfter(nextWeeksMonday, this.selectedContract.endDate) &&
           this.allowedDates(localizedFormat(nextWeeksMonday, "yyyy-MM-dd"))
@@ -128,6 +139,8 @@ export default {
       }
       if (this.type === "day") {
         const nextDay = addDays(this.date, 1);
+        if (this.is_calender)
+          return this.allowedDates(localizedFormat(nextDay, "yyyy-MM-dd"));
         return (
           !isAfter(nextDay, this.selectedContract.endDate) &&
           this.allowedDates(localizedFormat(nextDay, "yyyy-MM-dd"))
@@ -141,6 +154,8 @@ export default {
 
       if (this.type === "month") {
         const prevMonth = subMonths(this.date, 1);
+        if (this.is_calender)
+          return this.allowedDates(localizedFormat(prevMonth, "yyyy-MM"));
         return (
           !isBefore(
             prevMonth,
@@ -150,6 +165,10 @@ export default {
       }
       if (this.type === "week") {
         const prevWeeksSunday = getSundayOfWeek(subWeeks(this.date, 1));
+        if (this.is_calender)
+          return this.allowedDates(
+            localizedFormat(prevWeeksSunday, "yyyy-MM-dd")
+          );
         return (
           !isBefore(
             prevWeeksSunday,
@@ -159,6 +178,8 @@ export default {
       }
       if (this.type === "day") {
         const prevDay = subDays(this.date, 1);
+        if (this.is_calender)
+          return this.allowedDates(localizedFormat(prevDay, "yyyy-MM-dd"));
         return (
           !isBefore(
             prevDay,
@@ -170,11 +191,13 @@ export default {
       return false;
     },
     minDate() {
+      if (this.is_calender) return undefined;
       if (this.disabled)
         return localizedFormat(firstOfCurrentMonth, "yyyy-MM-dd");
       return localizedFormat(this.selectedContract.startDate, "yyyy-MM-dd");
     },
     maxDate() {
+      if (this.is_calender) return undefined;
       if (this.disabled)
         return localizedFormat(lastOfCurrentMonth, "yyyy-MM-dd");
       return localizedFormat(this.selectedContract.endDate, "yyyy-MM-dd");
