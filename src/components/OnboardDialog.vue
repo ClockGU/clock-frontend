@@ -57,7 +57,7 @@
                 ></ContractFormDialog>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row class="mb-2">
               <v-col cols="12">
                 <h3 class="pb-2">
                   {{ $t("personnelNumber.title") }}
