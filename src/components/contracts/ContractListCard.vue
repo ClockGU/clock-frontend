@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto faded-color"
+    :class="['mx-auto', isDarkmode ? 'faded-color-dm' : 'faded-color']"
     max-width="350"
     outlined
     :color="contract.color"
@@ -94,6 +94,9 @@ export default {
     },
     worktime() {
       return minutesToHHMM(this.contract.minutes);
+    },
+    isDarkmode() {
+      return this.$vuetify.theme.dark;
     }
   },
   methods: {
@@ -112,7 +115,15 @@ export default {
   background-image: linear-gradient(
     to right,
     white 0%,
-    white 90%,
+    white 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.faded-color-dm {
+  background-image: linear-gradient(
+    to right,
+    #424242 0%,
+    #424242 88%,
     rgba(255, 255, 255, 0) 100%
   );
 }
