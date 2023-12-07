@@ -128,7 +128,10 @@ export default {
         "contentData/saveShift",
         this.shift.toPayload()
       );
-      if (this.scheduledShifts !== undefined) {
+      if (
+        this.scheduledShifts !== undefined &&
+        Array.isArray(this.scheduledShifts)
+      ) {
         await this.$store.dispatch(
           "contentData/bulkCreateShifts",
           this.scheduledShifts
