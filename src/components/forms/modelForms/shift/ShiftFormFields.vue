@@ -205,7 +205,7 @@ export default {
       this.shift.started = date;
     },
     resetScheduledShifts() {
-      this.scheduledShifts = [];
+      this.scheduledShifts = null;
     },
     handleTimeInput(event) {
       this.setTime(event);
