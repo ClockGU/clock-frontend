@@ -95,6 +95,7 @@
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
       "info": "Trage bitte den Arbeitszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
+    "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
     "errors": {
       "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen.",
@@ -495,9 +496,9 @@
     "running": "laufende",
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
-      "pastShiftsTitle": "Vergangene Schichten",
+      "pastShiftsTitle": "Vergangene Schichten ({month})",
       "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als 'überprüft'.",
-      "futureShiftsTitle": "Geplante Schichten",
+      "futureShiftsTitle": "Zukünftige Schichten ({month})",
       "futureShiftsHint": "Alle in der Zukunft liegenden Schichten.",
       "tagsNotes": "Tags/Notizen"
     },

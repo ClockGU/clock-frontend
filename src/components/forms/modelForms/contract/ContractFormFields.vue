@@ -20,6 +20,9 @@
       <v-col cols="12">
         <ContractNameInput v-model="contract.name"></ContractNameInput>
       </v-col>
+      <v-col cols="12">
+        <ContractColorInput v-model="contract.color"></ContractColorInput>
+      </v-col>
       <v-col cols="12" class="pa-0">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
@@ -70,10 +73,12 @@ import {
 import ContractNameInput from "@/components/contracts/ContractNameInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import store from "@/store";
+import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
 
 export default {
   name: "ContractFormFields",
   components: {
+    ContractColorInput,
     ContractNameInput,
     ContractDurationInput,
     ContractFormTimeInput,

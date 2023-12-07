@@ -47,7 +47,9 @@
                                 <v-row>
                                   <v-col cols="12" md="5">
                                     <span>{{
-                                      $t("shifts.table.pastShiftsTitle")
+                                      $t("shifts.table.pastShiftsTitle", {
+                                        month: formattedDate()
+                                      })
                                     }}</span>
                                   </v-col>
 
@@ -98,7 +100,9 @@
                                 <v-row>
                                   <v-col cols="12" md="5">
                                     <span>{{
-                                      $t("shifts.table.futureShiftsTitle")
+                                      $t("shifts.table.futureShiftsTitle", {
+                                        month: formattedDate()
+                                      })
                                     }}</span>
                                   </v-col>
 
@@ -169,7 +173,8 @@ import { mapGetters } from "vuex";
 
 import { mdiMagnify } from "@mdi/js";
 import { isFuture, isPast, isSameMonth } from "date-fns";
-import { firstOfCurrentMonth } from "@/utils/date";
+
+import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
 export default {
@@ -221,6 +226,9 @@ export default {
     }
   },
   methods: {
+    formattedDate() {
+      return localizedFormat(this.date, "MMMM yyyy");
+    },
     toggleTouchOverlay(hover) {
       this.touchOverlay = hover ? false : !this.touchOverlay;
     },

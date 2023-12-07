@@ -1,5 +1,10 @@
 <template>
-  <v-card class="mx-auto" max-width="350" outlined>
+  <v-card
+    :class="['mx-auto', isDarkmode ? 'faded-color-dm' : 'faded-color']"
+    max-width="350"
+    outlined
+    :color="contract.color"
+  >
     <v-card-title>
       <span class="primary--text text-subtitle-2">
         {{ $t("contracts.perMonth", { time: worktime }) }}
@@ -89,6 +94,9 @@ export default {
     },
     worktime() {
       return minutesToHHMM(this.contract.minutes);
+    },
+    isDarkmode() {
+      return this.$vuetify.theme.dark;
     }
   },
   methods: {
@@ -101,3 +109,22 @@ export default {
   }
 };
 </script>
+
+<style lang="css">
+.faded-color {
+  background-image: linear-gradient(
+    to right,
+    white 0%,
+    white 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.faded-color-dm {
+  background-image: linear-gradient(
+    to right,
+    #424242 0%,
+    #424242 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+</style>

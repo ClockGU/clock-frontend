@@ -76,6 +76,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    isCalendar: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -111,7 +116,7 @@ export default {
     },
     hasNext() {
       if (this.disabled) return false;
-
+      if (this.isCalendar) return true;
       if (this.type === "month") {
         const nextMonth = addMonths(this.date, 1);
         return (
@@ -138,6 +143,7 @@ export default {
     },
     hasPrev() {
       if (this.disabled) return false;
+      if (this.isCalendar) return true;
 
       if (this.type === "month") {
         const prevMonth = subMonths(this.date, 1);
@@ -170,11 +176,13 @@ export default {
       return false;
     },
     minDate() {
+      if (this.isCalendar) return undefined;
       if (this.disabled)
         return localizedFormat(firstOfCurrentMonth, "yyyy-MM-dd");
       return localizedFormat(this.selectedContract.startDate, "yyyy-MM-dd");
     },
     maxDate() {
+      if (this.isCalendar) return undefined;
       if (this.disabled)
         return localizedFormat(lastOfCurrentMonth, "yyyy-MM-dd");
       return localizedFormat(this.selectedContract.endDate, "yyyy-MM-dd");
