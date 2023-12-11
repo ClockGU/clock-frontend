@@ -59,7 +59,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
+      <v-col>
         <ReportCard
           :key="report.id"
           :disabled="disabled"
@@ -69,6 +69,9 @@
           :is-lockable="!isCurrentMonthLocked"
           :is-first-unlocked-month="isFirstUnlockedMonth"
         ></ReportCard>
+      </v-col>
+      <v-col>
+        <VacationCard :disabled="disabled" :report="report"></VacationCard>
       </v-col>
     </v-row>
     <v-dialog
@@ -100,10 +103,12 @@ import { mdiBadgeAccountHorizontal } from "@mdi/js";
 import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import { addMonths, isSameDay, isSameMonth } from "date-fns";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
+import VacationCard from "@/components/VacationCard.vue";
 
 export default {
   name: "Reporting",
   components: {
+    VacationCard,
     TimeIntervalSwitcher,
     DashboardConflicts,
     ReportCard,
