@@ -8,6 +8,10 @@ export function mapReportApiResponse(response) {
     worktime: response.worktime,
     carryoverPreviousMonth: response.carryover_previous_month,
     carryover: response.carryover,
+    debitVacationTime: response.debit_vacation_time,
+    vacationTime: response.vacation_time,
+    vacationCarryoverPreviousMonth: response.vacation_carryover_previous_month,
+    vacationCarryoverNextMonth: response.vacation_carryover_next_month,
     monthYear: response.month_year,
     createdAt: response.created_at,
     modifiedAt: response.modified_at,
@@ -22,6 +26,10 @@ export class Report {
     worktime = null,
     carryoverPreviousMonth = null,
     carryover = null,
+    debitVacationTime = null,
+    vacationTime = null,
+    vacationCarryoverPreviousMonth = null,
+    vacationCarryoverNextMonth = null,
     monthYear = null,
     createdAt = null,
     modifiedAt = null,
@@ -34,6 +42,19 @@ export class Report {
       ? carryoverPreviousMonth
       : null;
     this.carryover = is(String, carryover) ? carryover : null;
+    this.debitVacationTime = is(String, debitVacationTime)
+      ? debitVacationTime
+      : null;
+    this.vacationTime = is(String, vacationTime) ? vacationTime : null;
+    this.vacationCarryoverPreviousMonth = is(
+      String,
+      vacationCarryoverPreviousMonth
+    )
+      ? vacationCarryoverPreviousMonth
+      : null;
+    this.vacationCarryoverNextMonth = is(String, vacationCarryoverNextMonth)
+      ? vacationCarryoverNextMonth
+      : null;
     this.monthYear = is(Date, new Date(monthYear)) ? new Date(monthYear) : null;
     this.createdAt = is(Date, new Date(createdAt)) ? new Date(createdAt) : null;
     this.modifiedAt = is(Date, new Date(modifiedAt))
