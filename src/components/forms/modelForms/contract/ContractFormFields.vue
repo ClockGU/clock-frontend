@@ -55,6 +55,30 @@
             />
           </div>
         </v-expand-transition>
+        <v-checkbox
+          v-model="showVacationCarryover"
+          :label="$t('contracts.vacationCarryover.checkboxLabel')"
+          :disabled="areLockedShiftsInThisContract"
+          :error-messages="
+            false ? $t('contracts.vacationCarryover.locked') : ''
+          "
+        ></v-checkbox>
+        <v-expand-transition hide-on-leave mode="in">
+          <div v-show="showVacationCarryover">
+            <p v-show="!areLockedShiftsInThisContract">
+              {{ $t("contracts.vacationCarryover.info") }}
+            </p>
+            <ContractFormTimeInput
+              v-model="contract.initialVacationCarryoverMinutes"
+              :prepend-icon="icons.mdiCalendarClock"
+              :label="$t('contracts.vacationCarryover.timeLabel')"
+              :hint="$t('contracts.vacationCarryover.timeSubtitle')"
+              allow-negative-values
+              :disabled="areLockedShiftsInThisContract"
+              :required="showVacationCarryover"
+            />
+          </div>
+        </v-expand-transition>
       </v-col>
     </v-row>
   </v-card-text>
@@ -107,7 +131,8 @@ export default {
         mdiCalendar,
         mdiCalendarClock
       },
-      showCarryover: this.value.initialCarryoverMinutes !== 0
+      showCarryover: this.value.initialCarryoverMinutes !== 0,
+      showVacationCarryover: this.value.initialVacationCarryoverMinutes !== 0
     };
   },
   computed: {
@@ -129,6 +154,9 @@ export default {
       this.contract = value;
       if (value.initialCarryoverMinutes === 0) {
         this.showCarryover = false;
+      }
+      if (value.initialVacationCarryoverMinutes === 0) {
+        this.showVacationCarryover = false;
       }
     },
     contract(value) {
