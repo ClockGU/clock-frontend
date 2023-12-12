@@ -58,22 +58,26 @@
         ></ClockCardAlert>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <ReportCard
-          :key="report.id"
-          :disabled="disabled"
-          :report="report"
-          :exported="isCurrentMonthLocked"
-          :is-exportable="!personnelNumberMissing"
-          :is-lockable="!isCurrentMonthLocked"
-          :is-first-unlocked-month="isFirstUnlockedMonth"
-        ></ReportCard>
-      </v-col>
-      <v-col>
-        <VacationCard :disabled="disabled" :report="report"></VacationCard>
-      </v-col>
-    </v-row>
+    <v-card min-width="100%" :elevation="0">
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="6" order="0">
+            <ReportCard
+              :key="report.id"
+              :disabled="disabled"
+              :report="report"
+              :exported="isCurrentMonthLocked"
+              :is-exportable="!personnelNumberMissing"
+              :is-lockable="!isCurrentMonthLocked"
+              :is-first-unlocked-month="isFirstUnlockedMonth"
+            ></ReportCard>
+          </v-col>
+          <v-col  cols="12" md="6" order="1">
+            <VacationCard :disabled="disabled" :report="report"></VacationCard>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
     <v-dialog
       v-if="dialog"
       v-model="dialog"
