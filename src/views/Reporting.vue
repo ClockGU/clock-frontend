@@ -72,7 +72,7 @@
               :is-first-unlocked-month="isFirstUnlockedMonth"
             ></ReportCard>
           </v-col>
-          <v-col  cols="12" md="6" order="1">
+          <v-col cols="12" md="6" order="1">
             <VacationCard :disabled="disabled" :report="report"></VacationCard>
           </v-col>
         </v-row>
