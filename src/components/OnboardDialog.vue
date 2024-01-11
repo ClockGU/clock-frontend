@@ -76,11 +76,10 @@
                   {{ $t("personnelNumber.noPersonnelNumberSaved") }}
                 </span>
                 <br />
-                <p>{{ personnelNumber === "" }}</p>
                 <v-btn
                   color="primary"
                   text
-                  :disabled="personnelNumber !== null"
+                  :disabled="personnelNumber !== ''"
                   @click="personnelNumberDialog = true"
                 >
                   {{
