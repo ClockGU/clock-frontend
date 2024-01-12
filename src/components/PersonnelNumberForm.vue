@@ -32,49 +32,17 @@
         {{ $t("actions.cancel") }}
       </v-btn>
     </v-card-actions>
-    <v-card-actions v-else>
-      <ConfirmationDialog
-        :confirmation-button="{ text: $t('actions.change'), color: 'primary' }"
-        :max-width="600"
-        @confirm="save"
-      >
-        <template #activator="{ on }">
-          <v-btn
-            :disabled="
-              personnelNumber === personnelNumberInit ||
-              personnelNumber === '' ||
-              v$.$errors
-            "
-            text
-            color="primary"
-            v-on="on"
-          >
-            {{ $t("actions.change") }}
-          </v-btn>
-        </template>
-
-        <template #title>{{ $t("personnelNumber.changeTitle") }}</template>
-
-        <template #text>
-          <p>{{ $t("personnelNumber.changeInfo") }}</p>
-          <p>{{ $t("personnelNumber.changeConfirmText") }}</p>
-        </template>
-      </ConfirmationDialog>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import AuthService from "@/services/auth";
-// import { validationMixin } from "vuelidate";
 import { required, minLength } from "@vuelidate/validators";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { log } from "@/utils/log";
 import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "PersonnelNumberForm",
-  components: { ConfirmationDialog },
   props: {
     dialog: Boolean
   },
