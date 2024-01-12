@@ -21,6 +21,7 @@ describe("Contracts.js", () => {
       startDate: new Date(Date.UTC(2021, 0, 1)),
       endDate: new Date(Date.UTC(2021, 1, 1)),
       initialCarryoverMinutes: 0,
+      initialVacationCarryoverMinutes: 0,
       color: "#8ac5ff",
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
@@ -38,6 +39,7 @@ describe("Contracts.js", () => {
       startDate: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       endDate: new Date(Date.UTC(2021, 1, 1)).toISOString(),
       initialCarryoverMinutes: 0,
+      initialVacationCarryoverMinutes: 0,
       createdAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       lastUsed: new Date(Date.UTC(2021, 0, 1)).toISOString()
@@ -50,6 +52,7 @@ describe("Contracts.js", () => {
       startDate: new Date(Date.UTC(2021, 0, 1)),
       endDate: new Date(Date.UTC(2021, 1, 1)),
       initialCarryoverMinutes: 0,
+      initialVacationCarryoverMinutes: 0,
       color: "#8ac5ff",
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),

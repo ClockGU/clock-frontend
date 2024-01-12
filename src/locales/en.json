@@ -95,6 +95,14 @@
       "locked": "There are locked months. Carryover cannot be modified.",
       "info": " Please enter the working time carryover to be factored in at the start of your new contract."
     },
+    "vacationCarryover": {
+      "checkboxLabel": "Carryover vacation time from previous month",
+      "dateLabel": "Carryover into this month",
+      "timeLabel": "Carryover",
+      "timeSubtitle": "vacation time to be carried over (+/-HH:mm)",
+      "locked": "There are locked months. Carryover cannot be modified.",
+      "info": " Please enter the vacation time carryover to be factored in at the start of your new contract."
+    },
     "displayedContracts": "Displayed contracts",
     "createContract": "Create Contract",
     "errors": {
@@ -392,6 +400,11 @@
     "timeWorked": "Time worked",
     "carryoverLast": "Carryover from last month",
     "carryoverNext": "Carryover to next month",
+    "vacation": "Vacation",
+    "debitVacationTime": "Vacation entitlement from this month",
+    "vacationTime": "Used vacation this month",
+    "vacationCarryoverPrev": "Carryover from last month",
+    "vacationCarryoverNext": "Carryover to next month",
     "exportAlert": "Once you generate the timesheet, you will not be able to add or update shifts in the corresponding month",
     "exported": "Exported",
     "generate": "Generate timesheet",
