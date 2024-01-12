@@ -6,11 +6,13 @@ function mapApiResponse(response) {
     de_question: response.de_question,
     de_answer: response.de_answer,
     en_question: response.en_question,
-    en_answer: response.en_answer
+    en_answer: response.en_answer,
+    prioritization: response.prioritization,
+    faq_heading: response.faq_heading
   };
 }
 
-const BASE_URL = "/faq/";
+const BASE_URL = "/faqs/";
 
 const FaqService = {
   get: async function (id) {
