@@ -75,6 +75,10 @@ export default {
       type: Boolean,
       default: false
     },
+    overrideButtonText: {
+      type: String,
+      default: ""
+    },
     value: {
       type: Boolean,
       default: false
@@ -104,7 +108,10 @@ export default {
               entity: this.$tc("models.contract")
             });
       }
-      return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
+      if (this.overrideButtonText !== "") {
+        return this.overrideButtonText;
+      }
+      return this.create ? this.$t("actions.add") : this.$t("actions.edit");
     }
   },
   watch: {
