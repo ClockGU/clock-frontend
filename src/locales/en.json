@@ -81,6 +81,7 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly working time in HH:mm or HH,hh",
     "name": "Name your contract",
+    "worktimeModelName": "Choose your worktime model",
     "activeContracts": "Active Contracts",
     "noActiveContracts": "There are presently no active contracts",
     "expired": "(contract expired)",

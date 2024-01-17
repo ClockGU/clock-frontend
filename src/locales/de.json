@@ -81,6 +81,7 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
+    "worktimeModelName": "Wähle dein Arbeitszeitmodell",
     "activeContracts": "Laufende Verträge",
     "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
     "expired": "(Vertrag abgelaufen)",

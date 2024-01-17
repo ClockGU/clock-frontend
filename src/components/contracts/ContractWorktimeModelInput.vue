@@ -1,8 +1,9 @@
 <template>
   <v-select
+    :prepend-icon="icon"
     :value="value"
     :items="items"
-    label="Type"
+    :label="$t('contracts.worktimeModelName')"
     item-text="text"
     item-value="value"
     return-object
@@ -13,6 +14,7 @@
 
 <script>
 import { WORKTIME_MODEL_CHOICES } from "@/models/ContractModel";
+import { mdiAccountCogOutline } from "@mdi/js";
 
 export default {
   name: "ContractWorktimeModelInput",
@@ -24,7 +26,8 @@ export default {
   },
   data() {
     return {
-      selectedWorktimeModel: this.value
+      selectedWorktimeModel: this.value,
+      icon: mdiAccountCogOutline
     };
   },
   computed: {
