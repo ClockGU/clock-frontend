@@ -16,7 +16,8 @@ export function mapContractApiResponse(response) {
     createdAt: response.created_at,
     modifiedAt: response.modified_at,
     lastUsed: response.last_used,
-    color: response.color
+    color: response.color,
+    worktimeModelName: response.worktime_model_name
   };
 }
 
@@ -33,7 +34,8 @@ export class Contract {
     createdAt = null,
     modifiedAt = null,
     lastUsed = null,
-    color = null
+    color = null,
+    worktimeModelName = null
   } = {}) {
     this.id = is(String, id) ? id : "";
     this.user = is(String, user) ? user : "";
@@ -61,6 +63,7 @@ export class Contract {
         ? new Date(createdAt)
         : new Date();
     this.color = is(String, color) ? color : "#8ac5ff";
+    this.worktimeModelName = worktimeModelName;
     this.modifiedAt =
       is(Date, new Date(modifiedAt)) && modifiedAt !== null
         ? new Date(modifiedAt)
@@ -106,7 +109,8 @@ export class Contract {
       initial_carryover_minutes: this.initialCarryoverMinutes,
       initial_vacation_carryover_minutes: this.initialVacationCarryoverMinutes,
       last_used: this.lastUsed,
-      color: this.color
+      color: this.color,
+      worktime_model_name: this.worktimeModelName
     };
   }
   clone() {
