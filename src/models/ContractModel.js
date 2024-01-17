@@ -2,6 +2,10 @@ import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { getFirstOfCurrentMonth, getLastOfCurrentMonth } from "@/utils/date";
 
+import i18n from "@/plugins/i18n";
+
+const { t } = i18n.t;
+
 export function mapContractApiResponse(response) {
   return {
     id: response.id,
@@ -117,3 +121,7 @@ export class Contract {
     return new Contract(mapContractApiResponse(this.toPayload()));
   }
 }
+
+export const WORKTIME_MODEL_CHOICES = {
+  studEmp: t("worktimeModelNames.studEmp")
+};

@@ -552,5 +552,8 @@
     "text": "Please refer to the {link} for further information.",
     "linktext": "user manual",
     "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/"
+  },
+  "worktimeModelNames": {
+    "studEmp": "Student employee"
   }
 }
