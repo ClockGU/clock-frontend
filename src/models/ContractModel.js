@@ -122,6 +122,6 @@ export class Contract {
   }
 }
 
-export const WORKTIME_MODEL_CHOICES = {
-  studEmp: t("worktimeModelNames.studEmp")
-};
+export const WORKTIME_MODEL_CHOICES = [
+  { value: "studEmp", text: t("worktimeModelNames.studEmp") }
+];
