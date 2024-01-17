@@ -555,6 +555,7 @@
     "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/"
   },
   "worktimeModelNames": {
-    "studEmp": "Student employee"
+    "studEmp": "Student employee",
+    "notSelected": "No model selected"
   }
 }

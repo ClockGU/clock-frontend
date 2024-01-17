@@ -119,5 +119,6 @@ export class Contract {
 }
 
 export const WORKTIME_MODEL_CHOICES = [
-  { value: "studEmp", text: "", localeRef: "worktimeModelNames.studEmp" }
+  { value: "studEmp", text: "", localeRef: "worktimeModelNames.studEmp" },
+  { value: null, text: "", localeRef: "worktimeModelNames.notSelected" }
 ];

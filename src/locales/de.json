@@ -555,6 +555,7 @@
     "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch"
   },
   "worktimeModelNames": {
-    "studEmp": "Studentische Hilfskraft"
+    "studEmp": "Studentische Hilfskraft",
+    "notSelected": "Kein Modell ausgewählt"
   }
 }
