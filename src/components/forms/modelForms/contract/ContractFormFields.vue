@@ -21,6 +21,11 @@
         <ContractNameInput v-model="contract.name"></ContractNameInput>
       </v-col>
       <v-col cols="12">
+        <ContractWorktimeModelInput
+          v-model="contract.worktimeModelName"
+        ></ContractWorktimeModelInput>
+      </v-col>
+      <v-col cols="12">
         <ContractColorInput v-model="contract.color"></ContractColorInput>
       </v-col>
       <v-col cols="12" class="pa-0">
@@ -105,10 +110,12 @@ import ClockCardAlert from "@/components/ClockCardAlert";
 import store from "@/store";
 import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
 import { isFuture } from "date-fns";
+import ContractWorktimeModelInput from "@/components/contracts/ContractWorktimeModelInput.vue";
 
 export default {
   name: "ContractFormFields",
   components: {
+    ContractWorktimeModelInput,
     ContractColorInput,
     ContractNameInput,
     ContractDurationInput,

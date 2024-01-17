@@ -24,11 +24,17 @@ export default {
   },
   data() {
     return {
-      selectedWorktimeModel: this.value,
-      items: WORKTIME_MODEL_CHOICES
+      selectedWorktimeModel: this.value
     };
   },
-
+  computed: {
+    items() {
+      return WORKTIME_MODEL_CHOICES.map((item) => {
+        item["text"] = this.$t(item["localeRef"]);
+        return item;
+      });
+    }
+  },
   watch: {
     value(val) {
       this.selectedWorktimeModel = val;
