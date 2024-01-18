@@ -2,24 +2,31 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>{{ $t("app.faq") }}</h1>
-        <br />
-        <v-expansion-panels v-if="!loading" accordion>
-          <v-expansion-panel v-for="(faq, i) in faqs" :key="i">
-            <v-expansion-panel-header
-              class="text-body-1"
-              :class="getQuestionFontWeight(faq)"
-              @click="setSelectedFaq(faq)"
-            >
-              {{ question(faq) }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content class="text-body-1">
-              {{ answer(faq) }}
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+        <h1 class="mb-6">{{ $t("app.faq") }}</h1>
+        <v-row v-if="!loading" accordion>
+          <v-row v-for="(faq_group, i) in faqs_object" :key="i" class="mt-4">
+            <h2 v-if="faq_group[0].faq_heading" class="mt-4 pl-6 mb-2">
+              {{ heading(faq_group[0].faq_heading) }}
+            </h2>
+            <v-expansion-panels variant="Popout">
+              <v-expansion-panel v-for="(faq, i) in faq_group" :key="i">
+                <v-expansion-panel-header
+                  class="text-body-1"
+                  :class="getQuestionFontWeight(faq)"
+                  @click="setSelectedFaq(faq)"
+                >
+                  {{ question(faq) }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="text-body-1">
+                  {{ answer(faq) }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-row>
+        </v-row>
 
-        <p class="mt-8">
+        <p class="mt-10">
+          <br />
           <i18n path="faq.text">
             <template #link>
               <base-link
@@ -58,7 +65,7 @@ export default {
   computed: {
     ...mapGetters({
       loading: "faq/loading",
-      faqs: "faq/faqs",
+      faqs_object: "faq/faqs",
       locale: "locale"
     })
   },
@@ -73,6 +80,12 @@ export default {
     }
   },
   methods: {
+    heading(faq_group_zero) {
+      const key = `${this.locale}_heading`;
+      return key === undefined
+        ? faq_group_zero.en_heading
+        : faq_group_zero[key];
+    },
     question(faq) {
       const key = `${this.locale}_question`;
       return key === undefined ? faq.en_question : faq[key];

@@ -93,7 +93,16 @@
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Arbeitszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum Vertragsbeginn anfällt."
+      "info": "Trage bitte den Arbeitszeitübertrag ein, der zum Vertragsbeginn anfällt.",
+      "contractInFuture": "Diese Option steht erst nach Beginn der Vertragslaufzeit zur Verfügung."
+    },
+    "vacationCarryover": {
+      "checkboxLabel": "Urlaubsszeit aus Vormonat übertragen",
+      "dateLabel": "Übertrag in diesen Monat",
+      "timeLabel": "Übertrag",
+      "timeSubtitle": "Zu übertragende Urlaubszeit (+/-HH:mm).",
+      "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
+      "info": "Trage bitte den Urlaubsszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
     "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
@@ -392,6 +401,11 @@
     "timeWorked": "Geleistete Arbeitszeit",
     "carryoverLast": "Übertrag aus dem letzten Monat",
     "carryoverNext": "Übertrag in den nächsten Monat",
+    "vacation": "Urlaub",
+    "debitVacationTime": "Urlaubsanspruch aus diesem Monat",
+    "vacationTime": "Genommenen Urlaub in diesem Monat",
+    "vacationCarryoverPrev": "Übertrag aus dem letzten Monat",
+    "vacationCarryoverNext": "Übertrag in den nächsten Monat",
     "exportAlert": "Wenn du fortfährst, kannst du die Schichten des jeweiligen Monats nicht mehr ändern.",
     "exported": "Exportiert",
     "generate": "Stundenzettel erstellen",

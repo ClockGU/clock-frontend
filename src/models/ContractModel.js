@@ -11,6 +11,8 @@ export function mapContractApiResponse(response) {
     startDate: response.start_date,
     endDate: response.end_date,
     initialCarryoverMinutes: response.initial_carryover_minutes,
+    initialVacationCarryoverMinutes:
+      response.initial_vacation_carryover_minutes,
     createdAt: response.created_at,
     modifiedAt: response.modified_at,
     lastUsed: response.last_used,
@@ -27,6 +29,7 @@ export class Contract {
     startDate = null,
     endDate = null,
     initialCarryoverMinutes = null,
+    initialVacationCarryoverMinutes = null,
     createdAt = null,
     modifiedAt = null,
     lastUsed = null,
@@ -46,6 +49,12 @@ export class Contract {
         : getLastOfCurrentMonth();
     this.initialCarryoverMinutes = is(Number, initialCarryoverMinutes)
       ? initialCarryoverMinutes
+      : 0;
+    this.initialVacationCarryoverMinutes = is(
+      Number,
+      initialVacationCarryoverMinutes
+    )
+      ? initialVacationCarryoverMinutes
       : 0;
     this.createdAt =
       is(Date, new Date(createdAt)) && createdAt !== null
@@ -95,6 +104,7 @@ export class Contract {
       start_date: this.startDateString(),
       end_date: this.endDateString(),
       initial_carryover_minutes: this.initialCarryoverMinutes,
+      initial_vacation_carryover_minutes: this.initialVacationCarryoverMinutes,
       last_used: this.lastUsed,
       color: this.color
     };

@@ -58,19 +58,26 @@
         ></ClockCardAlert>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12">
-        <ReportCard
-          :key="report.id"
-          :disabled="disabled"
-          :report="report"
-          :exported="isCurrentMonthLocked"
-          :is-exportable="!personnelNumberMissing"
-          :is-lockable="!isCurrentMonthLocked"
-          :is-first-unlocked-month="isFirstUnlockedMonth"
-        ></ReportCard>
-      </v-col>
-    </v-row>
+    <v-card min-width="100%" :elevation="0">
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="6" order="0">
+            <ReportCard
+              :key="report.id"
+              :disabled="disabled"
+              :report="report"
+              :exported="isCurrentMonthLocked"
+              :is-exportable="!personnelNumberMissing"
+              :is-lockable="!isCurrentMonthLocked"
+              :is-first-unlocked-month="isFirstUnlockedMonth"
+            ></ReportCard>
+          </v-col>
+          <v-col cols="12" md="6" order="1">
+            <VacationCard :disabled="disabled" :report="report"></VacationCard>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
     <v-dialog
       v-if="dialog"
       v-model="dialog"
@@ -100,10 +107,12 @@ import { mdiBadgeAccountHorizontal } from "@mdi/js";
 import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import { addMonths, isSameDay, isSameMonth } from "date-fns";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
+import VacationCard from "@/components/VacationCard.vue";
 
 export default {
   name: "Reporting",
   components: {
+    VacationCard,
     TimeIntervalSwitcher,
     DashboardConflicts,
     ReportCard,

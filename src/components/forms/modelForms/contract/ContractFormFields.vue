@@ -36,8 +36,14 @@
         <v-checkbox
           v-model="showCarryover"
           :label="$t('contracts.carryover.checkboxLabel')"
-          :disabled="areLockedShiftsInThisContract"
-          :error-messages="false ? $t('contracts.carryover.locked') : ''"
+          :disabled="areLockedShiftsInThisContract || contractInFuture"
+          :hint="contractInFutureHint"
+          persistent-hint
+          :error-messages="
+            areLockedShiftsInThisContract
+              ? $t('contracts.carryover.locked')
+              : ''
+          "
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showCarryover">
@@ -52,6 +58,30 @@
               allow-negative-values
               :disabled="areLockedShiftsInThisContract"
               :required="showCarryover"
+            />
+          </div>
+        </v-expand-transition>
+        <v-checkbox
+          v-model="showVacationCarryover"
+          :label="$t('contracts.vacationCarryover.checkboxLabel')"
+          :disabled="areLockedShiftsInThisContract"
+          :error-messages="
+            false ? $t('contracts.vacationCarryover.locked') : ''
+          "
+        ></v-checkbox>
+        <v-expand-transition hide-on-leave mode="in">
+          <div v-show="showVacationCarryover">
+            <p v-show="!areLockedShiftsInThisContract">
+              {{ $t("contracts.vacationCarryover.info") }}
+            </p>
+            <ContractFormTimeInput
+              v-model="contract.initialVacationCarryoverMinutes"
+              :prepend-icon="icons.mdiCalendarClock"
+              :label="$t('contracts.vacationCarryover.timeLabel')"
+              :hint="$t('contracts.vacationCarryover.timeSubtitle')"
+              allow-negative-values
+              :disabled="areLockedShiftsInThisContract"
+              :required="showVacationCarryover"
             />
           </div>
         </v-expand-transition>
@@ -74,6 +104,7 @@ import ContractNameInput from "@/components/contracts/ContractNameInput";
 import ClockCardAlert from "@/components/ClockCardAlert";
 import store from "@/store";
 import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
+import { isFuture } from "date-fns";
 
 export default {
   name: "ContractFormFields",
@@ -107,7 +138,8 @@ export default {
         mdiCalendar,
         mdiCalendarClock
       },
-      showCarryover: this.value.initialCarryoverMinutes !== 0
+      showCarryover: this.value.initialCarryoverMinutes !== 0,
+      showVacationCarryover: this.value.initialVacationCarryoverMinutes !== 0
     };
   },
   computed: {
@@ -122,6 +154,14 @@ export default {
         return shift.contract === this.value.id && shift.locked;
       });
       return shifts.length !== 0;
+    },
+    contractInFuture() {
+      return isFuture(this.contract.startDate);
+    },
+    contractInFutureHint() {
+      if (this.contractInFuture)
+        return this.$t("contracts.carryover.contractInFuture");
+      return "";
     }
   },
   watch: {
@@ -129,6 +169,9 @@ export default {
       this.contract = value;
       if (value.initialCarryoverMinutes === 0) {
         this.showCarryover = false;
+      }
+      if (value.initialVacationCarryoverMinutes === 0) {
+        this.showVacationCarryover = false;
       }
     },
     contract(value) {
@@ -139,6 +182,9 @@ export default {
     setDates(event) {
       this.contract.startDate = event.startDate;
       this.contract.endDate = event.endDate;
+      if (this.contractInFuture) {
+        this.showCarryover = false;
+      }
     },
     setInitialCarryover(event) {
       this.contract.initialCarryoverMinutes = event.carryover;
