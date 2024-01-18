@@ -7,6 +7,7 @@
     item-text="text"
     item-value="value"
     filled
+    :disabled="disabled"
     :error-messages="errors"
     @input="v$.selectedWorktimeModel.$touch()"
   >
@@ -25,6 +26,10 @@ export default {
     value: {
       validator: (v) => typeof v === "string" || v === null,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   setup() {
