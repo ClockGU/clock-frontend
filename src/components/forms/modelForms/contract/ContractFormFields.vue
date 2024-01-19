@@ -23,7 +23,7 @@
       <v-col cols="12">
         <ContractWorktimeModelInput
           v-model="contract.worktimeModelName"
-          :disabled="contract.worktimeModelName !== null"
+          :disabled="contract.id !== ''"
         ></ContractWorktimeModelInput>
       </v-col>
       <v-col cols="12">
