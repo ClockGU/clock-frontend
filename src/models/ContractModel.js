@@ -63,9 +63,7 @@ export class Contract {
         ? new Date(createdAt)
         : new Date();
     this.color = is(String, color) ? color : "#8ac5ff";
-    // Currently set "studEmp" as default and do not allow null as value
-    this.worktimeModelName =
-      worktimeModelName === null ? "studEmp" : worktimeModelName;
+    this.worktimeModelName = worktimeModelName;
     this.modifiedAt =
       is(Date, new Date(modifiedAt)) && modifiedAt !== null
         ? new Date(modifiedAt)
