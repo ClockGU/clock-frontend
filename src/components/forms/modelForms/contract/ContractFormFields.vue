@@ -8,6 +8,12 @@
     ></ContractDurationInput>
     <v-row align="center" justify="start">
       <v-col cols="12">
+        <ContractWorktimeModelInput
+          v-model="contract.worktimeModelName"
+          :disabled="contract.id !== ''"
+        ></ContractWorktimeModelInput>
+      </v-col>
+      <v-col cols="12">
         <ContractFormTimeInput
           v-model="contract.minutes"
           :prepend-icon="icons.mdiTimetable"
@@ -19,12 +25,6 @@
       </v-col>
       <v-col cols="12">
         <ContractNameInput v-model="contract.name"></ContractNameInput>
-      </v-col>
-      <v-col cols="12">
-        <ContractWorktimeModelInput
-          v-model="contract.worktimeModelName"
-          :disabled="contract.id !== ''"
-        ></ContractWorktimeModelInput>
       </v-col>
       <v-col cols="12">
         <ContractColorInput v-model="contract.color"></ContractColorInput>
