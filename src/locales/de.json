@@ -556,6 +556,8 @@
   },
   "worktimeModelNames": {
     "studEmp": "Studentische Hilfskraft",
+    "regEmp": "Regulär*er Angestellt*er",
+    "civilSer": "Beamt*in",
     "notSelected": "Kein Modell ausgewählt"
   }
 }

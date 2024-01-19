@@ -556,6 +556,8 @@
   },
   "worktimeModelNames": {
     "studEmp": "Student employee",
+    "regEmp": "Rebular employee",
+    "civilSer": "Civil servant",
     "notSelected": "No model selected"
   }
 }
