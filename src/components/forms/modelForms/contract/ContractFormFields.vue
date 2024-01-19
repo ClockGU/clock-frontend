@@ -13,8 +13,9 @@
           :disabled="contract.id !== ''"
         ></ContractWorktimeModelInput>
       </v-col>
-      <v-col cols="12">
+      <v-col v-show="contract.worktimeModelName !== null" cols="12">
         <ContractFormTimeInput
+          v-if="contract.worktimeModelName === 'studEmp'"
           v-model="contract.minutes"
           :prepend-icon="icons.mdiTimetable"
           :label="worktimeLabel"
@@ -22,6 +23,10 @@
           :disabled="areLockedShiftsInThisContract"
           required
         />
+        <ContractPercentFteInput
+          v-else
+          v-model="contract.percentFte"
+        ></ContractPercentFteInput>
       </v-col>
       <v-col cols="12">
         <ContractNameInput v-model="contract.name"></ContractNameInput>
@@ -112,10 +117,12 @@ import store from "@/store";
 import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
 import { isFuture } from "date-fns";
 import ContractWorktimeModelInput from "@/components/contracts/ContractWorktimeModelInput.vue";
+import ContractPercentFteInput from "@/components/contracts/ContractPercentFteInput.vue";
 
 export default {
   name: "ContractFormFields",
   components: {
+    ContractPercentFteInput,
     ContractWorktimeModelInput,
     ContractColorInput,
     ContractNameInput,
