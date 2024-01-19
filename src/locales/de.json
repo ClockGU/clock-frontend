@@ -84,7 +84,7 @@
     "worktimeModelName": "Wähle dein Arbeitszeitmodell",
     "percentFte": {
       "dataLable": "% VZÄ",
-      "hint": "Gib den Prozentsatz des VZÄ in der Form XX oder XX,XX an."
+      "hint": "Gib den Prozentsatz des VZÄ in der Form XX oder XX.XX an."
     },
     "activeContracts": "Laufende Verträge",
     "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
