@@ -17,7 +17,8 @@ export function mapContractApiResponse(response) {
     modifiedAt: response.modified_at,
     lastUsed: response.last_used,
     color: response.color,
-    worktimeModelName: response.worktime_model_name
+    worktimeModelName: response.worktime_model_name,
+    percentFte: response.percent_fte
   };
 }
 
@@ -27,6 +28,7 @@ export class Contract {
     user = null,
     name = null,
     minutes = null,
+    percentFte = null,
     startDate = null,
     endDate = null,
     initialCarryoverMinutes = null,
@@ -41,6 +43,7 @@ export class Contract {
     this.user = is(String, user) ? user : "";
     this.name = is(String, name) ? name : "";
     this.minutes = is(Number, minutes) ? minutes : 0;
+    this.percentFte = is(Number, percentFte) ? percentFte : 0.0;
     this.startDate =
       is(Date, new Date(startDate)) && startDate !== null
         ? new Date(startDate)
@@ -110,7 +113,8 @@ export class Contract {
       initial_vacation_carryover_minutes: this.initialVacationCarryoverMinutes,
       last_used: this.lastUsed,
       color: this.color,
-      worktime_model_name: this.worktimeModelName
+      worktime_model_name: this.worktimeModelName,
+      percent_fte: this.percentFte
     };
   }
   clone() {
