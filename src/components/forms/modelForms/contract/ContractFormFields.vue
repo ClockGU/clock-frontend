@@ -21,11 +21,12 @@
           :label="worktimeLabel"
           :hint="worktimeHint"
           :disabled="areLockedShiftsInThisContract"
-          required
+          :required="contract.worktimeModelName === 'studEmp'"
         />
         <ContractPercentFteInput
           v-else
           v-model="contract.percentFte"
+          :required="contract.worktimeModelName !== 'studEmp'"
         ></ContractPercentFteInput>
       </v-col>
       <v-col cols="12">

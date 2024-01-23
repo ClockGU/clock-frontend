@@ -29,18 +29,25 @@ export default {
     value: {
       type: Number,
       required: true
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   validations() {
-    return {
+    let validations = {
       percent: {
         validPercent: helpers.withMessage(
           this.$t("errors.invalidPercentage"),
           validPercent
-        ),
-        required
+        )
       }
     };
+    if (this.required) {
+      validations.percent.required = required;
+    }
+    return validations;
   },
   setup() {
     return {
