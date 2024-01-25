@@ -176,9 +176,13 @@ export default {
           duration += differenceInMinutes(shift.stopped, shift.started);
         });
       //differenceInMinutes(this.shifts[0].date.start, this.shifts[0].date.end);
+      const avg =
+        this.selectedContract.worktimeModelName === "studEmp"
+          ? this.selectedContract.minutes / 4.348
+          : (this.selectedContract.percentFte / 100) * 40 * 60;
       return {
         worktime: duration,
-        avg: Math.round(this.selectedContract.minutes / 4.348)
+        avg: Math.round(avg)
       };
     },
     dailyData() {
