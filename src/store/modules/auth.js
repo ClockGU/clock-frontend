@@ -36,7 +36,8 @@ const actions = {
 
     return Promise.resolve(resp);
   },
-  LOGOUT({ commit }) {
+  async LOGOUT({ commit }) {
+    window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
     AuthService.logout();
 
     commit("LOGOUT");
