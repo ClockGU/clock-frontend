@@ -23,6 +23,8 @@ describe("Contracts.js", () => {
       initialCarryoverMinutes: 0,
       initialVacationCarryoverMinutes: 0,
       color: "#8ac5ff",
+      worktimeModelName: null,
+      percentFte: 0.0,
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
       lastUsed: new Date(Date.UTC(2021, 0, 1))
@@ -40,6 +42,8 @@ describe("Contracts.js", () => {
       endDate: new Date(Date.UTC(2021, 1, 1)).toISOString(),
       initialCarryoverMinutes: 0,
       initialVacationCarryoverMinutes: 0,
+      worktimeModelName: "regEmp",
+      percentFte: 0.0,
       createdAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       lastUsed: new Date(Date.UTC(2021, 0, 1)).toISOString()
@@ -54,6 +58,8 @@ describe("Contracts.js", () => {
       initialCarryoverMinutes: 0,
       initialVacationCarryoverMinutes: 0,
       color: "#8ac5ff",
+      worktimeModelName: "regEmp",
+      percentFte: 0.0,
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
       lastUsed: new Date(Date.UTC(2021, 0, 1))
