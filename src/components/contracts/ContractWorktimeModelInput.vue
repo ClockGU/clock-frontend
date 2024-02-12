@@ -64,7 +64,6 @@ export default {
       this.selectedWorktimeModel = val;
     },
     selectedWorktimeModel(val) {
-      console.log(val);
       this.$emit("input", val);
     }
   },
