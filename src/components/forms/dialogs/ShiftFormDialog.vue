@@ -53,6 +53,7 @@ import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+// eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import { isBefore } from "date-fns";
 export default {
@@ -125,8 +126,14 @@ export default {
     },
     date() {
       if (this.create) {
-        let date = store.getters["selectedContract/selectedContract"].startDate;
-        date.setHours(10, 0, 0);
+        let date;
+        try {
+          date = this.$store.getters["selectedContract/selectedContract"]
+            .startDate;
+          date.setHours(10, 0, 0);
+        } catch {
+          return this.initialDate;
+        }
         if (isBefore(this.initialDate, date)) {
           return date;
         }
