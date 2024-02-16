@@ -66,7 +66,6 @@
                 <button
                   type="button"
                   class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
-                  style="color: red"
                   @click="viewDay({ date: date })"
                 >
                   <span class="v-btn__content">{{ day }}</span>
