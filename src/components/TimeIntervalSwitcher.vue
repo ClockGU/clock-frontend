@@ -9,21 +9,20 @@
       :close-on-content-click="false"
       :nudge-right="40"
       transition="scale-transition"
-      offset-y
+      offset="3"
       min-width="290px"
     >
-      <template #activator="{ on, attrs }">
-        <span v-bind="attrs" v-on="on">
+      <template #activator="{ props }">
+        <span v-bind="props">
           {{ formattedInterval }}
         </span>
       </template>
       <v-date-picker
-        :value="intervalString"
+        v-model="date"
         :allowed-dates="allowedDates"
         :min="minDate"
         :max="maxDate"
         :type="pickerType"
-        @change="inputDate"
       ></v-date-picker>
     </v-menu>
 
@@ -83,6 +82,7 @@ export default {
       default: false
     }
   },
+emits: ['update:modelValue'],
   data() {
     return {
       menu: false,
@@ -195,11 +195,14 @@ export default {
   watch: {
     modelValue(val) {
       this.date = val;
+    },
+    date(val) {
+      this.$emit("update:modelValue", val);
     }
   },
   methods: {
     setDate(date) {
-      this.$emit("input", date);
+      this.$emit("update:modelValue", date);
     },
     gotoPrev() {
       if (!this.hasPrev) return;
@@ -235,9 +238,10 @@ export default {
     },
     allowedDates(value) {
       if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
-      return parseInt(value.split("-")[1], 10);
+      return value;
     },
     inputDate(value) {
+      console.log(value);
       this.setDate(new Date(value));
     }
   }
