@@ -98,7 +98,6 @@ export default {
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
     entity: new Contract(),
-    loading: true
   }),
   computed: {
     ...mapGetters({
