@@ -14,7 +14,7 @@
       </v-btn>
       <v-col
         :class="
-          $vuetify.theme.currentTheme.footerSecondary +
+          $vuetify.theme.current.footerSecondary +
           ' text-center white--text'
         "
         cols="12"

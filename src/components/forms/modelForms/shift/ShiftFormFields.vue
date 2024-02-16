@@ -6,10 +6,6 @@
       v-model:stopped="shift.stopped"
       :contract-id="shift.contract"
       :errors="timeErrors"
-<<<<<<< HEAD
-      @input="handleTimeInput($event)"
-=======
->>>>>>> Migrate Date and Time Input.
     />
     <v-row align="center" justify="start">
       <v-col cols="12" class="ma-0">
@@ -185,18 +181,7 @@ export default {
   created() {
     this.shift.wasReviewed = !this.isInFuture;
   },
-<<<<<<< HEAD
   methods: {
-    setTime(event) {
-      this.shift.started = event.started;
-      this.shift.stopped = event.stopped;
-      this.setWasReviewed();
-    },
-    setWasReviewed() {
-      // All shifts which have stopped before now are counted as reviewed true
-      // We set that automatically
-      this.shift.wasReviewed = !this.isInFuture;
-    },
     setValidDate() {
       // If a user changes the coontract of a shift we want to
       // set the start date to the first valid date possible in the newly
@@ -216,16 +201,8 @@ export default {
     },
     resetScheduledShifts() {
       this.scheduledShifts = null;
-    },
-    handleTimeInput(event) {
-      this.setTime(event);
-      if (isPast(startOfDay(this.shift.started)) && this.showRepeat) {
-        this.showRepeat = false;
-      }
     }
   }
-=======
->>>>>>> Migrate Date and Time Input.
 };
 </script>
 
