@@ -11,147 +11,144 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-card>
-          <v-hover>
-            <template #default="{ hover }">
-              <div @click="toggleTouchOverlay(hover)">
-                <v-card-title>
-                  <v-row>
-                    <v-col>
-                      <ShiftFormDialog
-                        :initial-date="initialDate"
-                        btn-color="primary"
-                      ></ShiftFormDialog>
-                    </v-col>
-                  </v-row>
-                </v-card-title>
-                <v-row>
-                  <v-col class="text-center" cols="12">
-                    <TimeIntervalSwitcher
-                      v-model="date"
-                      :disabled="disabled"
+        <v-hover v-slot="{isHovering, props}">
+          <v-card v-bind="props">
+            <v-card-title>
+              <v-row>
+                <v-col>
+                  <ShiftFormDialog
+                    :initial-date="initialDate"
+                    btn-color="primary"
+                  ></ShiftFormDialog>
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-row>
+              <v-col class="text-center" cols="12">
+                <TimeIntervalSwitcher
+                  v-model="date"
+                  :disabled="disabled"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <ShiftsTable
+                  :shifts="pastShifts"
+                  :loading="loading"
+                  :search="pastSearch"
+                  past-shifts
+                >
+                  <template #head="{ selected, reset }">
+                    <v-card-title>
+                    <v-row>
+                      <v-col cols="12" md="5">
+                        <span>{{
+                            $t("shifts.table.pastShiftsTitle", {
+                              month: formattedDate()
+                            })
+                          }}</span>
+                      </v-col>
+
+                      <v-spacer></v-spacer>
+
+                      <v-col
+                        cols="12"
+                        sm="5"
+                        :offset-sm="selected.length > 0 ? 0 : 7"
+                        offset-md="0"
+                        md="3"
+                      >
+                        <v-text-field
+                          v-model="pastSearch"
+                          :append-icon="icons.mdiMagnify"
+                          :label="$t('actions.search')"
+                          density="compact"
+                          hide-details
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    </v-card-title>
+
+                    <v-card-text>
+                      {{ $t("shifts.table.pastShiftsHint") }}
+                    </v-card-text>
+                    <ShiftBulkActions
+                      v-if="selected.length > 0"
+                      :shifts="selected"
+                      can-review
+                      :more-than-one-contract="moreThanOneContract"
+                      :reset-fn="reset"
                     />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <ShiftsTable
-                      :shifts="pastShifts"
-                      :loading="loading"
-                      :search="pastSearch"
-                      past-shifts
-                    >
-                      <template #head="{ selected, reset }">
-                        <v-card-title>
-                        <v-row>
-                          <v-col cols="12" md="5">
-                            <span>{{
-                                $t("shifts.table.pastShiftsTitle", {
-                                  month: formattedDate()
-                                })
-                              }}</span>
-                          </v-col>
+                  </template>
+                </ShiftsTable>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <ShiftsTable
+                  :shifts="futureShifts"
+                  :loading="loading"
+                  :search="futureSearch"
+                >
+                  <template #head="{ selected, reset }">
+                    <v-card-title>
+                      <v-row>
+                        <v-col cols="12" md="5">
+                          <span>{{
+                            $t("shifts.table.futureShiftsTitle", {
+                              month: formattedDate()
+                            })
+                          }}</span>
+                        </v-col>
 
-                          <v-spacer></v-spacer>
+                        <v-spacer></v-spacer>
+                        <v-col
+                          cols="12"
+                          sm="5"
+                          :offset-sm="selected.length > 0 ? 0 : 7"
+                          offset-md="0"
+                          md="3"
+                        >
+                          <v-text-field
+                            v-model="futureSearch"
+                            :append-icon="icons.mdiMagnify"
+                            :label="$t('actions.search')"
+                            density="compact"
+                            hide-details
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-card-title>
 
-                          <v-col
-                            cols="12"
-                            sm="5"
-                            :offset-sm="selected.length > 0 ? 0 : 7"
-                            offset-md="0"
-                            md="3"
-                          >
-                            <v-text-field
-                              v-model="pastSearch"
-                              :append-icon="icons.mdiMagnify"
-                              :label="$t('actions.search')"
-                              density="compact"
-                              hide-details
-                            ></v-text-field>
-                          </v-col>
-                        </v-row>
-                        </v-card-title>
+                    <v-card-text>
+                      {{ $t("shifts.table.futureShiftsHint") }}
+                    </v-card-text>
+                    <ShiftBulkActions
+                      v-if="selected.length > 0"
+                      :more-than-one-contract="moreThanOneContract"
+                      :shifts="selected"
+                      :reset-fn="reset"
+                    />
+                  </template>
+                </ShiftsTable>
+              </v-col>
+            </v-row>
+            <v-overlay
+              :model-value="disabled && (isHovering || touchOverlay)"
+              contained
+              persistent
+              :close-on-content-click="false"
+              scrim="primary"
+              style="align-items: start; justify-content: center"
+            >
+              <p style="margin-top: 15%; color: white">
+                {{ $t("dashboard.disabled.shiftsHere") }}
+              </p>
+            </v-overlay>
+          </v-card>
+        </v-hover>
 
-                        <v-card-text>
-                          {{ $t("shifts.table.pastShiftsHint") }}
-                        </v-card-text>
-                        <ShiftBulkActions
-                          v-if="selected.length > 0"
-                          :shifts="selected"
-                          can-review
-                          :more-than-one-contract="moreThanOneContract"
-                          :reset-fn="reset"
-                        />
-                      </template>
-                    </ShiftsTable>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <ShiftsTable
-                      :shifts="futureShifts"
-                      :loading="loading"
-                      :search="futureSearch"
-                    >
-                      <template #head="{ selected, reset }">
-                        <v-card-title>
-                          <v-row>
-                            <v-col cols="12" md="5">
-                              <span>{{
-                                $t("shifts.table.futureShiftsTitle", {
-                                  month: formattedDate()
-                                })
-                              }}</span>
-                            </v-col>
-
-                            <v-spacer></v-spacer>
-                            <v-col
-                              cols="12"
-                              sm="5"
-                              :offset-sm="selected.length > 0 ? 0 : 7"
-                              offset-md="0"
-                              md="3"
-                            >
-                              <v-text-field
-                                v-model="futureSearch"
-                                :append-icon="icons.mdiMagnify"
-                                :label="$t('actions.search')"
-                                density="compact"
-                                hide-details
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-card-title>
-
-                        <v-card-text>
-                          {{ $t("shifts.table.futureShiftsHint") }}
-                        </v-card-text>
-                        <ShiftBulkActions
-                          v-if="selected.length > 0"
-                          :more-than-one-contract="moreThanOneContract"
-                          :shifts="selected"
-                          :reset-fn="reset"
-                        />
-                      </template>
-                    </ShiftsTable>
-                  </v-col>
-                </v-row>
-                <v-fade-transition>
-                  <v-overlay
-                    v-if="disabled && (hover || touchOverlay)"
-                    absolute
-                    scrim="primary"
-                    style="align-items: start"
-                  >
-                    <p style="margin-top: 17%" class="text-center">
-                      {{ $t("dashboard.disabled.shiftsHere") }}
-                    </p>
-                  </v-overlay>
-                </v-fade-transition>
-              </div>
-            </template>
-          </v-hover>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -159,7 +156,6 @@
 
 <script>
 
-import MonthSwitcher from "@/components/MonthSwitcher.vue";
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import ShiftBulkActions from "@/components/shifts/ShiftBulkActions.vue";
 import ShiftsTable from "@/components/shifts/ShiftsTable.vue";
@@ -176,7 +172,6 @@ import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 export default {
   name: "Shifts",
   components: {
-    MonthSwitcher,
     TimeIntervalSwitcher,
     ShiftFormDialog,
     SelectContractFilter,
