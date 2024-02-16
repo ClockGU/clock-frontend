@@ -21,14 +21,14 @@
 
     <v-divider></v-divider>
 
-    <VSkeletonLoader
+    <v-skeleton-loader
       v-if="isLoggedIn && userLoading"
       :loading="userLoading"
       type="heading"
       width="300px"
       class="pl-2 py-3"
     >
-    </VSkeletonLoader>
+    </v-skeleton-loader>
     <v-list v-else>
       <v-list-group no-action>
         <template #activator="{ props }">
@@ -111,11 +111,10 @@ import {
   mdiHelp,
   mdiLogout
 } from "@mdi/js";
-import { VSkeletonLoader } from "vuetify/labs/components";
 
 export default {
   name: "NavigationDrawer",
-  components: { LogoutDialog, VSkeletonLoader },
+  components: { LogoutDialog},
   props: {
     drawer: {
       type: Boolean,
