@@ -27,7 +27,7 @@
       ></v-date-picker>
     </v-menu>
 
-    <v-btn :disabled="!hasNext" text @click="gotoNext">
+    <v-btn :disabled="!hasNext" variant="text" @click="gotoNext">
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </div>
