@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="head" :selected="selected" :reset="reset"></slot>
-    <VDataTable
+    <v-data-table
       v-model="selected"
       :headers="flexHeaders"
       :items="shifts"
@@ -51,13 +51,13 @@
         <v-btn
           v-if="!item.raw.wasReviewed"
           :elevation="!isRunningShift(item.raw) ? 3 : 0"
-          icon
+          variant="flat"
           :disabled="isRunningShift(item.raw)"
           @click="reviewSingleShift(item.raw)"
         >
           <v-icon :icon="icons.mdiClose" color="red" />
         </v-btn>
-        <v-btn v-else flat icon>
+        <v-btn v-else flat variant="flat">
           <v-icon :icon="icons.mdiCheck" color="green"/>
         </v-btn>
       </template>
@@ -135,7 +135,7 @@
           </template>
         </ConfirmationDialog-->
       </template>
-    </VDataTable>
+    </v-data-table>
   </div>
 </template>
 
@@ -166,7 +166,6 @@ import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
-import { VDataTable } from "vuetify/labs/components";
 
 export default {
   name: "ShiftsTable",
@@ -174,7 +173,6 @@ export default {
     ShiftFormDialog,
     //ConfirmationDialog,
     //  ShiftAssignContractDialog,
-    VDataTable,
     ShiftInfoDialog
   },
   props: {
