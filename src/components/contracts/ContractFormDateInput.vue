@@ -19,7 +19,7 @@
         v-bind="props"
       ></v-text-field>
     </template>
-    <VDatePicker
+    <v-date-picker
       v-model="date"
       :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
       :first-day-of-week="1"
@@ -29,19 +29,17 @@
       @click:save="menu = false"
       @click:cancel="menu = false"
       @update:model-value="$emit('update:modelValue', $event)"
-    ></VDatePicker>
+    ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
-import { parseISO, isLastDayOfMonth, getDate } from "date-fns";
+import { isLastDayOfMonth, getDate } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
-import { VDatePicker } from "vuetify/labs/VDatePicker";
 
 export default {
   name: "ContractFormDateInput",
-  components: {VDatePicker},
   props: {
     modelValue: {
       type: Date,
