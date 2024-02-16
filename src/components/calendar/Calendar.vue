@@ -28,11 +28,11 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <TodayButton @update="date = $event" />
+          <TodayButton @update="selectedDate = $event" />
         </v-col>
         <v-col class="text-center" cols="4">
           <TimeIntervalSwitcher
-            v-model="date"
+            v-model="selectedDate"
             :disabled="disabled"
             :type="type"
             is-calendar
@@ -66,7 +66,8 @@
                 <button
                   type="button"
                   class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
-                  @click="viewDay(date)"
+                  style="color: red"
+                  @click="viewDay({ date: date })"
                 >
                   <span class="v-btn__content">{{ day }}</span>
                 </button>
@@ -159,7 +160,7 @@ export default {
     doubleClickDelay: 500,
     editShift: false,
     shift: undefined,
-    date: null,
+    selectedDate: null,
     displayedContracts: [],
     bhIconColor: SHIFT_TYPE_COLORS.bh
   }),
@@ -216,13 +217,13 @@ export default {
     }
   },
   watch: {
-    date(val) {
+    selectedDate(val) {
       this.focus = localizedFormat(val, "yyyy-MM-dd");
     }
   },
   created() {
     this.focus = this.initialFocus;
-    this.date = new Date(this.focus);
+    this.selectedDate = new Date(this.focus);
     this.type = this.initialType;
   },
   async mounted() {
