@@ -10,43 +10,43 @@ const { t } = i18n.global;
 
 export const SHIFT_TABLE_HEADERS = [
   {
-    text: t("time.date"),
+    title: t("time.date"),
     align: "start",
     sortable: true,
     key: "date"
   },
   {
-    text: t("time.start"),
+    title: t("time.start"),
     align: "start",
     sortable: true,
     key: "start"
   },
   {
-    text: t("time.duration"),
+    title: t("time.duration"),
     align: "start",
     sortable: true,
     key: "duration"
   },
   {
-    text: t("calendar.type"),
+    title: t("calendar.type"),
     align: "start",
     sortable: true,
     key: "type"
   },
   {
-    text: t("time.reviewed"),
+    title: t("time.reviewed"),
     align: "start",
     sortable: true,
     key: "reviewed"
   },
   {
-    text: "Tags",
+    title: "Tags",
     align: "start",
     sortable: true,
     key: "tags"
   },
   {
-    text: "Notes",
+    title: "Notes",
     align: "start",
     sortable: true,
     key: "note"
