@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn :disabled="!hasPrev" text @click="gotoPrev">
+    <v-btn :disabled="!hasPrev" variant="text" @click="gotoPrev">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -59,7 +59,7 @@ import {
 export default {
   name: "TimeIntervalSwitcher",
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -87,7 +87,7 @@ export default {
     return {
       menu: false,
       icons: { mdiChevronLeft, mdiChevronRight },
-      date: this.value
+      date: this.modelValue
     };
   },
   computed: {
@@ -193,7 +193,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.date = val;
     }
   },

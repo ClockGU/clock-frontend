@@ -17,7 +17,7 @@
         v-bind="props"
       ></v-text-field>
     </template>
-    <VDatePicker
+    <v-date-picker
       :model-value="date"
       no-title
       :allowed-dates="allowed"
@@ -27,22 +27,17 @@
       @click:save="menu = false"
       @click:cancel="menu = false"
       @update:model-value="$emit('update:modelValue', $event)"
-    ></VDatePicker>
+    ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
-import { VDatePicker } from 'vuetify/labs/VDatePicker'
-
 import { localizedFormat } from "@/utils/date";
-// eslint-disable-next-line no-unused-vars
-import { isSunday, parseISO } from "date-fns";
 
 import { mdiCalendar } from "@mdi/js";
 
 export default {
   name: "ShiftFormDateInput",
-  components: { VDatePicker },
   props: {
     modelValue: {
       type: Date,

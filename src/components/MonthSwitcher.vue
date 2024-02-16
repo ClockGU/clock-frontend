@@ -44,11 +44,9 @@ import {
   localizedFormat
 } from "@/utils/date";
 import { mapGetters } from "vuex";
-import { VDatePicker } from "vuetify/labs/VDatePicker";
 
 export default {
   name: "MonthSwitcher",
-  components: { VDatePicker },
   props: {
     modelValue: {
       type: Date,
