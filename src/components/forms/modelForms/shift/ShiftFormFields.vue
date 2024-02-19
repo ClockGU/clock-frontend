@@ -78,7 +78,7 @@
         <ShiftFormSelectContract
           v-model="shift.contract"
           :validation-date="shift.started"
-          @input="setValidDate"
+          @update:model-value="setValidDate"
         />
         <ShiftFormReview :value="shift.wasReviewed"></ShiftFormReview>
       </v-col>
