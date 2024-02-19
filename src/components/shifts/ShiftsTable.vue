@@ -9,6 +9,7 @@
       :loading="loading"
       item-key="id"
       return-object
+      hover
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
@@ -16,26 +17,26 @@
     >
       <!-- eslint-disable-next-line -->
       <template #item.date="{ item }">
-        {{ formattedDate(item.raw.started) }}
+        {{ formattedDate(item.started) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.start="{ item }">
-        {{ formattedTime(item.raw.started) }}
+        {{ formattedTime(item.started) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.duration="{ item }">
-        {{ formattedDuration(item.raw.duration) }}
+        {{ formattedDuration(item.duration) }}
       </template>
 
       <!-- eslint-disable-next-line -->
       <template #item.type="{ item }">
-        <v-icon :color="colors[item.raw.type]">
-          {{ typeIcons[item.raw.type] }}
+        <v-icon :color="colors[item.type]">
+          {{ typeIcons[item.type] }}
         </v-icon>
         <v-chip
-          v-if="isRunningShift(item.raw)"
+          v-if="isRunningShift(item)"
           class="ml-2"
           variant="outlined"
           x-small
@@ -49,11 +50,11 @@
       <!-- eslint-disable-next-line -->
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
-          v-if="!item.raw.wasReviewed"
-          :elevation="!isRunningShift(item.raw) ? 3 : 0"
+          v-if="!item.wasReviewed"
+          :elevation="!isRunningShift(item) ? 3 : 0"
           variant="flat"
-          :disabled="isRunningShift(item.raw)"
-          @click="reviewSingleShift(item.raw)"
+          :disabled="isRunningShift(item)"
+          @click="reviewSingleShift(item)"
         >
           <v-icon :icon="icons.mdiClose" color="red" />
         </v-btn>
@@ -70,14 +71,14 @@
       <!-- eslint-disable-next-line -->
       <template #item.tags="{ item }">
         <v-chip
-          v-for="tag in item.raw.tags.slice(0, 2)"
+          v-for="tag in item.tags.slice(0, 2)"
           :key="tag"
           class="mx-1"
           small
         >
           {{ tag }}
         </v-chip>
-        <ShiftInfoDialog v-if="item.raw.tags.length > 2" :item="item.raw">
+        <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
           <template #activator="{ props }">
             <v-chip small class="mx-1" v-bind="props">...</v-chip>
           </template>
@@ -86,10 +87,10 @@
 
       <!-- eslint-disable-next-line -->
       <template #item.note="{ item }">
-        <ShiftInfoDialog :item="item.raw">
+        <ShiftInfoDialog :item="item">
           <template #activator="{ props }">
             <span v-bind="props">
-              {{ noteDisplay(item.raw.note) }}
+              {{ noteDisplay(item.note) }}
             </span>
           </template>
         </ShiftInfoDialog>
@@ -97,7 +98,7 @@
 
       <!-- eslint-disable-next-line-->
       <template #item.actions="{ item }">
-        <ShiftFormDialog :create="false" icon :shift="item.raw"></ShiftFormDialog>
+        <ShiftFormDialog :create="false" icon :shift="item"></ShiftFormDialog>
         <!-- Commented out, pending due to missing Userfeedback.       -->
         <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
