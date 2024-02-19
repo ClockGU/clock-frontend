@@ -1,8 +1,7 @@
 <template>
-  <v-card variant="outlined">
-    <v-hover>
-      <template #default="{ hover }">
-        <div @click="toggleTouchOverlay(hover)">
+    <v-hover v-slot="{ isHovering, props}">
+      <v-card v-bind="props">
+
           <v-card-title>
             <span>
               {{ $t("reports.summary") }}
@@ -113,22 +112,20 @@
               </v-row>
             </v-container>
           </v-card-actions>
-          <v-fade-transition>
-            <v-overlay
-              v-if="disabled && (hover || touchOverlay)"
-              absolute
-              scrim="primary"
-              style="align-items: start"
-            >
-              <p style="margin-top: 17%" class="text-center">
-                {{ $t("dashboard.disabled.reportHere") }}
-              </p>
-            </v-overlay>
-          </v-fade-transition>
-        </div>
-      </template>
+          <v-overlay
+            :model-value="disabled && (isHovering || touchOverlay)"
+            contained
+            persistent
+            :close-on-content-click="false"
+            scrim="primary"
+            style="align-items: start; justify-content: center"
+          >
+            <p style="margin-top: 17%; color: white; text-align: center">
+              {{ $t("dashboard.disabled.reportHere") }}
+            </p>
+          </v-overlay>
+      </v-card>
     </v-hover>
-  </v-card>
 </template>
 
 <script>
