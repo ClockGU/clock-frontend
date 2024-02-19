@@ -27,7 +27,7 @@ const validPercent = (value) => {
 export default {
   name: "ContractPercentFteInput",
   props: {
-    value: {
+    modelValue: {
       type: Number,
       required: true
     },
@@ -50,6 +50,7 @@ export default {
     }
     return validations;
   },
+emits: ['update:model-value'],
   setup() {
     return {
       v$: useVuelidate()
@@ -57,7 +58,7 @@ export default {
   },
   data() {
     return {
-      percent: this.value || null,
+      percent: this.modelValue || null,
       icons: { mdiTimetable }
     };
   },
@@ -67,12 +68,12 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.percent = val;
     },
     percent(val) {
       if (!this.v$.$error) {
-        this.$emit("input", parseFloat(val));
+        this.$emit("update:model-value", parseFloat(val));
       }
     }
   }
