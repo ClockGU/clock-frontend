@@ -1,6 +1,6 @@
 <template>
     <v-hover v-slot="{ isHovering, props}">
-      <v-card v-bind="props">
+      <v-card v-bind="props" @click="toggleTouchOverlay(isHovering)">
 
           <v-card-title>
             <span>
