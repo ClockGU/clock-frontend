@@ -1,7 +1,7 @@
 <template>
   <div>
     <TheDialog
-      :value="show"
+      v-model="show"
       :fullscreen="smAndDown"
       :max-width="600"
       :persistent="false"
@@ -15,7 +15,6 @@
           :color="btnColor"
           :flat="flatButton"
           v-bind="props['props']"
-          @click="opened = true"
         >
           {{ buttonText }}
         </v-btn>
@@ -103,12 +102,12 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    modelValue: {
       type: Boolean,
       default: false
     }
   },
-  emits: ["close", "save", "update", "delete"],
+  emits: ["close", "save", "update", "delete", 'update:model-value'],
   data() {
     return {
       icons: {
@@ -116,7 +115,7 @@ export default {
         mdiPlus,
         mdiExclamation
       },
-      show: this.value,
+      show: this.modelValue,
       newShift: this.shift,
       initialContract: ""
     };
@@ -159,7 +158,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.show = val;
     },
     show(val) {
@@ -191,7 +190,7 @@ export default {
     },
     closeFormDialog() {
       this.$emit("close");
-      this.$emit("input", false);
+      this.$emit("update:model-value", false);
     }
   }
 };
