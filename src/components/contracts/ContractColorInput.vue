@@ -18,7 +18,7 @@
               </template>
               <v-color-picker
                 v-model="color"
-                @input="$emit('update:model-value', $event)"
+                @update:model-value="$emit('update:model-value', $event)"
               ></v-color-picker>
             </v-menu>
           </td>
