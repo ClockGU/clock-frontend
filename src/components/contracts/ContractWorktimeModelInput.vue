@@ -23,7 +23,7 @@ import { useVuelidate } from "@vuelidate/core";
 export default {
   name: "ContractWorktimeModelInput",
   props: {
-    value: {
+    modelValue: {
       validator: (v) => typeof v === "string" || v === null,
       required: true
     },
@@ -32,6 +32,7 @@ export default {
       default: false
     }
   },
+emits: ['update:model-value'],
   setup() {
     return {
       v$: useVuelidate()
@@ -39,7 +40,7 @@ export default {
   },
   data() {
     return {
-      selectedWorktimeModel: this.value,
+      selectedWorktimeModel: this.modelValue,
       icon: mdiAccountCogOutline
     };
   },
@@ -60,11 +61,11 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.selectedWorktimeModel = val;
     },
     selectedWorktimeModel(val) {
-      this.$emit("input", val);
+      this.$emit("update:model-value", val);
     }
   },
   mounted() {
