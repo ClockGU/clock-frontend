@@ -15,7 +15,7 @@
               flat
               focusable
             >
-              <v-expansion-panel v-model="panel">
+              <v-expansion-panel v-model="panel" elevation="0">
                 <v-expansion-panel-title class="text-h6 font-weight-regular">
                   {{ $t("contracts.activeContracts") }} ({{
                     activeContracts.length
