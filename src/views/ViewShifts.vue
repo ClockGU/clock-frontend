@@ -12,7 +12,7 @@
     <v-row>
       <v-col cols="12">
         <v-hover v-slot="{isHovering, props}">
-          <v-card v-bind="props">
+          <v-card v-bind="props" @click="toggleTouchOverlay(isHovering)">
             <v-card-title>
               <v-row>
                 <v-col>
@@ -142,7 +142,7 @@
               scrim="primary"
               style="align-items: start; justify-content: center"
             >
-              <p style="margin-top: 15%; color: white">
+              <p style="margin-top: 15%; color: white; text-align: center">
                 {{ $t("dashboard.disabled.shiftsHere") }}
               </p>
             </v-overlay>
