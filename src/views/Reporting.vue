@@ -223,6 +223,9 @@ export default {
     );
   },
   methods: {
+    updateDate(value) {
+      this.date = value;
+    },
     openDialog() {
       this.dialog = true;
     },
