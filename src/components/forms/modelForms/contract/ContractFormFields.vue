@@ -154,8 +154,8 @@ emits: ['update:modelValue'],
         mdiCalendar,
         mdiCalendarClock
       },
-      showCarryover: this.value.initialCarryoverMinutes !== 0,
-      showVacationCarryover: this.value.initialVacationCarryoverMinutes !== 0
+      showCarryover: this.modelValue.initialCarryoverMinutes !== 0,
+      showVacationCarryover: this.modelValue.initialVacationCarryoverMinutes !== 0
     };
   },
   computed: {
