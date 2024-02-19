@@ -6,7 +6,7 @@
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
     @click:outside="close"
-    @input="$emit('update:model-value', $event)"
+    @update:model-value="$emit('update:model-value', $event)"
   >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
