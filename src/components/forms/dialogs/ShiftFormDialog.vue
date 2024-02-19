@@ -20,14 +20,19 @@
           {{ buttonText }}
         </v-btn>
         <div v-if="icon && !disableActivator">
-          <v-btn :disabled="disabled" :color="btnColor" :flat="flatButton" icon v-bind="props['props']">
-            <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }} </v-icon>
-          </v-btn>
+          <v-btn
+            :disabled="disabled"
+            variant="flat"
+            :color="btnColor"
+            :flat="flatButton"
+            :icon="create ? icons.mdiPlus : icons.mdiPencil"
+            v-bind="props['props']"/>
           <v-icon
             v-if="alertMessages.length > 0"
             color="warning"
             style="transform: translate(-65%, -50%)"
-            >{{ icons.mdiExclamation }}</v-icon
+          >{{ icons.mdiExclamation }}
+          </v-icon
           >
         </div>
       </template>
@@ -58,6 +63,7 @@ import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import store from "@/store";
 import { isBefore } from "date-fns";
 import { useDisplay } from "vuetify";
+
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
@@ -102,7 +108,7 @@ export default {
       default: false
     }
   },
-  emits:["close", "save", "update", "delete"],
+  emits: ["close", "save", "update", "delete"],
   data() {
     return {
       icons: {
@@ -127,11 +133,11 @@ export default {
       if (!this.textButton) {
         return this.create
           ? this.$t("buttons.newEntity", {
-              entity: this.$tc("models.shift")
-            })
+            entity: this.$tc("models.shift")
+          })
           : this.$t("buttons.updateEntity", {
-              entity: this.$tc("models.shift")
-            });
+            entity: this.$tc("models.shift")
+          });
       }
       return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
     },
@@ -168,7 +174,7 @@ export default {
       if (this.create) {
         const contractStartDate = this.$store.getters[
           "selectedContract/selectedContract"
-        ].startDate;
+          ].startDate;
 
         if (isBefore(this.initialDate, contractStartDate)) {
           date = contractStartDate;
