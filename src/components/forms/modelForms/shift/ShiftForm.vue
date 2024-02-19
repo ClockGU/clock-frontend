@@ -11,6 +11,7 @@
       :alert-messages="messages"
       :alert-type="errorMessages.length > 0 ? 'error' : 'warning'"
       @schedule-shifts="setScheduledShifts($event)"
+      @update:model-value="$emit('update:model-value', $event)"
     ></ShiftFormFields>
     <FormActions
       :create-fn="saveShift"
@@ -40,7 +41,7 @@ export default {
   components: { ShiftFormFields, FormActions, CardToolbar },
   mixins: [ShiftValidationMixin],
   props: {
-    value: {
+    modelValue: {
       type: [Shift, typeof undefined],
       required: false,
       default: () => new Shift()
@@ -66,7 +67,7 @@ export default {
       default: false
     }
   },
-emits: ['delete', 'update', 'close', 'save'],
+emits: ['delete', 'update', 'close', 'save', 'update:model-value'],
   setup() {
     return {
       v$: useVuelidate()
@@ -77,7 +78,7 @@ emits: ['delete', 'update', 'close', 'save'],
       scheduledShifts: undefined,
       saving: false,
       closed: false,
-      shift: this.value
+      shift: this.modelValue
     };
   },
   computed: {
@@ -120,7 +121,7 @@ emits: ['delete', 'update', 'close', 'save'],
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.shift = val;
     },
     showErrors(opened) {
