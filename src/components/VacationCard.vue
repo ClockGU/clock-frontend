@@ -1,8 +1,6 @@
 <template>
-  <v-card outlined>
-    <v-hover>
-      <template #default="{ hover }">
-        <div @click="toggleTouchOverlay(hover)">
+    <v-hover v-slot="{isHovering, props}">
+      <v-card outlined v-bind="props">
           <v-card-title>
             <span>
               {{ $t("reports.vacation") }}
@@ -11,7 +9,7 @@
           </v-card-title>
 
           <v-card-text>
-            <v-simple-table>
+            <v-table>
               <template #default>
                 <tbody>
                   <tr v-for="row in rows" :key="row.name">
@@ -20,12 +18,22 @@
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
+            </v-table>
           </v-card-text>
-        </div>
-      </template>
+          <v-overlay
+            :model-value="disabled && (isHovering || touchOverlay)"
+            contained
+            persistent
+            :close-on-content-click="false"
+            scrim="primary"
+            style="align-items: start; justify-content: center"
+          >
+            <p style="margin-top: 17%; color: white; text-align: center">
+              {{ $t("dashboard.disabled.reportHere") }}
+            </p>
+          </v-overlay>
+      </v-card>
     </v-hover>
-  </v-card>
 </template>
 
 <script>
