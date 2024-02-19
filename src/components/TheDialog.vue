@@ -6,7 +6,7 @@
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
     @click:outside="close"
-    @input="$emit('input', $event)"
+    @input="$emit('update:model-value', $event)"
   >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
@@ -18,10 +18,6 @@
 <script>
 export default {
   name: "TheDialog",
-  model: {
-    prop: "show",
-    event: "change"
-  },
   props: {
     maxWidth: {
       type: Number,
@@ -35,26 +31,26 @@ export default {
       type: Boolean,
       default: false
     },
-    show: {
+    modelValue: {
       type: Boolean,
       default: false
     }
   },
-  emits: ["close"],
+  emits: ["close", 'update:model-value'],
   data() {
     return {
       dialog: false
     };
   },
   watch: {
-    show(val) {
+    modelValue(val) {
       this.dialog = val;
     }
   },
   methods: {
     close() {
       this.dialog = false;
-      this.$emit("input", false);
+      this.$emit("update:model-value", false);
       this.$emit("close");
     }
   }
