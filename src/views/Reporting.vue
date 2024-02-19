@@ -1,26 +1,5 @@
 <template>
   <v-container>
-    <v-alert
-      v-if="personnelNumberMissing"
-      :icon="icons.mdiBadgeAccountHorizontal"
-      prominent
-      type="warning"
-    >
-      <v-row align="center">
-        <v-col class="grow">
-          {{ $t("reports.personnelNumberMissing") }}
-        </v-col>
-        <v-col class="shrink">
-          <v-btn color="white" outlined @click="openDialog">
-            {{
-              $t("buttons.newEntity", {
-                entity: $tc("personnelNumber.label")
-              })
-            }}
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-alert>
     <v-row>
       <v-col cols="12">
         <v-alert
