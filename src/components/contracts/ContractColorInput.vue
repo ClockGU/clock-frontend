@@ -7,13 +7,13 @@
             <div style="font-size: 14px; font-weight: 500">Anzeigefarbe</div>
           </td>
           <td>
-            <v-menu :close-on-content-click="false" bottom offset-x>
-              <template #activator="{ on, attrs }">
+            <v-menu no-click-animation :close-on-content-click="false" bottom offset-x>
+              <template #activator="{ props }">
                 <v-chip
-                  v-bind="attrs"
                   :color="color"
                   style="width: 90px"
-                  v-on="on"
+                  v-bind="props"
+                  variant="flat"
                 ></v-chip>
               </template>
               <v-color-picker
