@@ -4,7 +4,7 @@
     :prepend-icon="icon"
     :items="items"
     :label="$t('contracts.worktimeModelName')"
-    item-text="text"
+    item-title="text"
     item-value="value"
     filled
     :disabled="disabled"
