@@ -21,10 +21,9 @@
           v-if="icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          icon
+          :icon="create ? icons.mdiPlus : icons.mdiPencil"
           v-bind="props"
         >
-          <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
         </v-btn>
       </template>
       <template #content="{ events: { close } }">
