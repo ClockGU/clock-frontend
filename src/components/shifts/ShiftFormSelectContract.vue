@@ -5,21 +5,23 @@
       :items="choices"
       :prepend-icon="icons.mdiFileDocumentEditOutline"
       :label="$t('shifts.changeContract')"
-      item-text="name"
+      item-title="name"
       item-value="id"
       return-object
       filled
       :error-messages="mappedErrors"
     >
-      <template #selection="contractSelection">
+      <template #selection="{ item }">
         {{
-          contractSelection.item.name + contractStatus(contractSelection.item)
+          item.title + contractStatus(item.raw)
         }}
       </template>
-      <template #item="contractSelection">
-        {{
-          contractSelection.item.name + contractStatus(contractSelection.item)
-        }}
+      <template #item="{ item, props }">
+        <v-list-item v-bind="modifyProps(props)">
+          {{
+            item.title + contractStatus(item.raw)
+          }}
+        </v-list-item>
       </template>
     </v-select>
   </div>
@@ -72,7 +74,7 @@ export default {
     return {
       contract: {
         notContractExpired: helpers.withMessage(
-          this.$t("contracts.isExpired"),
+          this.$t("contracts.expired"),
           notContractExpired(this.dateToValidate)
         )
       }
@@ -121,6 +123,10 @@ export default {
       if (this.specificContractExpired(contract))
         return " " + this.$t("contracts.expired");
       else return "";
+    },
+    modifyProps(props){
+      delete props.title;
+      return props;
     }
   }
 };
