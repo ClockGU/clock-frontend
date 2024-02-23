@@ -1,7 +1,6 @@
 <template>
     <v-hover v-slot="{ isHovering, props}">
-      <v-card v-bind="props" @click="toggleTouchOverlay(isHovering)">
-
+      <v-card :ripple="false" v-bind="props" v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}">
           <v-card-title>
             <span>
               {{ $t("reports.summary") }}
@@ -24,7 +23,6 @@
               </template>
             </v-table>
           </v-card-text>
-
           <v-card-actions class="px-1">
             <v-container>
               <v-row align="center">
@@ -115,8 +113,6 @@
           <v-overlay
             :model-value="disabled && (isHovering || touchOverlay)"
             contained
-            persistent
-            :close-on-content-click="false"
             scrim="primary"
             style="align-items: start; justify-content: center"
           >
