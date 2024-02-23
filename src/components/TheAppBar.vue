@@ -18,7 +18,7 @@
           <v-img
             width="96px"
             height="32px"
-            :src="logo"
+            :src="imgSrc"
           />
           </span>
         </router-link>
@@ -43,7 +43,7 @@
       >
         <v-menu class="py-3">
           <template #activator="{ props }">
-            <v-btn variant="text">
+            <v-btn :color="bgColor" variant="flat">
             <div class="d-flex align-center" v-bind="props">
               <v-avatar
                 size="30px"
@@ -88,6 +88,7 @@
 <script>
 import { mapGetters } from "vuex";
 import svg from '@/assets/clock_full.svg';
+import darkSvg from '@/assets/clock_full_darkmode.svg'
 
 import {
   mdiChevronDown,
@@ -163,13 +164,13 @@ export default {
       return this.selectedContract !== null;
     },
     bgColor() {
-      if (this.$vuetify.theme.dark) return "#121212";
+      if (this.$vuetify.theme.name === "dark") return "#121212";
       return "#FFFFFF";
     },
     imgSrc() {
-      if (this.$vuetify.theme.dark)
-        return require("@/assets/clock_full_darkmode.svg");
-      return require("@/assets/clock_full.svg");
+      if (this.$vuetify.theme.name === "dark")
+        return darkSvg;
+      return svg;
     }
   },
   methods: {
