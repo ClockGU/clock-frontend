@@ -11,15 +11,13 @@
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="maxCarryoverExceeded || carryover"
-                    icon
+                    variant="flat"
+                    :icon="                      maxCarryoverExceeded
+                        ? icons.mdiAlert
+                        : icons.mdiInformation"
                     :color="maxCarryoverExceeded ? 'error' : 'warning'"
                     @click="showWarning('carryover')"
                   >
-                    <v-icon>{{
-                      maxCarryoverExceeded
-                        ? icons.mdiAlert
-                        : icons.mdiInformation
-                    }}</v-icon>
                   </v-btn>
                 </v-card-title>
 
@@ -90,12 +88,12 @@
                         <v-col cols="9" align-self="center">
                           <p>
                             {{
-                              $tc("dashboard.progress.weeklyText", weeklyHours)
+                              $tc("dashboard.progress.weeklyText", [weeklyHours, ])
                             }}
                           </p>
                           <p style="margin-bottom: 0">
                             {{
-                              $tc("dashboard.progress.weeklyBase", weeklyAvg)
+                              $t("dashboard.progress.weeklyBase", [weeklyAvg,])
                             }}
                           </p>
                         </v-col>
@@ -117,12 +115,11 @@
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="dailyOvertime"
-                    icon
+                    variant="flat"
+                    :icon="icons.mdiAlert"
                     color="error"
                     @click="showWarning('daily')"
-                  >
-                    <v-icon>{{ icons.mdiAlert }}</v-icon>
-                  </v-btn>
+                  ></v-btn>
                 </v-card-title>
                 <v-row justify="center" class="grow">
                   <v-col cols="12" align-self="center">
@@ -175,13 +172,11 @@
           :key="`btn-${n}`"
           v-slot="{ active, toggle }"
         >
-          <v-btn :input-value="active" icon @click="toggle">
-            <v-icon>{{ icons.mdiCircleMedium }}</v-icon>
+          <v-btn :input-value="active" :icon="icons.mdiCircleMedium" @click="toggle">
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn variant="text" @click="step === 2 ? (step = 0) : step++">
-        <v-icon>{{ icons.mdiChevronRight }}</v-icon>
+      <v-btn variant="text" :icon="icons.mdiChevronRight" @click="step === 2 ? (step = 0) : step++">
       </v-btn>
     </v-card-actions>
   </v-card>
