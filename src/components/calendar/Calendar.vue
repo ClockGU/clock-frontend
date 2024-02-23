@@ -58,34 +58,34 @@
 <!--              @prev="updateRange"-->
 <!--              @next="updateRange"-->
 <!--            >-->
-              <template #day-label="{ day, date }">
-                <button
-                  type="button"
-                  class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
-                  @click="viewDay({ date: date })"
-                >
-                  <span class="v-btn__content">{{ day }}</span>
-                </button>
-                <v-icon
-                  v-if="isBankHoliday(date)"
-                  :color="bhIconColor"
-                  style="align-self: center"
-                  >{{ icons.bhIcon }}</v-icon
-                >
-              </template>
-              <template #event="{ event, eventParsed, formatTime }">
-                <div class="pl-1">
-                  <div class="v-event-summary">
-                    <span>
-                      <strong>{{ formatTime(eventParsed.start) }} </strong>
-                      {{ event.duration }}</span
-                    >
-                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>
-                      {{ event.icon }}
-                    </v-icon>
-                  </div>
-                </div>
-              </template>
+<!--              <template #day-label="{ day, date }">-->
+<!--                <button-->
+<!--                  type="button"-->
+<!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
+<!--                  @click="viewDay({ date: date })"-->
+<!--                >-->
+<!--                  <span class="v-btn__content">{{ day }}</span>-->
+<!--                </button>-->
+<!--                <v-icon-->
+<!--                  v-if="isBankHoliday(date)"-->
+<!--                  :color="bhIconColor"-->
+<!--                  style="align-self: center"-->
+<!--                  >{{ icons.bhIcon }}</v-icon-->
+<!--                >-->
+<!--              </template>-->
+<!--              <template #event="{ event, eventParsed, formatTime }">-->
+<!--                <div class="pl-1">-->
+<!--                  <div class="v-event-summary">-->
+<!--                    <span>-->
+<!--                      <strong>{{ formatTime(eventParsed.start) }} </strong>-->
+<!--                      {{ event.duration }}</span-->
+<!--                    >-->
+<!--                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>-->
+<!--                      {{ event.icon }}-->
+<!--                    </v-icon>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </template>-->
             </VCalendar>
         </v-col>
       </v-row>
@@ -194,14 +194,14 @@ emits: ['updateRange'],
           contractShifts.map((shift) => {
             const duration =
               this.type === "month"
-                ? "| " + shift.representationalDuration()
+                ? " | " + shift.representationalDuration()
                 : shift.representationalDuration();
-
+            console.log(shift.started.getMinutes(), localizedFormat(shift.started, "HH:MM"));
             return {
               start: shift.started,
               end: shift.stopped,
               color: contract.color,
-              duration: duration,
+              title: localizedFormat(shift.started, "HH:mm") + duration,
               selectedEventDuration: shift.representationalDuration(),
               id: shift.id,
               shift: shift,
