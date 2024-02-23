@@ -13,15 +13,14 @@
             v-model="displayedContracts"
             :label="$t('contracts.displayedContracts') + ':'"
             :items="allContracts"
-            item-text="name"
+            item-title="name"
             multiple
           >
-            <template #item="{ item }">
-              {{ item.name }}
-              <v-spacer />
-              <v-icon :color="item.color" style="float: right">{{
-                mdiCircleSlice8()
-              }}</v-icon>
+            <template #item="{ item, props }">
+              <v-list-item v-bind="modifyProps(props)">
+                {{ item.title }}
+                <v-icon :color="item.raw.color" :icon="mdiCircleSlice8()" style="float: right"></v-icon>
+              </v-list-item>
             </template>
           </v-combobox>
         </v-col>
@@ -235,6 +234,10 @@ emits: ['updateRange'],
     editEvent(data) {
       this.shift = data.event.shift;
       this.editShift = true;
+    },
+    modifyProps(props){
+      delete props.title;
+      return props;
     },
     intervalFormat(interval) {
       return interval.time;
