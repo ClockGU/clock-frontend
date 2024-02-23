@@ -12,7 +12,7 @@
     <v-row>
       <v-col cols="12">
         <v-hover v-slot="{isHovering, props}">
-          <v-card v-bind="props" @click="toggleTouchOverlay(isHovering)">
+          <v-card :ripple="false" v-bind="props" v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}">
             <v-card-title>
               <v-row>
                 <v-col>
