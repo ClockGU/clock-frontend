@@ -25,13 +25,17 @@
     <v-overlay
       :model-value="showOverlay"
       contained
+      persistent
+      no-click-animation
+      scrim="primary"
       :opacity="contractValid ? 1.0 : 0.9"
+      style="align-items: start; justify-content: center"
     >
       <v-container>
         <v-row>
           <v-col cols="12">
-            <p>
-              {{ overlayMessage }}
+            <p style="margin-top:5%; color: white; text-align: center">
+            {{ overlayMessage }}
             </p>
           </v-col>
           <v-col

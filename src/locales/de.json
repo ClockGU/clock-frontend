@@ -198,8 +198,8 @@
         "dailyOvertime": "Du hast heute bereits {n} h gearbeitet.",
         "dailyOvertimeLegal": "Die tägliche Arbeitszeit sollte 8h nicht überschreiten (§3 ArbzG)."
       },
-      "weeklyText": "Du hast diese Woche bereits {n} h gearbeitet.",
-      "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {n} h.",
+      "weeklyText": "Du hast diese Woche bereits {0} h gearbeitet.",
+      "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {0} h.",
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
       "minutes": "minutes",
