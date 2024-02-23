@@ -1,6 +1,6 @@
 <template>
     <v-hover v-slot="{isHovering, props}">
-      <v-card outlined v-bind="props" @click="toggleTouchOverlay(isHovering)">
+      <v-card :ripple="false" v-bind="props" v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}">
           <v-card-title>
             <span>
               {{ $t("reports.vacation") }}
