@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { getRouterProps } from "@/utils/date";
 import {
   mdiCalendar,
   mdiHome,
@@ -43,9 +42,6 @@ export default {
           text: this.$t("app.calendar"),
           to: {
             name: "calendar",
-            params: {
-              ...getRouterProps("month", new Date())
-            }
           },
           icon: mdiCalendar,
           loggedOut: false

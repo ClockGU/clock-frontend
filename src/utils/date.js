@@ -52,21 +52,6 @@ export const dateOperations = {
   subMinutes: subMinutes
 };
 
-export const getRouterProps = (type, date = new Date()) => {
-  const [year, month, day] = [
-    String(date.getUTCFullYear()),
-    String(date.getUTCMonth() + 1),
-    String(date.getUTCDate())
-  ];
-
-  return {
-    type: type,
-    year: year,
-    month: month,
-    day: day
-  };
-};
-
 export function defaultContractDate({
   type = "start",
   date = new Date()
