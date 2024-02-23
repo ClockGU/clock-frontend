@@ -27,22 +27,6 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="4">
-          <TodayButton @update="selectedDate = $event" />
-        </v-col>
-        <v-col class="text-center" cols="4">
-          <TimeIntervalSwitcher
-            v-model="selectedDate"
-            :disabled="disabled"
-            :type="type"
-            is-calendar
-          />
-        </v-col>
-        <v-col class="text-end" cols="4" order-sm="3">
-          <CalendarTypeSelect v-model="type" />
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="12">
             <VCalendar
               v-model="focus"
@@ -51,6 +35,24 @@
               :view-mode="type"
               @click:event="editEvent"
             >
+              <template #header>
+                <div class="v-calendar-header">
+                  <v-col cols="4">
+                    <TodayButton @update="selectedDate = $event" />
+                  </v-col>
+                  <v-col class="text-center" cols="4">
+                    <TimeIntervalSwitcher
+                      v-model="selectedDate"
+                      :disabled="disabled"
+                      :type="type"
+                      is-calendar
+                    />
+                  </v-col>
+                  <v-col class="text-end" cols="4" order-sm="3">
+                    <CalendarTypeSelect v-model="type" />
+                  </v-col>
+                </div>
+              </template>
 <!--              :interval-format="intervalFormat"-->
 <!--              @click:event="editEvent"-->
 <!--              @click:more="viewDay"-->
