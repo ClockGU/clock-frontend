@@ -94,7 +94,6 @@
 </template>
 
 <script>
-import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
 import svg from "@/assets/clock_full.svg"
 
@@ -176,9 +175,6 @@ export default {
           text: this.$t("app.calendar"),
           to: {
             name: "calendar",
-            params: {
-              ...getRouterProps("month", new Date())
-            }
           },
           icon: mdiCalendar,
           loggedOut: false

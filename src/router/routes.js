@@ -20,7 +20,7 @@ import { initializeDataGuard } from "@/router/guards";
 
 export const routes = [
   {
-    path: '/:pathMatch(.*)*',
+    path: "/:pathMatch(.*)*",
     redirect: { name: "404" }
   },
   {
@@ -76,10 +76,9 @@ export const routes = [
         beforeEnter: initializeDataGuard
       },
       {
-        path: "/:type/:year/:month/:day/:contract?",
+        path: "/calendar",
         name: "calendar",
         component: ViewCalendar,
-        props: true,
         beforeEnter: initializeDataGuard
       },
       {
