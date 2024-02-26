@@ -3,30 +3,37 @@
     <v-row>
       <v-col cols="12">
         <h1 class="mb-6">{{ $t("app.faq") }}</h1>
-        <v-row v-if="!loading" accordion>
-          <v-row v-for="(faq_group, i) in faqs_object" :key="i" class="mt-4">
-            <h2 v-if="faq_group[0].faq_heading" class="mt-4 pl-6 mb-2">
-              {{ heading(faq_group[0].faq_heading) }}
-            </h2>
-            <v-expansion-panels variant="Popout">
-              <v-expansion-panel v-for="(faq, i) in faq_group" :key="i">
-                <v-expansion-panel-title
-                  class="text-body-1"
-                  :class="getQuestionFontWeight(faq)"
-                  @click="setSelectedFaq(faq)"
-                >
-                  {{ question(faq) }}
-                </v-expansion-panel-title>
-                <v-expansion-panel-text class="text-body-1">
-                  {{ answer(faq) }}
-                </v-expansion-panel-text>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-row>
+        <v-row v-if="loading" justify="center">
+            <Placeholder name="UndrawNoData"></Placeholder>
+            <v-progress-circular
+              :size="70"
+              :width="7"
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
+        </v-row>
+        <v-row v-for="(faq_group, i) in faqs_object" v-else :key="i+100" class="mt-4">
+          <h2 v-if="faq_group[0].faq_heading" class="mt-4 pl-6 mb-2">
+            {{ heading(faq_group[0].faq_heading) }}
+          </h2>
+          <v-expansion-panels variant="popout">
+            <v-expansion-panel v-for="(faq, j) in faq_group" :key="j">
+              <v-expansion-panel-title
+                class="text-body-1"
+                :class="getQuestionFontWeight(faq)"
+                @click="setSelectedFaq(faq)"
+              >
+                {{ question(faq) }}
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="text-body-1">
+                {{ answer(faq) }}
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-row>
         <p class="mt-10">
           <br />
-          <i18n-t path="faq.text">
+          <i18n-t keypath="faq.text" scope="global">
             <template #link>
               <base-link
                 class="text-no-wrap"
@@ -45,9 +52,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Placeholder from "@/components/Placeholder.vue";
 
 export default {
   name: "FAQ",
+  components: { Placeholder },
   metaInfo() {
     return {
       title: this.$t("app.faq")
