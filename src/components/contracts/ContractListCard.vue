@@ -96,7 +96,7 @@ export default {
       return minutesToHHMM(this.contract.minutes);
     },
     isDarkmode() {
-      return this.$vuetify.theme.dark;
+      return this.$vuetify.theme.name === "dark";
     }
   },
   methods: {
