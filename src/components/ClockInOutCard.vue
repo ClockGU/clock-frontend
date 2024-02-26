@@ -27,7 +27,7 @@
       contained
       persistent
       no-click-animation
-      scrim="primary"
+      scrim="secondary"
       :opacity="contractValid ? 1.0 : 0.9"
       style="align-items: start; justify-content: center"
     >
