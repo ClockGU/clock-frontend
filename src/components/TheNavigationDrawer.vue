@@ -13,7 +13,7 @@
           <v-img
             width="240px"
             height="36px"
-            :src="logo"
+            :src="imgSrc"
           />
         </span>
       </router-link>
@@ -95,7 +95,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import svg from "@/assets/clock_full.svg"
+import svg from '@/assets/clock_full.svg';
+import darkSvg from '@/assets/clock_full_darkmode.svg'
 
 import LogoutDialog from "@/components/LogoutDialog.vue";
 
@@ -124,6 +125,7 @@ export default {
       default: ""
     }
   },
+emits: ['closeDrawer'],
   data: () => ({
     icons: {
       mdiLock,
@@ -136,9 +138,6 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
-    logo(){
-      return svg;
-    },
     firstLetter() {
       if (this.user === null) return "";
 
@@ -206,9 +205,9 @@ export default {
       ];
     },
     imgSrc() {
-      if (this.$vuetify.theme.dark)
-        return require("@/assets/clock_full_darkmode.svg");
-      return require("@/assets/clock_full.svg");
+      if (this.$vuetify.theme.name === "dark")
+        return darkSvg;
+      return svg;
     }
   },
   methods: {
