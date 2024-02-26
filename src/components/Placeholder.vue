@@ -3,13 +3,13 @@
     <v-row class="px-0">
       <v-col cols="12">
         <div class="d-flex align-content-center justify-center">
-          <component :is="component" height="200"/>
+          <component :is="component" :class="($vuetify.theme.current.dark ? 'undraw-background':'') + ' white-stroke'" height="200" style="box-shadow: 0 0 20px 10px white"/>
         </div>
       </v-col>
     </v-row>
     <v-row class="px-0" justify="center">
-      <v-col cols="12">
-        <p class="p-placeholder"><slot></slot></p>
+      <v-col cols="12" style="text-align: center">
+        <p :class="($vuetify.theme.current.dark ? 'text-white' : '') + ' p-placeholder'"><slot></slot></p>
       </v-col>
     </v-row>
   </v-container>
@@ -42,12 +42,21 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 .p-placeholder {
   font-size: .875rem;
   line-height: 1.375rem;
-  color: rgb(0,0,0,.6);
   font-weight: 400;
   letter-spacing: .0071428571em;
 }
+
+.undraw-background {
+  background-color: hsl(0,0, 33);
+  border-color: white;
+}
+//.white-stroke :deep(rect) {
+//  stroke: white;
+//  stroke-miterlimit: 20;
+//}
 </style>
