@@ -22,14 +22,13 @@ RUN addgroup -S app --gid 32769 \
 RUN apk update \
     && apk add bash curl git nginx python3
 
-RUN yarn global add @vue/cli
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY --chown=app:app . .
 RUN export VUE_APP_SENTRY_RELEASE=$(git log -1 --format="%H") \
-    && yarn run build
+    && yarn build
 
 USER app
 COPY --chown=app:app scripts/sentry-release.sh .
