@@ -10,17 +10,18 @@
           <slot name="card-top"></slot>
 
           <portal
+            v-slot="{ action }"
             :to="
               smAndDown
                 ? 'app-bar'
                 : alternativePortalTarget
             "
           >
-            <v-toolbar slot-scope="{ action }" :elevation="toolbarElevation">
+            <v-toolbar :elevation="toolbarElevation">
               <slot name="pre-toolbar-title" :action="() => action()">
                 <v-app-bar-nav-icon
                   v-if="smAndDown"
-                  icon
+                  variant="flat"
                   @click="action"
                 ></v-app-bar-nav-icon>
               </slot>
