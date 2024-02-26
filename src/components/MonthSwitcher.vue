@@ -63,7 +63,7 @@ export default {
       default: false
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data: () => ({
     menu: false,
     icons: { mdiChevronLeft, mdiChevronRight }
@@ -120,7 +120,7 @@ export default {
     allowedMonths(value) {
       if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
       return parseInt(value.split("-")[1], 10);
-    },
+    }
   }
 };
 </script>

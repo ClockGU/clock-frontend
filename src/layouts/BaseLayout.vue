@@ -11,11 +11,7 @@
 
           <portal
             v-slot="{ action }"
-            :to="
-              smAndDown
-                ? 'app-bar'
-                : alternativePortalTarget
-            "
+            :to="smAndDown ? 'app-bar' : alternativePortalTarget"
           >
             <v-toolbar :elevation="toolbarElevation">
               <slot name="pre-toolbar-title" :action="() => action()">
@@ -76,7 +72,7 @@ export default {
     mdAndUp() {
       const { mdAndUp } = useDisplay();
       return mdAndUp;
-    },
+    }
   }
 };
 </script>

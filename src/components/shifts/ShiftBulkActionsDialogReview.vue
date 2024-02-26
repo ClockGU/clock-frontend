@@ -37,7 +37,7 @@ export default {
       required: true
     }
   },
-emits: ['reset'],
+  emits: ["reset"],
   data: () => ({
     contract: null,
     dialog: false,
@@ -70,16 +70,17 @@ emits: ['reset'],
         // Try reviewing
         const settledPromises = await ShiftService.bulkUpdate(payloadArray);
         // Filter and handle failed SHifts
-        let failedPromises = settledPromises.filter((prom) => prom.status ==="rejected");
+        let failedPromises = settledPromises.filter(
+          (prom) => prom.status === "rejected"
+        );
         await this.handleFailedUpdates(failedPromises);
-        for ( const promise of settledPromises.filter((prom) => prom.status !== "rejected")) {
-          this.$store.commit(
-            "contentData/updateShift",
-            {
-              contractID: promise.value.contract,
-              shiftInstance: promise.value
-            }
-          );
+        for (const promise of settledPromises.filter(
+          (prom) => prom.status !== "rejected"
+        )) {
+          this.$store.commit("contentData/updateShift", {
+            contractID: promise.value.contract,
+            shiftInstance: promise.value
+          });
         }
 
         this.reset();

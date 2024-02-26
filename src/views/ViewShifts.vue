@@ -11,8 +11,14 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-hover v-slot="{isHovering, props}">
-          <v-card :ripple="false" v-bind="props" v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}">
+        <v-hover v-slot="{ isHovering, props }">
+          <v-card
+            :ripple="false"
+            v-bind="props"
+            v-on="
+              disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}
+            "
+          >
             <v-card-title>
               <v-row>
                 <v-col>
@@ -25,10 +31,7 @@
             </v-card-title>
             <v-row>
               <v-col class="text-center" cols="12">
-                <TimeIntervalSwitcher
-                  v-model="date"
-                  :disabled="disabled"
-                />
+                <TimeIntervalSwitcher v-model="date" :disabled="disabled" />
               </v-col>
             </v-row>
             <v-row>
@@ -41,33 +44,33 @@
                 >
                   <template #head="{ selected, reset }">
                     <v-card-title>
-                    <v-row>
-                      <v-col cols="12" md="5">
-                        <span>{{
+                      <v-row>
+                        <v-col cols="12" md="5">
+                          <span>{{
                             $t("shifts.table.pastShiftsTitle", {
                               month: formattedDate()
                             })
                           }}</span>
-                      </v-col>
+                        </v-col>
 
-                      <v-spacer></v-spacer>
+                        <v-spacer></v-spacer>
 
-                      <v-col
-                        cols="12"
-                        sm="5"
-                        :offset-sm="selected.length > 0 ? 0 : 7"
-                        offset-md="0"
-                        md="3"
-                      >
-                        <v-text-field
-                          v-model="pastSearch"
-                          :append-icon="icons.mdiMagnify"
-                          :label="$t('actions.search')"
-                          density="compact"
-                          hide-details
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
+                        <v-col
+                          cols="12"
+                          sm="5"
+                          :offset-sm="selected.length > 0 ? 0 : 7"
+                          offset-md="0"
+                          md="3"
+                        >
+                          <v-text-field
+                            v-model="pastSearch"
+                            :append-icon="icons.mdiMagnify"
+                            :label="$t('actions.search')"
+                            density="compact"
+                            hide-details
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
                     </v-card-title>
 
                     <v-card-text>
@@ -148,14 +151,12 @@
             </v-overlay>
           </v-card>
         </v-hover>
-
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import ShiftBulkActions from "@/components/shifts/ShiftBulkActions.vue";
 import ShiftsTable from "@/components/shifts/ShiftsTable.vue";

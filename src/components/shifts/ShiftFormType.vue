@@ -1,13 +1,11 @@
 <template>
   <v-row align="end" class="pl-3">
-    <v-radio-group
-      v-model="radios"
-      inline
-      hide-details
-      class="mt-0 pt-0"
-    >
+    <v-radio-group v-model="radios" inline hide-details class="mt-0 pt-0">
       <template #prepend>
-        <v-icon :icon="typeIcons[modelValue]" :color="typeColors[modelValue]"></v-icon>
+        <v-icon
+          :icon="typeIcons[modelValue]"
+          :color="typeColors[modelValue]"
+        ></v-icon>
       </template>
       <v-radio
         v-for="type in types"
@@ -25,8 +23,9 @@
                 ? getRadioColor(typeColors[type.value])
                 : '')
             "
-            >{{ type.text }}</div
           >
+            {{ type.text }}
+          </div>
         </template>
       </v-radio>
     </v-radio-group>
@@ -51,7 +50,7 @@ export default {
       default: false
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data() {
     console.log(this.modelValue);
     return {

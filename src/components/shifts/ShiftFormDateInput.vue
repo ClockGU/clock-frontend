@@ -56,7 +56,7 @@ export default {
       default: ""
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data() {
     return {
       icons: {

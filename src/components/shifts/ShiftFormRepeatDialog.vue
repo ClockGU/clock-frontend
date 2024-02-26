@@ -2,9 +2,13 @@
   <!-- TODO: we shold probably also use 'TheDialog' here -->
   <v-dialog v-model="dialog" :max-width="500">
     <template #activator="{ props }">
-      <v-btn :disabled="shifts.length < 1" variant="text" block v-bind="props">{{
-        $t("shifts.repeating.dialog.activator")
-      }}</v-btn>
+      <v-btn
+        :disabled="shifts.length < 1"
+        variant="text"
+        block
+        v-bind="props"
+        >{{ $t("shifts.repeating.dialog.activator") }}</v-btn
+      >
     </template>
 
     <v-card>

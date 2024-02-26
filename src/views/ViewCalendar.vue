@@ -5,7 +5,8 @@
         <Calendar
           :disabled="disabled"
           :initial-focus="focus"
-          initial-type="month">
+          initial-type="month"
+        >
         </Calendar>
       </v-col>
     </v-row>
@@ -39,6 +40,6 @@ export default {
     focus() {
       return new Date();
     }
-  },
+  }
 };
 </script>

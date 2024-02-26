@@ -8,9 +8,9 @@
           :disabled="disabled || disableStart"
         />
       </v-col>
-    <v-col v-if="mdAndUp" cols="2" class="text-center">
-      {{ $t("contracts.to") }}
-    </v-col>
+      <v-col v-if="mdAndUp" cols="2" class="text-center">
+        {{ $t("contracts.to") }}
+      </v-col>
       <v-col class="text-center" cols="5" md="5">
         <ContractFormDateInput
           v-model="end"

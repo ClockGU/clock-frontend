@@ -1,5 +1,11 @@
 <template>
-  <v-toolbar class="mt-12 pt-4" max-height="10px" flat tag="nav" :color="$vuetify.theme.current.colors.background">
+  <v-toolbar
+    class="mt-12 pt-4"
+    max-height="10px"
+    flat
+    tag="nav"
+    :color="$vuetify.theme.current.colors.background"
+  >
     <v-row justify="center">
       <v-tabs optional>
         <v-tab
@@ -41,7 +47,7 @@ export default {
         {
           text: this.$t("app.calendar"),
           to: {
-            name: "calendar",
+            name: "calendar"
           },
           icon: mdiCalendar,
           loggedOut: false

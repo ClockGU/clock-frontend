@@ -40,58 +40,58 @@
 
           <v-window-item key="contractForm" eager :value="titles.length - 2">
             <v-container>
-            <p>{{ $t("onboarding.setupData.text") }}</p>
-            <v-row>
-              <v-col cols="12">
-                <h3 class="pb-2">
-                  {{ $t("contracts.createContract") }}
-                </h3>
-                <span v-if="contractExists">
-                  {{ $t("onboarding.setupData.contractExists") }}
-                </span>
-                <span v-else>
-                  {{ $t("onboarding.setupData.noContractExists") }}
-                </span>
-                <br />
+              <p>{{ $t("onboarding.setupData.text") }}</p>
+              <v-row>
+                <v-col cols="12">
+                  <h3 class="pb-2">
+                    {{ $t("contracts.createContract") }}
+                  </h3>
+                  <span v-if="contractExists">
+                    {{ $t("onboarding.setupData.contractExists") }}
+                  </span>
+                  <span v-else>
+                    {{ $t("onboarding.setupData.noContractExists") }}
+                  </span>
+                  <br />
 
-                <ContractFormDialog
-                  btn-color="primary"
-                  text-button
-                  :override-button-text="
-                    $t('buttons.newEntity', {
-                      entity: $tc('models.contract')
-                    })
-                  "
-                  :disabled="contractExists"
-                ></ContractFormDialog>
-              </v-col>
-            </v-row>
-            <v-row class="mb-2">
-              <v-col cols="12">
-                <h3 class="pb-2">
-                  {{ $t("personnelNumber.title") }}
-                </h3>
-                <span v-if="personnelNumber">
-                  {{ $t("personnelNumber.personnelNumberSaved") }}
-                </span>
-                <span v-else>
-                  {{ $t("personnelNumber.noPersonnelNumberSaved") }}
-                </span>
-                <br />
-                <v-btn
-                  color="primary"
-                  text
-                  :disabled="personnelNumber !== ''"
-                  @click="personnelNumberDialog = true"
-                >
-                  {{
-                    $t("buttons.newEntity", {
-                      entity: $tc("personnelNumber.label")
-                    })
-                  }}
-                </v-btn>
-              </v-col>
-            </v-row>
+                  <ContractFormDialog
+                    btn-color="primary"
+                    text-button
+                    :override-button-text="
+                      $t('buttons.newEntity', {
+                        entity: $tc('models.contract')
+                      })
+                    "
+                    :disabled="contractExists"
+                  ></ContractFormDialog>
+                </v-col>
+              </v-row>
+              <v-row class="mb-2">
+                <v-col cols="12">
+                  <h3 class="pb-2">
+                    {{ $t("personnelNumber.title") }}
+                  </h3>
+                  <span v-if="personnelNumber">
+                    {{ $t("personnelNumber.personnelNumberSaved") }}
+                  </span>
+                  <span v-else>
+                    {{ $t("personnelNumber.noPersonnelNumberSaved") }}
+                  </span>
+                  <br />
+                  <v-btn
+                    color="primary"
+                    text
+                    :disabled="personnelNumber !== ''"
+                    @click="personnelNumberDialog = true"
+                  >
+                    {{
+                      $t("buttons.newEntity", {
+                        entity: $tc("personnelNumber.label")
+                      })
+                    }}
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-container>
           </v-window-item>
 

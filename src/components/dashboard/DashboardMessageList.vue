@@ -34,18 +34,18 @@ export default {
   name: "DashboardMessageList",
   components: {
     MessageList,
-    FullMessageListDialog,
+    FullMessageListDialog
   },
   data: () => ({
     dialog: false,
     loading: false,
     icons: {
       mdiClose
-    },
+    }
   }),
   computed: {
     ...mapGetters({
-      messages: "message/messages",
+      messages: "message/messages"
     }),
     lastMessage() {
       return this.messages.slice(0, 1);

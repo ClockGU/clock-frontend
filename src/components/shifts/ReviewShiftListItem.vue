@@ -11,7 +11,12 @@
       </v-list-item-action>
       <v-list-item-action start>
         <v-btn flat icon :disabled="!valid" @click="review">
-          <v-icon :icon="icons.mdiCheck" color="success" :disabled="!valid" @click="review"></v-icon>
+          <v-icon
+            :icon="icons.mdiCheck"
+            color="success"
+            :disabled="!valid"
+            @click="review"
+          ></v-icon>
         </v-btn>
       </v-list-item-action>
       <v-list-item-action>

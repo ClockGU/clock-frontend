@@ -7,11 +7,7 @@
       transition="slide-y-transition"
     >
       <template #activator="{ props }">
-        <v-sheet
-          class="py-2 bg-orange-darken-2 rounded-t"
-          dark
-          v-bind="props"
-        >
+        <v-sheet class="py-2 bg-orange-darken-2 rounded-t" dark v-bind="props">
           <v-icon v-if="smAndDown" class="mx-2">
             {{ icons.mdiHelp }}
           </v-icon>

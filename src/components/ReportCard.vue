@@ -1,127 +1,131 @@
 <template>
-    <v-hover v-slot="{ isHovering, props}">
-      <v-card :ripple="false" v-bind="props" v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}">
-          <v-card-title>
-            <span>
-              {{ $t("reports.summary") }}
-            </span>
-            <v-spacer></v-spacer>
-            <v-chip v-if="exported" variant="outlined" color="primary">
-              {{ $t("reports.exported") }}
-            </v-chip>
-          </v-card-title>
+  <v-hover v-slot="{ isHovering, props }">
+    <v-card
+      :ripple="false"
+      v-bind="props"
+      v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
+    >
+      <v-card-title>
+        <span>
+          {{ $t("reports.summary") }}
+        </span>
+        <v-spacer></v-spacer>
+        <v-chip v-if="exported" variant="outlined" color="primary">
+          {{ $t("reports.exported") }}
+        </v-chip>
+      </v-card-title>
 
-          <v-card-text>
-            <v-table>
-              <template #default>
-                <tbody>
-                  <tr v-for="row in rows" :key="row.name">
-                    <td>{{ row.name }}</td>
-                    <td class="text-right">{{ row.value }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-table>
-          </v-card-text>
-          <v-card-actions class="px-1">
-            <v-container>
-              <v-row align="center">
-                <v-col cols="8">
-                  <span class="text-subtitle-2">
-                    1. {{ $t("reports.generate") }}
-                  </span>
+      <v-card-text>
+        <v-table>
+          <template #default>
+            <tbody>
+              <tr v-for="row in rows" :key="row.name">
+                <td>{{ row.name }}</td>
+                <td class="text-right">{{ row.value }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-table>
+      </v-card-text>
+      <v-card-actions class="px-1">
+        <v-container>
+          <v-row align="center">
+            <v-col cols="8">
+              <span class="text-subtitle-2">
+                1. {{ $t("reports.generate") }}
+              </span>
 
-                  <p class="text-caption">
-                    {{ $t("reports.hints.request") }}
+              <p class="text-caption">
+                {{ $t("reports.hints.request") }}
 
-                    <span v-if="!isExportable" class="text-caption warn">
-                      {{ $t("reports.hints.personnelnumber") }}
-                    </span>
-                  </p>
-                </v-col>
-                <v-col cols="4">
-                  <!-- if personnel number should be mandatory, add this line -->
-                  <!-- :disabled="(!isFirstUnlockedMonth && !exported) || !isExportable" -->
+                <span v-if="!isExportable" class="text-caption warn">
+                  {{ $t("reports.hints.personnelnumber") }}
+                </span>
+              </p>
+            </v-col>
+            <v-col cols="4">
+              <!-- if personnel number should be mandatory, add this line -->
+              <!-- :disabled="(!isFirstUnlockedMonth && !exported) || !isExportable" -->
+              <v-btn
+                v-if="!pdf"
+                :loading="loading"
+                :variant="loading ? 'outlined' : 'elevated'"
+                :disabled="!isFirstUnlockedMonth && !exported"
+                color="primary"
+                @click="request"
+              >
+                {{ $t("actions.request") }}
+              </v-btn>
+
+              <v-btn
+                v-else
+                :loading="loading"
+                :variant="loading ? 'outlined' : 'elevated'"
+                color="primary"
+                @click="download"
+              >
+                {{ $t("actions.download") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+
+          <v-row align="center">
+            <v-col cols="8">
+              <span class="text-subtitle-2">
+                2. {{ $t("reports.lock.label") }}
+              </span>
+
+              <p class="text-caption">{{ $t("reports.hints.lock") }}</p>
+            </v-col>
+
+            <v-col cols="4">
+              <ConfirmationDialog
+                :confirmation-button="{
+                  text: $t('actions.confirm'),
+                  color: 'error'
+                }"
+                @confirm="lock"
+              >
+                <template #activator="{ props }">
                   <v-btn
-                    v-if="!pdf"
-                    :loading="loading"
-                    :variant="loading ? 'outlined' : 'elevated'"
-                    :disabled="!isFirstUnlockedMonth && !exported"
-                    color="primary"
-                    @click="request"
+                    :disabled="lockDisabled"
+                    :loading="lockLoading"
+                    :variant="!lockDisabled ? 'text' : 'elevated'"
+                    :color="!lockDisabled ? 'warning' : ''"
+                    v-bind="props"
                   >
-                    {{ $t("actions.request") }}
+                    {{
+                      isLockable
+                        ? $t("reports.lock.lock")
+                        : $t("reports.lock.locked")
+                    }}
                   </v-btn>
+                </template>
 
-                  <v-btn
-                    v-else
-                    :loading="loading"
-                    :variant="loading ? 'outlined' : 'elevated'"
-                    color="primary"
-                    @click="download"
-                  >
-                    {{ $t("actions.download") }}
-                  </v-btn>
-                </v-col>
-              </v-row>
+                <template #title>
+                  {{ $t("reports.lock.confirm") }}
+                </template>
 
-              <v-row align="center">
-                <v-col cols="8">
-                  <span class="text-subtitle-2">
-                    2. {{ $t("reports.lock.label") }}
-                  </span>
-
-                  <p class="text-caption">{{ $t("reports.hints.lock") }}</p>
-                </v-col>
-
-                <v-col cols="4">
-                  <ConfirmationDialog
-                    :confirmation-button="{
-                      text: $t('actions.confirm'),
-                      color: 'error'
-                    }"
-                    @confirm="lock"
-                  >
-                    <template #activator="{ props }">
-                      <v-btn
-                        :disabled="lockDisabled"
-                        :loading="lockLoading"
-                        :variant="!lockDisabled ? 'text' : 'elevated'"
-                        :color="!lockDisabled ? 'warning' : ''"
-                        v-bind="props"
-                      >
-                        {{
-                          isLockable
-                            ? $t("reports.lock.lock")
-                            : $t("reports.lock.locked")
-                        }}
-                      </v-btn>
-                    </template>
-
-                    <template #title>
-                      {{ $t("reports.lock.confirm") }}
-                    </template>
-
-                    <template #text>
-                      {{ $t("reports.lock.message") }}
-                    </template>
-                  </ConfirmationDialog>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-actions>
-          <v-overlay
-            :model-value="disabled && (isHovering || touchOverlay)"
-            contained
-            scrim="primary"
-            style="align-items: start; justify-content: center"
-          >
-            <p style="margin-top: 17%; color: white; text-align: center">
-              {{ $t("dashboard.disabled.reportHere") }}
-            </p>
-          </v-overlay>
-      </v-card>
-    </v-hover>
+                <template #text>
+                  {{ $t("reports.lock.message") }}
+                </template>
+              </ConfirmationDialog>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-actions>
+      <v-overlay
+        :model-value="disabled && (isHovering || touchOverlay)"
+        contained
+        scrim="primary"
+        style="align-items: start; justify-content: center"
+      >
+        <p style="margin-top: 17%; color: white; text-align: center">
+          {{ $t("dashboard.disabled.reportHere") }}
+        </p>
+      </v-overlay>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>

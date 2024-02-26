@@ -1,5 +1,9 @@
 <template>
-  <v-footer color="primary-darken-2" theme="dark" style="padding: 0; min-height: 72px">
+  <v-footer
+    color="primary-darken-2"
+    theme="dark"
+    style="padding: 0; min-height: 72px"
+  >
     <v-row justify="center" no-gutters>
       <v-btn
         v-for="link in links"
@@ -14,8 +18,7 @@
       </v-btn>
       <v-col
         :class="
-          $vuetify.theme.current.footerSecondary +
-          ' text-center white--text'
+          $vuetify.theme.current.footerSecondary + ' text-center white--text'
         "
         cols="12"
       >
@@ -68,5 +71,7 @@ export default {
 </script>
 
 <style scoped>
-p { margin-bottom: 16px}
+p {
+  margin-bottom: 16px;
+}
 </style>

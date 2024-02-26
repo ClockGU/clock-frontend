@@ -3,7 +3,10 @@
     :class="['mx-auto', isDarkmode ? 'faded-color-dm' : 'faded-color']"
     max-width="350"
     variant="outlined"
-    :style="{'border-color': contract.color, 'background-color': contract.color}"
+    :style="{
+      'border-color': contract.color,
+      'background-color': contract.color
+    }"
   >
     <v-card-title>
       <span class="text-primary text-subtitle-2">

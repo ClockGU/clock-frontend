@@ -36,7 +36,7 @@ export default {
       default: false
     }
   },
-  emits: ["close", 'update:model-value'],
+  emits: ["close", "update:model-value"],
   data() {
     return {
       dialog: false

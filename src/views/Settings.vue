@@ -55,7 +55,7 @@
             </v-tabs>
           </v-col>
           <v-col cols="8">
-            <v-window  v-model="tab">
+            <v-window v-model="tab">
               <v-window-item value="first">
                 <LanguageSettings />
               </v-window-item>

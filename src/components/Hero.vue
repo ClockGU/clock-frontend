@@ -22,11 +22,7 @@
           </p>
 
           <div
-            :class="
-              smAndDown
-                ? 'flex-column align-start'
-                : 'align-center'
-            "
+            :class="smAndDown ? 'flex-column align-start' : 'align-center'"
             class="d-flex flex-wrap"
           >
             <ButtonGoetheOAuth>

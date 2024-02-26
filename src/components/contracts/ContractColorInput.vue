@@ -7,7 +7,12 @@
             <div style="font-size: 14px; font-weight: 500">Anzeigefarbe</div>
           </td>
           <td>
-            <v-menu no-click-animation :close-on-content-click="false" bottom offset-x>
+            <v-menu
+              no-click-animation
+              :close-on-content-click="false"
+              bottom
+              offset-x
+            >
               <template #activator="{ props }">
                 <v-chip
                   :color="color"
@@ -24,7 +29,9 @@
           </td>
           <td>
             <v-spacer>
-              <v-btn variant="text" @click="color = initialColor"> Reset </v-btn>
+              <v-btn variant="text" @click="color = initialColor">
+                Reset
+              </v-btn>
             </v-spacer>
           </td>
         </tr>
@@ -42,7 +49,7 @@ export default {
       required: true
     }
   },
-emits: ['update:model-value'],
+  emits: ["update:model-value"],
   data() {
     return {
       color: this.modelValue,

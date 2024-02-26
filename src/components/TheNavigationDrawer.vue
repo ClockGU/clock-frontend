@@ -9,12 +9,13 @@
   >
     <v-row class="mt-4 mb-4" justify="center">
       <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
-        <span role="link" style="cursor: pointer" @click="navigate" @keypress.enter="navigate">
-          <v-img
-            width="240px"
-            height="36px"
-            :src="imgSrc"
-          />
+        <span
+          role="link"
+          style="cursor: pointer"
+          @click="navigate"
+          @keypress.enter="navigate"
+        >
+          <v-img width="240px" height="36px" :src="imgSrc" />
         </span>
       </router-link>
     </v-row>
@@ -40,9 +41,9 @@
                 color="blue-lighten-2"
                 style="cursor: pointer"
               >
-              <div class="text-white">
-                {{ firstLetter }}
-              </div>
+                <div class="text-white">
+                  {{ firstLetter }}
+                </div>
               </v-avatar>
             </template>
             <p class="text-h6">
@@ -58,8 +59,7 @@
           style="--indent-padding: calc(var(--list-indent-size) - 12px)"
         >
           <template #prepend="prependProps">
-            <v-icon :icon="item.icon" v-bind="prependProps">
-            </v-icon>
+            <v-icon :icon="item.icon" v-bind="prependProps"> </v-icon>
           </template>
           <p style="padding-left: 4px">{{ item.text }}</p>
         </v-list-item>
@@ -73,8 +73,7 @@
               style="--indent-padding: calc(var(--list-indent-size) - 12px)"
             >
               <template #prepend="prependProps">
-                <v-icon :icon="icons.mdiLogout" v-bind="prependProps">
-                </v-icon>
+                <v-icon :icon="icons.mdiLogout" v-bind="prependProps"> </v-icon>
               </template>
               <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
             </v-list-item>
@@ -86,7 +85,12 @@
     <v-divider></v-divider>
 
     <v-list nav density="compact" data-cy="menu-list">
-      <v-list-item v-for="link in links" :key="link.text" :prepend-icon="link.icon" :to="link.to">
+      <v-list-item
+        v-for="link in links"
+        :key="link.text"
+        :prepend-icon="link.icon"
+        :to="link.to"
+      >
         <p>{{ link.text }}</p>
       </v-list-item>
     </v-list>
@@ -95,8 +99,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import svg from '@/assets/clock_full.svg';
-import darkSvg from '@/assets/clock_full_darkmode.svg'
+import svg from "@/assets/clock_full.svg";
+import darkSvg from "@/assets/clock_full_darkmode.svg";
 
 import LogoutDialog from "@/components/LogoutDialog.vue";
 
@@ -114,7 +118,7 @@ import {
 
 export default {
   name: "NavigationDrawer",
-  components: { LogoutDialog},
+  components: { LogoutDialog },
   props: {
     drawer: {
       type: Boolean,
@@ -125,7 +129,7 @@ export default {
       default: ""
     }
   },
-emits: ['closeDrawer'],
+  emits: ["closeDrawer"],
   data: () => ({
     icons: {
       mdiLock,
@@ -173,7 +177,7 @@ emits: ['closeDrawer'],
         {
           text: this.$t("app.calendar"),
           to: {
-            name: "calendar",
+            name: "calendar"
           },
           icon: mdiCalendar,
           loggedOut: false
@@ -205,8 +209,7 @@ emits: ['closeDrawer'],
       ];
     },
     imgSrc() {
-      if (this.$vuetify.theme.name === "dark")
-        return darkSvg;
+      if (this.$vuetify.theme.name === "dark") return darkSvg;
       return svg;
     }
   },

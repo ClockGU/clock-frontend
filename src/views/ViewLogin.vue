@@ -20,7 +20,7 @@ export default {
     mdAndUp() {
       const { mdAndUp } = useDisplay();
       return mdAndUp.value;
-    },
+    }
   }
 };
 </script>

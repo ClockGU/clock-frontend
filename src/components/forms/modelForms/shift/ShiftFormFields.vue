@@ -131,7 +131,7 @@ export default {
       default: "alert"
     }
   },
-  emits:["update:modelValue", "scheduleShifts"],
+  emits: ["update:modelValue", "scheduleShifts"],
   data() {
     return {
       shift: this.modelValue,

@@ -4,15 +4,20 @@
       <v-col cols="12">
         <h1 class="mb-6">{{ $t("app.faq") }}</h1>
         <v-row v-if="loading" justify="center">
-            <Placeholder name="UndrawNoData"></Placeholder>
-            <v-progress-circular
-              :size="70"
-              :width="7"
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
+          <Placeholder name="UndrawNoData"></Placeholder>
+          <v-progress-circular
+            :size="70"
+            :width="7"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
         </v-row>
-        <v-row v-for="(faq_group, i) in faqs_object" v-else :key="i+100" class="mt-4">
+        <v-row
+          v-for="(faq_group, i) in faqs_object"
+          v-else
+          :key="i + 100"
+          class="mt-4"
+        >
           <h2 v-if="faq_group[0].faq_heading" class="mt-4 pl-6 mb-2">
             {{ heading(faq_group[0].faq_heading) }}
           </h2>

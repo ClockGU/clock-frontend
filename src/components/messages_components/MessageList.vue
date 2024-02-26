@@ -6,10 +6,7 @@
     style="overflow-y: scroll"
   >
     <template v-for="(message, index) in messages" :key="message.id">
-      <MessageListItem
-        :message="message"
-        :dashboard="dashboard"
-      />
+      <MessageListItem :message="message" :dashboard="dashboard" />
       <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
     </template>
   </v-list>

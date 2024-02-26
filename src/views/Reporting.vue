@@ -25,7 +25,6 @@
         </v-alert>
       </v-col>
       <v-col cols="12">
-
         <SelectContractFilter
           :disabled="disabled"
           :contracts="contracts"
@@ -214,7 +213,9 @@ export default {
         );
         let report = filteredReports[0];
         if (report === undefined) {
-          this.date = this.selectedReports[this.selectedReports.length - 1].monthYear;
+          this.date = this.selectedReports[
+            this.selectedReports.length - 1
+          ].monthYear;
           return;
         }
         this.report = report;

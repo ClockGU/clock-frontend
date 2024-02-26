@@ -2,10 +2,7 @@
   <v-container>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="12" md="6" :order="orderPlaceholder">
-        <component
-          :is="component"
-          :height="mdAndUp ? '250' : '200'"
-        />
+        <component :is="component" :height="mdAndUp ? '250' : '200'" />
       </v-col>
       <v-col cols="12" sm="12" md="6" :order="orderText">
         <h2><slot name="title"></slot></h2>

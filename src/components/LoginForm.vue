@@ -13,7 +13,10 @@
         <v-fade-transition>
           <div>
             <v-overlay v-if="loading" absolute scrim="#036358">
-              <v-progress-circular indeterminate size="64"></v-progress-circular>
+              <v-progress-circular
+                indeterminate
+                size="64"
+              ></v-progress-circular>
             </v-overlay>
           </div>
         </v-fade-transition>

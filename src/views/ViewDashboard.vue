@@ -52,7 +52,10 @@
               </v-col>
 
               <v-col cols="12" md="6" order="5">
-                <DashboardLastActivity :disabled="disabled" @refresh="refresh" />
+                <DashboardLastActivity
+                  :disabled="disabled"
+                  @refresh="refresh"
+                />
               </v-col>
             </v-row>
           </v-container>
@@ -97,7 +100,7 @@ export default {
   },
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
-    entity: new Contract(),
+    entity: new Contract()
   }),
   computed: {
     ...mapGetters({
