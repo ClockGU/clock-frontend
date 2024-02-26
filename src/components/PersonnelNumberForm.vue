@@ -66,13 +66,14 @@
 
 <script>
 import AuthService from "@/services/auth";
-import { required, minLength } from "@vuelidate/validators";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+import { required, minLength } from "@vuelidate/validators";
 import { log } from "@/utils/log";
 import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "PersonnelNumberForm",
+  components: {ConfirmationDialog},
   props: {
     dialog: Boolean
   },

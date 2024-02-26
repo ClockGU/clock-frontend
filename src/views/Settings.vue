@@ -10,7 +10,7 @@
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
         v-if="smAndDown"
-        icon
+        variant="flat"
         @click="action"
       ></v-app-bar-nav-icon>
     </template>
@@ -22,7 +22,7 @@
     <template #content>
       <v-container>
         <v-row>
-          <v-col cols="3">
+          <v-col cols="4">
             <v-tabs
               v-model="tab"
               :direction="smAndUp ? 'vertical' : 'horizontal'"
@@ -54,7 +54,7 @@
               </v-tab>
             </v-tabs>
           </v-col>
-          <v-col cols="9">
+          <v-col cols="8">
             <v-window  v-model="tab">
               <v-window-item value="first">
                 <LanguageSettings />
