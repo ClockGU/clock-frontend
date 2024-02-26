@@ -12,15 +12,11 @@
       :error-messages="mappedErrors"
     >
       <template #selection="{ item }">
-        {{
-          item.title + contractStatus(item.raw)
-        }}
+        {{ item.title + contractStatus(item.raw) }}
       </template>
       <template #item="{ item, props }">
         <v-list-item v-bind="modifyProps(props)">
-          {{
-            item.title + contractStatus(item.raw)
-          }}
+          {{ item.title + contractStatus(item.raw) }}
         </v-list-item>
       </template>
     </v-select>
@@ -57,7 +53,7 @@ export default {
       default: () => new Date()
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -124,7 +120,7 @@ export default {
         return " " + this.$t("contracts.expired");
       else return "";
     },
-    modifyProps(props){
+    modifyProps(props) {
       delete props.title;
       return props;
     }

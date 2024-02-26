@@ -82,7 +82,7 @@ export default {
       default: false
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data() {
     return {
       menu: false,

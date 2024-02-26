@@ -67,7 +67,7 @@ export default {
       default: false
     }
   },
-emits: ['delete', 'update', 'close', 'save', 'update:model-value'],
+  emits: ["delete", "update", "close", "save", "update:model-value"],
   setup() {
     return {
       v$: useVuelidate()

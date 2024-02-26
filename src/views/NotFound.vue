@@ -19,11 +19,11 @@
 
     <template #content>
       <placeholder name="UndrawBlankCanvas">
-
         <v-row justify="center" align="center">
           <v-col cols="12" class="d-flex justify-center align-center">
             <p>
-              Hmm, hier ist irgendetwas schief gegangen. Die angeforderte Seite existiert nicht.
+              Hmm, hier ist irgendetwas schief gegangen. Die angeforderte Seite
+              existiert nicht.
             </p>
           </v-col>
         </v-row>

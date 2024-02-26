@@ -11,8 +11,8 @@ import { useTheme } from "vuetify";
 
 export default {
   name: "ThemeToggle",
-  setup(){
-    return { theme : useTheme() }
+  setup() {
+    return { theme: useTheme() };
   },
   data() {
     return {

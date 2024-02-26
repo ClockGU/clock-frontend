@@ -25,14 +25,14 @@
             :color="btnColor"
             :flat="flatButton"
             :icon="create ? icons.mdiPlus : icons.mdiPencil"
-            v-bind="props['props']"/>
+            v-bind="props['props']"
+          />
           <v-icon
             v-if="alertMessages.length > 0"
             color="warning"
             style="transform: translate(-65%, -50%)"
-          >{{ icons.mdiExclamation }}
-          </v-icon
-          >
+            >{{ icons.mdiExclamation }}
+          </v-icon>
         </div>
       </template>
       <template #content="{ events: { close } }">
@@ -107,7 +107,7 @@ export default {
       default: false
     }
   },
-  emits: ["close", "save", "update", "delete", 'update:model-value'],
+  emits: ["close", "save", "update", "delete", "update:model-value"],
   data() {
     return {
       icons: {
@@ -132,11 +132,11 @@ export default {
       if (!this.textButton) {
         return this.create
           ? this.$t("buttons.newEntity", {
-            entity: this.$tc("models.shift")
-          })
+              entity: this.$tc("models.shift")
+            })
           : this.$t("buttons.updateEntity", {
-            entity: this.$tc("models.shift")
-          });
+              entity: this.$tc("models.shift")
+            });
       }
       return this.create ? this.$t("buttons.add") : this.$t("actions.edit");
     },
@@ -173,7 +173,7 @@ export default {
       if (this.create) {
         const contractStartDate = this.$store.getters[
           "selectedContract/selectedContract"
-          ].startDate;
+        ].startDate;
 
         if (isBefore(this.initialDate, contractStartDate)) {
           date = contractStartDate;

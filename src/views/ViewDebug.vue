@@ -16,12 +16,14 @@
           <v-card-title> Short shift</v-card-title>
 
           <v-card-text>
-            Create a short shift, that is exactly 5 minutes long. Will prompt the
-            "short shift warning".
+            Create a short shift, that is exactly 5 minutes long. Will prompt
+            the "short shift warning".
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="primary" variant="text" @click="shortShift">Create</v-btn>
+            <v-btn color="primary" variant="text" @click="shortShift"
+              >Create</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -32,15 +34,14 @@
           <v-card-title> Overflow shift</v-card-title>
 
           <v-card-text>
-            Create a overflow shift, that starts on one day and ends on the other.
-            Will prompt the "shift split warning".
+            Create a overflow shift, that starts on one day and ends on the
+            other. Will prompt the "shift split warning".
           </v-card-text>
 
           <v-card-actions>
             <v-btn color="primary" variant="text" @click="overflowShift"
-            >Create
-            </v-btn
-            >
+              >Create
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -51,15 +52,14 @@
           <v-card-title> Very long shift</v-card-title>
 
           <v-card-text>
-            Create a very long shift, spanning multiple days. Will prompt the "shift
-            split warning".
+            Create a very long shift, spanning multiple days. Will prompt the
+            "shift split warning".
           </v-card-text>
 
           <v-card-actions>
             <v-btn color="primary" variant="text" @click="veryLongShift"
-            >Create
-            </v-btn
-            >
+              >Create
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

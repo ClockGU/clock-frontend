@@ -23,7 +23,7 @@ export default {
       required: true
     }
   },
-emits: ['close'],
+  emits: ["close"],
   data: () => ({
     dialog: true
   }),

@@ -59,7 +59,7 @@
           <v-icon :icon="icons.mdiClose" color="red" />
         </v-btn>
         <v-btn v-else flat variant="flat">
-          <v-icon :icon="icons.mdiCheck" color="green"/>
+          <v-icon :icon="icons.mdiCheck" color="green" />
         </v-btn>
       </template>
 
@@ -191,7 +191,7 @@ export default {
     },
     pastShifts: { type: Boolean, default: false }
   },
-emits: ['refresh'],
+  emits: ["refresh"],
   data: () => ({
     icons: {
       mdiCheck,
@@ -294,10 +294,10 @@ emits: ['refresh'],
       try {
         const payload = shift.toPayload();
         payload.was_reviewed = true;
-        await this.$store.dispatch(
-          "contentData/updateShift",
-          { payload, initialContract: payload.contract}
-        );
+        await this.$store.dispatch("contentData/updateShift", {
+          payload,
+          initialContract: payload.contract
+        });
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
         // We usually should end up here, if we are already logging out.

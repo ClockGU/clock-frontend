@@ -1,7 +1,11 @@
 <template>
   <v-menu location="bottom">
     <template #activator="{ props }">
-      <v-btn variant="outlined" data-cy="calendar-type-select-button" v-bind="props">
+      <v-btn
+        variant="outlined"
+        data-cy="calendar-type-select-button"
+        v-bind="props"
+      >
         <span>{{ valueName }}</span>
         <v-icon end>{{ icons.mdiArrowDown }}</v-icon>
       </v-btn>
@@ -30,7 +34,7 @@ export default {
       required: true
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data: () => ({
     icons: {
       mdiArrowDown

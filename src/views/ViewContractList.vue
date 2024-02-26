@@ -43,7 +43,11 @@
                 </v-expansion-panel-text> </v-expansion-panel
             ></v-expansion-panels>
 
-            <v-expansion-panels v-if="expiredContracts.length > 0" flat focusable>
+            <v-expansion-panels
+              v-if="expiredContracts.length > 0"
+              flat
+              focusable
+            >
               <v-expansion-panel>
                 <v-expansion-panel-title class="text-h6 font-weight-regular">
                   {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
@@ -67,12 +71,10 @@
                           @edit="editContract"
                           @delete="destroy(contract.id)"
                         />
-                      </v-col>
-                    </v-row
+                      </v-col> </v-row
                   ></v-container>
                 </v-expansion-panel-text>
-              </v-expansion-panel
-            >
+              </v-expansion-panel>
             </v-expansion-panels>
           </v-col>
 
@@ -112,7 +114,7 @@ export default {
   },
   components: {
     ContractFormDialog,
-    ContractListCard,
+    ContractListCard
   },
   beforeRouteLeave(to, from, next) {
     this.ignoreLoading = true;

@@ -70,7 +70,7 @@ export default {
       default: false
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data() {
     return {
       icons: {
@@ -94,7 +94,7 @@ emits: ['update:modelValue'],
   watch: {
     modelValue(val) {
       this.date = val;
-    },
+    }
   },
   methods: {
     allowedStartDates(val) {

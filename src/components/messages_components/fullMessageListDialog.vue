@@ -1,9 +1,5 @@
 <template>
-  <TheDialog
-    :persistent="false"
-    :fullscreen="smAndDown"
-    :max-width="800"
-  >
+  <TheDialog :persistent="false" :fullscreen="smAndDown" :max-width="800">
     <template #activator="{ props }">
       <v-btn variant="text" color="primary" block v-bind="props">
         {{ $t("news.showAll") }}
@@ -44,7 +40,7 @@ export default {
     smAndDown() {
       const { smAndDown } = useDisplay();
       return smAndDown.value;
-    },
+    }
   }
 };
 </script>

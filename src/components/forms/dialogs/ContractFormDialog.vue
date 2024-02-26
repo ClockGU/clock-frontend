@@ -83,7 +83,7 @@ export default {
       default: false
     }
   },
-emits: ['close'],
+  emits: ["close"],
   data() {
     return {
       icons: {

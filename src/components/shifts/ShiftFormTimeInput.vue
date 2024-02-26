@@ -6,7 +6,7 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ props}">
+    <template #activator="{ props }">
       <!--      <v-tooltip-->
       <!--        :value="errorMessages.length > 0"-->
       <!--        bottom-->
@@ -34,13 +34,13 @@
       <!--        <span>{{ errorMessages[0] }} </span>-->
       <!--      </v-tooltip>-->
     </template>
-<!--  Time Picker not available yet (29.09.23)  -->
-<!--    <v-time-picker-->
-<!--      v-if="menu && smAndDown"-->
-<!--      v-model="data"-->
-<!--      format="24hr"-->
-<!--      @click:minute="setTime"-->
-<!--    ></v-time-picker>-->
+    <!--  Time Picker not available yet (29.09.23)  -->
+    <!--    <v-time-picker-->
+    <!--      v-if="menu && smAndDown"-->
+    <!--      v-model="data"-->
+    <!--      format="24hr"-->
+    <!--      @click:minute="setTime"-->
+    <!--    ></v-time-picker>-->
     <p v-if="menu && smAndDown">Imagine Time picker here</p>
   </v-menu>
 </template>
@@ -93,7 +93,7 @@ export default {
     smAndDown() {
       const { smAndDown } = useDisplay();
       return smAndDown.value;
-    },
+    }
   },
   watch: {
     modelValue(val) {
@@ -119,7 +119,7 @@ export default {
         this.modelValue.getDate()
       ];
       const date = new Date(year, month, day, hours, minutes);
-      if (!isSameMinute(date, this.modelValue)){
+      if (!isSameMinute(date, this.modelValue)) {
         this.$emit("update:modelValue", date);
       }
       this.data = `${hours}:${minutes}`;

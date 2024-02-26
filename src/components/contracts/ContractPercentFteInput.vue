@@ -50,7 +50,7 @@ export default {
     }
     return validations;
   },
-emits: ['update:model-value'],
+  emits: ["update:model-value"],
   setup() {
     return {
       v$: useVuelidate()

@@ -38,9 +38,7 @@ export default {
       let styles;
       const { smAndDown } = useDisplay();
       const removePadding =
-        smAndDown.value ||
-        this.showingCalendar ||
-        this.$route.path === "/";
+        smAndDown.value || this.showingCalendar || this.$route.path === "/";
       if (removePadding) {
         styles = {
           padding: "0"

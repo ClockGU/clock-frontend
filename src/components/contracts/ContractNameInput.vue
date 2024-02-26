@@ -37,7 +37,7 @@ export default {
       required
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup() {
     return {
       v$: useVuelidate()

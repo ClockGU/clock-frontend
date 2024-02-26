@@ -73,7 +73,7 @@ import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "PersonnelNumberForm",
-  components: {ConfirmationDialog},
+  components: { ConfirmationDialog },
   props: {
     dialog: Boolean
   },
@@ -82,7 +82,7 @@ export default {
       personnelNumber: { required, minLength: minLength(5) }
     };
   },
-emits: ['close'],
+  emits: ["close"],
   setup() {
     return {
       v$: useVuelidate()

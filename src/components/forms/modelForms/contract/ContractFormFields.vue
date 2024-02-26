@@ -144,7 +144,7 @@ export default {
       default: "alert"
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data() {
     return {
       contract: this.modelValue,
@@ -155,7 +155,8 @@ emits: ['update:modelValue'],
         mdiCalendarClock
       },
       showCarryover: this.modelValue.initialCarryoverMinutes !== 0,
-      showVacationCarryover: this.modelValue.initialVacationCarryoverMinutes !== 0
+      showVacationCarryover:
+        this.modelValue.initialVacationCarryoverMinutes !== 0
     };
   },
   computed: {

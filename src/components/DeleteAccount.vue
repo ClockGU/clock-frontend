@@ -29,7 +29,11 @@
         </template>
 
         <template #text>
-          <i18n-t keypath="settings.account.dialogText" tag="span" scope="global">
+          <i18n-t
+            keypath="settings.account.dialogText"
+            tag="span"
+            scope="global"
+          >
             <template #email>
               <strong>{{ user.email }}</strong>
             </template>

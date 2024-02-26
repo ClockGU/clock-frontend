@@ -12,9 +12,11 @@
                   <v-btn
                     v-if="maxCarryoverExceeded || carryover"
                     variant="flat"
-                    :icon="                      maxCarryoverExceeded
+                    :icon="
+                      maxCarryoverExceeded
                         ? icons.mdiAlert
-                        : icons.mdiInformation"
+                        : icons.mdiInformation
+                    "
                     :color="maxCarryoverExceeded ? 'error' : 'warning'"
                     @click="showWarning('carryover')"
                   >
@@ -88,12 +90,14 @@
                         <v-col cols="9" align-self="center">
                           <p>
                             {{
-                              $tc("dashboard.progress.weeklyText", [weeklyHours, ])
+                              $tc("dashboard.progress.weeklyText", [
+                                weeklyHours
+                              ])
                             }}
                           </p>
                           <p style="margin-bottom: 0">
                             {{
-                              $t("dashboard.progress.weeklyBase", [weeklyAvg,])
+                              $t("dashboard.progress.weeklyBase", [weeklyAvg])
                             }}
                           </p>
                         </v-col>
@@ -172,11 +176,19 @@
           :key="`btn-${n}`"
           v-slot="{ active, toggle }"
         >
-          <v-btn :input-value="active" :icon="icons.mdiCircleMedium" @click="toggle">
+          <v-btn
+            :input-value="active"
+            :icon="icons.mdiCircleMedium"
+            @click="toggle"
+          >
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn variant="text" :icon="icons.mdiChevronRight" @click="step === 2 ? (step = 0) : step++">
+      <v-btn
+        variant="text"
+        :icon="icons.mdiChevronRight"
+        @click="step === 2 ? (step = 0) : step++"
+      >
       </v-btn>
     </v-card-actions>
   </v-card>

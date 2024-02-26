@@ -34,8 +34,8 @@
       <v-container>
         <v-row>
           <v-col cols="12">
-            <p style="margin-top:5%; color: white; text-align: center">
-            {{ overlayMessage }}
+            <p style="margin-top: 5%; color: white; text-align: center">
+              {{ overlayMessage }}
             </p>
           </v-col>
           <v-col

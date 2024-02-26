@@ -18,7 +18,7 @@
           :error-messages="errors"
           :error="errors.length > 0"
           :prepend-icon="smAndDown"
-          @update:model-value="$emit('update:started', $event);"
+          @update:model-value="$emit('update:started', $event)"
         />
       </v-col>
 
@@ -30,7 +30,7 @@
         <ShiftFormTimeInput
           v-model="timeStop"
           :error="errors.length > 0"
-          @update:model-value="$emit('update:stopped', $event);"
+          @update:model-value="$emit('update:stopped', $event)"
         />
       </v-col>
     </v-row>
@@ -132,20 +132,27 @@ export default {
       ];
       // Vue ONLY wraps GET and SET not all other modifcations... so setFullYear does not work
       // sadly ...
-      this.$emit("update:started", new Date(
-        year,
-        month,
-        day,
-        this.timeStart.getHours(),
-        this.timeStart.getMinutes()
-      ));
-      this.$emit("update:stopped", new Date(
-        year,
-        month,
-        day,
-        this.timeStop.getHours(),
-        this.timeStop.getMinutes()));
-    },
+      this.$emit(
+        "update:started",
+        new Date(
+          year,
+          month,
+          day,
+          this.timeStart.getHours(),
+          this.timeStart.getMinutes()
+        )
+      );
+      this.$emit(
+        "update:stopped",
+        new Date(
+          year,
+          month,
+          day,
+          this.timeStop.getHours(),
+          this.timeStop.getMinutes()
+        )
+      );
+    }
   }
 };
 </script>

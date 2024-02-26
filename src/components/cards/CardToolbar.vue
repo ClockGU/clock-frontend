@@ -4,18 +4,18 @@
       {{ title }}
     </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
 
-      <LanguageSwitcher />
-      <v-btn v-if="logoutAction" variant="text" @click="logout">
-        {{ $t("actions.logout") }}
-      </v-btn>
-      <v-btn v-if="closeAction" icon @click="close">
-        <v-icon>
-          {{ icons.mdiClose }}
-        </v-icon>
-      </v-btn>
-    </v-toolbar>
+    <LanguageSwitcher />
+    <v-btn v-if="logoutAction" variant="text" @click="logout">
+      {{ $t("actions.logout") }}
+    </v-btn>
+    <v-btn v-if="closeAction" icon @click="close">
+      <v-icon>
+        {{ icons.mdiClose }}
+      </v-icon>
+    </v-btn>
+  </v-toolbar>
 </template>
 
 <script>
@@ -42,11 +42,11 @@ export default {
     },
     color: {
       type: String,
-      required:false,
+      required: false,
       default: undefined
     }
   },
-emits: ['close'],
+  emits: ["close"],
   data() {
     return {
       icons: {

@@ -6,7 +6,10 @@
       :title="$t('app.privacyagreement')"
       :logout-action="true"
     ></CardToolbar>
-    <GdprCardText v-model="value" @update:model-value="$emit('update:modelValue', $event)"></GdprCardText>
+    <GdprCardText
+      v-model="value"
+      @update:model-value="$emit('update:modelValue', $event)"
+    ></GdprCardText>
     <GdprCardActions v-if="!disableActions" :value="value"></GdprCardActions>
   </v-card>
 </template>
@@ -20,7 +23,7 @@ export default {
   name: "GdprAgreementCard",
   components: { GdprCardActions, GdprCardText, CardToolbar },
   props: {
-    modelValue:{
+    modelValue: {
       type: Boolean,
       required: false,
       default: false
@@ -35,12 +38,12 @@ export default {
       default: false
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data: () => ({
     value: false
   }),
-  watch:{
-    modelValue(val){
+  watch: {
+    modelValue(val) {
       this.value = val;
     }
   }

@@ -31,7 +31,6 @@
 </template>
 
 <script>
-
 export default {
   name: "TheSnackbar",
   data() {
@@ -66,9 +65,11 @@ export default {
   methods: {
     async setupInterval(snack) {
       this.intervals[snack.uuid] = setInterval(() => {
-        this.timePassed[snack.uuid] = (this.timePassed[snack.uuid] !== undefined
-          ? this.timePassed[snack.uuid]
-          : 0) + 500;}, 500);
+        this.timePassed[snack.uuid] =
+          (this.timePassed[snack.uuid] !== undefined
+            ? this.timePassed[snack.uuid]
+            : 0) + 500;
+      }, 500);
     },
     async setupTimeout(snack) {
       setTimeout(() => {

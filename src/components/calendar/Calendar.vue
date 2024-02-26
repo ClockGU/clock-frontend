@@ -19,7 +19,11 @@
             <template #item="{ item, props }">
               <v-list-item v-bind="modifyProps(props)">
                 {{ item.title }}
-                <v-icon :color="item.raw.color" :icon="mdiCircleSlice8()" style="float: right"></v-icon>
+                <v-icon
+                  :color="item.raw.color"
+                  :icon="mdiCircleSlice8()"
+                  style="float: right"
+                ></v-icon>
               </v-list-item>
             </template>
           </v-combobox>
@@ -27,67 +31,67 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-            <VCalendar
-              v-model="focus"
-              :events="events"
-              :now="today"
-              :view-mode="type"
-              @click:event="editEvent"
-            >
-              <template #header>
-                <div class="v-calendar-header">
-                  <v-col cols="4">
-                    <TodayButton @update="selectedDate = $event" />
-                  </v-col>
-                  <v-col class="text-center" cols="4">
-                    <TimeIntervalSwitcher
-                      v-model="selectedDate"
-                      :disabled="disabled"
-                      :type="type"
-                      is-calendar
-                    />
-                  </v-col>
-                  <v-col class="text-end" cols="4" order-sm="3">
-                    <CalendarTypeSelect v-model="type" />
-                  </v-col>
-                </div>
-              </template>
-<!--              :interval-format="intervalFormat"-->
-<!--              @click:event="editEvent"-->
-<!--              @click:more="viewDay"-->
-<!--              @click:date="viewDay"-->
-<!--              @prev="updateRange"-->
-<!--              @next="updateRange"-->
-<!--            >-->
-<!--              <template #day-label="{ day, date }">-->
-<!--                <button-->
-<!--                  type="button"-->
-<!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
-<!--                  @click="viewDay({ date: date })"-->
-<!--                >-->
-<!--                  <span class="v-btn__content">{{ day }}</span>-->
-<!--                </button>-->
-<!--                <v-icon-->
-<!--                  v-if="isBankHoliday(date)"-->
-<!--                  :color="bhIconColor"-->
-<!--                  style="align-self: center"-->
-<!--                  >{{ icons.bhIcon }}</v-icon-->
-<!--                >-->
-<!--              </template>-->
-<!--              <template #event="{ event, eventParsed, formatTime }">-->
-<!--                <div class="pl-1">-->
-<!--                  <div class="v-event-summary">-->
-<!--                    <span>-->
-<!--                      <strong>{{ formatTime(eventParsed.start) }} </strong>-->
-<!--                      {{ event.duration }}</span-->
-<!--                    >-->
-<!--                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>-->
-<!--                      {{ event.icon }}-->
-<!--                    </v-icon>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </template>-->
-            </VCalendar>
+          <VCalendar
+            v-model="focus"
+            :events="events"
+            :now="today"
+            :view-mode="type"
+            @click:event="editEvent"
+          >
+            <template #header>
+              <div class="v-calendar-header">
+                <v-col cols="4">
+                  <TodayButton @update="selectedDate = $event" />
+                </v-col>
+                <v-col class="text-center" cols="4">
+                  <TimeIntervalSwitcher
+                    v-model="selectedDate"
+                    :disabled="disabled"
+                    :type="type"
+                    is-calendar
+                  />
+                </v-col>
+                <v-col class="text-end" cols="4" order-sm="3">
+                  <CalendarTypeSelect v-model="type" />
+                </v-col>
+              </div>
+            </template>
+            <!--              :interval-format="intervalFormat"-->
+            <!--              @click:event="editEvent"-->
+            <!--              @click:more="viewDay"-->
+            <!--              @click:date="viewDay"-->
+            <!--              @prev="updateRange"-->
+            <!--              @next="updateRange"-->
+            <!--            >-->
+            <!--              <template #day-label="{ day, date }">-->
+            <!--                <button-->
+            <!--                  type="button"-->
+            <!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
+            <!--                  @click="viewDay({ date: date })"-->
+            <!--                >-->
+            <!--                  <span class="v-btn__content">{{ day }}</span>-->
+            <!--                </button>-->
+            <!--                <v-icon-->
+            <!--                  v-if="isBankHoliday(date)"-->
+            <!--                  :color="bhIconColor"-->
+            <!--                  style="align-self: center"-->
+            <!--                  >{{ icons.bhIcon }}</v-icon-->
+            <!--                >-->
+            <!--              </template>-->
+            <!--              <template #event="{ event, eventParsed, formatTime }">-->
+            <!--                <div class="pl-1">-->
+            <!--                  <div class="v-event-summary">-->
+            <!--                    <span>-->
+            <!--                      <strong>{{ formatTime(eventParsed.start) }} </strong>-->
+            <!--                      {{ event.duration }}</span-->
+            <!--                    >-->
+            <!--                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>-->
+            <!--                      {{ event.icon }}-->
+            <!--                    </v-icon>-->
+            <!--                  </div>-->
+            <!--                </div>-->
+            <!--              </template>-->
+          </VCalendar>
         </v-col>
       </v-row>
     </v-container>
@@ -104,7 +108,6 @@
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect.vue";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
-
 import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mdiCircleSlice8, mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
@@ -113,7 +116,7 @@ import TodayButton from "@/components/calendar/TodayButton.vue";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
-import { VCalendar } from 'vuetify/labs/VCalendar'
+import { VCalendar } from "vuetify/labs/VCalendar";
 
 export default {
   name: "Calendar",
@@ -138,7 +141,7 @@ export default {
       default: "month"
     }
   },
-emits: ['updateRange'],
+  emits: ["updateRange"],
   data: () => ({
     icons: {
       mdiClose: mdiClose,
@@ -197,7 +200,10 @@ emits: ['updateRange'],
               this.type === "month"
                 ? " | " + shift.representationalDuration()
                 : shift.representationalDuration();
-            console.log(shift.started.getMinutes(), localizedFormat(shift.started, "HH:MM"));
+            console.log(
+              shift.started.getMinutes(),
+              localizedFormat(shift.started, "HH:MM")
+            );
             return {
               start: shift.started,
               end: shift.stopped,
@@ -211,16 +217,16 @@ emits: ['updateRange'],
           })
         );
       }
-       return events;
+      return events;
     }
   },
   watch: {
     selectedDate(val) {
-      this.focus = [val,];
-    },
+      this.focus = [val];
+    }
   },
   created() {
-    this.focus = [this.initialFocus,];
+    this.focus = [this.initialFocus];
     this.selectedDate = this.focus[0];
     this.type = this.initialType;
   },
@@ -235,7 +241,7 @@ emits: ['updateRange'],
       this.shift = data.event.shift;
       this.editShift = true;
     },
-    modifyProps(props){
+    modifyProps(props) {
       delete props.title;
       return props;
     },
@@ -252,7 +258,11 @@ emits: ['updateRange'],
       // Tell parent component the range updated
       this.$emit("updateRange", {
         type: this.type,
-        start: { day: focus.getDate(), month: focus.getMonth(), year: focus.getYear() }
+        start: {
+          day: focus.getDate(),
+          month: focus.getMonth(),
+          year: focus.getYear()
+        }
       });
     },
     isBankHoliday(date) {

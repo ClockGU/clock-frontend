@@ -24,21 +24,21 @@ export default {
   name: "GdprCardText",
   components: { GdprTextDialog },
   props: {
-    modelValue:{
+    modelValue: {
       type: Boolean,
       default: false
     }
   },
-emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   data() {
     return {
       value: false
     };
   },
-  watch:{
-    modelValue(val){
+  watch: {
+    modelValue(val) {
       this.value = val;
-    },
+    }
   }
 };
 </script>

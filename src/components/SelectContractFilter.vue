@@ -25,7 +25,14 @@
     </template>
 
     <template #item="{ item, props }">
-      <v-list-item v-bind="props" :subtitle="disabled ? $t('dashboard.disabled.noContract') : contractStatus(item.raw)">
+      <v-list-item
+        v-bind="props"
+        :subtitle="
+          disabled
+            ? $t('dashboard.disabled.noContract')
+            : contractStatus(item.raw)
+        "
+      >
       </v-list-item>
     </template>
   </v-select>
