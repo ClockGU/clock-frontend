@@ -59,7 +59,7 @@
           style="--indent-padding: calc(var(--list-indent-size) - 12px)"
         >
           <template #prepend="prependProps">
-            <v-icon :icon="item.icon" v-bind="prependProps"> </v-icon>
+            <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
           </template>
           <p style="padding-left: 4px">{{ item.text }}</p>
         </v-list-item>
@@ -73,7 +73,7 @@
               style="--indent-padding: calc(var(--list-indent-size) - 12px)"
             >
               <template #prepend="prependProps">
-                <v-icon :icon="icons.mdiLogout" v-bind="prependProps"> </v-icon>
+                <v-icon :icon="icons.mdiLogout" v-bind="prependProps"></v-icon>
               </template>
               <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
             </v-list-item>
