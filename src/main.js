@@ -139,6 +139,7 @@ if (isProduction) {
 
 app.component("BaseLayout", BaseLayout);
 app.component("BaseLink", Link);
+// eslint-disable-next-line vue/multi-word-component-names
 app.component("Placeholder", Placeholder);
 
 app.mount("#app");

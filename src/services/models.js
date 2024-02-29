@@ -3,7 +3,6 @@ import { mapShiftApiResponse, Shift } from "@/models/ShiftModel";
 import { mapContractApiResponse, Contract } from "@/models/ContractModel";
 import { mapReportApiResponse, Report } from "@/models/ReportModel";
 import is from "ramda/src/is";
-import { handle400Errors } from "@/utils/errorHandler";
 
 class modelService {
   static BASE_URL = "";
