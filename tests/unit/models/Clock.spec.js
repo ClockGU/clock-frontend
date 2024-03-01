@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import ClockModel from "@/models/ClockModel";
 import { mockDate } from "../../mocks";
 
@@ -12,7 +13,7 @@ describe("Clock utility", () => {
     let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
     const clock = new ClockModel({});
     expect(clock.startDate).toEqual(new Date());
-    resetDateMock();
+    resetDateMock.reset();
   });
 
   it("has no duration on init", () => {
@@ -26,7 +27,7 @@ describe("Clock utility", () => {
   });
 
   it("has an initialize function for a reset", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
     const clock = new ClockModel();
     clock.start();
@@ -39,7 +40,7 @@ describe("Clock utility", () => {
     expect(clock.duration).toBeNull();
     expect(clock.startDate).toEqual(new Date());
 
-    resetDateMock();
+    resetDateMock.reset();
   });
 
   it("clears the interval", () => {
@@ -49,38 +50,34 @@ describe("Clock utility", () => {
   });
 
   it("increments duration with the tick method", () => {
-    let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
+    let resetDateMock = mockDate(new Date(2019, 10, 20, 10));
     const clock = new ClockModel();
-
-    resetDateMock = mockDate(new Date("2019-10-20T10:01:00.00Z"));
+    resetDateMock.oneMinProg();
+    expect(new Date()).toEqual(new Date(2019, 10, 20, 10, 1));
     clock.tick();
     expect(clock.duration).toEqual(60);
-
-    resetDateMock();
+    resetDateMock.reset();
   });
 
   it("progresses time every second after starting", () => {
-    jest.useFakeTimers();
-    let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
+    let resetDateMock = mockDate(new Date(2019, 10, 20, 10));
     const clock = new ClockModel();
     clock.start();
     expect(clock.interval).not.toBeNull();
 
-    resetDateMock = mockDate(new Date("2019-10-20T10:01:00.00Z"));
-    jest.advanceTimersByTime(6000);
+    resetDateMock.oneMinProg();
     expect(clock.duration).toEqual(60);
-    resetDateMock();
+    resetDateMock.reset();
   });
 
   it("pause stops the time progression", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
     const clock = new ClockModel();
     clock.start();
 
-    resetDateMock = mockDate(new Date("2019-10-20T10:01:00.00Z"));
-    jest.advanceTimersByTime(6000);
-    resetDateMock();
+    resetDateMock.oneMinProg();
+    resetDateMock.reset();
 
     clock.pause();
     expect(clock.duration).toEqual(60);
@@ -88,14 +85,13 @@ describe("Clock utility", () => {
   });
 
   it("toggles the clock correctly", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
     const clock1 = new ClockModel();
     clock1.toggle();
     expect(clock1.duration).toEqual(0);
     expect(clock1.interval).not.toBeNull();
-    resetDateMock = mockDate(new Date("2019-10-20T10:01:00.00Z"));
-    jest.advanceTimersByTime(6000);
+    resetDateMock.oneMinProg();
     clock1.toggle();
     expect(clock1.duration).toEqual(60);
     expect(clock1.interval).toBeNull();
@@ -103,27 +99,26 @@ describe("Clock utility", () => {
     const clock2 = new ClockModel();
     clock2.start();
     resetDateMock = mockDate(new Date("2019-10-20T10:01:00.00Z"));
-    jest.advanceTimersByTime(6000);
+    vi.advanceTimersByTime(6000);
     clock2.toggle();
     expect(clock1.duration).toEqual(60);
     expect(clock1.interval).toBeNull();
 
-    resetDateMock();
+    resetDateMock.reset();
   });
 
   it("stop cleans up the clock", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     let resetDateMock = mockDate(new Date("2019-10-20T10:00:00.00Z"));
     const clock = new ClockModel();
     clock.start();
 
-    resetDateMock = mockDate(new Date("2019-10-20T10:01:00.00Z"));
-    jest.advanceTimersByTime(6000);
+    resetDateMock.oneMinProg();
 
     clock.stop();
     expect(clock.duration).toEqual(null);
     expect(clock.interval).toBeNull();
     expect(clock.startDate).toEqual(new Date());
-    resetDateMock();
+    resetDateMock.reset();
   });
 });

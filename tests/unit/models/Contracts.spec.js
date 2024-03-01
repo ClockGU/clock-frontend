@@ -1,7 +1,6 @@
 import { Contract } from "@/models/ContractModel";
 import { addDays } from "date-fns";
-
-const timekeeper = require("timekeeper");
+import timekeeper from "timekeeper";
 
 describe("Contracts.js", () => {
   const date = {
