@@ -83,8 +83,8 @@
     "name": "Name your contract",
     "worktimeModelName": "Choose your worktime model",
     "percentFte": {
-      "dataLable": "% FTE",
-      "hint": "Enter percentage of FTE as number in the form XX or XX.XX"
+      "dataLabel": "% FTE",
+      "hint": "FTE as a number (XX or XX.XX)"
     },
     "activeContracts": "Active Contracts",
     "noActiveContracts": "There are presently no active contracts",

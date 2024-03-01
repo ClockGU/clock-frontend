@@ -3,9 +3,10 @@
     v-model="percent"
     :prepend-icon="icons.mdiTimetable"
     :error-messages="errors"
-    :label="$t('contracts.percentFte.dataLable')"
+    :label="$t('contracts.percentFte.dataLabel')"
     :hint="$t('contracts.percentFte.hint')"
     single-line
+    filled
     type="number"
     persistent-hint
     @input="v$.percent.$touch()"
