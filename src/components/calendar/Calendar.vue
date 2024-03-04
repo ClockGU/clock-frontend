@@ -119,6 +119,7 @@ import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { VCalendar } from "vuetify/labs/VCalendar";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Calendar",
   components: {
     TimeIntervalSwitcher,
