@@ -84,6 +84,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import DashboardShiftReview from "@/components/dashboard/DashboardShiftReview.vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
   metaInfo: {
     title: "Dashboard"
