@@ -2,14 +2,13 @@
   <v-snackbar
     v-model="show"
     data-cy="snackbar"
-    location="top"
-    location="right"
+    location="top right"
     :color="color"
     :timeout="timeout"
   >
     {{ message }}
-    <template #action="{ attrs }">
-      <v-btn variant="text" v-bind="attrs" @click.native="show = false">
+    <template #actions="{ attrs }">
+      <v-btn variant="text" v-bind="attrs" @click="show = false">
         {{ $t("actions.close") }}
       </v-btn>
     </template>
