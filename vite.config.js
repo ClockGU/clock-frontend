@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import babel from "vite-plugin-babel";
+import eslint from "vite-plugin-eslint";
 import { configDefaults } from "vitest/config";
 
 const path = require("path");
@@ -17,6 +18,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    eslint(),
     babel({
       babelConfig: {
         babelrc: false,
