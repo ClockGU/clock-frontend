@@ -87,6 +87,7 @@ export default {
       default: () => {}
     }
   },
+  emits: ["destroy", "update"],
   data: () => ({
     icons: { mdiCheck, mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
   }),

@@ -49,6 +49,7 @@ export default {
       required: true
     }
   },
+  emits: ["save"],
   data: () => ({
     contract: null,
     dialog: false,
