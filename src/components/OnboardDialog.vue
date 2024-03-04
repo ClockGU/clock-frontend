@@ -80,7 +80,7 @@
                   <br />
                   <v-btn
                     color="primary"
-                    text
+                    variant="text"
                     :disabled="personnelNumber !== ''"
                     @click="personnelNumberDialog = true"
                   >
@@ -220,6 +220,7 @@ export default {
       default: "contract"
     }
   },
+  emits: ["close"],
   data: () => ({
     step: 0,
     confirmDialog: false,
