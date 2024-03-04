@@ -28,6 +28,7 @@ import ApiService from "@/services/api.js";
 import { useDisplay } from "vuetify";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   computed: {
     ...mapGetters({ userCheckedOut: "auth/checkoutUser" }),
