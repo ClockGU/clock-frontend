@@ -47,6 +47,7 @@ export default {
       default: false
     }
   },
+  emits: ["update:start-date", "update:end-date"],
   data() {
     return {
       start: this.startDate,
