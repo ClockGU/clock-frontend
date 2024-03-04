@@ -68,6 +68,7 @@ export default {
       required: true
     }
   },
+  emits: ["close"],
   data: () => ({
     icons: {
       mdiClose,
