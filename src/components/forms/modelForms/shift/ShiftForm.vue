@@ -103,9 +103,14 @@ export default {
     },
     date() {
       if (this.newShift.contract === "") {
-        let date = this.$store.getters["selectedContract/selectedContract"]
-          .startDate;
-        date.setHours(10, 0, 0);
+        let date;
+        try {
+          date = this.$store.getters["selectedContract/selectedContract"]
+            .startDate;
+          date.setHours(10, 0, 0);
+        } catch {
+          return this.initialDate;
+        }
         if (isBefore(this.initialDate, date)) {
           return date;
         }

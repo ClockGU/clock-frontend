@@ -11,7 +11,19 @@ export default {
   computed: {
     alertMessages() {
       let alertMessages = [];
-      alertMessages.push(this.checkEightTwentyRule);
+      let isStudEmp;
+      try {
+        isStudEmp =
+          this.$store.getters["contentData/contractById"](this.shift.contract)
+            .worktimeModelName === "studEmp";
+      } catch {
+        // eslint-disable-next-line no-unused-vars
+        const isStudEmp = false;
+      }
+      if (isStudEmp) {
+        alertMessages.push(this.checkEightTwentyRule);
+      }
+      alertMessages.push(this.validateMaxWorktimePerDay);
       alertMessages.push(this.validateNoSunday);
       alertMessages.push(this.checkAutomaticWorktimeCutting);
       return alertMessages.filter((message) => message !== undefined);
@@ -19,7 +31,6 @@ export default {
     errorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateStartedBeforeStopped);
-      errorMessages.push(this.validateMaxWorktimePerDay);
       errorMessages.push(this.validateOnlyHolidayOnHolidays);
       errorMessages.push(this.validateHolidayOnWorkdays);
       errorMessages.push(this.validateExclusivityVacation);

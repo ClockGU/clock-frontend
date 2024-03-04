@@ -81,6 +81,11 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly working time in HH:mm or HH,hh",
     "name": "Name your contract",
+    "worktimeModelName": "Choose your worktime model",
+    "percentFte": {
+      "dataLabel": "% FTE",
+      "hint": "FTE as a number (XX or XX.XX)"
+    },
     "activeContracts": "Active Contracts",
     "noActiveContracts": "There are presently no active contracts",
     "expired": "(contract expired)",
@@ -212,6 +217,7 @@
   "errors": {
     "contractName": "Contract name",
     "durationBiggerZero": "{name} must not be zero.",
+    "invalidPercentage": "The entered value is not a valid percentage between 0% and 100%",
     "hours": "The hours",
     "maxLength": "{name} cannot be longer than {length} characters!",
     "minLength": "{name} must be at least {length} characters long!",
@@ -552,5 +558,11 @@
     "text": "Please refer to the {link} for further information.",
     "linktext": "user manual",
     "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch/v/manual_en/"
+  },
+  "worktimeModelNames": {
+    "studEmp": "Student employee",
+    "regEmp": "Rebular employee",
+    "civilSer": "Civil servant",
+    "notSelected": "No model selected"
   }
 }

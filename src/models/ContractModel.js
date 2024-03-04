@@ -16,7 +16,9 @@ export function mapContractApiResponse(response) {
     createdAt: response.created_at,
     modifiedAt: response.modified_at,
     lastUsed: response.last_used,
-    color: response.color
+    color: response.color,
+    worktimeModelName: response.worktime_model_name,
+    percentFte: response.percent_fte
   };
 }
 
@@ -26,6 +28,7 @@ export class Contract {
     user = null,
     name = null,
     minutes = null,
+    percentFte = null,
     startDate = null,
     endDate = null,
     initialCarryoverMinutes = null,
@@ -33,12 +36,14 @@ export class Contract {
     createdAt = null,
     modifiedAt = null,
     lastUsed = null,
-    color = null
+    color = null,
+    worktimeModelName = null
   } = {}) {
     this.id = is(String, id) ? id : "";
     this.user = is(String, user) ? user : "";
     this.name = is(String, name) ? name : "";
     this.minutes = is(Number, minutes) ? minutes : 0;
+    this.percentFte = is(Number, percentFte) ? percentFte : 0.0;
     this.startDate =
       is(Date, new Date(startDate)) && startDate !== null
         ? new Date(startDate)
@@ -61,6 +66,7 @@ export class Contract {
         ? new Date(createdAt)
         : new Date();
     this.color = is(String, color) ? color : "#8ac5ff";
+    this.worktimeModelName = worktimeModelName;
     this.modifiedAt =
       is(Date, new Date(modifiedAt)) && modifiedAt !== null
         ? new Date(modifiedAt)
@@ -106,10 +112,19 @@ export class Contract {
       initial_carryover_minutes: this.initialCarryoverMinutes,
       initial_vacation_carryover_minutes: this.initialVacationCarryoverMinutes,
       last_used: this.lastUsed,
-      color: this.color
+      color: this.color,
+      worktime_model_name: this.worktimeModelName,
+      percent_fte: this.percentFte
     };
   }
   clone() {
     return new Contract(mapContractApiResponse(this.toPayload()));
   }
 }
+
+export const WORKTIME_MODEL_CHOICES = [
+  { value: "studEmp", text: "", localeRef: "worktimeModelNames.studEmp" },
+  { value: "regEmp", text: "", localeRef: "worktimeModelNames.regEmp" },
+  { value: "civilSer", text: "", localeRef: "worktimeModelNames.civilSer" },
+  { value: null, text: "", localeRef: "worktimeModelNames.notSelected" }
+];

@@ -61,7 +61,7 @@
     <v-card min-width="100%" :elevation="0">
       <v-container>
         <v-row>
-          <v-col cols="12" md="6" order="0">
+          <v-col cols="12" :md="isStudEmp ? 6 : 12" order="0">
             <ReportCard
               :key="report.id"
               :disabled="disabled"
@@ -72,7 +72,7 @@
               :is-first-unlocked-month="isFirstUnlockedMonth"
             ></ReportCard>
           </v-col>
-          <v-col cols="12" md="6" order="1">
+          <v-col v-if="isStudEmp" cols="12" md="6" order="1">
             <VacationCard :disabled="disabled" :report="report"></VacationCard>
           </v-col>
         </v-row>
@@ -135,6 +135,12 @@ export default {
       selectedReports: "contentData/selectedReports",
       selectedShifts: "contentData/selectedShifts"
     }),
+    isStudEmp() {
+      if (this.selectedContract === undefined) {
+        return true;
+      }
+      return this.selectedContract.worktimeModelName === "studEmp";
+    },
     disabled() {
       return this.selectedContract === undefined || this.report === undefined;
     },

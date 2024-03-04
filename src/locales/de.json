@@ -81,6 +81,11 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
+    "worktimeModelName": "Wähle dein Arbeitszeitmodell",
+    "percentFte": {
+      "dataLabel": "% VZÄ",
+      "hint": "Vollzeitäquivalent als Zahl (XX oder XX,XX)."
+    },
     "activeContracts": "Laufende Verträge",
     "noActiveContracts": "Es gibt derzeit keine laufenden Verträge",
     "expired": "(Vertrag abgelaufen)",
@@ -212,6 +217,7 @@
   "errors": {
     "contractName": "Der Name des Vertrags",
     "durationBiggerZero": "{name} darf nicht Null sein.",
+    "invalidPercentage": "Der eingegebene Wert ist keine Prozentangabe zwischen 0 und 100.",
     "hours": "Die Stundenangabe",
     "maxLength": "{name} darf nicht mehr als {length} Zeichen beinhalten!",
     "minLength": "{name} muss mindestens {length} Zeichen beinhalten!",
@@ -552,5 +558,11 @@
     "text": "Weitere Informationen findest du in unserem {link}.",
     "linktext": "Benutzerhandbuch",
     "url": "https://clockgu.gitbook.io/clock-benutzerhandbuch"
+  },
+  "worktimeModelNames": {
+    "studEmp": "Studentische Hilfskraft",
+    "regEmp": "Regulär*er Angestellt*er",
+    "civilSer": "Beamt*in",
+    "notSelected": "Kein Modell ausgewählt"
   }
 }
