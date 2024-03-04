@@ -47,9 +47,9 @@
                       <v-row>
                         <v-col cols="12" md="5">
                           <span>{{
-                            $t("shifts.table.pastShiftsTitle", {
-                              month: formattedDate()
-                            })
+                            $tc("shifts.table.pastShiftsTitle", [
+                              formattedDate()
+                            ])
                           }}</span>
                         </v-col>
 
@@ -99,9 +99,9 @@
                       <v-row>
                         <v-col cols="12" md="5">
                           <span>{{
-                            $t("shifts.table.futureShiftsTitle", {
-                              month: formattedDate()
-                            })
+                            $tc("shifts.table.futureShiftsTitle", [
+                              formattedDate()
+                            ])
                           }}</span>
                         </v-col>
 
@@ -171,6 +171,7 @@ import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Shifts",
   components: {
     TimeIntervalSwitcher,
