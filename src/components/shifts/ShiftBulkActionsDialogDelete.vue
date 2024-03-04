@@ -34,6 +34,7 @@ export default {
   props: {
     count: { type: Number, default: 1 }
   },
+  emits: ["destroy"],
   data: () => ({
     icons: { mdiDelete }
   }),
