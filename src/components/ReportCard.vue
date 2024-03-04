@@ -1,8 +1,8 @@
 <template>
-  <v-hover v-slot="{ isHovering, props }">
+  <v-hover v-slot="{ isHovering, props: hoverProps }">
     <v-card
       :ripple="false"
-      v-bind="props"
+      v-bind="hoverProps"
       v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
     >
       <v-card-title>
@@ -86,13 +86,13 @@
                 }"
                 @confirm="lock"
               >
-                <template #activator="{ props }">
+                <template #activator="{ props: confirmationProps }">
                   <v-btn
                     :disabled="lockDisabled"
                     :loading="lockLoading"
                     :variant="!lockDisabled ? 'text' : 'elevated'"
                     :color="!lockDisabled ? 'warning' : ''"
-                    v-bind="props"
+                    v-bind="confirmationProps"
                   >
                     {{
                       isLockable
@@ -172,6 +172,7 @@ export default {
       required: true
     }
   },
+  emits: ["locked"],
   data() {
     return {
       pdf: null,
