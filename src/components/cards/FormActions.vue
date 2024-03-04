@@ -91,6 +91,7 @@ export default {
       required: true
     }
   },
+  emits: ["close"],
   computed: {
     capitalizedModelName() {
       return capitalizeFirstLetter(this.modelName);
