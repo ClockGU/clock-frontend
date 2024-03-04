@@ -112,11 +112,17 @@ export default {
   name: "ShiftFormRepeat",
   components: { ShiftFormRepeatDialog },
   props: {
+    modelValue: {
+      type: Array,
+      required: false,
+      default: () => []
+    },
     shift: {
       type: Object,
       required: true
     }
   },
+  emits: ["update:model-value"],
   data() {
     return {
       repeatUntil: "contractDate",
@@ -234,7 +240,7 @@ export default {
   },
   watch: {
     shifts() {
-      this.$emit("input", this.shifts);
+      this.$emit("update:model-value", this.shifts);
     }
   },
   created() {

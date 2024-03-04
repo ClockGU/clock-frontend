@@ -7,7 +7,7 @@
     item-value="value"
     return-object
     variant="filled"
-    @update:model-value="$emit('input', $event)"
+    @update:model-value="$emit('update:model-value', $event)"
   >
   </v-select>
 </template>
@@ -21,6 +21,7 @@ export default {
       default: () => ({ text: "Shift", value: "st" })
     }
   },
+  emits: ["update:model-value"],
   data: () => ({
     items: [
       { text: "Shift", value: "st" },
