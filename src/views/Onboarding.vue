@@ -6,6 +6,7 @@
 import OnboardDialog from "@/components/OnboardDialog.vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Onboarding",
   metaInfo() {
     return {
