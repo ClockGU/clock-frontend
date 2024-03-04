@@ -14,11 +14,7 @@
             </v-col>
             <v-col class="flex-grow-0 flex-shrink-1">
               <v-btn color="white" variant="outlined" @click="openDialog">
-                {{
-                  $t("buttons.newEntity", {
-                    entity: $tc("personnelNumber.label")
-                  })
-                }}
+                {{ $t("buttons.newEntity", [$tc("personnelNumber.label")]) }}
               </v-btn>
             </v-col>
           </v-row>
@@ -112,6 +108,7 @@ import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import VacationCard from "@/components/VacationCard.vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Reporting",
   components: {
     VacationCard,

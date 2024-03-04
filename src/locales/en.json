@@ -53,7 +53,7 @@
   },
   "buttons": {
     "deleteEntity": "@:actions.delete {entity}?",
-    "newEntity": "@:actions.add {entity}",
+    "newEntity": "@:actions.add {0}",
     "updateEntity": "{entity} @:actions.edit"
   },
   "calendar": {
