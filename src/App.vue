@@ -34,7 +34,6 @@ import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import { log } from "@/utils/log";
 
 import { mapGetters, mapState } from "vuex";
-import TheDialog from "@/components/TheDialog.vue";
 
 export default {
   name: "App",
@@ -48,7 +47,6 @@ export default {
     };
   },
   components: {
-    TheDialog,
     TheAppBar,
     TheNavigationToolbar,
     TheNavigationDrawer,
