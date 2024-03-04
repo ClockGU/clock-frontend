@@ -4,9 +4,7 @@
       {{ $t("app.privacyagreement") }}
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn icon @click="close">
-          <v-icon>{{ icons.mdiClose }}</v-icon>
-        </v-btn>
+        <v-btn variant="flat" :icon="icons.mdiClose" @click="close" />
       </v-toolbar-items>
     </v-toolbar>
     <v-card-text>
@@ -28,6 +26,7 @@ import { mdiClose } from "@mdi/js";
 export default {
   name: "GdprTextCard",
   components: { GdprText },
+  emits: ["close"],
   data() {
     return {
       icons: { mdiClose }
