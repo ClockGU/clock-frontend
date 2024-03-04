@@ -17,7 +17,7 @@
           :is="snack.component"
           v-bind="snack.componentProps"
         ></component>
-        <v-btn variant="text" v-bind="attrs" @click.native="snack.show = false">
+        <v-btn variant="text" v-bind="attrs" @click="snack.show = false">
           {{ $t("actions.close") }}
         </v-btn>
       </template>
