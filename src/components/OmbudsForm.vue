@@ -69,6 +69,7 @@ import FeedbackService from "@/services/feedback";
 
 export default {
   name: "OmbudsForm",
+  emits: ["close"],
   setup() {
     return {
       v$: useVuelidate()
@@ -122,9 +123,10 @@ export default {
     // Close the modal when the
     // user presses the ESC key.
     document.addEventListener("keyup", close);
-    this.$on("hook:destroyed", () => {
-      document.removeEventListener("keyup", close);
-    });
+    // TODO: NEED TO COME BACK TO THIS
+    // this.$on("hook:destroyed", () => {
+    //   document.removeEventListener("keyup", close);
+    // });
   },
   methods: {
     initialize() {
