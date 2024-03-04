@@ -101,6 +101,7 @@ import AdminCheckoutUser from "@/components/AdminCheckoutUser.vue";
 import { useDisplay } from "vuetify";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Settings",
   metaInfo() {
     return {
