@@ -71,7 +71,6 @@
 import { subMinutes, subDays } from "date-fns";
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import { Shift } from "@/models/ShiftModel";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 export default {
   name: "ViewDebug",
@@ -80,7 +79,7 @@ export default {
       title: this.$t("app.debug")
     };
   },
-  components: { ShiftFormDialog, SelectContractFilter },
+  components: { SelectContractFilter },
   data: () => ({
     shift: {
       start: null,
