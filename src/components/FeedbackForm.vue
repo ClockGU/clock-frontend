@@ -64,6 +64,7 @@ import FeedbackService from "@/services/feedback";
 
 export default {
   name: "FeedbackForm",
+  emits: ["close"],
   setup() {
     return {
       v$: useVuelidate()
