@@ -26,6 +26,7 @@ export default {
     };
   },
   components: { GdprAgreementCard, FeedbackMenu },
+  emits: ["close"],
   data() {
     return {
       dialog: true
