@@ -34,6 +34,7 @@ import { UndrawFactory } from "@/factories/undrawFactory";
 import { markRaw } from "vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Placeholder",
   props: {
     height: {
