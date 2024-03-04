@@ -41,7 +41,7 @@
             <template #header>
               <div class="v-calendar-header">
                 <v-col cols="4">
-                  <TodayButton @update="selectedDate = $event" />
+                  <TodayButton v-model="selectedDate" />
                 </v-col>
                 <v-col class="text-center" cols="4">
                   <TimeIntervalSwitcher

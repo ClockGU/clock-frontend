@@ -3,7 +3,7 @@
     outlined
     class="mr-4"
     data-cy="calendar-today"
-    @click="$emit('update', new Date())"
+    @click="$emit('update:model-value', new Date())"
   >
     {{ $t("calendar.today") }}
   </v-btn>
@@ -11,6 +11,7 @@
 
 <script>
 export default {
-  name: "TodayButton"
+  name: "TodayButton",
+  emits: ["update:model-value"]
 };
 </script>
