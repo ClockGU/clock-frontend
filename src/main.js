@@ -8,7 +8,7 @@ import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 import BaseLayout from "@/layouts/BaseLayout.vue";
-import StyledLink from "@/components/base/Link.vue";
+import StyledLink from "@/components/base/StyledLink.vue";
 import Placeholder from "@/components/Placeholder.vue";
 import "@/assets/main.scss";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
