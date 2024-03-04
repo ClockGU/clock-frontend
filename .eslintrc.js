@@ -5,7 +5,6 @@ module.exports = {
     es2022: true
   },
   extends: [
-    'eslint:recommended',
     'plugin:vue/vue3-recommended',
     "prettier"
   ],
@@ -15,8 +14,9 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
   },
-  parser: "@babel/eslint-parser",
+  parser: "vue-eslint-parser",
   parserOptions: {
+    parser: "@babel/eslint-parser",
     requireConfigFile:false
   }
 };

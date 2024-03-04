@@ -2,25 +2,18 @@
   <v-expand-transition appear>
     <v-card elevation="0">
       <v-card-actions>
-        <!--v-btn
-          :disabled="shiftsLength != 1"
-          icon
-          @click="$emit('edit', shifts[0].shift)"
-        >
-          <v-icon>{{ icons.mdiPencil }}</v-icon>
-        </v-btn-->
-
         <ShiftBulkActionsDialogReview
           v-if="canReview"
           :shifts="shifts"
           @reset="resetFn()"
         >
           <template #activator="{ props }">
-            <v-btn :disabled="!reviewable" icon v-bind="props">
-              <v-icon
-                >{{ shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck }}
-              </v-icon>
-            </v-btn>
+            <v-btn
+              :disabled="!reviewable"
+              variant="flat"
+              :icon="shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck"
+              v-bind="props"
+            />
           </template>
         </ShiftBulkActionsDialogReview>
 
@@ -28,11 +21,10 @@
           <template #activator="{ props }">
             <v-btn
               :disabled="!moreThanOneContract || shiftsLength < 1"
-              icon
+              variant="flat"
               v-bind="props"
-            >
-              <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
-            </v-btn>
+              :icon="icons.mdiSwapHorizontal"
+            />
           </template>
         </ShiftAssignContractDialog>
 
@@ -41,9 +33,12 @@
           @destroy="destroyFn"
         >
           <template #activator="{ props }">
-            <v-btn :disabled="shiftsLength < 1" icon v-bind="props">
-              <v-icon>{{ icons.mdiDelete }}</v-icon>
-            </v-btn>
+            <v-btn
+              :disabled="shiftsLength < 1"
+              variant="flat"
+              :icon="icons.mdiDelete"
+              v-bind="props"
+            />
           </template>
         </ShiftBulkActionsDialogDelete>
         {{ durationSum }}
