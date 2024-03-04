@@ -8,7 +8,7 @@ import ApiService from "@/services/api";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
 import BaseLayout from "@/layouts/BaseLayout.vue";
-import Link from "@/components/base/Link.vue";
+import StyledLink from "@/components/base/Link.vue";
 import Placeholder from "@/components/Placeholder.vue";
 import "@/assets/main.scss";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
@@ -138,7 +138,7 @@ if (isProduction) {
 }
 
 app.component("BaseLayout", BaseLayout);
-app.component("BaseLink", Link);
+app.component("BaseLink", StyledLink);
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Placeholder", Placeholder);
 

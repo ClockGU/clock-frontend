@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Link",
+  name: "StyledLink",
   props: {
     href: {
       type: String,
@@ -15,10 +15,10 @@ export default {
   },
   computed: {
     primaryColor() {
-      return this.$vuetify.theme.currentTheme.primary;
+      return this.$vuetify.theme.current.colors.primary;
     },
     colorModification() {
-      return this.$vuetify.theme.dark ? "lighten-2" : "darken-2";
+      return this.$vuetify.theme.name === "dark" ? "lighten-2" : "darken-2";
     },
     textColor() {
       return "primary--text" + " " + "text--" + this.colorModification;
