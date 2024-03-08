@@ -1,14 +1,11 @@
 <template>
   <v-container class="px-0">
     <v-row class="px-0">
-      <v-col cols="12">
+      <v-col cols="12" class="pa-8">
         <div class="d-flex align-content-center justify-center">
           <component
             :is="component"
-            :class="
-              ($vuetify.theme.current.dark ? 'undraw-background' : '') +
-              ' white-stroke'
-            "
+            :class="[$vuetify.theme.current.dark ? 'undraw-background' : '']"
             height="200"
             style="box-shadow: 0 0 20px 10px white"
           />
@@ -69,8 +66,4 @@ export default {
   background-color: hsl(0, 0, 33);
   border-color: white;
 }
-//.white-stroke :deep(rect) {
-//  stroke: white;
-//  stroke-miterlimit: 20;
-//}
 </style>
