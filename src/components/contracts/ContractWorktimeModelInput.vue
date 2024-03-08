@@ -32,7 +32,7 @@ export default {
       default: false
     }
   },
-  emits: ["update:model-value"],
+  emits: ["update:modelValue"],
   setup() {
     return {
       v$: useVuelidate()
@@ -65,7 +65,7 @@ export default {
       this.selectedWorktimeModel = val;
     },
     selectedWorktimeModel(val) {
-      this.$emit("update:model-value", val);
+      this.$emit("update:modelValue", val);
     }
   },
   mounted() {

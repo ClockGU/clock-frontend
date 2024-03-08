@@ -11,7 +11,7 @@
       :alert-messages="messages"
       :alert-type="errorMessages.length > 0 ? 'error' : 'warning'"
       @schedule-shifts="setScheduledShifts($event)"
-      @update:model-value="$emit('update:model-value', $event)"
+      @update:model-value="$emit('update:modelValue', $event)"
     ></ShiftFormFields>
     <FormActions
       :create-fn="saveShift"
@@ -67,7 +67,7 @@ export default {
       default: false
     }
   },
-  emits: ["delete", "update", "close", "save", "update:model-value"],
+  emits: ["delete", "update", "close", "save", "update:modelValue"],
   setup() {
     return {
       v$: useVuelidate()

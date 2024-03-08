@@ -104,7 +104,7 @@ export default {
       default: false
     }
   },
-  emits: ["close", "save", "update", "delete", "update:model-value"],
+  emits: ["close", "save", "update", "delete", "update:modelValue"],
   data() {
     return {
       icons: {
@@ -186,7 +186,7 @@ export default {
     },
     closeFormDialog() {
       this.$emit("close");
-      this.$emit("update:model-value", false);
+      this.$emit("update:modelValue", false);
     }
   }
 };

@@ -50,7 +50,7 @@ export default {
     }
     return validations;
   },
-  emits: ["update:model-value"],
+  emits: ["update:modelValue"],
   setup() {
     return {
       v$: useVuelidate()
@@ -73,7 +73,7 @@ export default {
     },
     percent(val) {
       if (!this.v$.$error) {
-        this.$emit("update:model-value", parseFloat(val));
+        this.$emit("update:modelValue", parseFloat(val));
       }
     }
   }

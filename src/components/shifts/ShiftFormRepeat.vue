@@ -122,7 +122,7 @@ export default {
       required: true
     }
   },
-  emits: ["update:model-value"],
+  emits: ["update:modelValue"],
   data() {
     return {
       repeatUntil: "contractDate",
@@ -243,7 +243,7 @@ export default {
   },
   watch: {
     shifts() {
-      this.$emit("update:model-value", this.shifts);
+      this.$emit("update:modelValue", this.shifts);
     }
   },
   created() {

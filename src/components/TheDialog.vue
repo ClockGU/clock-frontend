@@ -6,7 +6,7 @@
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
     @click:outside="close"
-    @update:model-value="$emit('update:model-value', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
@@ -36,7 +36,7 @@ export default {
       default: false
     }
   },
-  emits: ["close", "update:model-value"],
+  emits: ["close", "update:modelValue"],
   data() {
     return {
       dialog: false
@@ -50,7 +50,7 @@ export default {
   methods: {
     close() {
       this.dialog = false;
-      this.$emit("update:model-value", false);
+      this.$emit("update:modelValue", false);
       this.$emit("close");
     }
   }

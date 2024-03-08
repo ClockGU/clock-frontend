@@ -23,7 +23,7 @@
               </template>
               <v-color-picker
                 v-model="color"
-                @update:model-value="$emit('update:model-value', $event)"
+                @update:model-value="$emit('update:modelValue', $event)"
               ></v-color-picker>
             </v-menu>
           </td>
@@ -49,7 +49,7 @@ export default {
       required: true
     }
   },
-  emits: ["update:model-value"],
+  emits: ["update:modelValue"],
   data() {
     return {
       color: this.modelValue,

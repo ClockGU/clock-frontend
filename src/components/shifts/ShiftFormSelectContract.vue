@@ -53,7 +53,7 @@ export default {
       default: () => new Date()
     }
   },
-  emits: ["update:model-value"],
+  emits: ["update:modelValue"],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -93,14 +93,14 @@ export default {
         this.contract = this.$store.getters["contentData/contractById"](val);
       }
       if (this.contract.id === this.selectedContract.id) {
-        this.$emit("update:model-value", this.contract.id);
+        this.$emit("update:modelValue", this.contract.id);
       }
     },
     validationDate(val) {
       this.dateToValidate = val;
     },
     contract(val) {
-      this.$emit("update:model-value", val.id);
+      this.$emit("update:modelValue", val.id);
     }
   },
   created() {
