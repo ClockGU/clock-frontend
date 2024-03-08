@@ -1,55 +1,53 @@
 <template>
-  <div>
-    <TheDialog
-      v-model="show"
-      :fullscreen="smAndDown"
-      :max-width="600"
-      :persistent="false"
-      @close="closeFormDialog"
-    >
-      <template #activator="props">
-        <slot name="activator" v-bind="props"></slot>
+  <TheDialog
+    v-model="show"
+    :fullscreen="smAndDown"
+    :max-width="600"
+    :persistent="false"
+    @close="closeFormDialog"
+  >
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
+      <v-btn
+        v-if="!icon && !disableActivator"
+        :disabled="disabled"
+        :color="btnColor"
+        :flat="flatButton"
+        v-bind="props['props']"
+      >
+        {{ buttonText }}
+      </v-btn>
+      <div v-if="icon && !disableActivator">
         <v-btn
-          v-if="!icon && !disableActivator"
           :disabled="disabled"
+          variant="flat"
           :color="btnColor"
           :flat="flatButton"
+          :icon="create ? icons.mdiPlus : icons.mdiPencil"
           v-bind="props['props']"
-        >
-          {{ buttonText }}
-        </v-btn>
-        <div v-if="icon && !disableActivator">
-          <v-btn
-            :disabled="disabled"
-            variant="flat"
-            :color="btnColor"
-            :flat="flatButton"
-            :icon="create ? icons.mdiPlus : icons.mdiPencil"
-            v-bind="props['props']"
-          />
-          <v-icon
-            v-if="alertMessages.length > 0"
-            color="warning"
-            style="transform: translate(-65%, -50%)"
-            >{{ icons.mdiExclamation }}
-          </v-icon>
-        </div>
-      </template>
-      <template #content="{ events: { close } }">
-        <ShiftForm
-          v-model="newShift"
-          :initial-date="date"
-          :close="close"
-          :show-errors="show"
-          :initial-contract="initialContract"
-          @save="$emit('save')"
-          @delete="$emit('delete')"
-          @update="$emit('update')"
-          @close="closeFormDialog"
-        ></ShiftForm>
-      </template>
-    </TheDialog>
-  </div>
+        />
+        <v-icon
+          v-if="alertMessages.length > 0"
+          color="warning"
+          style="transform: translate(-65%, -50%)"
+          >{{ icons.mdiExclamation }}
+        </v-icon>
+      </div>
+    </template>
+    <template #content="{ events: { close } }">
+      <ShiftForm
+        v-model="newShift"
+        :initial-date="date"
+        :close="close"
+        :show-errors="show"
+        :initial-contract="initialContract"
+        @save="$emit('save')"
+        @delete="$emit('delete')"
+        @update="$emit('update')"
+        @close="closeFormDialog"
+      ></ShiftForm>
+    </template>
+  </TheDialog>
 </template>
 
 <script>

@@ -11,14 +11,14 @@
       <v-col cols="12" class="ma-0">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
-            v-if="alertMessages.length > 0"
+            v-show="alertMessages.length > 0"
             class="mt-2"
             :messages="alertMessages"
             :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
-          <div v-if="alertMessages.length > 0" class="mt-2">
+          <div v-show="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.faqText") }}
             <br />
             <router-link to="/faq">{{
@@ -27,7 +27,7 @@
           </div>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
-          <div v-if="alertMessages.length > 0" class="mt-2">
+          <div v-show="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.ombudsText") }}
             <OmbudsMenu
               disable-activator
@@ -51,12 +51,11 @@
           :prepend-icon="icons.mdiRepeat"
           :disabled="!isInFuture"
           :messages="$t('shifts.repeating.checkboxText')"
-          class="ma-0"
         ></v-checkbox>
 
         <v-expand-transition hide-on-leave>
           <ShiftFormRepeat
-            v-if="showRepeat"
+            v-show="showRepeat"
             v-model="scheduledShifts"
             :shift="shift"
           />

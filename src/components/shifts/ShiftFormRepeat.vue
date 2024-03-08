@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="mt-3">
     <v-col cols="12">
       <v-select
         v-model="selected"
@@ -90,7 +90,7 @@ import { localizedFormat } from "@/utils/date";
 import { RRule } from "rrule";
 
 import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog.vue";
-import { formatISO, parseISO } from "date-fns";
+import { endOfMonth, formatISO, parseISO } from "date-fns";
 
 const ALL_DAYS = {
   0: RRule.SU,
@@ -153,6 +153,9 @@ export default {
       return this.shift.started;
     },
     contractEndDate() {
+      if (!this.shift.contract) {
+        return endOfMonth(this.currentDate);
+      }
       return this.$store.getters["contentData/contractById"](
         this.shift.contract
       ).endDate;
