@@ -68,7 +68,7 @@
         min="1"
         max="30"
         thumb-label
-        ticks
+        show-ticks="always"
         persistent-hint
         :label="$t('shifts.repeating.interval.label', { number: interval })"
         :hint="
