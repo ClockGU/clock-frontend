@@ -7,10 +7,11 @@
     :color="$vuetify.theme.current.colors.background"
   >
     <v-row justify="center">
-      <v-tabs optional>
+      <v-tabs>
         <v-tab
-          v-for="item in links"
+          v-for="(item, i) in links"
           :key="item.text"
+          :value="i"
           :to="item.to"
           :ripple="false"
         >
