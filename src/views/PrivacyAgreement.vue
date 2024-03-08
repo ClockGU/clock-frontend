@@ -17,7 +17,6 @@
 <script>
 import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
 import FeedbackMenu from "@/components/FeedbackMenu.vue";
-import { useDisplay } from "vuetify";
 export default {
   name: "PrivacyAgreement",
   metaInfo() {
@@ -34,8 +33,7 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     }
   },
   methods: {

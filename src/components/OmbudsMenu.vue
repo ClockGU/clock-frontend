@@ -32,7 +32,6 @@
 <script>
 import OmbudsForm from "@/components/OmbudsForm.vue";
 import { mdiExclamation } from "@mdi/js";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "OmbudsMenu",
@@ -61,8 +60,7 @@ export default {
   }),
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     }
   }
 };

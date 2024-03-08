@@ -43,7 +43,6 @@ import TheDialog from "@/components/TheDialog.vue";
 import { Contract } from "@/models/ContractModel";
 import ContractForm from "@/components/forms/modelForms/contract/ContractForm.vue";
 import { mdiPencil, mdiPlus } from "@mdi/js";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "ContractFormDialog",
@@ -96,8 +95,7 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     create() {
       return this.contract === undefined;

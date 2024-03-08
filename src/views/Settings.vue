@@ -98,7 +98,6 @@ import GDPR from "@/components/gdpr/GdprSettingsCard.vue";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import LanguageSettings from "@/components/LanguageSettings.vue";
 import AdminCheckoutUser from "@/components/AdminCheckoutUser.vue";
-import { useDisplay } from "vuetify";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -128,12 +127,10 @@ export default {
   }),
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     smAndUp() {
-      const { smAndUp } = useDisplay();
-      return smAndUp.value;
+      return this.$vuetify.display.smAndUp;
     },
     isSuperUser() {
       return this.$store.getters.user.is_superuser;

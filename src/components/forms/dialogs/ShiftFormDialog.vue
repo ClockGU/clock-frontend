@@ -61,7 +61,6 @@ import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 // eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import { isBefore } from "date-fns";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "ShiftFormDialog",
@@ -122,8 +121,7 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     create() {
       return this.shift === undefined;

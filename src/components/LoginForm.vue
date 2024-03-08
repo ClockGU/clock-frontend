@@ -66,7 +66,6 @@
 import { useVuelidate } from "@vuelidate/core";
 import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from "@mdi/js";
 import { required, email } from "@vuelidate/validators";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "LoginForm",
@@ -95,8 +94,7 @@ export default {
   }),
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     emailErrors() {
       const errors = [];

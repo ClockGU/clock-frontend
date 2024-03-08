@@ -25,7 +25,6 @@
 <script>
 import { mapGetters } from "vuex";
 import ApiService from "@/services/api.js";
-import { useDisplay } from "vuetify";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -37,9 +36,9 @@ export default {
     },
     styles() {
       let styles;
-      const { smAndDown } = useDisplay();
+      const smAndDown = this.$vuetify.display.smAndDown;
       const removePadding =
-        smAndDown.value || this.showingCalendar || this.$route.path === "/";
+        smAndDown || this.showingCalendar || this.$route.path === "/";
       if (removePadding) {
         styles = {
           padding: "0"

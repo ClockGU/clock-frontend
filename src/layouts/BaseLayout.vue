@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import { useDisplay } from "vuetify";
-
 export default {
   name: "BaseLayout",
   props: {
@@ -66,12 +64,10 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     mdAndUp() {
-      const { mdAndUp } = useDisplay();
-      return mdAndUp;
+      return this.$vuetify.display.mdAndUp;
     }
   }
 };

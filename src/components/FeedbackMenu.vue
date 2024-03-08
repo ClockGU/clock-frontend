@@ -23,7 +23,6 @@
 <script>
 import FeedbackForm from "@/components/FeedbackForm.vue";
 import { mdiHelp } from "@mdi/js";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "FeedbackMenu",
@@ -34,8 +33,7 @@ export default {
   }),
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     }
   }
 };

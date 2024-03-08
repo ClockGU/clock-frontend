@@ -54,8 +54,6 @@
 </template>
 
 <script>
-import { useDisplay } from "vuetify";
-
 export default {
   name: "NotFound",
   metaInfo() {
@@ -65,8 +63,7 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     isLoggedIn() {
       return this.$store.getters["auth/loggedIn"];

@@ -58,7 +58,6 @@ import { getOverlappingShifts } from "@/utils/shift";
 import CalendarOverlap from "@/components/calendar/CalendarOverlap.vue";
 import { mapGetters } from "vuex";
 import { getFirstOfCurrentMonth } from "@/utils/date";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "DashboardConflicts",
@@ -85,8 +84,7 @@ export default {
   computed: {
     ...mapGetters({ shifts: "contentData/selectedShifts" }),
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     overlappingShifts() {
       if (this.disabled) return 0;

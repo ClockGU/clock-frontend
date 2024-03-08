@@ -201,10 +201,6 @@ export default {
               this.type === "month"
                 ? " | " + shift.representationalDuration()
                 : shift.representationalDuration();
-            console.log(
-              shift.started.getMinutes(),
-              localizedFormat(shift.started, "HH:MM")
-            );
             return {
               start: shift.started,
               end: shift.stopped,

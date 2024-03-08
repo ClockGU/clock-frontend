@@ -26,7 +26,6 @@
 import TheDialog from "@/components/TheDialog.vue";
 import MessageList from "@/components/messages_components/MessageList.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
-import { useDisplay } from "vuetify";
 export default {
   name: "FullMessageListDialog",
   components: { TheDialog, MessageList, CardToolbar },
@@ -38,8 +37,7 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     }
   }
 };

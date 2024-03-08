@@ -50,7 +50,6 @@ import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
 
 import { mdiClockOutline } from "@mdi/js";
-import { useDisplay } from "vuetify";
 import { isSameMinute } from "date-fns";
 
 export default {
@@ -91,8 +90,7 @@ export default {
   },
   computed: {
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     }
   },
   watch: {

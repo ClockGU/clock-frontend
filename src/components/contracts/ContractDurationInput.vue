@@ -27,7 +27,6 @@
 import ContractFormDateInput from "@/components/contracts/ContractFormDateInput.vue";
 import { format } from "date-fns";
 import { lastOfCurrentMonth } from "@/utils/date";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "ContractDurationInput",
@@ -56,8 +55,7 @@ export default {
   },
   computed: {
     mdAndUp() {
-      const { mdAndUp } = useDisplay();
-      return mdAndUp;
+      return this.$vuetify.display.mdAndUp;
     },
     disabled() {
       return false;

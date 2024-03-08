@@ -107,7 +107,6 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
 import LogoutDialog from "@/components/LogoutDialog.vue";
 import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "TheAppBar",
@@ -137,7 +136,7 @@ export default {
       return svg;
     },
     mdAndUp() {
-      return useDisplay().mdAndUp;
+      return this.$vuetify.display.mdAndUp;
     },
     showLoggedOutButtons() {
       return !this.isLoggedIn && this.$route.name !== "loggingIn";

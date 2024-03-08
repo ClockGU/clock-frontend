@@ -11,15 +11,13 @@
 
 <script>
 import LoginForm from "@/components/LoginForm.vue";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "ViewLogin",
   components: { LoginForm },
   computed: {
     mdAndUp() {
-      const { mdAndUp } = useDisplay();
-      return mdAndUp.value;
+      return this.$vuetify.display.mdAndUp;
     }
   }
 };

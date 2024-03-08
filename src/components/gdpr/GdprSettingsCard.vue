@@ -28,7 +28,6 @@ import { log } from "@/utils/log";
 import { localizedFormat } from "@/utils/date";
 import { mapGetters } from "vuex";
 import GDPRService from "@/services/gdpr";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "GdprSettingsCard",
@@ -43,8 +42,7 @@ export default {
       user: "user"
     }),
     mdAndUp() {
-      const { mdAndUp } = useDisplay();
-      return mdAndUp;
+      return this.$vuetify.display.mdAndUp;
     },
     downloadLabel() {
       return this.response === null

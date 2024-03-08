@@ -12,15 +12,13 @@
 
 <script>
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "LanguageSettings",
   components: { LanguageSwitcher },
   computed: {
     mdAndUp() {
-      const { mdAndUp } = useDisplay();
-      return mdAndUp.value;
+      return this.$vuetify.display.mdAndUp;
     }
   }
 };

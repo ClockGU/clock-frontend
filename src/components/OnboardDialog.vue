@@ -196,7 +196,6 @@ import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "OnboardDialog",
@@ -247,8 +246,7 @@ export default {
       personnelNumber: "personnelNumber"
     }),
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     titles() {
       let returnValue = Object.values(this.$tm("onboarding.cards")).map(

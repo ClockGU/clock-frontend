@@ -16,7 +16,6 @@
 
 <script>
 import { UndrawFactory } from "@/factories/undrawFactory";
-import { useDisplay } from "vuetify";
 import { markRaw } from "vue";
 
 export default {
@@ -40,10 +39,10 @@ export default {
   }),
   computed: {
     mdAndUp() {
-      return useDisplay().mdAndUp.value;
+      return this.$vuetify.display.mdAndUp;
     },
     smAndDown() {
-      return useDisplay().smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     orderPlaceholder() {
       return this.rtl ? 2 : 1;

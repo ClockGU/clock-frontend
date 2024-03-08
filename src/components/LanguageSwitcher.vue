@@ -33,7 +33,6 @@ import { mdiChevronDown, mdiTranslate } from "@mdi/js";
 import ApiService from "@/services/api";
 import AuthService from "@/services/auth";
 import { log } from "@/utils/log";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "LanguageSwitcher",
@@ -47,7 +46,7 @@ export default {
   }),
   computed: {
     smAndUp() {
-      return useDisplay().smAndUp.value;
+      return this.$vuetify.display.smAndUp;
     },
     selectedLocale() {
       console.log(this.smAndUp);

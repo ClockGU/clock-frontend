@@ -60,7 +60,6 @@ import { mapGetters } from "vuex";
 import { formatISO } from "date-fns";
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput.vue";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput.vue";
-import { useDisplay } from "vuetify";
 
 export default {
   name: "ShiftFormDatetimeInput",
@@ -99,8 +98,7 @@ export default {
       selectedContract: "selectedContract/selectedContract"
     }),
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     contract() {
       if (this.contractId === "") return this.selectedContract;

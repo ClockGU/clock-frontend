@@ -57,12 +57,11 @@ export default {
       return heroJPG;
     },
     smAndDown() {
-      const { smAndDown } = useDisplay();
-      return smAndDown.value;
+      return this.$vuetify.display.smAndDown;
     },
     minHeight() {
-      const { mdAndUp } = useDisplay();
-      const height = mdAndUp.value ? "100vh" : "50vh";
+      const mdAndUp = this.$vuetify.display.mdAndUp;
+      const height = mdAndUp ? "100vh" : "50vh";
       const { mainRect } = useLayout();
       return `calc(${height} - ${mainRect}px)`;
     }
