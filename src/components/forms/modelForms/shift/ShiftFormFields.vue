@@ -169,7 +169,9 @@ export default {
       deep: true
     },
     scheduledShifts(value) {
-      this.$emit("scheduleShifts", value);
+      if (this.showRepeat) {
+        this.$emit("scheduleShifts", value);
+      }
     },
     showRepeat(value) {
       if (!value) {
