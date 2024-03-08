@@ -24,9 +24,10 @@
       :min="min"
       :max="max"
       :first-day-of-week="1"
-      @click:save="menu = false"
-      @click:cancel="menu = false"
-      @update:model-value="$emit('update:modelValue', $event)"
+      @update:model-value="
+        $emit('update:modelValue', $event);
+        menu = false;
+      "
     ></v-date-picker>
   </v-menu>
 </template>
