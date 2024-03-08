@@ -113,7 +113,7 @@ export default {
   },
   watch: {
     started(val) {
-      // this.date = val;
+      this.date = val;
       this.timeStart = val;
     },
     stopped(val) {

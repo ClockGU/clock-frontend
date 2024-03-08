@@ -197,6 +197,9 @@ export default {
         date.setHours(10, 0, 0);
       }
       this.shift.started = date;
+      const endDate = new Date(date);
+      endDate.setHours(10, 30);
+      this.shift.stopped = endDate;
     },
     resetScheduledShifts() {
       this.scheduledShifts = null;
