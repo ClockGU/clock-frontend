@@ -22,11 +22,11 @@
       </v-toolbar>
 
       <v-card-text>
-        <i18n path="shifts.repeating.dialog.text" tag="span">
+        <i18n-t path="shifts.repeating.dialog.text" tag="span">
           <template #numberOfShifts>
             <strong>{{ shifts.length }}</strong>
           </template>
-        </i18n>
+        </i18n-t>
       </v-card-text>
 
       <v-card-text>
