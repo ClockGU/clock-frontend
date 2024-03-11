@@ -52,7 +52,6 @@ export default {
   },
   emits: ["update:modelValue"],
   data() {
-    console.log(this.modelValue);
     return {
       icons: {
         mdiBriefcaseOutline

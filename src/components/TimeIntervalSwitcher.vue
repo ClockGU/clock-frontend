@@ -241,7 +241,6 @@ export default {
       return value;
     },
     inputDate(value) {
-      console.log(value);
       this.setDate(new Date(value));
     }
   }
