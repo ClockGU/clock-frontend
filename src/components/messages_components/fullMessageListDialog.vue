@@ -1,11 +1,7 @@
 <template>
-  <TheDialog
-    :persistent="false"
-    :fullscreen="$vuetify.breakpoint.smAndDown"
-    :max-width="800"
-  >
-    <template #activator="{ on }">
-      <v-btn text color="primary" block v-on="on">
+  <TheDialog :persistent="false" :fullscreen="smAndDown" :max-width="800">
+    <template #activator="{ props }">
+      <v-btn variant="text" color="primary" block v-bind="props">
         {{ $t("news.showAll") }}
       </v-btn>
     </template>
@@ -27,9 +23,9 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
-import MessageList from "@/components/messages_components/MessageList";
-import CardToolbar from "@/components/cards/CardToolbar";
+import TheDialog from "@/components/TheDialog.vue";
+import MessageList from "@/components/messages_components/MessageList.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
 export default {
   name: "FullMessageListDialog",
   components: { TheDialog, MessageList, CardToolbar },
@@ -37,6 +33,11 @@ export default {
     messages: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
     }
   }
 };

@@ -8,13 +8,9 @@
           :disabled="disabled || disableStart"
         />
       </v-col>
-
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" class="text-center" cols="2">
-        <div class="mt-4 flex">
-          {{ $t("contracts.to") }}
-        </div>
+      <v-col v-if="mdAndUp" cols="2" class="text-center">
+        {{ $t("contracts.to") }}
       </v-col>
-
       <v-col class="text-center" cols="5" md="5">
         <ContractFormDateInput
           v-model="end"
@@ -28,7 +24,7 @@
 </template>
 
 <script>
-import ContractFormDateInput from "@/components/contracts/ContractFormDateInput";
+import ContractFormDateInput from "@/components/contracts/ContractFormDateInput.vue";
 import { format } from "date-fns";
 import { lastOfCurrentMonth } from "@/utils/date";
 
@@ -50,6 +46,7 @@ export default {
       default: false
     }
   },
+  emits: ["update:start-date", "update:end-date"],
   data() {
     return {
       start: this.startDate,
@@ -57,6 +54,9 @@ export default {
     };
   },
   computed: {
+    mdAndUp() {
+      return this.$vuetify.display.mdAndUp;
+    },
     disabled() {
       return false;
     },
@@ -72,15 +72,10 @@ export default {
       this.end = val;
     },
     start() {
-      this.input();
+      this.$emit("update:start-date", this.start);
     },
     end() {
-      this.input();
-    }
-  },
-  methods: {
-    input() {
-      this.$emit("input", { startDate: this.start, endDate: this.end });
+      this.$emit("update:end-date", this.end);
     }
   }
 };

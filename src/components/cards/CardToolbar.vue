@@ -1,28 +1,22 @@
 <template>
-  <v-card-title flat>
-    <v-toolbar flat>
-      <v-toolbar-title>
-        {{ title }}
-      </v-toolbar-title>
+  <v-toolbar :color="color" flat>
+    <v-toolbar-title>
+      {{ title }}
+    </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
 
-      <LanguageSwitcher />
-      <v-btn v-if="logoutAction" text @click="logout">
-        {{ $t("actions.logout") }}
-      </v-btn>
-      <v-btn v-if="closeAction" icon @click="close">
-        <v-icon>
-          {{ icons.mdiClose }}
-        </v-icon>
-      </v-btn>
-    </v-toolbar>
-  </v-card-title>
+    <LanguageSwitcher />
+    <v-btn v-if="logoutAction" variant="text" @click="logout">
+      {{ $t("actions.logout") }}
+    </v-btn>
+    <v-btn v-if="closeAction" :icon="icons.mdiClose" @click="close"> </v-btn>
+  </v-toolbar>
 </template>
 
 <script>
 import { mdiClose } from "@mdi/js";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
   name: "CardToolbar",
@@ -41,8 +35,14 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    color: {
+      type: String,
+      required: false,
+      default: undefined
     }
   },
+  emits: ["close"],
   data() {
     return {
       icons: {
@@ -61,8 +61,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .theme--dark.v-toolbar.v-sheet {
   background-color: #1e1e1e;
+}
+:deep(.v-toolbar-title__placeholder) {
+  text-overflow: unset;
+  overflow: unset;
 }
 </style>

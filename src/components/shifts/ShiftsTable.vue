@@ -8,6 +8,8 @@
       :search="search"
       :loading="loading"
       item-key="id"
+      return-object
+      hover
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
@@ -36,7 +38,7 @@
         <v-chip
           v-if="isRunningShift(item)"
           class="ml-2"
-          outlined
+          variant="outlined"
           x-small
           dense
           color="red"
@@ -50,15 +52,15 @@
         <v-btn
           v-if="!item.wasReviewed"
           :elevation="!isRunningShift(item) ? 3 : 0"
-          icon
+          variant="flat"
           :disabled="isRunningShift(item)"
           @click="reviewSingleShift(item)"
         >
-          <v-icon color="red">
-            {{ icons.mdiClose }}
-          </v-icon>
+          <v-icon :icon="icons.mdiClose" color="red" />
         </v-btn>
-        <v-icon v-else color="green" class="pl-1">{{ icons.mdiCheck }}</v-icon>
+        <v-btn v-else flat variant="flat">
+          <v-icon :icon="icons.mdiCheck" color="green" />
+        </v-btn>
       </template>
 
       <!-- eslint-disable-next-line -->
@@ -77,8 +79,8 @@
           {{ tag }}
         </v-chip>
         <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
-          <template #activator="{ on }">
-            <v-chip small class="mx-1" v-on="on">...</v-chip>
+          <template #activator="{ props }">
+            <v-chip small class="mx-1" v-bind="props">...</v-chip>
           </template>
         </ShiftInfoDialog>
       </template>
@@ -86,8 +88,8 @@
       <!-- eslint-disable-next-line -->
       <template #item.note="{ item }">
         <ShiftInfoDialog :item="item">
-          <template #activator="{ on }">
-            <span on v-on="on">
+          <template #activator="{ props }">
+            <span v-bind="props">
               {{ noteDisplay(item.note) }}
             </span>
           </template>
@@ -141,7 +143,7 @@
 <script>
 //import ConfirmationDialog from "@/components/ConfirmationDialog";
 //import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
-import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog";
+import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog.vue";
 
 import { isWithinInterval, isBefore, getHours } from "date-fns";
 
@@ -164,7 +166,7 @@ import { log } from "@/utils/log";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 export default {
   name: "ShiftsTable",
@@ -189,6 +191,7 @@ export default {
     },
     pastShifts: { type: Boolean, default: false }
   },
+  emits: ["refresh"],
   data: () => ({
     icons: {
       mdiCheck,
@@ -214,7 +217,9 @@ export default {
       );
       if (tagsAndNotes === 0) {
         return this.headers.filter((item) => item.value !== "tagsNotes");
-      } else return this.headers;
+      }
+
+      return this.headers;
     }
   },
   methods: {
@@ -238,7 +243,7 @@ export default {
       items.sort((a, b) => {
         switch (sortBy[0]) {
           case "date":
-            return isBefore(b.stated, a.started) ? -desc : desc;
+            return isBefore(b.started, a.started) ? -desc : desc;
           case "start":
             return isBefore(getHours(b.started), getHours(a.started))
               ? -desc
@@ -286,15 +291,13 @@ export default {
       }
     },
     async reviewSingleShift(shift) {
-      const promises = [];
       try {
-        shift.wasReviewed = true;
         const payload = shift.toPayload();
-        promises.push(ShiftService.update(payload, payload.id));
-
-        await Promise.all(promises);
-
-        this.$emit("refresh");
+        payload.was_reviewed = true;
+        await this.$store.dispatch("contentData/updateShift", {
+          payload,
+          initialContract: payload.contract
+        });
       } catch (error) {
         // TODO: Set error state for component & allow user to reload page
         // We usually should end up here, if we are already logging out.

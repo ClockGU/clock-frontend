@@ -15,13 +15,13 @@
               flat
               focusable
             >
-              <v-expansion-panel v-model="panel">
-                <v-expansion-panel-header class="text-h6 font-weight-regular">
+              <v-expansion-panel v-model="panel" elevation="0">
+                <v-expansion-panel-title class="text-h6 font-weight-regular">
                   {{ $t("contracts.activeContracts") }} ({{
                     activeContracts.length
                   }})
-                </v-expansion-panel-header>
-                <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                </v-expansion-panel-title>
+                <v-expansion-panel-text v-if="!loading || ignoreLoading">
                   <v-container>
                     <v-row>
                       <v-col
@@ -40,7 +40,7 @@
                         />
                       </v-col> </v-row
                   ></v-container>
-                </v-expansion-panel-content> </v-expansion-panel
+                </v-expansion-panel-text> </v-expansion-panel
             ></v-expansion-panels>
 
             <v-expansion-panels
@@ -49,10 +49,10 @@
               focusable
             >
               <v-expansion-panel>
-                <v-expansion-panel-header class="text-h6 font-weight-regular">
+                <v-expansion-panel-title class="text-h6 font-weight-regular">
                   {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
-                </v-expansion-panel-header>
-                <v-expansion-panel-content v-if="!loading || ignoreLoading">
+                </v-expansion-panel-title>
+                <v-expansion-panel-text v-if="!loading || ignoreLoading">
                   <v-container>
                     <v-row>
                       <v-col
@@ -73,8 +73,9 @@
                         />
                       </v-col> </v-row
                   ></v-container>
-                </v-expansion-panel-content> </v-expansion-panel
-            ></v-expansion-panels>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-col>
 
           <placeholder
@@ -91,7 +92,7 @@
 </template>
 
 <script>
-import ContractListCard from "@/components/contracts/ContractListCard";
+import ContractListCard from "@/components/contracts/ContractListCard.vue";
 import { endOfDay, isPast } from "date-fns";
 
 import { Contract } from "@/models/ContractModel";
@@ -101,7 +102,7 @@ import { mdiPlus } from "@mdi/js";
 
 import { mapGetters } from "vuex";
 import { log } from "@/utils/log";
-import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 
 export default {
   name: "ViewContractList",
@@ -137,6 +138,9 @@ export default {
       contracts: "contentData/allContracts",
       clockedShift: "clock/clockedShift"
     }),
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     activeContracts() {
       return this.contracts.filter(
         (contract) => !this.contractExpired(contract)
@@ -188,7 +192,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.v-expansion-panel-content__wrap >>> {
+:deep(.v-expansion-panel-content__wrap) {
   padding-left: 12px;
 }
 .no-margin {

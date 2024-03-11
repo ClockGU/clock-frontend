@@ -1,42 +1,40 @@
 <template>
   <v-combobox
     v-model="model"
+    v-model:search="search"
     data-cy="tags"
     :items="usedTags"
-    :search-input.sync="search"
     :hide-no-data="!search"
     hide-selected
     :label="$t('shifts.tags.label')"
     chips
     multiple
-    filled
+    variant="filled"
     clearable
     :prepend-icon="icons.mdiTagOutline"
-    @input="$emit('input', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
     @change="search = null"
   >
     <template #no-data>
       <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>
-            <i18n path="shifts.tags.createHint" tag="span">
-              <template #search>
-                <strong>{{ search }}</strong>
-              </template>
-              <template #enter>
-                <kbd>{{ $t("app.enterKey") }}</kbd>
-              </template>
-            </i18n>
-          </v-list-item-title>
-        </v-list-item-content>
+        <v-list-item-title>
+          <i18n-t keypath="shifts.tags.createHint" scope="global" tag="span">
+            <template #search>
+              <strong>{{ search }}</strong>
+            </template>
+            <template #enter>
+              <kbd>{{ $t("app.enterKey") }}</kbd>
+            </template>
+          </i18n-t>
+        </v-list-item-title>
       </v-list-item>
     </template>
     <template #selection="{ attrs, item, selected }">
       <v-chip
         class="mt-2 ml-0"
         v-bind="attrs"
-        :input-value="selected"
-        close
+        :model-value="selected"
+        closable
         @click:close="remove(item)"
       >
         <strong>{{ item }}</strong>
@@ -51,11 +49,12 @@ import { mdiTagOutline } from "@mdi/js";
 export default {
   name: "ShiftFormTags",
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => []
     }
   },
+  emits: ["update:modelValue"],
   data: () => ({
     icons: { mdiTagOutline },
     model: [],
@@ -69,12 +68,12 @@ export default {
     }
   },
   created() {
-    this.model = this.value;
+    this.model = this.modelValue;
   },
   methods: {
     remove(item) {
       this.model = this.model.filter((chip) => chip !== item);
-      this.$emit("input", this.model);
+      this.$emit("update:modelValue", this.model);
     }
   }
 };

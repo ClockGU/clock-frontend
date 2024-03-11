@@ -2,8 +2,8 @@
   <section id="hero">
     <v-img
       :min-height="minHeight"
-      :src="require('@/assets/home-hero.jpg')"
-      class="white--text"
+      :src="img"
+      class="text-white"
       gradient="to right, rgba(5, 11, 31, .3), rgba(5, 11, 31, .3)"
     >
       <v-container class="fill-height px-4 py-12">
@@ -22,11 +22,7 @@
           </p>
 
           <div
-            :class="
-              $vuetify.breakpoint.smAndDown
-                ? 'flex-column align-start'
-                : 'align-center'
-            "
+            :class="smAndDown ? 'flex-column align-start' : 'align-center'"
             class="d-flex flex-wrap"
           >
             <ButtonGoetheOAuth>
@@ -42,7 +38,9 @@
 <script>
 import { log } from "@/utils/log";
 import OAuth2Service from "@/services/oauth2";
-import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
+import { useDisplay, useLayout } from "vuetify";
+import heroJPG from "@/assets/home-hero.jpg";
 
 export default {
   name: "SectionHero",
@@ -55,10 +53,17 @@ export default {
   }),
 
   computed: {
+    img() {
+      return heroJPG;
+    },
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     minHeight() {
-      const height = this.$vuetify.breakpoint.mdAndUp ? "100vh" : "50vh";
-
-      return `calc(${height} - ${this.$vuetify.application.top}px)`;
+      const mdAndUp = this.$vuetify.display.mdAndUp;
+      const height = mdAndUp ? "100vh" : "50vh";
+      const { mainRect } = useLayout();
+      return `calc(${height} - ${mainRect}px)`;
     }
   },
   methods: {

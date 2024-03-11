@@ -33,9 +33,9 @@
 
 <script>
 import { Contract } from "@/models/ContractModel";
-import CardToolbar from "@/components/cards/CardToolbar";
-import FormActions from "@/components/cards/FormActions";
-import ContractFormFields from "@/components/forms/modelForms/contract/ContractFormFields";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
+import FormActions from "@/components/cards/FormActions.vue";
+import ContractFormFields from "@/components/forms/modelForms/contract/ContractFormFields.vue";
 import { ContractService, ReportService } from "@/services/models";
 import { useVuelidate } from "@vuelidate/core";
 import ContractValidationMixin from "@/mixins/ContractValidationMixin";

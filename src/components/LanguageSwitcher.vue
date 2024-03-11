@@ -1,28 +1,22 @@
 <template>
   <v-menu
-    bottom
-    left
+    location="bottom left"
     offset-y
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
   >
-    <template #activator="{ attrs, on }">
-      <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">
-        <v-icon :left="$vuetify.breakpoint.smAndUp">
-          {{ icons.mdiTranslate }}
-        </v-icon>
-
+    <template #activator="{ props }">
+      <v-btn class="text-capitalize" variant="text" v-bind="props">
+        <v-icon :start="smAndUp" :icon="icons.mdiTranslate" />
         <span
           class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
           v-text="selectedLocale"
         />
-        <v-icon class="hidden-sm-and-down" right>
-          {{ icons.mdiChevronDown }}
-        </v-icon>
+        <v-icon class="hidden-sm-and-down" :icon="icons.mdiChevronDown" end />
       </v-btn>
     </template>
 
-    <v-list dense nav>
+    <v-list density="compact" nav>
       <v-list-item
         v-for="item in locales"
         :key="item.locale"
@@ -51,7 +45,11 @@ export default {
     ]
   }),
   computed: {
+    smAndUp() {
+      return this.$vuetify.display.smAndUp;
+    },
     selectedLocale() {
+      console.log(this.smAndUp);
       const match = this.locales.find(
         (locale) => locale.locale === this.$i18n.locale
       );
@@ -64,7 +62,7 @@ export default {
 
       this.$i18n.locale = locale;
       // Update Vuetify settings
-      this.$vuetify.lang.current = locale;
+      this.$vuetify.locale.current = locale;
 
       // Update locale for API requests
       await ApiService.setHeader("Accept-Language", locale);

@@ -9,16 +9,15 @@
       :bottom="bottom"
       transition="slide-y-transition"
     >
-      <template #activator="{ on, attrs }">
-        <slot name="activator" :on="on" v-bind="attrs"></slot>
+      <template #activator="props">
+        <slot name="activator" v-bind="props"></slot>
         <v-sheet
           v-if="!disableActivator"
-          class="py-2 red darken-5 rounded-t"
+          class="py-2 bg-red darken-5 rounded-t"
           dark
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props['props']"
         >
-          <v-icon v-if="$vuetify.breakpoint.smAndDown" class="mx-2">
+          <v-icon v-if="smAndDown" class="mx-2">
             {{ icons.mdiExclamation }}
           </v-icon>
           <span v-else class="px-4">Ombudsperson</span>
@@ -31,7 +30,7 @@
 </template>
 
 <script>
-import OmbudsForm from "@/components/OmbudsForm";
+import OmbudsForm from "@/components/OmbudsForm.vue";
 import { mdiExclamation } from "@mdi/js";
 
 export default {
@@ -58,7 +57,12 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiExclamation }
-  })
+  }),
+  computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    }
+  }
 };
 </script>
 

@@ -1,20 +1,19 @@
 <template>
   <v-card :elevation="0">
-    <v-alert type="success" outlined class="ma-4">{{
+    <v-alert type="success" variant="outlined" class="ma-4">{{
       $t("gdpr.accepted")
     }}</v-alert>
 
     <v-card-text>{{ $t("gdpr.revokeInfo") }}</v-card-text>
 
-    <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
+    <v-card-text :class="mdAndUp ? 'py-0' : ''">
       {{ $t("gdpr.download") }}
     </v-card-text>
 
     <v-card-actions>
       <v-btn
         :loading="loading"
-        :outlined="loading"
-        text
+        :variant="loading ? 'outlined' : 'text'"
         color="primary"
         @click="action"
       >
@@ -42,6 +41,9 @@ export default {
     ...mapGetters({
       user: "user"
     }),
+    mdAndUp() {
+      return this.$vuetify.display.mdAndUp;
+    },
     downloadLabel() {
       return this.response === null
         ? this.$t("actions.request")

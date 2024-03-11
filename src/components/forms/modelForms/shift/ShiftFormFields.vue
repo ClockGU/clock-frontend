@@ -1,24 +1,24 @@
+.vue
 <template>
   <v-card-text class="pb-0">
     <ShiftFormDatetimeInput
-      :started="shift.started"
-      :stopped="shift.stopped"
+      v-model:started="shift.started"
+      v-model:stopped="shift.stopped"
       :contract-id="shift.contract"
       :errors="timeErrors"
-      @input="handleTimeInput($event)"
     />
     <v-row align="center" justify="start">
       <v-col cols="12" class="ma-0">
         <v-expand-transition hide-on-leave>
           <ClockCardAlert
-            v-if="alertMessages.length > 0"
+            v-show="alertMessages.length > 0"
             class="mt-2"
             :messages="alertMessages"
             :type="alertType"
           ></ClockCardAlert>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
-          <div v-if="alertMessages.length > 0" class="mt-2">
+          <div v-show="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.faqText") }}
             <br />
             <router-link to="/faq">{{
@@ -27,7 +27,7 @@
           </div>
         </v-expand-transition>
         <v-expand-transition hide-on-leave>
-          <div v-if="alertMessages.length > 0" class="mt-2">
+          <div v-show="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.ombudsText") }}
             <OmbudsMenu
               disable-activator
@@ -35,8 +35,8 @@
               offset-y
               bottom
             >
-              <template #activator="{ on, attrs }">
-                <a v-bind="attrs" v-on="on">
+              <template #activator="{ props }">
+                <a v-bind="props">
                   {{ $t("shifts.hints.ombudsLinkText") }}
                 </a>
               </template>
@@ -51,12 +51,11 @@
           :prepend-icon="icons.mdiRepeat"
           :disabled="!isInFuture"
           :messages="$t('shifts.repeating.checkboxText')"
-          class="ma-0"
         ></v-checkbox>
 
         <v-expand-transition hide-on-leave>
           <ShiftFormRepeat
-            v-if="showRepeat"
+            v-show="showRepeat"
             v-model="scheduledShifts"
             :shift="shift"
           />
@@ -66,9 +65,9 @@
       <v-col cols="12">
         <ShiftFormTags v-model="shift.tags" />
         <ShiftFormNote v-model="shift.note" />
-        <v-subheader class="pl-8">
+        <v-list-subheader class="pl-8">
           {{ $t("shifts.types.label") }}
-        </v-subheader>
+        </v-list-subheader>
         <ShiftFormType v-model="shift.type" />
       </v-col>
       <v-col cols="12">
@@ -78,7 +77,7 @@
         <ShiftFormSelectContract
           v-model="shift.contract"
           :validation-date="shift.started"
-          @input="setValidDate"
+          @update:model-value="setValidDate"
         />
         <ShiftFormReview :value="shift.wasReviewed"></ShiftFormReview>
       </v-col>
@@ -88,18 +87,18 @@
 
 <script>
 import { Shift } from "@/models/ShiftModel";
-import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat";
-import ShiftFormNote from "@/components/shifts/ShiftFormNote";
-import ShiftFormTags from "@/components/shifts/ShiftFormTags";
-import ShiftFormType from "@/components/shifts/ShiftFormType";
-import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract";
-import { isAfter, isBefore, isFuture, isPast, startOfDay } from "date-fns";
-import { mdiRepeat } from "@mdi/js";
-import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput";
-import ClockCardAlert from "@/components/ClockCardAlert";
-import OmbudsMenu from "@/components/OmbudsMenu.vue";
-import ShiftFormReview from "@/components/shifts/ShiftFormReview";
 
+import ShiftFormRepeat from "@/components/shifts/ShiftFormRepeat.vue";
+import ShiftFormNote from "@/components/shifts/ShiftFormNote.vue";
+import ShiftFormTags from "@/components/shifts/ShiftFormTags.vue";
+import ShiftFormType from "@/components/shifts/ShiftFormType.vue";
+import ShiftFormSelectContract from "@/components/shifts/ShiftFormSelectContract.vue";
+import { isBefore, isPast, isAfter, startOfDay, isFuture } from "date-fns";
+import { mdiRepeat } from "@mdi/js";
+import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput.vue";
+import ClockCardAlert from "@/components/ClockCardAlert.vue";
+import OmbudsMenu from "@/components/OmbudsMenu.vue";
+import ShiftFormReview from "@/components/shifts/ShiftFormReview.vue";
 export default {
   name: "ShiftFormFields",
   components: {
@@ -114,7 +113,7 @@ export default {
     OmbudsMenu
   },
   props: {
-    value: {
+    modelValue: {
       type: Shift,
       required: true
     },
@@ -131,9 +130,10 @@ export default {
       default: "alert"
     }
   },
+  emits: ["update:modelValue", "scheduleShifts", "update:modelValue"],
   data() {
     return {
-      shift: this.value,
+      shift: this.modelValue,
       showRepeat: false,
       icons: {
         mdiRepeat
@@ -158,14 +158,20 @@ export default {
     }
   },
   watch: {
-    value(value) {
+    modelValue(value) {
       this.shift = value;
     },
-    shift(value) {
-      this.$emit("input", value);
+    shift: {
+      handler(value) {
+        value.wasReviewed = !this.isInFuture;
+        this.$emit("update:modelValue", value);
+      },
+      deep: true
     },
     scheduledShifts(value) {
-      this.$emit("scheduleShifts", value);
+      if (this.showRepeat) {
+        this.$emit("scheduleShifts", value);
+      }
     },
     showRepeat(value) {
       if (!value) {
@@ -174,19 +180,9 @@ export default {
     }
   },
   created() {
-    this.setWasReviewed();
+    this.shift.wasReviewed = !this.isInFuture;
   },
   methods: {
-    setTime(event) {
-      this.shift.started = event.started;
-      this.shift.stopped = event.stopped;
-      this.setWasReviewed();
-    },
-    setWasReviewed() {
-      // All shifts which have stopped before now are counted as reviewed true
-      // We set that automatically
-      this.shift.wasReviewed = !this.isInFuture;
-    },
     setValidDate() {
       // If a user changes the coontract of a shift we want to
       // set the start date to the first valid date possible in the newly
@@ -203,15 +199,12 @@ export default {
         date.setHours(10, 0, 0);
       }
       this.shift.started = date;
+      const endDate = new Date(date);
+      endDate.setHours(10, 30);
+      this.shift.stopped = endDate;
     },
     resetScheduledShifts() {
       this.scheduledShifts = null;
-    },
-    handleTimeInput(event) {
-      this.setTime(event);
-      if (isPast(startOfDay(this.shift.started)) && this.showRepeat) {
-        this.showRepeat = false;
-      }
     }
   }
 };

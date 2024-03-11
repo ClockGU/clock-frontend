@@ -1,21 +1,29 @@
 <template>
-  <v-toolbar class="mt-12 pt-4" max-height="10px" flat tag="nav">
-    <v-tabs centered optional>
-      <v-tab
-        v-for="item in links"
-        :key="item.text"
-        :to="item.to"
-        :ripple="false"
-      >
-        <v-icon left>{{ item.icon }}</v-icon>
-        {{ item.text }}
-      </v-tab>
-    </v-tabs>
+  <v-toolbar
+    class="mt-12 pt-4"
+    max-height="10px"
+    flat
+    tag="nav"
+    :color="$vuetify.theme.current.colors.background"
+  >
+    <v-row justify="center">
+      <v-tabs>
+        <v-tab
+          v-for="(item, i) in links"
+          :key="item.text"
+          :value="i"
+          :to="item.to"
+          :ripple="false"
+        >
+          <v-icon start :icon="item.icon"> </v-icon>
+          {{ item.text }}
+        </v-tab>
+      </v-tabs>
+    </v-row>
   </v-toolbar>
 </template>
 
 <script>
-import { getRouterProps } from "@/utils/date";
 import {
   mdiCalendar,
   mdiHome,
@@ -40,10 +48,7 @@ export default {
         {
           text: this.$t("app.calendar"),
           to: {
-            name: "calendar",
-            params: {
-              ...getRouterProps("month", new Date())
-            }
+            name: "calendar"
           },
           icon: mdiCalendar,
           loggedOut: false

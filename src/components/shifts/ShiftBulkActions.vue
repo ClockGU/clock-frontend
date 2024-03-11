@@ -2,37 +2,29 @@
   <v-expand-transition appear>
     <v-card elevation="0">
       <v-card-actions>
-        <!--v-btn
-          :disabled="shiftsLength != 1"
-          icon
-          @click="$emit('edit', shifts[0].shift)"
-        >
-          <v-icon>{{ icons.mdiPencil }}</v-icon>
-        </v-btn-->
-
         <ShiftBulkActionsDialogReview
           v-if="canReview"
           :shifts="shifts"
           @reset="resetFn()"
         >
-          <template #activator="{ on }">
-            <v-btn :disabled="!reviewable" icon v-on="on">
-              <v-icon
-                >{{ shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck }}
-              </v-icon>
-            </v-btn>
+          <template #activator="{ props }">
+            <v-btn
+              :disabled="!reviewable"
+              variant="flat"
+              :icon="shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck"
+              v-bind="props"
+            />
           </template>
         </ShiftBulkActionsDialogReview>
 
         <ShiftAssignContractDialog :shifts="shifts" @save="updateFn">
-          <template #activator="{ on }">
+          <template #activator="{ props }">
             <v-btn
               :disabled="!moreThanOneContract || shiftsLength < 1"
-              icon
-              v-on="on"
-            >
-              <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
-            </v-btn>
+              variant="flat"
+              v-bind="props"
+              :icon="icons.mdiSwapHorizontal"
+            />
           </template>
         </ShiftAssignContractDialog>
 
@@ -40,10 +32,13 @@
           :count="shiftsLength"
           @destroy="destroyFn"
         >
-          <template #activator="{ on }">
-            <v-btn :disabled="shiftsLength < 1" icon v-on="on">
-              <v-icon>{{ icons.mdiDelete }}</v-icon>
-            </v-btn>
+          <template #activator="{ props }">
+            <v-btn
+              :disabled="shiftsLength < 1"
+              variant="flat"
+              :icon="icons.mdiDelete"
+              v-bind="props"
+            />
           </template>
         </ShiftBulkActionsDialogDelete>
         {{ durationSum }}
@@ -53,9 +48,9 @@
 </template>
 
 <script>
-import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
-import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete";
-import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview";
+import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog.vue";
+import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete.vue";
+import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview.vue";
 import { minutesToHHMM } from "@/utils/time";
 import {
   mdiCheck,
@@ -92,6 +87,7 @@ export default {
       default: () => {}
     }
   },
+  emits: ["destroy", "update"],
   data: () => ({
     icons: { mdiCheck, mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
   }),

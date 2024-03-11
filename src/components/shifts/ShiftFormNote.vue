@@ -1,10 +1,10 @@
 <template>
   <v-textarea
-    :value="value"
+    :model-value="modelValue"
     :label="$t('shifts.note.label')"
-    filled
+    variant="filled"
     :prepend-icon="icons.mdiNoteOutline"
-    @input="update($event)"
+    @update:model-value="update($event)"
   />
 </template>
 
@@ -14,11 +14,12 @@ import { mdiNoteOutline } from "@mdi/js";
 export default {
   name: "ShiftFormInput",
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: ""
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
       icons: { mdiNoteOutline }
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     update(event) {
-      this.$emit("input", event);
+      this.$emit("update:modelValue", event);
     }
   }
 };

@@ -5,21 +5,19 @@
       :items="choices"
       :prepend-icon="icons.mdiFileDocumentEditOutline"
       :label="$t('shifts.changeContract')"
-      item-text="name"
+      item-title="name"
       item-value="id"
       return-object
       filled
       :error-messages="mappedErrors"
     >
-      <template #selection="contractSelection">
-        {{
-          contractSelection.item.name + contractStatus(contractSelection.item)
-        }}
+      <template #selection="{ item }">
+        {{ item.title + contractStatus(item.raw) }}
       </template>
-      <template #item="contractSelection">
-        {{
-          contractSelection.item.name + contractStatus(contractSelection.item)
-        }}
+      <template #item="{ item, props }">
+        <v-list-item v-bind="modifyProps(props)">
+          {{ item.title + contractStatus(item.raw) }}
+        </v-list-item>
       </template>
     </v-select>
   </div>
@@ -45,7 +43,7 @@ export default {
   name: "ShiftFormSelectContract",
   mixins: [contractValidMixin],
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -55,6 +53,7 @@ export default {
       default: () => new Date()
     }
   },
+  emits: ["update:modelValue"],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -71,7 +70,7 @@ export default {
     return {
       contract: {
         notContractExpired: helpers.withMessage(
-          this.$t("contracts.isExpired"),
+          this.$t("contracts.expired"),
           notContractExpired(this.dateToValidate)
         )
       }
@@ -87,27 +86,27 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       if (val === "") {
         this.contract = this.selectedContract;
       } else {
         this.contract = this.$store.getters["contentData/contractById"](val);
       }
       if (this.contract.id === this.selectedContract.id) {
-        this.$emit("input", this.contract.id);
+        this.$emit("update:modelValue", this.contract.id);
       }
     },
     validationDate(val) {
       this.dateToValidate = val;
     },
     contract(val) {
-      this.$emit("input", val.id);
+      this.$emit("update:modelValue", val.id);
     }
   },
   created() {
-    if (this.value !== "") {
+    if (this.modelValue !== "") {
       this.contract = this.$store.getters["contentData/contractById"](
-        this.value
+        this.modelValue
       );
     } else {
       this.contract = this.$store.getters["selectedContract/selectedContract"];
@@ -120,6 +119,10 @@ export default {
       if (this.specificContractExpired(contract))
         return " " + this.$t("contracts.expired");
       else return "";
+    },
+    modifyProps(props) {
+      delete props.title;
+      return props;
     }
   }
 };

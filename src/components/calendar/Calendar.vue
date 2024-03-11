@@ -13,85 +13,85 @@
             v-model="displayedContracts"
             :label="$t('contracts.displayedContracts') + ':'"
             :items="allContracts"
-            item-text="name"
+            item-title="name"
             multiple
           >
-            <template #item="{ item }">
-              {{ item.name }}
-              <v-spacer />
-              <v-icon :color="item.color" style="float: right">{{
-                mdiCircleSlice8()
-              }}</v-icon>
+            <template #item="{ item, props }">
+              <v-list-item v-bind="modifyProps(props)">
+                {{ item.title }}
+                <v-icon
+                  :color="item.raw.color"
+                  :icon="mdiCircleSlice8()"
+                  style="float: right"
+                ></v-icon>
+              </v-list-item>
             </template>
           </v-combobox>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="4">
-          <TodayButton @update="selectedDate = $event" />
-        </v-col>
-        <v-col class="text-center" cols="4">
-          <TimeIntervalSwitcher
-            v-model="selectedDate"
-            :disabled="disabled"
-            :type="type"
-            is-calendar
-          />
-        </v-col>
-        <v-col class="text-end" cols="4" order-sm="3">
-          <CalendarTypeSelect v-model="type" />
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="12">
-          <v-sheet height="600px">
-            <v-calendar
-              ref="calendar"
-              v-model="focus"
-              color="primary lighten-1"
-              event-name="duration"
-              :events="events"
-              :event-margin-bottom="3"
-              :locale="locale"
-              :now="today"
-              :type="type"
-              :weekdays="weekdays"
-              :interval-format="intervalFormat"
-              @click:event="editEvent"
-              @click:more="viewDay"
-              @click:date="viewDay"
-              @change="updateRange"
-            >
-              <template #day-label="{ day, date }">
-                <button
-                  type="button"
-                  class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
-                  @click="viewDay({ date: date })"
-                >
-                  <span class="v-btn__content">{{ day }}</span>
-                </button>
-                <v-icon
-                  v-if="isBankHoliday(date)"
-                  :color="bhIconColor"
-                  style="align-self: center"
-                  >{{ icons.bhIcon }}</v-icon
-                >
-              </template>
-              <template #event="{ event, eventParsed, formatTime }">
-                <div class="pl-1">
-                  <div class="v-event-summary">
-                    <span>
-                      <strong>{{ formatTime(eventParsed.start) }} </strong>
-                      {{ event.duration }}</span
-                    >
-                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>
-                      {{ event.icon }}
-                    </v-icon>
-                  </div>
-                </div>
-              </template>
-            </v-calendar>
-          </v-sheet>
+          <VCalendar
+            v-model="focus"
+            :events="events"
+            :now="today"
+            :view-mode="type"
+            @click:event="editEvent"
+          >
+            <template #header>
+              <div class="v-calendar-header">
+                <v-col cols="4">
+                  <TodayButton v-model="selectedDate" />
+                </v-col>
+                <v-col class="text-center" cols="4">
+                  <TimeIntervalSwitcher
+                    v-model="selectedDate"
+                    :disabled="disabled"
+                    :type="type"
+                    is-calendar
+                  />
+                </v-col>
+                <v-col class="text-end" cols="4" order-sm="3">
+                  <CalendarTypeSelect v-model="type" />
+                </v-col>
+              </div>
+            </template>
+            <!--              :interval-format="intervalFormat"-->
+            <!--              @click:event="editEvent"-->
+            <!--              @click:more="viewDay"-->
+            <!--              @click:date="viewDay"-->
+            <!--              @prev="updateRange"-->
+            <!--              @next="updateRange"-->
+            <!--            >-->
+            <!--              <template #day-label="{ day, date }">-->
+            <!--                <button-->
+            <!--                  type="button"-->
+            <!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
+            <!--                  @click="viewDay({ date: date })"-->
+            <!--                >-->
+            <!--                  <span class="v-btn__content">{{ day }}</span>-->
+            <!--                </button>-->
+            <!--                <v-icon-->
+            <!--                  v-if="isBankHoliday(date)"-->
+            <!--                  :color="bhIconColor"-->
+            <!--                  style="align-self: center"-->
+            <!--                  >{{ icons.bhIcon }}</v-icon-->
+            <!--                >-->
+            <!--              </template>-->
+            <!--              <template #event="{ event, eventParsed, formatTime }">-->
+            <!--                <div class="pl-1">-->
+            <!--                  <div class="v-event-summary">-->
+            <!--                    <span>-->
+            <!--                      <strong>{{ formatTime(eventParsed.start) }} </strong>-->
+            <!--                      {{ event.duration }}</span-->
+            <!--                    >-->
+            <!--                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>-->
+            <!--                      {{ event.icon }}-->
+            <!--                    </v-icon>-->
+            <!--                  </div>-->
+            <!--                </div>-->
+            <!--              </template>-->
+          </VCalendar>
         </v-col>
       </v-row>
     </v-container>
@@ -105,25 +105,28 @@
 </template>
 
 <script>
-import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect";
+import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mdiCircleSlice8, mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
 import { isSameMonth, isSameWeek } from "date-fns";
-import TodayButton from "@/components/calendar/TodayButton";
+import TodayButton from "@/components/calendar/TodayButton.vue";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { VCalendar } from "vuetify/labs/VCalendar";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Calendar",
   components: {
     TimeIntervalSwitcher,
     TodayButton,
     ShiftFormDialog,
-    CalendarTypeSelect
+    CalendarTypeSelect,
+    VCalendar
   },
   props: {
     disabled: {
@@ -131,21 +134,22 @@ export default {
       default: false
     },
     initialFocus: {
-      type: String,
-      default: () => localizedFormat(new Date(), "yyyy-MM-dd")
+      type: Date,
+      default: () => new Date()
     },
     initialType: {
       type: String,
       default: "month"
     }
   },
+  emits: ["updateRange"],
   data: () => ({
     icons: {
       mdiClose: mdiClose,
       mdiPlus,
       bhIcon: SHIFT_TYPE_ICONS.bh
     },
-    today: localizedFormat(new Date(), "yyyy-MM-dd"),
+    today: new Date(),
     focus: null,
     type: "month",
     start: null,
@@ -176,14 +180,13 @@ export default {
     //   return this.selectedShifts;
     // },
     shiftInitialDate() {
-      const focusMonth = new Date(this.focus);
       if (
-        (this.type === "month" && isSameMonth(focusMonth, new Date())) ||
-        (this.type === "week" && isSameWeek(focusMonth, new Date()))
+        (this.type === "month" && isSameMonth(this.focus[0], new Date())) ||
+        (this.type === "week" && isSameWeek(this.focus[0], new Date()))
       ) {
         return new Date();
       }
-      return new Date(this.focus);
+      return this.focus[0];
     },
     events() {
       let events = [];
@@ -196,14 +199,13 @@ export default {
           contractShifts.map((shift) => {
             const duration =
               this.type === "month"
-                ? "| " + shift.representationalDuration()
+                ? " | " + shift.representationalDuration()
                 : shift.representationalDuration();
-
             return {
-              start: localizedFormat(shift.started, "yyyy-MM-dd HH:mm"),
-              end: localizedFormat(shift.stopped, "yyyy-MM-dd HH:mm"),
+              start: shift.started,
+              end: shift.stopped,
               color: contract.color,
-              duration: duration,
+              title: localizedFormat(shift.started, "HH:mm") + duration,
               selectedEventDuration: shift.representationalDuration(),
               id: shift.id,
               shift: shift,
@@ -217,16 +219,15 @@ export default {
   },
   watch: {
     selectedDate(val) {
-      this.focus = localizedFormat(val, "yyyy-MM-dd");
+      this.focus = [val];
     }
   },
   created() {
-    this.focus = this.initialFocus;
-    this.selectedDate = new Date(this.focus);
+    this.focus = [this.initialFocus];
+    this.selectedDate = this.focus[0];
     this.type = this.initialType;
   },
   async mounted() {
-    this.$refs.calendar.checkChange();
     this.displayedContracts = this.allContracts;
   },
   methods: {
@@ -237,6 +238,10 @@ export default {
       this.shift = data.event.shift;
       this.editShift = true;
     },
+    modifyProps(props) {
+      delete props.title;
+      return props;
+    },
     intervalFormat(interval) {
       return interval.time;
     },
@@ -245,15 +250,16 @@ export default {
       this.focus = date;
       this.type = "day";
     },
-    updateRange({ start, end }) {
-      this.start = start;
-      this.end = end;
-
-      const [year, month, day] = this.focus.split("-");
+    updateRange(obj) {
+      const focus = this.focus[0];
       // Tell parent component the range updated
       this.$emit("updateRange", {
         type: this.type,
-        start: { day, month, year }
+        start: {
+          day: focus.getDate(),
+          month: focus.getMonth(),
+          year: focus.getYear()
+        }
       });
     },
     isBankHoliday(date) {

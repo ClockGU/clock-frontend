@@ -2,25 +2,22 @@
   <v-container>
     <v-row
       class="mx-0"
-      :align="$vuetify.breakpoint.mdAndUp ? 'center' : null"
-      :justify="$vuetify.breakpoint.mdAndUp ? 'center' : null"
+      :align="mdAndUp ? 'center' : null"
+      :justify="mdAndUp ? 'center' : null"
     >
       <v-col cols="12" md="8" :class="colClasses" class="px-0">
         <v-card :elevation="cardElevation">
           <slot name="card-top"></slot>
 
           <portal
-            :to="
-              $vuetify.breakpoint.smAndDown
-                ? 'app-bar'
-                : alternativePortalTarget
-            "
+            v-slot="{ action }"
+            :to="smAndDown ? 'app-bar' : alternativePortalTarget"
           >
-            <v-toolbar slot-scope="{ action }" :elevation="toolbarElevation">
+            <v-toolbar :elevation="toolbarElevation">
               <slot name="pre-toolbar-title" :action="() => action()">
                 <v-app-bar-nav-icon
-                  v-if="$vuetify.breakpoint.smAndDown"
-                  icon
+                  v-if="smAndDown"
+                  variant="flat"
                   @click="action"
                 ></v-app-bar-nav-icon>
               </slot>
@@ -63,6 +60,14 @@ export default {
     toolbarElevation: {
       type: Number,
       default: 0
+    }
+  },
+  computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
+    mdAndUp() {
+      return this.$vuetify.display.mdAndUp;
     }
   }
 };

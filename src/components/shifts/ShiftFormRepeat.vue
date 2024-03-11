@@ -1,10 +1,10 @@
 <template>
-  <v-row>
+  <v-row class="mt-3">
     <v-col cols="12">
       <v-select
         v-model="selected"
         :items="frequency"
-        item-text="text"
+        item-title="text"
         item-value="value"
         hide-details
         :label="$t('shifts.repeating.frequencyLabel')"
@@ -43,13 +43,12 @@
         max-width="290px"
         min-width="290px"
       >
-        <template #activator="{ on, attrs }">
+        <template #activator="{ props }">
           <v-text-field
             v-model="endDate"
             :disabled="isDatePickerDisabled"
             readonly
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
           ></v-text-field>
         </template>
         <v-date-picker
@@ -69,7 +68,7 @@
         min="1"
         max="30"
         thumb-label
-        ticks
+        show-ticks="always"
         persistent-hint
         :label="$t('shifts.repeating.interval.label', { number: interval })"
         :hint="
@@ -90,8 +89,8 @@
 import { localizedFormat } from "@/utils/date";
 import { RRule } from "rrule";
 
-import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog";
-import { formatISO, parseISO } from "date-fns";
+import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog.vue";
+import { endOfMonth, formatISO, parseISO } from "date-fns";
 
 const ALL_DAYS = {
   0: RRule.SU,
@@ -113,11 +112,17 @@ export default {
   name: "ShiftFormRepeat",
   components: { ShiftFormRepeatDialog },
   props: {
+    modelValue: {
+      type: Array,
+      required: false,
+      default: () => []
+    },
     shift: {
       type: Object,
       required: true
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
       repeatUntil: "contractDate",
@@ -148,6 +153,9 @@ export default {
       return this.shift.started;
     },
     contractEndDate() {
+      if (!this.shift.contract) {
+        return endOfMonth(this.currentDate);
+      }
       return this.$store.getters["contentData/contractById"](
         this.shift.contract
       ).endDate;
@@ -235,7 +243,7 @@ export default {
   },
   watch: {
     shifts() {
-      this.$emit("input", this.shifts);
+      this.$emit("update:modelValue", this.shifts);
     }
   },
   created() {

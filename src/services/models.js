@@ -3,7 +3,6 @@ import { mapShiftApiResponse, Shift } from "@/models/ShiftModel";
 import { mapContractApiResponse, Contract } from "@/models/ContractModel";
 import { mapReportApiResponse, Report } from "@/models/ReportModel";
 import is from "ramda/src/is";
-import { handle400Errors } from "@/utils/errorHandler";
 
 class modelService {
   static BASE_URL = "";
@@ -17,7 +16,7 @@ class modelService {
       (item) => new this.MODEL_CLASS(this.mapFunction(item))
     );
   }
-  @handle400Errors
+  // @handle400Errors
   static async create(payload) {
     const response = await ApiService.post(this.BASE_URL, payload);
     if (response.status === 201) {

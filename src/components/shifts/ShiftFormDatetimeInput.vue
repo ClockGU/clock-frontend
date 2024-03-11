@@ -3,12 +3,12 @@
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ShiftFormDateInput
-          :value="date"
+          :model-value="date"
           data-cy="shift-date"
           :min="dateMin"
           :max="dateMax"
           label="Date"
-          @input="setDate"
+          @update:model-value="setDate"
         />
       </v-col>
 
@@ -17,7 +17,8 @@
           v-model="timeStart"
           :error-messages="errors"
           :error="errors.length > 0"
-          :prepend-icon="$vuetify.breakpoint.smAndDown"
+          :prepend-icon="smAndDown"
+          @update:model-value="$emit('update:started', $event)"
         />
       </v-col>
 
@@ -26,22 +27,26 @@
       </v-col>
 
       <v-col cols="5" md="3">
-        <ShiftFormTimeInput v-model="timeStop" :error="errors.length > 0" />
+        <ShiftFormTimeInput
+          v-model="timeStop"
+          :error="errors.length > 0"
+          @update:model-value="$emit('update:stopped', $event)"
+        />
       </v-col>
     </v-row>
     <v-row align="center" justify="start" class="ma-0">
       <v-col cols="12" class="pa-0">
         <v-tooltip
-          :value="errors.length > 0"
+          :model-value="errors.length > 0"
           :open-on-hover="false"
           color="error"
-          top
+          location="top"
           :nudge-bottom="45"
           :min-width="400"
           class="align-text-center"
         >
-          <template #activator="{ on }">
-            <v-spacer /><span v-on="on"></span>
+          <template #activator="{ props }">
+            <v-spacer /><span v-bind="props"></span>
           </template>
           <div>{{ errors[0] }}</div>
         </v-tooltip>
@@ -53,8 +58,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { formatISO } from "date-fns";
-import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput";
-import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput";
+import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput.vue";
+import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput.vue";
 
 export default {
   name: "ShiftFormDatetimeInput",
@@ -79,6 +84,7 @@ export default {
       default: () => []
     }
   },
+  emits: ["update:started", "update:stopped"],
   data() {
     return {
       date: this.started,
@@ -91,6 +97,9 @@ export default {
       getContractInstance: "contentData/contractById",
       selectedContract: "selectedContract/selectedContract"
     }),
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     contract() {
       if (this.contractId === "") return this.selectedContract;
       return this.getContractInstance(this.contractId);
@@ -109,12 +118,6 @@ export default {
     },
     stopped(val) {
       this.timeStop = val;
-    },
-    timeStart() {
-      this.input();
-    },
-    timeStop() {
-      this.input();
     }
   },
   methods: {
@@ -127,32 +130,33 @@ export default {
       ];
       // Vue ONLY wraps GET and SET not all other modifcations... so setFullYear does not work
       // sadly ...
-      this.timeStart = new Date(
-        year,
-        month,
-        day,
-        this.timeStart.getHours(),
-        this.timeStart.getMinutes()
+      this.$emit(
+        "update:started",
+        new Date(
+          year,
+          month,
+          day,
+          this.timeStart.getHours(),
+          this.timeStart.getMinutes()
+        )
       );
-      this.timeStop = new Date(
-        year,
-        month,
-        day,
-        this.timeStop.getHours(),
-        this.timeStop.getMinutes()
+      this.$emit(
+        "update:stopped",
+        new Date(
+          year,
+          month,
+          day,
+          this.timeStop.getHours(),
+          this.timeStop.getMinutes()
+        )
       );
-
-      this.input();
-    },
-    input() {
-      this.$emit("input", { started: this.timeStart, stopped: this.timeStop });
     }
   }
 };
 </script>
 
 <style scoped>
-.v-tooltip__content >>> {
+:deep(.v-tooltip__content) {
   text-align: center;
 }
 </style>

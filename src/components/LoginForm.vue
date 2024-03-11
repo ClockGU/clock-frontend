@@ -1,9 +1,9 @@
 <template>
   <v-form>
-    <v-card :elevation="$vuetify.breakpoint.smAndDown ? 0 : null">
+    <v-card :elevation="smAndDown ? 0 : null">
       <portal-target name="card-toolbar"></portal-target>
 
-      <portal :to="$vuetify.breakpoint.smAndDown ? 'app-bar' : 'card-toolbar'">
+      <portal :to="smAndDown ? 'app-bar' : 'card-toolbar'">
         <v-toolbar :elevation="0">
           <v-toolbar-title> Login Form </v-toolbar-title>
         </v-toolbar>
@@ -11,9 +11,14 @@
 
       <v-card-text>
         <v-fade-transition>
-          <v-overlay v-if="loading" absolute color="#036358">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-overlay>
+          <div>
+            <v-overlay v-if="loading" absolute scrim="#036358">
+              <v-progress-circular
+                indeterminate
+                size="64"
+              ></v-progress-circular>
+            </v-overlay>
+          </div>
         </v-fade-transition>
 
         <v-text-field
@@ -48,8 +53,8 @@
         <v-btn
           color="primary"
           :disabled="v$.$error || !v$.$dirty"
-          text
-          @click.native="submit"
+          variant="text"
+          @click="submit"
           >Login</v-btn
         >
       </v-card-actions>
@@ -88,6 +93,9 @@ export default {
     loading: false
   }),
   computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     emailErrors() {
       const errors = [];
       if (!this.v$.email.$dirty) return errors;

@@ -1,9 +1,14 @@
 <template>
   <v-card-actions>
-    <v-btn text :disabled="disableSave" color="primary" @click="save">
+    <v-btn variant="text" :disabled="disableSave" color="primary" @click="save">
       {{ $t("actions.save") }}
     </v-btn>
-    <v-btn v-if="!disableCancle" data-cy="entity-cancel" text @click="close">
+    <v-btn
+      v-if="!disableCancle"
+      data-cy="entity-cancel"
+      variant="text"
+      @click="close"
+    >
       {{ $t("actions.cancel") }}
     </v-btn>
     <v-spacer></v-spacer>
@@ -12,8 +17,13 @@
       :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
       @confirm="destroy"
     >
-      <template #activator="{ on }">
-        <v-btn data-cy="entity-form-delete-button" text color="error" v-on="on">
+      <template #activator="{ props }">
+        <v-btn
+          data-cy="entity-form-delete-button"
+          variant="text"
+          color="error"
+          v-bind="props"
+        >
           {{ $t("actions.delete") }}
         </v-btn>
       </template>
@@ -40,7 +50,7 @@
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { capitalizeFirstLetter } from "@/utils";
 
 export default {
@@ -81,6 +91,7 @@ export default {
       required: true
     }
   },
+  emits: ["close"],
   computed: {
     capitalizedModelName() {
       return capitalizeFirstLetter(this.modelName);

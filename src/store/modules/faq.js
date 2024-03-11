@@ -40,6 +40,9 @@ const getters = {
 const mutations = {
   setFaqs(state, payload) {
     state.faqs = payload;
+  },
+  setStatus(state, status) {
+    state.status = status;
   }
 };
 
@@ -52,12 +55,11 @@ const actions = {
     try {
       const response = await FaqService.list();
       commit("setFaqs", response.data);
-
       return Promise.resolve(response.data);
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject();
     } finally {
-      state.status = "idle";
+      commit("setStatus", "idle");
     }
   }
 };

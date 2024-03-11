@@ -1,10 +1,9 @@
 <template>
   <v-card-text>
     <ContractDurationInput
-      :start-date="contract.startDate"
-      :end-date="contract.endDate"
+      v-model:start-date="contract.startDate"
+      v-model:end-date="contract.endDate"
       :disable-start="areLockedShiftsInThisContract"
-      @input="setDates"
     ></ContractDurationInput>
     <v-row align="center" justify="start">
       <v-col cols="12">
@@ -104,16 +103,16 @@
 
 <script>
 import { Contract } from "@/models/ContractModel";
-import ContractDurationInput from "@/components/contracts/ContractDurationInput";
-import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput";
+import ContractDurationInput from "@/components/contracts/ContractDurationInput.vue";
+import ContractFormTimeInput from "@/components/contracts/ContractFormTimeInput.vue";
 import {
   mdiCalendar,
   mdiCalendarClock,
   mdiFolderInformationOutline,
   mdiTimetable
 } from "@mdi/js";
-import ContractNameInput from "@/components/contracts/ContractNameInput";
-import ClockCardAlert from "@/components/ClockCardAlert";
+import ContractNameInput from "@/components/contracts/ContractNameInput.vue";
+import ClockCardAlert from "@/components/ClockCardAlert.vue";
 import store from "@/store";
 import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
 import { isFuture } from "date-fns";
@@ -132,7 +131,7 @@ export default {
     ClockCardAlert
   },
   props: {
-    value: {
+    modelValue: {
       type: Contract,
       required: true
     },
@@ -145,17 +144,19 @@ export default {
       default: "alert"
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
-      contract: this.value,
+      contract: this.modelValue,
       icons: {
         mdiFolderInformationOutline,
         mdiTimetable,
         mdiCalendar,
         mdiCalendarClock
       },
-      showCarryover: this.value.initialCarryoverMinutes !== 0,
-      showVacationCarryover: this.value.initialVacationCarryoverMinutes !== 0
+      showCarryover: this.modelValue.initialCarryoverMinutes !== 0,
+      showVacationCarryover:
+        this.modelValue.initialVacationCarryoverMinutes !== 0
     };
   },
   computed: {
@@ -167,7 +168,7 @@ export default {
     },
     areLockedShiftsInThisContract() {
       let shifts = store.getters["contentData/allShifts"].filter((shift) => {
-        return shift.contract === this.value.id && shift.locked;
+        return shift.contract === this.modelValue.id && shift.locked;
       });
       return shifts.length !== 0;
     },
@@ -181,7 +182,7 @@ export default {
     }
   },
   watch: {
-    value(value) {
+    modelValue(value) {
       this.contract = value;
       if (value.initialCarryoverMinutes === 0) {
         this.showCarryover = false;
@@ -191,17 +192,10 @@ export default {
       }
     },
     contract(value) {
-      this.$emit("input", value);
+      this.$emit("update:modelValue", value);
     }
   },
   methods: {
-    setDates(event) {
-      this.contract.startDate = event.startDate;
-      this.contract.endDate = event.endDate;
-      if (this.contractInFuture) {
-        this.showCarryover = false;
-      }
-    },
     setInitialCarryover(event) {
       this.contract.initialCarryoverMinutes = event.carryover;
       this.contract.carryoverTargetDate = event.carryoverTargetDate;

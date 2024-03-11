@@ -7,13 +7,17 @@
     ></CardToolbar>
     <v-card-text style="max-height: 800px">
       <v-row align="center" justify="center">
-        <v-btn :disabled="index < 1" text @click="prev">
+        <v-btn :disabled="index < 1" variant="text" @click="prev">
           <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
         </v-btn>
 
         <span>{{ index + 1 }} / {{ lengthAllOverlaps }}</span>
 
-        <v-btn :disabled="index === lengthAllOverlaps - 1" text @click="next">
+        <v-btn
+          :disabled="index === lengthAllOverlaps - 1"
+          variant="text"
+          @click="next"
+        >
           <v-icon>{{ icons.mdiChevronRight }}</v-icon>
         </v-btn>
       </v-row>
@@ -48,8 +52,8 @@ import { getOverlappingShifts } from "@/utils/shift";
 import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
 import { mapState, mapGetters } from "vuex";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
-import CardToolbar from "@/components/cards/CardToolbar";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
 
 export default {
   name: "CalendarOverlap",
@@ -64,6 +68,7 @@ export default {
       required: true
     }
   },
+  emits: ["close"],
   data: () => ({
     icons: {
       mdiClose,

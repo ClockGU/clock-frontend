@@ -1,7 +1,7 @@
 <template>
-  <v-card outlined>
-    <v-card-text class="body-1"
-      ><i18n path="dashboard.welcome.text">
+  <v-card variant="outlined">
+    <v-card-text class="text-body-1"
+      ><i18n-t keypath="dashboard.welcome.text" scope="global">
         <template #link>
           <base-link
             class="text-no-wrap"
@@ -11,7 +11,7 @@
             <template #default>{{ $t("dashboard.welcome.linktext") }}</template>
           </base-link>
         </template>
-      </i18n>
+      </i18n-t>
     </v-card-text>
   </v-card>
 </template>

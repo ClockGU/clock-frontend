@@ -6,41 +6,41 @@
     transition="scale-transition"
     offset-y
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <v-text-field
         v-model="formattedDate"
         readonly
-        filled
-        dense
+        variant="filled"
+        density="compact"
         hide-details
         :prepend-icon="icons.mdiCalendar"
-        v-bind="attrs"
-        v-on="on"
+        v-bind="props"
       ></v-text-field>
     </template>
     <v-date-picker
-      v-model="date"
+      :model-value="date"
       no-title
       :allowed-dates="allowed"
       :min="min"
       :max="max"
       :first-day-of-week="1"
-      @click:date="menu = false"
+      @update:model-value="
+        $emit('update:modelValue', $event);
+        menu = false;
+      "
     ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
 import { localizedFormat } from "@/utils/date";
-// eslint-disable-next-line no-unused-vars
-import { isSunday, parseISO } from "date-fns";
 
 import { mdiCalendar } from "@mdi/js";
 
 export default {
   name: "ShiftFormDateInput",
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -57,29 +57,26 @@ export default {
       default: ""
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
       icons: {
         mdiCalendar
       },
       menu: false,
-      date: localizedFormat(this.value, "yyyy-MM-dd")
+      date: this.modelValue
     };
   },
   computed: {
     formattedDate() {
       //perhaps not ideal, but most users will be DE
       //TODO check date-fns documentation
-      return localizedFormat(parseISO(this.date), "eee, dd.MM.yyyy");
+      return localizedFormat(this.date, "eee, dd.MM.yyyy");
     }
   },
   watch: {
-    value(val) {
-      this.date = localizedFormat(val, "yyyy-MM-dd");
-    },
-    date(val) {
-      const [year, month, day] = val.split("-");
-      this.$emit("input", new Date(year, month - 1, day));
+    modelValue(val) {
+      this.date = val;
     }
   },
   methods: {

@@ -9,7 +9,7 @@
       <v-col cols="12">
         <v-card min-width="100%" :elevation="0">
           <v-container>
-            <v-row>
+            <v-row class="mx-0">
               <v-col cols="12" order="-10">
                 <DashboardWelcome />
               </v-col>
@@ -17,7 +17,6 @@
               <v-col cols="12" md="6" order="0" order-md="0">
                 <ClockInOutCard :disabled="disabled" />
               </v-col>
-
               <v-col cols="12" md="6" order="1" order-md="1">
                 <DashboardMessageList />
               </v-col>
@@ -48,6 +47,9 @@
               <v-col cols="12" md="6" order="4">
                 <DashboardShiftReview />
               </v-col>
+              <v-col cols="12" md="6" order="4">
+                <DashboardShiftReview />
+              </v-col>
 
               <v-col cols="12" md="6" order="5">
                 <DashboardLastActivity
@@ -66,22 +68,23 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 
-import SelectContractFilter from "@/components/SelectContractFilter";
-import ClockInOutCard from "@/components/ClockInOutCard";
-import DashboardMessageList from "@/components/dashboard/DashboardMessageList";
-import DashboardProgress from "@/components/dashboard/DashboardProgress";
-import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity";
-import DashboardWelcome from "@/components/dashboard/DashboardWelcome";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ClockInOutCard from "@/components/ClockInOutCard.vue";
+import DashboardMessageList from "@/components/dashboard/DashboardMessageList.vue";
+import DashboardProgress from "@/components/dashboard/DashboardProgress.vue";
+import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity.vue";
+import DashboardWelcome from "@/components/dashboard/DashboardWelcome.vue";
 import { isSameDay, isSameWeek, isBefore, differenceInMinutes } from "date-fns";
 import { Contract } from "@/models/ContractModel";
 
 import { mapGetters } from "vuex";
 
 import { log } from "@/utils/log";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
-import DashboardShiftReview from "@/components/dashboard/DashboardShiftReview";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+import DashboardShiftReview from "@/components/dashboard/DashboardShiftReview.vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
   metaInfo: {
     title: "Dashboard"
@@ -98,8 +101,7 @@ export default {
   },
   data: () => ({
     date: localizedFormat(new Date(), "yyyy-MM"),
-    entity: new Contract(),
-    loading: true
+    entity: new Contract()
   }),
   computed: {
     ...mapGetters({

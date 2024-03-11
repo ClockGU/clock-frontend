@@ -1,31 +1,43 @@
 <template>
-  <v-card outlined>
-    <v-hover>
-      <template #default="{ hover }">
-        <div @click="toggleTouchOverlay(hover)">
-          <v-card-title>
-            <span>
-              {{ $t("reports.vacation") }}
-            </span>
-            <v-spacer></v-spacer>
-          </v-card-title>
+  <v-hover v-slot="{ isHovering, props }">
+    <v-card
+      :ripple="false"
+      v-bind="props"
+      v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
+    >
+      <v-card-title>
+        <span>
+          {{ $t("reports.vacation") }}
+        </span>
+        <v-spacer></v-spacer>
+      </v-card-title>
 
-          <v-card-text>
-            <v-simple-table>
-              <template #default>
-                <tbody>
-                  <tr v-for="row in rows" :key="row.name">
-                    <td>{{ row.name }}</td>
-                    <td class="text-right">{{ row.value }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-          </v-card-text>
-        </div>
-      </template>
-    </v-hover>
-  </v-card>
+      <v-card-text>
+        <v-table>
+          <template #default>
+            <tbody>
+              <tr v-for="row in rows" :key="row.name">
+                <td>{{ row.name }}</td>
+                <td class="text-right">{{ row.value }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-table>
+      </v-card-text>
+      <v-overlay
+        :model-value="disabled && (isHovering || touchOverlay)"
+        contained
+        persistent
+        :close-on-content-click="false"
+        scrim="primary"
+        style="align-items: start; justify-content: center"
+      >
+        <p style="margin-top: 17%; color: white; text-align: center">
+          {{ $t("dashboard.disabled.reportHere") }}
+        </p>
+      </v-overlay>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>

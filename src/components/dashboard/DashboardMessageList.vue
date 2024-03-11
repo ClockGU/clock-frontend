@@ -24,10 +24,10 @@
 <script>
 import { log } from "@/utils/log";
 
-import MessageList from "@/components/messages_components/MessageList";
+import MessageList from "@/components/messages_components/MessageList.vue";
 
 import { mdiClose } from "@mdi/js";
-import FullMessageListDialog from "@/components/messages_components/fullMessageListDialog";
+import FullMessageListDialog from "@/components/messages_components/fullMessageListDialog.vue";
 import { mapGetters } from "vuex";
 
 export default {

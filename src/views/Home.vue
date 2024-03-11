@@ -1,10 +1,19 @@
 <template>
-  <v-main>
-    <v-alert v-if="userCheckedOut !== ''" type="info" color="purple" dense>
+  <v-main style="--v-layout-top: 0">
+    <v-alert
+      v-if="userCheckedOut !== ''"
+      type="info"
+      color="purple"
+      density="compact"
+    >
       You are viewing data of a different user.
-      <v-btn small outlined class="ml-4" @click="clear">Clear User</v-btn>
+      <v-btn size="small" variant="outlined" class="ml-4" @click="clear"
+        >Clear User</v-btn
+      >
     </v-alert>
-    <v-alert v-if="staging" type="warning" dense>{{ infostring }}</v-alert>
+    <v-alert v-if="staging" type="warning" density="compact">{{
+      infostring
+    }}</v-alert>
     <v-container :style="styles" style="height: 100%" fluid>
       <router-view></router-view>
     </v-container>
@@ -18,13 +27,18 @@ import { mapGetters } from "vuex";
 import ApiService from "@/services/api.js";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   computed: {
     ...mapGetters({ userCheckedOut: "auth/checkoutUser" }),
+    showingCalendar() {
+      return this.$route.name === "calendar" || this.$route.name === "c";
+    },
     styles() {
       let styles;
+      const smAndDown = this.$vuetify.display.smAndDown;
       const removePadding =
-        this.$vuetify.breakpoint.smAndDown || this.$route.path === "/";
+        smAndDown || this.showingCalendar || this.$route.path === "/";
       if (removePadding) {
         styles = {
           padding: "0"
@@ -34,10 +48,10 @@ export default {
       return styles;
     },
     staging() {
-      return process.env.VUE_APP_ENV === "staging";
+      return import.meta.env.VITE_ENV === "staging";
     },
     infostring() {
-      return process.env.VUE_APP_LOCAL === "true"
+      return import.meta.env.VITE_LOCAL === "true"
         ? "Staging (local)"
         : "Staging (server)";
     }

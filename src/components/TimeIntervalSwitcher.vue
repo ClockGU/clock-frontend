@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn :disabled="!hasPrev" text @click="gotoPrev">
+    <v-btn :disabled="!hasPrev" variant="text" @click="gotoPrev">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -9,25 +9,24 @@
       :close-on-content-click="false"
       :nudge-right="40"
       transition="scale-transition"
-      offset-y
+      offset="3"
       min-width="290px"
     >
-      <template #activator="{ on, attrs }">
-        <span v-bind="attrs" v-on="on">
+      <template #activator="{ props }">
+        <span v-bind="props">
           {{ formattedInterval }}
         </span>
       </template>
       <v-date-picker
-        :value="intervalString"
+        v-model="date"
         :allowed-dates="allowedDates"
         :min="minDate"
         :max="maxDate"
         :type="pickerType"
-        @change="inputDate"
       ></v-date-picker>
     </v-menu>
 
-    <v-btn :disabled="!hasNext" text @click="gotoNext">
+    <v-btn :disabled="!hasNext" variant="text" @click="gotoNext">
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </div>
@@ -59,7 +58,7 @@ import {
 export default {
   name: "TimeIntervalSwitcher",
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -83,11 +82,12 @@ export default {
       default: false
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
       menu: false,
       icons: { mdiChevronLeft, mdiChevronRight },
-      date: this.value
+      date: this.modelValue
     };
   },
   computed: {
@@ -193,13 +193,16 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.date = val;
+    },
+    date(val) {
+      this.$emit("update:modelValue", val);
     }
   },
   methods: {
     setDate(date) {
-      this.$emit("input", date);
+      this.$emit("update:modelValue", date);
     },
     gotoPrev() {
       if (!this.hasPrev) return;
@@ -235,9 +238,10 @@ export default {
     },
     allowedDates(value) {
       if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
-      return parseInt(value.split("-")[1], 10);
+      return value;
     },
     inputDate(value) {
+      console.log(value);
       this.setDate(new Date(value));
     }
   }
