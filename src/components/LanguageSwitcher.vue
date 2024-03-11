@@ -49,7 +49,6 @@ export default {
       return this.$vuetify.display.smAndUp;
     },
     selectedLocale() {
-      console.log(this.smAndUp);
       const match = this.locales.find(
         (locale) => locale.locale === this.$i18n.locale
       );
