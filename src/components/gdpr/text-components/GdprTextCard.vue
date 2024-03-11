@@ -1,11 +1,11 @@
 <template>
   <v-card>
     <v-toolbar flat class="text-h5 text--secondary font-weight-bold">
-      {{ $t("app.privacyagreement") }}
+      <v-toolbar-title>
+        {{ $t("app.privacyagreement") }}
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn variant="flat" :icon="icons.mdiClose" @click="close" />
-      </v-toolbar-items>
+      <v-btn :icon="icons.mdiClose" @click="close" />
     </v-toolbar>
     <v-card-text>
       <GdprText :dialog="true"></GdprText>
