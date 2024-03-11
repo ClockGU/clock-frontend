@@ -1,5 +1,5 @@
 # Setup stage
-FROM node:19.7.0-alpine3.16 as build-stage
+FROM node:18.19-alpine3.19 as build-stage
 ARG REPOSITORY_URL
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
