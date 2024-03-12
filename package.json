@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --mode $VITE_ENV",
     "serve": "vite preview",
     "format:check": "prettier -c .",
     "format": "prettier -w .",
