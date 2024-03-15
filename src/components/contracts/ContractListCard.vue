@@ -10,7 +10,7 @@
   >
     <v-card-title>
       <span class="text-primary text-subtitle-2">
-        {{ $t("contracts.perMonth", { time: worktime }) }}
+        {{ contract.worktimeRepresentation() }}
         {{ !expired ? "" : $t("contracts.expired") }}
       </span>
     </v-card-title>
@@ -94,9 +94,6 @@ export default {
     },
     startDate() {
       return formatDate(this.contract.startDate);
-    },
-    worktime() {
-      return minutesToHHMM(this.contract.minutes);
     },
     isDarkmode() {
       return this.$vuetify.theme.name === "dark";

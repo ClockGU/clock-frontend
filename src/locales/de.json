@@ -73,6 +73,7 @@
     }
   },
   "contracts": {
+    "fte": "{percent}% VZÄ",
     "disableDateChangeInfo": "Du kannst das Start oder Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben.",
     "expiredVerbose": "Dieser Vertrag ist abgelaufen und kann nicht mehr geändert werden. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
     "empty": "Du musst einen Vertrag erstellen, um Clock benutzen zu können.",
