@@ -17,9 +17,7 @@
       class="text--primary"
       v-text="text"
     ></v-list-item-subtitle>
-    <p v-else>
-      {{ text }}
-    </p>
+    <p v-else v-html="text"></p>
     <v-list-item-action v-text="message.date"></v-list-item-action>
   </v-list-item>
 </template>
