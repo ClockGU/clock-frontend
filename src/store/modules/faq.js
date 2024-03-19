@@ -1,5 +1,5 @@
 import FaqService from "@/services/faq";
-import { sortByPrioritization } from "@/utils";
+import { sortAscByPrioritization } from "@/utils";
 
 const state = {
   faqs: [],
@@ -29,7 +29,7 @@ const getters = {
     groupedfaqArray["0"] = faqArrayNoHeading;
 
     for (let group in groupedfaqArray) {
-      groupedfaqArray[group] = sortByPrioritization(groupedfaqArray[group]);
+      groupedfaqArray[group] = sortAscByPrioritization(groupedfaqArray[group]);
     }
 
     return groupedfaqArray;

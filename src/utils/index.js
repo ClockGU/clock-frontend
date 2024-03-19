@@ -37,10 +37,10 @@ const sortAscBy = (key) => (objects) => {
   return objects.sort((a, b) => a[key] - b[key]);
 };
 
-export const sortByStarted = sortAscBy("started");
-export const sortByStartDate = sortAscBy("startDate");
-export const sortByMonthYear = sortAscBy("monthYear");
-export const sortByPrioritization = sortAscBy("prioritization");
+export const sortAscByStarted = sortAscBy("started");
+export const sortAscByStartDate = sortAscBy("startDate");
+export const sortAscByMonthYear = sortAscBy("monthYear");
+export const sortAscByPrioritization = sortAscBy("prioritization");
 
 export function getContractWithLastActivity({ shifts, contracts }) {
   if (shifts.length === 0) {
