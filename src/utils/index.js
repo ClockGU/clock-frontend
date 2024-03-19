@@ -46,12 +46,16 @@ export const sortByPrioritization = sortBy("prioritization");
 export function getContractWithLastActivity({ shifts, contracts }) {
   if (shifts.length === 0) {
     if (contracts.length === 0) return undefined;
-    return sortByModifiedAt(contracts)[0];
+    return contracts.reduce((max, contract) =>
+      max.modifiedAt > contract.modifiedAt ? max : contract
+    );
   } else if (shifts.length === 1) {
     return store.getters["contentData/contractById"](shifts[0].contract);
   } else {
     return store.getters["contentData/contractById"](
-      sortByModifiedAt(shifts).at(-1).contract
+      shifts.reduce((max, shift) =>
+        max.modifiedAt > shift.modifiedAt ? max : shift
+      )
     );
   }
 }
