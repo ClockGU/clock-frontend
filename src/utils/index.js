@@ -33,14 +33,14 @@ export const indexOfByStarted = indexOfBy("started");
 export const indexOfByStartDate = indexOfBy("startDate");
 export const indexOfByMonthYear = indexOfBy("monthYear");
 
-const sortBy = (key) => (objects) => {
+const sortAscBy = (key) => (objects) => {
   return objects.sort((a, b) => a[key] - b[key]);
 };
 
-export const sortByStarted = sortBy("started");
-export const sortByStartDate = sortBy("startDate");
-export const sortByMonthYear = sortBy("monthYear");
-export const sortByPrioritization = sortBy("prioritization");
+export const sortByStarted = sortAscBy("started");
+export const sortByStartDate = sortAscBy("startDate");
+export const sortByMonthYear = sortAscBy("monthYear");
+export const sortByPrioritization = sortAscBy("prioritization");
 
 export function getContractWithLastActivity({ shifts, contracts }) {
   if (shifts.length === 0) {
