@@ -37,8 +37,13 @@ const sortAscBy = (key) => (objects) => {
   return objects.sort((a, b) => a[key] - b[key]);
 };
 
+const sortDescBy = (key) => (objects) => {
+  return objects.sort((a, b) => b[key] - a[key]);
+};
+
 export const sortAscByStarted = sortAscBy("started");
 export const sortAscByStartDate = sortAscBy("startDate");
+export const sortDescByLastActivity = sortDescBy("lastActivity");
 export const sortAscByMonthYear = sortAscBy("monthYear");
 export const sortAscByPrioritization = sortAscBy("prioritization");
 
