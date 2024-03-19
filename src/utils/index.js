@@ -40,7 +40,6 @@ const sortBy = (key) => (objects) => {
 export const sortByStarted = sortBy("started");
 export const sortByStartDate = sortBy("startDate");
 export const sortByMonthYear = sortBy("monthYear");
-export const sortByModifiedAt = sortBy("modifiedAt");
 export const sortByPrioritization = sortBy("prioritization");
 
 export function getContractWithLastActivity({ shifts, contracts }) {
