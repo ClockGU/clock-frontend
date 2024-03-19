@@ -5,11 +5,13 @@ import {
   indexOfByStarted,
   sortAscByMonthYear,
   sortAscByStartDate,
-  sortAscByStarted
+  sortAscByStarted,
+  sortDescByLastActivity
 } from "@/utils";
 import { ReportService, ShiftService } from "@/services/models";
 import { localizedFormat } from "@/utils/date";
 import store from "@/store";
+import { max } from "date-fns";
 
 const state = {
   contentData: {},
@@ -77,6 +79,19 @@ const getters = {
       contractArray.push(data.contract);
     }
     return sortAscByStartDate(contractArray);
+  },
+  allContractsByLastActivity(state) {
+    let contractArray = [];
+    for (let data of Object.values(state.contentData)) {
+      const shifts = data.shifts.map((item) => item.started);
+      let lastActivity = shifts.length ? max(shifts) : 0; // Date of latest shift
+      if (!lastActivity) {
+        lastActivity = data.contract.startDate; // set startDate of contract as last activity
+      }
+      data.contract.lastActivity = lastActivity;
+      contractArray.push(data.contract);
+    }
+    return sortDescByLastActivity(contractArray);
   }
 };
 
