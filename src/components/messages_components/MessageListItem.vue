@@ -43,6 +43,10 @@ export default {
     dashboard: {
       type: Boolean,
       default: false
+    },
+    lineRestriction: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
