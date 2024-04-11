@@ -17,7 +17,7 @@ const state = {
 };
 
 const getters = {
-  snacks: (status) => status.snacks
+  snacks: (state) => state.snacks
 };
 const defaultSnackPayload = {
   message: "Snack Message",

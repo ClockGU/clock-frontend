@@ -12,12 +12,12 @@
       :style="{ 'margin-top': i * 70 + 'px' }"
     >
       {{ snack.message }}
-      <template #action="{ attrs }">
+      <template #actions>
         <component
           :is="snack.component"
           v-bind="snack.componentProps"
         ></component>
-        <v-btn variant="text" v-bind="attrs" @click="snack.show = false">
+        <v-btn variant="text" @click="snack.show = false">
           {{ $t("actions.close") }}
         </v-btn>
       </template>
@@ -59,6 +59,9 @@ export default {
             this.setupTimeout(snack);
           }
         });
+      },
+      {
+        deep: true
       }
     );
   },
