@@ -1,9 +1,13 @@
 <template>
-  <v-menu bottom right>
-    <template #activator="{ on }">
-      <v-btn outlined data-cy="calendar-type-select-button" v-on="on">
+  <v-menu location="bottom">
+    <template #activator="{ props }">
+      <v-btn
+        variant="outlined"
+        data-cy="calendar-type-select-button"
+        v-bind="props"
+      >
         <span>{{ valueName }}</span>
-        <v-icon right>{{ icons.mdiArrowDown }}</v-icon>
+        <v-icon end>{{ icons.mdiArrowDown }}</v-icon>
       </v-btn>
     </template>
     <v-list data-cy="calendar-type-select">
@@ -11,7 +15,7 @@
         v-for="type in types"
         :key="type.value"
         :data-cy="'calendar-type-select-' + type.value"
-        @click="$emit('input', type.value)"
+        @click="$emit('update:modelValue', type.value)"
       >
         <v-list-item-title>{{ type.text }}</v-list-item-title>
       </v-list-item>
@@ -25,11 +29,12 @@ import { mdiArrowDown } from "@mdi/js";
 export default {
   name: "CalendarTypeSelect",
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     }
   },
+  emits: ["update:modelValue"],
   data: () => ({
     icons: {
       mdiArrowDown
@@ -44,7 +49,7 @@ export default {
       ];
     },
     valueName() {
-      return this.types.find((item) => item.value === this.value).text;
+      return this.types.find((item) => item.value === this.modelValue).text;
     }
   }
 };

@@ -1,23 +1,19 @@
 <template>
   <v-list
-    three-line
+    lines="two"
     subheader
     :max-height="maxHeight"
     style="overflow-y: scroll"
   >
-    <template v-for="(message, index) in messages">
-      <MessageListItem
-        :key="message.id"
-        :message="message"
-        :dashboard="dashboard"
-      />
+    <template v-for="(message, index) in messages" :key="message.id">
+      <MessageListItem :message="message" :dashboard="dashboard" />
       <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
     </template>
   </v-list>
 </template>
 
 <script>
-import MessageListItem from "@/components/messages_components/MessageListItem";
+import MessageListItem from "@/components/messages_components/MessageListItem.vue";
 import { MESSAGE_TYPE_COLORS } from "@/utils/colors";
 import { MESSAGE_TYPE_TAGS } from "@/utils/misc";
 import { mdiClose } from "@mdi/js";

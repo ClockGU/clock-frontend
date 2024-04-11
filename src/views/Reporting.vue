@@ -1,27 +1,25 @@
 <template>
   <v-container>
-    <v-alert
-      v-if="personnelNumberMissing"
-      :icon="icons.mdiBadgeAccountHorizontal"
-      prominent
-      type="warning"
-    >
-      <v-row align="center">
-        <v-col class="grow">
-          {{ $t("reports.personnelNumberMissing") }}
-        </v-col>
-        <v-col class="shrink">
-          <v-btn color="white" outlined @click="openDialog">
-            {{
-              $t("buttons.newEntity", {
-                entity: $tc("personnelNumber.label")
-              })
-            }}
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-alert>
     <v-row>
+      <v-col cols="12">
+        <v-alert
+          v-if="personnelNumberMissing"
+          :icon="icons.mdiBadgeAccountHorizontal"
+          prominent
+          type="warning"
+        >
+          <v-row align="center">
+            <v-col class="flex-grow-1 flex-shrink-0">
+              {{ $t("reports.personnelNumberMissing") }}
+            </v-col>
+            <v-col class="flex-grow-0 flex-shrink-1">
+              <v-btn color="white" variant="outlined" @click="openDialog">
+                {{ $t("buttons.newEntity", [$tc("personnelNumber.label")]) }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-col>
       <v-col cols="12">
         <SelectContractFilter
           :disabled="disabled"
@@ -94,12 +92,12 @@
 </template>
 
 <script>
-import DashboardConflicts from "@/components/dashboard/DashboardConflicts";
-import SelectContractFilter from "@/components/SelectContractFilter";
-import ReportCard from "@/components/ReportCard";
+import DashboardConflicts from "@/components/dashboard/DashboardConflicts.vue";
+import SelectContractFilter from "@/components/SelectContractFilter.vue";
+import ReportCard from "@/components/ReportCard.vue";
 import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
-import ShiftWarnings from "@/components/shifts/ShiftWarnings";
-import ClockCardAlert from "@/components/ClockCardAlert";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings.vue";
+import ClockCardAlert from "@/components/ClockCardAlert.vue";
 
 import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
@@ -110,6 +108,7 @@ import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import VacationCard from "@/components/VacationCard.vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Reporting",
   components: {
     VacationCard,
@@ -211,9 +210,9 @@ export default {
         );
         let report = filteredReports[0];
         if (report === undefined) {
-          this.updateDate(
-            this.selectedReports[this.selectedReports.length - 1].monthYear
-          );
+          this.date = this.selectedReports[
+            this.selectedReports.length - 1
+          ].monthYear;
           return;
         }
         this.report = report;

@@ -1,15 +1,22 @@
 <template>
   <v-navigation-drawer
-    :value="drawer"
+    :model-value="drawer"
     app
     left
     disable-resize-watcher
     clipped
-    @input="closeDrawer"
+    @update:model-value="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
-      <router-link to="/dashboard" tag="span" style="cursor: pointer">
-        <v-img width="240px" height="36px" :src="imgSrc" contain />
+      <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
+        <span
+          role="link"
+          style="cursor: pointer"
+          @click="navigate"
+          @keypress.enter="navigate"
+        >
+          <v-img width="240px" height="36px" :src="imgSrc" />
+        </span>
       </router-link>
     </v-row>
 
@@ -25,49 +32,50 @@
     </v-skeleton-loader>
     <v-list v-else>
       <v-list-group no-action>
-        <template #activator>
-          <v-list-item-avatar>
-            <v-avatar
-              size="32px"
-              color="blue lighten-2"
-              style="cursor: pointer"
-            >
-              <span class="white--text">
-                {{ firstLetter }}
-              </span>
-            </v-avatar>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
+        <template #activator="{ props }">
+          <v-list-item v-bind="props">
+            <template #prepend="prependProps">
+              <v-avatar
+                v-bind="prependProps"
+                size="32px"
+                color="blue-lighten-2"
+                style="cursor: pointer"
+              >
+                <div class="text-white">
+                  {{ firstLetter }}
+                </div>
+              </v-avatar>
+            </template>
+            <p class="text-h6">
               {{ user.first_name }}
-            </v-list-item-title>
-          </v-list-item-content>
+            </p>
+          </v-list-item>
         </template>
 
         <v-list-item
           v-for="item in menuItems"
           :key="item.text"
           :to="item.to"
-          class="pl-5"
+          style="--indent-padding: calc(var(--list-indent-size) - 12px)"
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item-content>
+          <template #prepend="prependProps">
+            <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
+          </template>
+          <p style="padding-left: 4px">{{ item.text }}</p>
         </v-list-item>
 
         <LogoutDialog>
-          <template #activator="{ on }">
-            <v-list-item data-cy="menu-logout" class="pl-5" v-on="on">
-              <v-list-item-icon>
-                <v-icon v-text="icons.mdiLogout"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>{{ $t("app.logout") }}</v-list-item-title>
-              </v-list-item-content>
+          <template #activator="{ props }">
+            <v-list-item
+              data-cy="menu-logout"
+              :prepend-icon="icons.mdiLogout"
+              v-bind="props"
+              style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+            >
+              <template #prepend="prependProps">
+                <v-icon :icon="icons.mdiLogout" v-bind="prependProps"></v-icon>
+              </template>
+              <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
             </v-list-item>
           </template>
         </LogoutDialog>
@@ -76,23 +84,25 @@
 
     <v-divider></v-divider>
 
-    <v-list nav dense data-cy="menu-list">
-      <v-list-item v-for="link in links" :key="link.text" :to="link.to">
-        <v-list-item-action>
-          <v-icon>{{ link.icon }}</v-icon>
-        </v-list-item-action>
-
-        <v-list-item-content>{{ link.text }}</v-list-item-content>
+    <v-list nav density="compact" data-cy="menu-list">
+      <v-list-item
+        v-for="link in links"
+        :key="link.text"
+        :prepend-icon="link.icon"
+        :to="link.to"
+      >
+        <p>{{ link.text }}</p>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
-import { getRouterProps } from "@/utils/date";
 import { mapGetters } from "vuex";
+import svg from "@/assets/clock_full.svg";
+import darkSvg from "@/assets/clock_full_darkmode.svg";
 
-import LogoutDialog from "@/components/LogoutDialog";
+import LogoutDialog from "@/components/LogoutDialog.vue";
 
 import {
   mdiAccountCog,
@@ -119,6 +129,7 @@ export default {
       default: ""
     }
   },
+  emits: ["closeDrawer"],
   data: () => ({
     icons: {
       mdiLock,
@@ -166,10 +177,7 @@ export default {
         {
           text: this.$t("app.calendar"),
           to: {
-            name: "calendar",
-            params: {
-              ...getRouterProps("month", new Date())
-            }
+            name: "calendar"
           },
           icon: mdiCalendar,
           loggedOut: false
@@ -201,9 +209,8 @@ export default {
       ];
     },
     imgSrc() {
-      if (this.$vuetify.theme.dark)
-        return require("@/assets/clock_full_darkmode.svg");
-      return require("@/assets/clock_full.svg");
+      if (this.$vuetify.theme.name === "dark") return darkSvg;
+      return svg;
     }
   },
   methods: {

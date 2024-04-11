@@ -2,18 +2,17 @@
   <div>
     <TheDialog
       :value="show"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
+      :fullscreen="smAndDown"
       :max-width="600"
       :persistent="false"
       @close="$emit('close')"
     >
-      <template #activator="{ on }">
+      <template #activator="{ props }">
         <v-btn
           v-if="!icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          :text="textButton"
-          v-on="on"
+          v-bind="props"
           @click="opened = true"
         >
           {{ buttonText }}
@@ -22,10 +21,9 @@
           v-if="icon && !disableActivator"
           :disabled="disabled"
           :color="btnColor"
-          icon
-          v-on="on"
+          :icon="create ? icons.mdiPlus : icons.mdiPencil"
+          v-bind="props"
         >
-          <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }}</v-icon>
         </v-btn>
       </template>
       <template #content="{ events: { close } }">
@@ -41,9 +39,9 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
+import TheDialog from "@/components/TheDialog.vue";
 import { Contract } from "@/models/ContractModel";
-import ContractForm from "@/components/forms/modelForms/contract/ContractForm";
+import ContractForm from "@/components/forms/modelForms/contract/ContractForm.vue";
 import { mdiPencil, mdiPlus } from "@mdi/js";
 
 export default {
@@ -84,6 +82,7 @@ export default {
       default: false
     }
   },
+  emits: ["close"],
   data() {
     return {
       icons: {
@@ -95,6 +94,9 @@ export default {
     };
   },
   computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     create() {
       return this.contract === undefined;
     },

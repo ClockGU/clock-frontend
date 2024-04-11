@@ -18,8 +18,8 @@
         }"
         @cancel="resetForm"
       >
-        <template #activator="{ on }">
-          <v-btn text color="error" v-on="on">
+        <template #activator="{ props }">
+          <v-btn variant="text" color="error" v-bind="props">
             {{ $t("actions.delete") }}
           </v-btn>
         </template>
@@ -29,11 +29,15 @@
         </template>
 
         <template #text>
-          <i18n path="settings.account.dialogText" tag="span">
+          <i18n-t
+            keypath="settings.account.dialogText"
+            tag="span"
+            scope="global"
+          >
             <template #email>
               <strong>{{ user.email }}</strong>
             </template>
-          </i18n>
+          </i18n-t>
 
           <v-text-field
             v-model="email"
@@ -55,7 +59,7 @@
 
 <script>
 import AuthService from "@/services/auth";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { mapGetters } from "vuex";
 import { mdiEmail } from "@mdi/js";
 import { useVuelidate } from "@vuelidate/core";

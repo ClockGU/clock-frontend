@@ -1,28 +1,5 @@
 <template>
   <v-window v-model="window">
-    <v-overlay
-      :value="showOverlay"
-      absolute
-      :opacity="contractValid ? 1.0 : 0.9"
-    >
-      <v-container>
-        <v-row>
-          <v-col cols="12">
-            <p>
-              {{ overlayMessage }}
-            </p>
-          </v-col>
-          <v-col
-            v-if="contracts.length > 1 && clockedShift !== undefined"
-            cols="12"
-          >
-            <v-btn color="primary lighten-1" @click="changeContract">
-              {{ $t("actions.switch") }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-overlay>
     <v-window-item :key="0">
       <ClockInOutCardClock
         :actions="{
@@ -42,20 +19,47 @@
         :shift="shiftToModify"
         :destroy="reset"
         :contract-name="contractName"
-        @updateWindow="window += $event"
+        @update-indow="window += $event"
       ></ClockInOutCardForm>
     </v-window-item>
+    <v-overlay
+      :model-value="showOverlay"
+      contained
+      persistent
+      no-click-animation
+      scrim="secondary"
+      :opacity="contractValid ? 1.0 : 0.9"
+      style="align-items: start; justify-content: center"
+    >
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <p style="margin-top: 5%; color: white; text-align: center">
+              {{ overlayMessage }}
+            </p>
+          </v-col>
+          <v-col
+            v-if="contracts.length > 1 && clockedShift !== undefined"
+            cols="12"
+          >
+            <v-btn color="primary-lighten-1" @click="changeContract">
+              {{ $t("actions.switch") }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-overlay>
   </v-window>
 </template>
 
 <script>
 import ClockInOutMixin from "@/mixins/ClockInOutMixin";
-import ClockInOutCardClock from "@/components/ClockInOutCardClock";
+import ClockInOutCardClock from "@/components/ClockInOutCardClock.vue";
 import { mapGetters } from "vuex";
 
 import contractValidMixin from "@/mixins/contractValid";
 import { Shift } from "@/models/ShiftModel";
-import ClockInOutCardForm from "@/components/ClockInOutCardForm";
+import ClockInOutCardForm from "@/components/ClockInOutCardForm.vue";
 
 export default {
   name: "ClockInOutCard",

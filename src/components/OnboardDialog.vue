@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.smAndDown"
+    :fullscreen="smAndDown"
     max-width="600"
     persistent
     no-click-animation
@@ -16,7 +16,7 @@
       <v-card-text class="pb-0">
         <v-window v-model="step">
           <v-window-item
-            v-for="(card, i) in Object.values($t('onboarding.cards'))"
+            v-for="(card, i) in Object.values($tm('onboarding.cards'))"
             :key="i"
             :value="i"
             eager
@@ -32,64 +32,67 @@
             :value="titles.length - 3"
           >
             <GdprAgreementCard
+              v-model="privacyagreement"
+              hide-toolbar
               disable-actions
-              @checkbox-updated="updatePrivacyagreement"
             ></GdprAgreementCard>
           </v-window-item>
 
           <v-window-item key="contractForm" eager :value="titles.length - 2">
-            <p>{{ $t("onboarding.setupData.text") }}</p>
-            <v-row>
-              <v-col cols="12">
-                <h3 class="pb-2">
-                  {{ $t("contracts.createContract") }}
-                </h3>
-                <span v-if="contractExists">
-                  {{ $t("onboarding.setupData.contractExists") }}
-                </span>
-                <span v-else>
-                  {{ $t("onboarding.setupData.noContractExists") }}
-                </span>
-                <br />
+            <v-container>
+              <p>{{ $t("onboarding.setupData.text") }}</p>
+              <v-row>
+                <v-col cols="12">
+                  <h3 class="pb-2">
+                    {{ $t("contracts.createContract") }}
+                  </h3>
+                  <span v-if="contractExists">
+                    {{ $t("onboarding.setupData.contractExists") }}
+                  </span>
+                  <span v-else>
+                    {{ $t("onboarding.setupData.noContractExists") }}
+                  </span>
+                  <br />
 
-                <ContractFormDialog
-                  btn-color="primary"
-                  text-button
-                  :override-button-text="
-                    $t('buttons.newEntity', {
-                      entity: $tc('models.contract')
-                    })
-                  "
-                  :disabled="contractExists"
-                ></ContractFormDialog>
-              </v-col>
-            </v-row>
-            <v-row class="mb-2">
-              <v-col cols="12">
-                <h3 class="pb-2">
-                  {{ $t("personnelNumber.title") }}
-                </h3>
-                <span v-if="personnelNumber">
-                  {{ $t("personnelNumber.personnelNumberSaved") }}
-                </span>
-                <span v-else>
-                  {{ $t("personnelNumber.noPersonnelNumberSaved") }}
-                </span>
-                <br />
-                <v-btn
-                  color="primary"
-                  text
-                  :disabled="personnelNumber !== ''"
-                  @click="personnelNumberDialog = true"
-                >
-                  {{
-                    $t("buttons.newEntity", {
-                      entity: $tc("personnelNumber.label")
-                    })
-                  }}
-                </v-btn>
-              </v-col>
-            </v-row>
+                  <ContractFormDialog
+                    btn-color="primary"
+                    text-button
+                    :override-button-text="
+                      $t('buttons.newEntity', {
+                        entity: $tc('models.contract')
+                      })
+                    "
+                    :disabled="contractExists"
+                  ></ContractFormDialog>
+                </v-col>
+              </v-row>
+              <v-row class="mb-2">
+                <v-col cols="12">
+                  <h3 class="pb-2">
+                    {{ $t("personnelNumber.title") }}
+                  </h3>
+                  <span v-if="personnelNumber">
+                    {{ $t("personnelNumber.personnelNumberSaved") }}
+                  </span>
+                  <span v-else>
+                    {{ $t("personnelNumber.noPersonnelNumberSaved") }}
+                  </span>
+                  <br />
+                  <v-btn
+                    color="primary"
+                    variant="text"
+                    :disabled="personnelNumber !== ''"
+                    @click="personnelNumberDialog = true"
+                  >
+                    {{
+                      $t("buttons.newEntity", {
+                        entity: $tc("personnelNumber.label")
+                      })
+                    }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-window-item>
 
           <v-window-item key="finish" eager :value="titles.length - 1">
@@ -100,17 +103,21 @@
         </v-window>
       </v-card-text>
       <v-progress-linear
-        :value="(step / titles.length) * 100"
+        height="4"
+        bg-color="primary"
+        color="primary"
+        bg-opacity="0.3"
+        :model-value="(step / titles.length) * 100"
       ></v-progress-linear>
       <v-card-actions>
-        <v-btn :disabled="step === 0" text @click="step--">
+        <v-btn :disabled="step === 0" variant="text" @click="step--">
           {{ $t("actions.back") }}
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           v-if="step < titles.length - 1"
           color="primary"
-          text
+          variant="text"
           :disabled="
             !dsgvoAccepted && !privacyagreement && step === titles.length - 3
           "
@@ -120,7 +127,7 @@
         </v-btn>
         <v-btn
           v-if="step === titles.length - 1"
-          text
+          variant="text"
           color="primary"
           :loading="loading"
           @click="finishOnboarding"
@@ -131,17 +138,18 @@
       <v-card-actions>
         <v-checkbox
           v-model="dontShowOnboardingAgain"
+          density="compact"
           :label="$t('actions.dontShowAgain')"
           style="scale: 0.85"
         ></v-checkbox>
       </v-card-actions>
       <v-dialog
         v-model="showAreYouSureDialog"
-        :fullscreen="$vuetify.breakpoint.smAndDown"
+        :fullscreen="smAndDown"
         max-width="600"
       >
         <v-card>
-          <v-card-title class="warning white--text">
+          <v-card-title class="bg-warning text-white">
             {{ $t("news.label.warning") }} !
           </v-card-title>
           <v-card-text style="padding: 20px">
@@ -150,11 +158,15 @@
             </p>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="error" text @click="showAreYouSureDialog = false">
+            <v-btn
+              color="error"
+              variant="text"
+              @click="showAreYouSureDialog = false"
+            >
               {{ $t("actions.close") }}
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="success" text @click="closeOnboarding()">
+            <v-btn color="success" variant="text" @click="closeOnboarding()">
               {{ $t("actions.continue") }}
             </v-btn>
           </v-card-actions>
@@ -179,10 +191,10 @@ import {
   mdiRecord
 } from "@mdi/js";
 
-import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard";
-import CardToolbar from "@/components/cards/CardToolbar";
-import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm";
+import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
+import CardToolbar from "@/components/cards/CardToolbar.vue";
+import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
+import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -207,6 +219,7 @@ export default {
       default: "contract"
     }
   },
+  emits: ["close"],
   data: () => ({
     step: 0,
     confirmDialog: false,
@@ -232,8 +245,11 @@ export default {
     ...mapGetters({
       personnelNumber: "personnelNumber"
     }),
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     titles() {
-      let returnValue = Object.values(this.$t("onboarding.cards")).map(
+      let returnValue = Object.values(this.$tm("onboarding.cards")).map(
         function (el) {
           return el.title;
         }

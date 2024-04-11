@@ -7,16 +7,21 @@
 </template>
 
 <script>
+import { useTheme } from "vuetify";
+
 export default {
   name: "ThemeToggle",
+  setup() {
+    return { theme: useTheme() };
+  },
   data() {
     return {
-      userTheme: "theme--light"
+      userTheme: "v-theme--light"
     };
   },
   computed: {
     isDark() {
-      return this.userTheme === "theme--dark";
+      return this.userTheme === "v-theme--dark";
     },
     darkDark() {
       return this.isDark && "darkmode-toggled";
@@ -32,7 +37,7 @@ export default {
     getUserPrefTheme() {
       const theme = localStorage.getItem("user-theme");
       if (theme) return theme;
-      return "theme--light";
+      return "v-theme--light";
     },
     setTheme(theme) {
       localStorage.setItem("user-theme", theme);
@@ -41,20 +46,20 @@ export default {
     },
     toggleTheme() {
       if (!this.isDark) {
-        this.setTheme("theme--dark");
+        this.setTheme("v-theme--dark");
         this.dark();
       } else {
-        this.setTheme("theme--light");
+        this.setTheme("v-theme--light");
         this.light();
       }
     },
     dark() {
-      this.$vuetify.theme.dark = true;
+      this.theme.global.name.value = "dark";
       document.querySelector("body").classList.add("dark-mode");
     },
 
     light() {
-      this.$vuetify.theme.dark = false;
+      this.theme.global.name.value = "light";
       document.querySelector("body").classList.remove("dark-mode");
     }
   }

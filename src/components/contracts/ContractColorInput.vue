@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table>
+  <v-table>
     <template #default>
       <tbody>
         <tr>
@@ -7,49 +7,57 @@
             <div style="font-size: 14px; font-weight: 500">Anzeigefarbe</div>
           </td>
           <td>
-            <v-menu :close-on-content-click="false" bottom offset-x>
-              <template #activator="{ on, attrs }">
+            <v-menu
+              no-click-animation
+              :close-on-content-click="false"
+              bottom
+              offset-x
+            >
+              <template #activator="{ props }">
                 <v-chip
-                  v-bind="attrs"
                   :color="color"
                   style="width: 90px"
-                  v-on="on"
+                  v-bind="props"
+                  variant="flat"
                 ></v-chip>
               </template>
               <v-color-picker
                 v-model="color"
-                @input="$emit('input', $event)"
+                @update:model-value="$emit('update:modelValue', $event)"
               ></v-color-picker>
             </v-menu>
           </td>
           <td>
             <v-spacer>
-              <v-btn text @click="color = initialColor"> Reset </v-btn>
+              <v-btn variant="text" @click="color = initialColor">
+                Reset
+              </v-btn>
             </v-spacer>
           </td>
         </tr>
       </tbody>
     </template>
-  </v-simple-table>
+  </v-table>
 </template>
 
 <script>
 export default {
   name: "ContractColorInput",
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
-      color: this.value,
-      initialColor: this.value
+      color: this.modelValue,
+      initialColor: this.modelValue
     };
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.color = val;
     }
   }

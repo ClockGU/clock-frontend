@@ -6,10 +6,10 @@
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
     @click:outside="close"
-    @input="$emit('input', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
-    <template #activator="{ on }">
-      <slot name="activator" :on="on"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
     <slot name="content" :events="{ close }" @close="close"></slot>
   </v-dialog>
@@ -31,25 +31,26 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    modelValue: {
       type: Boolean,
       default: false
     }
   },
+  emits: ["close", "update:modelValue"],
   data() {
     return {
       dialog: false
     };
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.dialog = val;
     }
   },
   methods: {
     close() {
       this.dialog = false;
-      this.$emit("input", false);
+      this.$emit("update:modelValue", false);
       this.$emit("close");
     }
   }

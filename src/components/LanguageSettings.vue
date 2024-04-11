@@ -1,6 +1,6 @@
 <template>
   <v-card :elevation="0">
-    <v-card-text :class="$vuetify.breakpoint.mdAndUp ? 'py-0' : ''">
+    <v-card-text :class="mdAndUp ? 'py-0' : ''">
       {{ $t("settings.language.text") }}
     </v-card-text>
 
@@ -11,10 +11,15 @@
 </template>
 
 <script>
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
   name: "LanguageSettings",
-  components: { LanguageSwitcher }
+  components: { LanguageSwitcher },
+  computed: {
+    mdAndUp() {
+      return this.$vuetify.display.mdAndUp;
+    }
+  }
 };
 </script>

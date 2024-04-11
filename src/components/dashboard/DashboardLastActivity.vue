@@ -12,12 +12,12 @@
             :shift="shift"
             disable-activator
           >
-            <template #activator="{ on }">
-              <ShiftListItem :editable="true" :shift="shift" v-on="on" />
+            <template #activator="{ props }">
+              <ShiftListItem :editable="true" :shift="shift" v-bind="props" />
             </template>
           </ShiftFormDialog>
         </v-list>
-        <v-btn color="success" text :to="allShiftRouter">
+        <v-btn color="success" variant="text" :to="allShiftRouter">
           {{ $t("dashboard.showAll") }}
         </v-btn>
       </div>
@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import ShiftListItem from "@/components/shifts/ShiftListItem";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { isBefore } from "date-fns";
 
 import { mapGetters } from "vuex";

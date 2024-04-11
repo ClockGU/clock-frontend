@@ -1,7 +1,7 @@
 <template>
   <TheDialog :persistent="false" :max-width="maxWidth">
-    <template #activator="{ on }">
-      <slot name="activator" :on="on"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
 
     <template #content="{ events: { close } }">
@@ -14,7 +14,7 @@
           <slot name="text"></slot>
         </v-card-text>
 
-        <v-card-text class="error--text">
+        <v-card-text class="text-error">
           <slot name="consequencesText"></slot>
         </v-card-text>
 
@@ -24,7 +24,7 @@
             v-bind="confirmationButton.attrs"
             data-cy="delete-confirm"
             :color="confirmationButton.color"
-            text
+            variant="text"
             @click="confirm(close)"
           >
             {{ confirmationButton.text }}
@@ -33,7 +33,7 @@
             v-bind="cancelButton.attrs"
             data-cy="delete-cancel"
             :color="cancelButton.color"
-            text
+            variant="text"
             @click="close"
           >
             {{ $t("actions.cancel") }}
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
+import TheDialog from "@/components/TheDialog.vue";
 
 export default {
   name: "ConfirmationDialog",
@@ -75,6 +75,7 @@ export default {
       default: 400
     }
   },
+  emits: ["confirm"],
   data: () => ({
     dialog: false
   }),

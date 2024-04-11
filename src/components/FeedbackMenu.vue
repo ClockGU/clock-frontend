@@ -6,14 +6,9 @@
       :nudge-width="400"
       transition="slide-y-transition"
     >
-      <template #activator="{ on, attrs }">
-        <v-sheet
-          class="py-2 orange darken-2 rounded-t"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon v-if="$vuetify.breakpoint.smAndDown" class="mx-2">
+      <template #activator="{ props }">
+        <v-sheet class="py-2 bg-orange-darken-2 rounded-t" dark v-bind="props">
+          <v-icon v-if="smAndDown" class="mx-2">
             {{ icons.mdiHelp }}
           </v-icon>
           <span v-else class="px-4">Feedback</span>
@@ -26,7 +21,7 @@
 </template>
 
 <script>
-import FeedbackForm from "@/components/FeedbackForm";
+import FeedbackForm from "@/components/FeedbackForm.vue";
 import { mdiHelp } from "@mdi/js";
 
 export default {
@@ -35,7 +30,12 @@ export default {
   data: () => ({
     menu: false,
     icons: { mdiHelp }
-  })
+  }),
+  computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    }
+  }
 };
 </script>
 

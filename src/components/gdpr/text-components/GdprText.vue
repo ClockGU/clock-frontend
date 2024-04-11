@@ -277,7 +277,11 @@ export default {
   },
   computed: {
     iframeURL() {
-      return `${process.env.VUE_APP_MATOMO_URL}index.php?module=CoreAdminHome&action=optOut&language=${this.$i18n.locale}`;
+      return `${
+        import.meta.env.VUE_APP_MATOMO_URL
+      }index.php?module=CoreAdminHome&action=optOut&language=${
+        this.$i18n.locale
+      }`;
     }
   }
 };

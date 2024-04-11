@@ -6,20 +6,25 @@
     hide-reviewed-chip
   >
     <template #actions>
-      <v-list-item-action>
+      <v-list-item-action start end>
         <ShiftFormDialog icon :shift="shift"></ShiftFormDialog>
       </v-list-item-action>
-      <v-list-item-action>
-        <v-btn icon color="success" :disabled="!valid" @click="review">
-          <v-icon> {{ icons.mdiCheck }}</v-icon>
+      <v-list-item-action start>
+        <v-btn flat icon :disabled="!valid" @click="review">
+          <v-icon
+            :icon="icons.mdiCheck"
+            color="success"
+            :disabled="!valid"
+            @click="review"
+          ></v-icon>
         </v-btn>
       </v-list-item-action>
-      <v-list-item-action-text>
+      <v-list-item-action>
         {{ $t("shifts.review.review") }}
-      </v-list-item-action-text>
+      </v-list-item-action>
     </template>
     <template #extraSubtitle>
-      <v-list-item-subtitle v-if="!valid" class="error--text">
+      <v-list-item-subtitle v-if="!valid" class="text-error">
         {{ $t("shifts.review.unableToReview") }}
       </v-list-item-subtitle>
     </template>
@@ -27,8 +32,8 @@
 </template>
 
 <script>
-import ShiftListItem from "@/components/shifts/ShiftListItem";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog";
+import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { mdiCheck } from "@mdi/js";
 import { Shift } from "@/models/ShiftModel";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";

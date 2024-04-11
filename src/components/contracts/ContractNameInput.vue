@@ -5,7 +5,7 @@
     :label="$t('contracts.name')"
     :error-messages="errors"
     :prepend-icon="icons.mdiFolderInformationOutline"
-    filled
+    variant="filled"
     counter="100"
     required
     :disabled="disabled"
@@ -21,7 +21,7 @@ import { minLength, required } from "@vuelidate/validators";
 export default {
   name: "ContractNameInput",
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -37,6 +37,7 @@ export default {
       required
     }
   },
+  emits: ["update:modelValue"],
   setup() {
     return {
       v$: useVuelidate()
@@ -54,15 +55,15 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.name = val;
     },
     name(val) {
-      this.$emit("input", val);
+      this.$emit("update:modelValue", val);
     }
   },
   created() {
-    this.name = this.value;
+    this.name = this.modelValue;
   }
 };
 </script>

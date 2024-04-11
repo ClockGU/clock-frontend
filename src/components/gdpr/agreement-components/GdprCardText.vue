@@ -1,16 +1,16 @@
 <template>
   <div>
     <v-card-text class="pb-0">
-      <i18n path="privacyagreement.text" tag="p">
+      <i18n-t keypath="privacyagreement.text" tag="p" scope="global">
         <template #privacyAgreement>
           <GdprTextDialog></GdprTextDialog>
         </template>
-      </i18n>
+      </i18n-t>
 
       <v-checkbox
         v-model="value"
         :label="$t('privacyagreement.checkbox')"
-        @click="updateValue"
+        @update:model-value="$emit('update:modelValue', $event)"
       >
       </v-checkbox>
     </v-card-text>
@@ -19,18 +19,25 @@
 </template>
 
 <script>
-import GdprTextDialog from "@/components/gdpr/text-components/GdprTextDialog";
+import GdprTextDialog from "@/components/gdpr/text-components/GdprTextDialog.vue";
 export default {
   name: "GdprCardText",
   components: { GdprTextDialog },
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ["update:modelValue"],
   data() {
     return {
       value: false
     };
   },
-  methods: {
-    updateValue() {
-      this.$emit("checkbox-updated", this.value);
+  watch: {
+    modelValue(val) {
+      this.value = val;
     }
   }
 };

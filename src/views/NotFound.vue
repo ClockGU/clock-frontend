@@ -1,7 +1,7 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    :card-elevation="$vuetify.breakpoint.smAndDown ? 0 : null"
+    :card-elevation="smAndDown ? 0 : null"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -9,7 +9,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="smAndDown"
         icon
         @click="action"
       ></v-app-bar-nav-icon>
@@ -19,21 +19,34 @@
 
     <template #content>
       <placeholder name="UndrawBlankCanvas">
-        Hmm, hier ist irgendetwas schief gegangen. Die angeforderte Seite
-        existiert nicht.
-
-        <v-row justify="center">
-          <v-btn
-            v-if="isLoggedIn"
-            color="primary"
-            text
-            :to="{ name: 'dashboard' }"
-          >
-            Zurück zum Dashboard
-          </v-btn>
-          <v-btn v-else color="primary" text exact :to="{ name: 'home' }">
-            Zurück zur Startseite
-          </v-btn>
+        <v-row justify="center" align="center">
+          <v-col cols="12" class="d-flex justify-center align-center">
+            <p>
+              Hmm, hier ist irgendetwas schief gegangen. Die angeforderte Seite
+              existiert nicht.
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" class="d-flex justify-center align-center">
+            <v-btn
+              v-if="isLoggedIn"
+              color="primary"
+              variant="text"
+              :to="{ name: 'dashboard' }"
+            >
+              Zurück zum Dashboard
+            </v-btn>
+            <v-btn
+              v-else
+              color="primary"
+              variant="text"
+              exact
+              :to="{ name: 'home' }"
+            >
+              Zurück zur Startseite
+            </v-btn>
+          </v-col>
         </v-row>
       </placeholder>
     </template>
@@ -49,6 +62,9 @@ export default {
     };
   },
   computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     isLoggedIn() {
       return this.$store.getters["auth/loggedIn"];
     }

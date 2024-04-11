@@ -1,61 +1,65 @@
 <template>
-  <div>
-    <TheDialog
-      v-model="show"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
-      :max-width="600"
-      :persistent="false"
-      @close="closeFormDialog"
-    >
-      <template #activator="{ on }">
-        <slot name="activator" :on="on"></slot>
+  <TheDialog
+    v-model="show"
+    :fullscreen="smAndDown"
+    :max-width="600"
+    :persistent="false"
+    @close="closeFormDialog"
+  >
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
+      <v-btn
+        v-if="!icon && !disableActivator"
+        :disabled="disabled"
+        :color="btnColor"
+        :flat="flatButton"
+        v-bind="props['props']"
+      >
+        {{ buttonText }}
+      </v-btn>
+      <div v-if="icon && !disableActivator">
         <v-btn
-          v-if="!icon && !disableActivator"
           :disabled="disabled"
+          variant="flat"
           :color="btnColor"
-          :text="textButton"
-          v-on="on"
-        >
-          {{ buttonText }}
-        </v-btn>
-        <div v-if="icon && !disableActivator">
-          <v-btn :disabled="disabled" :color="btnColor" icon v-on="on">
-            <v-icon>{{ create ? icons.mdiPlus : icons.mdiPencil }} </v-icon>
-          </v-btn>
-          <v-icon
-            v-if="alertMessages.length > 0"
-            color="warning"
-            style="transform: translate(-65%, -50%)"
-            >{{ icons.mdiExclamation }}</v-icon
-          >
-        </div>
-      </template>
-      <template #content="{ events: { close } }">
-        <ShiftForm
-          v-model="newShift"
-          :initial-date="date"
-          :close="close"
-          :show-errors="show"
-          :initial-contract="initialContract"
-          @save="$emit('save')"
-          @delete="$emit('delete')"
-          @update="$emit('update')"
-          @close="closeFormDialog"
-        ></ShiftForm>
-      </template>
-    </TheDialog>
-  </div>
+          :flat="flatButton"
+          :icon="create ? icons.mdiPlus : icons.mdiPencil"
+          v-bind="props['props']"
+        />
+        <v-icon
+          v-if="alertMessages.length > 0"
+          color="warning"
+          style="transform: translate(-65%, -50%)"
+          >{{ icons.mdiExclamation }}
+        </v-icon>
+      </div>
+    </template>
+    <template #content="{ events: { close } }">
+      <ShiftForm
+        v-model="newShift"
+        :initial-date="date"
+        :close="close"
+        :show-errors="show"
+        :initial-contract="initialContract"
+        @save="$emit('save')"
+        @delete="$emit('delete')"
+        @update="$emit('update')"
+        @close="closeFormDialog"
+      ></ShiftForm>
+    </template>
+  </TheDialog>
 </template>
 
 <script>
-import TheDialog from "@/components/TheDialog";
-import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm";
+import TheDialog from "@/components/TheDialog.vue";
+import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 // eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import { isBefore } from "date-fns";
+
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
@@ -91,11 +95,16 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    flatButton: {
+      type: Boolean,
+      default: false
+    },
+    modelValue: {
       type: Boolean,
       default: false
     }
   },
+  emits: ["close", "save", "update", "delete", "update:modelValue"],
   data() {
     return {
       icons: {
@@ -103,12 +112,15 @@ export default {
         mdiPlus,
         mdiExclamation
       },
-      show: this.value,
+      show: this.modelValue,
       newShift: this.shift,
       initialContract: ""
     };
   },
   computed: {
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     create() {
       return this.shift === undefined;
     },
@@ -142,7 +154,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       this.show = val;
     },
     show(val) {
@@ -174,7 +186,7 @@ export default {
     },
     closeFormDialog() {
       this.$emit("close");
-      this.$emit("input", false);
+      this.$emit("update:modelValue", false);
     }
   }
 };

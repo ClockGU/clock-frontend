@@ -2,10 +2,7 @@
   <v-container>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="12" md="6" :order="orderPlaceholder">
-        <component
-          :is="component"
-          :height="$vuetify.breakpoint.mdAndUp ? '250' : '200'"
-        />
+        <component :is="component" :height="mdAndUp ? '250' : '200'" />
       </v-col>
       <v-col cols="12" sm="12" md="6" :order="orderText">
         <h2><slot name="title"></slot></h2>
@@ -19,6 +16,7 @@
 
 <script>
 import { UndrawFactory } from "@/factories/undrawFactory";
+import { markRaw } from "vue";
 
 export default {
   name: "HeroPlaceholder",
@@ -40,18 +38,24 @@ export default {
     component: null
   }),
   computed: {
+    mdAndUp() {
+      return this.$vuetify.display.mdAndUp;
+    },
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
     orderPlaceholder() {
       return this.rtl ? 2 : 1;
     },
     orderText() {
-      if (this.$vuetify.breakpoint.smAndDown) return 2;
+      if (this.smAndDown) return 2;
 
       return this.rtl ? 1 : 2;
     }
   },
   created() {
     UndrawFactory.get(this.name).then((resolvedComponent) => {
-      this.component = resolvedComponent["default"];
+      this.component = markRaw(resolvedComponent["default"]);
     });
   }
 };

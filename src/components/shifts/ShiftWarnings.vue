@@ -8,7 +8,7 @@
         {{ warning.warning }}
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn text color="primary" @click="closeDialog"> OK </v-btn>
+        <v-btn variant="text" color="primary" @click="closeDialog"> OK </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -23,6 +23,7 @@ export default {
       required: true
     }
   },
+  emits: ["close"],
   data: () => ({
     dialog: true
   }),

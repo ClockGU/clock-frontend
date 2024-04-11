@@ -11,15 +11,15 @@
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="maxCarryoverExceeded || carryover"
-                    icon
-                    :color="maxCarryoverExceeded ? 'error' : 'warning'"
-                    @click="showWarning('carryover')"
-                  >
-                    <v-icon>{{
+                    variant="flat"
+                    :icon="
                       maxCarryoverExceeded
                         ? icons.mdiAlert
                         : icons.mdiInformation
-                    }}</v-icon>
+                    "
+                    :color="maxCarryoverExceeded ? 'error' : 'warning'"
+                    @click="showWarning('carryover')"
+                  >
                   </v-btn>
                 </v-card-title>
 
@@ -32,13 +32,13 @@
                         width="6"
                         rotate="270"
                         class="pa-2"
-                        :value="disabled ? 0 : monthlyProgress"
+                        :model-value="disabled ? 0 : monthlyProgress"
                       >
                         {{ disabled ? 0 : printProgress(monthlyProgress) }}%
                       </v-progress-circular>
                     </v-col>
                     <v-col cols="9">
-                      <v-simple-table>
+                      <v-table>
                         <template #default>
                           <tbody>
                             <tr
@@ -55,7 +55,7 @@
                             </tr>
                           </tbody>
                         </template>
-                      </v-simple-table>
+                      </v-table>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -82,7 +82,7 @@
                             width="6"
                             rotate="270"
                             class="pa-2"
-                            :value="disabled ? 0 : weeklyProgress"
+                            :model-value="disabled ? 0 : weeklyProgress"
                           >
                             {{ disabled ? 0 : printProgress(weeklyProgress) }}%
                           </v-progress-circular>
@@ -90,12 +90,14 @@
                         <v-col cols="9" align-self="center">
                           <p>
                             {{
-                              $tc("dashboard.progress.weeklyText", weeklyHours)
+                              $tc("dashboard.progress.weeklyText", [
+                                weeklyHours
+                              ])
                             }}
                           </p>
                           <p style="margin-bottom: 0">
                             {{
-                              $tc("dashboard.progress.weeklyBase", weeklyAvg)
+                              $t("dashboard.progress.weeklyBase", [weeklyAvg])
                             }}
                           </p>
                         </v-col>
@@ -117,12 +119,11 @@
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="dailyOvertime"
-                    icon
+                    variant="flat"
+                    :icon="icons.mdiAlert"
                     color="error"
                     @click="showWarning('daily')"
-                  >
-                    <v-icon>{{ icons.mdiAlert }}</v-icon>
-                  </v-btn>
+                  ></v-btn>
                 </v-card-title>
                 <v-row justify="center" class="grow">
                   <v-col cols="12" align-self="center">
@@ -146,7 +147,7 @@
               <v-overlay
                 v-if="disabled && (hover || touchOverlay)"
                 absolute
-                color="primary"
+                scrim="primary"
                 style="align-items: start"
               >
                 <p style="margin-top: 15%" class="text-center">
@@ -166,7 +167,7 @@
     ></ShiftWarnings>
 
     <v-card-actions class="justify-space-between">
-      <v-btn text @click="step === 0 ? (step = 2) : step--">
+      <v-btn variant="text" @click="step === 0 ? (step = 2) : step--">
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
       <v-item-group v-model="step" class="text-center" mandatory>
@@ -175,13 +176,19 @@
           :key="`btn-${n}`"
           v-slot="{ active, toggle }"
         >
-          <v-btn :input-value="active" icon @click="toggle">
-            <v-icon>{{ icons.mdiCircleMedium }}</v-icon>
+          <v-btn
+            :input-value="active"
+            :icon="icons.mdiCircleMedium"
+            @click="toggle"
+          >
           </v-btn>
         </v-item>
       </v-item-group>
-      <v-btn text @click="step === 2 ? (step = 0) : step++">
-        <v-icon>{{ icons.mdiChevronRight }}</v-icon>
+      <v-btn
+        variant="text"
+        :icon="icons.mdiChevronRight"
+        @click="step === 2 ? (step = 0) : step++"
+      >
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -189,7 +196,7 @@
 
 <script>
 import { minutesToHHMM } from "@/utils/time";
-import ShiftWarnings from "@/components/shifts/ShiftWarnings";
+import ShiftWarnings from "@/components/shifts/ShiftWarnings.vue";
 import {
   mdiRecord,
   mdiCircleMedium,

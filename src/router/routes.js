@@ -1,26 +1,26 @@
-const Home = () => import("@/views/Home");
-const ViewLogin = () => import("@/views/ViewLogin");
+const Home = () => import("@/views/Home.vue");
+const ViewLogin = () => import("@/views/ViewLogin.vue");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
-const ViewShifts = () => import("@/views/ViewShifts");
-const ViewContractList = () => import("@/views/ViewContractList");
-const Settings = () => import("@/views/Settings");
-const ViewDebug = () => import("@/views/ViewDebug");
-const Landing = () => import("@/views/Landing");
-const Imprint = () => import("@/views/Imprint");
-const ViewDashboard = () => import("@/views/ViewDashboard");
-const LoggingIn = () => import("@/views/LoggingIn");
-const Onboarding = () => import("@/views/Onboarding");
-const FAQ = () => import("@/views/FAQ");
-const NotFound = () => import("@/views/NotFound");
-const Reporting = () => import("@/views/Reporting");
-const PrivacyAgreement = () => import("@/views/PrivacyAgreement");
-const ViewGdprText = () => import("@/views/ViewGdprText");
+const ViewShifts = () => import("@/views/ViewShifts.vue");
+const ViewContractList = () => import("@/views/ViewContractList.vue");
+const Settings = () => import("@/views/Settings.vue");
+const ViewDebug = () => import("@/views/ViewDebug.vue");
+const Landing = () => import("@/views/Landing.vue");
+const Imprint = () => import("@/views/Imprint.vue");
+const ViewDashboard = () => import("@/views/ViewDashboard.vue");
+const LoggingIn = () => import("@/views/LoggingIn.vue");
+const Onboarding = () => import("@/views/Onboarding.vue");
+const FAQ = () => import("@/views/FAQ.vue");
+const NotFound = () => import("@/views/NotFound.vue");
+const Reporting = () => import("@/views/Reporting.vue");
+const PrivacyAgreement = () => import("@/views/PrivacyAgreement.vue");
+const ViewGdprText = () => import("@/views/ViewGdprText.vue");
 
 import { initializeDataGuard } from "@/router/guards";
 
 export const routes = [
   {
-    path: "*",
+    path: "/:pathMatch(.*)*",
     redirect: { name: "404" }
   },
   {
@@ -76,10 +76,9 @@ export const routes = [
         beforeEnter: initializeDataGuard
       },
       {
-        path: "/:type/:year/:month/:day/:contract?",
+        path: "/calendar",
         name: "calendar",
         component: ViewCalendar,
-        props: true,
         beforeEnter: initializeDataGuard
       },
       {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn :disabled="!hasPrevMonth" text @click="gotoPrevMonth">
+    <v-btn :disabled="!hasPrevMonth" variant="text" @click="gotoPrevMonth">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -12,22 +12,24 @@
       offset-y
       min-width="290px"
     >
-      <template #activator="{ on, attrs }">
-        <span v-bind="attrs" v-on="on">
+      <template #activator="{ props }">
+        <v-btn variant="text" v-bind="props">
           {{ formattedDate }}
-        </span>
+        </v-btn>
       </template>
-      <v-date-picker
-        :value="dateString"
+      <VDatePicker
+        :value="modelValue"
         :allowed-dates="allowedMonths"
         :min="minMonth"
         :max="maxMonth"
         type="month"
-        @input="inputDate"
-      ></v-date-picker>
+        @click:save="menu = false"
+        @click:cancel="menu = false"
+        @update:model-value="$emit('update:modelValue', $event)"
+      ></VDatePicker>
     </v-menu>
 
-    <v-btn :disabled="!hasNextMonth" text @click="gotoNextMonth">
+    <v-btn :disabled="!hasNextMonth" variant="text" @click="gotoNextMonth">
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </div>
@@ -46,7 +48,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "MonthSwitcher",
   props: {
-    date: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -61,6 +63,7 @@ export default {
       default: false
     }
   },
+  emits: ["update:modelValue"],
   data: () => ({
     menu: false,
     icons: { mdiChevronLeft, mdiChevronRight }
@@ -70,18 +73,12 @@ export default {
       selectedContract: "selectedContract/selectedContract",
       selectedReports: "contentData/selectedReports"
     }),
-    dateString() {
-      return localizedFormat(this.date, "yyyy-MM");
-    },
     formattedDate() {
-      return localizedFormat(this.date, "MMMM yyyy");
-    },
-    months() {
-      return this.selectedReports.map((item) => item.monthYear);
+      return localizedFormat(this.modelValue, "MMMM yyyy");
     },
     hasNextMonth() {
       if (this.disabled) return false;
-      const nextMonth = addMonths(this.date, 1);
+      const nextMonth = addMonths(this.modelValue, 1);
       return (
         !isAfter(nextMonth, this.selectedContract.endDate) &&
         this.allowedMonths(localizedFormat(nextMonth, "yyyy-MM"))
@@ -89,7 +86,7 @@ export default {
     },
     hasPrevMonth() {
       if (this.disabled) return false;
-      const prevMonth = subMonths(this.date, 1);
+      const prevMonth = subMonths(this.modelValue, 1);
       return (
         !isBefore(
           prevMonth,
@@ -108,24 +105,21 @@ export default {
   },
   methods: {
     setDate(value) {
-      this.$emit("update", value);
+      this.$emit("update:modelValue", value);
     },
     gotoPrevMonth() {
       if (!this.hasPrevMonth) return;
-      const date = subMonths(this.date, 1);
+      const date = subMonths(this.modelValue, 1);
       this.setDate(date);
     },
     gotoNextMonth() {
       if (!this.hasNextMonth) return;
-      const date = addMonths(this.date, 1);
+      const date = addMonths(this.modelValue, 1);
       this.setDate(date);
     },
     allowedMonths(value) {
       if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
       return parseInt(value.split("-")[1], 10);
-    },
-    inputDate(value) {
-      this.setDate(new Date(value));
     }
   }
 };

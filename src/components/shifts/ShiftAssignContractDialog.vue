@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500" transition="dialog-bottom-transition">
-    <template #activator="{ on, attrs }">
-      <slot name="activator" :on="on" :attrs="attrs"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
 
     <v-card>
@@ -15,18 +15,20 @@
           :items="validContracts"
           :prepend-icon="icons.mdiFileDocumentEditOutline"
           :label="$t('shifts.changeContract')"
-          item-text="name"
+          item-title="name"
           item-value="id"
           return-object
           hide-details
-          filled
+          variant="filled"
         ></v-select>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" text :loading="loading" @click="save">
+        <v-btn color="primary" variant="text" :loading="loading" @click="save">
           {{ $t("actions.save") }}
         </v-btn>
-        <v-btn text @click="dialog = false">{{ $t("actions.cancel") }}</v-btn>
+        <v-btn variant="text" @click="dialog = false">{{
+          $t("actions.cancel")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -47,6 +49,7 @@ export default {
       required: true
     }
   },
+  emits: ["save"],
   data: () => ({
     contract: null,
     dialog: false,

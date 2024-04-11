@@ -5,35 +5,32 @@
       :key="snack.uuid"
       v-model="snack.show"
       data-cy="snackbar"
-      top
-      right
+      location="top right"
       multi-line
       :color="snack.color"
       :timeout="snack.timeout"
       :style="{ 'margin-top': i * 70 + 'px' }"
     >
       {{ snack.message }}
-      <template #action="{ attrs }">
+      <template #actions>
         <component
           :is="snack.component"
           v-bind="snack.componentProps"
         ></component>
-        <v-btn text v-bind="attrs" @click.native="snack.show = false">
+        <v-btn variant="text" @click="snack.show = false">
           {{ $t("actions.close") }}
         </v-btn>
       </template>
       <v-progress-linear
         reverse
         color="white"
-        :value="(timePassed[snack.uuid] / snack.timeout) * 100"
+        :model-value="(timePassed[snack.uuid] / snack.timeout) * 100"
       ></v-progress-linear>
     </v-snackbar>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-
 export default {
   name: "TheSnackbar",
   data() {
@@ -62,24 +59,20 @@ export default {
             this.setupTimeout(snack);
           }
         });
+      },
+      {
+        deep: true
       }
     );
   },
   methods: {
     async setupInterval(snack) {
-      Vue.set(
-        this.intervals,
-        snack.uuid,
-        setInterval(() => {
-          Vue.set(
-            this.timePassed,
-            snack.uuid,
-            (this.timePassed[snack.uuid] !== undefined
-              ? this.timePassed[snack.uuid]
-              : 0) + 500
-          );
-        }, 500)
-      );
+      this.intervals[snack.uuid] = setInterval(() => {
+        this.timePassed[snack.uuid] =
+          (this.timePassed[snack.uuid] !== undefined
+            ? this.timePassed[snack.uuid]
+            : 0) + 500;
+      }, 500);
     },
     async setupTimeout(snack) {
       setTimeout(() => {

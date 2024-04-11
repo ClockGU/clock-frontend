@@ -13,8 +13,15 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
-          <v-img width="96px" height="32px" :src="imgSrc" contain />
+        <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
+          <span
+            role="link"
+            style="cursor: pointer"
+            @click="navigate"
+            @keypress.enter="navigate"
+          >
+            <v-img width="96px" height="32px" :src="imgSrc" />
+          </span>
         </router-link>
       </v-toolbar-title>
 
@@ -25,59 +32,54 @@
       <template v-if="showLoggedOutButtons">
         <LanguageSwitcher />
 
-        <v-btn text :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
+        <v-btn variant="text" :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
 
         <ButtonGoetheOAuth text> Login </ButtonGoetheOAuth>
       </template>
 
       <v-skeleton-loader
-        v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
+        v-if="isLoggedIn && mdAndUp"
         :loading="userLoading"
         type="avatar"
       >
-        <v-menu offset-y>
-          <template #activator="{ on }" class="ml-4">
-            <div class="d-flex align-center" v-on="on">
-              <v-avatar
-                size="30px"
-                color="blue lighten-2"
-                class="ml-2"
-                style="cursor: pointer"
-              >
-                <span class="white--text">
-                  {{ firstLetter }}
-                </span>
-              </v-avatar>
-              <div>
-                <v-btn text class="pa-1">
-                  <span class="text-capitalize">{{ user.first_name }}</span>
-                  <v-icon>{{ icons.mdiChevronDown }}</v-icon>
-                </v-btn>
+        <v-menu class="py-3">
+          <template #activator="{ props }">
+            <v-btn :color="bgColor" variant="flat">
+              <div class="d-flex align-center" v-bind="props">
+                <v-avatar
+                  size="30px"
+                  color="blue-lighten-2"
+                  style="cursor: pointer"
+                  class="mr-2"
+                >
+                  <span class="text-white">
+                    {{ firstLetter }}
+                  </span>
+                </v-avatar>
+                <span class="text-capitalize">{{ user.first_name }}</span>
               </div>
-            </div>
+              <v-icon :icon="icons.mdiChevronDown"></v-icon>
+            </v-btn>
           </template>
           <v-list>
             <v-list-item
               v-for="item in menuItems"
               :key="item.text"
+              :prepend-icon="item.icon"
               :to="item.to"
               router
             >
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>{{ item.text }}</v-list-item-content>
+              {{ item.text }}
             </v-list-item>
 
             <LogoutDialog>
-              <template #activator="{ on }">
-                <v-list-item data-cy="menu-logout" v-on="on">
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiLogout }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    {{ $t("actions.logout") }}
-                  </v-list-item-content>
+              <template #activator="{ props }">
+                <v-list-item
+                  :prepend-icon="icons.mdiLogout"
+                  data-cy="menu-logout"
+                  v-bind="props"
+                >
+                  {{ $t("actions.logout") }}
                 </v-list-item>
               </template>
             </LogoutDialog>
@@ -90,6 +92,8 @@
 
 <script>
 import { mapGetters } from "vuex";
+import svg from "@/assets/clock_full.svg";
+import darkSvg from "@/assets/clock_full_darkmode.svg";
 
 import {
   mdiChevronDown,
@@ -99,10 +103,10 @@ import {
   mdiLogout
 } from "@mdi/js";
 
-import LogoutDialog from "@/components/LogoutDialog";
-import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle from "@/components/ThemeToggle.vue";
+import LogoutDialog from "@/components/LogoutDialog.vue";
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
   name: "TheAppBar",
@@ -112,6 +116,7 @@ export default {
     ButtonGoetheOAuth,
     LogoutDialog
   },
+  emits: ["toggle"],
   data: () => ({
     icons: {
       mdiMenu,
@@ -127,6 +132,12 @@ export default {
       user: "user",
       userLoading: "userLoading"
     }),
+    logo() {
+      return svg;
+    },
+    mdAndUp() {
+      return this.$vuetify.display.mdAndUp;
+    },
     showLoggedOutButtons() {
       return !this.isLoggedIn && this.$route.name !== "loggingIn";
     },
@@ -156,13 +167,12 @@ export default {
       return this.selectedContract !== null;
     },
     bgColor() {
-      if (this.$vuetify.theme.dark) return "#121212";
+      if (this.$vuetify.theme.name === "dark") return "#121212";
       return "#FFFFFF";
     },
     imgSrc() {
-      if (this.$vuetify.theme.dark)
-        return require("@/assets/clock_full_darkmode.svg");
-      return require("@/assets/clock_full.svg");
+      if (this.$vuetify.theme.name === "dark") return darkSvg;
+      return svg;
     }
   },
   methods: {

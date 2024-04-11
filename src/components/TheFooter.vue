@@ -1,9 +1,8 @@
 <template>
   <v-footer
-    :class="$vuetify.theme.currentTheme.footerPrimary"
-    dark
-    min-height="72"
-    padless
+    color="primary-darken-2"
+    theme="dark"
+    style="padding: 0; min-height: 72px"
   >
     <v-row justify="center" no-gutters>
       <v-btn
@@ -11,7 +10,7 @@
         :key="link.text"
         :to="{ name: link.to }"
         color="white"
-        text
+        variant="text"
         rounded
         class="my-2"
       >
@@ -19,15 +18,14 @@
       </v-btn>
       <v-col
         :class="
-          $vuetify.theme.currentTheme.footerSecondary +
-          ' text-center white--text'
+          $vuetify.theme.current.footerSecondary + ' text-center white--text'
         "
         cols="12"
       >
         <v-row justify="center" class="mx-0 mb-0">
           <v-col cols="10">
             <p>&copy; {{ new Date().getFullYear() }} Clock</p>
-            <i18n path="footer.acknowledgeGU.text" tag="p">
+            <i18n-t keypath="footer.acknowledgeGU.text" tag="p" scope="global">
               <template #link>
                 <base-link
                   class="text-no-wrap"
@@ -38,8 +36,8 @@
                   }}</template>
                 </base-link>
               </template>
-            </i18n>
-            <i18n path="footer.github_repo.text" tag="p">
+            </i18n-t>
+            <i18n-t keypath="footer.github_repo.text" tag="p" scope="global">
               <template #link>
                 <base-link
                   class="text-no-wrap"
@@ -50,7 +48,7 @@
                   }}</template>
                 </base-link>
               </template>
-            </i18n>
+            </i18n-t>
           </v-col>
         </v-row>
       </v-col>
@@ -71,3 +69,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+p {
+  margin-bottom: 16px;
+}
+</style>

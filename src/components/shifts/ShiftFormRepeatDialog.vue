@@ -1,10 +1,14 @@
 <template>
   <!-- TODO: we shold probably also use 'TheDialog' here -->
   <v-dialog v-model="dialog" :max-width="500">
-    <template #activator="{ on }">
-      <v-btn :disabled="shifts.length < 1" text block v-on="on">{{
-        $t("shifts.repeating.dialog.activator")
-      }}</v-btn>
+    <template #activator="{ props }">
+      <v-btn
+        :disabled="shifts.length < 1"
+        variant="text"
+        block
+        v-bind="props"
+        >{{ $t("shifts.repeating.dialog.activator") }}</v-btn
+      >
     </template>
 
     <v-card>
@@ -18,11 +22,11 @@
       </v-toolbar>
 
       <v-card-text>
-        <i18n path="shifts.repeating.dialog.text" tag="span">
+        <i18n-t path="shifts.repeating.dialog.text" tag="span">
           <template #numberOfShifts>
             <strong>{{ shifts.length }}</strong>
           </template>
-        </i18n>
+        </i18n-t>
       </v-card-text>
 
       <v-card-text>
@@ -42,7 +46,7 @@
 </template>
 
 <script>
-import ShiftListItem from "@/components/shifts/ShiftListItem";
+import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
 import { mdiClose } from "@mdi/js";
 
 export default {

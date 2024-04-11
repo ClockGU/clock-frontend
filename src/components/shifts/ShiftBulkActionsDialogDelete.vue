@@ -6,8 +6,8 @@
     }"
     @confirm="destroy"
   >
-    <template #activator="{ on }">
-      <slot name="activator" :on="on"></slot>
+    <template #activator="props">
+      <slot name="activator" v-bind="props"></slot>
     </template>
     <template #title>
       {{ $t("buttons.deleteEntity", { entity: $tc("models.shift", count) }) }}
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 import { mdiDelete } from "@mdi/js";
 
@@ -34,6 +34,7 @@ export default {
   props: {
     count: { type: Number, default: 1 }
   },
+  emits: ["destroy"],
   data: () => ({
     icons: { mdiDelete }
   }),

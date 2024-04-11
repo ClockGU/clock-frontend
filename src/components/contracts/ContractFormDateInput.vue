@@ -8,16 +8,15 @@
     :nudge-right="40"
     :nudge-bottom="56"
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <v-text-field
-        :value="formattedDate"
+        :model-value="formattedDate"
         readonly
-        filled
+        variant="filled"
         :prepend-icon="icon"
-        v-bind="attrs"
         :disabled="disabled"
         :error="error"
-        v-on="on"
+        v-bind="props"
       ></v-text-field>
     </template>
     <v-date-picker
@@ -27,20 +26,22 @@
       :max="max"
       :min="min"
       no-title
-      @click:date="menu = false"
+      @click:save="menu = false"
+      @click:cancel="menu = false"
+      @update:model-value="$emit('update:modelValue', $event)"
     ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
-import { parseISO, isLastDayOfMonth, format } from "date-fns";
+import { isLastDayOfMonth, getDate } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 
 export default {
   name: "ContractFormDateInput",
   props: {
-    value: {
+    modelValue: {
       type: Date,
       required: true
     },
@@ -69,6 +70,7 @@ export default {
       default: false
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
       icons: {
@@ -76,7 +78,7 @@ export default {
         mdiCalendarArrowRight
       },
       menu: false,
-      date: format(this.value, "yyyy-MM-dd")
+      date: this.modelValue
     };
   },
   computed: {
@@ -86,26 +88,22 @@ export default {
       return this.icons.mdiCalendarArrowLeft;
     },
     formattedDate() {
-      return localizedFormat(this.value, "eee do MMM yyyy");
+      return localizedFormat(this.modelValue, "eee do MMM yyyy");
     }
   },
   watch: {
-    value(val) {
-      this.date = localizedFormat(val, "yyyy-MM-dd");
-    },
-    date(val) {
-      const [year, month, day] = val.split("-");
-      this.$emit("input", new Date(year, month - 1, day));
+    modelValue(val) {
+      this.date = val;
     }
   },
   methods: {
     allowedStartDates(val) {
-      const day = parseInt(val.split("-")[2], 10);
+      const day = getDate(val);
       return day === 1 || day === 16;
     },
     allowedEndDates(val) {
-      const day = parseInt(val.split("-")[2], 10);
-      return day === 15 || isLastDayOfMonth(parseISO(val));
+      const day = getDate(val);
+      return day === 15 || isLastDayOfMonth(val);
     }
   }
 };
