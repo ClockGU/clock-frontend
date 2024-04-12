@@ -15,7 +15,7 @@
       <!--      >-->
       <!--        <template #activator="{ on: toolOn }">-->
       <v-text-field
-        v-model="data"
+        v-model="textFieldTime"
         :class="error ? 'text' : ''"
         :data-time-value="data"
         return-masked-value
@@ -27,33 +27,35 @@
         :readonly="smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
         v-bind="props"
-        @blur="setTime"
+        @blur="setTimeFromTextField"
+        @keydown.enter="$event.target.blur()"
         @focus="$event.target.select()"
       ></v-text-field>
       <!--        </template>-->
       <!--        <span>{{ errorMessages[0] }} </span>-->
       <!--      </v-tooltip>-->
     </template>
-    <!--  Time Picker not available yet (29.09.23)  -->
-    <!--    <v-time-picker-->
-    <!--      v-if="menu && smAndDown"-->
-    <!--      v-model="data"-->
-    <!--      format="24hr"-->
-    <!--      @click:minute="setTime"-->
-    <!--    ></v-time-picker>-->
-    <p v-if="menu && smAndDown">Imagine Time picker here</p>
+    <VTimePicker
+      v-if="menu && smAndDown"
+      v-model="time"
+      format="24hr"
+      @update:model-value="menu = false"
+      @click:outside="menu = false"
+      @update:minute="menu = false"
+    ></VTimePicker>
   </v-menu>
 </template>
 
 <script>
 import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
-
+import { VTimePicker } from "vuetify/labs/VTimePicker";
 import { mdiClockOutline } from "@mdi/js";
 import { isSameMinute } from "date-fns";
 
 export default {
   name: "ShiftFormTimeInput",
+  components: { VTimePicker },
   props: {
     modelValue: {
       type: Date,
@@ -85,7 +87,8 @@ export default {
       icons: {
         mdiClockOutline
       },
-      time: this.modelValue
+      time: null,
+      textFieldTime: null
     };
   },
   computed: {
@@ -98,29 +101,23 @@ export default {
       this.time = localizedFormat(val, "HH:mm");
     },
     time(val) {
-      if (val === "now" || val === "jetzt") {
-        val = localizedFormat(new Date(), "HH:mm");
-      }
-
-      let hours, minutes;
-
-      try {
-        [hours, minutes] = validateTimeInput(val).split(":");
-      } catch {
-        this.data = localizedFormat(this.modelValue, "HH:mm");
-        return;
-      }
+      let [hours, minutes] = val.split(":");
       // Grab year, month and day from date entry
       const [year, month, day] = [
         this.modelValue.getFullYear(),
         this.modelValue.getMonth(),
         this.modelValue.getDate()
       ];
-      const date = new Date(year, month, day, hours, minutes);
+      const date = new Date(
+        year,
+        month,
+        day,
+        parseInt(hours),
+        parseInt(minutes)
+      );
       if (!isSameMinute(date, this.modelValue)) {
         this.$emit("update:modelValue", date);
       }
-      this.data = `${hours}:${minutes}`;
     }
   },
   created() {
@@ -128,13 +125,20 @@ export default {
   },
   methods: {
     initialize() {
-      this.data = localizedFormat(this.modelValue, "HH:mm");
+      this.time = localizedFormat(this.modelValue, "HH:mm");
+      this.textFieldTime = this.time;
     },
-    setTime() {
-      this.time = this.data;
-      if (this.dialog) {
-        this.dialog = false;
+    setTimeFromTextField() {
+      let time;
+      try {
+        time = validateTimeInput(this.textFieldTime);
+        time.split(":");
+      } catch {
+        this.textFieldTime = this.time;
+        return;
       }
+      this.time = time;
+      this.textFieldTime = time;
     }
   }
 };
