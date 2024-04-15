@@ -8,9 +8,27 @@
 
     <TheAppBar @toggle="toggleDrawer" />
     <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
+    <v-main>
+      <v-alert
+        v-if="userCheckedOut !== ''"
+        type="info"
+        color="purple"
+        density="compact"
+      >
+        You are viewing data of a different user.
+        <v-btn size="small" variant="outlined" class="ml-4" @click="clear"
+          >Clear User</v-btn
+        >
+      </v-alert>
+      <v-alert v-if="staging" type="warning" density="compact">{{
+        infostring
+      }}</v-alert>
+      <v-container :style="styles" style="height: 100%">
+        <router-view></router-view>
+      </v-container>
 
-    <router-view></router-view>
-
+      <portal-target name="fab"></portal-target>
+    </v-main>
     <portal-target name="dialog"></portal-target>
 
     <FeedbackMenu v-if="isLoggedIn" />
@@ -34,6 +52,7 @@ import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import { log } from "@/utils/log";
 
 import { mapGetters, mapState } from "vuex";
+import ApiService from "@/services/api";
 
 export default {
   name: "App",
@@ -56,13 +75,39 @@ export default {
     OmbudsMenu
   },
   data: () => ({
-    drawer: false
+    drawer: false,
+    loading: true
   }),
   computed: {
     ...mapState(["locale"]),
     ...mapGetters({
-      isLoggedIn: "auth/loggedIn"
-    })
+      isLoggedIn: "auth/loggedIn",
+      userCheckedOut: "auth/checkoutUser"
+    }),
+    showingCalendar() {
+      return this.$route.name === "calendar" || this.$route.name === "c";
+    },
+    styles() {
+      let styles;
+      const smAndDown = this.$vuetify.display.smAndDown;
+      const removePadding =
+        smAndDown || this.showingCalendar || this.$route.path === "/";
+      if (removePadding) {
+        styles = {
+          padding: "0"
+        };
+      }
+
+      return styles;
+    },
+    staging() {
+      return import.meta.env.VITE_ENV === "staging";
+    },
+    infostring() {
+      return import.meta.env.VITE_LOCAL === "true"
+        ? "Staging (local)"
+        : "Staging (server)";
+    }
   },
   async created() {
     await this.$store.dispatch("changeLocale", this.locale);
@@ -77,6 +122,12 @@ export default {
   methods: {
     toggleDrawer() {
       this.drawer = !this.drawer;
+    },
+    clear() {
+      ApiService.removeSingleHeader("Checkoutuser");
+      this.$store.commit("auth/CLEAR_CHECKOUT_USER");
+      this.$store.commit("contentData/clearContentData");
+      this.$router.go();
     }
   }
 };
