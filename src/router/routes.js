@@ -1,4 +1,3 @@
-const Home = () => import("@/views/Home.vue");
 const ViewLogin = () => import("@/views/ViewLogin.vue");
 const ViewCalendar = () => import("@/views/ViewCalendar.vue");
 const ViewShifts = () => import("@/views/ViewShifts.vue");
