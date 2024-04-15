@@ -6,7 +6,7 @@
           <component
             :is="component"
             :class="[$vuetify.theme.current.dark ? 'undraw-background' : '']"
-            height="200"
+            :height="height"
             style="box-shadow: 0 0 20px 10px white"
           />
         </div>
