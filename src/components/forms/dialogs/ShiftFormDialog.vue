@@ -59,6 +59,7 @@ import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 // eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import { isBefore } from "date-fns";
+import { useVuelidate } from "@vuelidate/core";
 
 export default {
   name: "ShiftFormDialog",
@@ -105,6 +106,9 @@ export default {
     }
   },
   emits: ["close", "save", "update", "delete", "update:modelValue"],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       icons: {

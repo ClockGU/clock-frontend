@@ -5,9 +5,6 @@ import { isSameMonth } from "date-fns";
 import { useVuelidate } from "@vuelidate/core";
 
 export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
   computed: {
     alertMessages() {
       let alertMessages = [];
