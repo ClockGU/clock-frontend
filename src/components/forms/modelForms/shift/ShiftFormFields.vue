@@ -180,6 +180,11 @@ export default {
     }
   },
   created() {
+    const stopTime = {
+      hours: this.shift.stopped.getHours(),
+      min: this.shift.stopped.getMinutes(),
+      sec: this.shift.stopped.getSeconds()
+    };
     this.shift.wasReviewed = !this.isInFuture;
   },
   methods: {
@@ -187,20 +192,30 @@ export default {
       // If a user changes the coontract of a shift we want to
       // set the start date to the first valid date possible in the newly
       // selected contract.
+      const startTime = [
+        this.shift.started.getHours(),
+        this.shift.started.getMinutes(),
+        this.shift.started.getSeconds()
+      ];
+      const stopTime = [
+        this.shift.stopped.getHours(),
+        this.shift.stopped.getMinutes(),
+        this.shift.stopped.getSeconds()
+      ];
       const contractObj = this.$store.getters["contentData/contractById"](
         this.shift.contract
       );
       let date = this.shift.started;
       if (isBefore(this.shift.started, contractObj.startDate)) {
         date = contractObj.startDate;
-        date.setHours(10, 0, 0);
+        date.setHours.apply(date, startTime);
       } else if (isAfter(this.shift.started, contractObj.endDate)) {
         date = contractObj.endDate;
-        date.setHours(10, 0, 0);
+        date.setHours.apply(date, startTime);
       }
       this.shift.started = date;
       const endDate = new Date(date);
-      endDate.setHours(10, 30);
+      endDate.setHours.apply(endDate, stopTime);
       this.shift.stopped = endDate;
     },
     resetScheduledShifts() {
