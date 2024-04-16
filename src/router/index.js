@@ -139,5 +139,10 @@ router.beforeEach(async (to, from, next) => {
   }
   return next();
 });
+router.afterEach((to, from) => {
+  if (store.getters.loadingRender) {
+    store.commit("stopLoadingRender");
+  }
+});
 
 export default router;

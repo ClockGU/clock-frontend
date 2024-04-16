@@ -24,6 +24,10 @@
         infostring
       }}</v-alert>
       <v-container :style="styles" style="height: 100%">
+        <LoadingAnimation
+          v-if="$store.getters['loadingRender']"
+          text="Loading ..."
+        ></LoadingAnimation>
         <router-view></router-view>
       </v-container>
 
@@ -53,6 +57,7 @@ import { log } from "@/utils/log";
 
 import { mapGetters, mapState } from "vuex";
 import ApiService from "@/services/api";
+import LoadingAnimation from "@/components/LoadingAnimation.vue";
 
 export default {
   name: "App",
@@ -66,6 +71,7 @@ export default {
     };
   },
   components: {
+    LoadingAnimation,
     TheAppBar,
     TheNavigationToolbar,
     TheNavigationDrawer,

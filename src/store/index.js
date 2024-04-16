@@ -15,7 +15,7 @@ import { createStore } from "vuex";
 
 export default new createStore({
   state: {
-    loadingData: true,
+    loadingRender: true,
     locale: selectedLocale,
     user: {
       first_name: ""
@@ -28,6 +28,7 @@ export default new createStore({
     user: (state) => state.user,
     personnelNumber: (state) => state.user.personal_number,
     userLoading: (state) => state.userLoading,
+    loadingRender: (state) => state.loadingRender,
     locale: (state) => state.locale
   },
   actions: {
@@ -89,11 +90,8 @@ export default new createStore({
     toggleBackend(state) {
       state.backendOffline = !state.backendOffline;
     },
-    startLoading(state) {
-      state.loadingData = true;
-    },
-    stopLoading(state) {
-      state.loadingData = false;
+    stopLoadingRender(state) {
+      state.loadingRender = false;
     },
     setUser(state, payload) {
       state.user = { ...payload };
