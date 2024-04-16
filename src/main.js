@@ -28,6 +28,8 @@ import * as directives from "vuetify/directives";
 import { de, en } from "vuetify/locale";
 
 import { log } from "@/utils/log";
+
+import UndrawContentCreator from "vue-undraw/UndrawContentCreator.vue";
 const isProduction = import.meta.env.NODE_ENV === "production";
 export const debugLogger = !isProduction;
 // Initialize ApiService
@@ -113,7 +115,16 @@ if (isProduction) {
     enableHeartBeatTimer: true,
     disableCookies: true,
     debug: !isProduction,
-    domains: import.meta.env.VITE_MATOMO_DOMAINS
+    domains: import.meta.env.VITE_MATOMO_DOMAINS,
+    trackInteraction: (to, from) => {
+      // If this is the first route visited, then always record a page visit
+      if (!from) {
+        return true;
+      }
+
+      // Return true if the path or hash changed, but not anything else
+      return to.path !== from.path || to.hash !== from.hash;
+    }
   });
 
   // Setup sentry error tracking in production
@@ -141,5 +152,5 @@ app.component("BaseLayout", BaseLayout);
 app.component("BaseLink", StyledLink);
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Placeholder", Placeholder);
-
+app.component("UndrawContentCreator", UndrawContentCreator);
 app.mount("#app");

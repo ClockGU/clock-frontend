@@ -81,8 +81,10 @@
           <placeholder
             v-if="(!loading || ignoreLoading) && contracts.length === 0"
             data-cy="contract-list-empty-placeholder"
-            name="UndrawContentCreator"
           >
+            <template #component="attrs">
+              <UndrawContentCreator v-bind="attrs"></UndrawContentCreator>
+            </template>
             {{ $t("contracts.empty") }}
           </placeholder>
         </v-card>

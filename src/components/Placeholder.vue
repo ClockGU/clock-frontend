@@ -3,12 +3,7 @@
     <v-row class="px-0">
       <v-col cols="12" class="pa-8">
         <div class="d-flex align-content-center justify-center">
-          <component
-            :is="component"
-            :class="[$vuetify.theme.current.dark ? 'undraw-background' : '']"
-            :height="height"
-            style="box-shadow: 0 0 20px 10px white"
-          />
+          <slot name="component" v-bind="componentProps"></slot>
         </div>
       </v-col>
     </v-row>
@@ -37,19 +32,17 @@ export default {
     height: {
       type: Number || String,
       default: 200
-    },
-    name: {
-      type: String,
-      required: true
     }
   },
-  data: () => ({
-    component: null
-  }),
-  created() {
-    UndrawFactory.get(this.name).then((resolvedComponent) => {
-      this.component = markRaw(resolvedComponent["default"]);
-    });
+  data: () => ({}),
+  computed: {
+    componentProps() {
+      return {
+        class: [this.$vuetify.theme.current.dark ? "undraw-background" : ""],
+        height: this.height,
+        style: { boxShadow: "0 0 20px 10px white" }
+      };
+    }
   }
 };
 </script>
