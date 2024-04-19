@@ -51,15 +51,21 @@
       <template v-if="pastShifts" #item.reviewed="{ item }">
         <v-btn
           v-if="!item.wasReviewed"
-          :elevation="!isRunningShift(item) ? 3 : 0"
-          variant="flat"
+          :icon="icons.mdiClose"
           :disabled="isRunningShift(item)"
+          color="red"
+          variant="text"
+          elevation="0"
           @click="reviewSingleShift(item)"
         >
-          <v-icon :icon="icons.mdiClose" color="red" />
         </v-btn>
-        <v-btn v-else flat variant="flat">
-          <v-icon :icon="icons.mdiCheck" color="green" />
+        <v-btn
+          v-else
+          variant="text"
+          :icon="icons.mdiCheck"
+          color="green"
+          elevation="0"
+        >
         </v-btn>
       </template>
 
