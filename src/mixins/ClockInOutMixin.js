@@ -88,9 +88,6 @@ export default {
             contractID: savedShift.contract,
             shiftInstance: savedShift
           });
-          await this.$store.dispatch("clock/deleteClockedShift");
-          await this.$store.dispatch("clock/unclockShift");
-
           await this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.clockOut"),
             color: "success"
@@ -109,11 +106,12 @@ export default {
           this.shiftToModify = new Shift(this.shiftData);
           this.window += 1;
           this.unpause();
+          await this.reset();
           return;
         }
-        await this.reset();
       }
-      await this.stop();
+      await this.$store.dispatch("clock/deleteClockedShift");
+      await this.$store.dispatch("clock/unclockShift");
       this.saving = false;
       this.shiftData = {};
     },
@@ -177,6 +175,7 @@ export default {
           });
         }
       } catch (error) {
+        console.log(error);
         if (error.response && error.response.status === 401) return;
 
         this.clock.resetInterval();
