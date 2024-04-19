@@ -40,7 +40,6 @@
       v-model="time"
       format="24hr"
       @update:model-value="menu = false"
-      @click:outside="menu = false"
       @update:minute="menu = false"
     ></VTimePicker>
   </v-menu>
@@ -99,6 +98,7 @@ export default {
   watch: {
     modelValue(val) {
       this.time = localizedFormat(val, "HH:mm");
+      this.textFieldTime = this.time;
     },
     time(val) {
       let [hours, minutes] = val.split(":");
