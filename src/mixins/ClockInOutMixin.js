@@ -68,12 +68,13 @@ export default {
         const endDate = clockOutDate;
         // Do not accept live clocked shifts shorter than a minute
         if (differenceInSeconds(endDate, startDate) < 60) {
-          await this.$store.dispatch("clock/deleteClockedShift");
-          await this.$store.dispatch("clock/unclockShift");
+          await this.reset();
           this.$store.dispatch("snackbar/setSnack", {
             message: this.$t("dashboard.clock.snacks.shiftTooShort"),
             color: "warning"
           });
+          this.saving = false;
+          return;
         } else {
           this.shiftData = {
             started: startDate,
@@ -107,9 +108,11 @@ export default {
           this.window += 1;
           this.unpause();
           await this.reset();
+          this.saving = false;
           return;
         }
       }
+      this.stop();
       await this.$store.dispatch("clock/deleteClockedShift");
       await this.$store.dispatch("clock/unclockShift");
       this.saving = false;
