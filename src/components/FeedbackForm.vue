@@ -34,6 +34,7 @@
           :label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
           @blur="v$.message.$touch()"
+          @keydown.enter.prevent="addNewline"
         ></v-textarea>
       </v-form>
     </v-card-text>
@@ -90,19 +91,19 @@ export default {
     availableTopics() {
       return [
         {
-          text: this.$t("feedback.topics.bug"),
+          title: this.$t("feedback.topics.bug"),
           value: "bug"
         },
         {
-          text: this.$t("feedback.topics.feature"),
+          title: this.$t("feedback.topics.feature"),
           value: "feature"
         },
         {
-          text: this.$t("feedback.topics.question"),
+          title: this.$t("feedback.topics.question"),
           value: "question"
         },
         {
-          text: this.$t("feedback.topics.general"),
+          title: this.$t("feedback.topics.general"),
           value: "general"
         }
       ];
@@ -144,6 +145,9 @@ export default {
     // });
   },
   methods: {
+    addNewline() {
+      this.message += "\n";
+    },
     initialize() {
       this.name = this.user.first_name;
       this.email = this.user.email;
