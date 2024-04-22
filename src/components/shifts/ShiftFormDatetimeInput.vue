@@ -57,7 +57,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { formatISO } from "date-fns";
+import { formatISO, subDays } from "date-fns";
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput.vue";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput.vue";
 
@@ -105,7 +105,7 @@ export default {
       return this.getContractInstance(this.contractId);
     },
     dateMin() {
-      return formatISO(this.contract.startDate);
+      return formatISO(subDays(this.contract.startDate, 1));
     },
     dateMax() {
       return formatISO(this.contract.endDate);
