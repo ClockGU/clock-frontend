@@ -1,7 +1,10 @@
 import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { getFirstOfCurrentMonth, getLastOfCurrentMonth } from "@/utils/date";
+import { minutesToHHMM } from "@/utils/time";
+import i18n from "@/plugins/i18n";
 
+const { t } = i18n.global;
 export function mapContractApiResponse(response) {
   return {
     id: response.id,
@@ -101,6 +104,14 @@ export class Contract {
 
   endDateString() {
     return format(this.endDate, "yyyy-MM-dd");
+  }
+  worktimeRepresentation() {
+    if (this.worktimeModelName === "studEmp") {
+      return t("contracts.perMonth", { time: minutesToHHMM(this.minutes) });
+    }
+    return t("contracts.perMonth", {
+      time: t("contracts.fte", { percent: this.percentFte })
+    });
   }
   toPayload() {
     return {
