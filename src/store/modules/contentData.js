@@ -3,13 +3,15 @@ import {
   groupByContract,
   indexOfByMonthYear,
   indexOfByStarted,
-  sortByMonthYear,
-  sortByStartDate,
-  sortByStarted
+  sortAscByMonthYear,
+  sortAscByStartDate,
+  sortAscByStarted,
+  sortDescByLastActivity
 } from "@/utils";
 import { ReportService, ShiftService } from "@/services/models";
 import { localizedFormat } from "@/utils/date";
 import store from "@/store";
+import { max } from "date-fns";
 
 const state = {
   contentData: {},
@@ -62,21 +64,34 @@ const getters = {
     for (let data of Object.values(state.contentData)) {
       shiftArray.push(...data.shifts);
     }
-    return sortByStarted(shiftArray);
+    return sortAscByStarted(shiftArray);
   },
   allReports(state) {
     let reportArray = [];
     for (let data of Object.values(state.contentData)) {
       reportArray.push(...data.reports);
     }
-    return sortByMonthYear(reportArray);
+    return sortAscByMonthYear(reportArray);
   },
   allContracts(state) {
     let contractArray = [];
     for (let data of Object.values(state.contentData)) {
       contractArray.push(data.contract);
     }
-    return sortByStartDate(contractArray);
+    return sortAscByStartDate(contractArray);
+  },
+  allContractsByLastActivity(state) {
+    let contractArray = [];
+    for (let data of Object.values(state.contentData)) {
+      const shifts = data.shifts.map((item) => item.started);
+      let lastActivity = shifts.length ? max(shifts) : 0; // Date of latest shift
+      if (!lastActivity) {
+        lastActivity = data.contract.startDate; // set startDate of contract as last activity
+      }
+      data.contract.lastActivity = lastActivity;
+      contractArray.push(data.contract);
+    }
+    return sortDescByLastActivity(contractArray);
   }
 };
 
@@ -220,10 +235,10 @@ const mutations = {
     );
   },
   setShifts(state, { contractID, shiftData }) {
-    state.contentData[contractID]["shifts"] = sortByStarted(shiftData);
+    state.contentData[contractID]["shifts"] = sortAscByStarted(shiftData);
   },
   setReports(state, { contractID, reportData }) {
-    state.contentData[contractID]["reports"] = sortByMonthYear(reportData);
+    state.contentData[contractID]["reports"] = sortAscByMonthYear(reportData);
   },
   setContract(state, { contractID, contractInstance }) {
     state.contentData[contractID]["contract"] = contractInstance;
