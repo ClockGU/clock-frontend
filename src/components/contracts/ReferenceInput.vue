@@ -4,6 +4,7 @@ import {
   mdiRotate3dVariant,
   mdiInformationOutline
 } from "@mdi/js";
+import { v4 as uuidv4 } from "uuid";
 
 const model = defineModel({ type: String });
 </script>
@@ -11,15 +12,21 @@ const model = defineModel({ type: String });
 <template>
   <div class="d-flex">
     <v-text-field
-      v-model="model"
+      :model-value="model"
+      readonly
       :label="$t('contracts.reference')"
       :prepend-icon="mdiIdentifier"
       :hint="$t('contracts.referenceExplanation')"
       persistent-hint
       variant="filled"
       required
+      @mouseup.stop
     />
-    <v-btn :icon="mdiRotate3dVariant" style="margin-inline: 8px"></v-btn>
+    <v-btn
+      :icon="mdiRotate3dVariant"
+      style="margin-inline: 8px"
+      @click="model = uuidv4()"
+    ></v-btn>
   </div>
 </template>
 
