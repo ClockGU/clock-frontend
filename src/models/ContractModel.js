@@ -3,6 +3,7 @@ import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { getFirstOfCurrentMonth, getLastOfCurrentMonth } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import i18n from "@/plugins/i18n";
+import { v4 as uuidv4 } from "uuid";
 
 const { t } = i18n.global;
 export function mapContractApiResponse(response) {
@@ -47,7 +48,7 @@ export class Contract {
     this.id = is(String, id) ? id : "";
     this.user = is(String, user) ? user : "";
     this.name = is(String, name) ? name : "";
-    this.reference = is(String, reference) ? reference : "";
+    this.reference = is(String, reference) ? reference : uuidv4();
     this.minutes = is(Number, minutes) ? minutes : 0;
     this.percentFte = is(Number, percentFte) ? percentFte : 0.0;
     this.startDate =
