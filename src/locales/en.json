@@ -82,6 +82,8 @@
     "hoursPerMonth": "Hours per month",
     "hoursPerMonthSubtitle": "Your monthly working time in HH:mm or HH,hh",
     "name": "Name your contract",
+    "reference": "Create Reference ID",
+    "referenceExplanation": "This reference ID must be given to the supervisor responsible for you.",
     "worktimeModelName": "Choose your worktime model",
     "percentFte": {
       "dataLabel": "% FTE",
