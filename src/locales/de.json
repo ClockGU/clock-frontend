@@ -82,6 +82,8 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
+    "reference": "Erzeuge Referenz ID",
+    "referenceExplanation": "Diese Referenz muss der zuständigen Führungskraft mitgeteilt werden.",
     "worktimeModelName": "Wähle dein Arbeitszeitmodell",
     "percentFte": {
       "dataLabel": "% VZÄ",
