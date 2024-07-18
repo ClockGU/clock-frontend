@@ -1,17 +1,18 @@
 <template>
   <v-window v-model="window">
     <v-window-item :key="0">
-      <ClockInOutCardClock
-        :actions="{
-          data: clockData,
-          duration,
-          status,
-          start,
-          destroy: reset
-        }"
-        :save-fn="save"
-        :contract-name="contractName"
-      />
+<!--      <ClockInOutCardClock-->
+<!--        :actions="{-->
+<!--          data: clockData,-->
+<!--          duration,-->
+<!--          status,-->
+<!--          start,-->
+<!--          destroy: reset-->
+<!--        }"-->
+<!--        :save-fn="save"-->
+<!--        :contract-name="contractName"-->
+<!--      />-->
+      <LiveClock></LiveClock>
     </v-window-item>
     <v-window-item :key="1">
       <ClockInOutCardForm
@@ -60,12 +61,14 @@ import { mapGetters } from "vuex";
 import contractValidMixin from "@/mixins/contractValid";
 import { Shift } from "@/models/ShiftModel";
 import ClockInOutCardForm from "@/components/ClockInOutCardForm.vue";
+import LiveClock from "@/components/LiveClock.vue";
 
 export default {
   name: "ClockInOutCard",
   components: {
+    LiveClock,
     ClockInOutCardForm,
-    ClockInOutCardClock
+    // ClockInOutCardClock
   },
   mixins: [contractValidMixin, ClockInOutMixin],
   props: {

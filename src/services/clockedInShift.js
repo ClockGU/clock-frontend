@@ -30,7 +30,7 @@ export class ClockedInShiftService {
   static async delete(id) {
     const response = await ApiService.delete(this.BASE_URL + `${id}`);
     if (response.status === 204) {
-      return undefined;
+      return response;
     } else {
       // TODO: Appwide errorhandling
       throw Error(response.data);
