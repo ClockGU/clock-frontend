@@ -1,18 +1,23 @@
 <script setup>
 
 import { mdiDelete } from "@mdi/js";
-import { computed, ref } from "vue";
+import { computed, ref, defineModel } from "vue";
 import { useStore } from "vuex";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { formatDate, secondsToHHMM } from "@/utils/time";
 import { useI18n } from "vue-i18n";
+import { differenceInSeconds, getHours, getMinutes, isSameDay, set } from "date-fns";
+import { ShiftService } from "@/services/models";
 
 const { t } = useI18n(); // use as global scope
+const window = defineModel("window", {type:Number});
+const shiftToModify = defineModel("shiftToModify", {type:Object})
+
 const clock = ref(undefined);
 
 const duration = computed(()=> clock.value.duration)
-
+const clockedInShift = computed(()=> store.getters["clock/clockedShift"])
 const store = useStore();
 
 const status = ref("idle");
@@ -55,6 +60,27 @@ async function destroy() {
   setStatusIdle();
 }
 
+async function saveShift(startDate, endDate) {
+  const shiftData = {
+    started: startDate,
+    stopped: endDate,
+    contract: clockedInShift.value.contract,
+    type: "st",
+    wasReviewed: true
+  };
+  const shift = new Shift(shiftData);
+  const savedShift = await ShiftService.create(shift.toPayload());
+  await store.commit("contentData/addShift", {
+    contractID: savedShift.contract,
+    shiftInstance: savedShift
+  });
+  await store.dispatch("snackbar/setSnack", {
+    message: t("dashboard.clock.snacks.clockOut"),
+    color: "success"
+  });
+  return shiftData;
+}
+
 async function clockIn() {
   setStatusSaving();
   try {
@@ -66,7 +92,9 @@ async function clockIn() {
       message: error,
       color: "error"
     });
+    clock.value.stop();
     setStatusIdle();
+    return;
   }
   try {
     //creating clockedInShift
@@ -87,6 +115,58 @@ async function clockIn() {
     return;
   }
   setStatusRunning()
+}
+
+async function clockOut() {
+  setStatusSaving();
+  clock.value.pause();
+  const startDate = clockedInShift.value.startDate;
+  // Catch Bug if saving at exactly 00:00 -> leads to zero duration shift.
+  let clockOutDate = new Date();
+  if (getHours(clockOutDate) === 0 && getMinutes(clockOutDate) === 0) {
+    clockOutDate = set(clockedShift.started, {
+      hours: 23,
+      minutes: 59,
+      seconds: 59
+    });
+  }
+  // Not allowing shifts shorter than a minute
+  if (differenceInSeconds(clockOutDate, startDate) < 60) {
+    await destroy();
+    store.dispatch("snackbar/setSnack", {
+      message: t("dashboard.clock.snacks.shiftTooShort"),
+      color: "warning"
+    });
+    return;
+  }
+  let shiftData;
+  try {
+    shiftData = await saveShift(startDate, clockOutDate);
+    throw Error();
+  } catch (error) {
+    if (error.response && error.response.status === 401) return;
+    if (error.response && error.response.status === 400) {
+      if (!isSameDay(shiftData.started, shiftData.stopped)) {
+        shiftData.stopped = set(clockedInShift.value.started, {
+          hours: 23,
+          minutes: 59,
+          seconds: 59
+        });
+      }
+      //TODO: Implement model-values for window and shiftToModify
+      shiftToModify = new Shift(shiftData);
+      window++ ;
+      clock.value.unpause();
+      clock.value.reset();
+      return;
+    }
+  }
+  clock.value.stop();
+  clock.value = undefined;
+  setStatusIdle();
+  await store.dispatch("clock/deleteClockedShift");
+  await store.dispatch("clock/unclockShift");
+
 }
 </script>
 
@@ -159,6 +239,7 @@ async function clockIn() {
             color="primary"
             block
             variant="text"
+            @click="clockOut"
           >
             {{ t("dashboard.clock.out") }}
           </v-btn>

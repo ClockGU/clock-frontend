@@ -31,7 +31,6 @@ export default class Clock {
   }
 
   tick() {
-    console.log("Tick invoked");
     this.duration = differenceInSeconds(new Date(), this.startDate);
   }
 

@@ -12,7 +12,7 @@
 <!--        :save-fn="save"-->
 <!--        :contract-name="contractName"-->
 <!--      />-->
-      <LiveClock></LiveClock>
+      <LiveClock v-model:window="window" v-model:shift-to-modify="shiftToModify"></LiveClock>
     </v-window-item>
     <v-window-item :key="1">
       <ClockInOutCardForm
