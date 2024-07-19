@@ -1,17 +1,6 @@
 <template>
   <v-window v-model="window">
     <v-window-item :key="0">
-<!--      <ClockInOutCardClock-->
-<!--        :actions="{-->
-<!--          data: clockData,-->
-<!--          duration,-->
-<!--          status,-->
-<!--          start,-->
-<!--          destroy: reset-->
-<!--        }"-->
-<!--        :save-fn="save"-->
-<!--        :contract-name="contractName"-->
-<!--      />-->
       <LiveClock v-model:window="window" v-model:shift-to-modify="shiftToModify"></LiveClock>
     </v-window-item>
     <v-window-item :key="1">
@@ -70,7 +59,7 @@ export default {
     ClockInOutCardForm,
     // ClockInOutCardClock
   },
-  mixins: [contractValidMixin, ClockInOutMixin],
+  mixins: [contractValidMixin],
   props: {
     disabled: {
       type: Boolean,

@@ -120,7 +120,7 @@ async function clockIn() {
 async function clockOut() {
   setStatusSaving();
   clock.value.pause();
-  const startDate = clockedInShift.value.startDate;
+  const started = clockedInShift.value.started;
   // Catch Bug if saving at exactly 00:00 -> leads to zero duration shift.
   let clockOutDate = new Date();
   if (getHours(clockOutDate) === 0 && getMinutes(clockOutDate) === 0) {
@@ -131,7 +131,7 @@ async function clockOut() {
     });
   }
   // Not allowing shifts shorter than a minute
-  if (differenceInSeconds(clockOutDate, startDate) < 60) {
+  if (differenceInSeconds(clockOutDate, started) < 60) {
     await destroy();
     store.dispatch("snackbar/setSnack", {
       message: t("dashboard.clock.snacks.shiftTooShort"),
@@ -141,7 +141,7 @@ async function clockOut() {
   }
   let shiftData;
   try {
-    shiftData = await saveShift(startDate, clockOutDate);
+    shiftData = await saveShift(started, clockOutDate);
     throw Error();
   } catch (error) {
     if (error.response && error.response.status === 401) return;
@@ -155,7 +155,7 @@ async function clockOut() {
       }
       //TODO: Implement model-values for window and shiftToModify
       shiftToModify = new Shift(shiftData);
-      window++ ;
+      window++;
       clock.value.unpause();
       clock.value.reset();
       return;
