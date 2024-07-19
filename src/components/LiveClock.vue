@@ -1,7 +1,7 @@
 <script setup>
 
 import { mdiDelete } from "@mdi/js";
-import { computed, ref, defineModel } from "vue";
+import { computed, ref, defineModel, onMounted, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
@@ -34,8 +34,12 @@ function setStatusIdle() {
   status.value = "idle"
 }
 
-function initializetClock() {
-  clock.value = new ClockModel({startDate: new Date()});
+function initializeClock(startDate = null) {
+  clock.value = new ClockModel(
+    {
+    startDate: startDate ? startDate : new Date()
+  }
+  );
 }
 
 async function destroy() {
@@ -84,7 +88,7 @@ async function saveShift(startDate, endDate) {
 async function clockIn() {
   setStatusSaving();
   try {
-    initializetClock();
+    initializeClock();
     clock.value.start();
 
   } catch (error) {
@@ -142,7 +146,6 @@ async function clockOut() {
   let shiftData;
   try {
     shiftData = await saveShift(started, clockOutDate);
-    throw Error();
   } catch (error) {
     if (error.response && error.response.status === 401) return;
     if (error.response && error.response.status === 400) {
@@ -167,6 +170,15 @@ async function clockOut() {
   await store.dispatch("clock/deleteClockedShift");
   await store.dispatch("clock/unclockShift");
 
+}
+
+//New way of created hook
+
+if (clockedInShift.value !== undefined) {
+  console.log("clockedInShift recoginized")
+  initializeClock(clockedInShift.value.started);
+  clock.value.start();
+  setStatusRunning();
 }
 </script>
 
