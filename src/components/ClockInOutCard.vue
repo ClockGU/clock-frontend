@@ -1,15 +1,17 @@
 <template>
   <v-window v-model="window">
     <v-window-item :key="0">
-      <LiveClock v-model:window="window" v-model:shift-to-modify="shiftToModify"></LiveClock>
+      <LiveClock
+        v-model:window="window"
+        v-model:shift-to-modify="shiftToModify"
+      ></LiveClock>
     </v-window-item>
     <v-window-item :key="1">
       <ClockInOutCardForm
+        v-model="shiftToModify"
         :overflow="overflow"
-        :shift="shiftToModify"
-        :destroy="reset"
         :contract-name="contractName"
-        @update-indow="window += $event"
+        @update-window="window += $event"
       ></ClockInOutCardForm>
     </v-window-item>
     <v-overlay

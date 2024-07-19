@@ -1,19 +1,12 @@
 <script setup>
-import { mdiArrowLeft, mdiDelete } from "@mdi/js";
+import { mdiDelete } from "@mdi/js";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { Shift } from "@/models/ShiftModel";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useStore } from "vuex";
 
 const props = defineProps({
-  destroy: {
-    type: Function,
-    required: true
-  },
-  shift: {
-    type: Shift,
-    required: true
-  },
   contractName: {
     type: String,
     required: true
@@ -24,13 +17,16 @@ const props = defineProps({
   }
 });
 
-defineEmits(["updateWindow"]);
+const emit = defineEmits(["updateWindow"]);
 
 const dialog = ref(false);
 const { t } = useI18n(); // use as global scope
+const store = useStore();
 
+const shift = defineModel("shift", {type: [Shift, typeof undefined]})
 function finish(saved) {
-  this.$emit("updateWindow", -1);
+  emit("updateWindow", -1);
+  shift.value = undefined;
   let message =
     this.t("dashboard.clock.problems.messages.success") + " ";
   if (saved) {
@@ -38,7 +34,7 @@ function finish(saved) {
   } else {
     message += this.t("dashboard.clock.problems.messages.noSaved");
   }
-  this.$store.dispatch("snackbar/setSnack", {
+  store.dispatch("snackbar/setSnack", {
     message: message,
     color: "success"
   });
@@ -49,14 +45,11 @@ function finish(saved) {
 <template>
   <v-card>
     <v-toolbar :elevation="0">
-      <v-btn icon @click="$emit('updateWindow', -1)">
-        <v-icon>{{ mdiArrowLeft }}</v-icon>
-      </v-btn>
       <v-toolbar-title>
         {{ t("dashboard.clock.problems.title") }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="finish(false)">
+      <v-btn @click="finish(false)">
         <v-icon>{{ mdiDelete }}</v-icon>
       </v-btn>
     </v-toolbar>

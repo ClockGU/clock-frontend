@@ -12,7 +12,9 @@ import { ShiftService } from "@/services/models";
 
 const { t } = useI18n(); // use as global scope
 const window = defineModel("window", {type:Number});
-const shiftToModify = defineModel("shiftToModify", {type:Object})
+const shiftToModify = defineModel(
+  "shiftToModify", {type:[Shift, typeof undefined]}
+)
 
 const clock = ref(undefined);
 
@@ -233,7 +235,7 @@ if (clockedInShift.value !== undefined) {
         </div>
       </v-row>
       <div class="justify-center mt-3">
-        <v-slide-x-transition group leave-absolute>
+
           <v-btn
             v-if="status === 'idle'"
             key="clock-in"
@@ -257,7 +259,6 @@ if (clockedInShift.value !== undefined) {
           >
             {{ t("dashboard.clock.out") }}
           </v-btn>
-        </v-slide-x-transition>
       </div>
     </v-card-text>
   </v-card>
