@@ -23,10 +23,10 @@ const dialog = ref(false);
 const { t } = useI18n(); // use as global scope
 const store = useStore();
 
-const shift = defineModel("shift", {type: [Shift, typeof undefined]})
+const model = defineModel({type: [Shift, typeof undefined]})
 function finish(saved) {
   emit("updateWindow", -1);
-  shift.value = undefined;
+  model.value.value = undefined;
   let message =
     this.t("dashboard.clock.problems.messages.success") + " ";
   if (saved) {
@@ -73,7 +73,7 @@ function finish(saved) {
       </v-row>
       <v-row justify="center">
         <ShiftFormDialog
-          :shift="shift"
+          :shift="model"
           btn-color="primary"
           text-button
           @save="finish(true)"
