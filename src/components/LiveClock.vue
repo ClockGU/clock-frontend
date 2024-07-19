@@ -73,7 +73,12 @@ async function saveShift(startDate, endDate) {
     wasReviewed: true
   };
   const shift = new Shift(shiftData);
-  const savedShift = await ShiftService.create(shift.toPayload());
+  try {
+    const savedShift = await ShiftService.create(shift.toPayload());
+  } catch (error) {
+    error.response.config.data = shiftData;
+    throw error;
+  }
   await store.commit("contentData/addShift", {
     contractID: savedShift.contract,
     shiftInstance: savedShift
@@ -143,10 +148,10 @@ async function clockOut() {
     });
     return;
   }
-  let shiftData;
   try {
-    shiftData = await saveShift(started, clockOutDate);
+    await saveShift(started, clockOutDate);
   } catch (error) {
+    let shiftData = new Shift(error.response.config.data);
     if (error.response && error.response.status === 401) return;
     if (error.response && error.response.status === 400) {
       if (!isSameDay(shiftData.started, shiftData.stopped)) {
@@ -157,11 +162,8 @@ async function clockOut() {
         });
       }
       //TODO: Implement model-values for window and shiftToModify
-      shiftToModify = new Shift(shiftData);
-      window++;
-      clock.value.unpause();
-      clock.value.reset();
-      return;
+      shiftToModify.value = new Shift(shiftData);
+      window.value++;
     }
   }
   clock.value.stop();
