@@ -18,7 +18,7 @@ const shiftToModify = defineModel(
 
 const clock = ref(undefined);
 
-const duration = computed(()=> clock.value.duration)
+const duration = computed(()=> secondsToHHMM(clock.value.duration))
 const clockedInShift = computed(()=> store.getters["clock/clockedShift"])
 const store = useStore();
 
@@ -230,7 +230,7 @@ if (clockedInShift.value !== undefined) {
             {{ formatDate(clock.startDate) }}
           </div>
           <div class="text-h6 font-weight-light text-center">
-            {{ secondsToHHMM(duration) }}
+            {{ duration }}
           </div>
         </div>
       </v-row>
