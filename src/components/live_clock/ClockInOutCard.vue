@@ -45,14 +45,12 @@
 </template>
 
 <script>
-import ClockInOutMixin from "@/mixins/ClockInOutMixin";
-import ClockInOutCardClock from "@/components/ClockInOutCardClock.vue";
 import { mapGetters } from "vuex";
 
 import contractValidMixin from "@/mixins/contractValid";
 import { Shift } from "@/models/ShiftModel";
-import ClockInOutCardForm from "@/components/ClockInOutCardForm.vue";
-import LiveClock from "@/components/LiveClock.vue";
+import ClockInOutCardForm from "@/components/live_clock/ClockInOutCardForm.vue";
+import LiveClock from "@/components/live_clock/LiveClock.vue";
 
 export default {
   name: "ClockInOutCard",
