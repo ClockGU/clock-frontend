@@ -82,8 +82,8 @@ async function saveShift(startDate, endDate) {
     throw error;
   }
   await store.commit("contentData/addShift", {
-    contractID: savedShift.contract,
-    shiftInstance: savedShift
+    contractID: shift.contract,
+    shiftInstance: shift
   });
   await store.dispatch("snackbar/setSnack", {
     message: t("dashboard.clock.snacks.clockOut"),
