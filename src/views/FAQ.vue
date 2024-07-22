@@ -27,11 +27,11 @@
                 class="text-body-1"
                 :class="getQuestionFontWeight(faq)"
                 @click="setSelectedFaq(faq)"
+                v-html="question(faq)"
               >
-                {{ question(faq) }}
+
               </v-expansion-panel-title>
-              <v-expansion-panel-text class="text-body-1">
-                {{ answer(faq) }}
+              <v-expansion-panel-text class="text-body-1" v-html="answer(faq)">
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -58,7 +58,8 @@
 <script>
 import { mapGetters } from "vuex";
 import Placeholder from "@/components/Placeholder.vue";
-
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 export default {
   name: "FAQ",
   components: { Placeholder },
@@ -94,13 +95,16 @@ export default {
         ? faq_group_zero.en_heading
         : faq_group_zero[key];
     },
+    parsedText(text) {
+      return DOMPurify.sanitize(marked.parse(text));
+    },
     question(faq) {
       const key = `${this.locale}_question`;
-      return key === undefined ? faq.en_question : faq[key];
+      return key === undefined ? faq.en_question : this.parsedText(faq[key]);
     },
     answer(faq) {
       const key = `${this.locale}_answer`;
-      return key === undefined ? faq.en_answer : faq[key];
+      return key === undefined ? faq.en_answer : this.parsedText(faq[key]);
     },
     getQuestionFontWeight(faq) {
       return this.selectedFaq === faq && this.isExpanded
