@@ -150,11 +150,11 @@ async function clockOut() {
     });
     return;
   }
-  saving: try {
+  try {
     await saveShift(started, clockOutDate);
   } catch (error) {
-    if (!error.response) break saving;
-    if ( error.response.status === 401)  break saving;
+    if (!error.response) return;
+    if ( error.response.status === 401)  return;
     let shiftData = new Shift(error.response.config.data);
     if (error.response.status === 400) {
       if (!isSameDay(shiftData.started, shiftData.stopped)) {
@@ -168,12 +168,13 @@ async function clockOut() {
       shiftToModify.value = new Shift(shiftData);
       window.value++;
     }
+  } finally {
+    clock.value.stop();
+    clock.value = undefined;
+    setStatusIdle();
+    await store.dispatch("clock/deleteClockedShift");
+    await store.dispatch("clock/unclockShift");
   }
-  clock.value.stop();
-  clock.value = undefined;
-  setStatusIdle();
-  await store.dispatch("clock/deleteClockedShift");
-  await store.dispatch("clock/unclockShift");
 
 }
 
