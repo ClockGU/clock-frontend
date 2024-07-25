@@ -36,6 +36,7 @@
             :events="events"
             :now="today"
             :view-mode="type"
+            :first-day-of-week="1"
             @click:event="editEvent"
           >
             <template #header>
