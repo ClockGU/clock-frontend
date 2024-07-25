@@ -21,7 +21,7 @@ export default {
       return this.$vuetify.theme.name === "dark" ? "lighten-2" : "darken-2";
     },
     textColor() {
-      return "primary--text" + " " + "text--" + this.colorModification;
+      return "warning--text" + " " + "text--" + this.colorModification;
     }
   }
 };
@@ -32,11 +32,11 @@ export default {
 }
 .link {
   border-radius: 100% 100% 0 0;
-  border-bottom: 2px solid var(--v-primary-base);
-  border-bottom-width: 50%;
+  border-bottom: 2px solid rgb(var(--v-theme-primary));
+  //border-bottom-width: 50%;
   background: radial-gradient(
       ellipse at 50% 100%,
-      var(--v-primary-base),
+      rgb(var(--v-theme-primary)),
       rgb(0, 0, 0, 0)
     )
     bottom no-repeat;
@@ -49,5 +49,11 @@ export default {
 .link:active {
   background-size: 100% 110%;
   text-decoration: none;
+}
+a:link {
+  color: white;
+}
+a:visited {
+  color: white;
 }
 </style>
