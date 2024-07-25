@@ -528,7 +528,7 @@
     "errors": {
       "startedBeforeStopped": "The start must be before the end of the shift.",
       "maximumWorktimePerDay": "The maxium allowed working time amount is 10 hours per day.",
-      "workingOnSundays": "It is not allowed to work on a sunday.",
+      "workingOnSundays": "It is generally not allowed to work on a sunday, unless, you are affected by the exceptions of §10 Abs. 1 Arbeitszeitgesetz.",
       "workingOnHolidays": "You can only book 'holiday' shifts on a holiday.",
       "holidayOnWorkday": "You can not book 'holiday' shifts on a regular workday.",
       "exclusiveVacation": "You can not combine 'vacation' shifts with other shifts on the same day.",

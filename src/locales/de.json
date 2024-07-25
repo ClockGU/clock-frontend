@@ -528,7 +528,7 @@
     "errors": {
       "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
       "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
-      "workingOnSundays": "Es ist nicht erlaubt, an einem Sonntag zu arbeiten",
+      "workingOnSundays": "Grundsätzlich ist das Arbeiten an Sonn- und Feiertagen nicht erlaubt, es sei denn, sie fallen unter den Ausnahmekatalog des §10 Abs. 1 Arbeitszeitgesetz.",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
       "holidayOnWorkday": "An regulären Arbeitstagen können keine Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",
