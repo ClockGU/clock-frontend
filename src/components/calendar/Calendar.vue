@@ -58,7 +58,7 @@
               </div>
             </template>
             <template #event="{event}">
-              <v-chip>
+              <v-chip @click="editEvent(event.shift)">
                 <v-badge :color="event.contractColor" dot inline></v-badge>
                 <div class="pl-1">
                   <div class="icon-center">
@@ -96,26 +96,13 @@
             <!--                  >{{ icons.bhIcon }}</v-icon-->
             <!--                >-->
             <!--              </template>-->
-            <!--              <template #event="{ event, eventParsed, formatTime }">-->
-            <!--                <div class="pl-1">-->
-            <!--                  <div class="v-event-summary">-->
-            <!--                    <span>-->
-            <!--                      <strong>{{ formatTime(eventParsed.start) }} </strong>-->
-            <!--                      {{ event.duration }}</span-->
-            <!--                    >-->
-            <!--                    <v-icon class="pr-2" style="float: right; scale: 0.9" dense>-->
-            <!--                      {{ event.icon }}-->
-            <!--                    </v-icon>-->
-            <!--                  </div>-->
-            <!--                </div>-->
-            <!--              </template>-->
           </VCalendar>
         </v-col>
       </v-row>
     </v-container>
     <ShiftFormDialog
       :shift="shift"
-      :value="editShift"
+      :model-value="editShift"
       disable-activator
       @close="editShift = false"
     ></ShiftFormDialog>
@@ -261,8 +248,8 @@ export default {
     mdiCircleSlice8() {
       return mdiCircleSlice8;
     },
-    editEvent(data) {
-      this.shift = data.event.shift;
+    editEvent(shift) {
+      this.shift = shift;
       this.editShift = true;
     },
     modifyProps(props) {
