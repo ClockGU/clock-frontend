@@ -29,7 +29,6 @@
                 @click="setSelectedFaq(faq)"
                 v-html="question(faq)"
               >
-
               </v-expansion-panel-title>
               <v-expansion-panel-text class="text-body-1" v-html="answer(faq)">
               </v-expansion-panel-text>
