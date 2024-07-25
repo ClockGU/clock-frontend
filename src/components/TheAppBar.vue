@@ -15,12 +15,13 @@
       <v-toolbar-title>
         <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
           <span
+            aria-label="Home Link"
             role="link"
             style="cursor: pointer"
             @click="navigate"
             @keypress.enter="navigate"
           >
-            <v-img width="96px" height="32px" :src="imgSrc" />
+            <v-img width="96px" height="32px" :src="imgSrc" alt="Clock Logo"/>
           </span>
         </router-link>
       </v-toolbar-title>
@@ -30,7 +31,7 @@
       <ThemeToggle />
 
       <template v-if="showLoggedOutButtons">
-        <LanguageSwitcher />
+          <LanguageSwitcher />
 
         <v-btn variant="text" :to="{ name: 'faq' }">{{ $t("app.faq") }}</v-btn>
 

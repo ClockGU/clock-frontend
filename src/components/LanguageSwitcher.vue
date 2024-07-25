@@ -1,5 +1,6 @@
 <template>
   <v-menu
+    aria-label="Language-Switcher"
     location="bottom left"
     offset-y
     max-height="calc(100% - 16px)"
