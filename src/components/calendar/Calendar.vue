@@ -57,18 +57,23 @@
                 </v-col>
               </div>
             </template>
-            <template #event="{event}">
+            <template #event="{ event }">
               <v-chip @click="editEvent(event.shift)">
                 <v-badge :color="event.contractColor" dot inline></v-badge>
                 <div class="pl-1">
                   <div class="icon-center">
-                  <span class="pr-1" style="border-right: 2px solid black;">
-                    <strong>{{ formatTime(event.start) }} </strong>
+                    <span class="pr-1" style="border-right: 2px solid black">
+                      <strong>{{ formatTime(event.start) }} </strong>
                     </span>
                     <span class="ml-1">
                       {{ event.selectedEventDuration }}
                     </span>
-                    <v-icon :color="event.iconColor" class="ml-2" :icon="event.icon" style="scale: 0.9">
+                    <v-icon
+                      :color="event.iconColor"
+                      class="ml-2"
+                      :icon="event.icon"
+                      style="scale: 0.9"
+                    >
                     </v-icon>
                   </div>
                 </div>
@@ -123,7 +128,6 @@ import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 import { HEX_SHIFT_TYPE_COLORS, SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { VCalendar } from "vuetify/labs/VCalendar";
 import { formatTime } from "@/utils/time";
-
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -240,7 +244,7 @@ export default {
   },
   methods: {
     formatDate() {
-      return formatDate
+      return formatDate;
     },
     formatTime(date) {
       return formatTime(date);

@@ -1,12 +1,11 @@
-
-import colors from 'vuetify/util/colors'
+import colors from "vuetify/util/colors";
 export const SHIFT_TYPE_COLORS = {
   st: "primary",
   sk: "pink lighten-1",
   vn: "green lighten-1",
   bh: "orange"
 };
-export const HEX_SHIFT_TYPE_COLORS ={
+export const HEX_SHIFT_TYPE_COLORS = {
   st: colors.blue.darken2,
   sk: colors.pink.lighten1,
   vn: colors.green.lighten1,
