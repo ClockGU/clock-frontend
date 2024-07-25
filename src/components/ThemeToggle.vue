@@ -1,9 +1,12 @@
 <template>
-  <div class="mode-toggle" :class="darkDark" @click="toggleTheme">
-    <div class="toggle">
-      <div id="dark-mode" class="theme" type="checkbox"></div>
-    </div>
-  </div>
+  <label id="theme-toggle" class="visuallyhidden" aria-hidden="true">
+    Toggle display theme. (currently: {{isDark? "dark"  : "light"}})
+  </label>
+    <button aria-labelledby="theme-toggle" class="mode-toggle" :class="darkDark" :aria-pressed="isDark" @click="toggleTheme">
+      <div class="toggle">
+        <div id="dark-mode" class="theme"></div>
+      </div>
+    </button>
 </template>
 
 <script>
@@ -195,4 +198,16 @@ h1 {
   width: 100%;
   height: 100%;
 }
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
 </style>
