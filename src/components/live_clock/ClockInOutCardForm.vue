@@ -23,12 +23,11 @@ const dialog = ref(false);
 const { t } = useI18n(); // use as global scope
 const store = useStore();
 
-const model = defineModel({type: [Shift, typeof undefined]})
+const model = defineModel({ type: [Shift, typeof undefined] });
 function finish(saved) {
   emit("updateWindow", -1);
   model.value.value = undefined;
-  let message =
-    this.t("dashboard.clock.problems.messages.success") + " ";
+  let message = this.t("dashboard.clock.problems.messages.success") + " ";
   if (saved) {
     message += this.t("dashboard.clock.problems.messages.saved");
   } else {
@@ -39,7 +38,6 @@ function finish(saved) {
     color: "success"
   });
 }
-
 </script>
 
 <template>

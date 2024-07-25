@@ -6,7 +6,7 @@ const state = {
 };
 
 const getters = {
-  clockedShift: (state) => state.clockedShift,
+  clockedShift: (state) => state.clockedShift
 };
 
 const mutations = {
@@ -25,10 +25,10 @@ const actions = {
       return shift;
     });
   },
-  async deleteClockedShift({dispatch}) {
+  async deleteClockedShift({ dispatch }) {
     const response = await ClockedInShiftService.delete(state.clockedShift.id);
     if (response.status === 204) {
-      await dispatch("unclockShift")
+      await dispatch("unclockShift");
     }
     return response;
   },

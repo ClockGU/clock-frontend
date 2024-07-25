@@ -56,7 +56,7 @@ export default {
   name: "ClockInOutCard",
   components: {
     LiveClock,
-    ClockInOutCardForm,
+    ClockInOutCardForm
     // ClockInOutCardClock
   },
   mixins: [contractValidMixin],

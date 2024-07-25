@@ -1,5 +1,4 @@
 <script setup>
-
 import { mdiDelete } from "@mdi/js";
 import { computed, ref, defineModel, onMounted, onBeforeMount } from "vue";
 import { useStore } from "vuex";
@@ -7,19 +6,25 @@ import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { formatDate, secondsToHHMM } from "@/utils/time";
 import { useI18n } from "vue-i18n";
-import { differenceInSeconds, getHours, getMinutes, isSameDay, set } from "date-fns";
+import {
+  differenceInSeconds,
+  getHours,
+  getMinutes,
+  isSameDay,
+  set
+} from "date-fns";
 import { ShiftService } from "@/services/models";
 
 const { t } = useI18n(); // use as global scope
-const window = defineModel("window", {type:Number});
-const shiftToModify = defineModel(
-  "shiftToModify", {type:[Shift, typeof undefined]}
-)
+const window = defineModel("window", { type: Number });
+const shiftToModify = defineModel("shiftToModify", {
+  type: [Shift, typeof undefined]
+});
 
 const clock = ref(undefined);
 
-const duration = computed(()=> secondsToHHMM(clock.value.duration))
-const clockedInShift = computed(()=> store.getters["clock/clockedShift"])
+const duration = computed(() => secondsToHHMM(clock.value.duration));
+const clockedInShift = computed(() => store.getters["clock/clockedShift"]);
 const store = useStore();
 
 const status = ref("idle");
@@ -33,15 +38,13 @@ function setStatusSaving() {
 }
 
 function setStatusIdle() {
-  status.value = "idle"
+  status.value = "idle";
 }
 
 function initializeClock(startDate = null) {
-  clock.value = new ClockModel(
-    {
+  clock.value = new ClockModel({
     startDate: startDate ? startDate : new Date()
-  }
-  );
+  });
 }
 
 async function destroy() {
@@ -97,7 +100,6 @@ async function clockIn() {
   try {
     initializeClock();
     clock.value.start();
-
   } catch (error) {
     store.dispatch("snackbar/setSnack", {
       message: error,
@@ -125,7 +127,7 @@ async function clockIn() {
     setStatusIdle();
     return;
   }
-  setStatusRunning()
+  setStatusRunning();
 }
 
 async function clockOut() {
@@ -154,7 +156,7 @@ async function clockOut() {
     await saveShift(started, clockOutDate);
   } catch (error) {
     if (!error.response) return;
-    if ( error.response.status === 401)  return;
+    if (error.response.status === 401) return;
     let shiftData = new Shift(error.response.config.data);
     if (error.response.status === 400) {
       if (!isSameDay(shiftData.started, shiftData.stopped)) {
@@ -175,13 +177,12 @@ async function clockOut() {
     await store.dispatch("clock/deleteClockedShift");
     await store.dispatch("clock/unclockShift");
   }
-
 }
 
 //New way of created hook
 
 if (clockedInShift.value !== undefined) {
-  console.log("clockedInShift recoginized")
+  console.log("clockedInShift recoginized");
   initializeClock(clockedInShift.value.started);
   clock.value.start();
   setStatusRunning();
@@ -226,7 +227,8 @@ if (clockedInShift.value !== undefined) {
         </span>
         <div v-else class="d-flex flex-column">
           <div class="font-weight-bold">
-            {{ t("models.contract") }}: {{ store.getters["selectedContract/selectedContract"].name }}
+            {{ t("models.contract") }}:
+            {{ store.getters["selectedContract/selectedContract"].name }}
           </div>
           <div class="font-weight-light">
             {{ formatDate(clock.startDate) }}
@@ -237,35 +239,30 @@ if (clockedInShift.value !== undefined) {
         </div>
       </v-row>
       <div class="justify-center mt-3">
-
-          <v-btn
-            v-if="status === 'idle'"
-            key="clock-in"
-            :disabled="status === 'saving'"
-            color="primary"
-            block
-            @click="clockIn"
-          >
-            {{ t("dashboard.clock.in") }}
-          </v-btn>
-          <v-btn
-            v-else-if="
-              status === 'running' || status === 'saving'
-            "
-            key="clock-out"
-            :disabled="status === 'saving'"
-            color="primary"
-            block
-            variant="text"
-            @click="clockOut"
-          >
-            {{ t("dashboard.clock.out") }}
-          </v-btn>
+        <v-btn
+          v-if="status === 'idle'"
+          key="clock-in"
+          :disabled="status === 'saving'"
+          color="primary"
+          block
+          @click="clockIn"
+        >
+          {{ t("dashboard.clock.in") }}
+        </v-btn>
+        <v-btn
+          v-else-if="status === 'running' || status === 'saving'"
+          key="clock-out"
+          :disabled="status === 'saving'"
+          color="primary"
+          block
+          variant="text"
+          @click="clockOut"
+        >
+          {{ t("dashboard.clock.out") }}
+        </v-btn>
       </div>
     </v-card-text>
   </v-card>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
