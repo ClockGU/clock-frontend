@@ -56,6 +56,23 @@
                 </v-col>
               </div>
             </template>
+            <template #event="{event}">
+              <v-chip>
+                <v-badge :color="event.contractColor" dot inline></v-badge>
+                <div class="pl-1">
+                  <div class="icon-center">
+                  <span class="pr-1" style="border-right: 2px solid black;">
+                    <strong>{{ formatTime(event.start) }} </strong>
+                    </span>
+                    <span class="ml-1">
+                      {{ event.selectedEventDuration }}
+                    </span>
+                    <v-icon :color="event.iconColor" class="ml-2" :icon="event.icon" style="scale: 0.9">
+                    </v-icon>
+                  </div>
+                </div>
+              </v-chip>
+            </template>
             <!--              :interval-format="intervalFormat"-->
             <!--              @click:event="editEvent"-->
             <!--              @click:more="viewDay"-->
@@ -115,8 +132,10 @@ import { isSameMonth, isSameWeek } from "date-fns";
 import TodayButton from "@/components/calendar/TodayButton.vue";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
-import { SHIFT_TYPE_COLORS } from "@/utils/colors";
+import { HEX_SHIFT_TYPE_COLORS, SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { VCalendar } from "vuetify/labs/VCalendar";
+import { formatTime } from "@/utils/time";
+
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -204,12 +223,13 @@ export default {
             return {
               start: shift.started,
               end: shift.stopped,
-              color: contract.color,
+              contractColor: contract.color,
               title: localizedFormat(shift.started, "HH:mm") + duration,
               selectedEventDuration: shift.representationalDuration(),
               id: shift.id,
               shift: shift,
-              icon: SHIFT_TYPE_ICONS[shift.type]
+              icon: SHIFT_TYPE_ICONS[shift.type],
+              iconColor: HEX_SHIFT_TYPE_COLORS[shift.type]
             };
           })
         );
@@ -231,6 +251,12 @@ export default {
     this.displayedContracts = this.allContracts;
   },
   methods: {
+    formatDate() {
+      return formatDate
+    },
+    formatTime(date) {
+      return formatTime(date);
+    },
     mdiCircleSlice8() {
       return mdiCircleSlice8;
     },
@@ -268,3 +294,10 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="css">
+.icon-center {
+  display: inline-flex;
+  align-items: center;
+}
+</style>
