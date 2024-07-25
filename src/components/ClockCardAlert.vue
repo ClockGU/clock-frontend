@@ -1,10 +1,10 @@
 <template>
   <v-row>
     <v-col cols="12" class="ma-0">
-      <v-alert :type="type" text density="compact" border="start" class="ma-0">
+      <v-alert :type="type" text density="compact" border="start" class="ma-0" style="border-radius: 0">
         <div class="ma-0">
           <div class="font-weight-bold">{{ $t("news.label.warning") }}</div>
-          <ul>
+          <ul class="pl-5">
             <li v-for="(message, i) in messages" :key="i">
               {{ message }}
             </li>

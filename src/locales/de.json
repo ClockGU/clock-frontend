@@ -516,6 +516,7 @@
       "vn": "Urlaub",
       "bh": "Feiertag"
     },
+    "warningLabel": "keine Warnungen/Fehler | {count} Warnung/Fehler | {count} Warnungen/Fehler",
     "running": "laufende",
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {

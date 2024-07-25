@@ -8,15 +8,18 @@
       :errors="timeErrors"
     />
     <v-row align="center" justify="start">
-      <v-col cols="12" class="ma-0">
-        <v-expand-transition hide-on-leave>
-          <ClockCardAlert
-            v-show="alertMessages.length > 0"
-            class="mt-2"
-            :messages="alertMessages"
-            :type="alertType"
-          ></ClockCardAlert>
-        </v-expand-transition>
+      <v-col cols="12" class="mt-3 ml-1 mr-1">
+        <v-expansion-panels :disabled="alertMessages.length === 0">
+          <v-expansion-panel>
+            <v-expansion-panel-title :color="alertMessages.length !==0 ? alertType : ''">{{ $tc("shifts.warningLabel", {count: alertMessages.length }) }}</v-expansion-panel-title>
+            <v-expansion-panel-text class="ma-0">
+              <ClockCardAlert
+                :messages="alertMessages"
+                :type="alertType"
+              ></ClockCardAlert>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
         <v-expand-transition hide-on-leave>
           <div v-show="alertMessages.length > 0" class="mt-2">
             {{ $t("shifts.hints.faqText") }}
@@ -228,5 +231,8 @@ export default {
 <style scoped>
 .link-coloring {
   color: blue;
+}
+:deep(.v-expansion-panel-text__wrapper) {
+  padding: unset;
 }
 </style>

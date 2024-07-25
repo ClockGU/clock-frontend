@@ -516,6 +516,7 @@
       "vn": "Vacation",
       "bh": "Bank holiday"
     },
+    "warningLabel": "no Warnings/Erorrs | {count} Wanring/Error | {count} Warnings/Erorrs",
     "running": "running",
     "wasExportedAlert": "The timesheet this shift belongs to has already been exported. This shift cannot be edited anymore.",
     "table": {
