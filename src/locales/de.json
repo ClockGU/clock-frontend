@@ -110,7 +110,7 @@
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Urlaubszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Urlaubsszeit-Übertrag ein, der zum Vertragsbeginn anfällt."
+      "info": "Trage bitte den Urlaubszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
     "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
