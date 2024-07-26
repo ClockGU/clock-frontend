@@ -105,12 +105,12 @@
       "contractInFuture": "Diese Option steht erst nach Beginn der Vertragslaufzeit zur Verfügung."
     },
     "vacationCarryover": {
-      "checkboxLabel": "Urlaubsszeit aus Vormonat übertragen",
+      "checkboxLabel": "Urlaubszeit aus Vormonat übertragen",
       "dateLabel": "Übertrag in diesen Monat",
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Urlaubszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Urlaubsszeitübertrag ein, der zum Vertragsbeginn anfällt."
+      "info": "Trage bitte den Urlaubsszeit-Übertrag ein, der zum Vertragsbeginn anfällt."
     },
     "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
@@ -199,14 +199,14 @@
         "carryover": "Deine monatliche Arbeitszeit ist um {n} h überschritten.",
         "carryoverLegal": "Formell dürfen nicht mehr als 50% der monatlichen Arbeitszeit ({n} h) in den nächsten Monat übertragen werden (§2 MiLoG).",
         "dailyOvertime": "Du hast heute bereits {n} h gearbeitet.",
-        "dailyOvertimeLegal": "Die tägliche Arbeitszeit sollte 8h nicht überschreiten (§3 ArbzG)."
+        "dailyOvertimeLegal": "Die tägliche Arbeitszeit sollte 8h nicht überschreiten (§3 Arbeitszeitgesetz)."
       },
       "weeklyText": "Du hast diese Woche bereits {0} h gearbeitet.",
       "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {0} h.",
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
-      "minutes": "minutes",
-      "hours": "hours"
+      "minutes": "Minuten",
+      "hours": "Stunden"
     },
     "showAll": "Alle anzeigen",
     "notYetReviewed": "noch nicht überprüft"
@@ -529,7 +529,7 @@
     "errors": {
       "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
       "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
-      "workingOnSundays": "Grundsätzlich ist das Arbeiten an Sonn- und Feiertagen nicht erlaubt, es sei denn, sie fallen unter den Ausnahmekatalog des §10 Abs. 1 Arbeitszeitgesetz.",
+      "workingOnSundays": "Grundsätzlich ist das Arbeiten an Sonn- und Feiertagen nicht erlaubt, es sei denn, die Tätigkeit fällt unter den Ausnahmekatalog des §10 Abs. 1 Arbeitszeitgesetz.",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
       "holidayOnWorkday": "An regulären Arbeitstagen können keine Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",

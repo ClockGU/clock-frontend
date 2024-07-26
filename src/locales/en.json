@@ -75,7 +75,7 @@
   "contracts": {
     "fte": "{percent}% FTE",
     "disableDateChangeInfo": "You can change your contract's start and end dates, but existing shifts must remain within the date range.",
-    "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export timesheets.",
+    "expiredVerbose": "This contract has expired and can noet be altered. However, you can still edit shifts and export timesheets.",
     "empty": "You will have to create a contract in order to use Clock.",
     "fromTo": "{start} until {end}",
     "to": "to",
@@ -83,7 +83,7 @@
     "hoursPerMonthSubtitle": "Your monthly working time in HH:mm or HH,hh",
     "name": "Name your contract",
     "reference": "Create Reference ID",
-    "referenceExplanation": "This reference ID must be sent to your responsible supervisor.",
+    "referenceExplanation": "You must provide this reference ID to your supervisor.",
     "worktimeModelName": "Choose your worktime model",
     "percentFte": {
       "dataLabel": "% FTE",
@@ -516,7 +516,7 @@
       "vn": "Vacation",
       "bh": "Bank holiday"
     },
-    "warningLabel": "no Warnings/Erorrs | {count} Wanring/Error | {count} Warnings/Erorrs",
+    "warningLabel": "no Warnings/Erorrs | {count} Wanring/Error | {count} Warnings/Errors",
     "running": "running",
     "wasExportedAlert": "The timesheet this shift belongs to has already been exported. This shift cannot be edited anymore.",
     "table": {
@@ -529,7 +529,7 @@
     "errors": {
       "startedBeforeStopped": "The start must be before the end of the shift.",
       "maximumWorktimePerDay": "The maxium allowed working time amount is 10 hours per day.",
-      "workingOnSundays": "It is generally not allowed to work on a sunday, unless, you are affected by the exceptions of §10 Abs. 1 Arbeitszeitgesetz.",
+      "workingOnSundays": "Working on Sundays and public holidays is not permitted unless it falls under the exceptions in Section 10 (1) of the Working Hours Act (Arbeitszeitgesetz).",
       "workingOnHolidays": "You can only book 'holiday' shifts on a holiday.",
       "holidayOnWorkday": "You can not book 'holiday' shifts on a regular workday.",
       "exclusiveVacation": "You can not combine 'vacation' shifts with other shifts on the same day.",
@@ -543,7 +543,7 @@
     "hints": {
       "faqText": "Do you have questions regarding the warning/error messages?",
       "faqLinkText": "Check out the FAQ.",
-      "ombudsText": "Do you need support fpr problems with your working conditions?",
+      "ombudsText": "Do you need support for problems with your working conditions?",
       "ombudsLinkText": "Contact the ombudsperson for student affairs."
     }
   },
