@@ -427,7 +427,7 @@
     "personnelNumberMissing": "Bitte füge deine Personalnummer hinzu.",
     "summary": "Zusammenfassung",
     "lock": {
-      "lock": "Sperren",
+      "lock": "Sperren & Abgeben",
       "locked": "Gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",

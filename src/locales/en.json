@@ -427,7 +427,7 @@
     "personnelNumberMissing": "Please add your personnel number.",
     "summary": "Summary",
     "lock": {
-      "lock": "Lock",
+      "lock": "Lock & Submit",
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
