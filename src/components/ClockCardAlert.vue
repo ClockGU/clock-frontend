@@ -27,9 +27,9 @@
           bottom
         >
           <template #activator="{ props }">
-            <a v-bind="props">
+            <button aria-label="Open OmbudpersonMenu" class="link-appearance"  v-bind="props">
               {{ $t("shifts.hints.ombudsLinkText") }}
-            </a>
+            </button>
           </template>
         </OmbudsMenu>
       </div>
@@ -67,5 +67,11 @@ export default {
   margin-top: 8px;
   margin-right: 8px;
   margin-left: 8px;
+}
+
+.link-appearance {
+  color: #0000EEFF;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>
