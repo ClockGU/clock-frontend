@@ -11,7 +11,12 @@
       <v-col cols="12" class="mt-3 ml-1 mr-1">
         <v-expansion-panels :disabled="alertMessages.length === 0">
           <v-expansion-panel>
-            <v-expansion-panel-title :color="alertMessages.length !==0 ? alertType : ''">{{ $tc("shifts.warningLabel", {count: alertMessages.length }) }}</v-expansion-panel-title>
+            <v-expansion-panel-title
+              :color="alertMessages.length !== 0 ? alertType : ''"
+              >{{
+                $tc("shifts.warningLabel", { count: alertMessages.length })
+              }}</v-expansion-panel-title
+            >
             <v-expansion-panel-text class="ma-0">
               <ClockCardAlert
                 :messages="alertMessages"
