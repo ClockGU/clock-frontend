@@ -378,8 +378,8 @@
         "placeholderName": "UndrawCalendar"
       },
       "6": {
-        "title": "Generate a timesheet",
-        "text": "At the end of a month, you can generate a timesheet with all Shifts summed up for every day of the current month. You can download your timesheet and turn it in at your supervisor's office.",
+        "title": "Submit a timesheet",
+        "text": "At the end of the month, you must lock and submit your timesheet. This is the same as the old analogue submission. Clock offers you a download of the timesheet. This is for your information only. Once the timesheet is locked, your supervisor can view it digitally. To do this, they need the reference ID of your contract. This means no more unnecessary paper.",
         "placeholderName": "UndrawNewsletter"
       },
       "7": {

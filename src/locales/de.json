@@ -378,8 +378,8 @@
         "placeholderName": "UndrawCalendar"
       },
       "6": {
-        "title": "Einen Stundenzettel exportieren",
-        "text": "Am Ende des Monats kannst du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst du herunterladen und bei deiner Dienststelle abgeben.",
+        "title": "Einen Stundenzettel abgeben",
+        "text": "Am Ende des Monats musst du deinen Stundenzettel sperren und abgeben. Dies entspricht der alten, analogen Abgabe. Dabei bietet dir Clock einen Download des Stundenzettels, der nur deiner Übersicht dient. Ist der Stundenzettel gesperrt, kann ihn dein*e Vorgesetzt*e digital einsehen. Dazu benötigt er*sie die Referenz ID deines Vertrages. So wird kein unnötiges Papier mehr erzeugt.",
         "placeholderName": "UndrawNewsletter"
       },
       "7": {
