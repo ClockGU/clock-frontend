@@ -20,32 +20,6 @@
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-expand-transition hide-on-leave>
-          <div v-show="alertMessages.length > 0" class="mt-2">
-            {{ $t("shifts.hints.faqText") }}
-            <br />
-            <router-link to="/faq">{{
-              $t("shifts.hints.faqLinkText")
-            }}</router-link>
-          </div>
-        </v-expand-transition>
-        <v-expand-transition hide-on-leave>
-          <div v-show="alertMessages.length > 0" class="mt-2">
-            {{ $t("shifts.hints.ombudsText") }}
-            <OmbudsMenu
-              disable-activator
-              :bottom-position="false"
-              offset-y
-              bottom
-            >
-              <template #activator="{ props }">
-                <a v-bind="props">
-                  {{ $t("shifts.hints.ombudsLinkText") }}
-                </a>
-              </template>
-            </OmbudsMenu>
-          </div>
-        </v-expand-transition>
       </v-col>
       <v-col cols="12">
         <v-checkbox
@@ -55,7 +29,6 @@
           :disabled="!isInFuture"
           :messages="$t('shifts.repeating.checkboxText')"
         ></v-checkbox>
-
         <v-expand-transition hide-on-leave>
           <ShiftFormRepeat
             v-show="showRepeat"
@@ -112,8 +85,7 @@ export default {
     ShiftFormType,
     ShiftFormSelectContract,
     ShiftFormRepeat,
-    ClockCardAlert,
-    OmbudsMenu
+    ClockCardAlert
   },
   props: {
     modelValue: {
