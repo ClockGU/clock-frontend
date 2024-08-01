@@ -30,7 +30,13 @@ async function copyToClipboard() {
       @mouseup.stop
     >
       <template #append-inner="{ props }">
-        <v-btn :v-bind="props" variant="text" :icon="mdiClipboardFileOutline" aria-label="Copy to clipboard" @click="copyToClipboard"></v-btn>
+        <v-btn
+          :v-bind="props"
+          variant="text"
+          :icon="mdiClipboardFileOutline"
+          aria-label="Copy to clipboard"
+          @click="copyToClipboard"
+        ></v-btn>
       </template>
     </v-text-field>
     <v-btn
@@ -42,9 +48,7 @@ async function copyToClipboard() {
 </template>
 
 <style scoped>
-
 :deep(.v-messages__message) {
   line-height: 1.33333;
 }
-
 </style>
