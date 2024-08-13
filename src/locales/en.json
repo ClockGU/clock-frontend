@@ -73,6 +73,7 @@
     }
   },
   "contracts": {
+    "fte": "{percent}% FTE",
     "disableDateChangeInfo": "You can change your contract's start and end dates, but existing shifts must remain within the date range.",
     "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export timesheets.",
     "empty": "You will have to create a contract in order to use Clock.",

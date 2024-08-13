@@ -59,7 +59,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contracts: "contentData/allContracts",
+      contracts: "contentData/allContractsByLastActivity",
       selectedContract: "selectedContract/selectedContract"
     }),
     hint() {
