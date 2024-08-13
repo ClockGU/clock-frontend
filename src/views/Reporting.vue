@@ -244,7 +244,8 @@ export default {
     getAlertMessages(report) {
       if (this.disabled) return [];
       let messages = [];
-      const worktimeInMinutes = report.worktimeInMinutes;
+      const worktimeInMinutes =
+        report.worktimeInMinutes + report.carryoverPreviousMonthInMinutes;
       const debitInMinutes = report.debitWorktimeInMinutes;
 
       if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {
