@@ -31,9 +31,6 @@
       <v-col cols="12">
         <ContractNameInput v-model="contract.name"></ContractNameInput>
       </v-col>
-      <v-col>
-        <ReferenceInput v-model="contract.reference"></ReferenceInput>
-      </v-col>
       <v-col cols="12">
         <ContractColorInput v-model="contract.color"></ContractColorInput>
       </v-col>
@@ -121,12 +118,10 @@ import ContractColorInput from "@/components/contracts/ContractColorInput.vue";
 import { isFuture } from "date-fns";
 import ContractWorktimeModelInput from "@/components/contracts/ContractWorktimeModelInput.vue";
 import ContractPercentFteInput from "@/components/contracts/ContractPercentFteInput.vue";
-import ReferenceInput from "@/components/contracts/ReferenceInput.vue";
 
 export default {
   name: "ContractFormFields",
   components: {
-    ReferenceInput,
     ContractPercentFteInput,
     ContractWorktimeModelInput,
     ContractColorInput,
