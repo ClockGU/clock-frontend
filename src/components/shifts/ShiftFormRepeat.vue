@@ -59,7 +59,7 @@
           :max="contractEndDateString"
           @click:save="menu = false"
           @click:cancel="menu = false"
-          @update:model-value="menu=false"
+          @update:model-value="menu = false"
         />
       </v-menu>
     </v-col>
@@ -174,7 +174,7 @@ export default {
       return this.repeatUntil === "contractDate";
     },
     repeatUntilDate() {
-      this.customEnd.setHours(23,59,59);
+      this.customEnd.setHours(23, 59, 59);
       const OPTIONS = {
         contractDate: this.contractEndDate,
         customDate: this.customEnd
