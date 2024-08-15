@@ -37,6 +37,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { mdiCheck } from "@mdi/js";
 import { Shift } from "@/models/ShiftModel";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   name: "ReviewShiftListItem",
   components: { ShiftFormDialog, ShiftListItem },
@@ -46,6 +47,11 @@ export default {
       type: Shift,
       required: true
     }
+  },
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
   },
   data() {
     return {
