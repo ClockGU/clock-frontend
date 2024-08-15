@@ -252,7 +252,6 @@ export default {
     }
   },
   created() {
-    console.log(this.contractEndDate);
     this.customEnd = this.contractEndDate;
   }
 };
