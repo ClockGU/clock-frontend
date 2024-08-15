@@ -36,7 +36,7 @@
         ref="menu"
         v-model="menu"
         :disabled="isDatePickerDisabled"
-        :close-on-content-click="true"
+        :close-on-content-click="false"
         transition="scale-transition"
         hide-details
         offset-y
@@ -57,6 +57,9 @@
           first-day-of-week="1"
           :min="currentDateString"
           :max="contractEndDateString"
+          @click:save="menu = false"
+          @click:cancel="menu = false"
+          @update:model-value="menu = false"
         />
       </v-menu>
     </v-col>
@@ -78,7 +81,6 @@
         "
       />
     </v-col>
-
     <v-col cols="12">
       <ShiftFormRepeatDialog :shifts="shifts" />
     </v-col>
@@ -128,14 +130,16 @@ export default {
       repeatUntil: "contractDate",
       menu: false,
       selected: "WEEKLY",
-      customEnd: undefined,
+      customEnd: new Date(),
+      date: new Date(),
       interval: 1
     };
   },
   computed: {
     shifts() {
       return this.generatedSchedule
-        .map((startDate) => {
+        .map((startDateString) => {
+          let startDate = new Date(startDateString);
           const endDate = new Date(this.shift.stopped);
           endDate.setDate(startDate.getDate());
           endDate.setMonth(startDate.getMonth());
@@ -170,9 +174,10 @@ export default {
       return this.repeatUntil === "contractDate";
     },
     repeatUntilDate() {
+      this.customEnd.setHours(23, 59, 59);
       const OPTIONS = {
         contractDate: this.contractEndDate,
-        customDate: parseISO(this.customEnd + "T23:59:59")
+        customDate: this.customEnd
       };
       return OPTIONS[this.repeatUntil];
     },
@@ -247,7 +252,8 @@ export default {
     }
   },
   created() {
-    this.customEnd = this.contractEndDateString;
+    console.log(this.contractEndDate);
+    this.customEnd = this.contractEndDate;
   }
 };
 </script>
