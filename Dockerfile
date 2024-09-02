@@ -10,8 +10,8 @@ ARG DEPLOY
 
 ENV DEPLOY=${DEPLOY} REPOSITORY_URL=${REPOSITORY_URL} SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} SENTRY_ORG=${SENTRY_ORG} SENTRY_PROJECT=${SENTRY_PROJECT} SENTRY_URL=${SENTRY_URL} VUE_APP_SENTRY_DSN=${VUE_APP_SENTRY_DSN}
 
-RUN addgroup -S app --gid 32769 \
-    && adduser -G app --uid 32769 -h /app -D app
+RUN addgroup -S app --gid 32767 \
+    && adduser -G app --uid 32767 -h /app -D app
 
 RUN apk update \
     && apk add bash curl git nginx python3
