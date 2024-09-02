@@ -21,10 +21,10 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY --chown=app:app . .
+USER app
 RUN export VUE_APP_SENTRY_RELEASE=$(git log -1 --format="%H") \
     && yarn build
 
-USER app
 COPY --chown=app:app scripts/sentry-release.sh .
 RUN bash sentry-release.sh
 
