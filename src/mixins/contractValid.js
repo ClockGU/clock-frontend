@@ -27,7 +27,7 @@ export default {
       return isPast(date) && contract.id !== null;
     },
     specificContractValid(contract) {
-      const startdate = endOfDay(contract.startDate);
+      const startdate = startOfDay(contract.startDate);
       const enddate = endOfDay(contract.endDate);
       return (
         isWithinInterval(new Date(), { start: startdate, end: enddate }) &&
