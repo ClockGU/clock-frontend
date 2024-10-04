@@ -379,7 +379,7 @@
       },
       "6": {
         "title": "Einen Stundenzettel abgeben",
-        "text": "Am Ende des Monats musst du deinen Stundenzettel sperren und abgeben. Dies entspricht der alten, analogen Abgabe. Dabei bietet dir Clock einen Download des Stundenzettels, der nur deiner Übersicht dient. Ist der Stundenzettel gesperrt, kann ihn dein*e Vorgesetzt*e digital einsehen. Dazu benötigt er*sie die Referenz ID deines Vertrages. So wird kein unnötiges Papier mehr erzeugt.",
+        "text": "Am Ende eines Monats musst du deinen Stundenzettel sperren und abgeben. Er wird digital gespeichert und die Abgabe auf Papier wird damit überflüssig. Du kannst den Stundenzettel aber für Deine Unterlagen als PDF herunterladen. Deine vorgesetzte Person kann den gesperrten Stundenzettel digital einsehen, wenn Du ihr die Referenz-ID des Vertrags übermittelst.",
         "placeholderName": "UndrawNewsletter"
       },
       "7": {
