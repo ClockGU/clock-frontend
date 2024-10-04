@@ -378,8 +378,8 @@
         "placeholderName": "UndrawCalendar"
       },
       "6": {
-        "title": "Einen Stundenzettel exportieren",
-        "text": "Am Ende des Monats kannst du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst du herunterladen und bei deiner Dienststelle abgeben.",
+        "title": "Einen Stundenzettel abgeben",
+        "text": "Am Ende eines Monats musst du deinen Stundenzettel sperren und abgeben. Er wird digital gespeichert und die Abgabe auf Papier wird damit überflüssig. Du kannst den Stundenzettel aber für Deine Unterlagen als PDF herunterladen. Deine vorgesetzte Person kann den gesperrten Stundenzettel digital einsehen, wenn Du ihr die Referenz-ID des Vertrags übermittelst.",
         "placeholderName": "UndrawNewsletter"
       },
       "7": {
@@ -427,7 +427,7 @@
     "personnelNumberMissing": "Bitte füge deine Personalnummer hinzu.",
     "summary": "Zusammenfassung",
     "lock": {
-      "lock": "Sperren",
+      "lock": "Sperren & Abgeben",
       "locked": "Gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
