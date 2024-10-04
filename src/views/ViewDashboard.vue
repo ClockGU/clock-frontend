@@ -66,7 +66,7 @@
 import { localizedFormat } from "@/utils/date";
 
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
-import ClockInOutCard from "@/components/ClockInOutCard.vue";
+import ClockInOutCard from "@/components/live_clock/ClockInOutCard.vue";
 import DashboardMessageList from "@/components/dashboard/DashboardMessageList.vue";
 import DashboardProgress from "@/components/dashboard/DashboardProgress.vue";
 import DashboardLastActivity from "@/components/dashboard/DashboardLastActivity.vue";

@@ -1,25 +1,17 @@
 <template>
   <v-window v-model="window">
     <v-window-item :key="0">
-      <ClockInOutCardClock
-        :actions="{
-          data: clockData,
-          duration,
-          status,
-          start,
-          destroy: reset
-        }"
-        :save-fn="save"
-        :contract-name="contractName"
-      />
+      <LiveClock
+        v-model:window="window"
+        v-model:shift-to-modify="shiftToModify"
+      ></LiveClock>
     </v-window-item>
     <v-window-item :key="1">
       <ClockInOutCardForm
+        v-model="shiftToModify"
         :overflow="overflow"
-        :shift="shiftToModify"
-        :destroy="reset"
         :contract-name="contractName"
-        @update-indow="window += $event"
+        @update-window="window += $event"
       ></ClockInOutCardForm>
     </v-window-item>
     <v-overlay
@@ -53,21 +45,21 @@
 </template>
 
 <script>
-import ClockInOutMixin from "@/mixins/ClockInOutMixin";
-import ClockInOutCardClock from "@/components/ClockInOutCardClock.vue";
 import { mapGetters } from "vuex";
 
 import contractValidMixin from "@/mixins/contractValid";
 import { Shift } from "@/models/ShiftModel";
-import ClockInOutCardForm from "@/components/ClockInOutCardForm.vue";
+import ClockInOutCardForm from "@/components/live_clock/ClockInOutCardForm.vue";
+import LiveClock from "@/components/live_clock/LiveClock.vue";
 
 export default {
   name: "ClockInOutCard",
   components: {
-    ClockInOutCardForm,
-    ClockInOutCardClock
+    LiveClock,
+    ClockInOutCardForm
+    // ClockInOutCardClock
   },
-  mixins: [contractValidMixin, ClockInOutMixin],
+  mixins: [contractValidMixin],
   props: {
     disabled: {
       type: Boolean,
