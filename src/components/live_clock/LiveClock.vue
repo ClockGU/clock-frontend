@@ -182,7 +182,6 @@ async function clockOut() {
 //New way of created hook
 
 if (clockedInShift.value !== undefined) {
-  console.log("clockedInShift recoginized");
   initializeClock(clockedInShift.value.started);
   clock.value.start();
   setStatusRunning();
