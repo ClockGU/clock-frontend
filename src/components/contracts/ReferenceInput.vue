@@ -2,11 +2,18 @@
 import {
   mdiIdentifier,
   mdiRotate3dVariant,
-  mdiInformationOutline
+  mdiClipboardFileOutline
 } from "@mdi/js";
 import { v4 as uuidv4 } from "uuid";
 
 const model = defineModel({ type: String });
+
+async function copyToClipboard() {
+  const type = "text/plain";
+  const blob = new Blob([model.value], { type });
+  const data = [new ClipboardItem({ [type]: blob })];
+  await navigator.clipboard.write(data);
+}
 </script>
 
 <template>
@@ -21,7 +28,17 @@ const model = defineModel({ type: String });
       variant="filled"
       required
       @mouseup.stop
-    />
+    >
+      <template #append-inner="{ props }">
+        <v-btn
+          :v-bind="props"
+          variant="text"
+          :icon="mdiClipboardFileOutline"
+          aria-label="Copy to clipboard"
+          @click="copyToClipboard"
+        ></v-btn>
+      </template>
+    </v-text-field>
     <v-btn
       :icon="mdiRotate3dVariant"
       style="margin-inline: 8px"
@@ -30,4 +47,8 @@ const model = defineModel({ type: String });
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.v-messages__message) {
+  line-height: 1.33333;
+}
+</style>
