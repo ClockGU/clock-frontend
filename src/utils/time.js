@@ -1,6 +1,7 @@
 import { differenceInMinutes, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { sum } from "ramda";
+import is from "ramda/src/is";
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -293,9 +294,9 @@ export function formatDate(date, formatString = "do MMMM yyyy") {
   return localizedFormat(parseISO(date), formatString);
 }
 
-export function formatTime(date, formatString = "HH:mm a") {
+export function formatTime(date, formatString = "HH:mm") {
   if (date === undefined) return;
-  return localizedFormat(parseISO(date), formatString);
+  return localizedFormat(date, formatString);
 }
 
 export function timestringToMinutes(time) {
