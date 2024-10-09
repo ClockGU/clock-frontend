@@ -8,41 +8,23 @@
       :errors="timeErrors"
     />
     <v-row align="center" justify="start">
-      <v-col cols="12" class="ma-0">
-        <v-expand-transition hide-on-leave>
-          <ClockCardAlert
-            v-show="alertMessages.length > 0"
-            class="mt-2"
-            :messages="alertMessages"
-            :type="alertType"
-          ></ClockCardAlert>
-        </v-expand-transition>
-        <v-expand-transition hide-on-leave>
-          <div v-show="alertMessages.length > 0" class="mt-2">
-            {{ $t("shifts.hints.faqText") }}
-            <br />
-            <router-link to="/faq">{{
-              $t("shifts.hints.faqLinkText")
-            }}</router-link>
-          </div>
-        </v-expand-transition>
-        <v-expand-transition hide-on-leave>
-          <div v-show="alertMessages.length > 0" class="mt-2">
-            {{ $t("shifts.hints.ombudsText") }}
-            <OmbudsMenu
-              disable-activator
-              :bottom-position="false"
-              offset-y
-              bottom
+      <v-col cols="12" class="mt-3 ml-1 mr-1">
+        <v-expansion-panels :disabled="alertMessages.length === 0">
+          <v-expansion-panel>
+            <v-expansion-panel-title
+              :color="alertMessages.length !== 0 ? alertType : ''"
+              >{{
+                $tc("shifts.warningLabel", { count: alertMessages.length })
+              }}</v-expansion-panel-title
             >
-              <template #activator="{ props }">
-                <a v-bind="props">
-                  {{ $t("shifts.hints.ombudsLinkText") }}
-                </a>
-              </template>
-            </OmbudsMenu>
-          </div>
-        </v-expand-transition>
+            <v-expansion-panel-text class="ma-0">
+              <ClockCardAlert
+                :messages="alertMessages"
+                :type="alertType"
+              ></ClockCardAlert>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
       <v-col cols="12">
         <v-checkbox
@@ -52,7 +34,6 @@
           :disabled="!isInFuture"
           :messages="$t('shifts.repeating.checkboxText')"
         ></v-checkbox>
-
         <v-expand-transition hide-on-leave>
           <ShiftFormRepeat
             v-show="showRepeat"
@@ -109,8 +90,7 @@ export default {
     ShiftFormType,
     ShiftFormSelectContract,
     ShiftFormRepeat,
-    ClockCardAlert,
-    OmbudsMenu
+    ClockCardAlert
   },
   props: {
     modelValue: {
@@ -228,5 +208,8 @@ export default {
 <style scoped>
 .link-coloring {
   color: blue;
+}
+:deep(.v-expansion-panel-text__wrapper) {
+  padding: unset;
 }
 </style>

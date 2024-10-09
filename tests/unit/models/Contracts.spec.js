@@ -1,7 +1,7 @@
 import { Contract } from "@/models/ContractModel";
 import { addDays } from "date-fns";
 import timekeeper from "timekeeper";
-
+import { v4 as uuidv4 } from "uuid";
 describe("Contracts.js", () => {
   const date = {
     startDate: new Date(Date.UTC(2021, 0, 1)).toISOString(),
@@ -9,9 +9,10 @@ describe("Contracts.js", () => {
   };
 
   it("creates a new Contract instance with date arguments", () => {
+    const uuid = uuidv4();
     timekeeper.travel(date.startDate);
     timekeeper.freeze(date.startDate);
-    const obj = new Contract(date);
+    const obj = new Contract({ ...date, reference: uuid });
     expect(obj).toEqual({
       id: "",
       user: "",
@@ -24,6 +25,7 @@ describe("Contracts.js", () => {
       color: "#8ac5ff",
       worktimeModelName: null,
       percentFte: 0.0,
+      reference: uuid,
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
       lastUsed: new Date(Date.UTC(2021, 0, 1))
@@ -32,6 +34,7 @@ describe("Contracts.js", () => {
   });
 
   it("creates a new Contract instance with all arguments", () => {
+    const uuid = uuidv4();
     const data = {
       id: "1234",
       user: "user",
@@ -43,6 +46,7 @@ describe("Contracts.js", () => {
       initialVacationCarryoverMinutes: 0,
       worktimeModelName: "regEmp",
       percentFte: 0.0,
+      reference: uuid,
       createdAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)).toISOString(),
       lastUsed: new Date(Date.UTC(2021, 0, 1)).toISOString()
@@ -59,6 +63,7 @@ describe("Contracts.js", () => {
       color: "#8ac5ff",
       worktimeModelName: "regEmp",
       percentFte: 0.0,
+      reference: uuid,
       createdAt: new Date(Date.UTC(2021, 0, 1)),
       modifiedAt: new Date(Date.UTC(2021, 0, 1)),
       lastUsed: new Date(Date.UTC(2021, 0, 1))

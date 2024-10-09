@@ -82,6 +82,8 @@
     "hoursPerMonth": "Stunden pro Monat",
     "hoursPerMonthSubtitle": "Deine monatliche Arbeitszeit in HH:mm oder HH,hh.",
     "name": "Benenne deinen Vertrag",
+    "reference": "Referenz-ID erzeugen",
+    "referenceExplanation": "Diese Referenz-ID muss an Deine zuständige Führungskraft gesendet werden.",
     "worktimeModelName": "Wähle dein Arbeitszeitmodell",
     "percentFte": {
       "dataLabel": "% VZÄ",
@@ -103,12 +105,12 @@
       "contractInFuture": "Diese Option steht erst nach Beginn der Vertragslaufzeit zur Verfügung."
     },
     "vacationCarryover": {
-      "checkboxLabel": "Urlaubsszeit aus Vormonat übertragen",
+      "checkboxLabel": "Urlaubszeit aus Vormonat übertragen",
       "dateLabel": "Übertrag in diesen Monat",
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Urlaubszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Urlaubsszeitübertrag ein, der zum Vertragsbeginn anfällt."
+      "info": "Trage bitte den Urlaubszeitübertrag ein, der zum Vertragsbeginn anfällt."
     },
     "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
@@ -125,7 +127,7 @@
       "contractNeededForClocking": "Um eine Schicht zu clocken musst du einen Vertrag erstellen.",
       "createShiftsHere": "Hier kannst du Schichten manuell eintragen.",
       "progressHere": "Hier kannst du deinen Arbeitsfortschritt sehen.",
-      "reportHere": "Hier kannst du deinen monatlichen Fortschirtt sehen und den Stundenzettel exportieren.",
+      "reportHere": "Hier kannst du deinen monatlichen Fortschritt sehen und den Stundenzettel exportieren.",
       "shiftsHere": "Hier kannst du deine gespeicherten Schichten ansehen und verwalten."
     },
     "welcome": {
@@ -197,14 +199,14 @@
         "carryover": "Deine monatliche Arbeitszeit ist um {n} h überschritten.",
         "carryoverLegal": "Formell dürfen nicht mehr als 50% der monatlichen Arbeitszeit ({n} h) in den nächsten Monat übertragen werden (§2 MiLoG).",
         "dailyOvertime": "Du hast heute bereits {n} h gearbeitet.",
-        "dailyOvertimeLegal": "Die tägliche Arbeitszeit sollte 8h nicht überschreiten (§3 ArbzG)."
+        "dailyOvertimeLegal": "Die tägliche Arbeitszeit sollte 8h nicht überschreiten (§3 Arbeitszeitgesetz)."
       },
       "weeklyText": "Du hast diese Woche bereits {0} h gearbeitet.",
       "weeklyBase": "Deine durchschnittliche wöchentliche Arbeitszeit in diesem Vertrag beträgt {0} h.",
       "dailyText1": "Du hast heute insgesamt",
       "dailyText2": "gearbeitet.",
-      "minutes": "minutes",
-      "hours": "hours"
+      "minutes": "Minuten",
+      "hours": "Stunden"
     },
     "showAll": "Alle anzeigen",
     "notYetReviewed": "noch nicht überprüft"
@@ -376,8 +378,8 @@
         "placeholderName": "UndrawCalendar"
       },
       "6": {
-        "title": "Einen Stundenzettel exportieren",
-        "text": "Am Ende des Monats kannst du einen Stundenzettel exportieren, der die Schichten für jeden Tag des Monats zusammenzählt. Diesen Stundenzettel kannst du herunterladen und bei deiner Dienststelle abgeben.",
+        "title": "Einen Stundenzettel abgeben",
+        "text": "Am Ende eines Monats musst du deinen Stundenzettel sperren und abgeben. Er wird digital gespeichert und die Abgabe auf Papier wird damit überflüssig. Du kannst den Stundenzettel aber für Deine Unterlagen als PDF herunterladen. Deine vorgesetzte Person kann den gesperrten Stundenzettel digital einsehen, wenn Du ihr die Referenz-ID des Vertrags übermittelst.",
         "placeholderName": "UndrawNewsletter"
       },
       "7": {
@@ -425,7 +427,7 @@
     "personnelNumberMissing": "Bitte füge deine Personalnummer hinzu.",
     "summary": "Zusammenfassung",
     "lock": {
-      "lock": "Sperren",
+      "lock": "Sperren & Abgeben",
       "locked": "Gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
@@ -514,6 +516,7 @@
       "vn": "Urlaub",
       "bh": "Feiertag"
     },
+    "warningLabel": "keine Warnungen/Fehler | {count} Warnung/Fehler | {count} Warnungen/Fehler",
     "running": "laufende",
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
@@ -526,7 +529,7 @@
     "errors": {
       "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
       "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
-      "workingOnSundays": "Es ist nicht erlaubt, an einem Sonntag zu arbeiten",
+      "workingOnSundays": "Grundsätzlich ist das Arbeiten an Sonn- und Feiertagen nicht erlaubt, es sei denn, die Tätigkeit fällt unter den Ausnahmekatalog des §10 Abs. 1 Arbeitszeitgesetz.",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
       "holidayOnWorkday": "An regulären Arbeitstagen können keine Schichten vom Typ 'Feiertag' gebucht werden.",
       "exclusiveVacation": "An Urlaubstagen können ausschließlich Schichten vom Typ 'Urlaub' gebucht werden.",

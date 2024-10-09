@@ -1,6 +1,7 @@
-import { differenceInMinutes, parseISO } from "date-fns";
+import { addSeconds, differenceInMinutes, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { sum } from "ramda";
+import is from "ramda/src/is";
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -229,6 +230,18 @@ export function hoursToHHMM(floatHours, format) {
   return minutesToHHMM(minutes, format);
 }
 
+export function secondsToHHMM(seconds) {
+  let string = "";
+  const date = addSeconds(new Date(1970, 1, 1), seconds);
+  const hours = Math.floor(seconds / (60 * 60));
+  const minutes = localizedFormat(date, "mm");
+  const sec = localizedFormat(date, "ss");
+
+  string += `${hours}:${minutes}:${sec}`;
+
+  return string;
+}
+
 export function formattedTime(time) {
   const [hours, minutes] = time.split(":");
 
@@ -290,12 +303,12 @@ export function coalescWorktimeAndBreaktime(shifts) {
 
 export function formatDate(date, formatString = "do MMMM yyyy") {
   if (date === undefined) return;
-  return localizedFormat(parseISO(date), formatString);
+  return localizedFormat(date, formatString);
 }
 
-export function formatTime(date, formatString = "HH:mm a") {
+export function formatTime(date, formatString = "HH:mm") {
   if (date === undefined) return;
-  return localizedFormat(parseISO(date), formatString);
+  return localizedFormat(date, formatString);
 }
 
 export function timestringToMinutes(time) {
