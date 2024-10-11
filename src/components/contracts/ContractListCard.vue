@@ -28,35 +28,7 @@
     <v-card-actions data-cy="contract-actions">
       <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
       <div style="z-index: 6">
-        <ConfirmationDialog
-          :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
-          @confirm="destroyFn"
-        >
-          <template #activator="{ props }">
-            <v-btn variant="text" data-cy="delete" v-bind="props">
-              {{ $t("actions.delete") }}
-            </v-btn>
-          </template>
-
-          <template #title>
-            {{
-              $t("buttons.deleteEntity", {
-                entity: $tc(`models.contract`)
-              })
-            }}
-          </template>
-
-          <template #text>
-            {{
-              $t(`dialogs.textConfirmDelete`, {
-                selectedEntity: $tc(`models.selectedContract`)
-              })
-            }}
-          </template>
-          <template #consequencesText>
-            {{ $t("dialogs.contractDeleteConsequences") }}
-          </template>
-        </ConfirmationDialog>
+        <ModelDeleteConfirmationDialog :delete-fn="destroyFn" model-name="contract"></ModelDeleteConfirmationDialog>
       </div>
     </v-card-actions>
     <v-overlay absolute :value="expired" color="grey lighten-1" />
@@ -70,6 +42,7 @@ import { minutesToHHMM } from "@/utils/time";
 import { Contract } from "@/models/ContractModel";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 import { ContractService } from "@/services/models";
+import ModelDeleteConfirmationDialog from "@/components/cards/ModelDeleteConfirmationDialog.vue";
 
 function formatDate(date) {
   return localizedFormat(date, "do MMMM yyyy");
@@ -77,7 +50,7 @@ function formatDate(date) {
 
 export default {
   name: "ContractListCard",
-  components: { ContractFormDialog, ConfirmationDialog },
+  components: { ModelDeleteConfirmationDialog, ContractFormDialog },
   props: {
     contract: {
       type: Contract,
