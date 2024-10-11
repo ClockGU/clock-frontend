@@ -1,31 +1,32 @@
 <script setup>
-
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { computed } from "vue";
 import { capitalizeFirstLetter } from "@/utils";
 import { useI18n } from "vue-i18n";
-const { t } = useI18n()
-const props = defineProps({modelName: {
-  type: String,
+const { t } = useI18n();
+const props = defineProps({
+  modelName: {
+    type: String,
     required: true
   },
   deleteFn: {
-  required:true,
-    type:Function
+    required: true,
+    type: Function
   }
-})
+});
 
 defineEmits(["close"]);
 
-async function destroy(){
+async function destroy() {
   await props.deleteFn();
 }
-const capitalizedModelName = computed(()=> capitalizeFirstLetter(props.modelName))
-const consequencesText = computed(()=> {
+const capitalizedModelName = computed(() =>
+  capitalizeFirstLetter(props.modelName)
+);
+const consequencesText = computed(() => {
   if (props.modelName !== "contract") return "";
   return t("dialogs.contractDeleteConsequences");
-})
-
+});
 </script>
 
 <template>
@@ -34,11 +35,7 @@ const consequencesText = computed(()=> {
     @confirm="destroy"
   >
     <template #activator="{ props }">
-      <v-btn
-        variant="text"
-        color="error"
-        v-bind="props"
-      >
+      <v-btn variant="text" color="error" v-bind="props">
         {{ t("actions.delete") }}
       </v-btn>
     </template>
@@ -63,6 +60,4 @@ const consequencesText = computed(()=> {
   </ConfirmationDialog>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
