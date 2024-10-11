@@ -70,6 +70,7 @@ export const selectedLocale =
 
 export default new createI18n({
   locale: "de",
+  allowComposition: true,
   fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: localeMessages
 });
