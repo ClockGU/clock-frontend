@@ -12,50 +12,16 @@
       {{ $t("actions.cancel") }}
     </v-btn>
     <v-spacer></v-spacer>
-    <ConfirmationDialog
-      v-if="!isNewInstance"
-      :confirmation-button="{ text: $t('actions.delete'), color: 'error' }"
-      @confirm="destroy"
-    >
-      <template #activator="{ props }">
-        <v-btn
-          data-cy="entity-form-delete-button"
-          variant="text"
-          color="error"
-          v-bind="props"
-        >
-          {{ $t("actions.delete") }}
-        </v-btn>
-      </template>
-
-      <template #title>
-        {{
-          $t("buttons.deleteEntity", {
-            entity: $tc(`models.${modelName}`)
-          })
-        }}
-      </template>
-      <template #text>
-        {{
-          $t(`dialogs.textConfirmDelete`, {
-            selectedEntity: $tc(`models.selected${capitalizedModelName}`)
-          })
-        }}
-      </template>
-      <template #consequencesText>
-        {{ consequencesText }}
-      </template>
-    </ConfirmationDialog>
+    <ModelDeleteConfirmationDialog v-if="!isNewInstance" :delete-fn="destroy" :model-name="modelName"></ModelDeleteConfirmationDialog>
   </v-card-actions>
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
-import { capitalizeFirstLetter } from "@/utils";
+import ModelDeleteConfirmationDialog from "@/components/cards/ModelDeleteConfirmationDialog.vue";
 
 export default {
   name: "FormActions",
-  components: { ConfirmationDialog },
+  components: { ModelDeleteConfirmationDialog },
   props: {
     disableSave: {
       type: Boolean,
@@ -92,15 +58,6 @@ export default {
     }
   },
   emits: ["close"],
-  computed: {
-    capitalizedModelName() {
-      return capitalizeFirstLetter(this.modelName);
-    },
-    consequencesText() {
-      if (this.modelName !== "contract") return "";
-      return this.$t("dialogs.contractDeleteConsequences");
-    }
-  },
   methods: {
     async save() {
       if (this.isNewInstance) {
