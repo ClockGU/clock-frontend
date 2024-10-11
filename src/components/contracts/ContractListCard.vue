@@ -28,7 +28,10 @@
     <v-card-actions data-cy="contract-actions">
       <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
       <div style="z-index: 6">
-        <ModelDeleteConfirmationDialog :delete-fn="destroyFn" model-name="contract"></ModelDeleteConfirmationDialog>
+        <ModelDeleteConfirmationDialog
+          :delete-fn="destroyFn"
+          model-name="contract"
+        ></ModelDeleteConfirmationDialog>
       </div>
     </v-card-actions>
     <v-overlay absolute :value="expired" color="grey lighten-1" />

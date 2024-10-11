@@ -12,7 +12,11 @@
       {{ $t("actions.cancel") }}
     </v-btn>
     <v-spacer></v-spacer>
-    <ModelDeleteConfirmationDialog v-if="!isNewInstance" :delete-fn="destroy" :model-name="modelName"></ModelDeleteConfirmationDialog>
+    <ModelDeleteConfirmationDialog
+      v-if="!isNewInstance"
+      :delete-fn="destroy"
+      :model-name="modelName"
+    ></ModelDeleteConfirmationDialog>
   </v-card-actions>
 </template>
 
