@@ -37,8 +37,12 @@ export default {
       errorMessages.push(this.validateExclusivitySick);
       errorMessages.push(this.validateOverlapping);
       errorMessages.push(this.validateInLockedMonth);
-      const filtered_errors = errorMessages.filter((message) => message !== undefined)
-      return filtered_errors.concat(this.v$.$errors.map((item) => item.$message));
+      const filtered_errors = errorMessages.filter(
+        (message) => message !== undefined
+      );
+      return filtered_errors.concat(
+        this.v$.$errors.map((item) => item.$message)
+      );
     },
     valid() {
       return this.errorMessages.length === 0 && !this.v$.$error;
