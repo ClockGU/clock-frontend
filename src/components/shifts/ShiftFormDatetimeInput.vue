@@ -1,5 +1,4 @@
 <template>
-  <div>
     <v-row align="center" justify="start">
       <v-col cols="12" md="5">
         <ShiftFormDateInput
@@ -14,11 +13,13 @@
 
       <v-col cols="6" md="3">
         <ShiftFormTimeInput
+          v-bind="props"
           v-model="timeStart"
           :error-messages="errors"
           :error="errors.length > 0"
           :prepend-icon="smAndDown"
-          @update:model-value="$emit('update:started', $event)"
+          @update:model-value="$emit('update:started', $event); v$.timeStart.$touch()"
+          @blur="v$.timeStart.$touch()"
         />
       </v-col>
 
@@ -30,37 +31,25 @@
         <ShiftFormTimeInput
           v-model="timeStop"
           :error="errors.length > 0"
-          @update:model-value="$emit('update:stopped', $event)"
+          @update:model-value="$emit('update:stopped', $event); v$.timeStart.$touch()"
+          @blur="v$.timeStart.$touch()"
         />
       </v-col>
     </v-row>
-    <v-row align="center" justify="start" class="ma-0">
-      <v-col cols="12" class="pa-0">
-        <v-tooltip
-          :model-value="errors.length > 0"
-          :open-on-hover="false"
-          color="error"
-          location="top"
-          :nudge-bottom="45"
-          :min-width="400"
-          class="align-text-center"
-        >
-          <template #activator="{ props }">
-            <v-spacer /><span v-bind="props"></span>
-          </template>
-          <div>{{ errors[0] }}</div>
-        </v-tooltip>
-      </v-col>
-    </v-row>
-  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { formatISO, subDays } from "date-fns";
+import { formatISO, isSameMinute, subDays } from "date-fns";
 import ShiftFormDateInput from "@/components/shifts/ShiftFormDateInput.vue";
 import ShiftFormTimeInput from "@/components/shifts/ShiftFormTimeInput.vue";
-
+import { useVuelidate } from "@vuelidate/core";
+import { helpers } from "@vuelidate/validators";
+function validStartTime(value) {
+  console.log("validations called");
+  console.log(!isSameMinute(this.timeStop, value));
+  return !isSameMinute(this.timeStop, value)
+}
 export default {
   name: "ShiftFormDatetimeInput",
   components: { ShiftFormDateInput, ShiftFormTimeInput },
@@ -78,13 +67,23 @@ export default {
     contractId: {
       type: String,
       required: true
-    },
-    errors: {
-      type: Array,
-      default: () => []
     }
   },
   emits: ["update:started", "update:stopped"],
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
+  },
+  validations() {
+    return {
+      timeStart: {
+        validStartTime: helpers.withMessage(
+          this.$t("shifts.errors.startedNotStopped"),
+          validStartTime
+        )
+      }}
+  },
   data() {
     return {
       date: this.started,
@@ -97,6 +96,9 @@ export default {
       getContractInstance: "contentData/contractById",
       selectedContract: "selectedContract/selectedContract"
     }),
+    errors() {
+      return this.v$.$errors.map((item) => item.$message)
+    },
     smAndDown() {
       return this.$vuetify.display.smAndDown;
     },
@@ -154,9 +156,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-:deep(.v-tooltip__content) {
-  text-align: center;
-}
-</style>

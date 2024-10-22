@@ -528,6 +528,7 @@
     },
     "errors": {
       "startedBeforeStopped": "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen.",
+      "startedNotStopped": "Start- und Endzeitpunkt dürfen nicht identisch sein.",
       "maximumWorktimePerDay": "Es sind maximal 10h Arbeitszeit pro Tag erlaubt.",
       "workingOnSundays": "Grundsätzlich ist das Arbeiten an Sonn- und Feiertagen nicht erlaubt, es sei denn, die Tätigkeit fällt unter den Ausnahmekatalog des §10 Abs. 1 Arbeitszeitgesetz.",
       "workingOnHolidays": "An Feiertagen können ausschließlich Schichten vom Typ 'Feiertag' gebucht werden.",
