@@ -156,7 +156,10 @@ export default {
     showRepeat(value) {
       if (!value) {
         this.resetScheduledShifts();
+        return;
       }
+      // Need to emit this on the inital showRepeat = true set.
+      this.$emit("scheduleShifts", this.scheduledShifts);
     }
   },
   created() {
