@@ -22,18 +22,19 @@
         </v-btn>
       </v-row>
       <div style="max-height: 600px; overflow-y: scroll">
-        <v-calendar
+        <VCalendar
           ref="calendar"
           v-model="focus"
           color="primary"
           type="category"
           category-show-all
+          :now="focussedOverlap.start"
           :categories="categories"
           :events="events"
           :event-color="getEventColor"
           :locale="locale"
           @click:event="handleEventClick"
-        ></v-calendar>
+        ></VCalendar>
       </div>
     </v-card-text>
     <ShiftFormDialog
@@ -54,10 +55,12 @@ import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import { mapState, mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
+import { VCalendar } from "vuetify/labs/VCalendar";
+
 
 export default {
   name: "CalendarOverlap",
-  components: { CardToolbar, ShiftFormDialog },
+  components: { CardToolbar, ShiftFormDialog, VCalendar },
   props: {
     month: {
       type: Date,
@@ -158,7 +161,7 @@ export default {
   watch: {
     index: {
       handler: function () {
-        this.focus = localizedFormat(this.focussedOverlap[0].end, "yyyy-MM-dd");
+        this.focus = [this.focussedOverlap[0].end];
       },
       immediate: true
     }
