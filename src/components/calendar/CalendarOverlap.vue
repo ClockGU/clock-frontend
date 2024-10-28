@@ -204,4 +204,9 @@ export default {
 .percent-height-50 {
   max-height: 50%;
 }
+td > div {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 </style>
