@@ -180,10 +180,16 @@ export default {
       return timeStamps;
     },
     isWithinShift(shift, index, time) {
+      const hour = parseInt(time.split(':')[0]);
       const startHour = shift.start.getHours();
       const endHour = shift.end.getHours();
-      const height = (endHour - startHour) * 60; // 60px per hour
-      const top = startHour * 60; // 60px per hour
+      if (hour < startHour || hour > endHour) {
+        return {};
+      }
+      const startMinute = hour === startHour ? shift.start.getMinutes() : 0;
+      const endMinute = hour === endHour ? shift.end.getMinutes() : 59;
+      const height = (endMinute - startMinute) * 1; // 1px per minute
+      const top = startMinute * 1; // 1px per minute
       const color = index === 0 ? 'red' : 'blue';
       return { height: `${height}px`, top: `${top}px`, backgroundColor: color };
     }
