@@ -22,10 +22,11 @@
         </v-btn>
       </v-row>
       <div style="max-height: 600px; overflow-y: scroll">
-        <div v-for="(shift, index) in focussedOverlap.slice(index, index + 2)" :key="index">
-          <h3>{{ shift.name }}</h3>
-          <p>Start: {{ shift.start }}</p>
-          <p>End: {{ shift.end }}</p>
+        <div class="timetable">
+          <div v-for="(shift, index) in focussedOverlap.slice(index, index + 2)" :key="index" class="shift-block" :style="{ top: getShiftPosition(shift.start), height: getShiftDuration(shift.start, shift.end) }">
+            <h3>{{ shift.name }}</h3>
+            <p>{{ shift.start }} - {{ shift.end }}</p>
+          </div>
         </div>
       </div>
     </v-card-text>
@@ -153,6 +154,14 @@ export default {
     },
     next() {
       this.index += 1;
+    },
+    getShiftPosition(start) {
+      const startHour = new Date(start).getHours();
+      return `${startHour * 60}px`;
+    },
+    getShiftDuration(start, end) {
+      const duration = new Date(end).getTime() - new Date(start).getTime();
+      return `${duration / (1000 * 60)}px`;
     }
   }
 };
@@ -164,5 +173,15 @@ export default {
 }
 .percent-height-50 {
   max-height: 50%;
+}
+.timetable {
+  position: relative;
+  height: 1440px; /* 24 hours * 60 minutes */
+}
+.shift-block {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #000;
+  box-sizing: border-box;
 }
 </style>
