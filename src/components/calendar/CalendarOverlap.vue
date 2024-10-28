@@ -34,8 +34,8 @@
             <tbody>
               <tr v-for="(time, index) in timeStamps" :key="index">
                 <td>{{ time }}</td>
-                <td :style="isWithinShift(focussedOverlap[0], 0)">{{ focussedOverlap[0].name }}</td>
-                <td :style="isWithinShift(focussedOverlap[1], 1)">{{ focussedOverlap[1].name }}</td>
+                <td :style="isWithinShift(focussedOverlap[0], 0, time)">{{ focussedOverlap[0].name }}</td>
+                <td :style="isWithinShift(focussedOverlap[1], 1, time)">{{ focussedOverlap[1].name }}</td>
               </tr>
             </tbody>
           </template>
@@ -179,7 +179,7 @@ export default {
       }
       return timeStamps;
     },
-    isWithinShift(shift, index) {
+    isWithinShift(shift, index, time) {
       const startHour = shift.start.getHours();
       const endHour = shift.end.getHours();
       const height = (endHour - startHour) * 60; // 60px per hour
