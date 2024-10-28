@@ -6,40 +6,107 @@
       @close="$emit('close')"
     ></CardToolbar>
     <v-card-text style="max-height: 800px">
-      <v-row align="center" justify="center">
-        <v-btn :disabled="index < 1" variant="text" @click="prev">
+      <v-row class="mb-3" align="center" justify="center">
+        <v-btn :disabled="step < 1" variant="text" @click="prev">
           <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
         </v-btn>
 
-        <span>{{ index + 1 }} / {{ lengthAllOverlaps }}</span>
+        <span>{{ step + 1 }} / {{ lengthAllOverlaps }}</span>
 
         <v-btn
-          :disabled="index === lengthAllOverlaps - 1"
+          :disabled="step === lengthAllOverlaps - 1"
           variant="text"
           @click="next"
         >
           <v-icon>{{ icons.mdiChevronRight }}</v-icon>
         </v-btn>
       </v-row>
+      <v-row>
+        <v-col class="text-center">
+          <span> {{ formatDay(allOverlappingShifts[step][0].started) }}</span>
+        </v-col>
+      </v-row>
       <div style="max-height: 600px; overflow-y: scroll">
-        <v-table>
-          <template #default>
-            <thead>
-              <tr>
-                <th class="text-left">Time</th>
-                <th class="text-left">Shift 1</th>
-                <th class="text-left">Shift 2</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(time, index) in timeStamps" :key="index">
-                <td>{{ time }}</td>
-                <td><div :style="isWithinShift(focussedOverlap[0], 0, time)">{{ focussedOverlap[0].name }}</div></td>
-                <td><div :style="isWithinShift(focussedOverlap[1], 1, time)">{{ focussedOverlap[1].name }}</div></td>
-              </tr>
-            </tbody>
-          </template>
-        </v-table>
+        <v-window v-model="step">
+          <v-window-item
+            v-for="(overlapShifts, index) in allOverlappingShifts"
+            :key="overlapShifts[0].id"
+            :value="index"
+          >
+            <v-table :id="overlapShifts[0].id">
+              <template #default>
+                <thead>
+                  <tr>
+                    <th class="text-left">Time</th>
+                    <th class="text-center pr-0">
+                      <span>{{ $t("models.shift") }} 1</span> <v-spacer />
+                      <v-btn
+                        variant="flat"
+                        :icon="icons.mdiTrashCan"
+                        @click="deleteShift(overlapShifts[0])"
+                      />
+                    </th>
+                    <th class="text-center pl-0">
+                      <span>{{ $t("models.shift") }} 2</span> <v-spacer />
+                      <v-btn
+                        variant="flat"
+                        :icon="icons.mdiTrashCan"
+                        @click="deleteShift(overlapShifts[1])"
+                      />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="time in getTimeStamps(...overlapShifts)"
+                    :key="time + overlapShifts[0].id"
+                    style="overflow: visible"
+                  >
+                    <td>{{ time }}</td>
+                    <td
+                      :class="[
+                        isWithinTime(overlapShifts[0], time)
+                          ? 'shift-one'
+                          : 'special-border'
+                      ]"
+                    >
+                      <div
+                        class="fixed-height-div"
+                        :style="
+                          isWithinTime(overlapShifts[0], time)
+                            ? {
+                                ...backgroundStyle(overlapShifts[0], time),
+                                ...shiftOneStyles
+                              }
+                            : {}
+                        "
+                      ></div>
+                    </td>
+                    <td
+                      :class="[
+                        isWithinTime(overlapShifts[1], time)
+                          ? 'shift-two'
+                          : 'special-border'
+                      ]"
+                    >
+                      <div
+                        class="fixed-height-div"
+                        :style="
+                          isWithinTime(overlapShifts[1], time)
+                            ? {
+                                ...backgroundStyle(overlapShifts[1], time),
+                                ...shiftTwoStyles
+                              }
+                            : {}
+                        "
+                      ></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-table>
+          </v-window-item>
+        </v-window>
       </div>
     </v-card-text>
     <ShiftFormDialog
@@ -55,12 +122,19 @@
 import { SHIFT_TYPE_COLORS } from "@/utils/colors";
 import { localizedFormat } from "@/utils/date";
 import { getOverlappingShifts } from "@/utils/shift";
-import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import {
+  mdiClose,
+  mdiChevronLeft,
+  mdiChevronRight,
+  mdiPencil,
+  mdiCancel,
+  mdiTrashCan
+} from "@mdi/js";
 
 import { mapState, mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
-
+import { differenceInMinutes } from "date-fns";
 
 export default {
   name: "CalendarOverlap",
@@ -80,14 +154,28 @@ export default {
     icons: {
       mdiClose,
       mdiChevronLeft,
-      mdiChevronRight
+      mdiChevronRight,
+      mdiTrashCan
     },
-    index: 0,
+    step: 0,
     showForm: false,
     shiftEntity: null,
     editShift: false,
-    shift: undefined
+    shift: undefined,
+    shiftOneStyles: {
+      marginRight: "4px",
+      backgroundColor: "rgb(var(--v-theme-warning))"
+    },
+    shiftTwoStyles: {
+      marginLeft: "4px",
+      backgroundColor: "rgb(var(--v-theme-primary))"
+    }
   }),
+  watch: {
+    step() {
+      this.$nextTick(() => this.applyLastShiftClasses());
+    }
+  },
   computed: {
     ...mapGetters({
       contracts: "contentData/allContracts"
@@ -95,12 +183,6 @@ export default {
     ...mapState({
       locale: "locale"
     }),
-    categories() {
-      return [
-        this.$t("calendar.overlap.all"),
-        this.$t("calendar.overlap.overlap")
-      ];
-    },
     allOverlappingShifts() {
       return getOverlappingShifts(this.shifts).sort((a, b) => {
         return a[0].started - b[1].started;
@@ -109,104 +191,122 @@ export default {
     lengthAllOverlaps() {
       return this.allOverlappingShifts.length;
     },
-    currentOverlap() {
-      return this.allOverlappingShifts[this.index] === undefined
-        ? []
-        : this.allOverlappingShifts[this.index];
-    },
-    focussedOverlap() {
-      return this.currentOverlap.map((shift, index) => {
-        const labels = ["A", "B"];
-        const contract = this.$store.getters["contentData/contractById"](
-          shift.contract
-        );
-        return {
-          name:
-            `(${labels[index]}, ${contract.name}) ` +
-            this.$t(`shifts.types.${shift.type}`),
-          start: shift.started,
-          end: shift.stopped,
-          category: this.categories[1],
-          timed: true,
-          shift: shift,
-          color: SHIFT_TYPE_COLORS[shift.type]
-        };
-      });
-    },
-    otherShifts() {
-      const overlappingId = this.focussedOverlap.map((shift) => shift.id);
-      return this.shifts
-        .filter((shift) => !overlappingId.includes(shift.id))
-        .map((shift) => {
-          return {
-            name: this.$t(`shifts.types.${shift.type}`),
-            start: shift.started,
-            end: shift.stopped,
-            category: this.categories[0],
-            timed: true,
-            shift: shift,
-            color: "primary"
-          };
-        });
-    },
     title() {
       return (
         this.$t("calendar.overlap.resolving") +
+        " " +
         localizedFormat(this.month, "MMMM yyyy")
       );
-    },
-    timeStamps() {
-      return this.getTimeStamps();
     }
   },
+  mounted() {
+    this.applyLastShiftClasses();
+  },
   methods: {
+    applyLastShiftClasses() {
+      const tables = document.querySelectorAll("div.v-table[id]");
+      const table = tables[tables.length - 1];
+      const shiftOneElements = table.querySelectorAll("td.shift-one");
+
+      // Check if there are any elements and apply the style to the last one
+      if (shiftOneElements.length > 0) {
+        const lastShiftOne = shiftOneElements[shiftOneElements.length - 1];
+        lastShiftOne.classList.add("last-shift"); // Add a special class
+      }
+      const shiftTwoElements = table.querySelectorAll("td.shift-two");
+
+      // Check if there are any elements and apply the style to the last one
+      if (shiftTwoElements.length > 0) {
+        const lastShiftTwo = shiftTwoElements[shiftTwoElements.length - 1];
+        lastShiftTwo.classList.add("last-shift"); // Add a special class
+      }
+    },
+    formatDay(date) {
+      return localizedFormat(date, "dd.MM.yyyy");
+    },
     handleEventClick(event) {
       this.shift = event.event.shift;
       this.editShift = true;
     },
     prev() {
-      this.index -= 1;
+      this.step -= 1;
     },
     next() {
-      this.index += 1;
+      this.step += 1;
     },
-    getTimeStamps() {
-      const startHour = Math.min(this.focussedOverlap[0].start.getHours(), this.focussedOverlap[1].start.getHours()) - 1;
-      const endHour = Math.max(this.focussedOverlap[0].end.getHours(), this.focussedOverlap[1].end.getHours()) + 1;
+    getTimeStamps(shiftOne, shiftTwo) {
+      const startHour =
+        Math.min(shiftOne.started.getHours(), shiftTwo.started.getHours()) - 1;
+      const endHour =
+        Math.max(shiftOne.stopped.getHours(), shiftTwo.stopped.getHours()) + 1;
       const timeStamps = [];
       for (let i = startHour; i <= endHour; i++) {
         timeStamps.push(`${i}:00`);
       }
       return timeStamps;
     },
-    isWithinShift(shift, index, time) {
-      const hour = parseInt(time.split(':')[0]);
-      const startHour = shift.start.getHours();
-      const endHour = shift.end.getHours();
-      if (hour < startHour || hour > endHour) {
-        return {};
+    isWithinTime(shift, time) {
+      if (shift.wasChecked === undefined) {
+        shift.wasChecked = 0;
       }
-      const startMinute = hour === startHour ? shift.start.getMinutes() : 0;
-      const endMinute = hour === endHour ? shift.end.getMinutes() : 59;
-      const height = (endMinute - startMinute) * 1; // 1px per minute
-      const top = 0;//startMinute * 1; // 1px per minute
-      const color = index === 0 ? 'red' : 'blue';
-      return { height: `${height}px`, top: `${top}px`, backgroundColor: color, position: "relative" };
+      const hour = parseInt(time.split(":")[0]);
+      const startHour = shift.started.getHours();
+      const endHour = shift.stopped.getHours();
+
+      return startHour <= hour && hour <= endHour;
+    },
+    backgroundStyle(shift, time) {
+      const hour = parseInt(time.split(":")[0]);
+      const startHour = shift.started.getHours();
+      const endHour = shift.stopped.getHours();
+      const startMinute = hour === startHour ? shift.started.getMinutes() : 0;
+      const endMinute = hour === endHour ? shift.stopped.getMinutes() : 60;
+      const height = endMinute - startMinute; // 1px per minute
+      const top = startMinute; // 1px per minute
+      return { height: `${height}px`, top: `${top}px`, position: "relative" };
+    },
+    async deleteShift(shift) {
+      await this.$store.dispatch("contentData/deleteShift", shift);
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .scroll {
   overflow-y: scroll;
 }
 .percent-height-50 {
   max-height: 50%;
 }
-td > div {
-  position: absolute;
-  left: 0;
+
+td {
+  position: relative; /* Ensures positioning context for the div */
+  vertical-align: top; /* Aligns content at the top of the cell */
+  overflow: visible;
+  border-bottom: none !important;
+  height: 60px !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.special-border,
+.last-shift {
+  border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+}
+
+tr td:first-of-type {
+  padding-right: 16px;
+  padding-left: 16px;
+  width: 80px;
+}
+
+.fixed-height-div {
+  position: absolute; /* Positions the div at the top left of the td */
   top: 0;
+  left: 0;
+}
+table {
+  table-layout: fixed; /* Prevents table resizing based on content */
+  width: 100%;
 }
 </style>

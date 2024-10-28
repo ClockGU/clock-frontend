@@ -24,3 +24,5 @@ yarn-error.log*
 # Cypress
 tests/e2e/videos
 tests/e2e/screenshots
+.aider*
+.env
