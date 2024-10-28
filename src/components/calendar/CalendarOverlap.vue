@@ -22,19 +22,11 @@
         </v-btn>
       </v-row>
       <div style="max-height: 600px; overflow-y: scroll">
-        <VCalendar
-          ref="calendar"
-          v-model="focus"
-          color="primary"
-          type="category"
-          category-show-all
-          :now="focussedOverlap.start"
-          :categories="categories"
-          :events="events"
-          :event-color="getEventColor"
-          :locale="locale"
-          @click:event="handleEventClick"
-        ></VCalendar>
+        <div v-for="(shift, index) in focussedOverlap.slice(index, index + 2)" :key="index">
+          <h3>{{ shift.name }}</h3>
+          <p>Start: {{ shift.start }}</p>
+          <p>End: {{ shift.end }}</p>
+        </div>
       </div>
     </v-card-text>
     <ShiftFormDialog
@@ -55,12 +47,11 @@ import { mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import { mapState, mapGetters } from "vuex";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
-import { VCalendar } from "vuetify/labs/VCalendar";
 
 
 export default {
   name: "CalendarOverlap",
-  components: { CardToolbar, ShiftFormDialog, VCalendar },
+  components: { CardToolbar, ShiftFormDialog },
   props: {
     month: {
       type: Date,
@@ -81,7 +72,6 @@ export default {
     index: 0,
     showForm: false,
     shiftEntity: null,
-    focus: "",
     editShift: false,
     shift: undefined
   }),
@@ -146,11 +136,6 @@ export default {
           };
         });
     },
-    events() {
-      if (this.allOverlappingShifts.length < 1) return [];
-
-      return [...this.focussedOverlap, ...this.otherShifts];
-    },
     title() {
       return (
         this.$t("calendar.overlap.resolving") +
@@ -158,24 +143,10 @@ export default {
       );
     }
   },
-  watch: {
-    index: {
-      handler: function () {
-        this.focus = [this.focussedOverlap[0].end];
-      },
-      immediate: true
-    }
-  },
   methods: {
     handleEventClick(event) {
       this.shift = event.event.shift;
       this.editShift = true;
-    },
-    getEventColor(event) {
-      return event.color;
-    },
-    setToday() {
-      this.focus = "";
     },
     prev() {
       this.index -= 1;
