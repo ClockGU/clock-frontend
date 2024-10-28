@@ -156,6 +156,9 @@ export default {
         this.$t("calendar.overlap.resolving") +
         localizedFormat(this.month, "MMMM yyyy")
       );
+    },
+    timeStamps() {
+      return this.getTimeStamps();
     }
   },
   methods: {
