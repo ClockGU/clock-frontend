@@ -22,12 +22,26 @@
         </v-btn>
       </v-row>
       <div style="max-height: 600px; overflow-y: scroll">
-        <div class="timetable">
-          <div v-for="(shift, index) in focussedOverlap.slice(index, index + 2)" :key="index" class="shift-block" :style="{ top: getShiftPosition(shift.start), height: getShiftDuration(shift.start, shift.end) }">
-            <h3>{{ shift.name }}</h3>
-            <p>{{ shift.start }} - {{ shift.end }}</p>
-          </div>
-        </div>
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">Time</th>
+                <th class="text-left">Shift 1</th>
+                <th class="text-left">Shift 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(time, index) in timeStamps" :key="index">
+                <td>{{ time }}</td>
+                <td v-if="isWithinShift(time, focussedOverlap[0])" :style="{ backgroundColor: focussedOverlap[0].color }">{{ focussedOverlap[0].name }}</td>
+                <td v-else></td>
+                <td v-if="isWithinShift(time, focussedOverlap[1])" :style="{ backgroundColor: focussedOverlap[1].color }">{{ focussedOverlap[1].name }}</td>
+                <td v-else></td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
       </div>
     </v-card-text>
     <ShiftFormDialog
@@ -155,13 +169,18 @@ export default {
     next() {
       this.index += 1;
     },
-    getShiftPosition(start) {
-      const startHour = new Date(start).getHours();
-      return `${startHour * 60}px`;
+    getTimeStamps() {
+      const startHour = Math.min(this.focussedOverlap[0].start.getHours(), this.focussedOverlap[1].start.getHours()) - 1;
+      const endHour = Math.max(this.focussedOverlap[0].end.getHours(), this.focussedOverlap[1].end.getHours()) + 1;
+      const timeStamps = [];
+      for (let i = startHour; i <= endHour; i++) {
+        timeStamps.push(`${i}:00`);
+      }
+      return timeStamps;
     },
-    getShiftDuration(start, end) {
-      const duration = new Date(end).getTime() - new Date(start).getTime();
-      return `${duration / (1000 * 60)}px`;
+    isWithinShift(time, shift) {
+      const hour = parseInt(time.split(':')[0]);
+      return hour >= shift.start.getHours() && hour < shift.end.getHours();
     }
   }
 };
@@ -173,15 +192,5 @@ export default {
 }
 .percent-height-50 {
   max-height: 50%;
-}
-.timetable {
-  position: relative;
-  height: 1440px; /* 24 hours * 60 minutes */
-}
-.shift-block {
-  position: absolute;
-  width: 100%;
-  border: 1px solid #000;
-  box-sizing: border-box;
 }
 </style>
