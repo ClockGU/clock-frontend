@@ -22,8 +22,8 @@
         </v-btn>
       </v-row>
       <div style="max-height: 600px; overflow-y: scroll">
-        <v-simple-table>
-          <template v-slot:default>
+        <v-table>
+          <template #default>
             <thead>
               <tr>
                 <th class="text-left">Time</th>
@@ -41,7 +41,7 @@
               </tr>
             </tbody>
           </template>
-        </v-simple-table>
+        </v-table>
       </div>
     </v-card-text>
     <ShiftFormDialog
