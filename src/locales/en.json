@@ -528,6 +528,7 @@
     },
     "errors": {
       "startedBeforeStopped": "The start must be before the end of the shift.",
+      "startedNotStopped": "The start must not coincide with the end of the shift.",
       "maximumWorktimePerDay": "The maximum allowed working time amount is 10 hours per day.",
       "workingOnSundays": "Working on Sundays and public holidays is not permitted unless it falls under the exceptions in Section 10 (1) of the Working Hours Act (Arbeitszeitgesetz).",
       "workingOnHolidays": "You can only book 'holiday' shifts on a holiday.",

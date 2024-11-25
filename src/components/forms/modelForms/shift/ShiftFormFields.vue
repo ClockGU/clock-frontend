@@ -5,7 +5,6 @@
       v-model:started="shift.started"
       v-model:stopped="shift.stopped"
       :contract-id="shift.contract"
-      :errors="timeErrors"
     />
     <v-row align="center" justify="start">
       <v-col cols="12" class="mt-3 ml-1 mr-1">
@@ -80,6 +79,7 @@ import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput.v
 import ClockCardAlert from "@/components/ClockCardAlert.vue";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview.vue";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   name: "ShiftFormFields",
   components: {
@@ -96,10 +96,6 @@ export default {
     modelValue: {
       type: Shift,
       required: true
-    },
-    timeErrors: {
-      type: Array,
-      default: () => []
     },
     alertMessages: {
       type: Array,
