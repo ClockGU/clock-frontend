@@ -253,7 +253,8 @@
       "feature": "Verbesserung vorschlagen",
       "general": "Allgemein",
       "question": "Frage"
-    }
+    },
+    "gdpr": "Ich stimme zu, dass Administratoren gemäß unseren internen Regeln auf meine Daten in der Datenbank zugreifen dürfen."
   },
   "ombuds": {
     "fields": {
