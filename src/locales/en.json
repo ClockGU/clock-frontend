@@ -322,7 +322,8 @@
       "changelog": "Changelog",
       "warning": "Warning",
       "tip": "Tip"
-    }
+    },
+    "validity": "valid from :"
   },
   "models": {
     "contract": "Contract | Contracts",
