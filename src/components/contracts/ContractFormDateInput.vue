@@ -17,9 +17,8 @@
         :disabled="disabled"
         :error="error"
         v-bind="props"
-        @click.prevent="shouldClose=false"
+        @click.prevent="shouldClose = false"
         @blur="shouldClose = false"
-
       ></v-text-field>
     </template>
     <v-date-picker
@@ -98,10 +97,9 @@ export default {
   },
   watch: {
     modelValue(val) {
-
       this.date = val;
-      this.shouldClose=true
-      console.log(this.shouldClose)
+      this.shouldClose = true;
+      console.log(this.shouldClose);
     }
   },
   methods: {
@@ -113,7 +111,6 @@ export default {
       const day = getDate(val);
       return day === 15 || isLastDayOfMonth(val);
     }
-
-}
+  }
 };
 </script>
