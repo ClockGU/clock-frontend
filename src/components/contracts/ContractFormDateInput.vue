@@ -17,8 +17,8 @@
         :disabled="disabled"
         :error="error"
         v-bind="props"
-        @click.prevent="shouldClose = false"
-        @blur="shouldClose = false"
+        @click="shouldClose = false"
+        @mousedown="shouldClose = false"
       ></v-text-field>
     </template>
     <v-date-picker
@@ -99,7 +99,6 @@ export default {
     modelValue(val) {
       this.date = val;
       this.shouldClose = true;
-      console.log(this.shouldClose);
     }
   },
   methods: {
