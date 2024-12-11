@@ -19,9 +19,7 @@
     ></v-list-item-subtitle>
     <p v-else v-html="text"></p>
     <v-list-item-action v-if="messageDate">
-      <span
-        class="ga-1 mt-2"
-        :style="{ color: 'gray', 'font-weight': 'bold' }"
+      <span class="ga-1 mt-2" :style="{ color: 'gray', 'font-weight': 'bold' }"
         >{{ $t("news.validity") }}
         {{ messageDate }}
       </span>
