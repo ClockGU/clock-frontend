@@ -17,9 +17,12 @@
         :disabled="disabled"
         :error="error"
         v-bind="props"
+        @click.prevent="shouldClose = false"
+        @blur="shouldClose = false"
       ></v-text-field>
     </template>
     <v-date-picker
+      v-if="!shouldClose"
       v-model="date"
       :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
       :first-day-of-week="1"
@@ -78,7 +81,8 @@ export default {
         mdiCalendarArrowRight
       },
       menu: false,
-      date: this.modelValue
+      date: this.modelValue,
+      shouldClose: false
     };
   },
   computed: {
@@ -94,6 +98,7 @@ export default {
   watch: {
     modelValue(val) {
       this.date = val;
+      this.shouldClose = true;
     }
   },
   methods: {
@@ -108,4 +113,3 @@ export default {
   }
 };
 </script>
-<style scoped></style>
