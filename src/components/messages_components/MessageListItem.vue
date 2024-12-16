@@ -19,11 +19,7 @@
     ></v-list-item-subtitle>
     <p v-else v-html="text"></p>
     <v-list-item-action v-if="messageDate">
-      <span
-        class="d-flex ga-1 mt-2"
-        :style="{ color: 'gray', 'font-weight': 'bold' }"
-        >{{ $t("news.validity") }}
-        <p :style="{ 'font-weight': 'bold' }">{{ messageDate }}</p></span
+      <p class="font-weight-bold">{{ messageDate }}</p>
       >
       <!-- Displaying the formatted date -->
     </v-list-item-action>
