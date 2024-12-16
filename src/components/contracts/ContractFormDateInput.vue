@@ -94,7 +94,8 @@ export default {
   watch: {
     modelValue(val) {
       this.date = val;
-      setTimeout(() => this.closeMenu(), 400);
+      //this is to let the switching of date animation time to play before closing the menu
+      setTimeout(() => this.closeMenu(), 350);
     }
   },
   methods: {
