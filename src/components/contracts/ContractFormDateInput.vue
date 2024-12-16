@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { isLastDayOfMonth, getDate, set } from "date-fns";
+import { isLastDayOfMonth, getDate } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 

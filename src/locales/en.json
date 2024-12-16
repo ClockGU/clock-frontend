@@ -323,7 +323,7 @@
       "warning": "Warning",
       "tip": "Tip"
     },
-    "validity": "valid from :"
+    "validity": "Valid from:"
   },
   "models": {
     "contract": "Contract | Contracts",
