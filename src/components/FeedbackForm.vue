@@ -36,7 +36,7 @@
           @blur="v$.message.$touch()"
           @keydown.enter.prevent="addNewline"
         ></v-textarea>
-        <v-checkbox v-model="gdprAccepted">
+        <v-checkbox v-model="accessApproved">
           <template #label>
             <p class="consent-text">{{ $t("feedback.gdpr") }}</p>
           </template>
@@ -52,7 +52,7 @@
       <v-btn
         color="primary"
         variant="text"
-        :disabled="v$.$invalid || !gdprAccepted"
+        :disabled="v$.$invalid || !accessApproved"
         @click="submit"
       >
         {{ $t("actions.send") }}
@@ -81,14 +81,14 @@ export default {
     email: null,
     message: null,
     topic: "general",
-    gdprAccepted: false
+    accessApproved: false
   }),
   validations() {
     return {
       email: { required, email },
       name: { required },
       message: { required },
-      gdprAccepted: { required }
+      accessApproved: { required }
     };
   },
   computed: {
