@@ -254,7 +254,7 @@
       "general": "Allgemein",
       "question": "Frage"
     },
-    "gdpr": "Ich stimme zu, dass Administratoren gemäß unseren internen Regeln auf meine Daten in der Datenbank zugreifen dürfen."
+    "gdpr": "Ich stimme zu, dass Administratoren zur Bearbeitung von Supportanfragen auf meine Daten zugreifen dürfen."
   },
   "ombuds": {
     "fields": {
