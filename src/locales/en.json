@@ -253,7 +253,8 @@
       "feature": "Feature request",
       "general": "General",
       "question": "Question"
-    }
+    },
+    "gdpr": "I agree to allow administrators to access my data in the database, as required by our internal rules."
   },
   "ombuds": {
     "fields": {
@@ -321,7 +322,8 @@
       "changelog": "Changelog",
       "warning": "Warning",
       "tip": "Tip"
-    }
+    },
+    "validity": "valid from :"
   },
   "models": {
     "contract": "Contract | Contracts",
@@ -571,3 +573,5 @@
     "notSelected": "No model selected"
   }
 }
+
+
