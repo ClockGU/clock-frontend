@@ -102,9 +102,6 @@ export default {
     closeMenu() {
       this.menu = false;
     },
-    toggleMenu() {
-      this.menu = !this.menu;
-    },
     allowedStartDates(val) {
       const day = getDate(val);
       return day === 1 || day === 16;
