@@ -21,7 +21,7 @@
 
     <template #content>
       <v-container>
-        <div v-if="isXs">
+        <div v-if="smAndDown">
           <v-window
             v-model="tab"
             direction="horizontal"
@@ -84,8 +84,6 @@
 
 <script>
 import {
-  mdiChevronLeft,
-  mdiChevronRight,
   mdiFileAccount,
   mdiBadgeAccountHorizontal,
   mdiAccountRemove,
@@ -124,43 +122,14 @@ export default {
       mdiWeb,
       mdiAccountReactivate
     },
-    tab: "first",
-    tabs: [
-      {
-        icon: mdiWeb,
-        text: "app.language",
-        value: "first",
-        component: LanguageSettings
-      },
-      {
-        icon: mdiFormatSection,
-        text: "app.gdpr",
-        value: "second",
-        component: GDPR
-      },
-      {
-        icon: mdiBadgeAccountHorizontal,
-        text: "personnelNumber.label",
-        value: "third",
-        component: PersonnelNumberForm
-      },
-      {
-        icon: mdiAccountRemove,
-        text: "app.account",
-        value: "fourth",
-        component: DeleteAccount
-      },
-      {
-        icon: mdiAccountReactivate,
-        text: "app.checkoutUser",
-        value: "fifth",
-        component: AdminCheckoutUser
-      }
-    ]
+    tab: "first"
   }),
   computed: {
-    isXs() {
-      return this.$vuetify.display.xs;
+    smAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
+    smAndUp() {
+      return this.$vuetify.display.smAndUp;
     },
     isSuperUser() {
       return this.$store.getters.user.is_superuser;
@@ -176,15 +145,7 @@ export default {
 div.tabs [role="tab"] {
   justify-content: flex-start;
 }
-.centered-item {
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
 </style>
-
 <style lang="scss">
 //not-so-beautiful hack
 .v-slide-group__prev {
