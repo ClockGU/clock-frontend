@@ -16,12 +16,12 @@
           v-for="(faq_group, i) in faqs_object"
           v-else
           :key="i + 100"
-          class="mt-4"
+          class="mt-4 mx-1"
         >
-          <h2 v-if="faq_group[0].faq_heading" class="mt-4 pl-6 mb-2">
+          <h2 v-if="faq_group[0].faq_heading" class="my-7 pl-1">
             {{ heading(faq_group[0].faq_heading) }}
           </h2>
-          <v-expansion-panels variant="popout">
+          <v-expansion-panels variant="accordion">
             <v-expansion-panel v-for="(faq, j) in faq_group" :key="j">
               <v-expansion-panel-title
                 class="text-body-1"
@@ -30,7 +30,10 @@
                 v-html="question(faq)"
               >
               </v-expansion-panel-title>
-              <v-expansion-panel-text class="text-body-1" v-html="answer(faq)">
+              <v-expansion-panel-text
+                class="text-body-1 ml-6 mr-3 mb-6"
+                v-html="answer(faq)"
+              >
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -121,3 +124,8 @@ export default {
   }
 };
 </script>
+<style>
+.text-indent {
+  text-indent: 20px;
+}
+</style>
