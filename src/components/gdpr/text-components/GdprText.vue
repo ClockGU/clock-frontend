@@ -277,11 +277,23 @@ export default {
   },
   computed: {
     iframeURL() {
-      return `${
-        import.meta.env.VUE_APP_MATOMO_URL
-      }index.php?module=CoreAdminHome&action=optOut&language=${
-        this.$i18n.locale
-      }`;
+      try {
+        const matomoUrl = import.meta.env.VITE_MATOMO_URL;
+        const locale =
+          this.$i18n && this.$i18n.locale
+            ? encodeURIComponent(this.$i18n.locale)
+            : "en";
+
+        if (!matomoUrl) {
+          console.error("Matomo URL is not defined");
+          return "";
+        }
+
+        return `${matomoUrl}/index.php?module=CoreAdminHome&action=optOut&language=${locale}`;
+      } catch (error) {
+        console.error("Error generating iframe URL:", error);
+        return "";
+      }
     }
   }
 };
@@ -290,8 +302,18 @@ export default {
 <style lang="scss" scoped>
 iframe {
   border: 0;
-  height: 280px;
   width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 600px) {
+  iframe {
+    height: 260px;
+  }
 }
 h1,
 h2,
