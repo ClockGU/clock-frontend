@@ -27,6 +27,38 @@
             />
           </template>
         </ShiftAssignContractDialog>
+        <ShiftMoreInformationDialog
+          v-if="smAndDown"
+          :disabled="shiftsLength !== 1"
+          :shift="this.shifts[0]"
+          @reset="resetFn()"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              :disabled="shiftsLength !== 1"
+              variant="flat"
+              :icon="icons.mdiInformationVariant"
+              v-bind="props"
+            />
+          </template>
+        </ShiftMoreInformationDialog>
+        <ShiftFormDialog
+          v-if="smAndDown"
+          :create="false"
+          :shift="this.shifts[0]"
+          disable-activator="true"
+          @reset="resetFn()"
+          @update="updateFn(this.shifts[0].contract)"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              :disabled="shiftsLength !== 1"
+              variant="flat"
+              v-bind="props"
+              :icon="icons.mdiPencil"
+            />
+          </template>
+        </ShiftFormDialog>
 
         <ShiftBulkActionsDialogDelete
           :count="shiftsLength"
@@ -51,21 +83,27 @@
 import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog.vue";
 import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete.vue";
 import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { minutesToHHMM } from "@/utils/time";
+import breakpointsMixin from "@/mixins/breakpointsMixin";
 import {
   mdiCheck,
   mdiCheckAll,
   mdiPencil,
   mdiSwapHorizontal,
-  mdiDelete
+  mdiDelete,
+  mdiInformationVariant
 } from "@mdi/js";
+import ShiftMoreInformationDialog from "./ShiftMoreInformationDialog.vue";
 
 export default {
   name: "ShiftBulkActions",
   components: {
     ShiftAssignContractDialog,
     ShiftBulkActionsDialogDelete,
-    ShiftBulkActionsDialogReview
+    ShiftBulkActionsDialogReview,
+    ShiftFormDialog,
+    ShiftMoreInformationDialog
   },
   props: {
     canReview: {
@@ -89,8 +127,16 @@ export default {
   },
   emits: ["destroy", "update"],
   data: () => ({
-    icons: { mdiCheck, mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
+    icons: {
+      mdiCheck,
+      mdiCheckAll,
+      mdiPencil,
+      mdiSwapHorizontal,
+      mdiDelete,
+      mdiInformationVariant
+    }
   }),
+  mixins: [breakpointsMixin],
   computed: {
     reviewable() {
       return this.shifts.filter((shift) => shift.wasReviewed === false).length;
@@ -106,6 +152,7 @@ export default {
       return this.shifts.length;
     }
   },
+
   methods: {
     async destroyFn() {
       await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);

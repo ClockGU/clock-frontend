@@ -13,100 +13,93 @@
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
-      show-select
+      :show-select="!smAndDown"
     >
-      <!-- eslint-disable-next-line -->
-      <template #item.date="{ item }">
-        {{ formattedDate(item.started) }}
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template #item.start="{ item }">
-        {{ formattedTime(item.started) }}
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template #item.duration="{ item }">
-        {{ formattedDuration(item.duration) }}
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template #item.type="{ item }">
-        <v-icon :color="colors[item.type]">
-          {{ typeIcons[item.type] }}
-        </v-icon>
-        <v-chip
-          v-if="isRunningShift(item)"
-          class="ml-2"
-          variant="outlined"
-          x-small
-          dense
-          color="red"
+      <template #item="{ item }">
+        <tr
+          :class="{ 'selected-row': selected.includes(item) }"
+          @click="handleClick(item)"
         >
-          live
-        </v-chip>
+          <td class="d-none d-sm-table-cell">
+            <v-checkbox-btn
+              class="table-checkbox-btn"
+              v-model="selected"
+              :value="item"
+            />
+          </td>
+          <td>{{ formattedDate(item.started) }}</td>
+          <td>{{ formattedTime(item.started) }}</td>
+          <td>{{ formattedDuration(item.duration) }}</td>
+          <td>
+            <v-icon :color="colors[item.type]">
+              {{ typeIcons[item.type] }}
+            </v-icon>
+            <v-chip
+              v-if="isRunningShift(item)"
+              class="ml-2"
+              variant="outlined"
+              x-small
+              dense
+              color="red"
+            >
+              live
+            </v-chip>
+          </td>
+          <td v-if="pastShifts" class="d-none d-sm-table-cell">
+            <v-btn
+              v-if="!item.wasReviewed"
+              :icon="icons.mdiClose"
+              :disabled="isRunningShift(item)"
+              color="red"
+              variant="text"
+              elevation="0"
+              @click="reviewSingleShift(item)"
+            ></v-btn>
+            <v-btn
+              v-else
+              variant="text"
+              :icon="icons.mdiCheck"
+              color="green"
+              elevation="0"
+            ></v-btn>
+          </td>
+          <td class="d-none d-sm-table-cell">
+            <v-chip
+              v-for="tag in item.tags.slice(0, 2)"
+              :key="tag"
+              class="mx-1"
+              small
+            >
+              {{ tag }}
+            </v-chip>
+            <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
+              <template #activator="{ props }">
+                <v-chip small class="mx-1" v-bind="props">...</v-chip>
+              </template>
+            </ShiftInfoDialog>
+          </td>
+          <td class="d-none d-sm-table-cell">
+            <ShiftInfoDialog :item="item">
+              <template #activator="{ props }">
+                <span v-bind="props">{{ noteDisplay(item.note, 15) }}</span>
+              </template>
+            </ShiftInfoDialog>
+          </td>
+          <td class="d-none d-sm-table-cell">
+            <ShiftFormDialog
+              :create="false"
+              icon
+              :shift="item"
+            ></ShiftFormDialog>
+          </td>
+        </tr>
       </template>
+    </v-data-table>
+  </div>
+</template>
 
-      <!-- eslint-disable-next-line -->
-      <template v-if="pastShifts" #item.reviewed="{ item }">
-        <v-btn
-          v-if="!item.wasReviewed"
-          :icon="icons.mdiClose"
-          :disabled="isRunningShift(item)"
-          color="red"
-          variant="text"
-          elevation="0"
-          @click="reviewSingleShift(item)"
-        >
-        </v-btn>
-        <v-btn
-          v-else
-          variant="text"
-          :icon="icons.mdiCheck"
-          color="green"
-          elevation="0"
-        >
-        </v-btn>
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template v-else #item.reviewed="{ item }">
-        <v-icon color="red">{{ icons.mdiClose }}</v-icon>
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template #item.tags="{ item }">
-        <v-chip
-          v-for="tag in item.tags.slice(0, 2)"
-          :key="tag"
-          class="mx-1"
-          small
-        >
-          {{ tag }}
-        </v-chip>
-        <ShiftInfoDialog v-if="item.tags.length > 2" :item="item">
-          <template #activator="{ props }">
-            <v-chip small class="mx-1" v-bind="props">...</v-chip>
-          </template>
-        </ShiftInfoDialog>
-      </template>
-
-      <!-- eslint-disable-next-line -->
-      <template #item.note="{ item }">
-        <ShiftInfoDialog :item="item">
-          <template #activator="{ props }">
-            <span v-bind="props">
-              {{ noteDisplay(item.note) }}
-            </span>
-          </template>
-        </ShiftInfoDialog>
-      </template>
-
-      <!-- eslint-disable-next-line-->
-      <template #item.actions="{ item }">
-        <ShiftFormDialog :create="false" icon :shift="item"></ShiftFormDialog>
-        <!-- Commented out, pending due to missing Userfeedback.       -->
-        <!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
+<!-- Commented out, pending due to missing Userfeedback.       -->
+<!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
           <template #activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
@@ -114,7 +107,7 @@
           </template>
         </ShiftAssignContractDialog-->
 
-        <!--ConfirmationDialog @confirm="destroySingleShift(item)">
+<!--ConfirmationDialog @confirm="destroySingleShift(item)">
           <template #activator="{ on }">
             <v-scale-transition>
               <v-btn elevation="1" icon v-on="on">
@@ -141,38 +134,15 @@
             }}
           </template>
         </ConfirmationDialog-->
-      </template>
-    </v-data-table>
-  </div>
-</template>
 
 <script>
 //import ConfirmationDialog from "@/components/ConfirmationDialog";
 //import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
 import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog.vue";
-
-import { isWithinInterval, isBefore, getHours } from "date-fns";
-
-import {
-  mdiCheck,
-  mdiClose,
-  mdiCircleMedium,
-  mdiTagOutline,
-  mdiFileDocumentOutline,
-  mdiPencil,
-  mdiSwapHorizontal,
-  mdiDelete
-} from "@mdi/js";
-
-import { SHIFT_TABLE_HEADERS } from "@/utils/misc";
-import { SHIFT_TYPE_ICONS } from "@/utils/misc";
-
 import { ShiftService } from "@/services/models";
-import { log } from "@/utils/log";
-import { SHIFT_TYPE_COLORS } from "@/utils/colors";
-import { localizedFormat } from "@/utils/date";
-import { minutesToHHMM } from "@/utils/time";
+import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
+import breakpointsMixin from "@/mixins/breakpointsMixin";
 
 export default {
   name: "ShiftsTable",
@@ -198,91 +168,55 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   emits: ["refresh"],
+  mixins: [ShiftUtilityMixin, breakpointsMixin],
+  /**
+   * @typedef {Object} Data
+   * @property {Object} [data] - component data
+   * @return {Data}
+   */
   data: () => ({
-    icons: {
-      mdiCheck,
-      mdiClose,
-      mdiCircleMedium,
-      mdiTagOutline,
-      mdiFileDocumentOutline,
-      mdiPencil,
-      mdiSwapHorizontal,
-      mdiDelete
-    },
-    headers: SHIFT_TABLE_HEADERS,
-    colors: SHIFT_TYPE_COLORS,
-    typeIcons: SHIFT_TYPE_ICONS,
     selected: []
   }),
   computed: {
     flexHeaders() {
-      //check for tags and notes and hide column if none exist
-      let tagsAndNotes = 0;
-      this.shifts.forEach(
-        (shift) => (tagsAndNotes += shift.tags.length && shift.note.length)
+      const tagsAndNotesExist = this.shifts.some(
+        (shift) => shift.tags.length > 0 || shift.note.length > 0
       );
-      if (tagsAndNotes === 0) {
-        return this.headers.filter((item) => item.value !== "tagsNotes");
+
+      let filteredHeaders = [...this.headers];
+
+      if (this.smAndDown) {
+        filteredHeaders = filteredHeaders.filter((item) => {
+          const title = item.title;
+          return (
+            title !== this.$t("time.reviewed") &&
+            title !== "Tags" &&
+            title !== "Notes" &&
+            title !== undefined
+          );
+        });
       }
 
-      return this.headers;
+      if (!tagsAndNotesExist) {
+        filteredHeaders = filteredHeaders.filter(
+          (item) => item.value !== "tagsNotes"
+        );
+      }
+      return filteredHeaders;
     }
   },
+
   methods: {
-    isRunningShift(shift) {
-      return isWithinInterval(new Date(), {
-        start: shift.started,
-        end: shift.stopped
-      });
+    handleClick(shift) {
+      const index = this.selected.indexOf(shift);
+
+      if (index > -1) {
+        this.selected.splice(index, 1);
+      } else {
+        this.selected.push(shift);
+      }
     },
-    formattedDate(date) {
-      return localizedFormat(date, "EEEE',' do' 'MMMM");
-    },
-    formattedTime(time) {
-      return localizedFormat(time, "HH:mm");
-    },
-    formattedDuration(duration) {
-      return minutesToHHMM(duration, "");
-    },
-    sortByDate(items, sortBy, sortDesc) {
-      const desc = sortDesc[0] ? -1 : 1;
-      items.sort((a, b) => {
-        switch (sortBy[0]) {
-          case "date":
-            return isBefore(b.started, a.started) ? -desc : desc;
-          case "start":
-            return isBefore(getHours(b.started), getHours(a.started))
-              ? -desc
-              : desc;
-          default:
-            return a[sortBy[0]] > b[sortBy[0]] ? -desc : desc;
-        }
-      });
-      return items;
-    },
-    noteDisplay(note) {
-      if (note.length > 15) {
-        return note.substr(0, 15) + "...";
-      } else return note;
-    },
-    // async destroy() {
-    //   const promises = [];
-    //   try {
-    //     for (const shift of this.selected) {
-    //       promises.push(ShiftService.delete(shift.id));
-    //     }
-    //
-    //     await Promise.all(promises);
-    //
-    //     this.$emit("refresh");
-    //     this.reset();
-    //   } catch (error) {
-    //     // TODO: Set error state for component & allow user to reload page
-    //     // We usually should end up here, if we are already logging out.
-    //     // But a proper error state could mitigate further issues.
-    //     log(error);
-    //   }
-    // },
+
     async destroySingleShift(shift) {
       try {
         await ShiftService.delete(shift.uuid);
@@ -296,24 +230,17 @@ export default {
         log(error);
       }
     },
-    async reviewSingleShift(shift) {
-      try {
-        const payload = shift.toPayload();
-        payload.was_reviewed = true;
-        await this.$store.dispatch("contentData/updateShift", {
-          payload,
-          initialContract: payload.contract
-        });
-      } catch (error) {
-        // TODO: Set error state for component & allow user to reload page
-        // We usually should end up here, if we are already logging out.
-        // But a proper error state could mitigate further issues.
-        log(error);
-      }
-    },
     reset() {
       this.selected = [];
     }
   }
 };
 </script>
+<style>
+.selected-row {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.table-checkbox-btn {
+  right: 8px;
+}
+</style>
