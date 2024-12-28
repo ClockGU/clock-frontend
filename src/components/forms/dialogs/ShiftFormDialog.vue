@@ -56,6 +56,8 @@ import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+import breakpointsMixin from "@/mixins/breakpointsMixin";
+
 // eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import { isBefore } from "date-fns";
@@ -63,7 +65,7 @@ import { isBefore } from "date-fns";
 export default {
   name: "ShiftFormDialog",
   components: { ShiftForm, TheDialog },
-  mixins: [ShiftValidationMixin],
+  mixins: [ShiftValidationMixin, breakpointsMixin],
   props: {
     shift: {
       type: Shift,
@@ -104,7 +106,7 @@ export default {
       default: false
     }
   },
-  emits: ["close", "save", "update", "delete", "update:modelValue"],
+  emits: ["close", "save", "update", "delete", "update:modelValue", "reset"],
   data() {
     return {
       icons: {
@@ -118,9 +120,6 @@ export default {
     };
   },
   computed: {
-    smAndDown() {
-      return this.$vuetify.display.smAndDown;
-    },
     create() {
       return this.shift === undefined;
     },
@@ -187,6 +186,7 @@ export default {
     closeFormDialog() {
       this.$emit("close");
       this.$emit("update:modelValue", false);
+      this.$emit("reset");
     }
   }
 };
