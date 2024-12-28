@@ -546,7 +546,8 @@
       "faqLinkText": "Hier geht es zu den FAQ.",
       "ombudsText": "Benötigst du Unterstützung bei Problemen mit deinen Arbeitsbedingungen?",
       "ombudsLinkText": "Kontaktiere die Ombudsperson für Studierende."
-    }
+    },
+    "viewDetails": "Schichtdetails anzeigen"
   },
   "snackbar": {
     "success": "Die Aktion wurde durchgeführt.",
