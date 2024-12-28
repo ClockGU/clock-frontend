@@ -175,8 +175,7 @@ export default {
   data() {
     return {
       item: this.shift,
-      show: this.modelValue,
-      title: "View Shift Details"
+      show: this.modelValue
     };
   },
   watch: {
@@ -185,6 +184,11 @@ export default {
     },
     modelValue(newValue) {
       this.show = newValue;
+    }
+  },
+  computed: {
+    title() {
+      return this.$t("shifts.viewDetails");
     }
   },
   methods: {

@@ -548,7 +548,8 @@
       "faqLinkText": "Check out the FAQ.",
       "ombudsText": "Do you need support for problems with your working conditions?",
       "ombudsLinkText": "Contact the ombudsperson for student affairs."
-    }
+    },
+    "viewDetails": "view Shift details"
   },
   "snackbar": {
     "success": "The action was completed.",
