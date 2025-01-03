@@ -152,8 +152,6 @@ export default {
     // });
   },
   methods: {
-
-  
     addNewline() {
       this.message += "\n";
     },
