@@ -27,7 +27,7 @@
               :value="item"
             />
           </td>
-          <td>{{ formattedDate(item.started) }}</td>
+          <td>{{ formattedDateMobile(item.started) }}</td>
           <td>{{ formattedTime(item.started) }}</td>
           <td>{{ formattedDuration(item.duration) }}</td>
           <td>
@@ -143,9 +143,7 @@ import { ShiftService } from "@/services/models";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
-import { fa } from "vuetify/lib/locale/index.mjs";
-import { tr } from "date-fns/locale";
-import { is } from "ramda";
+import { localizedFormat } from "@/utils/date";
 
 export default {
   name: "ShiftsTable",
@@ -172,11 +170,7 @@ export default {
   },
   emits: ["refresh"],
   mixins: [ShiftUtilityMixin, breakpointsMixin],
-  /**
-   * @typedef {Object} Data
-   * @property {Object} [data] - component data
-   * @return {Data}
-   */
+
   data: () => ({
     selected: []
   }),
@@ -210,6 +204,11 @@ export default {
   },
 
   methods: {
+    formattedDateMobile(date) {
+      return this.$i18n.locale === "en"
+        ? localizedFormat(date, "EEE',' do")
+        : localizedFormat(date, "EEE ' ' do");
+    },
     handleClick(shift) {
       const index = this.selected.indexOf(shift);
 
