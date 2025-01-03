@@ -27,7 +27,13 @@
               :value="item"
             />
           </td>
-          <td>{{ formattedDateMobile(item.started) }}</td>
+          <td>
+            {{
+              isXs
+                ? formattedDateMobile(item.started)
+                : formattedDate(item.started)
+            }}
+          </td>
           <td>{{ formattedTime(item.started) }}</td>
           <td>{{ formattedDuration(item.duration) }}</td>
           <td>
