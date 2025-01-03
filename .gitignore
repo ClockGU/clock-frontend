@@ -24,3 +24,7 @@ yarn-error.log*
 # Cypress
 tests/e2e/videos
 tests/e2e/screenshots
+_wildcard.clock.uni-frankfurt.de-key.pem
+_wildcard.clock.uni-frankfurt.de.pem
+.env.local
+CaddyFile
