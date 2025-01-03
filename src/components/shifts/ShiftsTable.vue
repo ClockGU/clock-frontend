@@ -3,6 +3,7 @@
     <slot name="head" :selected="selected" :reset="reset"></slot>
     <v-data-table
       v-model="selected"
+      :show-select="!isMobile"
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
@@ -13,14 +14,13 @@
       :custom-sort="sortByDate"
       must-sort
       :sort-desc="!pastShifts"
-      :show-select="!smAndDown"
     >
       <template #item="{ item }">
         <tr
           :class="{ 'selected-row': selected.includes(item) }"
           @click="handleClick(item)"
         >
-          <td class="d-none d-sm-table-cell">
+          <td v-if="!isMobile">
             <v-checkbox-btn
               class="table-checkbox-btn"
               v-model="selected"
@@ -143,6 +143,9 @@ import { ShiftService } from "@/services/models";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
+import { fa } from "vuetify/lib/locale/index.mjs";
+import { tr } from "date-fns/locale";
+import { is } from "ramda";
 
 export default {
   name: "ShiftsTable",
@@ -185,7 +188,7 @@ export default {
 
       let filteredHeaders = [...this.headers];
 
-      if (this.smAndDown) {
+      if (this.isXs && this.isMobile) {
         filteredHeaders = filteredHeaders.filter((item) => {
           const title = item.title;
           return (
