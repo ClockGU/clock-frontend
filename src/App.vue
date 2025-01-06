@@ -20,9 +20,13 @@
           >Clear User</v-btn
         >
       </v-alert>
-      <v-alert v-if="staging" type="warning" density="compact">{{
-        infostring
-      }}</v-alert>
+      <v-alert
+        v-if="staging"
+        type="warning"
+        density="compact"
+        class="pa-2 mx-4"
+        >{{ infostring }}</v-alert
+      >
       <v-container :style="styles" style="height: 100%">
         <router-view></router-view>
       </v-container>
