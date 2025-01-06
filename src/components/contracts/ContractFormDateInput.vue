@@ -26,15 +26,15 @@
       :max="max"
       :min="min"
       no-title
-      @click:save="menu = false"
-      @click:cancel="menu = false"
+      @click:save="closeMenu"
+      @click:cancel="closeMenu"
       @update:model-value="$emit('update:modelValue', $event)"
     ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
-import { isLastDayOfMonth, getDate } from "date-fns";
+import { isLastDayOfMonth, getDate, set } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
 
@@ -94,9 +94,14 @@ export default {
   watch: {
     modelValue(val) {
       this.date = val;
+      //this is to let the switching of date animation time to play before closing the menu
+      setTimeout(() => this.closeMenu(), 350);
     }
   },
   methods: {
+    closeMenu() {
+      this.menu = false;
+    },
     allowedStartDates(val) {
       const day = getDate(val);
       return day === 1 || day === 16;
@@ -108,4 +113,3 @@ export default {
   }
 };
 </script>
-<style scoped></style>

@@ -36,6 +36,11 @@
           @blur="v$.message.$touch()"
           @keydown.enter.prevent="addNewline"
         ></v-textarea>
+        <v-checkbox v-model="gdprAccepted">
+          <template #label>
+            <p class="consent-text">{{ $t("feedback.gdpr") }}</p>
+          </template>
+        </v-checkbox>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -47,7 +52,7 @@
       <v-btn
         color="primary"
         variant="text"
-        :disabled="v$.$invalid"
+        :disabled="v$.$invalid || !gdprAccepted"
         @click="submit"
       >
         {{ $t("actions.send") }}
@@ -75,13 +80,15 @@ export default {
     name: null,
     email: null,
     message: null,
-    topic: "general"
+    topic: "general",
+    gdprAccepted: false
   }),
   validations() {
     return {
       email: { required, email },
       name: { required },
-      message: { required }
+      message: { required },
+      gdprAccepted: { required }
     };
   },
   computed: {
@@ -187,3 +194,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.consent-text {
+  max-width: 400px;
+  font-size: 14px;
+}
+</style>
