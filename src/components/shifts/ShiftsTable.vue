@@ -37,19 +37,64 @@
           <td>{{ formattedTime(item.started) }}</td>
           <td>{{ formattedDuration(item.duration) }}</td>
           <td>
-            <v-icon :color="colors[item.type]">
-              {{ typeIcons[item.type] }}
-            </v-icon>
-            <v-chip
-              v-if="isRunningShift(item)"
-              class="ml-2"
-              variant="outlined"
-              x-small
-              dense
-              color="red"
-            >
-              live
-            </v-chip>
+            <div v-if="isXs">
+              <v-icon :color="colors[item.type]" style="position: relative">
+                {{ typeIcons[item.type] }}
+              </v-icon>
+
+              <v-chip
+                v-if="isRunningShift(item)"
+                class="ml-2"
+                variant="outlined"
+                x-small
+                dense
+                color="red"
+              >
+                live
+              </v-chip>
+
+              <div
+                style="
+                  position: absolute;
+                  top: 10px;
+                  right: 0;
+                  left: 18px;
+                  bottom: 0;
+                "
+              >
+                <v-btn
+                  v-if="!item.wasReviewed"
+                  :icon="icons.mdiClose"
+                  :disabled="isRunningShift(item)"
+                  color="red"
+                  variant="text"
+                  elevation="0"
+                  @click="reviewSingleShift(item)"
+                ></v-btn>
+                <v-btn
+                  v-else
+                  variant="text"
+                  :icon="icons.mdiCheck"
+                  color="green"
+                  elevation="0"
+                ></v-btn>
+              </div>
+            </div>
+            <div v-else>
+              <v-icon :color="colors[item.type]">
+                {{ typeIcons[item.type] }}
+              </v-icon>
+              <v-chip
+                v-if="isRunningShift(item)"
+                class="ml-2"
+                variant="outlined"
+                x-small
+                dense
+                color="red"
+              >
+                live
+              </v-chip>
+            </div>
           </td>
           <td v-if="pastShifts" class="d-none d-sm-table-cell">
             <v-btn
