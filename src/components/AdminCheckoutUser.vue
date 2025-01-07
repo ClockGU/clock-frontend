@@ -5,7 +5,7 @@
     <v-card-text>
       <p>Select a User to view his data for support or debugging purposes</p>
       <v-form>
-        <v-text-field v-model="userUUID"></v-text-field>
+        <v-text-field v-model="userUUID" class="mt-4"></v-text-field>
       </v-form>
     </v-card-text>
 
