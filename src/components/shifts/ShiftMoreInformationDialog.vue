@@ -21,19 +21,19 @@
         <v-table comfortable rounded class="mt-8 mx-4">
           <tbody>
             <tr>
-              <td class="font-weight-bold">{{ headers[0].title }}</td>
+              <td class="font-weight-bold w-33">{{ headers[0].title }}</td>
               <td>{{ formattedDate(item.started) }}</td>
             </tr>
             <tr>
-              <td class="font-weight-bold">{{ headers[1].title }}</td>
+              <td class="font-weight-bold w-33">{{ headers[1].title }}</td>
               <td>{{ formattedTime(item.started) }}</td>
             </tr>
             <tr>
-              <td class="font-weight-bold">{{ headers[2].title }}</td>
+              <td class="font-weight-bold w-33">{{ headers[2].title }}</td>
               <td>{{ formattedDuration(item.duration) }}</td>
             </tr>
             <tr>
-              <td class="font-weight-bold">{{ headers[3].title }}</td>
+              <td class="font-weight-bold w-33">{{ headers[3].title }}</td>
               <td>
                 <v-icon :color="colors[item.type]">
                   {{ typeIcons[item.type] }}
@@ -51,12 +51,13 @@
               </td>
             </tr>
             <tr>
-              <td class="font-weight-bold">{{ headers[4].title }}</td>
+              <td class="font-weight-bold w-33">{{ headers[4].title }}</td>
               <td>
                 <v-btn
                   v-if="!item.wasReviewed"
                   :icon="icons.mdiClose"
                   :disabled="isRunningShift(item)"
+                  class="w-0 ml-2"
                   color="red"
                   variant="text"
                   elevation="0"
@@ -66,13 +67,14 @@
                   v-else
                   variant="text"
                   :icon="icons.mdiCheck"
+                  class="w-0 ml-2"
                   color="green"
                   elevation="0"
                 ></v-btn>
               </td>
             </tr>
             <tr>
-              <td class="font-weight-bold">Tags</td>
+              <td class="font-weight-bold w-33">Tags</td>
               <td>
                 <v-chip
                   v-for="tag in item.tags.slice(0, 2)"
@@ -90,7 +92,7 @@
               </td>
             </tr>
             <tr>
-              <td class="font-weight-bold">Notes</td>
+              <td class="font-weight-bold w-33">Notes</td>
               <td>
                 <ShiftInfoDialog :item="item">
                   <template #activator="{ activatorProps }">
