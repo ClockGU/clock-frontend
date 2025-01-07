@@ -1,7 +1,7 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    :card-elevation="smAndDown ? 0 : null"
+    :card-elevation="isXs ? 0 : null"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -9,7 +9,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="smAndDown"
+        v-if="isXs"
         variant="flat"
         @click="action"
       ></v-app-bar-nav-icon>
@@ -21,7 +21,7 @@
 
     <template #content>
       <v-container>
-        <div v-if="smAndDown">
+        <div v-if="isXs">
           <v-window
             v-model="tab"
             direction="horizontal"
@@ -159,11 +159,8 @@ export default {
     ]
   }),
   computed: {
-    smAndDown() {
-      return this.$vuetify.display.smAndDown;
-    },
-    smAndUp() {
-      return this.$vuetify.display.smAndUp;
+    isXs() {
+      return this.$vuetify.display.xs;
     },
     isSuperUser() {
       return this.$store.getters.user.is_superuser;
