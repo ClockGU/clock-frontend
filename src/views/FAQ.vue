@@ -34,9 +34,7 @@
                 <span>{{ question(faq) }}</span>
               </v-expansion-panel-title>
               <v-expansion-panel-text class="text-body-1 my-2">
-                <span v-for="(line, index) in answer(faq)" :key="index">
-                  {{ line }}<br v-if="index !== answer(faq).length - 1" />
-                </span>
+                <span v-html="parsedText(answer(faq))"></span>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -63,6 +61,8 @@
 <script>
 import { mapGetters } from "vuex";
 import Placeholder from "@/components/Placeholder.vue";
+import DOMPurify from "dompurify";
+import { marked } from "marked";
 
 export default {
   name: "FAQ",
@@ -98,7 +98,11 @@ export default {
     answer(faq) {
       const key = `${this.locale}_answer`;
       const answer = faq[key] === undefined ? faq.en_answer : faq[key];
-      return answer.split(/\n/g);
+      return answer; // Return the raw answer without splitting it into lines
+    },
+    parsedText(text) {
+      const markdown = marked(text);
+      return DOMPurify.sanitize(markdown);
     },
     getQuestionFontWeight(faq) {
       return this.selectedFAQ === faq
