@@ -1,4 +1,8 @@
 <template>
+  <v-alert v-if="$i18n.locale == 'en'" type="info">
+    This privacy agreement is only available in German as only the German
+    version is legally valid.
+  </v-alert>
   <v-container>
     <h1 v-if="!dialog">Datenschutzerklärung</h1>
     <p>
