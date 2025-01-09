@@ -95,7 +95,8 @@
     <p>
       Bertram Bühner<br />
       Bereich Human Resources<br />
-      Theodor-W.-Adorno-Platz 1 | D-60323 Frankfurt am Main<br />
+      Theodor-W.-Adorno-Platz 1<br />
+      D-60323 Frankfurt am Main<br />
       clock(at)uni-frankfurt.de<br />
     </p>
 
@@ -347,5 +348,12 @@ h2,
 h3 {
   margin-bottom: 0.5em;
   margin-top: 1em;
+}
+li {
+  margin-left: 1.5em;
+}
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 </style>
