@@ -28,7 +28,7 @@
           </template>
         </ShiftAssignContractDialog>
         <ShiftMoreInformationDialog
-          v-if="isXs"
+          v-if="xs"
           :disabled="shiftsLength !== 1"
           :shift="this.shifts[0]"
           @reset="resetFn()"
@@ -43,7 +43,7 @@
           </template>
         </ShiftMoreInformationDialog>
         <ShiftFormDialog
-          v-if="isXs"
+          v-if="xs"
           :create="false"
           :shift="this.shifts[0]"
           disable-activator="true"

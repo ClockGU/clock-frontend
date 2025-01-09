@@ -6,10 +6,10 @@ export default {
     smAndDown() {
       return this.$vuetify.display.smAndDown;
     },
-    isMobile() {
+    mobile() {
       return this.$vuetify.display.mobile;
     },
-    isXs() {
+    xs() {
       return this.$vuetify.display.xs;
     }
   }

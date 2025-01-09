@@ -1,7 +1,7 @@
 <template>
   <TheDialog
     v-model="show"
-    :fullscreen="isXs"
+    :fullscreen="xs"
     :max-width="600"
     :persistent="false"
   >

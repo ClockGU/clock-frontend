@@ -3,7 +3,7 @@
     <slot name="head" :selected="selected" :reset="reset"></slot>
     <v-data-table
       v-model="selected"
-      :show-select="!isMobile"
+      :show-select="!mobile"
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
@@ -20,7 +20,7 @@
           :class="{ 'selected-row': selected.includes(item) }"
           @click="handleClick(item)"
         >
-          <td v-if="!isMobile">
+          <td v-if="!mobile">
             <v-checkbox-btn
               class="table-checkbox-btn"
               v-model="selected"
@@ -29,7 +29,7 @@
           </td>
           <td>
             {{
-              isXs
+              xs
                 ? formattedDateMobile(item.started)
                 : formattedDate(item.started)
             }}
@@ -37,7 +37,7 @@
           <td>{{ formattedTime(item.started) }}</td>
           <td>{{ formattedDuration(item.duration) }}</td>
           <td>
-            <div v-if="isXs">
+            <div v-if="xs">
               <v-icon :color="colors[item.type]" style="position: relative">
                 {{ typeIcons[item.type] }}
               </v-icon>
@@ -233,7 +233,7 @@ export default {
 
       let filteredHeaders = [...this.headers];
 
-      if (this.isXs && this.isMobile) {
+      if (this.xs && this.mobile) {
         filteredHeaders = filteredHeaders.filter((item) => {
           const title = item.title;
           return (
