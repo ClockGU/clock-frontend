@@ -153,7 +153,7 @@ import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 
 export default {
-  name: "ShiftMoreInformationDialog",
+  name: "ShiftsDetailsDialog",
   components: {
     TheDialog,
     ShiftFormDialog,

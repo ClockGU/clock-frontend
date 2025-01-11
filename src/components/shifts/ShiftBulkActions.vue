@@ -27,7 +27,7 @@
             />
           </template>
         </ShiftAssignContractDialog>
-        <ShiftMoreInformationDialog
+        <ShiftsDetailsDialog
           v-if="xs"
           :disabled="shiftsLength !== 1"
           :shift="this.shifts[0]"
@@ -41,7 +41,7 @@
               v-bind="props"
             />
           </template>
-        </ShiftMoreInformationDialog>
+        </ShiftsDetailsDialog>
         <ShiftFormDialog
           v-if="xs"
           :create="false"
@@ -59,7 +59,6 @@
             />
           </template>
         </ShiftFormDialog>
-
         <ShiftBulkActionsDialogDelete
           :count="shiftsLength"
           @destroy="destroyFn"
@@ -94,7 +93,7 @@ import {
   mdiDelete,
   mdiInformationVariant
 } from "@mdi/js";
-import ShiftMoreInformationDialog from "./ShiftMoreInformationDialog.vue";
+import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
 
 export default {
   name: "ShiftBulkActions",
@@ -103,7 +102,7 @@ export default {
     ShiftBulkActionsDialogDelete,
     ShiftBulkActionsDialogReview,
     ShiftFormDialog,
-    ShiftMoreInformationDialog
+    ShiftsDetailsDialog
   },
   props: {
     canReview: {
