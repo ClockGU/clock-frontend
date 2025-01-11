@@ -57,6 +57,11 @@
               v-bind="props"
               :icon="icons.mdiPencil"
             />
+            <ShiftWarningIcon
+              v-if="shiftsLength === 1"
+              style="transform: translate(-80%, -35%)"
+              :shift="this.shifts[0]"
+            ></ShiftWarningIcon>
           </template>
         </ShiftFormDialog>
         <ShiftBulkActionsDialogDelete
@@ -94,6 +99,7 @@ import {
   mdiInformationVariant
 } from "@mdi/js";
 import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
+import ShiftWarningIcon from "./ShiftWarningIcon.vue";
 
 export default {
   name: "ShiftBulkActions",
@@ -102,7 +108,8 @@ export default {
     ShiftBulkActionsDialogDelete,
     ShiftBulkActionsDialogReview,
     ShiftFormDialog,
-    ShiftsDetailsDialog
+    ShiftsDetailsDialog,
+    ShiftWarningIcon
   },
   props: {
     canReview: {

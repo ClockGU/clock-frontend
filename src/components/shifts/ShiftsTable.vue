@@ -35,7 +35,7 @@
                 :icon="icons.mdiClose"
                 :disabled="isRunningShift(item)"
                 color="red"
-                variant="text"
+                variant="outline"
                 elevation="0"
                 @click="reviewSingleShift(item)"
               ></v-btn>
