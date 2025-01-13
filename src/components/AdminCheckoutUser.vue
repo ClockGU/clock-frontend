@@ -1,6 +1,8 @@
 <template>
   <v-card elevation="0">
-    <v-card-title class="text-wrap">Select a UUID of a User to checkout</v-card-title>
+    <v-card-title class="text-wrap"
+      >Select a UUID of a User to checkout</v-card-title
+    >
 
     <v-card-text>
       <p>Select a User to view his data for support or debugging purposes</p>
