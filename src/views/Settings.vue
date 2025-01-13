@@ -28,7 +28,7 @@
             show-arrows
             class="mb-4"
           >
-            <template v-slot:prev="{ props }">
+            <template #prev="{ props }">
               <v-icon :icon="icons.mdiChevronLeft" v-bind="props"></v-icon>
             </template>
             <v-window-item
@@ -36,11 +36,11 @@
               :key="index"
               class="centered-item"
             >
-              <v-icon :icon="item.icon" />
+              <v-icon class="mr-2 pr-1" :icon="item.icon" />
               {{ $t(item.text) }}
             </v-window-item>
 
-            <template v-slot:next="{ props }">
+            <template #next="{ props }">
               <v-icon :icon="icons.mdiChevronRight" v-bind="props"></v-icon>
             </template>
           </v-window>
