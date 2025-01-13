@@ -30,6 +30,7 @@
   "app": {
     "account": "Account",
     "calendar": "Calendar",
+    "checkoutUser": "Checkout User",
     "contracts": "Contracts",
     "dashboard": "Dashboard",
     "debug": "Debug",
