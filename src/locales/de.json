@@ -523,7 +523,7 @@
     "wasExportedAlert": "Der Stundenzettel für diesen Vertrag wurde schon exportiert. Du kannst diese Schicht nicht mehr bearbeiten.",
     "table": {
       "pastShiftsTitle": "Vergangene Schichten ({0})",
-      "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als 'überprüft'.",
+      "pastShiftsHint": "Alle Schichten die in der Vergangenheit liegen. Geclockte und manuell hinzugefügte Schichten gelten als 'überprüft'",
       "futureShiftsTitle": "Zukünftige Schichten ({0})",
       "futureShiftsHint": "Alle in der Zukunft liegenden Schichten.",
       "tagsNotes": "Tags/Notizen"

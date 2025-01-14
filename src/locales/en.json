@@ -523,7 +523,7 @@
     "wasExportedAlert": "The timesheet this shift belongs to has already been exported. This shift cannot be edited anymore.",
     "table": {
       "pastShiftsTitle": "Past shifts ({0})",
-      "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past.",
+      "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past",
       "futureShiftsTitle": "Future shifts ({0})",
       "futureShiftsHint": "All shifts scheduled for the future.",
       "tagsNotes": "Tags/Notes"

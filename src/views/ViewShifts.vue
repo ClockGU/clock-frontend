@@ -75,6 +75,9 @@
 
                     <v-card-text>
                       {{ $t("shifts.table.pastShiftsHint") }}
+                      (<v-icon color="success">{{ icons.mdiCheck }}</v-icon
+                      >/<v-icon color="error">{{ icons.mdiClose }}</v-icon
+                      >).
                     </v-card-text>
                     <ShiftBulkActions
                       v-if="selected.length > 0"
@@ -164,7 +167,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 import { mapGetters } from "vuex";
 
-import { mdiMagnify } from "@mdi/js";
+import { mdiMagnify, mdiCheck, mdiClose } from "@mdi/js";
 import { isFuture, isPast, isSameMonth } from "date-fns";
 
 import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
@@ -181,7 +184,7 @@ export default {
     ShiftsTable
   },
   data: () => ({
-    icons: { mdiMagnify },
+    icons: { mdiMagnify, mdiCheck, mdiClose },
     date: firstOfCurrentMonth,
     loading: false,
     shiftEntity: null,
