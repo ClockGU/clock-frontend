@@ -24,7 +24,7 @@
         v-if="staging"
         type="warning"
         density="compact"
-        class="pa-2 ma-2"
+        class="pa-2 mx-4"
         >{{ infostring }}</v-alert
       >
       <v-container :style="styles" style="height: 100%">
