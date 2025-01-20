@@ -1,7 +1,7 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    :card-elevation="smAndDown ? 0 : null"
+    :card-elevation="isXs ? 0 : null"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -9,7 +9,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="smAndDown"
+        v-if="isXs"
         variant="flat"
         @click="action"
       ></v-app-bar-nav-icon>
@@ -21,59 +21,58 @@
 
     <template #content>
       <v-container>
-        <v-row>
-          <v-col cols="4">
-            <v-tabs
-              v-model="tab"
-              :direction="smAndUp ? 'vertical' : 'horizontal'"
-              class="tabs"
+        <div v-if="isXs">
+          <v-window
+            v-model="tab"
+            direction="horizontal"
+            show-arrows
+            class="mb-4"
+          >
+            <template #prev="{ props }">
+              <v-icon :icon="icons.mdiChevronLeft" v-bind="props"></v-icon>
+            </template>
+            <v-window-item
+              v-for="(item, index) in tabs"
+              :key="index"
+              class="centered-item"
             >
-              <v-tab>
-                <v-icon :icon="icons.mdiWeb" start />
-                {{ $t("app.language") }}
-              </v-tab>
+              <v-icon class="mr-2 pr-1" :icon="item.icon" />
+              {{ $t(item.text) }}
+            </v-window-item>
 
-              <v-tab>
-                <v-icon :icon="icons.mdiFormatSection" start />
-                {{ $t("app.gdpr") }}
-              </v-tab>
+            <template #next="{ props }">
+              <v-icon :icon="icons.mdiChevronRight" v-bind="props"></v-icon>
+            </template>
+          </v-window>
 
-              <v-tab>
-                <v-icon :icon="icons.mdiBadgeAccountHorizontal" start />
-                {{ $t("personnelNumber.label") }}
-              </v-tab>
+          <v-window v-model="tab">
+            <v-window-item
+              v-for="(item, index) in tabs"
+              :key="index"
+              :value="item.value"
+            >
+              <component :is="item.component" />
+            </v-window-item>
+          </v-window>
+        </div>
 
-              <v-tab>
-                <v-icon :icon="icons.mdiAccountRemove" start />
-                {{ $t("app.account") }}
-              </v-tab>
-
-              <v-tab v-if="isSuperUser">
-                <v-icon :icon="icons.mdiAccountReactivate" start />
-                Checkout User
+        <v-row v-else>
+          <v-col cols="4">
+            <v-tabs v-model="tab" direction="vertical" class="tabs">
+              <v-tab v-for="(item, index) in tabs" :key="index">
+                <v-icon :icon="item.icon" start />
+                {{ $t(item.text) }}
               </v-tab>
             </v-tabs>
           </v-col>
           <v-col cols="8">
             <v-window v-model="tab">
-              <v-window-item value="first">
-                <LanguageSettings />
-              </v-window-item>
-
-              <v-window-item value="second">
-                <GDPR />
-              </v-window-item>
-
-              <v-window-item value="third">
-                <PersonnelNumberForm />
-              </v-window-item>
-
-              <v-window-item value="fourth">
-                <DeleteAccount />
-              </v-window-item>
-
-              <v-window-item value="fifth">
-                <AdminCheckoutUser :value="checkoutUserID" />
+              <v-window-item
+                v-for="(item, index) in tabs"
+                :key="index"
+                :value="item.value"
+              >
+                <component :is="item.component" />
               </v-window-item>
             </v-window>
           </v-col>
@@ -85,6 +84,8 @@
 
 <script>
 import {
+  mdiChevronLeft,
+  mdiChevronRight,
   mdiFileAccount,
   mdiBadgeAccountHorizontal,
   mdiAccountRemove,
@@ -123,14 +124,43 @@ export default {
       mdiWeb,
       mdiAccountReactivate
     },
-    tab: "first"
+    tab: "first",
+    tabs: [
+      {
+        icon: mdiWeb,
+        text: "app.language",
+        value: "first",
+        component: LanguageSettings
+      },
+      {
+        icon: mdiFormatSection,
+        text: "app.gdpr",
+        value: "second",
+        component: GDPR
+      },
+      {
+        icon: mdiBadgeAccountHorizontal,
+        text: "personnelNumber.label",
+        value: "third",
+        component: PersonnelNumberForm
+      },
+      {
+        icon: mdiAccountRemove,
+        text: "app.account",
+        value: "fourth",
+        component: DeleteAccount
+      },
+      {
+        icon: mdiAccountReactivate,
+        text: "app.checkoutUser",
+        value: "fifth",
+        component: AdminCheckoutUser
+      }
+    ]
   }),
   computed: {
-    smAndDown() {
-      return this.$vuetify.display.smAndDown;
-    },
-    smAndUp() {
-      return this.$vuetify.display.smAndUp;
+    isXs() {
+      return this.$vuetify.display.xs;
     },
     isSuperUser() {
       return this.$store.getters.user.is_superuser;
@@ -146,7 +176,15 @@ export default {
 div.tabs [role="tab"] {
   justify-content: flex-start;
 }
+.centered-item {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 </style>
+
 <style lang="scss">
 //not-so-beautiful hack
 .v-slide-group__prev {
