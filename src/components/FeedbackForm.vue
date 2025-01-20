@@ -29,14 +29,13 @@
         ></v-select>
 
         <v-textarea
-          v-model="message"
+          v-model="v$.message.$model"
           rows="3"
           :label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
-          @blur="v$.message.$touch()"
           @keydown.enter.prevent="addNewline"
         ></v-textarea>
-        <v-checkbox v-model="consentAccepted">
+        <v-checkbox v-model="v$.consentAccepted.$model">
           <template #label>
             <p class="consent-text">{{ $t("feedback.consent") }}</p>
           </template>
@@ -52,7 +51,7 @@
       <v-btn
         color="primary"
         variant="text"
-        :disabled="v$.$invalid || !consentAccepted"
+        :disabled="v$.$invalid"
         @click="submit"
       >
         {{ $t("actions.send") }}
@@ -67,6 +66,8 @@ import { required, email } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
 
 import FeedbackService from "@/services/feedback";
+
+const isTrue = (value) => value === true;
 
 export default {
   name: "FeedbackForm",
@@ -88,7 +89,7 @@ export default {
       email: { required, email },
       name: { required },
       message: { required },
-      consentAcceptedwhat: { required }
+      consentAccepted: { isTrue }
     };
   },
   computed: {
