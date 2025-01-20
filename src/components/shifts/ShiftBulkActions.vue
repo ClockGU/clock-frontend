@@ -30,7 +30,7 @@
         <ShiftsDetailsDialog
           v-if="xs"
           :disabled="shiftsLength !== 1"
-          :shift="this.shifts[0]"
+          :shift="shifts[0]"
           @reset="resetFn()"
         >
           <template #activator="{ props }">
@@ -45,10 +45,10 @@
         <ShiftFormDialog
           v-if="xs"
           :create="false"
-          :shift="this.shifts[0]"
+          :shift="shifts[0]"
           disable-activator="true"
           @reset="resetFn()"
-          @update="updateFn(this.shifts[0].contract)"
+          @update="updateFn(shifts[0].contract)"
         >
           <template #activator="{ props }">
             <v-btn
@@ -60,7 +60,7 @@
             <ShiftWarningIcon
               v-if="shiftsLength === 1"
               style="transform: translate(-80%, -35%)"
-              :shift="this.shifts[0]"
+              :shift="shifts[0]"
             ></ShiftWarningIcon>
           </template>
         </ShiftFormDialog>
@@ -111,6 +111,7 @@ export default {
     ShiftsDetailsDialog,
     ShiftWarningIcon
   },
+  mixins: [breakpointsMixin],
   props: {
     canReview: {
       type: Boolean,
@@ -142,7 +143,6 @@ export default {
       mdiInformationVariant
     }
   }),
-  mixins: [breakpointsMixin],
   computed: {
     reviewable() {
       return this.shifts.filter((shift) => shift.wasReviewed === false).length;

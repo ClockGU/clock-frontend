@@ -22,8 +22,8 @@
         >
           <td v-if="!mobile">
             <v-checkbox-btn
-              class="table-checkbox-btn"
               v-model="selected"
+              class="table-checkbox-btn"
               :value="item"
             />
           </td>
@@ -184,6 +184,7 @@ export default {
     ShiftInfoDialog,
     ShiftWarningIcon
   },
+  mixins: [ShiftUtilityMixin, breakpointsMixin],
   props: {
     loading: {
       type: Boolean,
@@ -200,7 +201,6 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   emits: ["refresh"],
-  mixins: [ShiftUtilityMixin, breakpointsMixin],
 
   data: () => ({
     selected: []

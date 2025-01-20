@@ -109,7 +109,7 @@
         <div class="d-flex justify-center ga-4 my-8">
           <ShiftFormDialog
             :shift="item"
-            disable-activator="true"
+            disable-activator
             @update="updateShift"
           >
             <template #activator="{ props }">
@@ -151,6 +151,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
+import { log } from "@/utils/log";
 
 export default {
   name: "ShiftsDetailsDialog",
@@ -161,6 +162,7 @@ export default {
     ShiftBulkActionsDialogDelete,
     CardToolbar
   },
+  mixins: [ShiftUtilityMixin, breakpointsMixin],
   props: {
     shift: {
       type: Object,
@@ -173,12 +175,16 @@ export default {
     }
   },
   emits: ["close", "update:modelValue", "reset"],
-  mixins: [ShiftUtilityMixin, breakpointsMixin],
   data() {
     return {
       item: this.shift,
       show: this.modelValue
     };
+  },
+  computed: {
+    title() {
+      return this.$t("shifts.viewDetails");
+    }
   },
   watch: {
     shift(newShift) {
@@ -186,11 +192,6 @@ export default {
     },
     modelValue(newValue) {
       this.show = newValue;
-    }
-  },
-  computed: {
-    title() {
-      return this.$t("shifts.viewDetails");
     }
   },
   methods: {
@@ -202,7 +203,7 @@ export default {
         });
         this.$emit("reset");
       } catch (error) {
-        console.error(`Error deleting shift ${shift.id}`, error);
+        log(`Error deleting shift ${shift.id}`, error);
       }
     },
     closeFn() {
