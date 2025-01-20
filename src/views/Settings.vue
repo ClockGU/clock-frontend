@@ -1,7 +1,7 @@
 <template>
   <base-layout
     alternative-portal-target="card-toolbar"
-    :card-elevation="isXs ? 0 : null"
+    :card-elevation="smAndDown ? 0 : null"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -9,7 +9,7 @@
 
     <template #pre-toolbar-title="{ action }">
       <v-app-bar-nav-icon
-        v-if="isXs"
+        v-if="smAndDown"
         variant="flat"
         @click="action"
       ></v-app-bar-nav-icon>
@@ -21,58 +21,59 @@
 
     <template #content>
       <v-container>
-        <div v-if="smAndDown">
-          <v-window
-            v-model="tab"
-            direction="horizontal"
-            show-arrows
-            class="mb-4"
-          >
-            <template #prev="{ props }">
-              <v-icon :icon="icons.mdiChevronLeft" v-bind="props"></v-icon>
-            </template>
-            <v-window-item
-              v-for="(item, index) in tabs"
-              :key="index"
-              class="centered-item"
-            >
-              <v-icon class="mr-2 pr-1" :icon="item.icon" />
-              {{ $t(item.text) }}
-            </v-window-item>
-
-            <template #next="{ props }">
-              <v-icon :icon="icons.mdiChevronRight" v-bind="props"></v-icon>
-            </template>
-          </v-window>
-
-          <v-window v-model="tab">
-            <v-window-item
-              v-for="(item, index) in tabs"
-              :key="index"
-              :value="item.value"
-            >
-              <component :is="item.component" />
-            </v-window-item>
-          </v-window>
-        </div>
-
-        <v-row v-else>
+        <v-row>
           <v-col cols="4">
-            <v-tabs v-model="tab" direction="vertical" class="tabs">
-              <v-tab v-for="(item, index) in tabs" :key="index">
-                <v-icon :icon="item.icon" start />
-                {{ $t(item.text) }}
+            <v-tabs
+              v-model="tab"
+              :direction="smAndUp ? 'vertical' : 'horizontal'"
+              class="tabs"
+            >
+              <v-tab>
+                <v-icon :icon="icons.mdiWeb" start />
+                {{ $t("app.language") }}
+              </v-tab>
+
+              <v-tab>
+                <v-icon :icon="icons.mdiFormatSection" start />
+                {{ $t("app.gdpr") }}
+              </v-tab>
+
+              <v-tab>
+                <v-icon :icon="icons.mdiBadgeAccountHorizontal" start />
+                {{ $t("personnelNumber.label") }}
+              </v-tab>
+
+              <v-tab>
+                <v-icon :icon="icons.mdiAccountRemove" start />
+                {{ $t("app.account") }}
+              </v-tab>
+
+              <v-tab v-if="isSuperUser">
+                <v-icon :icon="icons.mdiAccountReactivate" start />
+                Checkout User
               </v-tab>
             </v-tabs>
           </v-col>
           <v-col cols="8">
             <v-window v-model="tab">
-              <v-window-item
-                v-for="(item, index) in tabs"
-                :key="index"
-                :value="item.value"
-              >
-                <component :is="item.component" />
+              <v-window-item value="first">
+                <LanguageSettings />
+              </v-window-item>
+
+              <v-window-item value="second">
+                <GDPR />
+              </v-window-item>
+
+              <v-window-item value="third">
+                <PersonnelNumberForm />
+              </v-window-item>
+
+              <v-window-item value="fourth">
+                <DeleteAccount />
+              </v-window-item>
+
+              <v-window-item value="fifth">
+                <AdminCheckoutUser :value="checkoutUserID" />
               </v-window-item>
             </v-window>
           </v-col>
