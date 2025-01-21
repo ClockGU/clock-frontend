@@ -74,7 +74,7 @@
               live
             </v-chip>
           </td>
-          <td v-if="pastShifts" class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell">
             <v-btn
               v-if="!item.wasReviewed"
               :icon="icons.mdiClose"
@@ -207,10 +207,6 @@ export default {
   }),
   computed: {
     flexHeaders() {
-      const tagsAndNotesExist = this.shifts.some(
-        (shift) => shift.tags.length > 0 || shift.note.length > 0
-      );
-
       let filteredHeaders = [...this.headers];
 
       if (this.xs && this.mobile) {
@@ -223,12 +219,6 @@ export default {
             title !== undefined
           );
         });
-      }
-
-      if (!tagsAndNotesExist) {
-        filteredHeaders = filteredHeaders.filter(
-          (item) => item.value !== "tagsNotes"
-        );
       }
       return filteredHeaders;
     }
