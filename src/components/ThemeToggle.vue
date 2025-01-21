@@ -195,4 +195,9 @@ h1 {
   width: 100%;
   height: 100%;
 }
+@media (max-width: 960px) {
+  .mode-toggle {
+    margin-right: 20px;
+  }
+}
 </style>

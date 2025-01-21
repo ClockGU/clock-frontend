@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1 class="mb-6">{{ $t("app.faq") }}</h1>
+        <h1 class="mb-6 ml-2">{{ $t("app.faq") }}</h1>
         <v-row v-if="loading" justify="center">
           <Placeholder name="UndrawNoData"></Placeholder>
           <v-progress-circular
@@ -16,21 +16,25 @@
           v-for="(faq_group, i) in faqs_object"
           v-else
           :key="i + 100"
-          class="mt-4"
+          class="mt-4 mx-2"
         >
-          <h2 v-if="faq_group[0].faq_heading" class="mt-4 pl-6 mb-2">
+          <h2 v-if="faq_group[0].faq_heading" class="my-6">
             {{ heading(faq_group[0].faq_heading) }}
           </h2>
-          <v-expansion-panels variant="popout">
-            <v-expansion-panel v-for="(faq, j) in faq_group" :key="j">
+          <v-expansion-panels v-model="selectedFAQ" variant="accordion">
+            <v-expansion-panel
+              v-for="faq in faq_group"
+              :key="faq.id"
+              :value="faq"
+            >
               <v-expansion-panel-title
                 class="text-body-1"
                 :class="getQuestionFontWeight(faq)"
-                @click="setSelectedFaq(faq)"
-                v-html="question(faq)"
               >
+                <span>{{ question(faq) }}</span>
               </v-expansion-panel-title>
-              <v-expansion-panel-text class="text-body-1" v-html="answer(faq)">
+              <v-expansion-panel-text class="text-body-1 my-2">
+                <span v-html="parsedText(answer(faq))"></span>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -57,33 +61,26 @@
 <script>
 import { mapGetters } from "vuex";
 import Placeholder from "@/components/Placeholder.vue";
-import { marked } from "marked";
 import DOMPurify from "dompurify";
+import { marked } from "marked";
+
 export default {
   name: "FAQ",
   components: { Placeholder },
   metaInfo() {
-    return {
-      title: this.$t("app.faq")
-    };
+    return { title: this.$t("app.faq") };
   },
   data() {
-    return {
-      questionFontWeight: "normal",
-      selectedFaq: null,
-      isExpanded: false
-    };
+    return { selectedFAQ: null };
   },
   computed: {
     ...mapGetters({
       loading: "faq/loading",
       faqs_object: "faq/faqs",
       locale: "locale"
-    }),
-    smth() {
-      return this.$store.getters["faq/status"];
-    }
+    })
   },
+
   async created() {
     await this.$store.dispatch("faq/queryFaq");
   },
@@ -94,29 +91,23 @@ export default {
         ? faq_group_zero.en_heading
         : faq_group_zero[key];
     },
-    parsedText(text) {
-      return DOMPurify.sanitize(marked.parse(text));
-    },
     question(faq) {
       const key = `${this.locale}_question`;
-      return key === undefined ? faq.en_question : this.parsedText(faq[key]);
+      return key === undefined ? faq.en_question : faq[key];
     },
     answer(faq) {
       const key = `${this.locale}_answer`;
-      return key === undefined ? faq.en_answer : this.parsedText(faq[key]);
+      const answer = faq[key] === undefined ? faq.en_answer : faq[key];
+      return answer; // Return the raw answer without splitting it into lines
+    },
+    parsedText(text) {
+      const markdown = marked(text);
+      return DOMPurify.sanitize(markdown);
     },
     getQuestionFontWeight(faq) {
-      return this.selectedFaq === faq && this.isExpanded
+      return this.selectedFAQ === faq
         ? "font-weight-bold"
         : "font-weight-normal";
-    },
-    setSelectedFaq(faq) {
-      if (faq === this.selectedFaq) {
-        this.isExpanded = !this.isExpanded;
-      } else {
-        this.selectedFaq = faq;
-        this.isExpanded = true;
-      }
     }
   }
 };

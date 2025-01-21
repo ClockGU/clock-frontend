@@ -27,7 +27,43 @@
             />
           </template>
         </ShiftAssignContractDialog>
-
+        <ShiftsDetailsDialog
+          v-if="xs"
+          :disabled="shiftsLength !== 1"
+          :shift="shifts[0]"
+          @reset="resetFn()"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              :disabled="shiftsLength !== 1"
+              variant="flat"
+              :icon="icons.mdiInformationVariant"
+              v-bind="props"
+            />
+          </template>
+        </ShiftsDetailsDialog>
+        <ShiftFormDialog
+          v-if="xs"
+          :create="false"
+          :shift="shifts[0]"
+          disable-activator="true"
+          @reset="resetFn()"
+          @update="updateFn(shifts[0].contract)"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              :disabled="shiftsLength !== 1"
+              variant="flat"
+              v-bind="props"
+              :icon="icons.mdiPencil"
+            />
+            <ShiftWarningIcon
+              v-if="shiftsLength === 1"
+              style="transform: translate(-80%, -35%)"
+              :shift="shifts[0]"
+            ></ShiftWarningIcon>
+          </template>
+        </ShiftFormDialog>
         <ShiftBulkActionsDialogDelete
           :count="shiftsLength"
           @destroy="destroyFn"
@@ -51,22 +87,31 @@
 import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog.vue";
 import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete.vue";
 import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { minutesToHHMM } from "@/utils/time";
+import breakpointsMixin from "@/mixins/breakpointsMixin";
 import {
   mdiCheck,
   mdiCheckAll,
   mdiPencil,
   mdiSwapHorizontal,
-  mdiDelete
+  mdiDelete,
+  mdiInformationVariant
 } from "@mdi/js";
+import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
+import ShiftWarningIcon from "./ShiftWarningIcon.vue";
 
 export default {
   name: "ShiftBulkActions",
   components: {
     ShiftAssignContractDialog,
     ShiftBulkActionsDialogDelete,
-    ShiftBulkActionsDialogReview
+    ShiftBulkActionsDialogReview,
+    ShiftFormDialog,
+    ShiftsDetailsDialog,
+    ShiftWarningIcon
   },
+  mixins: [breakpointsMixin],
   props: {
     canReview: {
       type: Boolean,
@@ -89,7 +134,14 @@ export default {
   },
   emits: ["destroy", "update"],
   data: () => ({
-    icons: { mdiCheck, mdiCheckAll, mdiPencil, mdiSwapHorizontal, mdiDelete }
+    icons: {
+      mdiCheck,
+      mdiCheckAll,
+      mdiPencil,
+      mdiSwapHorizontal,
+      mdiDelete,
+      mdiInformationVariant
+    }
   }),
   computed: {
     reviewable() {
@@ -106,6 +158,7 @@ export default {
       return this.shifts.length;
     }
   },
+
   methods: {
     async destroyFn() {
       await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);

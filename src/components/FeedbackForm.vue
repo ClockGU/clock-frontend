@@ -29,13 +29,17 @@
         ></v-select>
 
         <v-textarea
-          v-model="message"
+          v-model="v$.message.$model"
           rows="3"
           :label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
-          @blur="v$.message.$touch()"
           @keydown.enter.prevent="addNewline"
         ></v-textarea>
+        <v-checkbox v-model="v$.consentAccepted.$model">
+          <template #label>
+            <p class="consent-text">{{ $t("feedback.consent") }}</p>
+          </template>
+        </v-checkbox>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -63,6 +67,8 @@ import { mapGetters } from "vuex";
 
 import FeedbackService from "@/services/feedback";
 
+const isTrue = (value) => value === true;
+
 export default {
   name: "FeedbackForm",
   emits: ["close"],
@@ -75,13 +81,15 @@ export default {
     name: null,
     email: null,
     message: null,
-    topic: "general"
+    topic: "general",
+    consentAccepted: false
   }),
   validations() {
     return {
       email: { required, email },
       name: { required },
-      message: { required }
+      message: { required },
+      consentAccepted: { isTrue }
     };
   },
   computed: {
@@ -187,3 +195,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.consent-text {
+  max-width: 400px;
+  font-size: 14px;
+}
+</style>

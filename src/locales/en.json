@@ -30,6 +30,7 @@
   "app": {
     "account": "Account",
     "calendar": "Calendar",
+    "checkoutUser": "Checkout User",
     "contracts": "Contracts",
     "dashboard": "Dashboard",
     "debug": "Debug",
@@ -253,7 +254,8 @@
       "feature": "Feature request",
       "general": "General",
       "question": "Question"
-    }
+    },
+    "consent": "I agree to allow administrators to access my data in the database, as required by our internal rules."
   },
   "ombuds": {
     "fields": {
@@ -321,7 +323,8 @@
       "changelog": "Changelog",
       "warning": "Warning",
       "tip": "Tip"
-    }
+    },
+    "validity": "valid from :"
   },
   "models": {
     "contract": "Contract | Contracts",
@@ -521,7 +524,7 @@
     "wasExportedAlert": "The timesheet this shift belongs to has already been exported. This shift cannot be edited anymore.",
     "table": {
       "pastShiftsTitle": "Past shifts ({0})",
-      "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past.",
+      "pastShiftsHint": "Clocked shifts and manually entered shifts are considered as 'reviewed' if they are past",
       "futureShiftsTitle": "Future shifts ({0})",
       "futureShiftsHint": "All shifts scheduled for the future.",
       "tagsNotes": "Tags/Notes"
@@ -546,7 +549,8 @@
       "faqLinkText": "Check out the FAQ.",
       "ombudsText": "Do you need support for problems with your working conditions?",
       "ombudsLinkText": "Contact the ombudsperson for student affairs."
-    }
+    },
+    "viewDetails": "view Shift details"
   },
   "snackbar": {
     "success": "The action was completed.",
