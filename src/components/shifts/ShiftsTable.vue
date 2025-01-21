@@ -37,7 +37,7 @@
                 color="red"
                 variant="outline"
                 elevation="0"
-                @click="reviewSingleShift(item)"
+                @click.stop="reviewSingleShift(item)"
               ></v-btn>
               <v-btn
                 v-else
@@ -82,7 +82,7 @@
               color="red"
               variant="text"
               elevation="0"
-              @click="reviewSingleShift(item)"
+              @click.stop="reviewSingleShift(item)"
             ></v-btn>
             <v-btn
               v-else
