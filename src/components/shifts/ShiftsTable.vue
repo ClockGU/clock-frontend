@@ -37,7 +37,7 @@
                 color="red"
                 variant="outline"
                 elevation="0"
-                @click.stop="reviewSingleShift(item)"
+                @click.stop="reviewShift(item)"
               ></v-btn>
               <v-btn
                 v-else
@@ -82,7 +82,7 @@
               color="red"
               variant="text"
               elevation="0"
-              @click.stop="reviewSingleShift(item)"
+              @click.stop="reviewShift(item)"
             ></v-btn>
             <v-btn
               v-else
@@ -255,6 +255,13 @@ export default {
     },
     reset() {
       this.selected = [];
+    },
+    reviewShift(shift) {
+      this.reviewSingleShift(shift);
+      const index = this.selected.indexOf(shift);
+      if (index !== -1) {
+        this.selected.splice(index, 1);
+      }
     }
   }
 };
