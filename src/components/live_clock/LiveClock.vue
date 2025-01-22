@@ -5,12 +5,14 @@ import { useStore } from "vuex";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { formatDate, secondsToHHMM } from "@/utils/time";
+import { dateIsHoliday } from "@/utils/date";
 import { useI18n } from "vue-i18n";
 import {
   differenceInSeconds,
   getHours,
   getMinutes,
   isSameDay,
+  isSameMonth,
   set
 } from "date-fns";
 import { ShiftService } from "@/services/models";
@@ -47,6 +49,78 @@ function initializeClock(startDate = null) {
   });
 }
 
+function validateOnlyHolidayOnHolidays(shift) {
+  if (dateIsHoliday(shift.started) && shift.type !== "bh") {
+    return t("shifts.errors.workingOnHolidays");
+  }
+}
+function validateHolidayOnWorkdays(shift) {
+  if (shift.type === "bh" && !dateIsHoliday(shift.started)) {
+    return t("shifts.errors.holidayOnWorkday");
+  }
+}
+function validateNoSunday(shift) {
+  if (shift.started.getDay() === 0) {
+    return t("shifts.errors.workingOnSundays");
+  }
+}
+
+function validateExclusivityVacation(shift) {
+  if (
+    (shift.type === "vn" &&
+      shiftsThisDay(shift).some((s) => s.type !== "vn")) ||
+    (shift.type === "st" && shiftsThisDay(shift).some((s) => s.type === "vn"))
+  ) {
+    return t("shifts.errors.exclusiveVacation");
+  }
+}
+
+function validateExclusivitySick(shift) {
+  if (
+    (shift.type === "sk" &&
+      shiftsThisDay(shift).some((s) => s.type !== "sk")) ||
+    (shift.type === "st" && shiftsThisDay(shift).some((s) => s.type === "sk"))
+  ) {
+    return t("shifts.errors.exclusiveVacation");
+  }
+}
+function validateOverlapping(shift) {
+  for (let s of shiftsThisDay(shift)) {
+    if (s.started <= shift.started && shift.started < s.stopped) {
+      return t("shifts.errors.overlappingStarted");
+    }
+    if (s.started < shift.stopped && shift.stopped <= s.stopped) {
+      return t("shifts.errors.overlappingStopped");
+    }
+  }
+}
+
+function validateInLockedMonth(shift) {
+  if (shiftsThisMonth(shift).filter((shift) => shift.locked === true).length) {
+    return t("shifts.errors.month_already_locked");
+  }
+}
+function checkEightTwentyRule(shift) {
+  if (shift.started.getHours() < 8 || shift.stopped.getHours() > 20) {
+    return t("shifts.errors.eightTwentyRule");
+  }
+}
+function shiftsThisDay(shift) {
+  return store.getters["contentData/allShifts"].filter((s) => {
+    return (
+      isSameDay(s.started, shift.started) && s.wasReviewed && s.id !== shift.id
+    );
+  });
+}
+function shiftsThisMonth(shift) {
+  return store.getters["contentData/selectedShifts"].filter((s) => {
+    return (
+      isSameMonth(s.started, shift.started) &&
+      s.wasReviewed &&
+      s.id !== shift.id
+    );
+  });
+}
 async function destroy() {
   setStatusSaving();
   clock.value.pause();
@@ -109,13 +183,43 @@ async function clockIn() {
     setStatusIdle();
     return;
   }
-  try {
-    //creating clockedInShift
-    const date = new Date();
-    const shift = new Shift({
-      started: date,
-      contract: store.getters["selectedContract/selectedContract"].id
+  const started = new Date();
+  const shift = new Shift({
+    started,
+    contract: store.getters["selectedContract/selectedContract"].id
+  });
+
+  const errors = [
+    validateHolidayOnWorkdays(shift),
+    validateOnlyHolidayOnHolidays(shift),
+    validateExclusivityVacation(shift),
+    validateExclusivitySick(shift),
+    validateOverlapping(shift),
+    validateInLockedMonth(shift)
+  ].filter(Boolean);
+
+  const warnings = [
+    validateNoSunday(shift),
+    checkEightTwentyRule(shift)
+  ].filter(Boolean);
+
+  if (errors.length > 0) {
+    await store.dispatch("snackbar/setSnack", {
+      message: errors[0],
+      color: "error"
     });
+    clock.value.stop();
+    setStatusIdle();
+    return;
+  }
+  if (warnings.length > 0) {
+    await store.dispatch("snackbar/setSnack", {
+      message: warnings[0],
+      color: "warning"
+    });
+  }
+
+  try {
     await store.dispatch("clock/clockShift", shift.toPayload());
   } catch (error) {
     if (error.response && error.response.status === 401) return;
