@@ -130,9 +130,8 @@ export default {
       this.closeFn();
     },
     async updateContract() {
-      const originalContract = this.existingContract;
       const changedFields = this.getChangedFields(
-        originalContract,
+        this.existingContract,
         this.newContract
       );
       if (Object.keys(changedFields).length === 0) {
@@ -150,27 +149,25 @@ export default {
       await this.updateContractReports(updatedContract);
       this.close();
     },
-    getChangedFields(originalContract, updatedContract) {
+    getChangedFields(oldContract, newContract) {
       const changes = {};
-      for (const key in updatedContract) {
+      for (const key in newContract) {
         if (
-          updatedContract.hasOwnProperty(key) &&
-          originalContract.hasOwnProperty(key)
+          newContract.hasOwnProperty(key) &&
+          oldContract.hasOwnProperty(key)
         ) {
           if (key === "createdAt" || key === "modifiedAt") {
             continue;
           }
           if (
-            updatedContract[key] instanceof Date &&
-            originalContract[key] instanceof Date
+            newContract[key] instanceof Date &&
+            oldContract[key] instanceof Date
           ) {
-            if (
-              updatedContract[key].getTime() !== originalContract[key].getTime()
-            ) {
-              changes[key] = updatedContract[key];
+            if (newContract[key].getTime() !== oldContract[key].getTime()) {
+              changes[key] = newContract[key];
             }
-          } else if (updatedContract[key] !== originalContract[key]) {
-            changes[key] = updatedContract[key];
+          } else if (newContract[key] !== oldContract[key]) {
+            changes[key] = newContract[key];
           }
         }
       }
