@@ -32,8 +32,9 @@ import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields.vue";
 import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
 import { useVuelidate } from "@vuelidate/core";
-
 import { isBefore } from "date-fns";
+import { localizedFormat } from "@/utils/date";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -78,7 +79,8 @@ export default {
       scheduledShifts: undefined,
       saving: false,
       closed: false,
-      shift: this.modelValue
+      shift: this.modelValue,
+      originalShift: this.modelValue.clone()
     };
   },
   computed: {
@@ -123,6 +125,7 @@ export default {
   watch: {
     modelValue(val) {
       this.shift = val;
+      this.originalShift = val.clone();
     },
     showErrors(opened) {
       this.closed = !opened;
@@ -154,13 +157,68 @@ export default {
       this.closeFn();
     },
     async updateShift() {
+      const changedFields = this.getChangedFields(
+        this.originalShift,
+        this.shift
+      );
+      if (Object.keys(changedFields).length === 1) {
+        return;
+      }
+      const payload = this.mapChangedFieldsToApi(changedFields);
       await this.$store.dispatch("contentData/updateShift", {
-        payload: this.shift.toPayload(),
+        payload: payload,
         initialContract: this.initialContract
       });
       this.$emit("update");
       this.close();
     },
+    getChangedFields(oldShift, newShift) {
+      const changes = { id: oldShift.id };
+      for (const key in newShift) {
+        if (newShift.hasOwnProperty(key) && oldShift.hasOwnProperty(key)) {
+          if (key === "createdAt" || key === "modifiedAt") {
+            continue;
+          }
+          if (newShift[key] instanceof Date && oldShift[key] instanceof Date) {
+            if (newShift[key].getTime() !== oldShift[key].getTime()) {
+              changes[key] = newShift[key];
+            }
+          } else if (newShift[key] !== oldShift[key]) {
+            changes[key] = newShift[key];
+          }
+        }
+      }
+      return changes;
+    },
+    mapChangedFieldsToApi(changedFields) {
+      const changedFieldsApi = {};
+      for (const key in changedFields) {
+        if (
+          changedFields.hasOwnProperty(key) &&
+          changedFields[key] !== undefined
+        ) {
+          switch (key) {
+            case "started":
+            case "stopped":
+              changedFieldsApi[key] = localizedFormat(
+                changedFields[key],
+                "yyyy-MM-dd HH:mm:ssXXX",
+                {
+                  locale: { localize: "en" }
+                }
+              );
+              break;
+            case "wasReviewed":
+              changedFieldsApi.was_reviewed = changedFields[key];
+              break;
+            default:
+              changedFieldsApi[key] = changedFields[key];
+          }
+        }
+      }
+      return changedFieldsApi;
+    },
+
     setScheduledShifts(event) {
       this.scheduledShifts = event;
     },
