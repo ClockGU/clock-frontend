@@ -1,8 +1,8 @@
 <template>
   <div>
-    <slot name="head" :selected="selected" :reset="reset"></slot>
+    <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
-      v-model="selected"
+      v-model="selectedShifts"
       :show-select="!mobile"
       :headers="flexHeaders"
       :items="shifts"
@@ -17,12 +17,12 @@
     >
       <template #item="{ item }">
         <tr
-          :class="{ 'selected-row': selected.includes(item) }"
+          :class="{ 'selected-row': selectedShifts.includes(item) }"
           @click="handleClick(item)"
         >
           <td v-if="!mobile">
             <v-checkbox-btn
-              v-model="selected"
+              v-model="selectedShifts"
               class="table-checkbox-btn"
               :value="item"
             />
@@ -201,11 +201,15 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   emits: ["refresh"],
-
-  data: () => ({
-    selected: []
-  }),
   computed: {
+    selectedShifts: {
+      get() {
+        return this.$store.getters["selectedShifts/selectedShifts"];
+      },
+      set(value) {
+        this.$store.dispatch("selectedShifts/setSelectedShifts", value);
+      }
+    },
     flexHeaders() {
       const tagsAndNotesExist = this.shifts.some(
         (shift) => shift.tags.length > 0 || shift.note.length > 0
@@ -241,19 +245,17 @@ export default {
         : localizedFormat(date, "EEE ' ' do");
     },
     handleClick(shift) {
-      const index = this.selected.indexOf(shift);
-
-      if (index > -1) {
-        this.selected.splice(index, 1);
+      const isSelected = this.selectedShifts.some((s) => s.id === shift.id);
+      if (isSelected) {
+        this.$store.dispatch("selectedShifts/deselectShift", shift);
       } else {
-        this.selected.push(shift);
+        this.$store.dispatch("selectedShifts/selectShift", shift);
       }
     },
 
     async destroySingleShift(shift) {
       try {
         await ShiftService.delete(shift.uuid);
-
         this.$emit("refresh");
         this.reset();
       } catch (error) {
@@ -264,7 +266,7 @@ export default {
       }
     },
     reset() {
-      this.selected = [];
+      this.$store.dispatch("selectedShifts/clearSelectedShifts");
     }
   }
 };

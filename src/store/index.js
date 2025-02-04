@@ -5,6 +5,7 @@ import AuthService from "@/services/auth";
 import auth from "@/store/modules/auth";
 import clock from "@/store/modules/clock";
 import selectedContract from "@/store/modules/selectedContract";
+import selectedShifts from "@/store/modules/selectedShifts";
 import snackbar from "@/store/modules/snackbar";
 import contentData from "@/store/modules/contentData";
 import faq from "@/store/modules/faq";
@@ -104,6 +105,7 @@ export default new createStore({
     clock,
     contentData,
     selectedContract,
+    selectedShifts,
     snackbar,
     faq,
     message
