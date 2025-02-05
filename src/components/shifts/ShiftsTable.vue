@@ -37,7 +37,7 @@
                 color="red"
                 variant="outline"
                 elevation="0"
-                @click="reviewSingleShift(item)"
+                @click.stop="handleShiftReview(item)"
               ></v-btn>
               <v-btn
                 v-else
@@ -74,7 +74,7 @@
               live
             </v-chip>
           </td>
-          <td v-if="pastShifts" class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell">
             <v-btn
               v-if="!item.wasReviewed"
               :icon="icons.mdiClose"
@@ -82,7 +82,7 @@
               color="red"
               variant="text"
               elevation="0"
-              @click="reviewSingleShift(item)"
+              @click.stop="handleShiftReview(item)"
             ></v-btn>
             <v-btn
               v-else
@@ -244,13 +244,20 @@ export default {
         ? localizedFormat(date, "EEE',' do")
         : localizedFormat(date, "EEE ' ' do");
     },
+    isShiftSelected(shift) {
+      return this.selectedShifts.findIndex((s) => s.id === shift.id) !== -1;
+    },
     handleClick(shift) {
-      const isSelected = this.selectedShifts.some((s) => s.id === shift.id);
-      if (isSelected) {
+      if (this.isShiftSelected(shift)) {
         this.$store.dispatch("selectedShifts/deselectShift", shift);
       } else {
         this.$store.dispatch("selectedShifts/selectShift", shift);
       }
+    },
+    handleShiftReview(shift) {
+      this.reviewSingleShift(shift);
+      if (this.isShiftSelected(shift))
+        this.$store.dispatch("selectedShifts/deselectShift", shift);
     },
 
     async destroySingleShift(shift) {
