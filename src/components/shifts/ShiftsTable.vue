@@ -204,10 +204,15 @@ export default {
   computed: {
     selectedShifts: {
       get() {
-        return this.$store.getters["selectedShifts/selectedShifts"];
+        return this.pastShifts
+          ? this.$store.getters["selectedShifts/selectedPastShifts"]
+          : this.$store.getters["selectedShifts/selectedFutureShifts"];
       },
       set(value) {
-        this.$store.dispatch("selectedShifts/setSelectedShifts", value);
+        this.$store.dispatch("selectedShifts/setSelectedShifts", {
+          shift: value,
+          isPastShift: this.pastShifts
+        });
       }
     },
     flexHeaders() {
@@ -248,16 +253,26 @@ export default {
       return this.selectedShifts.findIndex((s) => s.id === shift.id) !== -1;
     },
     handleClick(shift) {
+      const isPastShift = this.pastShifts;
       if (this.isShiftSelected(shift)) {
-        this.$store.dispatch("selectedShifts/deselectShift", shift);
+        this.$store.dispatch("selectedShifts/deselectShift", {
+          shift,
+          isPastShift
+        });
       } else {
-        this.$store.dispatch("selectedShifts/selectShift", shift);
+        this.$store.dispatch("selectedShifts/selectShift", {
+          shift,
+          isPastShift
+        });
       }
     },
     handleShiftReview(shift) {
       this.reviewSingleShift(shift);
       if (this.isShiftSelected(shift))
-        this.$store.dispatch("selectedShifts/deselectShift", shift);
+        this.$store.dispatch("selectedShifts/deselectShift", {
+          shift,
+          isPastShift: this.pastShifts
+        });
     },
 
     async destroySingleShift(shift) {
