@@ -1,20 +1,22 @@
 const state = {
-  selectedShifts: []
+  selectedPastShifts: [],
+  selectedFutureShifts: []
 };
 
 const getters = {
-  selectedShifts: (state) => state.selectedShifts
+  selectedPastShifts: (state) => state.selectedPastShifts,
+  selectedFutureShifts: (state) => state.selectedFutureShifts
 };
 
 const actions = {
-  setSelectedShifts({ commit }, shifts) {
-    commit("setSelectedShifts", shifts);
+  setSelectedShifts({ commit }, { shifts, isPastShift }) {
+    commit("setSelectedShifts", { shifts, isPastShift });
   },
-  selectShift({ commit }, shift) {
-    commit("setSelectedShift", shift);
+  selectShift({ commit }, { shift, isPastShift }) {
+    commit("setSelectedShift", { shift, isPastShift });
   },
-  deselectShift({ commit }, shift) {
-    commit("unsetSelectedShift", shift);
+  deselectShift({ commit }, { shift, isPastShift }) {
+    commit("unsetSelectedShift", { shift, isPastShift });
   },
   clearSelectedShifts({ commit }) {
     commit("unsetSelectedShifts");
@@ -22,21 +24,38 @@ const actions = {
 };
 
 const mutations = {
-  setSelectedShifts(state, shifts) {
-    state.selectedShifts = shifts;
-  },
-  setSelectedShift(state, shift) {
-    if (!state.selectedShifts.some((s) => s.id === shift.id)) {
-      state.selectedShifts.push(shift);
+  setSelectedShifts(state, { shifts, isPastShift }) {
+    if (isPastShift) {
+      state.selectedPastShifts = shifts;
+    } else {
+      state.selectedFutureShifts = shifts;
     }
   },
-  unsetSelectedShift(state, shift) {
-    state.selectedShifts = state.selectedShifts.filter(
-      (s) => s.id !== shift.id
-    );
+  setSelectedShift(state, { shift, isPastShift }) {
+    if (isPastShift) {
+      if (!state.selectedPastShifts.some((s) => s.id === shift.id)) {
+        state.selectedPastShifts.push(shift);
+      }
+    } else {
+      if (!state.selectedFutureShifts.some((s) => s.id === shift.id)) {
+        state.selectedFutureShifts.push(shift);
+      }
+    }
+  },
+  unsetSelectedShift(state, { shift, isPastShift }) {
+    if (isPastShift) {
+      state.selectedPastShifts = state.selectedPastShifts.filter(
+        (s) => s.id !== shift.id
+      );
+    } else {
+      state.selectedFutureShifts = state.selectedFutureShifts.filter(
+        (s) => s.id !== shift.id
+      );
+    }
   },
   unsetSelectedShifts(state) {
-    state.selectedShifts = [];
+    state.selectedPastShifts = [];
+    state.selectedFutureShifts = [];
   }
 };
 
