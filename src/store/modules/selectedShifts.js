@@ -9,9 +9,6 @@ const getters = {
 };
 
 const actions = {
-  setSelectedShifts({ commit }, { shifts, isPastShift }) {
-    commit("setSelectedShifts", { shifts, isPastShift });
-  },
   selectShift({ commit }, { shift, isPastShift }) {
     commit("setSelectedShift", { shift, isPastShift });
   },
