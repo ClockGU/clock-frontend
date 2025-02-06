@@ -209,8 +209,8 @@ export default {
           : this.$store.getters["selectedShifts/selectedFutureShifts"];
       },
       set(value) {
-        this.$store.dispatch("selectedShifts/setSelectedShifts", {
-          shift: value,
+        this.$store.commit("selectedShifts/setSelectedShifts", {
+          shifts: value,
           isPastShift: this.pastShifts
         });
       }
