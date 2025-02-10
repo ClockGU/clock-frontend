@@ -81,7 +81,7 @@ function validateExclusivitySick(shift) {
       shiftsThisDay(shift).some((s) => s.type !== "sk")) ||
     (shift.type === "st" && shiftsThisDay(shift).some((s) => s.type === "sk"))
   ) {
-    return t("shifts.errors.exclusiveVacation");
+    return t("shifts.errors.exclusiveSick");
   }
 }
 function validateOverlapping(shift) {
