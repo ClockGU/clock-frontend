@@ -1,7 +1,6 @@
 import { ref, computed, watch } from "vue";
 import { dateIsHoliday } from "@/utils/date";
-import isSameDay from "date-fns/isSameDay";
-import { isSameMonth } from "date-fns";
+import { isSameMonth, isSameDay } from "date-fns";
 import store from "@/store";
 import VueI18n from "@/plugins/i18n";
 
