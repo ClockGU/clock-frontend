@@ -5,7 +5,7 @@ import { isSameMonth } from "date-fns";
 import store from "@/store";
 import VueI18n from "@/plugins/i18n";
 
-export function useShiftValidation(shift) {
+export function useShiftValidation(shift, isLive = false) {
   const errorMessages = ref([]);
   const alertMessages = ref([]);
 
@@ -13,6 +13,9 @@ export function useShiftValidation(shift) {
   const isShiftValid = () => Boolean(shift);
 
   const validateStartedBeforeStopped = () => {
+    if (isLive) {
+      return null;
+    }
     return shift.started > shift.stopped
       ? t("shifts.errors.startedBeforeStopped")
       : null;
@@ -111,6 +114,9 @@ export function useShiftValidation(shift) {
   };
 
   const checkEightTwentyRule = () => {
+    if (!isStudEmp()) {
+      return null;
+    }
     return shift.started.getHours() < 8 || shift.stopped.getHours() > 20
       ? t("shifts.errors.eightTwentyRule")
       : null;
@@ -188,14 +194,13 @@ export function useShiftValidation(shift) {
 
   const checkShiftWarnings = () => {
     const messages = [
-      isStudEmp() && checkEightTwentyRule(),
+      checkEightTwentyRule(),
       validateMaxWorktimePerDay(),
       validateNoSunday(),
       checkAutomaticWorktimeCutting()
     ].filter((message) => message !== null);
     if (messages.length > 0) alertMessages.value = messages;
   };
-
   const validateShift = () => {
     if (!isShiftValid()) return;
     checkShiftErrors();
