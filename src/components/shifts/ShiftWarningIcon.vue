@@ -3,28 +3,20 @@
     {{ icons.mdiExclamation }}
   </v-icon>
 </template>
-
-<script>
-import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
+<script setup>
 import { mdiExclamation } from "@mdi/js";
 import { Shift } from "@/models/ShiftModel";
+import { useShiftValidation } from "@/composable/useShiftValidation";
 
-export default {
-  name: "ShiftWarning",
-  mixins: [ShiftValidationMixin],
-  props: {
-    shift: {
-      type: Shift,
-      required: true,
-      default: undefined
-    }
-  },
-  data() {
-    return {
-      icons: {
-        mdiExclamation
-      }
-    };
+const props = defineProps({
+  shift: {
+    type: Shift,
+    required: true
   }
+});
+
+const icons = {
+  mdiExclamation
 };
+const { alertMessages } = useShiftValidation(props.shift);
 </script>
