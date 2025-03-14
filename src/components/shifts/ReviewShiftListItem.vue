@@ -32,7 +32,6 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useShiftValidation } from "@/composable/useShiftValidation";
 import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
@@ -40,46 +39,28 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { mdiCheck } from "@mdi/js";
 import { Shift } from "@/models/ShiftModel";
 
-const props = defineProps({
-  shift: {
-    type: Shift,
-    required: true
-  }
-});
-
 const icons = {
   mdiCheck
 };
-const newShift = ref(props.shift);
+const shift = defineModel({ type: Shift, required: true });
 
 const store = useStore();
-const { valid } = useShiftValidation(newShift.value);
-
-watch(
-  () => props.shift,
-  (val) => {
-    newShift.value = val;
-  }
-);
-
-onMounted(() => {
-  newShift.value = props.shift;
-});
+const { valid } = useShiftValidation(shift.value);
 
 const review = async () => {
-  newShift.value.wasReviewed = true;
+  shift.value.wasReviewed = true;
   try {
     await store.dispatch("contentData/updateShift", {
-      payload: newShift.value.toPayload(),
-      initialContract: newShift.value.contract
+      payload: shift.value.toPayload(),
+      initialContract: shift.value.contract
     });
   } catch (e) {
-    newShift.value.wasReviewed = false;
+    shift.value.wasReviewed = false;
     throw new Error(e);
   } finally {
     await store.dispatch("contentData/refreshReports", {
-      startDate: newShift.value.started,
-      contractID: newShift.value.contract
+      startDate: shift.value.started,
+      contractID: shift.value.contract
     });
   }
 };

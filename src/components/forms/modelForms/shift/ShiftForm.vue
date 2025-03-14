@@ -11,7 +11,6 @@
       :alert-messages="messages"
       :alert-type="errorMessages.length > 0 ? 'error' : 'warning'"
       @schedule-shifts="setScheduledShifts($event)"
-      @update:model-value="$emit('update:modelValue', $event)"
     ></ShiftFormFields>
     <FormActions
       :create-fn="saveShift"
@@ -38,11 +37,6 @@ import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields.vue";
 
 const props = defineProps({
-  modelValue: {
-    type: [Shift, typeof undefined],
-    required: false,
-    default: () => new Shift()
-  },
   initialDate: {
     type: Date,
     required: false,
@@ -65,13 +59,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits([
-  "delete",
-  "update",
-  "close",
-  "save",
-  "update:modelValue"
-]);
+const emit = defineEmits(["delete", "update", "close", "save"]);
 
 const store = useStore();
 const { t } = useI18n();
@@ -79,16 +67,8 @@ const { t } = useI18n();
 const scheduledShifts = ref([]);
 const saving = ref(false);
 const closed = ref(false);
-const shift = ref(props.modelValue);
+const shift = defineModel({ type: Shift, default: () => new Shift() });
 const { errorMessages, alertMessages, valid } = useShiftValidation(shift.value);
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    shift.value = val;
-    //v$.$reset();
-  }
-);
 
 watch(
   () => props.showErrors,
@@ -158,11 +138,6 @@ async function updateShift() {
 
 function setScheduledShifts(event) {
   scheduledShifts.value = event;
-}
-
-function updateModelValue(value) {
-  shift.value = value;
-  emit("update:modelValue", value);
 }
 
 function closeFn() {

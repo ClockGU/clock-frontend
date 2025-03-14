@@ -7,9 +7,9 @@
       <div v-if="shiftsToReview.length > 0">
         <v-list>
           <ReviewShiftListItem
-            v-for="shift in shiftsToReview"
+            v-for="(shift, index) in shiftsToReview"
             :key="shift.id"
-            :shift="shift"
+            v-model="shiftsToReview[index]"
           >
           </ReviewShiftListItem>
         </v-list>
