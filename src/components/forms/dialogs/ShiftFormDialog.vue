@@ -104,7 +104,7 @@ const emit = defineEmits(["close", "save", "update", "delete", "reset"]);
 
 // State
 const icons = { mdiPencil, mdiPlus, mdiExclamation };
-const show = defineModel();
+const show = defineModel({ type: Boolean });
 const newShift = ref(props.shift);
 const initialContract = ref("");
 
