@@ -113,7 +113,6 @@ async function clockIn() {
     started,
     contract: store.getters["selectedContract/selectedContract"].id
   });
-  console.log(shift);
   const { alertMessages, errorMessages } = useShiftValidation(shift, true);
 
   if (errorMessages.value.length > 0) {

@@ -96,26 +96,15 @@ const props = defineProps({
   flatButton: {
     type: Boolean,
     default: false
-  },
-  modelValue: {
-    type: Boolean,
-    default: false
   }
 });
 
 // Emits
-const emit = defineEmits([
-  "close",
-  "save",
-  "update",
-  "delete",
-  "update:modelValue",
-  "reset"
-]);
+const emit = defineEmits(["close", "save", "update", "delete", "reset"]);
 
 // State
 const icons = { mdiPencil, mdiPlus, mdiExclamation };
-const show = ref(props.modelValue);
+const show = defineModel();
 const newShift = ref(props.shift);
 const initialContract = ref("");
 
@@ -154,13 +143,6 @@ const date = computed(() => {
 });
 
 // Watchers
-watch(
-  () => props.modelValue,
-  (val) => {
-    show.value = val;
-  }
-);
-
 watch(show, (val) => {
   if (val) {
     initializeNewShift();
@@ -190,7 +172,7 @@ function initializeNewShift() {
 
 function closeFormDialog() {
   emit("close");
-  emit("update:modelValue", false);
   emit("reset");
+  show.value = false;
 }
 </script>

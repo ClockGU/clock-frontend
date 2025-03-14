@@ -202,10 +202,14 @@ export function useShiftValidation(shift, isLive = false) {
   };
   const validateShift = () => {
     if (!isShiftValid()) return;
+    clearMessages();
     checkShiftErrors();
     checkShiftWarnings();
   };
-
+  const clearMessages = () => {
+    errorMessages.value = [];
+    alertMessages.value = [];
+  };
   const valid = computed(() => errorMessages.value.length === 0);
 
   watch(shift, validateShift, { immediate: true });
