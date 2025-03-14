@@ -1,5 +1,5 @@
 import store from "@/store";
-import { endOfDay } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 export default {
   computed: {
     errorMessages() {
@@ -17,7 +17,7 @@ export default {
       let shifts = this.shiftsThisContract;
       for (var shift of shifts) {
         if (
-          this.newContract.startDate > shift.started ||
+          startOfDay(this.newContract.startDate) > shift.started ||
           endOfDay(this.newContract.endDate) < shift.stopped
         ) {
           return this.$t("contracts.errors.shiftOutOfScope");
