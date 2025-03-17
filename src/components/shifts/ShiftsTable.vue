@@ -1,8 +1,8 @@
 <template>
   <div>
-    <slot name="head" :selected="selected" :reset="reset"></slot>
+    <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
-      v-model="selected"
+      v-model="selectedShifts"
       :show-select="!mobile"
       :headers="flexHeaders"
       :items="shifts"
@@ -17,12 +17,12 @@
     >
       <template #item="{ item }">
         <tr
-          :class="{ 'selected-row': selected.includes(item) }"
+          :class="{ 'selected-row': selectedShifts.includes(item) }"
           @click="handleClick(item)"
         >
           <td v-if="!mobile">
             <v-checkbox-btn
-              v-model="selected"
+              v-model="selectedShifts"
               class="table-checkbox-btn"
               :value="item"
             />
@@ -37,7 +37,7 @@
                 color="red"
                 variant="outline"
                 elevation="0"
-                @click="reviewSingleShift(item)"
+                @click.stop="handleShiftReview(item)"
               ></v-btn>
               <v-btn
                 v-else
@@ -74,7 +74,7 @@
               live
             </v-chip>
           </td>
-          <td v-if="pastShifts" class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell">
             <v-btn
               v-if="!item.wasReviewed"
               :icon="icons.mdiClose"
@@ -82,7 +82,7 @@
               color="red"
               variant="text"
               elevation="0"
-              @click="reviewSingleShift(item)"
+              @click.stop="handleShiftReview(item)"
             ></v-btn>
             <v-btn
               v-else
@@ -201,11 +201,20 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   emits: ["refresh"],
-
-  data: () => ({
-    selected: []
-  }),
   computed: {
+    selectedShifts: {
+      get() {
+        return this.pastShifts
+          ? this.$store.getters["selectedShifts/selectedPastShifts"]
+          : this.$store.getters["selectedShifts/selectedFutureShifts"];
+      },
+      set(value) {
+        this.$store.commit("selectedShifts/setSelectedShifts", {
+          shifts: value,
+          isPastShift: this.pastShifts
+        });
+      }
+    },
     flexHeaders() {
       const tagsAndNotesExist = this.shifts.some(
         (shift) => shift.tags.length > 0 || shift.note.length > 0
@@ -240,20 +249,35 @@ export default {
         ? localizedFormat(date, "EEE',' do")
         : localizedFormat(date, "EEE ' ' do");
     },
+    isShiftSelected(shift) {
+      return this.selectedShifts.findIndex((s) => s.id === shift.id) !== -1;
+    },
     handleClick(shift) {
-      const index = this.selected.indexOf(shift);
-
-      if (index > -1) {
-        this.selected.splice(index, 1);
+      const isPastShift = this.pastShifts;
+      if (this.isShiftSelected(shift)) {
+        this.$store.dispatch("selectedShifts/deselectShift", {
+          shift,
+          isPastShift
+        });
       } else {
-        this.selected.push(shift);
+        this.$store.dispatch("selectedShifts/selectShift", {
+          shift,
+          isPastShift
+        });
       }
+    },
+    handleShiftReview(shift) {
+      this.reviewSingleShift(shift);
+      if (this.isShiftSelected(shift))
+        this.$store.dispatch("selectedShifts/deselectShift", {
+          shift,
+          isPastShift: this.pastShifts
+        });
     },
 
     async destroySingleShift(shift) {
       try {
         await ShiftService.delete(shift.uuid);
-
         this.$emit("refresh");
         this.reset();
       } catch (error) {
@@ -264,7 +288,7 @@ export default {
       }
     },
     reset() {
-      this.selected = [];
+      this.$store.dispatch("selectedShifts/clearSelectedShifts");
     }
   }
 };
