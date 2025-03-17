@@ -31,64 +31,37 @@
   </ShiftListItem>
 </template>
 
-<script>
+<script setup>
+import { useStore } from "vuex";
+import { useShiftValidation } from "@/composable/useShiftValidation";
 import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { mdiCheck } from "@mdi/js";
 import { Shift } from "@/models/ShiftModel";
-import ShiftValidationMixin from "@/mixins/ShiftValidationMixin";
-import { useVuelidate } from "@vuelidate/core";
-export default {
-  name: "ReviewShiftListItem",
-  components: { ShiftFormDialog, ShiftListItem },
-  mixins: [ShiftValidationMixin],
-  props: {
-    shift: {
-      type: Shift,
-      required: true
-    }
-  },
-  setup() {
-    return {
-      v$: useVuelidate()
-    };
-  },
-  data() {
-    return {
-      icons: {
-        mdiCheck
-      },
-      newShift: this.shift
-    };
-  },
-  watch: {
-    shift(val) {
-      this.newShift = val;
-    }
-  },
-  created() {
-    this.newShift = this.shift;
-  },
-  methods: {
-    review() {
-      this.newShift.wasReviewed = true;
-      try {
-        this.$store.dispatch("contentData/updateShift", {
-          payload: this.newShift.toPayload(),
-          initialContract: this.newShift.contract
-        });
-      } catch (e) {
-        this.newShift.wasReviewed = false;
-        throw Error(e);
-      } finally {
-        this.$store.dispatch("contentData/refreshReports", {
-          startDate: this.newShift.started,
-          contractID: this.newShift.contract
-        });
-      }
-    }
+
+const icons = {
+  mdiCheck
+};
+const shift = defineModel({ type: Shift, required: true });
+
+const store = useStore();
+const { valid } = useShiftValidation(shift.value);
+
+const review = async () => {
+  shift.value.wasReviewed = true;
+  try {
+    await store.dispatch("contentData/updateShift", {
+      payload: shift.value.toPayload(),
+      initialContract: shift.value.contract
+    });
+  } catch (e) {
+    shift.value.wasReviewed = false;
+    throw new Error(e);
+  } finally {
+    await store.dispatch("contentData/refreshReports", {
+      startDate: shift.value.started,
+      contractID: shift.value.contract
+    });
   }
 };
 </script>
-
-<style scoped></style>

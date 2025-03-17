@@ -9,7 +9,7 @@
           <ReviewShiftListItem
             v-for="shift in shiftsToReview"
             :key="shift.id"
-            :shift="shift"
+            v-model="shift"
           >
           </ReviewShiftListItem>
         </v-list>
