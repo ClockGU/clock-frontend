@@ -7,11 +7,10 @@
       <div v-if="shiftsToReview.length > 0">
         <v-list>
           <ReviewShiftListItem
-            v-for="shift in shiftsToReview"
-            :key="shift.id"
-            v-model="shift"
-          >
-          </ReviewShiftListItem>
+            v-for="id in shiftsToReview.keys()"
+            :key="id"
+            v-model="shiftsToReview[id]"
+          />
         </v-list>
       </div>
       <v-container v-else>
