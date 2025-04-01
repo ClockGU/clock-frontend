@@ -8,7 +8,7 @@ import {
   subMonths,
   format,
   addMinutes,
-  subMinutes, startOfMonth
+  subMinutes
 } from "date-fns";
 
 import Holidays from "date-holidays";
@@ -83,9 +83,9 @@ export function getFirstOfCurrentMonth() {
 export function getLastOfCurrentMonth() {
   return getLastOfMonth(new Date());
 }
-// TODO: This wrapper is unnecessary
+
 export function getFirstOfMonth(date) {
-  return startOfMonth(date);
+  return new Date(date.getFullYear(), date.getMonth(), 1, 2);
 }
 
 export function getLastOfMonth(date) {
