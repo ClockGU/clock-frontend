@@ -125,13 +125,10 @@ async function deleteShift() {
 }
 
 async function updateShift() {
-  const changedFields =getChangedFields(
-        originalShift.value,
-        shift.value
-      );
+  const changedFields = getChangedFields(originalShift.value, shift.value);
   //changedFields will always have an id as it is needed to update the shift
-  if (Object.keys(changedFields).length === 1) return
-  
+  if (Object.keys(changedFields).length === 1) return;
+
   const payload = mapChangedFieldsToApi(changedFields);
   await store.dispatch("contentData/updateShift", {
     payload: payload,
@@ -161,10 +158,7 @@ function getChangedFields(oldShift, newShift) {
 function mapChangedFieldsToApi(changedFields) {
   const changedFieldsApi = {};
   for (const key in changedFields) {
-    if (
-      changedFields.hasOwnProperty(key) &&
-      changedFields[key] !== undefined
-    ) {
+    if (changedFields.hasOwnProperty(key) && changedFields[key] !== undefined) {
       switch (key) {
         case "started":
         case "stopped":
