@@ -129,6 +129,14 @@ async function deleteShift() {
 }
 
 async function updateShift() {
+<<<<<<< HEAD
+=======
+  const changedFields = getChangedFields(originalShift.value, shift.value);
+  //changedFields will always have an id as it is needed to update the shift
+  if (Object.keys(changedFields).length === 1) return;
+
+  const payload = mapChangedFieldsToApi(changedFields);
+>>>>>>> 7aaf9d98 (format)
   await store.dispatch("contentData/updateShift", {
     payload: shift.value.toPayload(),
     initialContract: props.initialContract
@@ -136,7 +144,53 @@ async function updateShift() {
   emit("update");
   closeFn();
 }
+<<<<<<< HEAD
 
+=======
+function getChangedFields(oldShift, newShift) {
+  const changes = { id: oldShift.id };
+  for (const key in newShift) {
+    if (newShift.hasOwnProperty(key) && oldShift.hasOwnProperty(key)) {
+      if (key === "createdAt" || key === "modifiedAt") {
+        continue;
+      }
+      if (newShift[key] instanceof Date && oldShift[key] instanceof Date) {
+        if (newShift[key].getTime() !== oldShift[key].getTime()) {
+          changes[key] = newShift[key];
+        }
+      } else if (newShift[key] !== oldShift[key]) {
+        changes[key] = newShift[key];
+      }
+    }
+  }
+  return changes;
+}
+function mapChangedFieldsToApi(changedFields) {
+  const changedFieldsApi = {};
+  for (const key in changedFields) {
+    if (changedFields.hasOwnProperty(key) && changedFields[key] !== undefined) {
+      switch (key) {
+        case "started":
+        case "stopped":
+          changedFieldsApi[key] = localizedFormat(
+            changedFields[key],
+            "yyyy-MM-dd HH:mm:ssXXX",
+            {
+              locale: { localize: "en" }
+            }
+          );
+          break;
+        case "wasReviewed":
+          changedFieldsApi.was_reviewed = changedFields[key];
+          break;
+        default:
+          changedFieldsApi[key] = changedFields[key];
+      }
+    }
+  }
+  return changedFieldsApi;
+}
+>>>>>>> 7aaf9d98 (format)
 function setScheduledShifts(event) {
   scheduledShifts.value = event;
 }
