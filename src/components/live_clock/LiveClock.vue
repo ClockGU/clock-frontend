@@ -1,11 +1,8 @@
 <script setup>
-import { mdiDelete } from "@mdi/js";
-import { computed, ref, defineModel, onMounted, onBeforeMount } from "vue";
-import { useStore } from "vuex";
+import { computed, ref, defineModel } from "vue";
 import ClockModel from "@/models/ClockModel";
 import { Shift } from "@/models/ShiftModel";
 import { formatDate, secondsToHHMM } from "@/utils/time";
-import { useI18n } from "vue-i18n";
 import {
   differenceInSeconds,
   getHours,
@@ -13,6 +10,10 @@ import {
   isSameDay,
   set
 } from "date-fns";
+import { useI18n } from "vue-i18n";
+import { useStore } from "vuex";
+import { useShiftValidation } from "@/composable/useShiftValidation";
+import { mdiDelete } from "@mdi/js";
 import { ShiftService } from "@/services/models";
 
 const { t } = useI18n(); // use as global scope
@@ -26,7 +27,6 @@ const clock = ref(undefined);
 const duration = computed(() => secondsToHHMM(clock.value.duration));
 const clockedInShift = computed(() => store.getters["clock/clockedShift"]);
 const store = useStore();
-
 const status = ref("idle");
 
 function setStatusRunning() {
@@ -46,7 +46,6 @@ function initializeClock(startDate = null) {
     startDate: startDate ? startDate : new Date()
   });
 }
-
 async function destroy() {
   setStatusSaving();
   clock.value.pause();
@@ -109,13 +108,30 @@ async function clockIn() {
     setStatusIdle();
     return;
   }
-  try {
-    //creating clockedInShift
-    const date = new Date();
-    const shift = new Shift({
-      started: date,
-      contract: store.getters["selectedContract/selectedContract"].id
+  const started = new Date();
+  const shift = new Shift({
+    started,
+    contract: store.getters["selectedContract/selectedContract"].id
+  });
+  const { alertMessages, errorMessages } = useShiftValidation(shift, true);
+
+  if (errorMessages.value.length > 0) {
+    await store.dispatch("snackbar/setSnack", {
+      message: errorMessages.value[0],
+      color: "error"
     });
+    clock.value.stop();
+    setStatusIdle();
+    return;
+  }
+  if (alertMessages.value.length > 0) {
+    await store.dispatch("snackbar/setSnack", {
+      message: alertMessages.value[0],
+      color: "warning"
+    });
+  }
+
+  try {
     await store.dispatch("clock/clockShift", shift.toPayload());
   } catch (error) {
     if (error.response && error.response.status === 401) return;
@@ -263,5 +279,3 @@ if (clockedInShift.value !== undefined) {
     </v-card-text>
   </v-card>
 </template>
-
-<style scoped></style>

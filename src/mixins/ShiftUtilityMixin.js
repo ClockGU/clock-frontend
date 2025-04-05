@@ -29,8 +29,7 @@ export default {
         mdiDelete
       },
       typeIcons: SHIFT_TYPE_ICONS,
-      colors: SHIFT_TYPE_COLORS,
-      selected: []
+      colors: SHIFT_TYPE_COLORS
     };
   },
   computed: {
