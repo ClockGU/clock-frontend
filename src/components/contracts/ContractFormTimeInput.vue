@@ -141,6 +141,9 @@ export default {
         return;
       }
       this.time = val === 0 ? null : minutesToHHMM(val);
+    },
+    required(){
+      this.v$.time.$touch();
     }
   },
   created() {
