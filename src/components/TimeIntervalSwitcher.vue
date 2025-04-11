@@ -219,6 +219,7 @@ export default {
         const newDate = subDays(this.date, 1);
         this.setDate(newDate);
       }
+      this.$store.dispatch("selectedShifts/clearSelectedShifts");
     },
     gotoNext() {
       if (!this.hasNext) return;
@@ -235,6 +236,7 @@ export default {
         const newDate = addDays(this.date, 1);
         this.setDate(newDate);
       }
+      this.$store.dispatch("selectedShifts/clearSelectedShifts");
     },
     allowedDates(value) {
       if (this.allowedDateFn !== undefined) return this.allowedDateFn(value);
