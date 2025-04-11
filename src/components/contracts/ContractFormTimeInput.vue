@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    :model-value="data"
+    v-model="time"
     :prepend-icon="prependIcon"
     :label="label"
     :hint="hint"
@@ -9,7 +9,7 @@
     variant="filled"
     required
     :error-messages="timeErrors"
-    @blur="updateData($event.target.value)"
+    @blur="updateTime($event.target.value)"
   ></v-text-field>
 </template>
 
@@ -50,7 +50,7 @@ export default {
   name: "ContractFormTimeInput",
   validations() {
     let validations = {
-      data: {
+      time: {
         timeNotZero: helpers.withMessage(
           this.$t("errors.durationBiggerZero", {
             name: this.$tc("errors.hours")
@@ -61,13 +61,13 @@ export default {
       }
     };
     if (!this.allowNegativeValues) {
-      validations.data.timeNotNegative = helpers.withMessage(
+      validations.time.timeNotNegative = helpers.withMessage(
         this.$t("errors.notNegative"),
         timeNotNegative
       );
     }
     if (this.required) {
-      validations.data.required = helpers.withMessage(
+      validations.time.required = helpers.withMessage(
         this.$tc("errors.nameRequired", 1, { name: this.$t("errors.hours") }),
         required
       );
@@ -113,7 +113,7 @@ export default {
   data() {
     return {
       menu: false,
-      data: null,
+      time: null,
       icons: {
         mdiTimetable,
         mdiCalendarClock
@@ -123,9 +123,9 @@ export default {
   computed: {
     timeErrors() {
       let errors = [];
-      if (!this.v$.data.$dirty) return errors;
-      if (this.v$.data.$error) {
-        for (let error of this.v$.data.$errors) {
+      if (!this.v$.time.$dirty) return errors;
+      if (this.v$.time.$error) {
+        for (let error of this.v$.time.$errors) {
           errors.push(error.$message);
         }
       }
@@ -137,14 +137,14 @@ export default {
       try {
         validateWorktimeInput(minutesToHHMM(val));
       } catch {
-        this.data = val;
+        this.time = val;
         return;
       }
-      this.data = val === null ? "" : minutesToHHMM(val);
+      this.time = val === 0 ? null : minutesToHHMM(val);
     }
   },
   created() {
-    this.data = this.modelValue === 0 ? null : minutesToHHMM(this.modelValue);
+    this.time = this.modelValue === 0 ? null : minutesToHHMM(this.modelValue);
   },
   methods: {
     setTime() {
@@ -152,14 +152,18 @@ export default {
       this.time = this.data;
       this.v$.data.$touch();
     },
-    updateData(event) {
+    updateTime(event) {
       let minutes = 0;
-      this.v$.data.$touch();
+      if (event[0] === "+"){
+        this.time = event.substring(1);
+        event = event.substring(1);
+      }
+      this.v$.time.$touch();
       try {
         minutes = validateWorktimeInput(event);
       } catch {
         if (event === "") {
-          this.$emit("update:modelValue", null);
+          this.$emit("update:modelValue", 0);
           return;
         }
         this.$emit("update:modelValue", event);
