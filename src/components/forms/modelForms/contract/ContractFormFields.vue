@@ -83,7 +83,9 @@
           :error-messages="
             false ? $t('contracts.vacationCarryover.locked') : ''
           "
-          @update:model-value="contract.initialVacationCarryoverMinutes *= !$event"
+          @update:model-value="
+            contract.initialVacationCarryoverMinutes *= !$event
+          "
         ></v-checkbox>
         <v-expand-transition hide-on-leave mode="in">
           <div v-show="showVacationCarryover">

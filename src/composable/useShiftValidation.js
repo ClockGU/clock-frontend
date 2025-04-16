@@ -176,14 +176,18 @@ export function useShiftValidation(shift, isLive = false) {
   };
 
   const checkShiftErrors = () => {
-    const type= isLive ? "isLive" : "regular"
-    const messages = rules[type].validations.map(rule => rule()).filter((message) => message !== null);
+    const type = isLive ? "isLive" : "regular";
+    const messages = rules[type].validations
+      .map((rule) => rule())
+      .filter((message) => message !== null);
     if (messages.length > 0) errorMessages.value = messages;
   };
 
   const checkShiftWarnings = () => {
-    const type= isLive ? "isLive" : "regular"
-    const messages = rules[type].warnings.map(rule => rule()).filter((message) => message !== null);
+    const type = isLive ? "isLive" : "regular";
+    const messages = rules[type].warnings
+      .map((rule) => rule())
+      .filter((message) => message !== null);
     if (messages.length > 0) alertMessages.value = messages;
   };
   const validateShift = () => {
@@ -198,14 +202,14 @@ export function useShiftValidation(shift, isLive = false) {
   };
   const rules = {
     isLive: {
-      validations:[
+      validations: [
         validateOnlyHolidayOnHolidays,
         validateHolidayOnWorkdays,
         validateExclusivityVacation,
         validateExclusivitySick,
         validateInLockedMonth
       ],
-      warnings:[
+      warnings: [
         checkEightTwentyRule,
         validateMaxWorktimePerDay,
         validateNoSunday,
@@ -213,7 +217,7 @@ export function useShiftValidation(shift, isLive = false) {
       ]
     },
     regular: {
-      validations:[
+      validations: [
         validateStartedBeforeStopped,
         validateOnlyHolidayOnHolidays,
         validateHolidayOnWorkdays,
@@ -222,14 +226,14 @@ export function useShiftValidation(shift, isLive = false) {
         validateOverlapping,
         validateInLockedMonth
       ],
-      warnings:[
+      warnings: [
         checkEightTwentyRule,
         validateMaxWorktimePerDay,
         validateNoSunday,
         checkAutomaticWorktimeCutting
       ]
     }
-  }
+  };
   const valid = computed(() => errorMessages.value.length === 0);
 
   watch(shift, validateShift, { immediate: true });
