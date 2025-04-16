@@ -142,7 +142,7 @@ export default {
       }
       this.time = val === 0 ? null : minutesToHHMM(val);
     },
-    required(){
+    required() {
       this.v$.time.$touch();
     }
   },
@@ -157,7 +157,7 @@ export default {
     },
     updateTime(event) {
       let minutes = 0;
-      if (event[0] === "+"){
+      if (event[0] === "+") {
         this.time = event.substring(1);
         event = event.substring(1);
       }
