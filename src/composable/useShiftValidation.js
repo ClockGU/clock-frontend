@@ -12,9 +12,6 @@ export function useShiftValidation(shift, isLive = false) {
   const isShiftValid = () => Boolean(shift);
 
   const validateStartedBeforeStopped = () => {
-    if (isLive) {
-      return null;
-    }
     return shift.started > shift.stopped
       ? t("shifts.errors.startedBeforeStopped")
       : null;
@@ -179,25 +176,18 @@ export function useShiftValidation(shift, isLive = false) {
   };
 
   const checkShiftErrors = () => {
-    const messages = [
-      validateStartedBeforeStopped(),
-      validateOnlyHolidayOnHolidays(),
-      validateHolidayOnWorkdays(),
-      validateExclusivityVacation(),
-      validateExclusivitySick(),
-      validateOverlapping(),
-      validateInLockedMonth()
-    ].filter((message) => message !== null);
+    const type = isLive ? "isLive" : "regular";
+    const messages = rules[type].validations
+      .map((rule) => rule())
+      .filter((message) => message !== null);
     if (messages.length > 0) errorMessages.value = messages;
   };
 
   const checkShiftWarnings = () => {
-    const messages = [
-      checkEightTwentyRule(),
-      validateMaxWorktimePerDay(),
-      validateNoSunday(),
-      checkAutomaticWorktimeCutting()
-    ].filter((message) => message !== null);
+    const type = isLive ? "isLive" : "regular";
+    const messages = rules[type].warnings
+      .map((rule) => rule())
+      .filter((message) => message !== null);
     if (messages.length > 0) alertMessages.value = messages;
   };
   const validateShift = () => {
@@ -209,6 +199,40 @@ export function useShiftValidation(shift, isLive = false) {
   const clearMessages = () => {
     errorMessages.value = [];
     alertMessages.value = [];
+  };
+  const rules = {
+    isLive: {
+      validations: [
+        validateOnlyHolidayOnHolidays,
+        validateHolidayOnWorkdays,
+        validateExclusivityVacation,
+        validateExclusivitySick,
+        validateInLockedMonth
+      ],
+      warnings: [
+        checkEightTwentyRule,
+        validateMaxWorktimePerDay,
+        validateNoSunday,
+        checkAutomaticWorktimeCutting
+      ]
+    },
+    regular: {
+      validations: [
+        validateStartedBeforeStopped,
+        validateOnlyHolidayOnHolidays,
+        validateHolidayOnWorkdays,
+        validateExclusivityVacation,
+        validateExclusivitySick,
+        validateOverlapping,
+        validateInLockedMonth
+      ],
+      warnings: [
+        checkEightTwentyRule,
+        validateMaxWorktimePerDay,
+        validateNoSunday,
+        checkAutomaticWorktimeCutting
+      ]
+    }
   };
   const valid = computed(() => errorMessages.value.length === 0);
 
