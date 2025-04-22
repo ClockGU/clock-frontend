@@ -23,6 +23,8 @@
               </template>
               <v-color-picker
                 v-model="color"
+                mode="hex"
+                :modes="['hex']"
                 @update:model-value="$emit('update:modelValue', $event)"
               ></v-color-picker>
             </v-menu>
