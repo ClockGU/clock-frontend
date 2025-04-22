@@ -89,10 +89,11 @@
 
 <script>
 import { localizedFormat } from "@/utils/date";
-import { RRule } from "rrule";
+import { datetime, RRule } from "rrule";
+import {clone} from "rrule/dist/esm/dateutil";
 
 import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog.vue";
-import { endOfMonth, formatISO, parseISO } from "date-fns";
+import { endOfMonth, formatISO } from "date-fns";
 
 const ALL_DAYS = {
   0: RRule.SU,
@@ -139,11 +140,10 @@ export default {
     shifts() {
       return this.generatedSchedule
         .map((startDateString) => {
-          let startDate = new Date(startDateString);
-          const endDate = new Date(this.shift.stopped);
-          endDate.setDate(startDate.getDate());
-          endDate.setMonth(startDate.getMonth());
-          endDate.setYear(startDate.getFullYear());
+          let startDate = startDateString;
+          const endDate = clone(startDate);
+          endDate.setHours(this.shift.stopped.getHours());
+          endDate.setMinutes(this.shift.stopped.getMinutes());
           let shift = this.shift.clone();
           startDate.setHours(this.shift.started.getHours());
           shift.started = startDate;
@@ -237,6 +237,16 @@ export default {
       };
     },
     generatedSchedule() {
+      const mapper = (val) => {
+        return [
+          val.getFullYear(),
+          val.getMonth(),
+          val.getDate(),
+          val.getHours(),
+          val.getMinutes()
+        ]
+      }
+      const dtstart = datetime(...mapper(this.shift.started));
       const rule = new RRule({
         ...this.schedules[this.selected],
         interval: this.interval,
