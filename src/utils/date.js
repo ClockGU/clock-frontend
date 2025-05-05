@@ -25,7 +25,6 @@ export function dateIsHoliday(date) {
   }
   const hd = new Holidays("DE", "HE");
   const holidayCandidate = hd.isHoliday(date); // returns false or array ... strange
-  console.log(holidayCandidate);
   if (!holidayCandidate) {
     return holidayCandidate;
   }
