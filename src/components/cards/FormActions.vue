@@ -1,10 +1,11 @@
 <template>
   <v-card-actions>
-    <v-btn variant="text" :disabled="disableSave" color="primary" @click="save">
+    <v-btn variant="text" :loading="isSaving" :disabled="disableSave" color="primary" @click="save">
       {{ $t("actions.save") }}
     </v-btn>
     <v-btn
       v-if="!disableCancle"
+      :disabled="isSaving"
       data-cy="entity-cancel"
       variant="text"
       @click="close"
@@ -56,12 +57,24 @@ export default {
       type: Function,
       required: true
     },
+    saving:{
+      type: Boolean,
+      default: false
+    },
     modelName: {
       type: String,
       required: true
     }
   },
   emits: ["close"],
+  data(){
+    return {isSaving:this.saving}
+  },
+  watch:{
+    saving(value){
+      this.isSaving=value;
+    }
+  },
   methods: {
     async save() {
       if (this.isNewInstance) {
