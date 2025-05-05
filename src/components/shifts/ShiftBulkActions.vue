@@ -149,6 +149,7 @@ export default {
     },
     durationSum() {
       let sum = 0;
+      console.log(this.shifts);
       this.shifts.forEach((shift) => {
         sum += shift.duration;
       });

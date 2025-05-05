@@ -253,6 +253,7 @@ export default {
       return this.selectedShifts.findIndex((s) => s.id === shift.id) !== -1;
     },
     handleClick(shift) {
+      if (!this.mobile) return;
       const isPastShift = this.pastShifts;
       if (this.isShiftSelected(shift)) {
         this.$store.dispatch("selectedShifts/deselectShift", {
