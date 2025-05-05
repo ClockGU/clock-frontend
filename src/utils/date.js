@@ -28,6 +28,10 @@ export function dateIsHoliday(date) {
   if (!holidayCandidate) {
     return holidayCandidate;
   }
+  // Ostersonntag is not a public holiday in Hessen/Germany
+  if (holidayCandidate[0].name ==="Ostersonntag"){
+    return false;
+  }
   return (
     holidayCandidate[0].type === "public" || holidayCandidate[0].type === "bank"
   );
