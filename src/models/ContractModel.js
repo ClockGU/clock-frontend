@@ -1,6 +1,6 @@
 import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
-import { getFirstOfCurrentMonth, getLastOfCurrentMonth } from "@/utils/date";
+import { getFirstOfCurrentMonth, getLastOfCurrentMonth, parseDate } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import i18n from "@/plugins/i18n";
 import { v4 as uuidv4 } from "uuid";
@@ -52,12 +52,12 @@ export class Contract {
     this.minutes = is(Number, minutes) ? minutes : 0;
     this.percentFte = is(Number, percentFte) ? percentFte : 0.0;
     this.startDate =
-      is(Date, new Date(startDate)) && startDate !== null
-        ? new Date(startDate)
+      is(Date, parseDate(startDate)) && startDate !== null
+        ? parseDate(startDate)
         : getFirstOfCurrentMonth();
     this.endDate =
-      is(Date, new Date(endDate)) && endDate !== null
-        ? new Date(endDate)
+      is(Date, parseDate(endDate)) && endDate !== null
+        ? parseDate(endDate)
         : getLastOfCurrentMonth();
     this.initialCarryoverMinutes = is(Number, initialCarryoverMinutes)
       ? initialCarryoverMinutes
@@ -69,14 +69,14 @@ export class Contract {
       ? initialVacationCarryoverMinutes
       : 0;
     this.createdAt =
-      is(Date, new Date(createdAt)) && createdAt !== null
-        ? new Date(createdAt)
+      is(Date, parseDate(createdAt)) && createdAt !== null
+        ? parseDate(createdAt)
         : new Date();
     this.color = is(String, color) ? color : "#8ac5ff";
     this.worktimeModelName = worktimeModelName;
     this.modifiedAt =
-      is(Date, new Date(modifiedAt)) && modifiedAt !== null
-        ? new Date(modifiedAt)
+      is(Date, parseDate(modifiedAt)) && modifiedAt !== null
+        ? parseDate(modifiedAt)
         : new Date();
     this.lastUsed =
       is(Date, new Date(lastUsed)) && lastUsed !== null

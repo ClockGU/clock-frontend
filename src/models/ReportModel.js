@@ -1,5 +1,6 @@
 import is from "ramda/src/is";
 import { timestringToMinutes } from "@/utils/time";
+import { parseDate } from "@/utils/date";
 
 export function mapReportApiResponse(response) {
   return {
@@ -55,10 +56,10 @@ export class Report {
     this.vacationCarryoverNextMonth = is(String, vacationCarryoverNextMonth)
       ? vacationCarryoverNextMonth
       : null;
-    this.monthYear = is(Date, new Date(monthYear)) ? new Date(monthYear) : null;
-    this.createdAt = is(Date, new Date(createdAt)) ? new Date(createdAt) : null;
-    this.modifiedAt = is(Date, new Date(modifiedAt))
-      ? new Date(modifiedAt)
+    this.monthYear = is(Date, parseDate(monthYear)) ? parseDate(monthYear) : null;
+    this.createdAt = is(Date, parseDate(createdAt)) ? parseDate(createdAt) : null;
+    this.modifiedAt = is(Date, parseDate(modifiedAt))
+      ? parseDate(modifiedAt)
       : null;
     this.contract = is(String, contract) ? contract : null;
   }
