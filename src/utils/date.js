@@ -8,7 +8,7 @@ import {
   subMonths,
   format,
   addMinutes,
-  parse
+  parse,
   subMinutes,
   startOfMonth
 } from "date-fns";
