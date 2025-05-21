@@ -8,10 +8,13 @@ import {
   subMonths,
   format,
   addMinutes,
-  subMinutes, startOfMonth
+  parse
+  subMinutes,
+  startOfMonth
 } from "date-fns";
 
 import Holidays from "date-holidays";
+import { parseInput } from "rrule/dist/esm/rrulestr";
 
 export function dateIsHoliday(date) {
   // Christmas Eve and New Year's Eve are considered half Bank holidays
@@ -44,6 +47,10 @@ export const localizedFormat = (date, fmt, options = {}) => {
 export const getToday = () => {
   return new Date().toLocaleDateString();
 };
+
+export const parseDate = (dateString) => {
+  return parse(dateString, "yyyy-MM-dd", new Date());
+}
 
 export const dateOperations = {
   addDays: addDays,
