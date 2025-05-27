@@ -39,7 +39,6 @@
       v-if="menu && smAndDown"
       v-model="time"
       format="24hr"
-      @update:model-value="menu = false"
       @update:minute="menu = false"
     ></VTimePicker>
   </v-menu>
