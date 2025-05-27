@@ -54,7 +54,7 @@
     "vue-meta": "^3.0.0-alpha.10",
     "vue-router": "4",
     "vue-undraw": "^2.0.13",
-    "vuetify": "^3",
+    "vuetify": "3.7.8",
     "vuex": "^4",
     "webdriverio": "^8.32.3",
     "webpack": "^5.0.0"

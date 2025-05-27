@@ -39,7 +39,6 @@
       v-if="menu && smAndDown"
       v-model="time"
       format="24hr"
-      @update:model-value="menu = false"
       @update:minute="menu = false"
     ></VTimePicker>
   </v-menu>
@@ -99,8 +98,10 @@ export default {
     modelValue(val) {
       this.time = localizedFormat(val, "HH:mm");
       this.textFieldTime = this.time;
+      console.log(val);
     },
     time(val) {
+      console.log("Time changed:", val);
       let [hours, minutes] = val.split(":");
       // Grab year, month and day from date entry
       const [year, month, day] = [

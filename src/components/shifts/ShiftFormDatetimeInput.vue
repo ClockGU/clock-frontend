@@ -13,7 +13,6 @@
 
     <v-col cols="6" md="3">
       <ShiftFormTimeInput
-        v-bind="props"
         v-model="timeStart"
         :error-messages="errors"
         :error="errors.length > 0"
