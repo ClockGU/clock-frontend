@@ -1,1 +1,10 @@
-{}
+{
+    "shifts-aria":{
+        "sr": {
+            "pageTitle": "Shifts Management View",
+            "title": "Shift Overview"
+        },
+        "searchPast": "Search for past shifts",
+        "searchFuture": "Search for future shifts"
+    }
+}

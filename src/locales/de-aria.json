@@ -1,1 +1,10 @@
-{}
+{
+    "shifts":{
+        "sr": {
+            "pageTitle": "Schichtverwaltungsansicht",
+            "title": "Schichtübersicht"
+        },
+        "searchPast": "Suche nach vergangenen Schichten",
+        "searchFuture": "Suche nach zukünftigen Schichten"
+    }
+}
