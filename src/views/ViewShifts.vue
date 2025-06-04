@@ -1,5 +1,7 @@
 <template>
-  <v-container>
+    <v-container role="main" aria-labelledby="page-title">
+     <!-- Screen-reader-only page title -->
+    <h1 id="page-title" class="sr-only">{{ $t('shifts-aria.sr.pageTitle') }}</h1>
     <v-row>
       <v-col cols="12">
         <SelectContractFilter
@@ -15,11 +17,16 @@
           <v-card
             :ripple="false"
             v-bind="props"
+            role="region"
+            aria-labelledby="shifts-heading"
             v-on="
               disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}
             "
           >
             <v-card-title>
+              <h2 class="sr-only">
+                {{ $t('shifts-aria.sr.title') }}
+              </h2>
               <v-row>
                 <v-col>
                   <ShiftFormDialog
@@ -46,11 +53,11 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <span>{{
+                          <h3>{{
                             $tc("shifts.table.pastShiftsTitle", [
                               formattedDate()
                             ])
-                          }}</span>
+                          }}</h3>
                         </v-col>
 
                         <v-spacer></v-spacer>
@@ -66,6 +73,8 @@
                             v-model="pastSearch"
                             :append-icon="icons.mdiMagnify"
                             :label="$t('actions.search')"
+                            :aria-label="$t('shifts-aria.searchPast')"
+                            role="search"
                             density="compact"
                             hide-details
                           ></v-text-field>
@@ -75,8 +84,8 @@
 
                     <v-card-text>
                       {{ $t("shifts.table.pastShiftsHint") }}
-                      (<v-icon color="success">{{ icons.mdiCheck }}</v-icon
-                      >/<v-icon color="error">{{ icons.mdiClose }}</v-icon
+                      (<v-icon color="success" aria-hidden="true">{{ icons.mdiCheck }}</v-icon
+                      >/<v-icon color="error" aria-hidden="true">{{ icons.mdiClose }}</v-icon
                       >).
                     </v-card-text>
                     <ShiftBulkActions
@@ -101,11 +110,11 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <span>{{
+                          <h3>{{
                             $tc("shifts.table.futureShiftsTitle", [
                               formattedDate()
                             ])
-                          }}</span>
+                          }}</h3>
                         </v-col>
 
                         <v-spacer></v-spacer>
@@ -120,6 +129,8 @@
                             v-model="futureSearch"
                             :append-icon="icons.mdiMagnify"
                             :label="$t('actions.search')"
+                            :aria-label="$t('shifts-aria.searchFuture')"
+                            role="search"
                             density="compact"
                             hide-details
                           ></v-text-field>
@@ -146,7 +157,7 @@
               persistent
               :close-on-content-click="false"
               scrim="primary"
-              style="align-items: start; justify-content: center"
+              style="align-items: start; justify-content: center"  
             >
               <p style="margin-top: 15%; color: white; text-align: center">
                 {{ $t("dashboard.disabled.shiftsHere") }}
