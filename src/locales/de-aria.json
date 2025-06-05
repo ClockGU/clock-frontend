@@ -1,5 +1,5 @@
 {
-    "shifts-aria":{
+    "shifts-aria": {
         "sr": {
             "pageTitle": "Schichtverwaltungsansicht",
             "title": "Schichtübersicht"
@@ -7,8 +7,13 @@
         "searchPast": "Suche nach vergangenen Schichten",
         "searchFuture": "Suche nach zukünftigen Schichten"
     },
-        "selectContract-aria":{
-        "enabled":"Bitte drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der verfügbaren Verträge zu navigieren.",
-        "disabled": "Bitte erstellen Sie zuerst einen Vertrag.Drücken Sie die Eingabetaste, um zur Vertragsansicht zu navigieren."
-     } 
+    "selectContract-aria": {
+        "enabled": "Bitte drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der verfügbaren Verträge zu navigieren.",
+        "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabetaste, um zur Vertragsansicht zu navigieren."
+    },
+    "timeInterval": {
+        "description": "Dies ist der Zeitintervall-Switcher. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die Pfeiltasten, um durch die Zeitintervalle zu navigieren. Sie betrachten derzeit {formattedInterval} Schichten .",
+        "previous": "drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
+        "next": "drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
+    }
 }
