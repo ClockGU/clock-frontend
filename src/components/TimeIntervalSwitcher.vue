@@ -1,8 +1,7 @@
 <template>
   <div
-    class="d-inline-flex align-center"
+    class="d-inline-flex align-center ga-1"
     role="group"
-    style="gap: 8px"
     :aria-label="$t('timeInterval.description', { formattedInterval: formattedInterval })"
     tabindex="0"
     @keydown.left="gotoPrev"
