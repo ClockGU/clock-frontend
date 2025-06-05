@@ -9,6 +9,11 @@
     },
     "selectContract-aria":{
         "enabled":"Press enter to select a contract.Use the arrow keys to navigate through the list of contracts .",
-        "disabled": "Please create a contract first. Press enter to navigate to contracts View." 
-     } 
+        "disabled": "Please create a contract first. Press enter to navigate to contracts View ." 
+     },
+     "timeInterval":{
+        "description": "This is the time interval switcher. There are shifts saved in each month and this is used to switch between monthes. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts .",
+        "previous":"press space to go to the previous month",
+        "next":"press space to go to the next month"
+     }
 }
