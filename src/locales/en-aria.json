@@ -6,5 +6,9 @@
         },
         "searchPast": "Search for past shifts",
         "searchFuture": "Search for future shifts"
-    }
+    },
+    "selectContract-aria":{
+        "enabled":"Press enter to select a contract.Use the arrow keys to navigate through the list of contracts .",
+        "disabled": "Please create a contract first. Press enter to navigate to contracts View." 
+     } 
 }

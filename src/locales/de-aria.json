@@ -6,5 +6,9 @@
         },
         "searchPast": "Suche nach vergangenen Schichten",
         "searchFuture": "Suche nach zukünftigen Schichten"
-    }
+    },
+        "selectContract-aria":{
+        "enabled":"Bitte drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der verfügbaren Verträge zu navigieren.",
+        "disabled": "Bitte erstellen Sie zuerst einen Vertrag.Drücken Sie die Eingabetaste, um zur Vertragsansicht zu navigieren."
+     } 
 }
