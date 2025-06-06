@@ -12,7 +12,7 @@
     :bg-color="bgColor"
     :aria-label="disabled ? $t('selectContract-aria.disabled') : $t('selectContract-aria.enabled')" 
     class="accessible-select" 
-    @keydown="handleKeyDown"
+    @keydown.enter="this.$router.push('/contracts');"
     @update:model-value="changeContract"
   >
     <template #selection="{ item }">
@@ -95,13 +95,6 @@ export default {
         return " " + this.$t("contracts.expired");
       else return "";
     },
-    handleKeyDown(e) {
-      if (this.disabled && e.key === 'Enter') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.$router.push('/contracts');
-      }
-    }
   }
 };
 </script>
