@@ -19,6 +19,7 @@
             v-bind="props"
             role="region"
             aria-labelledby="shifts-heading"
+            tabindex="0"
             v-on="
               disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}
             "
@@ -53,7 +54,7 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <h3>{{
+                          <h3 tabindex="0">{{
                             $tc("shifts.table.pastShiftsTitle", [
                               formattedDate()
                             ])
@@ -110,7 +111,7 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <h3>{{
+                          <h3 tabindex="0">{{
                             $tc("shifts.table.futureShiftsTitle", [
                               formattedDate()
                             ])
