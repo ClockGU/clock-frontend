@@ -1,7 +1,7 @@
 <template>
     <v-container role="main" aria-labelledby="page-title">
      <!-- Screen-reader-only page title -->
-    <h1 id="page-title" class="sr-only">{{ $t('shifts-aria.sr.pageTitle') }}</h1>
+    <h1 id="page-title" class="sr-only">{{ $t('sr.viewShifts.h1') }}</h1>
     <v-row>
       <v-col cols="12">
         <SelectContractFilter
@@ -25,7 +25,7 @@
           >
             <v-card-title>
               <h2 class="sr-only">
-                {{ $t('shifts-aria.sr.title') }}
+                {{ $t('sr.viewShifts.h2') }}
               </h2>
               <v-row>
                 <v-col>
@@ -73,7 +73,7 @@
                             v-model="pastSearch"
                             :append-icon="icons.mdiMagnify"
                             :label="$t('actions.search')"
-                            :aria-label="$t('shifts-aria.searchPast')"
+                            :aria-label="$t('aria.viewShifts.searchPast')"
                             role="search"
                             density="compact"
                             hide-details
@@ -129,7 +129,7 @@
                             v-model="futureSearch"
                             :append-icon="icons.mdiMagnify"
                             :label="$t('actions.search')"
-                            :aria-label="$t('shifts-aria.searchFuture')"
+                            :aria-label="$t('aria.viewShifts.searchFuture')"
                             role="search"
                             density="compact"
                             hide-details

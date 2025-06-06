@@ -1,19 +1,23 @@
 {
-    "shifts-aria": {
-        "sr": {
-            "pageTitle": "Schichtverwaltungsansicht",
-            "title": "Schichtübersicht"
+    "aria":{
+        "viewShifts":{
+            "searchPast": "Sie können nach vergangenen Schichten suchen",
+            "searchFuture": "Sie können nach zukünftigen Schichten suchen"
         },
-        "searchPast": "Suche nach vergangenen Schichten",
-        "searchFuture": "Suche nach zukünftigen Schichten"
+        "selectContract":{
+            "enabled":"Drücken Sie bitte Enter, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
+            "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie Enter, um zur Vertragsansicht zu navigieren."
+        },
+        "timeInterval":{
+            "description": "Dies ist der Zeitintervall-Switcher. Es gibt Schichten in jedem Monat und dieser wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linke und rechte Pfeiltaste, um durch die Zeitintervalle zu navigieren. Sie betrachten derzeit {formattedInterval} Schichten.",
+            "previous":"drücken Sie bitte Leertaste, um zum vorherigen Monat zu gelangen",
+            "next":"drücken Sie bitte Leertaste, um zum nächsten Monat zu gelangen"
+        }
     },
-    "selectContract-aria": {
-        "enabled": "Bitte drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der verfügbaren Verträge zu navigieren.",
-        "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabetaste, um zur Vertragsansicht zu navigieren."
-    },
-    "timeInterval": {
-        "description": "Dies ist der Zeitintervall-Switcher. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die Pfeiltasten, um durch die Zeitintervalle zu navigieren. Sie betrachten derzeit {formattedInterval} Schichten .",
-        "previous": "drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
-        "next": "drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
+    "sr":{
+        "viewShifts":{
+            "h1": "Ansicht der Schichtverwaltung",
+            "h2": " bersicht der Schichten"
+        }
     }
 }
