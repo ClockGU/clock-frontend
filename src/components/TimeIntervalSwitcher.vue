@@ -2,7 +2,7 @@
   <div
     class="d-inline-flex align-center ga-1"
     role="group"
-    :aria-label="$t('timeInterval.description', { formattedInterval: formattedInterval })"
+    :aria-label="$t('aria.timeInterval.description', { formattedInterval: formattedInterval })"
     tabindex="0"
     @keydown.left="gotoPrev"
     @keydown.right="gotoNext"
@@ -22,7 +22,7 @@
       :disabled="!hasPrev" 
       variant="text" 
       tabindex="-1"
-      :aria-label="$t('timeInterval.previous')"
+      :aria-label="$t('aria.timeInterval.previous')"
       @click="gotoPrev"
     >
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
@@ -58,7 +58,7 @@
       :disabled="!hasNext" 
       variant="text" 
       tabindex="-1"
-      :aria-label="$t('timeInterval.next')"
+      :aria-label="$t('aria.timeInterval.next')"
       @click="gotoNext"
     >
         <v-icon>{{ icons.mdiChevronRight }}</v-icon>

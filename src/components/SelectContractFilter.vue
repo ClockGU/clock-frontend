@@ -10,7 +10,7 @@
     variant="solo"
     return-object
     :bg-color="bgColor"
-    :aria-label="disabled ? $t('selectContract-aria.disabled') : $t('selectContract-aria.enabled')" 
+    :aria-label="disabled ? $t('aria.selectContract.disabled') : $t('aria.selectContract.enabled')" 
     class="accessible-select" 
     @keydown.enter="this.$router.push('/contracts');"
     @update:model-value="changeContract"
