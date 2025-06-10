@@ -6,13 +6,14 @@
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
     item-title="name"
-    persistent-hint
+    persistent-hint="!disabled"
     variant="solo"
     return-object
-    :bg-color="bgColor"
+    :bg-color="bgColor" 
     :aria-label="disabled ? $t('aria.selectContract.disabled') : $t('aria.selectContract.enabled')" 
     class="accessible-select" 
-    @keydown.enter="this.$router.push('/contracts');"
+    @keydown.enter="if (disabled) this.$router.push('/contracts');"
+    @keydown.space="if (disabled) this.$router.push('/contracts');"
     @update:model-value="changeContract"
   >
     <template #selection="{ item }">
