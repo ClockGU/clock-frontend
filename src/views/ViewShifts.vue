@@ -25,7 +25,7 @@
             "
           >
             <v-card-title>
-              <h2 class="sr-only">
+              <h2 id="shifts-heading" class="sr-only">
                 {{ $t('sr.viewShifts.h2') }}
               </h2>
               <v-row>
@@ -111,7 +111,7 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <h3 tabindex="0">{{
+                          <h3 tabindex="0"  >{{
                             $tc("shifts.table.futureShiftsTitle", [
                               formattedDate()
                             ])
