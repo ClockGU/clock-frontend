@@ -5,7 +5,7 @@
             "searchFuture": "Sie können nach zukünftigen Schichten suchen"
         },
         "selectContract":{
-            "enabled":"Drücken Sie bitte Enter, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
+            "enabled":"Drücken Sie bitte Enter oder Leertaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
             "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie Enter, um zur Vertragsansicht zu navigieren."
         },
         "timeInterval":{

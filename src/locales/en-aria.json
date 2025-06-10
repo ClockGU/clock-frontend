@@ -5,7 +5,7 @@
             "searchFuture": "Search for future shifts"
         },
         "selectContract":{
-            "enabled":"Press enter to select a contract.Use the arrow keys to navigate through the list of contracts .",
+            "enabled":"Press enter or space to select a contract.Use the arrow keys to navigate through the list of contracts .",
             "disabled": "Please create a contract first. Press enter to navigate to contracts View ." 
         },
         "timeInterval":{
