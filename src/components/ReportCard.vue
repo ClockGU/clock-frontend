@@ -215,10 +215,33 @@ export default {
       this.touchOverlay = hover ? false : !this.touchOverlay;
     },
     download() {
+      // iOS Safari doesn't handle data URLs well, so we use Blob and URL.createObjectURL
+      // Convert base64 to binary
+      const binaryString = window.atob(this.pdf);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // Create Blob and URL
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      // Create link and trigger download
       const link = document.createElement("a");
-      link.setAttribute("href", `data:application/pdf;base64,${this.pdf}`);
+      link.setAttribute("href", url);
       link.setAttribute("download", this.fileName);
+
+      // Append to body, click, and clean up
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+
+      // Release the URL object
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 100);
     },
     async request() {
       this.loading = true;
