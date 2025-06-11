@@ -69,8 +69,8 @@ async function destroy() {
 }
 
 async function saveShift(startDate, endDate) {
-  startDate.setSeconds(0,0);
-  endDate.setSeconds(0,0);
+  startDate.setSeconds(0, 0);
+  endDate.setSeconds(0, 0);
   const shiftData = {
     started: startDate,
     stopped: endDate,

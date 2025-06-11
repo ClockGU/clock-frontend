@@ -1,6 +1,12 @@
 <template>
   <v-card-actions>
-    <v-btn variant="text" :loading="isSaving" :disabled="disableSave" color="primary" @click="save">
+    <v-btn
+      variant="text"
+      :loading="isSaving"
+      :disabled="disableSave"
+      color="primary"
+      @click="save"
+    >
       {{ $t("actions.save") }}
     </v-btn>
     <v-btn
@@ -57,7 +63,7 @@ export default {
       type: Function,
       required: true
     },
-    saving:{
+    saving: {
       type: Boolean,
       default: false
     },
@@ -67,12 +73,12 @@ export default {
     }
   },
   emits: ["close"],
-  data(){
-    return {isSaving:this.saving}
+  data() {
+    return { isSaving: this.saving };
   },
-  watch:{
-    saving(value){
-      this.isSaving=value;
+  watch: {
+    saving(value) {
+      this.isSaving = value;
     }
   },
   methods: {

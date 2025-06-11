@@ -56,8 +56,12 @@ export class Report {
     this.vacationCarryoverNextMonth = is(String, vacationCarryoverNextMonth)
       ? vacationCarryoverNextMonth
       : null;
-    this.monthYear = is(Date, parseDate(monthYear)) ? parseDate(monthYear) : null;
-    this.createdAt = is(Date, parseDate(createdAt)) ? parseDate(createdAt) : null;
+    this.monthYear = is(Date, parseDate(monthYear))
+      ? parseDate(monthYear)
+      : null;
+    this.createdAt = is(Date, parseDate(createdAt))
+      ? parseDate(createdAt)
+      : null;
     this.modifiedAt = is(Date, parseDate(modifiedAt))
       ? parseDate(modifiedAt)
       : null;
