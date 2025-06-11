@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.22.5",
     "@sentry/browser": "5.29.0",
     "@sentry/integrations": "5.29.0",
-    "@sentry/vue": "^7.70.0",
+    "@sentry/vue": "^9.28.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/babel-preset-app": "^5.0.8",
     "@vue/vue3-jest": "^29.2.6",

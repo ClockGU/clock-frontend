@@ -5,8 +5,8 @@ import router from "./router";
 import store from "./store";
 import PortalVue from "portal-vue";
 import ApiService from "@/services/api";
-import * as Sentry from "@sentry/browser";
-import * as Integrations from "@sentry/integrations";
+import * as Sentry from "@sentry/vue";
+
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import StyledLink from "@/components/base/StyledLink.vue";
 import Placeholder from "@/components/Placeholder.vue";
@@ -120,22 +120,23 @@ if (isProduction) {
   // Setup sentry error tracking in production
   // Here goes the DSN
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    integrations: [new Integrations.Vue({ app, attachProps: true })],
-    environment: import.meta.env.VITE_ENV,
-    beforeSend(event) {
-      // Check if it is an exception, and if so, log the error and redirect the
-      // user to a 404 page.
-
-      if (event.exception) {
-        log(event);
-
-        router.push({ name: "404" });
-      }
-
-      return event;
-    }
-  });
+    app,
+    dsn: import.meta.env.VITE_GLITCHTIP_URL,
+    // Adds request headers and IP for users, for more info visit:
+    // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/#sendDefaultPii
+    sendDefaultPii: true,
+    integrations: [
+    Sentry.browserTracingIntegration({ router }),
+  ],
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for tracing.
+    // We recommend adjusting this value in production
+    // Learn more at
+    // https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
+    tracesSampleRate: 1.0,
+    // Set `tracePropagationTargets` to control for which URLs trace propagation should be enabled
+    tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+});
 }
 
 app.component("BaseLayout", BaseLayout);
