@@ -28,7 +28,7 @@ import * as directives from "vuetify/directives";
 import { de, en } from "vuetify/locale";
 
 import { log } from "@/utils/log";
-import { VTimePicker } from 'vuetify/labs/VTimePicker'
+import { VTimePicker } from "vuetify/labs/VTimePicker";
 const isProduction = import.meta.env.NODE_ENV === "production";
 export const debugLogger = !isProduction;
 // Initialize ApiService
@@ -41,7 +41,7 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 const vuetify = createVuetify({
-  components:{VTimePicker, ...components},
+  components: { VTimePicker, ...components },
   icons: {
     defaultSet: "mdi",
     aliases,

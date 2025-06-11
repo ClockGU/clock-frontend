@@ -31,7 +31,7 @@ class modelService {
       response = await ApiService.patch(`${this.BASE_URL}${id}/`, payload);
     } catch (e) {
       log("Error in update", e.response.data);
-      store.dispatch("snackbar/setErrorSnacks", e.response.data)
+      store.dispatch("snackbar/setErrorSnacks", e.response.data);
       return;
     }
     if (response.status === 200) {

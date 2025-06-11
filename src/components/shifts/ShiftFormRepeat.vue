@@ -90,7 +90,7 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 import { datetime, RRule } from "rrule";
-import {clone} from "rrule/dist/esm/dateutil";
+import { clone } from "rrule/dist/esm/dateutil";
 
 import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog.vue";
 import { endOfMonth, formatISO } from "date-fns";
@@ -244,8 +244,8 @@ export default {
           val.getDate(),
           val.getHours(),
           val.getMinutes()
-        ]
-      }
+        ];
+      };
       const dtstart = datetime(...mapper(this.shift.started));
       const rule = new RRule({
         ...this.schedules[this.selected],
