@@ -28,14 +28,13 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
-//import { useVuelidate } from '@vuelidate/core';
-//import { required, minLength } from '@vuelidate/validators';
 import { useI18n } from "vue-i18n";
 import { useShiftValidation } from "@/composable/useShiftValidation";
 import { Shift } from "@/models/ShiftModel";
 import FormActions from "@/components/cards/FormActions.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields.vue";
+import { localizedFormat } from "@/utils/date";
 
 const props = defineProps({
   initialDate: {
@@ -59,9 +58,7 @@ const props = defineProps({
     default: false
   }
 });
-
 const emit = defineEmits(["delete", "update", "close", "save"]);
-
 const store = useStore();
 const { t } = useI18n();
 
@@ -69,33 +66,24 @@ const scheduledShifts = ref([]);
 const saving = ref(false);
 const closed = ref(false);
 const shift = defineModel({ type: Shift, default: () => new Shift() });
+// Keep a copy of the original shift to compare with the modified one
+const originalShift = ref(shift.value.clone());
 const { errorMessages, alertMessages, valid } = useShiftValidation(shift.value);
-
-watch(
-  () => props.showErrors,
-  (opened) => {
-    closed.value = !opened;
-  }
-);
 
 const selectedContract = computed(
   () => store.getters["selectedContract/selectedContract"]
 );
-
 const title = computed(() => {
   return shift.value.id
     ? t("forms.titleUpdate", { entity: t("models.shift", 1) })
     : t("forms.titleAdd", { entity: t("models.shift", 1) });
 });
-
 const messages = computed(() =>
   saving.value || closed.value
     ? []
     : [...alertMessages.value, ...errorMessages.value]
 );
-
 const isNewInstance = computed(() => !shift.value.id);
-
 const date = computed(() => {
   if (!shift.value.contract) {
     let dateValue;
@@ -112,6 +100,16 @@ const date = computed(() => {
   return props.initialDate;
 });
 
+watch(
+  () => props.showErrors,
+  (opened) => {
+    closed.value = !opened;
+  }
+);
+watch(shift, (newShift) => {
+  originalShift.value = newShift.clone();
+});
+
 async function saveShift() {
   saving.value = true;
   await store.dispatch("contentData/saveShift", shift.value.toPayload());
@@ -121,7 +119,6 @@ async function saveShift() {
   closeFn();
   saving.value = false;
 }
-
 async function deleteShift() {
   await store.dispatch("contentData/deleteShift", shift.value);
   emit("delete");
@@ -129,21 +126,67 @@ async function deleteShift() {
 }
 
 async function updateShift() {
+  const changedFields = getChangedFields(originalShift.value, shift.value);
+  //changedFields will always have an id as it is needed to update the shift
+  if (Object.keys(changedFields).length === 1) return;
+
+  const payload = mapChangedFieldsToApi(changedFields);
   await store.dispatch("contentData/updateShift", {
-    payload: shift.value.toPayload(),
+    payload: payload,
     initialContract: props.initialContract
   });
   emit("update");
   closeFn();
 }
-
+function getChangedFields(oldShift, newShift) {
+  const changes = { id: oldShift.id };
+  for (const key in newShift) {
+    if (newShift.hasOwnProperty(key) && oldShift.hasOwnProperty(key)) {
+      if (key === "createdAt" || key === "modifiedAt") {
+        continue;
+      }
+      if (newShift[key] instanceof Date && oldShift[key] instanceof Date) {
+        if (newShift[key].getTime() !== oldShift[key].getTime()) {
+          changes[key] = newShift[key];
+        }
+      } else if (newShift[key] !== oldShift[key]) {
+        changes[key] = newShift[key];
+      }
+    }
+  }
+  return changes;
+}
+function mapChangedFieldsToApi(changedFields) {
+  const changedFieldsApi = {};
+  for (const key in changedFields) {
+    if (changedFields.hasOwnProperty(key) && changedFields[key] !== undefined) {
+      switch (key) {
+        case "started":
+        case "stopped":
+          changedFieldsApi[key] = localizedFormat(
+            changedFields[key],
+            "yyyy-MM-dd HH:mm:ssXXX",
+            {
+              locale: { localize: "en" }
+            }
+          );
+          break;
+        case "wasReviewed":
+          changedFieldsApi.was_reviewed = changedFields[key];
+          break;
+        default:
+          changedFieldsApi[key] = changedFields[key];
+      }
+    }
+  }
+  return changedFieldsApi;
+}
 function setScheduledShifts(event) {
   scheduledShifts.value = event;
 }
 
 function closeFn() {
   closed.value = true;
-  //v$.$reset();
   props.close();
   emit("close");
 }
