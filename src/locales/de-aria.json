@@ -1,23 +1,36 @@
 {
-    "aria":{
-        "viewShifts":{
+    "aria": {
+        "viewShifts": {
             "searchPast": "Sie können nach vergangenen Schichten suchen",
             "searchFuture": "Sie können nach zukünftigen Schichten suchen"
         },
-        "selectContract":{
-            "enabled":"Drücken Sie bitte Enter , um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
+        "selectContract": {
+            "enabled": "Drücken Sie bitte Enter , um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
             "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie Enter oder Leertaste, um zur Vertragsansicht zu navigieren."
         },
-        "timeInterval":{
+        "timeInterval": {
             "description": "Dies ist der Zeitintervall-Switcher. Es gibt Schichten in jedem Monat und dieser wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linke und rechte Pfeiltaste, um durch die Zeitintervalle zu navigieren. Sie betrachten derzeit {formattedInterval} Schichten.",
-            "previous":"drücken Sie bitte Leertaste, um zum vorherigen Monat zu gelangen",
-            "next":"drücken Sie bitte Leertaste, um zum nächsten Monat zu gelangen"
+            "previous": "drücken Sie bitte Leertaste, um zum vorherigen Monat zu gelangen",
+            "next": "drücken Sie bitte Leertaste, um zum nächsten Monat zu gelangen"
+        },
+        "shiftsTable": {
+            "description": "Dies ist die Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können durch die Zeilen mit Tab oder Pfeiltasten navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder die Enter-Taste drücken.",
+            "reviewed": "Diese Schicht wurde überprüft.",
+            "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Enter- oder Leertaste, um sie zu überprüfen.",
+            "editShift": "Drücken Sie die Tab-Taste, um zum Bearbeiten-Schalter zu gelangen."
+        },
+        "shift": {
+            "st": "Die Art dieser Schicht ist eine Arbeitschicht",
+            "sk": "Die Art dieser Schicht ist eine Krankenstandszeit",
+            "vn": "Die Art dieser Schicht ist eine Urlaubszeit",
+            "bh": "Die Art dieser Schicht ist eine Feiertagszeit"
         }
     },
-    "sr":{
-        "viewShifts":{
+    "sr": {
+        "viewShifts": {
             "h1": "Ansicht der Schichtverwaltung",
-            "h2": " bersicht der Schichten"
+            "h2": "Übersicht der Schichten"
         }
     }
 }
+

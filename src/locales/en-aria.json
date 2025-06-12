@@ -12,6 +12,18 @@
             "description": "This is the time interval switcher. There are shifts saved in each month and this is used to switch between monthes. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts .",
             "previous":"press space to go to the previous month",
             "next":"press space to go to the next month"
+        },
+        "shiftsTable":{
+            "description": "This is the shifts table.Press down arrow to view to table.You can naviguate through the rows with tabs or arrow keys .You can select a shift by pressing space or Enter .",
+            "reviewed":"This shift has been reviewed.",
+            "notReviewed":"This shift has not been reviewed.Please press Enter or Space to review it.",
+            "editShift":"Press Tab to go to the edit button."
+        },
+        "shift":{
+            "st": "the type of this shift is a Working Shift",
+            "sk": "the type of this shift is a Sick Leave",
+            "vn": "the type of this shift is a Vacation Leave",
+            "bh": "the type of this shift is  a Holiday Leave"
         }
     },
     "sr":{
