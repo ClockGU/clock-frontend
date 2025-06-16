@@ -1,5 +1,6 @@
 name: CI
 
+# Run on push to any branch and on pull requests
 on: [push, pull_request]
 
 jobs:
@@ -10,33 +11,51 @@ jobs:
       NODE_ENV: test
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Get yarn cache location
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Set Yarn cache
-        uses: actions/cache@v1
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          fetch-depth: 0 # fetch all history for all branches and tags
 
-      - uses: actions/setup-node@v1
+      # Setup caching and Node.js
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      # Setup Node.js with built-in Yarn cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "18.x"
+          cache: 'yarn'
 
+      # Install dependencies
       - name: Install dependencies
-        run: yarn install
-      
-      - name: format
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+
+      # Run checks
+      - name: Check formatting
         run: yarn format:check
 
-      - name: lint
+      - name: Check linting
         run: yarn lint:check
 
-      - run: yarn run test:unit
+      - name: Run unit tests
+        run: yarn test:unit
+
+      # Upload test results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            coverage/
+            test-results/
+          retention-days: 7

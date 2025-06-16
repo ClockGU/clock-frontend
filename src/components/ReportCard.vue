@@ -225,7 +225,7 @@ export default {
       }
 
       // Create Blob and URL
-      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const blob = new Blob([bytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
       // Create link and trigger download
