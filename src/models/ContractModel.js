@@ -83,8 +83,8 @@ export class Contract {
         ? parseDate(modifiedAt)
         : new Date();
     this.lastUsed =
-      is(Date, new Date(lastUsed)) && lastUsed !== null
-        ? new Date(lastUsed)
+      is(Date, parseDate(lastUsed)) && lastUsed !== null
+        ? parseDate(lastUsed)
         : new Date();
   }
 
@@ -98,9 +98,7 @@ export class Contract {
 
   get minutesToHourRepresentation() {
     // Getter converting minutes into decimal representation of hours
-    const remainingMinutes = this.minutes % 60;
-    const fullHours = this.minutes - remainingMinutes;
-    return fullHours + remainingMinutes / 60;
+    return this.minutes/ 60;
   }
 
   CarryoverTargetDateString() {
