@@ -1,6 +1,6 @@
-Object.defineProperty(global, 'navigator', {
+Object.defineProperty(global, "navigator", {
   value: {
-    language: 'en-US',
+    language: "en-US"
   },
-  configurable: true,
+  configurable: true
 });

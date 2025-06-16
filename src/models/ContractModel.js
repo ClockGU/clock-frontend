@@ -98,7 +98,7 @@ export class Contract {
 
   get minutesToHourRepresentation() {
     // Getter converting minutes into decimal representation of hours
-    return this.minutes/ 60;
+    return this.minutes / 60;
   }
 
   CarryoverTargetDateString() {

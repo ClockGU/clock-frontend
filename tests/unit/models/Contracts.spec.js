@@ -2,7 +2,7 @@ import { Contract, mapContractApiResponse } from "@/models/ContractModel";
 import { addDays, format } from "date-fns";
 import timekeeper from "timekeeper";
 import { v4 as uuidv4 } from "uuid";
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Mock i18n
 vi.mock("@/plugins/i18n", () => ({
@@ -261,7 +261,6 @@ describe("Contract class", () => {
     });
 
     it("clones a contract correctly", () => {
-
       const original = new Contract({
         id: "1234",
         name: "Test Contract",
