@@ -9,12 +9,8 @@ export default defineConfig({
   test: {
     globals: true,
     watch: false,
-    browser: {
-      enabled: true,
-      name: "firefox",
-      headless: true
-    },
-    exclude: [...configDefaults.exclude, "**/tests/e2e/**"]
+    dir: "./tests",
+    exclude: [...configDefaults.exclude, "**/e2e/**"]
   },
   plugins: [
     vue(),
