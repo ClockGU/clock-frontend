@@ -10,6 +10,7 @@ export default defineConfig({
     globals: true,
     watch: false,
     dir: "./tests",
+    setupFiles: "./tests/unit/setup.js",
     exclude: [...configDefaults.exclude, "**/e2e/**"]
   },
   plugins: [
