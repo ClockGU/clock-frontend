@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
       v-model="selectedShifts"
@@ -13,15 +13,21 @@
       hover
       :custom-sort="sortByDate"
       must-sort
+      tabindex="0"
       :sort-desc="!pastShifts"
+      :aria-label="$t('aria.shiftsTable.description')"
     >
       <template #item="{ item }">
         <tr
           :class="{ 'selected-row': selectedShifts.includes(item) }"
+          tabindex="0"
+          role="row"
           @click="handleClick(item)"
+          @keydown.enter="handleClick(item)"
+          @keydown.space="handleClick(item)"
         >
           <td v-if="!mobile">
-            <v-checkbox-btn
+            <v-checkbox-btn 
               v-model="selectedShifts"
               class="table-checkbox-btn"
               :value="item"
@@ -59,8 +65,10 @@
             >
             </ShiftWarningIcon>
           </td>
-          <td>
-            <v-icon :color="colors[item.type]">
+          <td :aria-label="$t(`aria.shift.${item.type}`)">   
+            <v-icon 
+            :color="colors[item.type]"  
+            >
               {{ typeIcons[item.type] }}
             </v-icon>
             <v-chip
@@ -83,16 +91,22 @@
               variant="text"
               elevation="0"
               @click.stop="handleShiftReview(item)"
-            ></v-btn>
+              @keydown.enter.stop="handleShiftReview(item)"
+              @keydown.space.stop="handleShiftReview(item)"
+              :aria-label="$t('aria.shiftsTable.notReviewed')"
+            ></v-btn> 
             <v-btn
               v-else
               variant="text"
               :icon="icons.mdiCheck"
               color="green"
               elevation="0"
+              tabindex="-1"
+              :aria-label="$t('aria.shiftsTable.reviewed')"
+
             ></v-btn>
           </td>
-          <td class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell" aria-hidden="true">
             <v-chip
               v-for="tag in item.tags.slice(0, 2)"
               :key="tag"
@@ -114,14 +128,14 @@
               </template>
             </ShiftInfoDialog>
           </td>
-          <td class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell" :aria-label="$t('aria.shiftsTable.editShift')">
             <ShiftFormDialog
               :create="false"
               icon
               :shift="item"
             ></ShiftFormDialog>
           </td>
-        </tr>
+        </tr> 
       </template>
     </v-data-table>
   </div>
@@ -133,7 +147,7 @@
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
-          </template>
+          </template>s
         </ShiftAssignContractDialog-->
 
 <!--ConfirmationDialog @confirm="destroySingleShift(item)">
@@ -301,3 +315,7 @@ export default {
   right: 8px;
 }
 </style>
+
+
+
+
