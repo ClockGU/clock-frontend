@@ -10,7 +10,7 @@
     <v-btn v-if="logoutAction" variant="text" @click="logout">
       {{ $t("actions.logout") }}
     </v-btn>
-    <v-btn v-if="closeAction" :icon="icons.mdiClose" @click="close"> </v-btn>
+    <v-btn v-if="closeAction" :icon="icons.mdiClose" @click="close"   aria-label="Close dialog"> </v-btn>
   </v-toolbar>
 </template>
 

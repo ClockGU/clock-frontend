@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn :disabled="!hasPrev" variant="text" @click="gotoPrev">
+    <v-btn :disabled="!hasPrev" variant="text" @click="gotoPrev"   aria-label="Go to previous month">
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -26,7 +26,7 @@
       ></v-date-picker>
     </v-menu>
 
-    <v-btn :disabled="!hasNext" variant="text" @click="gotoNext">
+    <v-btn :disabled="!hasNext" variant="text" @click="gotoNext"   aria-label="Go to next month">
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </div>

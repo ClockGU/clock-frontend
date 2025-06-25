@@ -26,6 +26,7 @@
         mask="time"
         :readonly="smAndDown"
         :prepend-icon="prependIcon ? icons.mdiClockOutline : ''"
+        aria-label="Time input"
         v-bind="props"
         @blur="setTimeFromTextField"
         @keydown.enter="$event.target.blur()"

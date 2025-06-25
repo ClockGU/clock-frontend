@@ -6,7 +6,7 @@
     transition="slide-y-transition"
   >
     <template #activator="{ props }">
-      <v-btn class="text-capitalize" variant="text" v-bind="props">
+      <v-btn class="text-capitalize" variant="text" v-bind="props"   aria-label="Change language">
         <v-icon :start="smAndUp" :icon="icons.mdiTranslate" />
         <span
           class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"

@@ -15,6 +15,7 @@
         hide-details
         :prepend-icon="icons.mdiCalendar"
         v-bind="props"
+        aria-label="Date input"
       ></v-text-field>
     </template>
     <v-date-picker
