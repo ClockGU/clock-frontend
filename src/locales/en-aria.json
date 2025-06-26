@@ -24,6 +24,15 @@
             "sk": "the type of this shift is a Sick Leave",
             "vn": "the type of this shift is a Vacation Leave",
             "bh": "the type of this shift is  a Holiday Leave"
+        },
+        "shiftBulkActions":{
+            "description": "This is the bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
+            "review": "Press space to review the selected shifts.",
+            "delete": "Press space to delete the selected shifts.",
+            "changeContract": "Press space to change the  contract for selected shifts",
+            "viewDetails": "Press space to view the details of the selected shift.",
+            "edit": "Press space to edit the selected shift.",
+            "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
         }
     },
     "sr":{

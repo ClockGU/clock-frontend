@@ -50,7 +50,7 @@
                   :search="pastSearch"
                   past-shifts
                 >
-                  <template #head="{ selected, reset }">
+                  <template #head="{ selected }">
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
@@ -85,10 +85,14 @@
 
                     <v-card-text>
                       {{ $t("shifts.table.pastShiftsHint") }}
-                      (<v-icon color="success" aria-hidden="true">{{ icons.mdiCheck }}</v-icon
-                      >/<v-icon color="error" aria-hidden="true">{{ icons.mdiClose }}</v-icon
-                      >).
+                      (
+                      <v-icon color="success" aria-hidden="true">{{ icons.mdiCheck }}  </v-icon>
+                      /
+                      <v-icon color="error" aria-hidden="true">{{ icons.mdiClose }}</v-icon>
+                      ).
                     </v-card-text>
+                  </template>
+                  <template #bottom="{ selected, reset }">
                     <ShiftBulkActions
                       v-if="selected.length > 0"
                       :shifts="selected"
@@ -107,7 +111,7 @@
                   :loading="loading"
                   :search="futureSearch"
                 >
-                  <template #head="{ selected, reset }">
+                  <template #head="{ selected }">
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
@@ -142,10 +146,14 @@
                     <v-card-text>
                       {{ $t("shifts.table.futureShiftsHint") }}
                     </v-card-text>
+
+                  </template>
+                   <template #bottom="{ selected, reset }">
                     <ShiftBulkActions
                       v-if="selected.length > 0"
-                      :more-than-one-contract="moreThanOneContract"
                       :shifts="selected"
+                      can-review
+                      :more-than-one-contract="moreThanOneContract"
                       :reset-fn="reset"
                     />
                   </template>
@@ -254,3 +262,4 @@ export default {
   }
 };
 </script>
+
