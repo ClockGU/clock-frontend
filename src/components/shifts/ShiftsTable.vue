@@ -3,7 +3,7 @@
     <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
       v-model="selectedShifts"
-      :show-select="!mobile"
+      :show-select="!mobile"  
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
@@ -23,8 +23,8 @@
           tabindex="0"
           role="row"
           @click="handleClick(item)"
-          @keydown.enter="handleClick(item)"
-          @keydown.space="handleClick(item)"
+          @keydown.enter.stop="handleClick(item)"
+          @keydown.space.stop="handleClick(item)"
         >
           <td v-if="!mobile">
             <v-checkbox-btn 
@@ -47,7 +47,8 @@
               ></v-btn>
               <v-btn
                 v-else
-                variant="text"
+                v                variant="text"
+ariant="text"
                 :icon="icons.mdiCheck"
                 color="green"
                 elevation="0"
@@ -138,6 +139,7 @@
         </tr> 
       </template>
     </v-data-table>
+    <slot name="bottom" :selected="selectedShifts" :reset="reset"></slot>
   </div>
 </template>
 

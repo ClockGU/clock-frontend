@@ -24,6 +24,15 @@
             "sk": "Die Art dieser Schicht ist eine Krankenstandszeit",
             "vn": "Die Art dieser Schicht ist eine Urlaubszeit",
             "bh": "Die Art dieser Schicht ist eine Feiertagszeit"
+        },
+        "shiftBulkActions": {
+            "description": "Dies ist der Massen-Aktionen-Bereich für die ausgewählten Schichten. Sie können Aktionen auf den ausgewählten Schichten ausführen, wie zum Beispiel das Löschen oder Überprüfen. Drücken Sie die Leertaste, um die Massen-Aktionen zu aktivieren.",
+            "review": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu überprüfen.",
+            "delete": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu löschen.",
+            "changeContract": "Drücken Sie die Leertaste, um den Vertrag für die ausgewählten Schichten zu ändern",
+            "viewDetails": "Drücken Sie die Leertaste, um die Details der ausgewählten Schicht anzuzeigen.",
+            "edit": "Drücken Sie die Leertaste, um die ausgewählte Schicht zu bearbeiten.",
+            "durationSum": "Dies ist die gesamte Dauer der ausgewählten Schichten. Die gesamte Dauer beträgt {durationSum}."
         }
     },
     "sr": {
