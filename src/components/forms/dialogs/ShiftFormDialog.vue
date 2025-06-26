@@ -14,6 +14,9 @@
         :color="btnColor"
         :flat="flatButton"
         v-bind="props['props']"
+        :aria-label="$t('aria.shiftsTable.editShift')"
+        @click.stop
+        @keydown.stop
       >
         {{ buttonText }}
       </v-btn>
@@ -24,7 +27,10 @@
           :color="btnColor"
           :flat="flatButton"
           :icon="create ? icons.mdiPlus : icons.mdiPencil"
+          :aria-label="$t('aria.shiftsTable.editShift')"
           v-bind="props['props']"
+          @click.stop
+          @keydown.stop
         />
         <v-icon
           v-if="alertMessages.length > 0"

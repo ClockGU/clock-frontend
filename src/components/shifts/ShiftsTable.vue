@@ -129,7 +129,8 @@ ariant="text"
               </template>
             </ShiftInfoDialog>
           </td>
-          <td class="d-none d-sm-table-cell" :aria-label="$t('aria.shiftsTable.editShift')">
+          <td class="d-none d-sm-table-cell" 
+          :aria-label="$t('aria.shiftsTable.editShift')">
             <ShiftFormDialog
               :create="false"
               icon
