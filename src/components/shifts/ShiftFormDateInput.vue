@@ -7,7 +7,9 @@
     offset-y
   >
     <template #activator="{ props }">
+      <label for="shift-date" class="ml-10">{{$t('label.shiftFormDateInput')}}</label>
       <v-text-field
+        id="shift-date"
         v-model="formattedDate"
         readonly
         variant="filled"
@@ -90,3 +92,4 @@ export default {
   }
 };
 </script>
+

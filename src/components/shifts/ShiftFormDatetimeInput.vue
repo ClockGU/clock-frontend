@@ -6,7 +6,6 @@
         data-cy="shift-date"
         :min="dateMin"
         :max="dateMax"
-        label="Date"
         @update:model-value="setDate"
       />
     </v-col>
@@ -18,6 +17,7 @@
         :error-messages="errors"
         :error="errors.length > 0"
         :prepend-icon="smAndDown"
+        :label="$t('label.shiftFormTimeInput.start')"
         @update:model-value="
           $emit('update:started', $event);
           v$.timeStart.$touch();
@@ -34,6 +34,7 @@
       <ShiftFormTimeInput
         v-model="timeStop"
         :error="errors.length > 0"
+        :label="$t('label.shiftFormTimeInput.end')"
         @update:model-value="
           $emit('update:stopped', $event);
           v$.timeStart.$touch();
