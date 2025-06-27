@@ -1,5 +1,6 @@
 <template>
   <v-combobox
+    aria-label="Add tags to shift"
     v-model="model"
     v-model:search="search"
     data-cy="tags"

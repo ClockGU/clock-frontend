@@ -1,15 +1,20 @@
 <template>
   <div>
+    <!-- Hidden accessible label -->
+    <span id="contract-label" class="sr-only">
+      Dropdown to select a contract: crruentlly selected contract is 
+    </span>
+
     <v-select
+      id="contract-dropdown"
       v-model="v$.contract.$model"
       :items="choices"
       :prepend-icon="icons.mdiFileDocumentEditOutline"
-      :label="$t('shifts.changeContract')"
       item-title="name"
-      item-value="id"
       return-object
       filled
       :error-messages="mappedErrors"
+      aria-labelledby="contract-label"
     >
       <template #selection="{ item }">
         {{ item.title + contractStatus(item.raw) }}
@@ -30,6 +35,7 @@ import contractValidMixin from "@/mixins/contractValid";
 import { helpers } from "@vuelidate/validators";
 import { endOfDay, isAfter } from "date-fns";
 import { useVuelidate } from "@vuelidate/core";
+
 const notContractExpired = (date) =>
   helpers.withParams(
     { type: "notContractExpired", value: date },
@@ -128,4 +134,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.sr-only {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+</style>

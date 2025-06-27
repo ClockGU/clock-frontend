@@ -1,5 +1,6 @@
 <template>
   <v-textarea
+    aria-label="Add a note about the shift"
     :model-value="modelValue"
     :label="$t('shifts.note.label')"
     variant="filled"
