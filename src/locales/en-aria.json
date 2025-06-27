@@ -33,7 +33,11 @@
             "viewDetails": "Press space to view the details of the selected shift.",
             "edit": "Press space to edit the selected shift.",
             "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
-        }
+        },
+        "shiftFormType": {
+            "description": "This is the shift form type.choose the type of shift you want to create/update."
+
+        }   
     },
     "sr": {
         "viewShifts": {
@@ -46,7 +50,9 @@
         "shiftFormTimeInput":{
             "start": "Start Time",
             "end": "End Time"
-        }
+        },
+        "shiftFormTags": "Tags",
+        "shiftFormNote": "Note"
     }
 }
 
