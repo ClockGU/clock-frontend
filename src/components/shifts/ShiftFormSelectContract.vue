@@ -10,12 +10,13 @@
       return-object
       filled
       :error-messages="mappedErrors"
+      aria-label="Select a contract"
     >
       <template #selection="{ item }">
         {{ item.title + contractStatus(item.raw) }}
       </template>
       <template #item="{ item, props }">
-        <v-list-item v-bind="modifyProps(props)">
+        <v-list-item v-bind="modifyProps(props)" :aria-label="item.title">
           {{ item.title + contractStatus(item.raw) }}
         </v-list-item>
       </template>
@@ -128,4 +129,3 @@ export default {
 };
 </script>
 
-<style scoped></style>

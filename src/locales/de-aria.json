@@ -1,44 +1,52 @@
 {
     "aria": {
         "viewShifts": {
-            "searchPast": "Sie können nach vergangenen Schichten suchen",
-            "searchFuture": "Sie können nach zukünftigen Schichten suchen"
+            "searchPast": "Vergangene Schichten suchen",
+            "searchFuture": "Zukünftige Schichten suchen"
         },
         "selectContract": {
-            "enabled": "Drücken Sie bitte Enter , um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
-            "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie Enter oder Leertaste, um zur Vertragsansicht zu navigieren."
+            "enabled": "Drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
+            "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabe- oder Leertaste, um zur Vertragsansicht zu navigieren."
         },
         "timeInterval": {
-            "description": "Dies ist der Zeitintervall-Switcher. Es gibt Schichten in jedem Monat und dieser wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linke und rechte Pfeiltaste, um durch die Zeitintervalle zu navigieren. Sie betrachten derzeit {formattedInterval} Schichten.",
-            "previous": "drücken Sie bitte Leertaste, um zum vorherigen Monat zu gelangen",
-            "next": "drücken Sie bitte Leertaste, um zum nächsten Monat zu gelangen"
+            "description": "Zeitraumumschalter. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linken und rechten Pfeiltasten, um durch die Zeiträume zu navigieren. Sie sehen derzeit {formattedInterval} Schichten.",
+            "previous": "Drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
+            "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
         },
         "shiftsTable": {
-            "description": "Dies ist die Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können durch die Zeilen mit Tab oder Pfeiltasten navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder die Enter-Taste drücken.",
+            "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
             "reviewed": "Diese Schicht wurde überprüft.",
-            "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Enter- oder Leertaste, um sie zu überprüfen.",
-            "editShift": "Drücken Sie die Tab-Taste, um zum Bearbeiten-Schalter zu gelangen."
+            "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
+            "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen."
         },
         "shift": {
-            "st": "Die Art dieser Schicht ist eine Arbeitschicht",
-            "sk": "Die Art dieser Schicht ist eine Krankenstandszeit",
-            "vn": "Die Art dieser Schicht ist eine Urlaubszeit",
-            "bh": "Die Art dieser Schicht ist eine Feiertagszeit"
+            "st": "Der Typ dieser Schicht ist eine Arbeitsschicht",
+            "sk": "Der Typ dieser Schicht ist ein Krankheitsurlaub",
+            "vn": "Der Typ dieser Schicht ist ein Urlaub",
+            "bh": "Der Typ dieser Schicht ist ein Feiertag"
         },
         "shiftBulkActions": {
-            "description": "Dies ist der Massen-Aktionen-Bereich für die ausgewählten Schichten. Sie können Aktionen auf den ausgewählten Schichten ausführen, wie zum Beispiel das Löschen oder Überprüfen. Drücken Sie die Leertaste, um die Massen-Aktionen zu aktivieren.",
+            "description": "Abschnitt für Sammelaktionen für die ausgewählten Schichten. Sie können Aktionen an den ausgewählten Schichten durchführen, wie z.B. sie löschen oder überprüfen. Drücken Sie die Leertaste, um die Sammelaktionen zu aktivieren.",
             "review": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu überprüfen.",
             "delete": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu löschen.",
             "changeContract": "Drücken Sie die Leertaste, um den Vertrag für die ausgewählten Schichten zu ändern",
             "viewDetails": "Drücken Sie die Leertaste, um die Details der ausgewählten Schicht anzuzeigen.",
             "edit": "Drücken Sie die Leertaste, um die ausgewählte Schicht zu bearbeiten.",
-            "durationSum": "Dies ist die gesamte Dauer der ausgewählten Schichten. Die gesamte Dauer beträgt {durationSum}."
+            "durationSum": "Dies ist die Gesamtdauer der ausgewählten Schichten. Die Gesamtdauer beträgt {durationSum}."
+        },
+        "shiftFormType": {
+            "description": "Schichtformulartyp. Wählen Sie den Typ der Schicht, die Sie erstellen/aktualisieren möchten."
+
+        },
+        "languageSwitcher": "Sprachumschalter. Drücken Sie die Leertaste, um die Sprache zu ändern.",
+        "cardToolbar": {
+            "close": "Drücken Sie die Leertaste, um die Kartentoolleiste zu schließen."
         }
     },
     "sr": {
         "viewShifts": {
-            "h1": "Ansicht der Schichtverwaltung",
-            "h2": "Übersicht der Schichten"
+            "h1": "Schichtverwaltungsansicht",
+            "h2": "Schichtübersicht"
         }
     },
     "label": {

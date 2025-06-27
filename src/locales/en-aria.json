@@ -9,12 +9,12 @@
             "disabled": "Please create a contract first. Press enter or space to navigate to contracts view."
         },
         "timeInterval": {
-            "description": "This is the time interval switcher. There are shifts saved in each month and this is used to switch between months. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts.",
+            "description": "Time interval switcher. There are shifts saved in each month and this is used to switch between months. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts.",
             "previous": "Press space to go to the previous month",
             "next": "Press space to go to the next month"
         },
         "shiftsTable": {
-            "description": "This is the shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
+            "description": "Shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
             "reviewed": "This shift has been reviewed.",
             "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
             "editShift": "Press tab to go to the edit button."
@@ -26,7 +26,7 @@
             "bh": "The type of this shift is a Holiday Leave"
         },
         "shiftBulkActions": {
-            "description": "This is the bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
+            "description": "Bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
             "review": "Press space to review the selected shifts.",
             "delete": "Press space to delete the selected shifts.",
             "changeContract": "Press space to change the contract for selected shifts",
@@ -35,9 +35,13 @@
             "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
         },
         "shiftFormType": {
-            "description": "This is the shift form type.choose the type of shift you want to create/update."
+            "description": "Shift form type.choose the type of shift you want to create/update."
 
-        }   
+        } ,
+        "languageSwitcher": "Language Switcher.Press space to change the language.",
+        "cardToolbar": {
+            "close": "Press space to close the card toolbar."
+        }
     },
     "sr": {
         "viewShifts": {
