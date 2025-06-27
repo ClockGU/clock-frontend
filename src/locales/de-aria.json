@@ -40,6 +40,13 @@
             "h1": "Ansicht der Schichtverwaltung",
             "h2": "Übersicht der Schichten"
         }
+    },
+    "label": {
+        "shiftFormDateInput": "Schichtdatum",
+        "shiftFormTimeInput": {
+            "start": "Startzeit",
+            "end": "Endzeit"
+        }
     }
 }
 
