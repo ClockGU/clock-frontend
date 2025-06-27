@@ -46,7 +46,9 @@
         "shiftFormTimeInput": {
             "start": "Startzeit",
             "end": "Endzeit"
-        }
+        },
+        "shiftFormTags": "Tags",
+        "shiftFormNote": "Notiz"
     }
 }
 
