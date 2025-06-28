@@ -42,7 +42,10 @@
         "languageSwitcher": "Sprachumschalter. Drücken Sie die Leertaste, um die Sprache zu ändern.",
         "cardToolbar": {
             "close": "Drücken Sie die Leertaste, um die Kartentoolleiste zu schließen."
-        }
+        },
+        "shiftsDetailsDialog":{
+            "table":"Tabelle mit Schichtdetails. Verwenden Sie die Pfeiltasten nach oben/unten, um durch die Tabelle zu navigieren."
+        } 
     },
     "sr": {
         "viewShifts": {

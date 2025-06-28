@@ -43,15 +43,20 @@
                 color="red"
                 variant="outline"
                 elevation="0"
+                :aria-label="$t('aria.shiftsTable.notReviewed')"
                 @click.stop="handleShiftReview(item)"
+                @keydown.stop
               ></v-btn>
               <v-btn
                 v-else
-                v                variant="text"
-ariant="text"
+                variant="text"
                 :icon="icons.mdiCheck"
                 color="green"
                 elevation="0"
+                tabindex="-1"
+                :aria-label="$t('aria.shiftsTable.reviewed')"
+                @click.stop
+                @keydown.stop
               ></v-btn>
             </div>
             <span v-else> {{ formattedDate(item.started) }}</span>
@@ -66,7 +71,10 @@ ariant="text"
             >
             </ShiftWarningIcon>
           </td>
-          <td :aria-label="$t(`aria.shift.${item.type}`)">   
+          <td 
+            :aria-label="$t(`aria.shift.${getType(item.type)}`)" 
+            role="cell"
+          >   
             <v-icon 
             aria-hidden="true"
             :color="colors[item.type]"  
@@ -191,6 +199,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { localizedFormat } from "@/utils/date";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
+import { getTagName } from "webdriverio/build/commands/element";
 
 export default {
   name: "ShiftsTable",
@@ -261,6 +270,9 @@ export default {
   },
 
   methods: {
+    getType(type) {
+      return this.$t(`models.shift.types.${type}`);
+    },
     formattedDateMobile(date) {
       return this.$i18n.locale === "en"
         ? localizedFormat(date, "EEE',' do")

@@ -42,7 +42,10 @@
         "languageSwitcher": "Language Switcher.Press space to change the language.",
         "cardToolbar": {
             "close": "Press space to close the card toolbar."
-        }
+        },
+        "shiftsDetailsDialog":{
+            "table":"Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
+        } 
     },
     "sr": {
         "viewShifts": {
