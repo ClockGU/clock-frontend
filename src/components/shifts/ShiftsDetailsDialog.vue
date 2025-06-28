@@ -18,7 +18,7 @@
         ></CardToolbar>
         <br />
 
-        <v-table comfortable rounded class="mt-8 mx-4">
+        <v-table comfortable rounded class="mt-8 mx-4" tabindex="0" :aria-label="$t('aria.shiftsDetailsDialog.table')">
           <tbody>
             <tr>
               <td class="font-weight-bold w-33">{{ headers[0].title }}</td>
@@ -34,7 +34,7 @@
             </tr>
             <tr>
               <td class="font-weight-bold w-33">{{ headers[3].title }}</td>
-              <td>
+              <td :aria-label="$t(`aria.shift.${item.type}`)">
                 <v-icon :color="colors[item.type]">
                   {{ typeIcons[item.type] }}
                 </v-icon>
@@ -61,7 +61,9 @@
                   color="red"
                   variant="text"
                   elevation="0"
+                  :aria-label="$t('aria.shiftsTable.notReviewed')"
                   @click="reviewSingleShift(item)"
+                  
                 ></v-btn>
                 <v-btn
                   v-else
@@ -69,7 +71,9 @@
                   :icon="icons.mdiCheck"
                   class="w-0 ml-2"
                   color="green"
+                  tabindex="-1"
                   elevation="0"
+                  :aria-label="$t('aria.shiftsTable.reviewed')"
                 ></v-btn>
               </td>
             </tr>
@@ -152,6 +156,7 @@ import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { log } from "@/utils/log";
+import { onMounted } from "vue";
 
 export default {
   name: "ShiftsDetailsDialog",
@@ -215,5 +220,5 @@ export default {
     }
   }
 };
+onMounted(()=>console.log(item.value.type))
 </script>
-``
