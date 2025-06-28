@@ -68,6 +68,7 @@ ariant="text"
           </td>
           <td :aria-label="$t(`aria.shift.${item.type}`)">   
             <v-icon 
+            aria-hidden="true"
             :color="colors[item.type]"  
             >
               {{ typeIcons[item.type] }}
@@ -129,8 +130,7 @@ ariant="text"
               </template>
             </ShiftInfoDialog>
           </td>
-          <td class="d-none d-sm-table-cell" 
-          :aria-label="$t('aria.shiftsTable.editShift')">
+          <td class="d-none d-sm-table-cell">
             <ShiftFormDialog
               :create="false"
               icon

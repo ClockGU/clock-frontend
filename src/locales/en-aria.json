@@ -17,7 +17,8 @@
             "description": "Shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
             "reviewed": "This shift has been reviewed.",
             "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
-            "editShift": "Press tab to go to the edit button."
+            "editShift": "Press tab to go to the edit button.",
+            "warnings": "You have {count} warnings/error with this shift. Please try to resolve them."
         },
         "shift": {
             "st": "The type of this shift is a Working Shift",

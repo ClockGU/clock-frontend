@@ -27,17 +27,16 @@
           :color="btnColor"
           :flat="flatButton"
           :icon="create ? icons.mdiPlus : icons.mdiPencil"
-          :aria-label="$t('aria.shiftsTable.editShift')"
+          :aria-label="alertMessages.length > 0 ? $t('aria.shiftsTable.warnings',{count: alertMessages.length}) : $t('aria.shiftsTable.editShift')"
           v-bind="props['props']"
           @click.stop
           @keydown.stop
-        />
-        <v-icon
-          v-if="alertMessages.length > 0"
-          color="warning"
-          style="transform: translate(-65%, -50%)"
-          >{{ icons.mdiExclamation }}
-        </v-icon>
+        >
+      </v-btn>
+      <ShiftWarningIcon
+        :shift="newShift"
+        style="transform: translate(-65%, -50%)">
+      </ShiftWarningIcon>
       </div>
     </template>
     <template #content="{ events: { close } }">
@@ -67,6 +66,7 @@ import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { useShiftValidation } from "@/composable/useShiftValidation";
+import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
 // Props
 const props = defineProps({
   shift: {
@@ -182,3 +182,4 @@ function closeFormDialog() {
   show.value = false;
 }
 </script>
+
