@@ -220,5 +220,4 @@ export default {
     }
   }
 };
-onMounted(()=>console.log(item.value.type))
 </script>
