@@ -1,5 +1,13 @@
 <template>
-  <v-icon v-if="alertMessages.length > 0" color="warning">
+  <span  
+    v-if="alertMessages.length > 0" 
+    class="sr-only">
+    {{ $t('aria.shiftsTable.warnings',{count: alertMessages.length}) }}
+  </span>
+  <v-icon 
+    v-if="alertMessages.length > 0" 
+    color="warning" 
+    aria-hidden="true">
     {{ icons.mdiExclamation }}
   </v-icon>
 </template>

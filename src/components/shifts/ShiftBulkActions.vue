@@ -69,12 +69,6 @@
               :icon="icons.mdiPencil"
               :aria-label="$t('aria.shiftBulkActions.edit')"            
             />
-            <ShiftWarningIcon
-              v-if="shiftsLength === 1"
-              style="transform: translate(-80%, -35%)"
-              :shift="shifts[0]"
-              aria-hidden="true"
-            />
           </template>
         </ShiftFormDialog>
 
@@ -120,7 +114,6 @@ import {
   mdiInformationVariant
 } from "@mdi/js";
 import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
-import ShiftWarningIcon from "./ShiftWarningIcon.vue";
 
 export default {
   name: "ShiftBulkActions",
@@ -130,7 +123,6 @@ export default {
     ShiftBulkActionsDialogReview,
     ShiftFormDialog,
     ShiftsDetailsDialog,
-    ShiftWarningIcon
   },
   mixins: [breakpointsMixin],
   props: {
