@@ -41,13 +41,15 @@
         "languageSwitcher": "Sprachumschalter. Drücken Sie die Leertaste, um die Sprache zu ändern.",
         "cardToolbar": {
             "close": "Drücken Sie die Leertaste, um die Kartentoolleiste zu schließen."
-        },
-        "warningLabel":"Sie haben derzeit {count} Warnungen/Fehler mit dieser Schicht.Bitte versuchen Sie, diese zu beheben."
+        }
     },
     "sr": {
         "viewShifts": {
             "h1": "Schichtverwaltungsansicht",
             "h2": "Schichtübersicht"
+        },
+        "shiftFormFields": {
+            "warningLabel": "Sie haben derzeit {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
         }
     },
     "label": {

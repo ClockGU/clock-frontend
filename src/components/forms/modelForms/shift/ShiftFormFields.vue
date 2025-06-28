@@ -2,7 +2,8 @@
   <v-card-text class="pb-0">
     <div class="sr-only" aria-live="polite">
       <span v-if="alertMessages.length > 0">
-        {{ $tc("aria.warningLabel", { count: alertMessages.length }) }}
+        {{ $tc("sr.shiftFormFields.warningLabel", { count: alertMessages.length }) }}
+        {{ alertMessages }}
       </span>
     </div>
     <ShiftFormDatetimeInput
@@ -81,9 +82,7 @@ import { isBefore, isPast, isAfter, startOfDay, isFuture } from "date-fns";
 import { mdiRepeat } from "@mdi/js";
 import ShiftFormDatetimeInput from "@/components/shifts/ShiftFormDatetimeInput.vue";
 import ClockCardAlert from "@/components/ClockCardAlert.vue";
-import OmbudsMenu from "@/components/OmbudsMenu.vue";
 import ShiftFormReview from "@/components/shifts/ShiftFormReview.vue";
-import { useVuelidate } from "@vuelidate/core";
 export default {
   name: "ShiftFormFields",
   components: {
