@@ -41,7 +41,8 @@
         "languageSwitcher": "Language Switcher.Press space to change the language.",
         "cardToolbar": {
             "close": "Press space to close the card toolbar."
-        }
+        },
+        "warningLabel":"You currently have {count} warnings/error with this shift.please try to resolve them."
     },
     "sr": {
         "viewShifts": {
