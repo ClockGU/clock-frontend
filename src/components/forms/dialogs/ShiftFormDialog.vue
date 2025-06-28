@@ -27,7 +27,7 @@
           :color="btnColor"
           :flat="flatButton"
           :icon="create ? icons.mdiPlus : icons.mdiPencil"
-          :aria-label="alertMessages.length > 0 ? $t('aria.shiftsTable.warnings',{count: alertMessages.length}) : $t('aria.shiftsTable.editShift')"
+          :aria-label="$t('aria.shiftsTable.editShift')"
           v-bind="props['props']"
           @click.stop
           @keydown.stop
@@ -35,7 +35,8 @@
       </v-btn>
       <ShiftWarningIcon
         :shift="newShift"
-        style="transform: translate(-65%, -50%)">
+        style="transform: translate(-65%, -50%)"
+        >
       </ShiftWarningIcon>
       </div>
     </template>
@@ -60,12 +61,11 @@ import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { isBefore } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
-import TheDialog from "@/components/TheDialog.vue";
-import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { useShiftValidation } from "@/composable/useShiftValidation";
+import TheDialog from "@/components/TheDialog.vue";
+import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
 // Props
 const props = defineProps({
@@ -117,8 +117,6 @@ const initialContract = ref("");
 const store = useStore();
 const { t } = useI18n();
 const { xs } = useDisplay();
-
-const { alertMessages } = useShiftValidation(newShift.value);
 
 // Computed
 const create = computed(() => props.shift === undefined);
