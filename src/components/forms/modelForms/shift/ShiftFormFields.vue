@@ -1,6 +1,10 @@
-.vue
 <template>
   <v-card-text class="pb-0">
+    <div class="sr-only" aria-live="polite">
+      <span v-if="alertMessages.length > 0">
+        {{ $tc("aria.warningLabel", { count: alertMessages.length }) }}
+      </span>
+    </div>
     <ShiftFormDatetimeInput
       v-model:started="shift.started"
       v-model:stopped="shift.stopped"
@@ -212,3 +216,4 @@ export default {
   padding: unset;
 }
 </style>
+
