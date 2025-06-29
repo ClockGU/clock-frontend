@@ -3,12 +3,14 @@ import { de, enUS as en } from "date-fns/locale";
 import { createI18n } from "vue-i18n";
 import deLocale from "../locales/de.json";
 import enLocale from "../locales/en.json";
+import deAriaLocale from "../locales/de-aria.json";
+import enAriaLocale from "../locales/en-aria.json";
 
 const LOCALES = { de, en };
 
 const localeMessages = {
-  de: deLocale,
-  en: enLocale
+  de: { ...deLocale, ...deAriaLocale },
+  en: { ...enLocale, ...enAriaLocale }
 };
 export const switchDateFnsLocale = (locale) => {
   currentLocale.locale = LOCALES[locale];
