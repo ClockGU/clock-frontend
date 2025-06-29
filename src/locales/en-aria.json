@@ -45,7 +45,26 @@
         },
         "shiftsDetailsDialog":{
             "table":"Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
-        } 
+        } ,
+        "report": {
+          "summary": "Summary",
+            "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
+            "requestButton": "Request report",
+            "downloadButton": "Download report",
+            "requestSection": "Request section for the report. Press space to request the report.",
+            "lockSection": "Lock section. You can lock your timesheet here after reviewing it.",
+            "lockButton": "Lock timesheet. Press space to confirm locking.",
+            "lockedButton": "Timesheet is already locked.",
+            "vacationSummary": "Vacation summary section",
+            "table.label": "Vacation type",
+            "table.value": "Vacation balance",
+            "vacationLiveSummary": "Vacation overview with details",
+            "vacationTitle": "Vacation"
+            },
+        "table": {
+            "label": "Category",
+            "value": "Value" 
+        }
     },
     "sr": {
         "viewShifts": {
