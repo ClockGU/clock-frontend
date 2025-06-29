@@ -45,7 +45,27 @@
         },
         "shiftsDetailsDialog":{
             "table":"Tabelle mit Schichtdetails. Verwenden Sie die Pfeiltasten nach oben/unten, um durch die Tabelle zu navigieren."
-        } 
+        } ,
+        "report": {
+            "summary": "Zusammenfassung der Arbeit",
+             "downloadSection": "Download-Bereich des Berichts. Drücken Sie die Tabulatortaste, um den Bericht herunterzuladen.",
+             "requestButton": "Bericht anfordern",
+            "downloadButton": "Bericht herunterladen",
+            "requestSection": "Anforderungsbereich für den Bericht. Drücken Sie die Leertaste, um den Bericht anzufordern.",
+            "lockSection": "Sperrbereich. Sie können hier Ihre Arbeitszeittabelle nach der Überprüfung sperren.",
+            "lockButton": "Arbeitszeittabelle sperren. Drücken Sie die Leertaste, um die Sperrung zu bestätigen.",
+            "lockedButton": "Arbeitszeittabelle ist bereits gesperrt.",
+            "vacationSummary": "Vacation summary section",
+            "table.label": "Urlaubsart",
+            "table.value": "Urlaubsanspruch",
+            "vacationLiveSummary": "Urlaubsübersicht mit Details"
+
+        },
+        "table": {
+            "label": "Kategorie",
+            "value": "Wert" 
+        }
+
     },
     "sr": {
         "viewShifts": {
