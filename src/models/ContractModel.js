@@ -1,6 +1,10 @@
 import is from "ramda/src/is";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
-import { getFirstOfCurrentMonth, getLastOfCurrentMonth, parseDate } from "@/utils/date";
+import {
+  getFirstOfCurrentMonth,
+  getLastOfCurrentMonth,
+  parseDate
+} from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
 import i18n from "@/plugins/i18n";
 import { v4 as uuidv4 } from "uuid";
@@ -79,8 +83,8 @@ export class Contract {
         ? parseDate(modifiedAt)
         : new Date();
     this.lastUsed =
-      is(Date, new Date(lastUsed)) && lastUsed !== null
-        ? new Date(lastUsed)
+      is(Date, parseDate(lastUsed)) && lastUsed !== null
+        ? parseDate(lastUsed)
         : new Date();
   }
 
@@ -94,9 +98,7 @@ export class Contract {
 
   get minutesToHourRepresentation() {
     // Getter converting minutes into decimal representation of hours
-    const remainingMinutes = this.minutes % 60;
-    const fullHours = this.minutes - remainingMinutes;
-    return fullHours + remainingMinutes / 60;
+    return this.minutes / 60;
   }
 
   CarryoverTargetDateString() {

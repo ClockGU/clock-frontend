@@ -13,6 +13,7 @@
       @schedule-shifts="setScheduledShifts($event)"
     ></ShiftFormFields>
     <FormActions
+      :saving="saving"
       :create-fn="saveShift"
       :delete-fn="deleteShift"
       :close-fn="closeFn"

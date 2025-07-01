@@ -133,6 +133,9 @@ export default {
         this.newContract.toPayload(),
         this.newContract.id
       );
+      if (updatedContract === undefined) {
+        return;
+      }
       this.$store.commit("contentData/updateContract", {
         contractID: updatedContract.id,
         contractInstance: updatedContract
