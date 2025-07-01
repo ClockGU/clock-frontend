@@ -9,6 +9,13 @@ rm -rf sentry-cli
 export INSTALL_DIR=$(pwd)
 export INSTALL_PATH="${INSTALL_DIR}/sentry-cli"
 export SENTRY_CLI="${INSTALL_PATH}"
+# Ensure SENTRY_URL is set to the GlitchTip API endpoint if it's not already set
+if [ -z "$SENTRY_URL" ]; then
+  echo "Warning: SENTRY_URL is not set. Using default Sentry endpoint."
+  echo "To use GlitchTip, set SENTRY_URL to your GlitchTip API endpoint."
+else
+  echo "Using custom Sentry endpoint: $SENTRY_URL"
+fi
 curl -sL https://sentry.io/get-cli | bash
 
 # Let `sentry-cli` define a release version
