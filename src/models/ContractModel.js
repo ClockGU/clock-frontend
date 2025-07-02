@@ -129,7 +129,6 @@ export class Contract {
       end_date: this.endDateString(),
       initial_carryover_minutes: this.initialCarryoverMinutes,
       initial_vacation_carryover_minutes: this.initialVacationCarryoverMinutes,
-      last_used: this.lastUsed,
       color: this.color,
       worktime_model_name: this.worktimeModelName,
       percent_fte: this.percentFte
