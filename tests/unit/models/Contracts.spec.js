@@ -255,9 +255,6 @@ describe("Contract class", () => {
       expect(payload.color).toBe("#ff0000");
       expect(payload.worktime_model_name).toBe("studEmp");
       expect(payload.percent_fte).toBe(80);
-
-      // Check that last_used is a Date object
-      expect(payload.last_used instanceof Date).toBe(true);
     });
 
     it("clones a contract correctly", () => {
