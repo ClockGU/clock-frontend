@@ -64,6 +64,9 @@
         "table": {
             "label": "Category",
             "value": "Value" 
+        },
+        "contracts":{
+            "loading": "Loading contracts, please wait."
         }
     },
     "sr": {
