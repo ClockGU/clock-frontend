@@ -17,7 +17,7 @@
             "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
             "reviewed": "Diese Schicht wurde überprüft.",
             "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
-            "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen.",
+            "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen und diese Schicht im Kalender hinzuzufügen.",
             "warnings": "Sie haben {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
         },
         "shift": {
@@ -61,13 +61,25 @@
             "vacationLiveSummary": "Urlaubsübersicht mit Details"
 
         },
+        "calendar": {
+            "displayedContracts": "Angezeigte Verträge . Dies wird verwendet, um die Schichten nach ausgewählten Verträgen zu filtern.",
+            "contract": "Vertrag",
+            "shiftType": "Schichttyp",
+            "shiftDate": "Schichtdatum",
+            "shiftTime": "Schichtzeit",
+            "shiftDuration": "Schichtdauer",
+            "shiftNote": "Schichtnotiz",
+            "shiftTags": "Schicht-Tags",
+            "contractSelector": "Wählen Sie einen oder mehrere Verträge aus, die in der Kalenderansicht angezeigt werden sollen.",
+            "noContractsSelected": "Derzeit sind keine Verträge ausgewählt.",
+            "selectedContracts": "Derzeit ausgewählte Verträge sind: {contracts}."
+
+        },
         "table": {
             "label": "Kategorie",
             "value": "Wert" 
-        },
-        "contracts":{
-            "loading": "Verträge werden geladen, bitte warten Sie."
         }
+
     },
     "sr": {
         "viewShifts": {
