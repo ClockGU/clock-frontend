@@ -156,7 +156,6 @@ import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { log } from "@/utils/log";
-import { onMounted } from "vue";
 
 export default {
   name: "ShiftsDetailsDialog",

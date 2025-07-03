@@ -64,8 +64,10 @@
         "table": {
             "label": "Kategorie",
             "value": "Wert" 
+        },
+        "contracts":{
+            "loading": "Verträge werden geladen, bitte warten Sie."
         }
-
     },
     "sr": {
         "viewShifts": {
