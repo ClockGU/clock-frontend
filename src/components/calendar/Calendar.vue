@@ -12,6 +12,8 @@
           <v-combobox
             v-model="displayedContracts"
             :label="$t('contracts.displayedContracts') + ':'"
+            :aria-label="$t('aria.calendar.contractSelector')"
+            :aria-describedby="'selected-contracts-description'"
             :items="allContracts"
             item-title="name"
             multiple
@@ -27,6 +29,14 @@
               </v-list-item>
             </template>
           </v-combobox>
+
+
+        <!-- Hidden description for screen readers -->
+        <div id="selected-contracts-description" class="sr-only" aria-live="polite">
+          {{ displayedContracts.length > 0
+            ? $t('aria.calendar.selectedContracts', { contracts: displayedContracts.map(c => c.name).join(', ') })
+            : $t('aria.calendar.noContractsSelected') }}
+        </div>
         </v-col>
       </v-row>
       <v-row>

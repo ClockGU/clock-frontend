@@ -17,7 +17,7 @@
             "description": "Shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
             "reviewed": "This shift has been reviewed.",
             "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
-            "editShift": "Press tab to go to the edit button.",
+            "editShift": "Press tab to go to the edit button to add the shift in Calendar",
             "warnings": "You have {count} warnings/error with this shift. Please try to resolve them."
         },
         "shift": {
@@ -61,12 +61,23 @@
             "vacationLiveSummary": "Vacation overview with details",
             "vacationTitle": "Vacation"
             },
+        "calendar": {
+            "displayedContracts": "Displayed contracts. This is used to filter the shifts by selected contracts.",
+            "contract": "Contract",
+            "shiftType": "Shift type",
+            "shiftDate": "Shift date",
+            "shiftTime": "Shift time",
+            "shiftDuration": "Shift duration",
+            "shiftNote": "Shift note",
+            "shiftTags": "Shift tags",
+            "contractSelector": "Select one or more contracts to display in the calendar view.",
+            "noContractsSelected": "No contracts currently selected.",
+            "selectedContracts": "Currently selected contracts are: {contracts}."
+
+        },
         "table": {
             "label": "Category",
             "value": "Value" 
-        },
-        "contracts":{
-            "loading": "Loading contracts, please wait."
         }
     },
     "sr": {
