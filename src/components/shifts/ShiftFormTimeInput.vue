@@ -14,7 +14,9 @@
       <!--        color="error"-->
       <!--      >-->
       <!--        <template #activator="{ on: toolOn }">-->
+      <label :for="label">{{ label }}</label>
       <v-text-field
+        :id="label"
         v-model="textFieldTime"
         :class="error ? 'text' : ''"
         :data-time-value="data"

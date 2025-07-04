@@ -1,5 +1,7 @@
 <template>
+  <label for="note" class="ml-10">{{ $t('label.shiftFormNote') }}</label>
   <v-textarea
+    id="note"
     :model-value="modelValue"
     :label="$t('shifts.note.label')"
     variant="filled"
