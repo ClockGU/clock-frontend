@@ -307,4 +307,19 @@ export default {
   display: inline-flex;
   align-items: center;
 }
+
+::v-deep .v-calendar-month__day {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
+
+::v-deep .v-calendar-weekly__day {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
+
+::v-deep .v-calendar-daily__day {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
 </style>
