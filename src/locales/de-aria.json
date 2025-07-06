@@ -72,7 +72,9 @@
             "shiftTags": "Schicht-Tags",
             "contractSelector": "Wählen Sie einen oder mehrere Verträge aus, die in der Kalenderansicht angezeigt werden sollen.",
             "noContractsSelected": "Derzeit sind keine Verträge ausgewählt.",
-            "selectedContracts": "Derzeit ausgewählte Verträge sind: {contracts}."
+            "selectedContracts": "Derzeit ausgewählte Verträge sind: {contracts}.",
+            "shiftPlanned": "Shift planned at {date} for {duration}"
+
 
         },
         "table": {

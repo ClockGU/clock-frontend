@@ -72,7 +72,9 @@
             "shiftTags": "Shift tags",
             "contractSelector": "Select one or more contracts to display in the calendar view.",
             "noContractsSelected": "No contracts currently selected.",
-            "selectedContracts": "Currently selected contracts are: {contracts}."
+            "selectedContracts": "Currently selected contracts are: {contracts}.",
+            "shiftPlanned": "Shift planned at {date} for {duration}"
+
 
         },
         "table": {
