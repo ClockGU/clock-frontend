@@ -1,119 +1,189 @@
 {
-    "aria": {
-        "viewShifts": {
-            "searchPast": "Vergangene Schichten suchen",
-            "searchFuture": "Zukünftige Schichten suchen"
-        },
-        "selectContract": {
-            "enabled": "Drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
-            "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabe- oder Leertaste, um zur Vertragsansicht zu navigieren."
-        },
-        "timeInterval": {
-            "description": "Zeitraumumschalter. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linken und rechten Pfeiltasten, um durch die Zeiträume zu navigieren. Sie sehen derzeit {formattedInterval} Schichten.",
-            "previous": "Drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
-            "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
-        },
-        "shiftsTable": {
-            "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
-            "reviewed": "Diese Schicht wurde überprüft.",
-            "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
-            "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen und diese Schicht im Kalender hinzuzufügen.",
-            "warnings": "Sie haben {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
-        },
-        "shift": {
-            "st": "Der Typ dieser Schicht ist eine Arbeitsschicht",
-            "sk": "Der Typ dieser Schicht ist ein Krankheitsurlaub",
-            "vn": "Der Typ dieser Schicht ist ein Urlaub",
-            "bh": "Der Typ dieser Schicht ist ein Feiertag"
-        },
-        "shiftBulkActions": {
-            "description": "Abschnitt für Sammelaktionen für die ausgewählten Schichten. Sie können Aktionen an den ausgewählten Schichten durchführen, wie z.B. sie löschen oder überprüfen. Drücken Sie die Leertaste, um die Sammelaktionen zu aktivieren.",
-            "review": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu überprüfen.",
-            "delete": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu löschen.",
-            "changeContract": "Drücken Sie die Leertaste, um den Vertrag für die ausgewählten Schichten zu ändern",
-            "viewDetails": "Drücken Sie die Leertaste, um die Details der ausgewählten Schicht anzuzeigen.",
-            "edit": "Drücken Sie die Leertaste, um die ausgewählte Schicht zu bearbeiten.",
-            "durationSum": "Dies ist die Gesamtdauer der ausgewählten Schichten. Die Gesamtdauer beträgt {durationSum}."
-        },
-        "shiftFormType": {
-            "description": "Schichtformulartyp. Wählen Sie den Typ der Schicht, die Sie erstellen/aktualisieren möchten."
-
-        },
-        "languageSwitcher": "Sprachumschalter. Drücken Sie die Leertaste, um die Sprache zu ändern.",
-        "cardToolbar": {
-            "close": "Drücken Sie die Leertaste, um die Kartentoolleiste zu schließen."
-        },
-        "shiftsDetailsDialog":{
-            "table":"Tabelle mit Schichtdetails. Verwenden Sie die Pfeiltasten nach oben/unten, um durch die Tabelle zu navigieren."
-        },
-        "contractListCard": {
-            "edit":"Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu bearbeiten",
-            "delete":"Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu löschen"
-        },
-        "contractFormFields": {
-            "carryoverWorkingTime": "Drücken Sie die Leertaste, wenn Sie Arbeitszeit aus dem Vormonat übertragen möchten, dann füllen Sie das Feld unten aus.",
-            "carryoverVacationTime": "Drücken Sie die Leertaste, wenn Sie Urlaubszeit aus dem Vormonat übertragen möchten, dann füllen Sie das Feld unten aus."
-        },
-        "referenceInput": {
-            "copy": "Drücken Sie die Eingabetaste, um die Referenz-ID in die Zwischenablage zu kopieren",
-            "generateReference": "Drücken Sie die Eingabetaste, um eine neue Referenz-ID zu generieren"
-        },
-        "report": {
-            "summary": "Zusammenfassung der Arbeit",
-             "downloadSection": "Download-Bereich des Berichts. Drücken Sie die Tabulatortaste, um den Bericht herunterzuladen.",
-             "requestButton": "Bericht anfordern",
-            "downloadButton": "Bericht herunterladen",
-            "requestSection": "Anforderungsbereich für den Bericht. Drücken Sie die Leertaste, um den Bericht anzufordern.",
-            "lockSection": "Sperrbereich. Sie können hier Ihre Arbeitszeittabelle nach der Überprüfung sperren.",
-            "lockButton": "Arbeitszeittabelle sperren. Drücken Sie die Leertaste, um die Sperrung zu bestätigen.",
-            "lockedButton": "Arbeitszeittabelle ist bereits gesperrt.",
-            "vacationSummary": "Vacation summary section",
-            "table.label": "Urlaubsart",
-            "table.value": "Urlaubsanspruch",
-            "vacationLiveSummary": "Urlaubsübersicht mit Details"
-
-        },
-        "calendar": {
-            "displayedContracts": "Angezeigte Verträge . Dies wird verwendet, um die Schichten nach ausgewählten Verträgen zu filtern.",
-            "contract": "Vertrag",
-            "shiftType": "Schichttyp",
-            "shiftDate": "Schichtdatum",
-            "shiftTime": "Schichtzeit",
-            "shiftDuration": "Schichtdauer",
-            "shiftNote": "Schichtnotiz",
-            "shiftTags": "Schicht-Tags",
-            "contractSelector": "Wählen Sie einen oder mehrere Verträge aus, die in der Kalenderansicht angezeigt werden sollen.",
-            "noContractsSelected": "Derzeit sind keine Verträge ausgewählt.",
-            "selectedContracts": "Derzeit ausgewählte Verträge sind: {contracts}.",
-            "shiftPlanned": "Shift planned at {date} for {duration}"
-
-
-        },
-        "table": {
-            "label": "Kategorie",
-            "value": "Wert" 
-        }
-
+  "aria": {
+    "viewShifts": {
+      "searchPast": "Vergangene Schichten suchen",
+      "searchFuture": "Zukünftige Schichten suchen"
     },
-    "sr": {
-        "viewShifts": {
-            "h1": "Schichtverwaltungsansicht",
-            "h2": "Schichtübersicht"
-        },
-        "shiftFormFields": {
-            "warningLabel": "Sie haben derzeit {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
-        }
+    "selectContract": {
+      "enabled": "Drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
+      "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabe- oder Leertaste, um zur Vertragsansicht zu navigieren."
     },
-    "label": {
-        "shiftFormDateInput": "Schichtdatum",
-        "shiftFormTags": "Tags",
-        "shiftFormNote": "Notiz",
-        "contractWorktimeModelInput":"Arbeitszeitmodell",
-        "contractPercentFteInput": "FTE",
-        "contractNameInput": "Vertragsname",
-        "referenceInput": "Referenz ID",
-        "startTime": "Startzeit",
-        "endTime": "Endzeit"
+    "timeInterval": {
+      "description": "Zeitraumumschalter. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linken und rechten Pfeiltasten, um durch die Zeiträume zu navigieren. Sie sehen derzeit {formattedInterval} Schichten.",
+      "previous": "Drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
+      "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
+    },
+    "shiftsTable": {
+      "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
+      "reviewed": "Diese Schicht wurde überprüft.",
+      "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
+      "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen und diese Schicht im Kalender hinzuzufügen.",
+      "warnings": "Sie haben {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
+    },
+    "shift": {
+      "st": "Der Typ dieser Schicht ist eine Arbeitsschicht",
+      "sk": "Der Typ dieser Schicht ist ein Krankheitsurlaub",
+      "vn": "Der Typ dieser Schicht ist ein Urlaub",
+      "bh": "Der Typ dieser Schicht ist ein Feiertag"
+    },
+    "shiftBulkActions": {
+      "description": "Abschnitt für Sammelaktionen für die ausgewählten Schichten. Sie können Aktionen an den ausgewählten Schichten durchführen, wie z.B. sie löschen oder überprüfen. Drücken Sie die Leertaste, um die Sammelaktionen zu aktivieren.",
+      "review": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu überprüfen.",
+      "delete": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu löschen.",
+      "changeContract": "Drücken Sie die Leertaste, um den Vertrag für die ausgewählten Schichten zu ändern",
+      "viewDetails": "Drücken Sie die Leertaste, um die Details der ausgewählten Schicht anzuzeigen.",
+      "edit": "Drücken Sie die Leertaste, um die ausgewählte Schicht zu bearbeiten.",
+      "durationSum": "Dies ist die Gesamtdauer der ausgewählten Schichten. Die Gesamtdauer beträgt {durationSum}."
+    },
+    "shiftFormType": {
+      "description": "Schichtformulartyp. Wählen Sie den Typ der Schicht, die Sie erstellen/aktualisieren möchten."
+    },
+    "languageSwitcher": "Sprachumschalter. Drücken Sie die Leertaste, um die Sprache zu ändern.",
+    "cardToolbar": {
+      "close": "Drücken Sie die Leertaste, um die Kartentoolleiste zu schließen."
+    },
+    "shiftsDetailsDialog": {
+      "table": "Tabelle mit Schichtdetails. Verwenden Sie die Pfeiltasten nach oben/unten, um durch die Tabelle zu navigieren."
+    },
+    "contractListCard": {
+      "edit": "Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu bearbeiten",
+      "delete": "Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu löschen"
+    },
+    "contractFormFields": {
+      "carryoverWorkingTime": "Drücken Sie die Leertaste, wenn Sie Arbeitszeit aus dem Vormonat übertragen möchten, dann füllen Sie das Feld unten aus.",
+      "carryoverVacationTime": "Drücken Sie die Leertaste, wenn Sie Urlaubszeit aus dem Vormonat übertragen möchten, dann füllen Sie das Feld unten aus."
+    },
+    "referenceInput": {
+      "copy": "Drücken Sie die Eingabetaste, um die Referenz-ID in die Zwischenablage zu kopieren",
+      "generateReference": "Drücken Sie die Eingabetaste, um eine neue Referenz-ID zu generieren"
+    },
+    "report": {
+      "summary": "Zusammenfassung der Arbeit",
+      "downloadSection": "Download-Bereich des Berichts. Drücken Sie die Tabulatortaste, um den Bericht herunterzuladen.",
+      "requestButton": "Bericht anfordern",
+      "downloadButton": "Bericht herunterladen",
+      "requestSection": "Anforderungsbereich für den Bericht. Drücken Sie die Leertaste, um den Bericht anzufordern.",
+      "lockSection": "Sperrbereich. Sie können hier Ihre Arbeitszeittabelle nach der Überprüfung sperren.",
+      "lockButton": "Arbeitszeittabelle sperren. Drücken Sie die Leertaste, um die Sperrung zu bestätigen.",
+      "lockedButton": "Arbeitszeittabelle ist bereits gesperrt.",
+      "vacationSummary": "Vacation summary section",
+      "table.label": "Urlaubsart",
+      "table.value": "Urlaubsanspruch",
+      "vacationLiveSummary": "Urlaubsübersicht mit Details"
+    },
+    "calendar": {
+      "displayedContracts": "Angezeigte Verträge . Dies wird verwendet, um die Schichten nach ausgewählten Verträgen zu filtern.",
+      "contract": "Vertrag",
+      "shiftType": "Schichttyp",
+      "shiftDate": "Schichtdatum",
+      "shiftTime": "Schichtzeit",
+      "shiftDuration": "Schichtdauer",
+      "shiftNote": "Schichtnotiz",
+      "shiftTags": "Schicht-Tags",
+      "contractSelector": "Wählen Sie einen oder mehrere Verträge aus, die in der Kalenderansicht angezeigt werden sollen.",
+      "noContractsSelected": "Derzeit sind keine Verträge ausgewählt.",
+      "selectedContracts": "Derzeit ausgewählte Verträge sind: {contracts}.",
+      "shiftPlanned": "Shift planned at {date} for {duration}"
+    },
+    "table": {
+      "label": "Kategorie",
+      "value": "Wert"
     }
+  },
+  "selectContract": {
+    "enabled": "Drücken Sie die Eingabetaste, um einen Vertrag auszuwählen. Verwenden Sie die Pfeiltasten, um durch die Liste der Verträge zu navigieren.",
+    "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabe- oder Leertaste, um zur Vertragsansicht zu navigieren."
+  },
+  "label": {
+    "shiftFormDateInput": "Schichtdatum",
+    "shiftFormTags": "Tags",
+    "shiftFormNote": "Notiz",
+    "contractWorktimeModelInput": "Arbeitszeitmodell",
+    "contractPercentFteInput": "FTE",
+    "contractNameInput": "Vertragsname",
+    "referenceInput": "Referenz ID",
+    "startTime": "Startzeit",
+    "endTime": "Endzeit",
+    "timeInterval": {
+      "description": "Zeitraumumschalter. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linken und rechten Pfeiltasten, um durch die Zeiträume zu navigieren. Sie sehen derzeit {formattedInterval} Schichten.",
+      "previous": "Drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
+      "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
+    },
+    "shiftsTable": {
+      "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
+      "reviewed": "Diese Schicht wurde überprüft.",
+      "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
+      "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen und diese Schicht im Kalender hinzuzufügen.",
+      "warnings": "Sie haben {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
+    },
+    "shift": {
+      "st": "Der Typ dieser Schicht ist eine Arbeitsschicht",
+      "sk": "Der Typ dieser Schicht ist ein Krankheitsurlaub",
+      "vn": "Der Typ dieser Schicht ist ein Urlaub",
+      "bh": "Der Typ dieser Schicht ist ein Feiertag"
+    },
+    "shiftBulkActions": {
+      "description": "Abschnitt für Sammelaktionen für die ausgewählten Schichten. Sie können Aktionen an den ausgewählten Schichten durchführen, wie z.B. sie löschen oder überprüfen. Drücken Sie die Leertaste, um die Sammelaktionen zu aktivieren.",
+      "review": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu überprüfen.",
+      "delete": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu löschen.",
+      "changeContract": "Drücken Sie die Leertaste, um den Vertrag für die ausgewählten Schichten zu ändern",
+      "viewDetails": "Drücken Sie die Leertaste, um die Details der ausgewählten Schicht anzuzeigen.",
+      "edit": "Drücken Sie die Leertaste, um die ausgewählte Schicht zu bearbeiten.",
+      "durationSum": "Dies ist die Gesamtdauer der ausgewählten Schichten. Die Gesamtdauer beträgt {durationSum}."
+    },
+    "shiftFormType": {
+      "description": "Schichtformulartyp. Wählen Sie den Typ der Schicht, die Sie erstellen/aktualisieren möchten."
+    },
+    "languageSwitcher": "Sprachumschalter. Drücken Sie die Leertaste, um die Sprache zu ändern.",
+    "cardToolbar": {
+      "close": "Drücken Sie die Leertaste, um die Kartentoolleiste zu schließen."
+    },
+    "shiftsDetailsDialog": {
+      "table": "Tabelle mit Schichtdetails. Verwenden Sie die Pfeiltasten nach oben/unten, um durch die Tabelle zu navigieren."
+    },
+    "report": {
+      "summary": "Zusammenfassung der Arbeit",
+      "downloadSection": "Download-Bereich des Berichts. Drücken Sie die Tabulatortaste, um den Bericht herunterzuladen.",
+      "requestButton": "Bericht anfordern",
+      "downloadButton": "Bericht herunterladen",
+      "requestSection": "Anforderungsbereich für den Bericht. Drücken Sie die Leertaste, um den Bericht anzufordern.",
+      "lockSection": "Sperrbereich. Sie können hier Ihre Arbeitszeittabelle nach der Überprüfung sperren.",
+      "lockButton": "Arbeitszeittabelle sperren. Drücken Sie die Leertaste, um die Sperrung zu bestätigen.",
+      "lockedButton": "Arbeitszeittabelle ist bereits gesperrt.",
+      "vacationSummary": "Vacation summary section",
+      "table.label": "Urlaubsart",
+      "table.value": "Urlaubsanspruch",
+      "vacationLiveSummary": "Urlaubsübersicht mit Details"
+    },
+    "calendar": {
+      "displayedContracts": "Angezeigte Verträge . Dies wird verwendet, um die Schichten nach ausgewählten Verträgen zu filtern.",
+      "contract": "Vertrag",
+      "shiftType": "Schichttyp",
+      "shiftDate": "Schichtdatum",
+      "shiftTime": "Schichtzeit",
+      "shiftDuration": "Schichtdauer",
+      "shiftNote": "Schichtnotiz",
+      "shiftTags": "Schicht-Tags",
+      "contractSelector": "Wählen Sie einen oder mehrere Verträge aus, die in der Kalenderansicht angezeigt werden sollen.",
+      "noContractsSelected": "Derzeit sind keine Verträge ausgewählt.",
+      "selectedContracts": "Derzeit ausgewählte Verträge sind: {contracts}.",
+      "shiftPlanned": "Shift planned at {date} for {duration}"
+    },
+    "table": {
+      "label": "Kategorie",
+      "value": "Wert"
+    },
+    "dashboard": {
+      "themeToggle": "Heller/Dunkler Modus umschalten."
+    }
+  },
+  "sr": {
+    "viewShifts": {
+      "h1": "Schichtverwaltungsansicht",
+      "h2": "Schichtübersicht"
+    },
+    "shiftFormFields": {
+      "warningLabel": "Sie haben derzeit {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
+    }
+  }
 }
-
