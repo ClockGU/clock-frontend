@@ -1,118 +1,191 @@
 {
-    "aria": {
-        "viewShifts": {
-            "searchPast": "Search for past shifts",
-            "searchFuture": "Search for future shifts"
-        },
-        "selectContract": {
-            "enabled": "Press enter to select a contract. Use the arrow keys to navigate through the list of contracts.",
-            "disabled": "Please create a contract first. Press enter or space to navigate to contracts view."
-        },
-        "timeInterval": {
-            "description": "Time interval switcher. There are shifts saved in each month and this is used to switch between months. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts.",
-            "previous": "Press space to go to the previous month",
-            "next": "Press space to go to the next month"
-        },
-        "shiftsTable": {
-            "description": "Shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
-            "reviewed": "This shift has been reviewed.",
-            "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
-            "editShift": "Press tab to go to the edit button to add the shift in Calendar",
-            "warnings": "You have {count} warnings/error with this shift. Please try to resolve them."
-        },
-        "shift": {
-            "st": "The type of this shift is a Working Shift",
-            "sk": "The type of this shift is a Sick Leave",
-            "vn": "The type of this shift is a Vacation Leave",
-            "bh": "The type of this shift is a Holiday Leave"
-        },
-        "shiftBulkActions": {
-            "description": "Bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
-            "review": "Press space to review the selected shifts.",
-            "delete": "Press space to delete the selected shifts.",
-            "changeContract": "Press space to change the contract for selected shifts",
-            "viewDetails": "Press space to view the details of the selected shift.",
-            "edit": "Press space to edit the selected shift.",
-            "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
-        },
-        "shiftFormType": {
-            "description": "Shift form type.choose the type of shift you want to create/update."
-
-        } ,
-        "languageSwitcher": "Language Switcher.Press space to change the language.",
-        "cardToolbar": {
-            "close": "Press space to close the card toolbar."
-        },
-        "shiftsDetailsDialog":{
-            "table":"Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
-        },
-        "contractListCard": {
-            "edit":"Press Space or Enter to edit the contract",
-            "delete":"Press Space or Enter to delete the contract"
-        },
-        "contractFormFields": {
-            "carryoverWorkingTime": "Press Space if you want to carry over working time from previous month then fill the field below",
-            "carryoverVacationTime": "Press Space if you want to carry over vacation time from previous month then fill the field below"
-        },
-        "referenceInput": {
-            "copy": "Press Enter to copy the reference ID to the clipboard",
-            "generateReference": "Press Enter to generate a new reference ID"
-        },
-        "report": {
-          "summary": "Summary",
-            "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
-            "requestButton": "Request report",
-            "downloadButton": "Download report",
-            "requestSection": "Request section for the report. Press space to request the report.",
-            "lockSection": "Lock section. You can lock your timesheet here after reviewing it.",
-            "lockButton": "Lock timesheet. Press space to confirm locking.",
-            "lockedButton": "Timesheet is already locked.",
-            "vacationSummary": "Vacation summary section",
-            "table.label": "Vacation type",
-            "table.value": "Vacation balance",
-            "vacationLiveSummary": "Vacation overview with details",
-            "vacationTitle": "Vacation"
-            },
-        "calendar": {
-            "displayedContracts": "Displayed contracts. This is used to filter the shifts by selected contracts.",
-            "contract": "Contract",
-            "shiftType": "Shift type",
-            "shiftDate": "Shift date",
-            "shiftTime": "Shift time",
-            "shiftDuration": "Shift duration",
-            "shiftNote": "Shift note",
-            "shiftTags": "Shift tags",
-            "contractSelector": "Select one or more contracts to display in the calendar view.",
-            "noContractsSelected": "No contracts currently selected.",
-            "selectedContracts": "Currently selected contracts are: {contracts}.",
-            "shiftPlanned": "Shift planned at {date} for {duration}"
-
-
-        },
-        "table": {
-            "label": "Category",
-            "value": "Value" 
-        }
+  "aria": {
+    "viewShifts": {
+      "searchPast": "Search for past shifts",
+      "searchFuture": "Search for future shifts"
     },
-    "sr": {
-        "viewShifts": {
-            "h1": "Shifts Management View",
-            "h2": "Shift Overview"
-        },
-        "shiftFormFields": {
-            "warningLabel":"You currently have {count} warnings/error with this shift.please try to resolve them."
-        }
+    "selectContract": {
+      "enabled": "Press enter to select a contract. Use the arrow keys to navigate through the list of contracts.",
+      "disabled": "Please create a contract first. Press enter or space to navigate to contracts view."
     },
-    "label":{
-        "shiftFormDateInput": "Shift Date",
-        "shiftFormTags": "Tags",
-        "shiftFormNote": "Note",
-        "contractWorktimeModelInput":"Worktime Model",       
-        "contractPercentFteInput": "FTE",
-        "contractNameInput": "Contract Name ",
-        "referenceInput": "Reference ID",
-        "startTime": "Start Time",
-        "endTime": "End Time"
+    "timeInterval": {
+      "description": "Time interval switcher. There are shifts saved in each month and this is used to switch between months. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts.",
+      "previous": "Press space to go to the previous month",
+      "next": "Press space to go to the next month"
+    },
+    "shiftsTable": {
+      "description": "Shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
+      "reviewed": "This shift has been reviewed.",
+      "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
+      "editShift": "Press tab to go to the edit button to add the shift in Calendar",
+      "warnings": "You have {count} warnings/error with this shift. Please try to resolve them."
+    },
+    "shift": {
+      "st": "The type of this shift is a Working Shift",
+      "sk": "The type of this shift is a Sick Leave",
+      "vn": "The type of this shift is a Vacation Leave",
+      "bh": "The type of this shift is a Holiday Leave"
+    },
+    "shiftBulkActions": {
+      "description": "Bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
+      "review": "Press space to review the selected shifts.",
+      "delete": "Press space to delete the selected shifts.",
+      "changeContract": "Press space to change the contract for selected shifts",
+      "viewDetails": "Press space to view the details of the selected shift.",
+      "edit": "Press space to edit the selected shift.",
+      "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
+    },
+    "shiftFormType": {
+      "description": "Shift form type.choose the type of shift you want to create/update."
+    },
+    "languageSwitcher": "Language Switcher.Press space to change the language.",
+    "cardToolbar": {
+      "close": "Press space to close the card toolbar."
+    },
+    "shiftsDetailsDialog": {
+      "table": "Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
+    },
+    "contractListCard": {
+      "edit": "Press Space or Enter to edit the contract",
+      "delete": "Press Space or Enter to delete the contract"
+    },
+    "contractFormFields": {
+      "carryoverWorkingTime": "Press Space if you want to carry over working time from previous month then fill the field below",
+      "carryoverVacationTime": "Press Space if you want to carry over vacation time from previous month then fill the field below"
+    },
+    "referenceInput": {
+      "copy": "Press Enter to copy the reference ID to the clipboard",
+      "generateReference": "Press Enter to generate a new reference ID"
+    },
+    "report": {
+      "summary": "Summary",
+      "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
+      "requestButton": "Request report",
+      "downloadButton": "Download report",
+      "requestSection": "Request section for the report. Press space to request the report.",
+      "lockSection": "Lock section. You can lock your timesheet here after reviewing it.",
+      "lockButton": "Lock timesheet. Press space to confirm locking.",
+      "lockedButton": "Timesheet is already locked.",
+      "vacationSummary": "Vacation summary section",
+      "table.label": "Vacation type",
+      "table.value": "Vacation balance",
+      "vacationLiveSummary": "Vacation overview with details",
+      "vacationTitle": "Vacation"
+    },
+    "calendar": {
+      "displayedContracts": "Displayed contracts. This is used to filter the shifts by selected contracts.",
+      "contract": "Contract",
+      "shiftType": "Shift type",
+      "shiftDate": "Shift date",
+      "shiftTime": "Shift time",
+      "shiftDuration": "Shift duration",
+      "shiftNote": "Shift note",
+      "shiftTags": "Shift tags",
+      "contractSelector": "Select one or more contracts to display in the calendar view.",
+      "noContractsSelected": "No contracts currently selected.",
+      "selectedContracts": "Currently selected contracts are: {contracts}.",
+      "shiftPlanned": "Shift planned at {date} for {duration}"
+    },
+    "table": {
+      "label": "Category",
+      "value": "Value"
     }
+  },
+  "selectContract": {
+    "enabled": "Press enter to select a contract. Use the arrow keys to navigate through the list of contracts.",
+    "disabled": "Please create a contract first. Press enter or space to navigate to contracts view."
+  },
+  "label": {
+    "shiftFormDateInput": "Shift Date",
+    "shiftFormTags": "Tags",
+    "shiftFormNote": "Note",
+    "contractWorktimeModelInput": "Worktime Model",
+    "contractPercentFteInput": "FTE",
+    "contractNameInput": "Contract Name ",
+    "referenceInput": "Reference ID",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "timeInterval": {
+      "description": "Time interval switcher. There are shifts saved in each month and this is used to switch between months. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts.",
+      "previous": "Press space to go to the previous month",
+      "next": "Press space to go to the next month"
+    },
+    "shiftsTable": {
+      "description": "Shifts table. Press down arrow to view the table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
+      "reviewed": "This shift has been reviewed.",
+      "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
+      "editShift": "Press tab to go to the edit button to add the shift in Calendar",
+      "warnings": "You have {count} warnings/error with this shift. Please try to resolve them."
+    },
+    "shift": {
+      "st": "The type of this shift is a Working Shift",
+      "sk": "The type of this shift is a Sick Leave",
+      "vn": "The type of this shift is a Vacation Leave",
+      "bh": "The type of this shift is a Holiday Leave"
+    },
+    "shiftBulkActions": {
+      "description": "Bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
+      "review": "Press space to review the selected shifts.",
+      "delete": "Press space to delete the selected shifts.",
+      "changeContract": "Press space to change the contract for selected shifts",
+      "viewDetails": "Press space to view the details of the selected shift.",
+      "edit": "Press space to edit the selected shift.",
+      "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
+    },
+    "shiftFormType": {
+      "description": "Shift form type.choose the type of shift you want to create/update."
+    },
+    "languageSwitcher": "Language Switcher.Press space to change the language.",
+    "cardToolbar": {
+      "close": "Press space to close the card toolbar."
+    },
+    "shiftsDetailsDialog": {
+      "table": "Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
+    },
+    "report": {
+      "summary": "Summary",
+      "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
+      "requestButton": "Request report",
+      "downloadButton": "Download report",
+      "requestSection": "Request section for the report. Press space to request the report.",
+      "lockSection": "Lock section. You can lock your timesheet here after reviewing it.",
+      "lockButton": "Lock timesheet. Press space to confirm locking.",
+      "lockedButton": "Timesheet is already locked.",
+      "vacationSummary": "Vacation summary section",
+      "table.label": "Vacation type",
+      "table.value": "Vacation balance",
+      "vacationLiveSummary": "Vacation overview with details",
+      "vacationTitle": "Vacation"
+    },
+    "calendar": {
+      "displayedContracts": "Displayed contracts. This is used to filter the shifts by selected contracts.",
+      "contract": "Contract",
+      "shiftType": "Shift type",
+      "shiftDate": "Shift date",
+      "shiftTime": "Shift time",
+      "shiftDuration": "Shift duration",
+      "shiftNote": "Shift note",
+      "shiftTags": "Shift tags",
+      "contractSelector": "Select one or more contracts to display in the calendar view.",
+      "noContractsSelected": "No contracts currently selected.",
+      "selectedContracts": "Currently selected contracts are: {contracts}.",
+      "shiftPlanned": "Shift planned at {date} for {duration}"
+    },
+    "table": {
+      "label": "Category",
+      "value": "Value"
+    },
+    "dashboard": {
+      "themeToggle": "Dark/Bright mode toggle."
+    }
+  },
+  "sr": {
+    "viewShifts": {
+      "h1": "Shifts Management View",
+      "h2": "Shift Overview"
+    },
+    "shiftFormFields": {
+      "warningLabel": "You currently have {count} warnings/error with this shift.please try to resolve them."
+    }
+  }
 }
-
