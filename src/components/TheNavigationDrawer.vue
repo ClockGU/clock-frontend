@@ -1,90 +1,92 @@
 <template>
   <v-navigation-drawer
     :model-value="drawer"
-    app
+    role="dialog"
+    aria-modal="true"
     left
     disable-resize-watcher
-    clipped
+    temporary
     @update:model-value="closeDrawer"
   >
-    <v-row class="mt-4 mb-4" justify="center">
-      <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
-        <span
+    <v-list id="first-item">
+      <v-list-item>
+        <RouterLink
+          style="display: inline-flex"
           role="link"
-          style="cursor: pointer"
-          @click="navigate"
-          @keypress.enter="navigate"
+          type="link"
+          :to="{ name: 'home' }"
         >
           <v-img width="240px" height="36px" :src="imgSrc" />
-        </span>
-      </router-link>
-    </v-row>
+          <h1 class="sr-only">CLOCK</h1>
+        </RouterLink>
+        <v-divider></v-divider>
+      </v-list-item>
 
-    <v-divider></v-divider>
-
-    <v-skeleton-loader
-      v-if="isLoggedIn && userLoading"
-      :loading="userLoading"
-      type="heading"
-      width="300px"
-      class="pl-2 py-3"
-    >
-    </v-skeleton-loader>
-    <v-list v-else>
-      <v-list-group no-action>
-        <template #activator="{ props }">
-          <v-list-item v-bind="props">
-            <template #prepend="prependProps">
-              <v-avatar
-                v-bind="prependProps"
-                size="32px"
-                color="blue-lighten-2"
-                style="cursor: pointer"
-              >
-                <div class="text-white">
-                  {{ firstLetter }}
-                </div>
-              </v-avatar>
-            </template>
-            <p class="text-h6">
-              {{ user.first_name }}
-            </p>
-          </v-list-item>
-        </template>
-
-        <v-list-item
-          v-for="item in menuItems"
-          :key="item.text"
-          :to="item.to"
-          style="--indent-padding: calc(var(--list-indent-size) - 12px)"
-        >
-          <template #prepend="prependProps">
-            <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
-          </template>
-          <p style="padding-left: 4px">{{ item.text }}</p>
-        </v-list-item>
-
-        <LogoutDialog>
+      <v-skeleton-loader
+        v-if="isLoggedIn && userLoading"
+        :loading="userLoading"
+        type="heading"
+        width="300px"
+        class="pl-2 py-3"
+      >
+      </v-skeleton-loader>
+      <v-list-item v-else>
+        <v-list-group no-action>
           <template #activator="{ props }">
-            <v-list-item
-              data-cy="menu-logout"
-              :prepend-icon="icons.mdiLogout"
-              v-bind="props"
-              style="--indent-padding: calc(var(--list-indent-size) - 12px)"
-            >
+            <v-list-item v-bind="props">
               <template #prepend="prependProps">
-                <v-icon :icon="icons.mdiLogout" v-bind="prependProps"></v-icon>
+                <v-avatar
+                  aria-hidden="true"
+                  v-bind="prependProps"
+                  size="32px"
+                  color="blue-lighten-2"
+                  style="cursor: pointer"
+                >
+                  <div class="text-white">
+                    {{ firstLetter }}
+                  </div>
+                </v-avatar>
               </template>
-              <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
+              <p class="text-h6">
+                {{ user.first_name }}
+              </p>
+              <span class="sr-only"> {{ $t("aria.dashboard.userMenu") }}</span>
             </v-list-item>
           </template>
-        </LogoutDialog>
-      </v-list-group>
-    </v-list>
 
-    <v-divider></v-divider>
+          <v-list-item
+            v-for="item in menuItems"
+            :key="item.text"
+            :to="item.to"
+            style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+          >
+            <template #prepend="prependProps">
+              <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
+            </template>
+            <p style="padding-left: 4px">{{ item.text }}</p>
+          </v-list-item>
 
-    <v-list nav density="compact" data-cy="menu-list">
+          <LogoutDialog>
+            <template #activator="{ props }">
+              <v-list-item
+                data-cy="menu-logout"
+                :prepend-icon="icons.mdiLogout"
+                v-bind="props"
+                style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+              >
+                <template #prepend="prependProps">
+                  <v-icon
+                    :icon="icons.mdiLogout"
+                    v-bind="prependProps"
+                  ></v-icon>
+                </template>
+                <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
+              </v-list-item>
+            </template>
+          </LogoutDialog>
+        </v-list-group>
+        <v-divider></v-divider>
+      </v-list-item>
       <v-list-item
         v-for="link in links"
         :key="link.text"
@@ -134,7 +136,8 @@ export default {
     icons: {
       mdiLock,
       mdiLogout
-    }
+    },
+    scrollLock: undefined
   }),
   computed: {
     ...mapGetters({
@@ -213,6 +216,30 @@ export default {
       return svg;
     }
   },
+  watch: {
+    drawer(value) {
+      if (value) {
+        document.documentElement.style.overflow = "hidden";
+        document.getElementById("first-item").focus();
+      } else {
+        document.documentElement.style.overflow = "auto";
+      }
+    }
+  },
+  mounted() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && this.drawer) {
+        this.closeDrawer(false);
+      }
+    });
+  },
+  beforeUnmount() {
+    document.removeEventListener("keydown", (event) => {
+      if (event.key === "Escape" && this.drawer) {
+        this.closeDrawer(false);
+      }
+    });
+  },
   methods: {
     closeDrawer(value) {
       if (!value) {
@@ -222,3 +249,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+::v-deep .v-navigation-drawer__content {
+  overflow: hidden;
+}
+</style>
