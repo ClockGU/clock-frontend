@@ -175,7 +175,8 @@
     },
     "dashboard": {
       "themeToggle": "Heller/Dunkler Modus umschalten.",
-      "userMenu": ", Nutzer-Menü"
+      "userMenu": ", Nutzer-Menü",
+      "toDashboard": "Navigiere zum Dashboard"
     }
   },
   "sr": {

@@ -177,7 +177,8 @@
     },
     "dashboard": {
       "themeToggle": "Dark/Bright mode toggle.",
-      "userMenu": ", User menu"
+      "userMenu": ", User menu",
+      "toDashboard": "Navigate to dashboard"
     }
   },
   "sr": {
