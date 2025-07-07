@@ -8,7 +8,11 @@
     temporary
     @update:model-value="closeDrawer"
   >
-    <v-list id="first-item">
+    <v-list
+      id="first-item"
+      :aria-label="$t('aria.dashboard.navDrawer')"
+      role="menu"
+    >
       <v-list-item>
         <RouterLink
           style="display: inline-flex"
@@ -21,16 +25,7 @@
         </RouterLink>
         <v-divider></v-divider>
       </v-list-item>
-
-      <v-skeleton-loader
-        v-if="isLoggedIn && userLoading"
-        :loading="userLoading"
-        type="heading"
-        width="300px"
-        class="pl-2 py-3"
-      >
-      </v-skeleton-loader>
-      <v-list-item v-else>
+      <v-list-item>
         <v-list-group no-action>
           <template #activator="{ props }">
             <v-list-item v-bind="props">
@@ -251,7 +246,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-navigation-drawer__content {
-  overflow: hidden;
+::v-deep .v-list-item {
+  tab-index: -2;qqq
 }
 </style>

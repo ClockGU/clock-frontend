@@ -179,7 +179,8 @@
       "themeToggle": "Dark/Bright mode toggle.",
       "userMenu": ", User menu",
       "toDashboard": "Navigate to dashboard",
-      "toggleNavigationdrawer": "Open navigation menu"
+      "toggleNavigationdrawer": "Open navigation menu",
+      "navDrawer": "Navigation menu"
     }
   },
   "sr": {
