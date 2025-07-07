@@ -1,9 +1,9 @@
 <template>
-  <div class="mode-toggle" :class="darkDark" @click="toggleTheme">
-    <div class="toggle">
-      <div id="dark-mode" class="theme" type="checkbox"></div>
-    </div>
-  </div>
+  <button class="mode-toggle" :class="darkDark" @click="toggleTheme">
+    <span class="toggle">
+      <span id="dark-mode" class="theme" type="checkbox"></span>
+    </span>
+  </button>
 </template>
 
 <script>
