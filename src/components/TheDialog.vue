@@ -5,6 +5,8 @@
     :fullscreen="fullscreen"
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
+    role="dialog"
+    aria-modal="true"
     @click:outside="close"
     @update:model-value="$emit('update:modelValue', $event)"
   >
