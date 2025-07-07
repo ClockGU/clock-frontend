@@ -6,11 +6,13 @@
     <v-app-bar app flat fixed elevation="0" :color="bgColor">
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
+        role="button"
+        type="button"
+        aria-haspopup="dialog"
+        :aria-label="$t('aria.dashboard.toggleNavigationdrawer')"
         class="hidden-md-and-up"
         @click="toggleNavigationdrawer"
-      >
-        <v-icon>{{ icons.mdiMenu }}</v-icon>
-      </v-app-bar-nav-icon>
+      />
 
       <v-toolbar-title
         style="width: fit-content; flex: none; display: inline-block"
@@ -198,6 +200,7 @@ export default {
   },
   methods: {
     toggleNavigationdrawer() {
+      console.log("Toggle triggered");
       this.$emit("toggle");
     }
   }
