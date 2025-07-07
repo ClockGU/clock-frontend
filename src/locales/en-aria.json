@@ -176,7 +176,8 @@
       "value": "Value"
     },
     "dashboard": {
-      "themeToggle": "Dark/Bright mode toggle."
+      "themeToggle": "Dark/Bright mode toggle.",
+      "userMenu": ", User menu"
     }
   },
   "sr": {

@@ -174,7 +174,8 @@
       "value": "Wert"
     },
     "dashboard": {
-      "themeToggle": "Heller/Dunkler Modus umschalten."
+      "themeToggle": "Heller/Dunkler Modus umschalten.",
+      "userMenu": ", Nutzer-Menü"
     }
   },
   "sr": {
