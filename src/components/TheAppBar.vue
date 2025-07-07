@@ -12,17 +12,19 @@
         <v-icon>{{ icons.mdiMenu }}</v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title>
-        <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
-          <span
-            role="link"
-            style="cursor: pointer"
-            @click="navigate"
-            @keypress.enter="navigate"
-          >
-            <v-img width="96px" height="32px" :src="imgSrc" />
-          </span>
-        </router-link>
+      <v-toolbar-title
+        style="width: fit-content; flex: none; display: inline-block"
+      >
+        <RouterLink
+          class="nav-link"
+          role="link"
+          type="link"
+          :aria-label="$t('aria.dashboard.toDashboard')"
+          :to="{ name: 'home' }"
+        >
+          <v-img width="96px" height="32px" :src="imgSrc" />
+          <h1 class="sr-only">CLOCK</h1>
+        </RouterLink>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -201,3 +203,13 @@ export default {
   }
 };
 </script>
+<style>
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.nav-link > span:focus {
+  outline: red;
+}
+</style>
