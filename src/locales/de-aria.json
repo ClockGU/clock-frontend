@@ -45,7 +45,11 @@
         },
         "shiftsDetailsDialog":{
             "table":"Tabelle mit Schichtdetails. Verwenden Sie die Pfeiltasten nach oben/unten, um durch die Tabelle zu navigieren."
-        } ,
+        },
+        "contractListCard": {
+            "edit":"Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu bearbeiten",
+            "delete":"Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu löschen"
+        },
         "report": {
             "summary": "Zusammenfassung der Arbeit",
              "downloadSection": "Download-Bereich des Berichts. Drücken Sie die Tabulatortaste, um den Bericht herunterzuladen.",

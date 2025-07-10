@@ -45,7 +45,11 @@
         },
         "shiftsDetailsDialog":{
             "table":"Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
-        } ,
+        },
+        "contractListCard": {
+            "edit":"Press Space or Enter to edit the contract",
+            "delete":"Press Space or Enter to delete the contract"
+        },
         "report": {
           "summary": "Summary",
             "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
