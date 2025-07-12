@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div >
     <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
       v-model="selectedShifts"
-      :show-select="!mobile"
+      :show-select="!mobile"  
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
@@ -13,15 +13,21 @@
       hover
       :custom-sort="sortByDate"
       must-sort
+      tabindex="0"
       :sort-desc="!pastShifts"
+      :aria-label="$t('aria.shiftsTable.description')"
     >
       <template #item="{ item }">
         <tr
           :class="{ 'selected-row': selectedShifts.includes(item) }"
+          tabindex="0"
+          role="row"
           @click="handleClick(item)"
+          @keydown.enter.stop="handleClick(item)"
+          @keydown.space.stop="handleClick(item)"
         >
           <td v-if="!mobile">
-            <v-checkbox-btn
+            <v-checkbox-btn 
               v-model="selectedShifts"
               class="table-checkbox-btn"
               :value="item"
@@ -37,7 +43,9 @@
                 color="red"
                 variant="outline"
                 elevation="0"
+                :aria-label="$t('aria.shiftsTable.notReviewed')"
                 @click.stop="handleShiftReview(item)"
+                @keydown.stop
               ></v-btn>
               <v-btn
                 v-else
@@ -45,6 +53,10 @@
                 :icon="icons.mdiCheck"
                 color="green"
                 elevation="0"
+                tabindex="-1"
+                :aria-label="$t('aria.shiftsTable.reviewed')"
+                @click.stop
+                @keydown.stop
               ></v-btn>
             </div>
             <span v-else> {{ formattedDate(item.started) }}</span>
@@ -59,8 +71,14 @@
             >
             </ShiftWarningIcon>
           </td>
-          <td>
-            <v-icon :color="colors[item.type]">
+          <td 
+            :aria-label="$t(`aria.shift.${getType(item.type)}`)" 
+            role="cell"
+          >   
+            <v-icon 
+            aria-hidden="true"
+            :color="colors[item.type]"  
+            >
               {{ typeIcons[item.type] }}
             </v-icon>
             <v-chip
@@ -83,16 +101,22 @@
               variant="text"
               elevation="0"
               @click.stop="handleShiftReview(item)"
-            ></v-btn>
+              @keydown.enter.stop="handleShiftReview(item)"
+              @keydown.space.stop="handleShiftReview(item)"
+              :aria-label="$t('aria.shiftsTable.notReviewed')"
+            ></v-btn> 
             <v-btn
               v-else
               variant="text"
               :icon="icons.mdiCheck"
               color="green"
               elevation="0"
+              tabindex="-1"
+              :aria-label="$t('aria.shiftsTable.reviewed')"
+
             ></v-btn>
           </td>
-          <td class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell" aria-hidden="true">
             <v-chip
               v-for="tag in item.tags.slice(0, 2)"
               :key="tag"
@@ -121,9 +145,10 @@
               :shift="item"
             ></ShiftFormDialog>
           </td>
-        </tr>
+        </tr> 
       </template>
     </v-data-table>
+    <slot name="bottom" :selected="selectedShifts" :reset="reset"></slot>
   </div>
 </template>
 
@@ -133,7 +158,7 @@
             <v-btn icon v-on="on">
               <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
             </v-btn>
-          </template>
+          </template>s
         </ShiftAssignContractDialog-->
 
 <!--ConfirmationDialog @confirm="destroySingleShift(item)">
@@ -174,6 +199,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { localizedFormat } from "@/utils/date";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
+import { getTagName } from "webdriverio/build/commands/element";
 
 export default {
   name: "ShiftsTable",
@@ -244,6 +270,9 @@ export default {
   },
 
   methods: {
+    getType(type) {
+      return this.$t(`models.shift.types.${type}`);
+    },
     formattedDateMobile(date) {
       return this.$i18n.locale === "en"
         ? localizedFormat(date, "EEE',' do")
@@ -293,7 +322,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .selected-row {
   background-color: rgba(0, 0, 0, 0.1);
 }
@@ -301,3 +330,7 @@ export default {
   right: 8px;
 }
 </style>
+
+
+
+

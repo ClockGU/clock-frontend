@@ -1,6 +1,9 @@
 <template>
   <v-expand-transition appear>
-    <v-card elevation="0">
+    <v-card elevation="0" 
+    role="toolbar" 
+    :aria-label="$t('aria.shiftBulkActions.description')"
+    >
       <v-card-actions>
         <ShiftBulkActionsDialogReview
           v-if="canReview"
@@ -13,20 +16,26 @@
               variant="flat"
               :icon="shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck"
               v-bind="props"
-            />
+              :aria-label="$t('aria.shiftBulkActions.review')"            
+              />
           </template>
         </ShiftBulkActionsDialogReview>
 
-        <ShiftAssignContractDialog :shifts="shifts" @save="updateFn">
+        <ShiftAssignContractDialog 
+          :shifts="shifts" 
+          @save="updateFn"
+        >
           <template #activator="{ props }">
             <v-btn
               :disabled="!moreThanOneContract || shiftsLength < 1"
               variant="flat"
               v-bind="props"
               :icon="icons.mdiSwapHorizontal"
+              :aria-label="$t('aria.shiftBulkActions.changeContract')"            
             />
           </template>
         </ShiftAssignContractDialog>
+
         <ShiftsDetailsDialog
           v-if="xs"
           :disabled="shiftsLength !== 1"
@@ -39,9 +48,11 @@
               variant="flat"
               :icon="icons.mdiInformationVariant"
               v-bind="props"
+              :aria-label="$t('aria.shiftBulkActions.viewDetails')"            
             />
           </template>
         </ShiftsDetailsDialog>
+
         <ShiftFormDialog
           v-if="xs"
           :create="false"
@@ -56,14 +67,11 @@
               variant="flat"
               v-bind="props"
               :icon="icons.mdiPencil"
+              :aria-label="$t('aria.shiftBulkActions.edit')"            
             />
-            <ShiftWarningIcon
-              v-if="shiftsLength === 1"
-              style="transform: translate(-80%, -35%)"
-              :shift="shifts[0]"
-            ></ShiftWarningIcon>
           </template>
         </ShiftFormDialog>
+
         <ShiftBulkActionsDialogDelete
           :count="shiftsLength"
           @destroy="destroyFn"
@@ -74,10 +82,17 @@
               variant="flat"
               :icon="icons.mdiDelete"
               v-bind="props"
+              :aria-label="$t('aria.shiftBulkActions.delete')"            
             />
           </template>
         </ShiftBulkActionsDialogDelete>
+
+      <span 
+        role="status" 
+        :aria-live="polite" 
+        :aria-label="$t('aria.shiftBulkActions.durationSum', { durationSum })">
         {{ durationSum }}
+      </span>
       </v-card-actions>
     </v-card>
   </v-expand-transition>
@@ -99,7 +114,6 @@ import {
   mdiInformationVariant
 } from "@mdi/js";
 import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
-import ShiftWarningIcon from "./ShiftWarningIcon.vue";
 
 export default {
   name: "ShiftBulkActions",
@@ -109,7 +123,6 @@ export default {
     ShiftBulkActionsDialogReview,
     ShiftFormDialog,
     ShiftsDetailsDialog,
-    ShiftWarningIcon
   },
   mixins: [breakpointsMixin],
   props: {
@@ -177,3 +190,4 @@ export default {
   }
 };
 </script>
+

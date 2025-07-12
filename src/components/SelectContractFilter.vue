@@ -6,18 +6,26 @@
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
     item-title="name"
-    persistent-hint
+    persistent-hint="!disabled"
     variant="solo"
     return-object
-    :bg-color="bgColor"
+    :bg-color="bgColor" 
+    :aria-label="disabled ? $t('aria.selectContract.disabled') : $t('aria.selectContract.enabled')" 
+    class="accessible-select" 
+    @keydown.enter="if (disabled) this.$router.push('/contracts');"
+    @keydown.space="if (disabled) this.$router.push('/contracts');"
     @update:model-value="changeContract"
   >
     <template #selection="{ item }">
       <div v-if="disabled">
         {{ $t("dashboard.disabled.noContract") }}
-        <router-link v-if="disabled" to="/contracts">{{
-          $t("dashboard.disabled.createContractHere")
-        }}</router-link>
+        <router-link 
+          v-if="disabled"   
+          to="/contracts" 
+          tabindex="-1"
+        >
+          {{$t("dashboard.disabled.createContractHere")}}
+      </router-link>
       </div>
       <div v-else>
         {{ item.title + contractStatus(item.raw) }}
@@ -40,7 +48,6 @@
 
 <script>
 import { mdiRecord } from "@mdi/js";
-
 import contractValidMixin from "@/mixins/contractValid";
 import { mapGetters } from "vuex";
 
@@ -88,7 +95,13 @@ export default {
       if (this.specificContractExpired(contract))
         return " " + this.$t("contracts.expired");
       else return "";
-    }
+    },
   }
 };
 </script>
+<style scoped>
+.accessible-select:focus-within {
+  outline: 2px solid #3f51b5 !important;
+  outline-offset: 2px !important;
+}
+</style>

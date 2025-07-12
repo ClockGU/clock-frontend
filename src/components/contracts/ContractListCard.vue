@@ -4,9 +4,12 @@
     max-width="350"
     variant="outlined"
     :style="{
-      'border-color': contract.color,
-      'background-color': contract.color
+      borderColor: contract.color,
+      backgroundColor: contract.color
     }"
+    role="listitem"
+    aria-label="Contract card"
+    tabindex="0"
   >
     <v-card-title>
       <span class="text-primary text-subtitle-2">
@@ -16,21 +19,28 @@
     </v-card-title>
 
     <v-card-text>
-      <h2 class="text-h6 primary-text">{{ contract.name }}</h2>
-      {{
-        $t("contracts.fromTo", {
-          start: startDate,
-          end: endDate
-        })
-      }}
+      <h3 class="text-h6 primary-text" role="heading">
+        {{ contract.name }}
+      </h3>
+        {{
+          $t("contracts.fromTo", {
+            start: startDate,
+            end: endDate
+          })
+        }}
     </v-card-text>
 
     <v-card-actions data-cy="contract-actions">
-      <ContractFormDialog :contract="contract" text-button></ContractFormDialog>
+      <ContractFormDialog
+        :contract="contract"
+        text-button
+        :aria-label="$t('aria.contractListCard.edit')"
+      ></ContractFormDialog>
       <div style="z-index: 6">
         <ModelDeleteConfirmationDialog
           :delete-fn="destroyFn"
           model-name="contract"
+          :aria-label="$t('aria.contractListCard.delete')"
         ></ModelDeleteConfirmationDialog>
       </div>
     </v-card-actions>
@@ -39,9 +49,7 @@
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { localizedFormat } from "@/utils/date";
-import { minutesToHHMM } from "@/utils/time";
 import { Contract } from "@/models/ContractModel";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
 import { ContractService } from "@/services/models";
@@ -104,3 +112,4 @@ export default {
   );
 }
 </style>
+

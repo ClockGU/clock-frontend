@@ -1,5 +1,7 @@
 <template>
+  <label for="tags" class="ml-10">{{$t('label.shiftFormTags')}}</label>
   <v-combobox
+    id="tags"
     v-model="model"
     v-model:search="search"
     data-cy="tags"
