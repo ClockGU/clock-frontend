@@ -437,7 +437,7 @@
       "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
     },
     "warnings": {
-      "maxOvertimeExceeded": "You gathered more than 50% of your debit working time in overtime. Only 50% of you debit working time will be carried over to the next month as surplus hours.",
+      "maxOvertimeExceeded": "You gathered more than 50% of your debit working time in overtime this month. Only 50% of you debit working time will be added to your carryover as overtime.",
       "insufficientWorktime": "You are missing more than 20% of your debit working time.",
       "worktimeOverEightyHours": "Your total working time for this month is greater than 80h. Please keep in mind that you lose your students insurance status if you work more than 80h during the semester."
     },
