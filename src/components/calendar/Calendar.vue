@@ -313,7 +313,24 @@ export default {
   background-color: white !important;
 }
 
-::v-deep .v-calendar-weekly__day {
+::v-deep .v-calendar__container {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
+
+::v-deep .v-calendar-day__container {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-day__row-without-label {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-day__row-without-label {
+  border: 2px solid red !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-day__row-with-label {
   border: 2px solid red !important;
   background-color: white !important;
 }
