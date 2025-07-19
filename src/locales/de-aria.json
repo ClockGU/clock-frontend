@@ -50,6 +50,14 @@
             "edit":"Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu bearbeiten",
             "delete":"Drücken Sie die Leertaste oder die Eingabetaste, um den Vertrag zu löschen"
         },
+        "contractFormFields": {
+            "carryoverWorkingTime": "Drücken Sie die Leertaste, wenn Sie Arbeitszeit aus dem Vormonat übertragen möchten, dann füllen Sie das Feld unten aus.",
+            "carryoverVacationTime": "Drücken Sie die Leertaste, wenn Sie Urlaubszeit aus dem Vormonat übertragen möchten, dann füllen Sie das Feld unten aus."
+        },
+        "referenceInput": {
+            "copy": "Drücken Sie die Eingabetaste, um die Referenz-ID in die Zwischenablage zu kopieren",
+            "generateReference": "Drücken Sie die Eingabetaste, um eine neue Referenz-ID zu generieren"
+        },
         "report": {
             "summary": "Zusammenfassung der Arbeit",
              "downloadSection": "Download-Bereich des Berichts. Drücken Sie die Tabulatortaste, um den Bericht herunterzuladen.",
@@ -98,12 +106,14 @@
     },
     "label": {
         "shiftFormDateInput": "Schichtdatum",
-        "shiftFormTimeInput": {
-            "start": "Startzeit",
-            "end": "Endzeit"
-        },
         "shiftFormTags": "Tags",
-        "shiftFormNote": "Notiz"
+        "shiftFormNote": "Notiz",
+        "contractWorktimeModelInput":"Arbeitszeitmodell",
+        "contractPercentFteInput": "FTE",
+        "contractNameInput": "Vertragsname",
+        "referenceInput": "Referenz ID",
+        "startTime": "Startzeit",
+        "endTime": "Endzeit"
     }
 }
 

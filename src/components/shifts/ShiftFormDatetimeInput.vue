@@ -16,7 +16,7 @@
         :error-messages="errors"
         :error="errors.length > 0"
         :prepend-icon="smAndDown"
-        :label="$t('label.shiftFormTimeInput.start')"
+        :label="$t('label.startTime')"
         @update:model-value="
           $emit('update:started', $event);
           v$.timeStart.$touch();
@@ -33,7 +33,7 @@
       <ShiftFormTimeInput
         v-model="timeStop"
         :error="errors.length > 0"
-        :label="$t('label.shiftFormTimeInput.end')"
+        :label="$t('label.endTime')"
         @update:model-value="
           $emit('update:stopped', $event);
           v$.timeStart.$touch();

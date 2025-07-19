@@ -17,30 +17,37 @@ async function copyToClipboard() {
 </script>
 
 <template>
-  <div class="d-flex">
-    <v-text-field
-      :model-value="model"
-      readonly
-      :label="$t('contracts.reference')"
-      :prepend-icon="mdiIdentifier"
-      :hint="$t('contracts.referenceExplanation')"
-      persistent-hint
-      variant="filled"
-      required
-      @mouseup.stop
-    >
-      <template #append-inner="{ props }">
-        <v-btn
-          :v-bind="props"
-          variant="text"
-          :icon="mdiClipboardFileOutline"
-          aria-label="Copy to clipboard"
-          @click="copyToClipboard"
-        ></v-btn>
-      </template>
+  <div class="d-flex align-center">
+    <div class="flex-grow-1">
+      <label for="reference-input" class="ml-10">
+        {{$t("label.referenceInput") }} 
+      </label>
+      <v-text-field
+        id="reference-input"
+        :model-value="model"
+        readonly
+        :label="$t('contracts.reference')"
+        :prepend-icon="mdiIdentifier"
+        :hint="$t('contracts.referenceExplanation')"
+        persistent-hint
+        variant="filled"
+        required
+        @mouseup.stop
+      >
+        <template #append-inner="{ props }">
+          <v-btn
+            :v-bind="props"
+            variant="text"
+            :icon="mdiClipboardFileOutline"
+            :aria-label="$t('aria.referenceInput.copy')"
+            @click="copyToClipboard"
+          ></v-btn>
+        </template>
     </v-text-field>
+    </div>
     <v-btn
       :icon="mdiRotate3dVariant"
+      :aria-label="$t('aria.referenceInput.generateReference')"
       style="margin-inline: 8px"
       @click="model = uuidv4()"
     ></v-btn>
@@ -52,3 +59,6 @@ async function copyToClipboard() {
   line-height: 1.33333;
 }
 </style>
+
+
+
