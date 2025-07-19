@@ -6,6 +6,7 @@
       :max-width="600"
       :persistent="false"
       @close="$emit('close')"
+      aria-labelledby="contract-form-title"
     >
       <template #activator="{ props }">
         <v-btn
@@ -14,6 +15,7 @@
           :color="btnColor"
           v-bind="props"
           @click="opened = true"
+          :aria-label="create ? $t('actions.add') : $t('actions.edit')"
         >
           {{ buttonText }}
         </v-btn>
@@ -23,16 +25,22 @@
           :color="btnColor"
           :icon="create ? icons.mdiPlus : icons.mdiPencil"
           v-bind="props"
+          :aria-label="create ? $t('actions.add') : $t('actions.edit')"
         >
         </v-btn>
       </template>
       <template #content="{ events: { close } }">
-        <ContractForm
-          :existing-contract="contract"
-          :close="close"
-          :show-errors="opened"
-          @close="opened = false"
-        ></ContractForm>
+        <div role="dialog" aria-modal="true" aria-labelledby="contract-form-title">
+          <h2 id="contract-form-title" class="sr-only">
+            {{ create ? $t('actions.add') : $t('actions.edit') }}
+          </h2>
+          <ContractForm
+            :existing-contract="contract"
+            :close="close"
+            :show-errors="opened"
+            @close="opened = false"
+          ></ContractForm>
+        </div>
       </template>
     </TheDialog>
   </div>
@@ -123,5 +131,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

@@ -33,31 +33,39 @@ const consequencesText = computed(() => {
   <ConfirmationDialog
     :confirmation-button="{ text: t('actions.delete'), color: 'error' }"
     @confirm="destroy"
+    aria-labelledby="delete-confirmation-title"
   >
     <template #activator="{ props }">
-      <v-btn variant="text" color="error" v-bind="props">
+      <v-btn 
+        variant="text" 
+        color="error" 
+        v-bind="props"
+        :aria-label="t('actions.delete')"
+      >
         {{ t("actions.delete") }}
       </v-btn>
     </template>
 
     <template #title>
-      {{
-        t("buttons.deleteEntity", {
-          entity: t(`models.${modelName}`)
-        })
-      }}
+      <h2 id="delete-confirmation-title" class="text-h6 font-weight-bold">
+        {{
+          t("buttons.deleteEntity", {
+            entity: t(`models.${modelName}`)
+          })
+        }}
+      </h2>
     </template>
     <template #text>
-      {{
-        t(`dialogs.textConfirmDelete`, {
-          selectedEntity: t(`models.selected${capitalizedModelName}`)
-        })
-      }}
+      <p>
+        {{
+          t(`dialogs.textConfirmDelete`, {
+            selectedEntity: t(`models.selected${capitalizedModelName}`)
+          })
+        }}
+      </p>
     </template>
     <template #consequencesText>
-      {{ consequencesText }}
+      <p v-if="consequencesText">{{ consequencesText }}</p>
     </template>
   </ConfirmationDialog>
 </template>
-
-<style scoped></style>
