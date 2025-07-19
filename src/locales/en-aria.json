@@ -50,6 +50,14 @@
             "edit":"Press Space or Enter to edit the contract",
             "delete":"Press Space or Enter to delete the contract"
         },
+        "contractFormFields": {
+            "carryoverWorkingTime": "Press Space if you want to carry over working time from previous month then fill the field below",
+            "carryoverVacationTime": "Press Space if you want to carry over vacation time from previous month then fill the field below"
+        },
+        "referenceInput": {
+            "copy": "Press Enter to copy the reference ID to the clipboard",
+            "generateReference": "Press Enter to generate a new reference ID"
+        },
         "report": {
           "summary": "Summary",
             "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
@@ -97,12 +105,14 @@
     },
     "label":{
         "shiftFormDateInput": "Shift Date",
-        "shiftFormTimeInput":{
-            "start": "Start Time",
-            "end": "End Time"
-        },
         "shiftFormTags": "Tags",
-        "shiftFormNote": "Note"
+        "shiftFormNote": "Note",
+        "contractWorktimeModelInput":"Worktime Model",       
+        "contractPercentFteInput": "FTE",
+        "contractNameInput": "Contract Name ",
+        "referenceInput": "Reference ID",
+        "startTime": "Start Time",
+        "endTime": "End Time"
     }
 }
 

@@ -34,8 +34,8 @@
       <v-col>
         <ReferenceInput v-model="contract.reference"></ReferenceInput>
       </v-col>
-      <v-col cols="12">
-        <ContractColorInput v-model="contract.color"></ContractColorInput>
+      <v-col cols="12" aria-hidden="true">
+        <ContractColorInput v-model="contract.color" aria-hidden="true"></ContractColorInput>
       </v-col>
       <v-col cols="12" class="pa-0">
         <v-expand-transition hide-on-leave>
@@ -50,6 +50,7 @@
         <v-checkbox
           v-model="showCarryover"
           :label="$t('contracts.carryover.checkboxLabel')"
+          :aria-label="$t('aria.contractFormFields.carryoverWorkingTime')"
           :disabled="areLockedShiftsInThisContract || contractInFuture"
           :hint="contractInFutureHint"
           persistent-hint
@@ -79,6 +80,7 @@
         <v-checkbox
           v-model="showVacationCarryover"
           :label="$t('contracts.vacationCarryover.checkboxLabel')"
+          :aria-label="$t('aria.contractFormFields.carryoverVacationTime')"
           :disabled="areLockedShiftsInThisContract"
           :error-messages="
             false ? $t('contracts.vacationCarryover.locked') : ''
@@ -212,5 +214,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

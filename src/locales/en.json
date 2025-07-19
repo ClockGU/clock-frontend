@@ -118,7 +118,8 @@
     "errors": {
       "shiftOutOfScope": "Given shifts need to stay in scope after changing the contract duration.",
       "carryoverForFutureContracts": "The carry over for a contract starting in the future may only be 00:00."
-    }
+    },
+    "displayColor": "Display Color"
   },
   "dashboard": {
     "disabled": {

@@ -1,5 +1,13 @@
 <template>
+  <label
+    for="contract-form-select-worktime-model"
+    class="ml-10"
+    :class="{ 'text-disabled': disabled }"
+  >
+    {{ $t("label.contractWorktimeModelInput") }}
+  </label>
   <v-select
+    id="contract-form-select-worktime-model"
     v-model="selectedWorktimeModel"
     :prepend-icon="icon"
     :items="items"
@@ -74,4 +82,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+</style>
+

@@ -4,7 +4,7 @@
       <tbody>
         <tr>
           <td>
-            <div style="font-size: 14px; font-weight: 500">Anzeigefarbe</div>
+            <div style="font-size: 14px; font-weight: 500">{{ $t("contracts.displayColor") }}</div>
           </td>
           <td>
             <v-menu
@@ -19,6 +19,8 @@
                   style="width: 90px"
                   v-bind="props"
                   variant="flat"
+                  aria-hidden="true"
+                  tabindex="-1"
                 ></v-chip>
               </template>
               <v-color-picker
@@ -29,8 +31,12 @@
           </td>
           <td>
             <v-spacer>
-              <v-btn variant="text" @click="color = initialColor">
-                Reset
+              <v-btn 
+                variant="text" 
+                tabindex="-1" 
+                aria-hidden="true"
+                @click="color = initialColor" >
+                {{ $t("actions.reset") }}
               </v-btn>
             </v-spacer>
           </td>
