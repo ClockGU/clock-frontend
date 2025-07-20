@@ -1,5 +1,4 @@
 <template>
-  <div>
     <TheDialog
       :value="show"
       :fullscreen="smAndDown"
@@ -30,7 +29,12 @@
         </v-btn>
       </template>
       <template #content="{ events: { close } }">
-        <div role="dialog" aria-modal="true" aria-labelledby="contract-form-title">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="contract-form-title"
+          style="overflow-y: auto"
+        >
           <h2 id="contract-form-title" class="sr-only">
             {{ create ? $t('actions.add') : $t('actions.edit') }}
           </h2>
@@ -43,7 +47,6 @@
         </div>
       </template>
     </TheDialog>
-  </div>
 </template>
 
 <script>
