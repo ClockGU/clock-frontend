@@ -54,7 +54,7 @@ const vuetify = createVuetify({
   theme: {
     defaultTheme: "light",
     variations: {
-      colors: ["primary"],
+      colors: ["primary", "error"],
       darken: 4,
       lighten: 4
     },
@@ -62,27 +62,27 @@ const vuetify = createVuetify({
       light: {
         dark: false,
         colors: {
-          accent: "#82B1FF",//not used yet need to check for contrast
+          accent: "#82B1FF", //not used yet need to check for contrast
           error: "#B71C1C", //red-darken-4
           info: "#1565C0", //blue-darken-3
           primary: "#1976D2",
-          secondary: "#424242",//not used yet need to check for contrast
+          secondary: "#424242", //not used yet need to check for contrast
           success: "#2E7D32", //green-darken-3
-          warning: "#DD2C00",//deep-orange-accent-4
-          footerPrimary: "#0064BAFF",//not used yet need to check for contrast
-          footerSecondary: "#51B0FFFF"//not used yet need to check for contrast
+          warning: "#DD2C00", //deep-orange-accent-4
+          footerPrimary: "#0064BAFF", //not used yet need to check for contrast
+          footerSecondary: "#51B0FFFF" //not used yet need to check for contrast
         }
       },
       dark: {
         dark: true,
         colors: {
           accent: "#FF4081",
-          error: "#D50000", // red-accent-3 
+          error: "#D50000", // red-accent-3
           info: "#1565C0", // blue-darken-3
-          primary: "#2962FF", // blue-accent-4 
+          primary: "#2962FF", // blue-accent-4
           secondary: "#616161", // gray-darken-2
           success: "#33691E", //light-green-darken-4
-          warning: "#DD2C00",//deep-orange-accent-4
+          warning: "#DD2C00", //deep-orange-accent-4
           footerPrimary: "#003784FF",
           footerSecondary: "#004D9FFF"
         }
