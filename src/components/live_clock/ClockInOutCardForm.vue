@@ -41,10 +41,12 @@ function finish(saved) {
 </script>
 
 <template>
-  <v-card>
+  <v-card aria-describedby="clock-in-out-title">
     <v-toolbar :elevation="0">
       <v-toolbar-title>
-        {{ t("dashboard.clock.problems.title") }}
+        <h2 id="clock-in-out-title">
+          {{ t("dashboard.clock.problems.title") }}
+        </h2>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="finish(false)">

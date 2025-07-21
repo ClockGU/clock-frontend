@@ -24,7 +24,7 @@
               <v-col cols="12" md="6" order="2">
                 <v-card>
                   <v-card-title>
-                    {{ $t("dashboard.newShift.title") }}
+                    <h2>{{ $t("dashboard.newShift.title") }}</h2>
                   </v-card-title>
                   <v-card-text>
                     <ShiftFormDialog

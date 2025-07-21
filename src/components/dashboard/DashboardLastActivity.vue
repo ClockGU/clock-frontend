@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      {{ $t("dashboard.lastActivity") }}
+      <h2>{{ $t("dashboard.lastActivity") }}</h2>
     </v-card-title>
     <v-card-text>
       <div v-if="lastShifts.length > 0">

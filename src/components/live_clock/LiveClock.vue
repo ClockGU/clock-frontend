@@ -212,11 +212,13 @@ if (clockedInShift.value !== undefined) {
   >
     <v-toolbar :elevation="0">
       <v-toolbar-title>
-        {{
-          status === "running"
-            ? t("dashboard.clock.state.running")
-            : t("dashboard.clock.state.idle")
-        }}
+        <h2>
+          {{
+            status === "running"
+              ? t("dashboard.clock.state.running")
+              : t("dashboard.clock.state.idle")
+          }}
+        </h2>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>

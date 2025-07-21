@@ -7,7 +7,7 @@
             <v-window-item key="1">
               <v-card ref="primary-card" flat>
                 <v-card-title>
-                  {{ $t("dashboard.progress.title.monthly") }}
+                  <h2>{{ $t("dashboard.progress.title.monthly") }}</h2>
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="maxCarryoverExceeded || carryover"
