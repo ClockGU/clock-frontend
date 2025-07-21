@@ -104,6 +104,7 @@
     "referenceInput": "Referenz ID",
     "startTime": "Startzeit",
     "endTime": "Endzeit",
+    "feedback": "Feedback",
     "timeInterval": {
       "description": "Zeitraumumschalter. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linken und rechten Pfeiltasten, um durch die Zeiträume zu navigieren. Sie sehen derzeit {formattedInterval} Schichten.",
       "previous": "Drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
