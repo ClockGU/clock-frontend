@@ -1,5 +1,11 @@
 <template>
-  <v-dialog v-model="dialog">
+  <v-dialog
+    ref="dialog"
+    v-model="dialog"
+    width="600"
+    aria-labelledby="feedback-title"
+    aria-describedby="feedback-description"
+  >
     <template #activator="{ props }">
       <v-btn
         variant="flat"
@@ -7,7 +13,7 @@
         style="background: rgb(var(--v-theme-warning-lighten-1))"
         v-bind="props"
         :aria-label="$t('label.feedback')"
-        size="40"
+        :size="smAndDown ? 40 : 'default'"
       >
         <v-icon v-if="smAndDown" size="24" color="white">
           {{ icons.mdiHelp }}
@@ -33,6 +39,26 @@ export default {
   computed: {
     smAndDown() {
       return this.$vuetify.display.smAndDown;
+    }
+  },
+  watch: {
+    show: {
+      immediate: true,
+      handler: function (newValue) {
+        if (newValue) {
+          this.$nextTick(() => {
+            const dialog = this.$refs?.dialog;
+            const content = dialog?.$refs?.content;
+            if (content) {
+              // Copy aria-labelledby from v-dialog to new rendered element.
+              content.setAttribute(
+                "aria-labelledby",
+                dialog.$attrs["aria-labelledby"]
+              );
+            }
+          });
+        }
+      }
     }
   }
 };
