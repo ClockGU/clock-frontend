@@ -8,7 +8,9 @@
     />
 
     <template v-else>
-      <v-card-title>{{ $t("app.news") }}</v-card-title>
+      <v-card-title
+        ><h2>{{ $t("app.news") }}</h2>
+      </v-card-title>
 
       <v-card-text v-if="noMessages">{{ $t("news.noNews") }}</v-card-text>
       <v-card-text v-else>
