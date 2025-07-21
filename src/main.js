@@ -56,7 +56,7 @@ const vuetify = createVuetify({
   theme: {
     defaultTheme: "light",
     variations: {
-      colors: ["primary", "error"],
+      colors: ["primary", "error", "warning"],
       darken: 4,
       lighten: 4
     },

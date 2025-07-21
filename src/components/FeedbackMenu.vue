@@ -7,12 +7,19 @@
       transition="slide-y-transition"
     >
       <template #activator="{ props }">
-        <v-sheet class="py-2 bg-orange-darken-2 rounded-t" dark v-bind="props">
-          <v-icon v-if="smAndDown" class="mx-2">
+        <v-btn
+          v-if="!disableActivator"
+          variant="flat"
+          :class="[bottomPosition ? 'ombuds-menu' : '', 'py-2', 'rounded-b-0']"
+          style="background: rgb(var(--v-theme-warning-lighten-1))"
+          v-bind="props['props']"
+          size="40"
+        >
+          <v-icon v-if="smAndDown" size="24" color="white">
             {{ icons.mdiHelp }}
           </v-icon>
           <span v-else class="px-4">Feedback</span>
-        </v-sheet>
+        </v-btn>
       </template>
 
       <FeedbackForm @close="menu = false" />
