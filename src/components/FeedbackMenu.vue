@@ -9,7 +9,7 @@
     <template #activator="{ props }">
       <v-btn
         variant="flat"
-        class="feedback-menu py-2 rounded-b-0"
+        class="mr-2 py-2 rounded-b-0"
         style="background: rgb(var(--v-theme-warning-lighten-1))"
         v-bind="props"
         :aria-label="$t('label.feedback')"
@@ -63,12 +63,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.feedback-menu {
-  position: fixed;
-  bottom: 0em;
-  left: 1em;
-  z-index: 1;
-}
-</style>

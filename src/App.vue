@@ -35,9 +35,11 @@
     </v-main>
     <portal-target name="dialog"></portal-target>
 
-    <FeedbackMenu v-if="isLoggedIn" />
+    <div class="menus">
+      <FeedbackMenu v-if="isLoggedIn" />
 
-    <OmbudsMenu v-if="isLoggedIn" />
+      <OmbudsMenu v-if="isLoggedIn" />
+    </div>
 
     <TheSnackbar />
     <TheFooter />
@@ -144,7 +146,7 @@ export default {
 }
 /* Global screen-reader utility */
 .sr-only {
-  position: absolute !important;    
+  position: absolute !important;
   width: 1px !important;
   height: 1px !important;
   padding: 0 !important;
@@ -153,5 +155,15 @@ export default {
   clip: rect(0, 0, 0, 0) !important;
   white-space: nowrap !important;
   border-width: 0 !important;
+}
+
+.menus {
+  position: fixed;
+  bottom: 0em;
+  left: 1em;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
