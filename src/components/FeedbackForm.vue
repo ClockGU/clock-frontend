@@ -43,6 +43,7 @@
           rows="3"
           role="textbox"
           type="input"
+          aria-required="true"
           :label="$t('feedback.fields.message')"
           :aria-label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
