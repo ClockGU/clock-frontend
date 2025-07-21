@@ -236,24 +236,26 @@ if (clockedInShift.value !== undefined) {
 
     <v-card-text>
       <v-row justify="center">
-        <span
-          v-if="status !== 'running' && status !== 'saving'"
-          class="text-h6 font-weight-light"
-        >
-          {{ t("dashboard.clock.start") }}
-        </span>
-        <div v-else class="d-flex flex-column">
-          <div class="font-weight-bold">
-            {{ t("models.contract") }}:
-            {{ store.getters["selectedContract/selectedContract"].name }}
+        <h3>
+          <span
+            v-if="status !== 'running' && status !== 'saving'"
+            class="text-h6 font-weight-light"
+          >
+            {{ t("dashboard.clock.start") }}
+          </span>
+          <div v-else class="d-flex flex-column">
+            <div class="font-weight-bold">
+              {{ t("models.contract") }}:
+              {{ store.getters["selectedContract/selectedContract"].name }}
+            </div>
+            <div class="font-weight-light">
+              {{ formatDate(clock.startDate) }}
+            </div>
+            <div class="text-h6 font-weight-light text-center">
+              {{ duration }}
+            </div>
           </div>
-          <div class="font-weight-light">
-            {{ formatDate(clock.startDate) }}
-          </div>
-          <div class="text-h6 font-weight-light text-center">
-            {{ duration }}
-          </div>
-        </div>
+        </h3>
       </v-row>
       <div class="justify-center mt-3">
         <v-btn

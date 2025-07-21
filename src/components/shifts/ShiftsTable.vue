@@ -1,9 +1,9 @@
 <template>
-  <div >
+  <div>
     <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
       v-model="selectedShifts"
-      :show-select="!mobile"  
+      :show-select="!mobile"
       :headers="flexHeaders"
       :items="shifts"
       :search="search"
@@ -27,7 +27,7 @@
           @keydown.space.stop="handleClick(item)"
         >
           <td v-if="!mobile">
-            <v-checkbox-btn 
+            <v-checkbox-btn
               v-model="selectedShifts"
               class="table-checkbox-btn"
               :value="item"
@@ -71,14 +71,8 @@
             >
             </ShiftWarningIcon>
           </td>
-          <td 
-            :aria-label="$t(`aria.shift.${getType(item.type)}`)" 
-            role="cell"
-          >   
-            <v-icon 
-            aria-hidden="true"
-            :color="colors[item.type]"  
-            >
+          <td :aria-label="$t(`aria.shift.${getType(item.type)}`)" role="cell">
+            <v-icon aria-hidden="true" :color="colors[item.type]">
               {{ typeIcons[item.type] }}
             </v-icon>
             <v-chip
@@ -100,11 +94,11 @@
               color="red"
               variant="text"
               elevation="0"
+              :aria-label="$t('aria.shiftsTable.notReviewed')"
               @click.stop="handleShiftReview(item)"
               @keydown.enter.stop="handleShiftReview(item)"
               @keydown.space.stop="handleShiftReview(item)"
-              :aria-label="$t('aria.shiftsTable.notReviewed')"
-            ></v-btn> 
+            ></v-btn>
             <v-btn
               v-else
               variant="text"
@@ -113,7 +107,6 @@
               elevation="0"
               tabindex="-1"
               :aria-label="$t('aria.shiftsTable.reviewed')"
-
             ></v-btn>
           </td>
           <td class="d-none d-sm-table-cell" aria-hidden="true">
@@ -145,7 +138,7 @@
               :shift="item"
             ></ShiftFormDialog>
           </td>
-        </tr> 
+        </tr>
       </template>
     </v-data-table>
     <slot name="bottom" :selected="selectedShifts" :reset="reset"></slot>
@@ -199,7 +192,6 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { localizedFormat } from "@/utils/date";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
-import { getTagName } from "webdriverio/build/commands/element";
 
 export default {
   name: "ShiftsTable",
@@ -330,7 +322,3 @@ export default {
   right: 8px;
 }
 </style>
-
-
-
-

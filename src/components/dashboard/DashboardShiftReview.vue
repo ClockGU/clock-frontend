@@ -14,7 +14,9 @@
         </v-list>
       </div>
       <v-container v-else>
-        {{ $t("dashboard.noReviewableShifts") }}
+        <h3>
+          {{ $t("dashboard.noReviewableShifts") }}
+        </h3>
       </v-container>
     </v-card-text>
   </v-card>
