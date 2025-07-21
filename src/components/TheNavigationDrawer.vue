@@ -1,10 +1,10 @@
 <script setup>
-import { mapGetters, useStore } from "vuex";
+import { useStore } from "vuex";
 import svg from "@/assets/clock_full.svg";
 import darkSvg from "@/assets/clock_full_darkmode.svg";
 
 import LogoutDialog from "@/components/LogoutDialog.vue";
-
+import { useFocusTrap } from "@vueuse/integrations/useFocusTrap";
 import {
   mdiAccountCog,
   mdiCalendar,
@@ -16,7 +16,15 @@ import {
   mdiHelp,
   mdiLogout
 } from "@mdi/js";
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+  useTemplateRef,
+  nextTick
+} from "vue";
 import { useTheme } from "vuetify";
 import { useI18n } from "vue-i18n";
 
@@ -39,6 +47,10 @@ const emit = defineEmits(["closeDrawer"]);
 const store = useStore();
 const theme = useTheme();
 const { t } = useI18n();
+const target = useTemplateRef("target");
+const { activate, deactivate } = useFocusTrap(target, {
+  immediate: false
+});
 const user = computed(() => store.getters["user"]);
 const groupOpen = ref(false);
 const firstLetter = computed(() => {
@@ -99,13 +111,16 @@ const links = computed(() => [
 const imgSrc = computed(() => (theme.current.dark ? darkSvg : svg));
 watch(
   () => componentProps.drawer,
-  (value) => {
-    console.log("Drawer state changed:", value);
+  async (value) => {
     if (value) {
       document.documentElement.style.overflow = "hidden";
       document.getElementById("first-item").focus();
+      await nextTick();
+      activate();
     } else {
       document.documentElement.style.overflow = "auto";
+      await nextTick();
+      deactivate();
     }
   }
 );
@@ -142,106 +157,111 @@ function closeDrawer(value) {
     temporary
     @update:model-value="closeDrawer"
   >
-    <v-list
-      id="first-item"
-      :aria-label="t('aria.dashboard.navDrawer')"
-      role="menu"
-    >
-      <v-list-item>
-        <RouterLink
-          style="display: inline-flex"
-          role="link"
-          type="link"
-          :aria-label="t('aria.dashboard.toDashboard')"
-          :to="{ name: 'home' }"
-        >
-          <v-img width="240px" height="36px" :src="imgSrc" />
-          <h1 class="sr-only">CLOCK</h1>
-        </RouterLink>
-        <v-divider></v-divider>
-      </v-list-item>
-      <v-list-group role="group">
-        <template #activator="{ props }">
-          <v-list-item
-            role="button"
-            type="button"
-            v-bind="props"
-            :aria-expanded="groupOpen"
-            aria-labelledby="user-menu"
-            @click="groupOpen = !groupOpen.value"
-            @keydown.space="groupOpen = !groupOpen.value"
-            @keydown.enter="groupOpen = !groupOpen.value"
+    <div ref="target">
+      <v-list
+        id="first-item"
+        :aria-label="t('aria.dashboard.navDrawer')"
+        role="menu"
+      >
+        <v-list-item>
+          <RouterLink
+            style="display: inline-flex"
+            role="link"
+            type="link"
+            :aria-label="t('aria.dashboard.toDashboard')"
+            :to="{ name: 'home' }"
           >
-            <template #prepend="prependProps">
-              <v-avatar
-                aria-hidden="true"
-                v-bind="prependProps"
-                size="32px"
-                color="blue-lighten-2"
-                style="cursor: pointer"
-              >
-                <div class="text-white">
-                  {{ firstLetter }}
-                </div>
-              </v-avatar>
-            </template>
-            <p class="text-h6">
-              {{ user.first_name }}
-            </p>
-            <span id="user-menu" class="sr-only">
-              {{ $t("aria.dashboard.userMenu") }}</span
-            >
-          </v-list-item>
-        </template>
-
-        <v-list-item
-          v-for="item in menuItems"
-          :key="item.text"
-          :to="item.to"
-          type="link"
-          role="link"
-          class="drawer-focusable"
-          style="--indent-padding: calc(var(--list-indent-size) - 12px)"
-        >
-          <template #prepend="prependProps">
-            <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
-          </template>
-          <p :aria-hidden="item.text === 'FAQ'" style="padding-left: 4px">
-            {{ item.text }}
-          </p>
-          <span v-if="item.text === 'FAQ'" class="sr-only">F A Q</span>
+            <v-img width="240px" height="36px" :src="imgSrc" />
+            <h1 class="sr-only">CLOCK</h1>
+          </RouterLink>
+          <v-divider></v-divider>
         </v-list-item>
-
-        <LogoutDialog>
+        <v-list-group role="group">
           <template #activator="{ props }">
             <v-list-item
-              data-cy="menu-logout"
               role="button"
               type="button"
-              :prepend-icon="icons.mdiLogout"
               v-bind="props"
-              style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+              :aria-expanded="groupOpen"
+              aria-labelledby="user-menu"
+              @click="groupOpen = !groupOpen.value"
+              @keydown.space="groupOpen = !groupOpen.value"
+              @keydown.enter="groupOpen = !groupOpen.value"
             >
               <template #prepend="prependProps">
-                <v-icon :icon="icons.mdiLogout" v-bind="prependProps"></v-icon>
+                <v-avatar
+                  aria-hidden="true"
+                  v-bind="prependProps"
+                  size="32px"
+                  color="blue-lighten-2"
+                  style="cursor: pointer"
+                >
+                  <div class="text-white">
+                    {{ firstLetter }}
+                  </div>
+                </v-avatar>
               </template>
-              <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
+              <p class="text-h6">
+                {{ user.first_name }}
+              </p>
+              <span id="user-menu" class="sr-only">
+                {{ $t("aria.dashboard.userMenu") }}</span
+              >
             </v-list-item>
           </template>
-        </LogoutDialog>
-      </v-list-group>
-      <v-divider role="separator"></v-divider>
-      <v-list-item
-        v-for="link in links"
-        :key="link.text"
-        type="link"
-        role="link"
-        :prepend-icon="link.icon"
-        :to="link.to"
-      >
-        <p>{{ link.text }}</p>
-      </v-list-item>
-    </v-list>
+
+          <v-list-item
+            v-for="item in menuItems"
+            :key="item.text"
+            :to="item.to"
+            type="link"
+            role="link"
+            class="drawer-focusable"
+            style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+          >
+            <template #prepend="prependProps">
+              <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
+            </template>
+            <p :aria-hidden="item.text === 'FAQ'" style="padding-left: 4px">
+              {{ item.text }}
+            </p>
+            <span v-if="item.text === 'FAQ'" class="sr-only">F A Q</span>
+          </v-list-item>
+
+          <LogoutDialog>
+            <template #activator="{ props }">
+              <v-list-item
+                data-cy="menu-logout"
+                role="button"
+                type="button"
+                :prepend-icon="icons.mdiLogout"
+                v-bind="props"
+                style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+              >
+                <template #prepend="prependProps">
+                  <v-icon
+                    :icon="icons.mdiLogout"
+                    v-bind="prependProps"
+                  ></v-icon>
+                </template>
+                <p style="padding-left: 4px">{{ $t("app.logout") }}</p>
+              </v-list-item>
+            </template>
+          </LogoutDialog>
+        </v-list-group>
+        <v-divider role="separator"></v-divider>
+        <v-list-item
+          v-for="link in links"
+          :key="link.text"
+          type="link"
+          role="link"
+          :prepend-icon="link.icon"
+          :to="link.to"
+        >
+          <p>{{ link.text }}</p>
+        </v-list-item>
+      </v-list>
+    </div>
   </v-navigation-drawer>
 </template>
 
