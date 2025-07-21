@@ -105,6 +105,7 @@
     "referenceInput": "Reference ID",
     "startTime": "Start Time",
     "endTime": "End Time",
+    "feedback": "Feedback",
     "timeInterval": {
       "description": "Time interval switcher. There are shifts saved in each month and this is used to switch between months. Use the left and right arrow keys to navigate through the time intervals. You are currently viewing {formattedInterval} shifts.",
       "previous": "Press space to go to the previous month",
