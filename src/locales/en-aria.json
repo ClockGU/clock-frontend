@@ -181,7 +181,23 @@
       "userMenu": ", User menu",
       "toDashboard": "Navigate to dashboard",
       "toggleNavigationdrawer": "Open navigation menu",
-      "navDrawer": "Navigation menu"
+      "navDrawer": "Navigation menu",
+      "switchContract": "Switch to this contract",
+      "deleteClockEntry": "Delete current clock entry",
+      "clockIn": "Clock in to start tracking work time",
+      "clockOut": "Clock out to stop tracking work time",
+      "cancelClockForm": "Cancel clock form without saving",
+      "showAllShifts": "Show all shifts",
+      "reviewShift": "Review this shift",
+      "infoButton": "Show information about carryover",
+      "dailyInfoButton": "Show information about daily work time",
+      "previousView": "Go to previous view",
+      "nextView": "Go to next view",
+      "selectView": "Select this view",
+      "showMonthlyProgress": "Show monthly progress",
+      "showWeeklyProgress": "Show weekly progress",
+      "showDailyProgress": "Show daily progress",
+      "showAllNews": "Show all news"
     }
   },
   "sr": {

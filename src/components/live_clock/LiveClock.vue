@@ -228,6 +228,7 @@ if (clockedInShift.value !== undefined) {
           <v-btn
             v-if="status === 'running' || status === 'saving'"
             variant="plain"
+            :aria-label="$t('aria.dashboard.deleteClockEntry')"
             @click="destroy"
           >
             <v-icon>{{ mdiDelete }}</v-icon>
@@ -266,6 +267,7 @@ if (clockedInShift.value !== undefined) {
           :disabled="status === 'saving'"
           color="primary"
           block
+          :aria-label="$t('aria.dashboard.clockIn')"
           @click="clockIn"
         >
           {{ t("dashboard.clock.in") }}
@@ -277,6 +279,7 @@ if (clockedInShift.value !== undefined) {
           color="primary"
           block
           variant="text"
+          :aria-label="$t('aria.dashboard.clockOut')"
           @click="clockOut"
         >
           {{ t("dashboard.clock.out") }}

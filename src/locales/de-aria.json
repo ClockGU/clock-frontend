@@ -179,7 +179,23 @@
       "userMenu": ", Nutzer-Menü",
       "toDashboard": "Navigiere zum Dashboard",
       "toggleNavigationdrawer": "Öffne des Navigationsmenüs",
-      "navDrawer": "Navigationsmenü"
+      "navDrawer": "Navigationsmenü",
+      "switchContract": "Zu diesem Vertrag wechseln",
+      "deleteClockEntry": "Aktuellen Zeiteintrag löschen",
+      "clockIn": "Einstempeln, um die Arbeitszeiterfassung zu starten",
+      "clockOut": "Ausstempeln, um die Arbeitszeiterfassung zu beenden",
+      "cancelClockForm": "Zeiterfassungsformular ohne Speichern abbrechen",
+      "showAllShifts": "Alle Schichten anzeigen",
+      "reviewShift": "Diese Schicht überprüfen",
+      "infoButton": "Informationen zum Übertrag anzeigen",
+      "dailyInfoButton": "Informationen zur täglichen Arbeitszeit anzeigen",
+      "previousView": "Zur vorherigen Ansicht gehen",
+      "nextView": "Zur nächsten Ansicht gehen",
+      "selectView": "Diese Ansicht auswählen",
+      "showMonthlyProgress": "Monatlichen Fortschritt anzeigen",
+      "showWeeklyProgress": "Wöchentlichen Fortschritt anzeigen",
+      "showDailyProgress": "Täglichen Fortschritt anzeigen",
+      "showAllNews": "Alle Neuigkeiten anzeigen"
     }
   },
   "sr": {
