@@ -63,9 +63,9 @@ function finish(saved) {
           <div class="font-weight-bold">
             {{ t("dashboard.clock.problems.text") }}
           </div>
-          <div class="font-weight-light">
+          <h3 class="font-weight-light">
             {{ t("models.contract") }}: {{ contractName }}
-          </div>
+          </h3>
           <div v-if="overflow" class="font-weight-light">
             {{ t("dashboard.clock.problems.overflowedShift") }}
           </div>
