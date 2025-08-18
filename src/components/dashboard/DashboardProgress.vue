@@ -72,7 +72,7 @@
                 class="grow d-flex flex-column flex-nowrap"
               >
                 <v-card-title>
-                  {{ $t("dashboard.progress.title.weekly") }}
+                  <h2>{{ $t("dashboard.progress.title.weekly") }}</h2>
                 </v-card-title>
                 <v-row justify="center" class="grow">
                   <v-col cols="12" align-self="center">
@@ -118,7 +118,7 @@
                 class="grow d-flex flex-column flex-nowrap"
               >
                 <v-card-title>
-                  {{ $t("dashboard.progress.title.daily") }}
+                  <h2>{{ $t("dashboard.progress.title.daily") }}</h2>
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="dailyOvertime"
