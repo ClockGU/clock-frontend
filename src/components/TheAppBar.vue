@@ -9,7 +9,7 @@
         role="button"
         type="button"
         aria-haspopup="dialog"
-        :aria-label="$t('aria.dashboard.toggleNavigationdrawer')"
+        :aria-label="$t('label.dashboard.toggleNavigationdrawer')"
         class="hidden-md-and-up"
         @click="toggleNavigationdrawer"
       />
@@ -21,7 +21,7 @@
           class="nav-link"
           role="link"
           type="link"
-          :aria-label="$t('aria.dashboard.toDashboard')"
+          :aria-label="$t('label.dashboard.toDashboard')"
           :to="{ name: 'home' }"
         >
           <v-img width="96px" height="32px" :src="imgSrc" />
@@ -72,7 +72,7 @@
                     {{ user.first_name }}
                   </span>
                   <span class="sr-only">
-                    {{ $t("aria.dashboard.userMenu") }}</span
+                    {{ $t("label.dashboard.userMenu") }}</span
                   >
                 </div>
               </div>

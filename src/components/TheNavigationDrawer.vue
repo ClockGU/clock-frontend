@@ -160,7 +160,7 @@ function closeDrawer(value) {
     <div ref="target">
       <v-list
         id="first-item"
-        :aria-label="t('aria.dashboard.navDrawer')"
+        :aria-label="t('label.dashboard.navDrawer')"
         role="menu"
       >
         <v-list-item>
@@ -168,7 +168,7 @@ function closeDrawer(value) {
             style="display: inline-flex"
             role="link"
             type="link"
-            :aria-label="t('aria.dashboard.toDashboard')"
+            :aria-label="t('label.dashboard.toDashboard')"
             :to="{ name: 'home' }"
           >
             <v-img width="240px" height="36px" :src="imgSrc" />
@@ -205,7 +205,7 @@ function closeDrawer(value) {
                 {{ user.first_name }}
               </p>
               <span id="user-menu" class="sr-only">
-                {{ $t("aria.dashboard.userMenu") }}</span
+                {{ $t("label.dashboard.userMenu") }}</span
               >
             </v-list-item>
           </template>

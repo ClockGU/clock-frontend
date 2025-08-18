@@ -34,9 +34,9 @@
             v-if="contracts.length > 1 && clockedShift !== undefined"
             cols="12"
           >
-            <v-btn 
-              color="primary-lighten-1" 
-              :aria-label="$t('aria.dashboard.switchContract')"
+            <v-btn
+              color="primary-lighten-1"
+              :aria-label="$t('label.dashboard.switchContract')"
               @click="changeContract"
             >
               {{ $t("actions.switch") }}
