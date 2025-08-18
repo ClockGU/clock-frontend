@@ -188,7 +188,7 @@
       "clockIn": "Clock in to start tracking work time",
       "clockOut": "Clock out to stop tracking work time",
       "cancelClockForm": "Cancel clock form without saving",
-      "showAllShifts": "Show all shifts",
+      "showAllShifts": "Press to navigate to Shift view to show all shifts",
       "reviewShift": "Review this shift",
       "infoButton": "Show information about carryover",
       "dailyInfoButton": "Show information about daily work time",
