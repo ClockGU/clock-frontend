@@ -17,7 +17,8 @@
       "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
       "reviewed": "Diese Schicht wurde überprüft.",
       "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
-      "editShift": "Drücken Sie die Tabulatortaste, um zur Bearbeiten-Schaltfläche zu gelangen und diese Schicht im Kalender hinzuzufügen.",
+      "editShift": "Drücken um die Schicht zur Bearbeitung zu öffnen",
+      "createShift": "Drücken um eine Schicht zu erstellen",
       "warnings": "Sie haben {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
     },
     "shift": {
