@@ -196,7 +196,9 @@
       "showMonthlyProgress": "Monatlichen Fortschritt anzeigen",
       "showWeeklyProgress": "Wöchentlichen Fortschritt anzeigen",
       "showDailyProgress": "Täglichen Fortschritt anzeigen",
-      "showAllNews": "Alle Neuigkeiten anzeigen"
+      "showAllNews": "Alle Neuigkeiten anzeigen",
+      "hoursHeader": "Stunden in HH:MM",
+      "progressHeader": "Stunden Zusammenfassung"
     }
   },
   "sr": {

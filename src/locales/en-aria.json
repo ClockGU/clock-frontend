@@ -198,7 +198,9 @@
       "showMonthlyProgress": "Show monthly progress",
       "showWeeklyProgress": "Show weekly progress",
       "showDailyProgress": "Show daily progress",
-      "showAllNews": "Show all news"
+      "showAllNews": "Show all news",
+      "hoursHeader": "Hours in HH:MM",
+      "progressHeader": "Hours Summary"
     }
   },
   "sr": {
