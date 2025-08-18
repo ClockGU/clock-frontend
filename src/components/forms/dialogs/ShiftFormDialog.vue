@@ -14,7 +14,11 @@
         :color="btnColor"
         :flat="flatButton"
         v-bind="props['props']"
-        :aria-label="$t('aria.shiftsTable.editShift')"
+        :aria-label="
+          create
+            ? $t('aria.shiftsTable.createShift')
+            : $t('aria.shiftsTable.editShift')
+        "
         @click.stop
         @keydown.stop
       >
@@ -32,12 +36,12 @@
           @click.stop
           @keydown.stop
         >
-      </v-btn>
-      <ShiftWarningIcon
-        :shift="newShift"
-        style="transform: translate(-65%, -50%)"
+        </v-btn>
+        <ShiftWarningIcon
+          :shift="newShift"
+          style="transform: translate(-65%, -50%)"
         >
-      </ShiftWarningIcon>
+        </ShiftWarningIcon>
       </div>
     </template>
     <template #content="{ events: { close } }">
@@ -180,4 +184,3 @@ function closeFormDialog() {
   show.value = false;
 }
 </script>
-
