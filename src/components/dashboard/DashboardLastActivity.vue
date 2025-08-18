@@ -17,10 +17,10 @@
             </template>
           </ShiftFormDialog>
         </v-list>
-        <v-btn 
-          color="success" 
-          variant="text" 
-          :aria-label="$t('aria.dashboard.showAllShifts')"
+        <v-btn
+          color="success"
+          variant="text"
+          :aria-label="$t('label.dashboard.showAllShifts')"
           :to="allShiftRouter"
         >
           {{ $t("dashboard.showAll") }}

@@ -7,7 +7,9 @@
             <v-window-item key="1">
               <v-card ref="primary-card" flat>
                 <v-card-title>
-                  <h2>{{ $t("dashboard.progress.title.monthly") }}</h2>
+                  <h2>
+                    {{ $t("dashboard.progress.title.monthly") }}
+                  </h2>
                   <v-spacer></v-spacer>
                   <v-btn
                     v-if="maxCarryoverExceeded || carryover"
@@ -18,7 +20,7 @@
                         : icons.mdiInformation
                     "
                     :color="maxCarryoverExceeded ? 'error' : 'warning'"
-                    :aria-label="$t('aria.dashboard.infoButton')"
+                    :aria-label="$t('label.dashboard.infoButton')"
                     @click="showWarning('carryover')"
                   >
                   </v-btn>
@@ -123,7 +125,7 @@
                     variant="flat"
                     :icon="icons.mdiAlert"
                     color="error"
-                    :aria-label="$t('aria.dashboard.dailyInfoButton')"
+                    :aria-label="$t('label.dashboard.dailyInfoButton')"
                     @click="showWarning('daily')"
                   ></v-btn>
                 </v-card-title>
@@ -171,7 +173,7 @@
     <v-card-actions class="justify-space-between">
       <v-btn
         variant="text"
-        :aria-label="$t('aria.dashboard.previousView')"
+        :aria-label="$t('label.dashboard.previousView')"
         @click="step === 0 ? (step = 2) : step--"
       >
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
@@ -188,10 +190,10 @@
             :aria-label="
               $t(
                 n === 1
-                  ? 'aria.dashboard.showMonthlyProgress'
+                  ? 'label.dashboard.showMonthlyProgress'
                   : n === 2
-                  ? 'aria.dashboard.showWeeklyProgress'
-                  : 'aria.dashboard.showDailyProgress'
+                  ? 'label.dashboard.showWeeklyProgress'
+                  : 'label.dashboard.showDailyProgress'
               )
             "
             @click="toggle"
@@ -202,7 +204,7 @@
       <v-btn
         variant="text"
         :icon="icons.mdiChevronRight"
-        :aria-label="$t('aria.dashboard.nextView')"
+        :aria-label="$t('label.dashboard.nextView')"
         @click="step === 2 ? (step = 0) : step++"
       >
       </v-btn>
