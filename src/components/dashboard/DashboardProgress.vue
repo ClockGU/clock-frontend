@@ -18,6 +18,7 @@
                         : icons.mdiInformation
                     "
                     :color="maxCarryoverExceeded ? 'error' : 'warning'"
+                    :aria-label="$t('aria.dashboard.infoButton')"
                     @click="showWarning('carryover')"
                   >
                   </v-btn>
@@ -122,6 +123,7 @@
                     variant="flat"
                     :icon="icons.mdiAlert"
                     color="error"
+                    :aria-label="$t('aria.dashboard.dailyInfoButton')"
                     @click="showWarning('daily')"
                   ></v-btn>
                 </v-card-title>
@@ -167,7 +169,11 @@
     ></ShiftWarnings>
 
     <v-card-actions class="justify-space-between">
-      <v-btn variant="text" @click="step === 0 ? (step = 2) : step--">
+      <v-btn
+        variant="text"
+        :aria-label="$t('aria.dashboard.previousView')"
+        @click="step === 0 ? (step = 2) : step--"
+      >
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
       <v-item-group v-model="step" class="text-center" mandatory>
@@ -179,6 +185,15 @@
           <v-btn
             :input-value="active"
             :icon="icons.mdiCircleMedium"
+            :aria-label="
+              $t(
+                n === 1
+                  ? 'aria.dashboard.showMonthlyProgress'
+                  : n === 2
+                  ? 'aria.dashboard.showWeeklyProgress'
+                  : 'aria.dashboard.showDailyProgress'
+              )
+            "
             @click="toggle"
           >
           </v-btn>
@@ -187,6 +202,7 @@
       <v-btn
         variant="text"
         :icon="icons.mdiChevronRight"
+        :aria-label="$t('aria.dashboard.nextView')"
         @click="step === 2 ? (step = 0) : step++"
       >
       </v-btn>

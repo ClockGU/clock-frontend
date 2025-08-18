@@ -1,7 +1,13 @@
 <template>
   <TheDialog :persistent="false" :fullscreen="smAndDown" :max-width="800">
     <template #activator="{ props }">
-      <v-btn variant="text" color="primary" block v-bind="props">
+      <v-btn 
+        variant="text" 
+        color="primary" 
+        block 
+        :aria-label="$t('aria.dashboard.showAllNews')"
+        v-bind="props"
+      >
         {{ $t("news.showAll") }}
       </v-btn>
     </template>
