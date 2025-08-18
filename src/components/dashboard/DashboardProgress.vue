@@ -43,6 +43,14 @@
                     <v-col cols="9">
                       <v-table>
                         <template #default>
+                          <thead class="sr-only">
+                            <tr>
+                              <th>
+                                {{ $t("label.dashboard.progressHeader") }}
+                              </th>
+                              <th>{{ $t("label.dashboard.hoursHeader") }}</th>
+                            </tr>
+                          </thead>
                           <tbody>
                             <tr
                               v-for="(row, index) in azkData"
