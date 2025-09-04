@@ -210,8 +210,9 @@ export default {
         );
         let report = filteredReports[0];
         if (report === undefined) {
-          this.date =
-            this.selectedReports[this.selectedReports.length - 1].monthYear;
+          this.date = this.selectedReports[
+            this.selectedReports.length - 1
+          ].monthYear;
           return;
         }
         this.report = report;
@@ -243,8 +244,7 @@ export default {
     getAlertMessages(report) {
       if (this.disabled) return [];
       let messages = [];
-      const worktimeInMinutes =
-        report.worktimeInMinutes + report.carryoverPreviousMonthInMinutes;
+      const worktimeInMinutes = report.worktimeInMinutes;
       const debitInMinutes = report.debitWorktimeInMinutes;
 
       if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {
