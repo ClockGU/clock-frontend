@@ -2,6 +2,7 @@
   <base-layout
     alternative-portal-target="card-toolbar"
     :card-elevation="isXs ? 0 : null"
+    aria-labelledby="settings-title"
   >
     <template #card-top>
       <portal-target name="card-toolbar"></portal-target>
@@ -12,11 +13,14 @@
         v-if="isXs"
         variant="flat"
         @click="action"
+        :aria-label="$t('aria.openNavigation')"
       ></v-app-bar-nav-icon>
     </template>
 
     <template #title>
-      {{ $t("app.settings") }}
+      <h1 id="settings-title" class="text-h5 font-weight-bold">
+        {{ $t("app.settings") }}
+      </h1>
     </template>
 
     <template #content>
@@ -27,21 +31,35 @@
             direction="horizontal"
             show-arrows
             class="mb-4"
+            role="tablist"
           >
             <template #prev="{ props }">
-              <v-icon :icon="icons.mdiChevronLeft" v-bind="props"></v-icon>
+              <v-icon
+                :icon="icons.mdiChevronLeft"
+                v-bind="props"
+                :aria-label="$t('aria.previousTab')"
+              ></v-icon>
             </template>
             <v-window-item
               v-for="(item, index) in tabs"
               :key="index"
               class="centered-item"
+              role="tab"
+              :aria-selected="tab === item.value"
+              :aria-controls="'panel-' + item.value"
+              @click="tab = item.value"
+              :tabindex="tab === item.value ? 0 : -1"
             >
               <v-icon class="mr-2 pr-1" :icon="item.icon" />
               {{ $t(item.text) }}
             </v-window-item>
 
             <template #next="{ props }">
-              <v-icon :icon="icons.mdiChevronRight" v-bind="props"></v-icon>
+              <v-icon
+                :icon="icons.mdiChevronRight"
+                v-bind="props"
+                :aria-label="$t('aria.nextTab')"
+              ></v-icon>
             </template>
           </v-window>
 
@@ -50,6 +68,9 @@
               v-for="(item, index) in tabs"
               :key="index"
               :value="item.value"
+              role="tabpanel"
+              :id="'panel-' + item.value"
+              :aria-labelledby="'tab-' + item.value"
             >
               <component :is="item.component" />
             </v-window-item>
@@ -58,8 +79,20 @@
 
         <v-row v-else>
           <v-col cols="4">
-            <v-tabs v-model="tab" direction="vertical" class="tabs">
-              <v-tab v-for="(item, index) in tabs" :key="index">
+            <v-tabs
+              v-model="tab"
+              direction="vertical"
+              class="tabs"
+              :aria-label="$t('aria.settings.tabs')"
+              role="tablist"
+            >
+              <v-tab
+                v-for="(item, index) in tabs"
+                :key="index"
+                :value="item.value"
+                :aria-controls="'panel-' + item.value"
+                :tabindex="tab === item.value ? 0 : -1"
+              >
                 <v-icon :icon="item.icon" start />
                 {{ $t(item.text) }}
               </v-tab>
@@ -71,6 +104,9 @@
                 v-for="(item, index) in tabs"
                 :key="index"
                 :value="item.value"
+                role="tabpanel"
+                :id="'panel-' + item.value"
+                :aria-labelledby="'tab-' + item.value"
               >
                 <component :is="item.component" />
               </v-window-item>
@@ -122,7 +158,9 @@ export default {
       mdiAccountRemove,
       mdiFormatSection,
       mdiWeb,
-      mdiAccountReactivate
+      mdiAccountReactivate,
+      mdiChevronLeft,
+      mdiChevronRight
     },
     tab: "first"
   }),
@@ -188,9 +226,6 @@ div.tabs [role="tab"] {
   justify-content: center;
   width: 100%;
 }
-</style>
-
-<style lang="scss">
 //not-so-beautiful hack
 .v-slide-group__prev {
   display: none !important;

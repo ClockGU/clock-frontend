@@ -1,5 +1,5 @@
 <template>
-  <label for="tags" class="ml-10">{{$t('label.shiftFormTags')}}</label>
+  <label for="tags" class="ml-10">{{ $t("label.shiftFormTags") }}</label>
   <v-combobox
     id="tags"
     v-model="model"

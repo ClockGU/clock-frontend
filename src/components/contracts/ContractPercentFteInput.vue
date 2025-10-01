@@ -1,5 +1,7 @@
 <template>
-  <label for="contract-percent-fte-input" >{{ $t("label.contractPercentFteInput") }}</label>
+  <label for="contract-percent-fte-input">{{
+    $t("label.contractPercentFteInput")
+  }}</label>
   <v-text-field
     id="contract-percent-fte-input"
     v-model="percent"

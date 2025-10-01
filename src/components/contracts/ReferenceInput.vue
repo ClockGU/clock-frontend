@@ -20,7 +20,7 @@ async function copyToClipboard() {
   <div class="d-flex align-center">
     <div class="flex-grow-1">
       <label for="reference-input" class="ml-10">
-        {{$t("label.referenceInput") }} 
+        {{ $t("label.referenceInput") }}
       </label>
       <v-text-field
         id="reference-input"
@@ -43,7 +43,7 @@ async function copyToClipboard() {
             @click="copyToClipboard"
           ></v-btn>
         </template>
-    </v-text-field>
+      </v-text-field>
     </div>
     <v-btn
       :icon="mdiRotate3dVariant"
@@ -59,6 +59,3 @@ async function copyToClipboard() {
   line-height: 1.33333;
 }
 </style>
-
-
-

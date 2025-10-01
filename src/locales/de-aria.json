@@ -89,6 +89,9 @@
     "table": {
       "label": "Kategorie",
       "value": "Wert"
+    },
+    "settings": {
+      "tabs": "Einstellung Registerkarten. Verwenden Sie die Pfeiltasten, um durch die Registerkarten zu navigieren."
     }
   },
   "selectContract": {

@@ -9,9 +9,13 @@
     persistent-hint="!disabled"
     variant="solo"
     return-object
-    :bg-color="bgColor" 
-    :aria-label="disabled ? $t('aria.selectContract.disabled') : $t('aria.selectContract.enabled')" 
-    class="accessible-select" 
+    :bg-color="bgColor"
+    :aria-label="
+      disabled
+        ? $t('aria.selectContract.disabled')
+        : $t('aria.selectContract.enabled')
+    "
+    class="accessible-select"
     @keydown.enter="if (disabled) this.$router.push('/contracts');"
     @keydown.space="if (disabled) this.$router.push('/contracts');"
     @update:model-value="changeContract"
@@ -19,13 +23,9 @@
     <template #selection="{ item }">
       <div v-if="disabled">
         {{ $t("dashboard.disabled.noContract") }}
-        <router-link 
-          v-if="disabled"   
-          to="/contracts" 
-          tabindex="-1"
-        >
-          {{$t("dashboard.disabled.createContractHere")}}
-      </router-link>
+        <router-link v-if="disabled" to="/contracts" tabindex="-1">
+          {{ $t("dashboard.disabled.createContractHere") }}
+        </router-link>
       </div>
       <div v-else>
         {{ item.title + contractStatus(item.raw) }}
@@ -95,7 +95,7 @@ export default {
       if (this.specificContractExpired(contract))
         return " " + this.$t("contracts.expired");
       else return "";
-    },
+    }
   }
 };
 </script>

@@ -1,12 +1,13 @@
 <template>
   <v-row align="end" class="pl-3">
-    <v-radio-group v-model="radios"
-     inline 
-     hide-details 
-     class="mt-0 pt-0"
-     :aria-label="$t('aria.shiftFormType.description')"
-     tabindex="0"
-     >
+    <v-radio-group
+      v-model="radios"
+      inline
+      hide-details
+      class="mt-0 pt-0"
+      :aria-label="$t('aria.shiftFormType.description')"
+      tabindex="0"
+    >
       <template #prepend>
         <v-icon
           :icon="typeIcons[modelValue]"

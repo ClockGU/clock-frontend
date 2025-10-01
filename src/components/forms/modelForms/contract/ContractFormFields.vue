@@ -35,7 +35,10 @@
         <ReferenceInput v-model="contract.reference"></ReferenceInput>
       </v-col>
       <v-col cols="12" aria-hidden="true">
-        <ContractColorInput v-model="contract.color" aria-hidden="true"></ContractColorInput>
+        <ContractColorInput
+          v-model="contract.color"
+          aria-hidden="true"
+        ></ContractColorInput>
       </v-col>
       <v-col cols="12" class="pa-0">
         <v-expand-transition hide-on-leave>

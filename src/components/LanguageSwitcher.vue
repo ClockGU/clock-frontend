@@ -28,7 +28,11 @@
       <v-list-item
         v-for="item in locales"
         :key="item.locale"
-        :role="item.locale === $i18n.locale ? 'menuitemradio checked' : 'menuitemradio'"
+        :role="
+          item.locale === $i18n.locale
+            ? 'menuitemradio checked'
+            : 'menuitemradio'
+        "
         :aria-checked="item.locale === $i18n.locale"
         @click="switchLocale(item.locale)"
       >
@@ -86,5 +90,3 @@ export default {
   }
 };
 </script>
-
-
