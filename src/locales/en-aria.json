@@ -11,6 +11,7 @@
       "messageDate": "Valid from {date}"
     },
     "progress": {
+      "title": "Progress",
       "monthlyDescription": "Monthly progress view. You have worked {progress}% of your target this month",
       "monthlyProgress": "Monthly progress is {progress}% of your target",
       "weeklyDescription": "Weekly progress view. You worked {hours} hours against {average} average, and achieved {progress}% of your target",
