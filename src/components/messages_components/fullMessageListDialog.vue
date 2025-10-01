@@ -5,7 +5,7 @@
         variant="text"
         color="primary"
         block
-        :aria-label="$t('label.dashboard.showAllNews')"
+        :aria-label="$t('news.showAll')"
         v-bind="props"
       >
         {{ $t("news.showAll") }}
@@ -13,7 +13,7 @@
     </template>
 
     <template #content="{ events: { close } }">
-      <v-card>
+      <v-card role="dialog" aria-modal="true" :aria-label="$t('app.news')">
         <CardToolbar
           :title="$t('app.news')"
           :logout-action="false"
@@ -21,7 +21,13 @@
           @close="close"
         ></CardToolbar>
         <v-card-text>
-          <MessageList :messages="messages" :max-height="600" />
+          <MessageList
+            :messages="messages"
+            :max-height="600"
+            :aria-label="
+              $t('aria.news.fullListDescription', { count: messages.length })
+            "
+          />
         </v-card-text>
       </v-card>
     </template>
