@@ -10,6 +10,18 @@
       "messageContent": "Inhalt: {content}",
       "messageDate": "Gültig ab {date}"
     },
+    "progress": {
+      "monthlyDescription": "Monatliche Fortschrittsansicht. Sie haben {progress}% Ihres Ziels in diesem Monat gearbeitet",
+      "monthlyProgress": "Monatlicher Fortschritt beträgt {progress}% Ihres Ziels",
+      "weeklyDescription": "Wöchentliche Fortschrittsansicht. Sie haben {hours} Stunden gearbeitet bei einem Durchschnitt von {average}, und {progress}% Ihres Ziels erreicht",
+      "weeklyProgress": "Wöchentlicher Fortschritt beträgt {progress}% Ihres Ziels",
+      "dailyDescription": "Tägliche Fortschrittsansicht. Sie haben heute {hours} Stunden und {minutes} Minuten gearbeitet, {status}",
+      "disabledMessage": "Fortschrittsverfolgung ist derzeit deaktiviert",
+      "maxCarryoverExceeded": "Maximale Übertragungsgrenze überschritten",
+      "carryoverActive": "Übertragung aktiv",
+      "overtimeStatus": "was das tägliche Limit überschreitet",
+      "normalStatus": "was innerhalb der normalen Grenzen liegt"
+    },
     "viewShifts": {
       "searchPast": "Vergangene Schichten suchen",
       "searchFuture": "Zukünftige Schichten suchen"

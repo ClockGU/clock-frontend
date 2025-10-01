@@ -10,6 +10,18 @@
       "messageContent": "Content: {content}",
       "messageDate": "Valid from {date}"
     },
+    "progress": {
+      "monthlyDescription": "Monthly progress view. You have worked {progress}% of your target this month",
+      "monthlyProgress": "Monthly progress is {progress}% of your target",
+      "weeklyDescription": "Weekly progress view. You worked {hours} hours against {average} average, and achieved {progress}% of your target",
+      "weeklyProgress": "Weekly progress is {progress}% of your target",
+      "dailyDescription": "Daily progress view. You worked {hours} hours and {minutes} minutes today, {status}",
+      "disabledMessage": "Progress tracking is currently disabled",
+      "maxCarryoverExceeded": "Maximum carryover limit exceeded",
+      "carryoverActive": "Carryover active",
+      "overtimeStatus": "which exceeds the daily limit",
+      "normalStatus": "which is within normal limits"
+    },
     "viewShifts": {
       "searchPast": "Search for past shifts",
       "searchFuture": "Search for future shifts"

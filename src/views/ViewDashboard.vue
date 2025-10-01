@@ -22,9 +22,15 @@
               </v-col>
 
               <v-col cols="12" md="6" order="2">
-                <v-card>
+                <v-card
+                  tabindex="0"
+                  role="region"
+                  aria-labelledby="new-shift-header"
+                >
                   <v-card-title>
-                    <h2>{{ $t("dashboard.newShift.title") }}</h2>
+                    <h2 id="new-shift-header">
+                      {{ $t("dashboard.newShift.title") }}
+                    </h2>
                   </v-card-title>
                   <v-card-text>
                     <ShiftFormDialog
