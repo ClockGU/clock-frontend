@@ -1,13 +1,23 @@
 <template>
-  <v-card>
-    <v-window v-model="step">
+  <v-card tabindex="0" role="region" aria-labelledby="progress-header">
+    <!-- Screen reader announcements -->
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      class="sr-only"
+      :key="announcementKey"
+    >
+      {{ currentAnnouncement }}
+    </div>
+
+    <v-window v-model="step" @change="updateAnnouncement">
       <v-hover>
         <template #default="{ hover }">
           <div @click="toggleTouchOverlay(hover)">
             <v-window-item key="1">
               <v-card ref="primary-card" flat>
                 <v-card-title>
-                  <h2>
+                  <h2 id="progress-header">
                     {{ $t("dashboard.progress.title.monthly") }}
                   </h2>
                   <v-spacer></v-spacer>
@@ -36,6 +46,11 @@
                         rotate="270"
                         class="pa-2"
                         :model-value="disabled ? 0 : monthlyProgress"
+                        :aria-label="
+                          $t('aria.progress.monthlyProgress', {
+                            progress: printProgress(monthlyProgress)
+                          })
+                        "
                       >
                         {{ disabled ? 0 : printProgress(monthlyProgress) }}%
                       </v-progress-circular>
@@ -43,12 +58,14 @@
                     <v-col cols="9">
                       <v-table>
                         <template #default>
-                          <thead class="sr-only">
+                          <thead>
                             <tr>
-                              <th>
+                              <th scope="col">
                                 {{ $t("label.dashboard.progressHeader") }}
                               </th>
-                              <th>{{ $t("label.dashboard.hoursHeader") }}</th>
+                              <th scope="col">
+                                {{ $t("label.dashboard.hoursHeader") }}
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -57,11 +74,14 @@
                               :key="row.name"
                               :class="carryoverClass(index)"
                             >
-                              <td>
+                              <td scope="row">
                                 {{ row.name }}
                               </td>
                               <td align="right">
                                 {{ row.value }}
+                                <span v-if="index === 3" class="sr-only">
+                                  {{ carryoverStatusText }}
+                                </span>
                               </td>
                             </tr>
                           </tbody>
@@ -80,7 +100,9 @@
                 class="grow d-flex flex-column flex-nowrap"
               >
                 <v-card-title>
-                  <h2>{{ $t("dashboard.progress.title.weekly") }}</h2>
+                  <h2 id="progress-header">
+                    {{ $t("dashboard.progress.title.weekly") }}
+                  </h2>
                 </v-card-title>
                 <v-row justify="center" class="grow">
                   <v-col cols="12" align-self="center">
@@ -94,6 +116,11 @@
                             rotate="270"
                             class="pa-2"
                             :model-value="disabled ? 0 : weeklyProgress"
+                            :aria-label="
+                              $t('aria.progress.weeklyProgress', {
+                                progress: printProgress(weeklyProgress)
+                              })
+                            "
                           >
                             {{ disabled ? 0 : printProgress(weeklyProgress) }}%
                           </v-progress-circular>
@@ -141,7 +168,7 @@
                   <v-col cols="12" align-self="center">
                     <v-card-text class="text-center">
                       <p>{{ $t("dashboard.progress.dailyText1") }}</p>
-                      <span :class="colorDaily">
+                      <span :class="colorDaily" role="status">
                         <span class="text-h2">{{ dailyWorktime[0] }}</span>
                         h
                         <span class="text-h2">{{ dailyWorktime[1] }}</span>
@@ -161,6 +188,8 @@
                 absolute
                 scrim="primary"
                 style="align-items: start"
+                role="alert"
+                :aria-label="$t('aria.progress.disabledMessage')"
               >
                 <p style="margin-top: 15%" class="text-center">
                   {{ $t("dashboard.disabled.progressHere") }}
@@ -186,7 +215,7 @@
       >
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
       </v-btn>
-      <v-item-group v-model="step" class="text-center" mandatory>
+      <v-item-group v-model="step" class="text-center" mandatory role="tablist">
         <v-item
           v-for="n in length"
           :key="`btn-${n}`"
@@ -204,6 +233,8 @@
                   : 'label.dashboard.showDailyProgress'
               )
             "
+            :aria-selected="active"
+            role="tab"
             @click="toggle"
           >
           </v-btn>
@@ -267,7 +298,8 @@ export default {
       mdiAlert
     },
     minCardHeight: 0,
-    touchOverlay: false
+    touchOverlay: false,
+    announcementKey: 0
   }),
   computed: {
     totalMinutesWorked() {
@@ -318,6 +350,38 @@ export default {
     },
     maxCarryoverExceeded() {
       return this.monthlyProgress > 150;
+    },
+    carryoverStatusText() {
+      if (this.maxCarryoverExceeded) {
+        return this.$t("aria.progress.maxCarryoverExceeded");
+      } else if (this.carryover) {
+        return this.$t("aria.progress.carryoverActive");
+      }
+      return "";
+    },
+    currentAnnouncement() {
+      switch (this.step) {
+        case 0:
+          return this.$t("aria.progress.monthlyDescription", {
+            progress: this.printProgress(this.monthlyProgress)
+          });
+        case 1:
+          return this.$t("aria.progress.weeklyDescription", {
+            hours: this.weeklyHours,
+            average: this.weeklyAvg,
+            progress: this.printProgress(this.weeklyProgress)
+          });
+        case 2:
+          return this.$t("aria.progress.dailyDescription", {
+            hours: this.dailyWorktime[0],
+            minutes: this.dailyWorktime[1],
+            status: this.dailyOvertime
+              ? this.$t("aria.progress.overtimeStatus")
+              : this.$t("aria.progress.normalStatus")
+          });
+        default:
+          return "";
+      }
     }
   },
   async mounted() {
@@ -331,7 +395,6 @@ export default {
       return progress.toFixed(0);
     },
     carryoverClass(index) {
-      // a bit hacky, but index is defined in this component
       if (index == 3) {
         if (this.carryover) return "orange--text";
         else if (this.maxCarryoverExceeded) return "red--text";
@@ -339,7 +402,6 @@ export default {
       }
     },
     showWarning(type) {
-      // TODO: make this beautiful
       switch (type) {
         case "daily":
           this.warnings = [
@@ -372,6 +434,10 @@ export default {
           break;
       }
       this.dialog = true;
+    },
+    updateAnnouncement() {
+      // Force update the announcement by changing the key
+      this.announcementKey++;
     }
   }
 };
