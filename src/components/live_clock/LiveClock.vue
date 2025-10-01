@@ -214,7 +214,7 @@ if (clockedInShift.value !== undefined) {
   >
     <v-toolbar :elevation="0">
       <v-toolbar-title>
-        <h2>
+        <h2 id="clock-state">
           {{
             status === "running"
               ? t("dashboard.clock.state.running")
