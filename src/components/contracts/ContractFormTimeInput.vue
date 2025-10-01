@@ -1,5 +1,5 @@
 <template>
-  <label :for="label" class="ml-10" >{{ label }}</label>
+  <label :for="label" class="ml-10">{{ label }}</label>
   <v-text-field
     :id="label"
     v-model="time"

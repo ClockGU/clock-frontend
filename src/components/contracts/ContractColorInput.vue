@@ -4,7 +4,9 @@
       <tbody>
         <tr>
           <td>
-            <div style="font-size: 14px; font-weight: 500">{{ $t("contracts.displayColor") }}</div>
+            <div style="font-size: 14px; font-weight: 500">
+              {{ $t("contracts.displayColor") }}
+            </div>
           </td>
           <td>
             <v-menu
@@ -31,11 +33,12 @@
           </td>
           <td>
             <v-spacer>
-              <v-btn 
-                variant="text" 
-                tabindex="-1" 
+              <v-btn
+                variant="text"
+                tabindex="-1"
                 aria-hidden="true"
-                @click="color = initialColor" >
+                @click="color = initialColor"
+              >
                 {{ $t("actions.reset") }}
               </v-btn>
             </v-spacer>

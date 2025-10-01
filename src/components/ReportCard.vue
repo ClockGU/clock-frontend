@@ -21,14 +21,16 @@
       <v-card-text>
         <div aria-live="polite" aria-atomic="true" class="sr-only">
           {{ $t("reports.summary") }}:
-          {{ rows.map(r => `${r.name}: ${r.value}`).join(', ') }}
+          {{ rows.map((r) => `${r.name}: ${r.value}`).join(", ") }}
         </div>
         <v-table>
           <template #default>
             <thead>
               <tr>
                 <th scope="col">{{ $t("aria.table.label") }}</th>
-                <th scope="col" class="text-right">{{ $t("aria.table.value") }}</th>
+                <th scope="col" class="text-right">
+                  {{ $t("aria.table.value") }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -45,12 +47,7 @@
             </tbody>
           </template>
         </v-table>
-        <div
-          v-if="pdf"
-          aria-live="polite"
-          aria-atomic="true"
-          class="sr-only"
-        >
+        <div v-if="pdf" aria-live="polite" aria-atomic="true" class="sr-only">
           {{ $t("aria.report.readyForDownload") }}
         </div>
       </v-card-text>
@@ -60,7 +57,13 @@
           <!-- Request/Download Section -->
           <div
             role="group"
-            :aria-label="$t(pdf ? 'aria.report.downloadSection' : 'aria.report.requestSection')"
+            :aria-label="
+              $t(
+                pdf
+                  ? 'aria.report.downloadSection'
+                  : 'aria.report.requestSection'
+              )
+            "
             tabindex="0"
           >
             <v-row align="center">
@@ -72,7 +75,12 @@
                 <p class="text-caption" aria-hidden="true">
                   {{ $t("reports.hints.request") }}
 
-                  <span v-if="!isExportable" id="personnel-warning" class="text-caption warn" aria-hidden="false">
+                  <span
+                    v-if="!isExportable"
+                    id="personnel-warning"
+                    class="text-caption warn"
+                    aria-hidden="false"
+                  >
                     {{ $t("reports.hints.personnelnumber") }}
                   </span>
                 </p>
@@ -139,9 +147,11 @@
                       :color="!lockDisabled ? 'warning' : ''"
                       v-bind="confirmationProps"
                       role="button"
-                      :aria-label="isLockable
-                        ? $t('aria.report.lockButton')
-                        : $t('aria.report.lockedButton')"
+                      :aria-label="
+                        isLockable
+                          ? $t('aria.report.lockButton')
+                          : $t('aria.report.lockedButton')
+                      "
                     >
                       <span class="sr-only">
                         {{
@@ -185,7 +195,6 @@
     </v-card>
   </v-hover>
 </template>
-
 
 <script>
 import { parseISO } from "date-fns";

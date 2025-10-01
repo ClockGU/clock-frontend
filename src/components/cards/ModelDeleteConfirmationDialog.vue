@@ -36,9 +36,9 @@ const consequencesText = computed(() => {
     aria-labelledby="delete-confirmation-title"
   >
     <template #activator="{ props }">
-      <v-btn 
-        variant="text" 
-        color="error" 
+      <v-btn
+        variant="text"
+        color="error"
         v-bind="props"
         :aria-label="t('actions.delete')"
       >

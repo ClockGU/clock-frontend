@@ -18,7 +18,7 @@
       <v-card-text>
         <div aria-live="polite" aria-atomic="true" class="sr-only">
           {{ $t("aria.report.vacationSummary") }}:
-          {{ rows.map(r => `${r.name}: ${r.value}`).join(', ') }}
+          {{ rows.map((r) => `${r.name}: ${r.value}`).join(", ") }}
         </div>
 
         <v-table>
@@ -26,7 +26,9 @@
             <thead>
               <tr>
                 <th scope="col">{{ $t("aria.table.label") }}</th>
-                <th scope="col" class="text-right">{{ $t("aria.table.value") }}</th>
+                <th scope="col" class="text-right">
+                  {{ $t("aria.table.value") }}
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -18,7 +18,13 @@
         ></CardToolbar>
         <br />
 
-        <v-table comfortable rounded class="mt-8 mx-4" tabindex="0" :aria-label="$t('aria.shiftsDetailsDialog.table')">
+        <v-table
+          comfortable
+          rounded
+          class="mt-8 mx-4"
+          tabindex="0"
+          :aria-label="$t('aria.shiftsDetailsDialog.table')"
+        >
           <tbody>
             <tr>
               <td class="font-weight-bold w-33">{{ headers[0].title }}</td>
@@ -63,7 +69,6 @@
                   elevation="0"
                   :aria-label="$t('aria.shiftsTable.notReviewed')"
                   @click="reviewSingleShift(item)"
-                  
                 ></v-btn>
                 <v-btn
                   v-else

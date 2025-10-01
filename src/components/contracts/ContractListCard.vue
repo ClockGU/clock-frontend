@@ -22,12 +22,12 @@
       <h3 class="text-h6 primary-text" role="heading">
         {{ contract.name }}
       </h3>
-        {{
-          $t("contracts.fromTo", {
-            start: startDate,
-            end: endDate
-          })
-        }}
+      {{
+        $t("contracts.fromTo", {
+          start: startDate,
+          end: endDate
+        })
+      }}
     </v-card-text>
 
     <v-card-actions data-cy="contract-actions">
@@ -112,4 +112,3 @@ export default {
   );
 }
 </style>
-

@@ -2,7 +2,11 @@
   <v-card-text class="pb-0">
     <div class="sr-only" aria-live="polite">
       <span v-if="alertMessages.length > 0">
-        {{ $tc("sr.shiftFormFields.warningLabel", { count: alertMessages.length }) }}
+        {{
+          $tc("sr.shiftFormFields.warningLabel", {
+            count: alertMessages.length
+          })
+        }}
         {{ alertMessages }}
       </span>
     </div>
@@ -215,4 +219,3 @@ export default {
   padding: unset;
 }
 </style>
-

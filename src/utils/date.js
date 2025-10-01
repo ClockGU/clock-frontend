@@ -32,7 +32,7 @@ export function dateIsHoliday(date) {
     return holidayCandidate;
   }
   // Ostersonntag is not a public holiday in Hessen/Germany
-  if (holidayCandidate[0].name ==="Ostersonntag"){
+  if (holidayCandidate[0].name === "Ostersonntag") {
     return false;
   }
   return (
@@ -50,7 +50,7 @@ export const getToday = () => {
 
 export const parseDate = (dateString) => {
   return parse(dateString, "yyyy-MM-dd", new Date());
-}
+};
 
 export const dateOperations = {
   addDays: addDays,

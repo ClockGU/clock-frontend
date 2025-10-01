@@ -30,13 +30,20 @@
             </template>
           </v-combobox>
 
-
-        <!-- Hidden description for screen readers -->
-        <div id="selected-contracts-description" class="sr-only" aria-live="polite">
-          {{ displayedContracts.length > 0
-            ? $t('aria.calendar.selectedContracts', { contracts: displayedContracts.map(c => c.name).join(', ') })
-            : $t('aria.calendar.noContractsSelected') }}
-        </div>
+          <!-- Hidden description for screen readers -->
+          <div
+            id="selected-contracts-description"
+            class="sr-only"
+            aria-live="polite"
+          >
+            {{
+              displayedContracts.length > 0
+                ? $t("aria.calendar.selectedContracts", {
+                    contracts: displayedContracts.map((c) => c.name).join(", ")
+                  })
+                : $t("aria.calendar.noContractsSelected")
+            }}
+          </div>
         </v-col>
       </v-row>
       <v-row>
@@ -67,33 +74,33 @@
                 </v-col>
               </div>
             </template>
-           <template #event="{ event }">
-          <v-chip
-            @click="editEvent(event.shift)"
-            :aria-label="`${$t('aria.calendar.shiftPlanned', {
-              date: formatTime(event.start),
-              duration: event.selectedEventDuration
-            })}`"
-          >
-            <v-badge :color="event.contractColor" dot inline></v-badge>
-            <div class="pl-1">
-              <div class="icon-center">
-                <span class="pr-1" style="border-right: 2px solid black">
-                  <strong>{{ formatTime(event.start) }} </strong>
-                </span>
-                <span class="ml-1">
-                  {{ event.selectedEventDuration }}
-                </span>
-                <v-icon
-                  :color="event.iconColor"
-                  class="ml-2"
-                  :icon="event.icon"
-                  style="scale: 0.9"
-                />
-              </div>
-            </div>
-          </v-chip>
-        </template>
+            <template #event="{ event }">
+              <v-chip
+                @click="editEvent(event.shift)"
+                :aria-label="`${$t('aria.calendar.shiftPlanned', {
+                  date: formatTime(event.start),
+                  duration: event.selectedEventDuration
+                })}`"
+              >
+                <v-badge :color="event.contractColor" dot inline></v-badge>
+                <div class="pl-1">
+                  <div class="icon-center">
+                    <span class="pr-1" style="border-right: 2px solid black">
+                      <strong>{{ formatTime(event.start) }} </strong>
+                    </span>
+                    <span class="ml-1">
+                      {{ event.selectedEventDuration }}
+                    </span>
+                    <v-icon
+                      :color="event.iconColor"
+                      class="ml-2"
+                      :icon="event.icon"
+                      style="scale: 0.9"
+                    />
+                  </div>
+                </div>
+              </v-chip>
+            </template>
             <!--              :interval-format="intervalFormat"-->
             <!--              @click:event="editEvent"-->
             <!--              @click:more="viewDay"-->

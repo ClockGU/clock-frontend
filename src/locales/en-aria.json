@@ -90,6 +90,9 @@
     "table": {
       "label": "Category",
       "value": "Value"
+    },
+    "settings": {
+      "tabs": "Settings Tabs. Use the arrow keys to navigate through the tabs."
     }
   },
   "selectContract": {
