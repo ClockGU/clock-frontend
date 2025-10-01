@@ -10,7 +10,7 @@
 
     <template v-else>
       <v-card-title>
-        <h2 id="news-header" >{{ $t("app.news") }}</h2>
+        <h2 id="news-header">{{ $t("app.news") }}</h2>
       </v-card-title>
 
       <v-card-text v-if="noMessages">
