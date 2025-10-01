@@ -1,5 +1,5 @@
 <template>
-  <v-card tabindex="0" role="region" aria-labelledby="progress-header">
+  <v-card tabindex="0" role="region" :aria-label="$t('aria.progress.title')">
     <!-- Screen reader announcements -->
     <div
       aria-live="polite"
@@ -17,7 +17,7 @@
             <v-window-item key="1">
               <v-card ref="primary-card" flat>
                 <v-card-title>
-                  <h2 id="progress-header">
+                  <h2>
                     {{ $t("dashboard.progress.title.monthly") }}
                   </h2>
                   <v-spacer></v-spacer>
@@ -100,7 +100,7 @@
                 class="grow d-flex flex-column flex-nowrap"
               >
                 <v-card-title>
-                  <h2 id="progress-header">
+                  <h2>
                     {{ $t("dashboard.progress.title.weekly") }}
                   </h2>
                 </v-card-title>

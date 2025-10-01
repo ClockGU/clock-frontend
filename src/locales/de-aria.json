@@ -11,6 +11,7 @@
       "messageDate": "Gültig ab {date}"
     },
     "progress": {
+      "title": "Fortschritt",
       "monthlyDescription": "Monatliche Fortschrittsansicht. Sie haben {progress}% Ihres Ziels in diesem Monat gearbeitet",
       "monthlyProgress": "Monatlicher Fortschritt beträgt {progress}% Ihres Ziels",
       "weeklyDescription": "Wöchentliche Fortschrittsansicht. Sie haben {hours} Stunden gearbeitet bei einem Durchschnitt von {average}, und {progress}% Ihres Ziels erreicht",
