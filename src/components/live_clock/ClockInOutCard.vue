@@ -1,5 +1,10 @@
 <template>
-  <v-window v-model="window">
+  <v-window
+    v-model="window"
+    tabindex="0"
+    role="region"
+    aria-labelledby="clock-state"
+  >
     <v-window-item :key="0">
       <LiveClock
         v-model:window="window"
