@@ -1,7 +1,7 @@
 <template>
-  <v-card>
+  <v-card tabindex="0" role="region" aria-labelledby="review-shifts-header">
     <v-card-title>
-      <h2>{{ $t("dashboard.reviewShifts") }}</h2>
+      <h2 id="review-shifts-header">{{ $t("dashboard.reviewShifts") }}</h2>
     </v-card-title>
     <v-card-text>
       <div v-if="shiftsToReview.length > 0">
