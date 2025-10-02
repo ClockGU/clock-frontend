@@ -12,10 +12,10 @@
     },
     "progress": {
       "title": "Progress",
-      "monthlyDescription": "Monthly progress view. You have worked {progress}% of your target this month",
-      "monthlyProgress": "Monthly progress is {progress}% of your target",
-      "weeklyDescription": "Weekly progress view. You worked {hours} hours against {average} average, and achieved {progress}% of your target",
-      "weeklyProgress": "Weekly progress is {progress}% of your target",
+      "monthlyDescription": "Monthly progress view. You have worked {progress} % of your target this month",
+      "monthlyProgress": "Monthly progress is {progress} % of your target",
+      "weeklyDescription": "Weekly progress view. You worked {hours} hours against {average} average, and achieved {progress} % of your target",
+      "weeklyProgress": "Weekly progress is {progress} % of your target",
       "dailyDescription": "Daily progress view. You worked {hours} hours and {minutes} minutes today, {status}",
       "disabledMessage": "Progress tracking is currently disabled",
       "maxCarryoverExceeded": "Maximum carryover limit exceeded",
@@ -49,6 +49,15 @@
       "sk": "The type of this shift is a Sick Leave",
       "vn": "The type of this shift is a Vacation Leave",
       "bh": "The type of this shift is a Holiday Leave"
+    },
+    "shiftListItem": {
+      "day": " shift on {day}",
+      "startTime": ", starting at {startTime}",
+      "stopTime": ", stopping at {stopTime}",
+      "duration": ". Duration is {duration}",
+      "tagsPrefix": ". Tags: {tags}",
+      "notReviewed": ". Not yet reviewed",
+      "live": ". Currently live"
     },
     "shiftBulkActions": {
       "description": "Bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
