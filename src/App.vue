@@ -5,10 +5,10 @@
       :drawer="drawer"
       @close-drawer="drawer = false"
     />
-
     <TheAppBar @toggle="toggleDrawer" />
     <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
     <v-main>
+      <h1 class="sr-only">CLOCK -{{ viewName }}</h1>
       <v-alert
         v-if="userCheckedOut !== ''"
         type="info"
@@ -90,6 +90,26 @@ export default {
       isLoggedIn: "auth/loggedIn",
       userCheckedOut: "auth/checkoutUser"
     }),
+    viewName() {
+      const routeNames = {
+        home: this.$t("views.home"),
+        faq: this.$t("views.faq"),
+        onboarding: this.$t("views.onboarding"),
+        imprint: this.$t("views.imprint"),
+        privacy: this.$t("views.privacy"),
+        loggingIn: this.$t("views.loggingIn"),
+        dashboard: this.$t("views.dashboard"),
+        calendar: this.$t("views.calendar"),
+        shiftList: this.$t("views.shifts"),
+        contractList: this.$t("views.contracts"),
+        reporting: this.$t("views.reporting"),
+        settings: this.$t("views.settings"),
+        privacyagreement: this.$t("views.privacyAgreement"),
+        404: this.$t("views.notFound")
+      };
+
+      return routeNames[this.$route.name] || "";
+    },
     showingCalendar() {
       return this.$route.name === "calendar" || this.$route.name === "c";
     },

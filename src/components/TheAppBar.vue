@@ -24,8 +24,7 @@
           :aria-label="$t('label.dashboard.toDashboard')"
           :to="{ name: 'home' }"
         >
-          <v-img width="96px" height="32px" :src="imgSrc"  alt="CLOCK Logo"/>
-          <h1 class="sr-only">CLOCK</h1>
+          <v-img width="96px" height="32px" :src="imgSrc" alt="CLOCK Logo" />
         </RouterLink>
       </v-toolbar-title>
 
