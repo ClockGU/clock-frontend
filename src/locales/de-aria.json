@@ -12,10 +12,10 @@
     },
     "progress": {
       "title": "Fortschritt",
-      "monthlyDescription": "Monatliche Fortschrittsansicht. Sie haben {progress}% Ihres Ziels in diesem Monat gearbeitet",
-      "monthlyProgress": "Monatlicher Fortschritt beträgt {progress}% Ihres Ziels",
-      "weeklyDescription": "Wöchentliche Fortschrittsansicht. Sie haben {hours} Stunden gearbeitet bei einem Durchschnitt von {average}, und {progress}% Ihres Ziels erreicht",
-      "weeklyProgress": "Wöchentlicher Fortschritt beträgt {progress}% Ihres Ziels",
+      "monthlyDescription": "Monatliche Fortschrittsansicht. Sie haben {progress} % Ihres Ziels in diesem Monat gearbeitet",
+      "monthlyProgress": "Monatlicher Fortschritt beträgt {progress} % Ihres Ziels",
+      "weeklyDescription": "Wöchentliche Fortschrittsansicht. Sie haben {hours} Stunden gearbeitet bei einem Durchschnitt von {average}, und {progress} % Ihres Ziels erreicht",
+      "weeklyProgress": "Wöchentlicher Fortschritt beträgt {progress} % Ihres Ziels",
       "dailyDescription": "Tägliche Fortschrittsansicht. Sie haben heute {hours} Stunden und {minutes} Minuten gearbeitet, {status}",
       "disabledMessage": "Fortschrittsverfolgung ist derzeit deaktiviert",
       "maxCarryoverExceeded": "Maximale Übertragungsgrenze überschritten",
@@ -49,6 +49,15 @@
       "sk": "Der Typ dieser Schicht ist ein Krankheitsurlaub",
       "vn": "Der Typ dieser Schicht ist ein Urlaub",
       "bh": "Der Typ dieser Schicht ist ein Feiertag"
+    },
+    "shiftListItem": {
+      "day": "-Schicht am {day}",
+      "startTime": ", beginnend um {startTime}",
+      "stopTime": ", endend um {stopTime}",
+      "duration": ". Dauer: {duration}",
+      "tagsPrefix": ". Tags: {tags}",
+      "notReviewed": ". Noch nicht überprüft",
+      "live": ". Aktuell laufend"
     },
     "shiftBulkActions": {
       "description": "Abschnitt für Sammelaktionen für die ausgewählten Schichten. Sie können Aktionen an den ausgewählten Schichten durchführen, wie z.B. sie löschen oder überprüfen. Drücken Sie die Leertaste, um die Sammelaktionen zu aktivieren.",
