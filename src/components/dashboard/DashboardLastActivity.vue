@@ -1,7 +1,7 @@
 <template>
-  <v-card>
+  <v-card role="region" aria-labelledby="last-activity-header" tabindex="0">
     <v-card-title>
-      <h2>{{ $t("dashboard.lastActivity") }}</h2>
+      <h2 id="last-activity-header">{{ $t("dashboard.lastActivity") }}</h2>
     </v-card-title>
     <v-card-text>
       <div v-if="lastShifts.length > 0">

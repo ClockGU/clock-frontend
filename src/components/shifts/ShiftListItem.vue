@@ -1,5 +1,5 @@
 <template>
-  <v-list-item v-bind="$attrs" :aria-label="ariaLabel">
+  <v-list-item v-bind="$attrs" :aria-label="ariaLabel" tabindex="0">
     <v-list-item-title
       :class="error ? 'error--text' : 'text--primary'"
       aria-hidden="true"
