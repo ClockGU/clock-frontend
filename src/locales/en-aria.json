@@ -235,6 +235,22 @@
     }
   },
   "sr": {
+    "views": {
+      "home": "Home",
+      "faq": "FAQ",
+      "onboarding": "Onboarding",
+      "imprint": "Imprint",
+      "privacy": "Privacy",
+      "loggingIn": "Logging In",
+      "dashboard": "Dashboard",
+      "calendar": "Calendar",
+      "shifts": "Shifts",
+      "contracts": "Contracts",
+      "reporting": "Reporting",
+      "settings": "Settings",
+      "privacyAgreement": "Privacy Agreement",
+      "notFound": "Not Found"
+    },
     "viewShifts": {
       "h1": "Shifts Management View",
       "h2": "Shift Overview"

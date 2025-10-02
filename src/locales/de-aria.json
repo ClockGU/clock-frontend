@@ -233,6 +233,22 @@
     }
   },
   "sr": {
+    "views": {
+      "home": "Startseite",
+      "faq": "FAQ",
+      "onboarding": "Onboarding",
+      "imprint": "Impressum",
+      "privacy": "Datenschutz",
+      "loggingIn": "Einloggen",
+      "dashboard": "Dashboard",
+      "calendar": "Kalender",
+      "shifts": "Schichten",
+      "contracts": "Verträge",
+      "reporting": "Berichterstattung",
+      "settings": "Einstellungen",
+      "privacyAgreement": "Datenschutzerklärung",
+      "notFound": "Nicht gefunden"
+    },
     "viewShifts": {
       "h1": "Schichtverwaltungsansicht",
       "h2": "Schichtübersicht"
