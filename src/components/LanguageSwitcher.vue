@@ -1,5 +1,6 @@
 <template>
   <v-menu
+  v-model="menu"
     location="bottom left"
     offset-y
     max-height="calc(100% - 16px)"
@@ -71,11 +72,15 @@ export default {
   },
   methods: {
     async switchLocale(locale) {
-      if (this.$i18n.locale === locale) return;
+      console.log("Current locale is", this.selectedLocale);
+      console.log("Switching locale to", locale);
 
       this.$i18n.locale = locale;
+      this.menu = false;
       // Update Vuetify settings
       this.$vuetify.locale.current = locale;
+      // Manually update the 'lang' attribute on the <html> element
+      document.documentElement.setAttribute('lang', locale);
 
       // Update locale for API requests
       await ApiService.setHeader("Accept-Language", locale);
