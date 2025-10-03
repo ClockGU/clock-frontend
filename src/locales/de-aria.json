@@ -250,8 +250,7 @@
       "notFound": "Nicht gefunden"
     },
     "viewShifts": {
-      "h1": "Schichtverwaltungsansicht",
-      "h2": "Schichtübersicht"
+      "overview": "Schichtübersicht"
     },
     "shiftFormFields": {
       "warningLabel": "Sie haben derzeit {count} Warnungen/Fehler mit dieser Schicht. Bitte versuchen Sie, diese zu beheben."
