@@ -4,9 +4,6 @@
       <v-col cols="12">
         <v-card>
           <v-card-title class="px-3 py-4">
-            <h1 class="text-h5 sr-only">
-              {{ $t("app.contracts") }}
-            </h1>
             <div class="pl-3">
               <ContractFormDialog btn-color="primary"></ContractFormDialog>
             </div>
