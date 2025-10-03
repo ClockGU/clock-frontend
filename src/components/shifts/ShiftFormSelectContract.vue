@@ -1,6 +1,8 @@
 <template>
   <div>
-    <label for="shift-form-select-contract" class="ml-10">{{$t('shifts.changeContract')  }}</label>
+    <label for="shift-form-select-contract" class="ml-10">{{
+      $t("shifts.changeContract")
+    }}</label>
     <v-select
       id="shift-form-select-contract"
       v-model="v$.contract.$model"

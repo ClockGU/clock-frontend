@@ -136,7 +136,7 @@ export default {
     }
   },
   async created() {
-    document.documentElement.setAttribute('lang', this.locale);
+    document.documentElement.setAttribute("lang", this.locale);
     await this.$store.dispatch("changeLocale", this.locale);
     if (!this.isLoggedIn) return;
     try {
