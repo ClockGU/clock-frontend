@@ -1,10 +1,11 @@
 <template>
   <div>
+    <label for="shift-form-select-contract" class="ml-10">{{$t('shifts.changeContract')  }}</label>
     <v-select
+      id="shift-form-select-contract"
       v-model="v$.contract.$model"
       :items="choices"
       :prepend-icon="icons.mdiFileDocumentEditOutline"
-      :label="$t('shifts.changeContract')"
       item-title="name"
       item-value="id"
       return-object
