@@ -252,8 +252,7 @@
       "notFound": "Not Found"
     },
     "viewShifts": {
-      "h1": "Shifts Management View",
-      "h2": "Shift Overview"
+      "overview": "Shift Overview"
     },
     "shiftFormFields": {
       "warningLabel": "You currently have {count} warnings/error with this shift.please try to resolve them."
