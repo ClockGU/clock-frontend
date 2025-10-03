@@ -92,20 +92,20 @@ export default {
     }),
     viewName() {
       const routeNames = {
-        home: this.$t("views.home"),
-        faq: this.$t("views.faq"),
-        onboarding: this.$t("views.onboarding"),
-        imprint: this.$t("views.imprint"),
-        privacy: this.$t("views.privacy"),
-        loggingIn: this.$t("views.loggingIn"),
-        dashboard: this.$t("views.dashboard"),
-        calendar: this.$t("views.calendar"),
-        shiftList: this.$t("views.shifts"),
-        contractList: this.$t("views.contracts"),
-        reporting: this.$t("views.reporting"),
-        settings: this.$t("views.settings"),
-        privacyagreement: this.$t("views.privacyAgreement"),
-        404: this.$t("views.notFound")
+        home: this.$t("sr.views.home"),
+        faq: this.$t("sr.views.faq"),
+        onboarding: this.$t("sr.views.onboarding"),
+        imprint: this.$t("sr.views.imprint"),
+        privacy: this.$t("sr.views.privacy"),
+        loggingIn: this.$t("sr.views.loggingIn"),
+        dashboard: this.$t("sr.views.dashboard"),
+        calendar: this.$t("sr.views.calendar"),
+        shiftList: this.$t("sr.views.shifts"),
+        contractList: this.$t("sr.views.contracts"),
+        reporting: this.$t("sr.views.reporting"),
+        settings: this.$t("sr.views.settings"),
+        privacyagreement: this.$t("sr.views.privacyAgreement"),
+        404: this.$t("sr.views.notFound")
       };
 
       return routeNames[this.$route.name] || "";
