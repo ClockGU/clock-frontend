@@ -98,9 +98,9 @@ export default {
       else return "";
     },
     getItemAriaLabel(contract) {
-      let status =this.contractStatus(contract);
+      let status = this.contractStatus(contract);
       return `${contract.name} ${status}`;
-    },
+    }
   }
 };
 </script>
