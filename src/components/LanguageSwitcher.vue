@@ -72,9 +72,9 @@ export default {
   },
   methods: {
     async switchLocale(locale) {
-      console.log("Current locale is", this.selectedLocale);
-      console.log("Switching locale to", locale);
-
+      if (this.$i18n.locale === locale) {
+        return;
+      }
       this.$i18n.locale = locale;
       this.menu = false;
       // Update Vuetify settings
