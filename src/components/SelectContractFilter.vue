@@ -6,7 +6,7 @@
     :prepend-icon="icons.mdiFileDocumentEditOutline"
     :hint="hint"
     item-title="name"
-    persistent-hint="!disabled"
+    :persistent-hint="!disabled"
     variant="solo"
     return-object
     :bg-color="bgColor"
@@ -40,6 +40,7 @@
             ? $t('dashboard.disabled.noContract')
             : contractStatus(item.raw)
         "
+        :aria-label="getItemAriaLabel(item.raw)"
       >
       </v-list-item>
     </template>
@@ -95,12 +96,16 @@ export default {
       if (this.specificContractExpired(contract))
         return " " + this.$t("contracts.expired");
       else return "";
-    }
+    },
+    getItemAriaLabel(contract) {
+      let status =this.contractStatus(contract);
+      return `${contract.name} ${status}`;
+    },
   }
 };
 </script>
 <style scoped>
-.accessible-select:focus-within {
+.accessible-select :deep(.v-field--focused .v-field__overlay) {
   outline: 2px solid #3f51b5 !important;
   outline-offset: 2px !important;
 }
