@@ -9,7 +9,7 @@
         role="button"
         type="button"
         aria-haspopup="dialog"
-        :aria-label="$t('label.dashboard.toggleNavigationdrawer')"
+        :aria-label="$t('aria.dashboard.toggleNavigationdrawer')"
         class="hidden-md-and-up"
         @click="toggleNavigationdrawer"
       />
@@ -21,7 +21,7 @@
           class="nav-link"
           role="link"
           type="link"
-          :aria-label="$t('label.dashboard.toDashboard')"
+          :aria-label="$t('aria.dashboard.toDashboard')"
           :to="{ name: 'home' }"
         >
           <v-img width="96px" height="32px" :src="imgSrc" alt="CLOCK Logo" />
@@ -71,7 +71,7 @@
                     {{ user.first_name }}
                   </span>
                   <span class="sr-only">
-                    {{ $t("label.dashboard.userMenu") }}</span
+                    {{ $t("aria.dashboard.userMenu") }}</span
                   >
                 </div>
               </div>

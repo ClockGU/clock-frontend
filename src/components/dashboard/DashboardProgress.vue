@@ -30,7 +30,7 @@
                         : icons.mdiInformation
                     "
                     :color="maxCarryoverExceeded ? 'error' : 'warning'"
-                    :aria-label="$t('label.dashboard.infoButton')"
+                    :aria-label="$t('aria.dashboard.infoButton')"
                     @click="showWarning('carryover')"
                   >
                   </v-btn>
@@ -61,10 +61,10 @@
                           <thead>
                             <tr>
                               <th scope="col">
-                                {{ $t("label.dashboard.progressHeader") }}
+                                {{ $t("aria.dashboard.progressHeader") }}
                               </th>
                               <th scope="col">
-                                {{ $t("label.dashboard.hoursHeader") }}
+                                {{ $t("aria.dashboard.hoursHeader") }}
                               </th>
                             </tr>
                           </thead>
@@ -160,7 +160,7 @@
                     variant="flat"
                     :icon="icons.mdiAlert"
                     color="error"
-                    :aria-label="$t('label.dashboard.dailyInfoButton')"
+                    :aria-label="$t('aria.dashboard.dailyInfoButton')"
                     @click="showWarning('daily')"
                   ></v-btn>
                 </v-card-title>
@@ -210,7 +210,7 @@
     <v-card-actions class="justify-space-between">
       <v-btn
         variant="text"
-        :aria-label="$t('label.dashboard.previousView')"
+        :aria-label="$t('aria.dashboard.previousView')"
         @click="step === 0 ? (step = 2) : step--"
       >
         <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
@@ -227,10 +227,10 @@
             :aria-label="
               $t(
                 n === 1
-                  ? 'label.dashboard.showMonthlyProgress'
+                  ? 'aria.dashboard.showMonthlyProgress'
                   : n === 2
-                  ? 'label.dashboard.showWeeklyProgress'
-                  : 'label.dashboard.showDailyProgress'
+                  ? 'aria.dashboard.showWeeklyProgress'
+                  : 'aria.dashboard.showDailyProgress'
               )
             "
             :aria-selected="active"
@@ -243,7 +243,7 @@
       <v-btn
         variant="text"
         :icon="icons.mdiChevronRight"
-        :aria-label="$t('label.dashboard.nextView')"
+        :aria-label="$t('aria.dashboard.nextView')"
         @click="step === 2 ? (step = 0) : step++"
       >
       </v-btn>

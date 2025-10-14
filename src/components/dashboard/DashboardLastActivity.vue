@@ -20,7 +20,7 @@
         <v-btn
           color="success"
           variant="text"
-          :aria-label="$t('label.dashboard.showAllShifts')"
+          :aria-label="$t('aria.dashboard.showAllShifts')"
           :to="allShiftRouter"
         >
           {{ $t("dashboard.showAll") }}

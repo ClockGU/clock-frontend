@@ -14,7 +14,7 @@
           flat
           icon
           :disabled="!valid"
-          :aria-label="$t('label.dashboard.reviewShift')"
+          :aria-label="$t('aria.dashboard.reviewShift')"
           @click="review"
         >
           <v-icon
