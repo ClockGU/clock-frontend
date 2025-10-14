@@ -53,7 +53,7 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <h3 tabindex="0">
+                          <h3>
                             {{
                               $tc("shifts.table.pastShiftsTitle", [
                                 formattedDate()
@@ -120,7 +120,7 @@
                     <v-card-title>
                       <v-row>
                         <v-col cols="12" md="5">
-                          <h3 tabindex="0">
+                          <h3>
                             {{
                               $tc("shifts.table.futureShiftsTitle", [
                                 formattedDate()
