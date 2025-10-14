@@ -2,9 +2,6 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1 class="text-h5 sr-only">
-          {{ $t("app.calendar") }}
-        </h1>
         <Calendar
           :disabled="disabled"
           :initial-focus="focus"
