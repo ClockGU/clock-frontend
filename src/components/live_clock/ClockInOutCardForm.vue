@@ -50,7 +50,7 @@ function finish(saved) {
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
-        :aria-label="$t('label.dashboard.cancelClockForm')"
+        :aria-label="$t('aria.dashboard.cancelClockForm')"
         @click="finish(false)"
       >
         <v-icon>{{ mdiDelete }}</v-icon>

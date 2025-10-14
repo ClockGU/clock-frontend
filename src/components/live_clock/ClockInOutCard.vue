@@ -41,7 +41,7 @@
           >
             <v-btn
               color="primary-lighten-1"
-              :aria-label="$t('label.dashboard.switchContract')"
+              :aria-label="$t('aria.dashboard.switchContract')"
               @click="changeContract"
             >
               {{ $t("actions.switch") }}

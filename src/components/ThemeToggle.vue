@@ -50,7 +50,7 @@ function light() {
 
 <template>
   <button
-    :aria-label="t('label.dashboard.themeToggle')"
+    :aria-label="t('aria.dashboard.themeToggle')"
     :aria-pressed="isDark"
     class="mode-toggle"
     :class="darkDark"

@@ -2,28 +2,16 @@
   <div
     class="d-inline-flex align-center ga-1"
     role="group"
-    :aria-label="
-      $t('aria.timeInterval.description', {
-        formattedInterval: formattedInterval
-      })
-    "
-    tabindex="0"
-    @keydown.left="gotoPrev"
-    @keydown.right="gotoNext"
+    :aria-label="$t('aria.timeInterval.listDescription')"
   >
-    <!--
-      This is a trick to make the current time interval available to screen readers.
-      It's not visible to sighted users, but will be read out the date by a screen reader
-      when the user navigates to this component.
-    -->
-    <div aria-live="polite" aria-atomic="true" class="sr-only">
-      {{ formattedInterval }}
-    </div>
     <v-btn
       :disabled="!hasPrev"
       variant="text"
-      tabindex="-1"
-      :aria-label="$t('aria.timeInterval.previous')"
+      :aria-label="
+        $t('aria.timeInterval.previousWithDate', {
+          formattedInterval: formattedInterval
+        })
+      "
       @click="gotoPrev"
     >
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
@@ -38,7 +26,15 @@
       min-width="290px"
     >
       <template #activator="{ props }">
-        <span v-bind="props" tabindex="-1" :aria-label="formattedInterval">
+        <span
+          v-bind="props"
+          role="button"
+          :aria-label="
+            $t('aria.timeInterval.currentInterval', {
+              formattedInterval: formattedInterval
+            })
+          "
+        >
           {{ formattedInterval }}
         </span>
       </template>
@@ -54,8 +50,11 @@
     <v-btn
       :disabled="!hasNext"
       variant="text"
-      tabindex="-1"
-      :aria-label="$t('aria.timeInterval.next')"
+      :aria-label="
+        $t('aria.timeInterval.nextWithDate', {
+          formattedInterval: formattedInterval
+        })
+      "
       @click="gotoNext"
     >
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
