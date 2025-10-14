@@ -18,9 +18,9 @@
     </template>
 
     <template #title>
-      <h1 id="settings-title" class="text-h5 font-weight-bold">
+      <h2 id="settings-title" class="text-h5 font-weight-bold">
         {{ $t("app.settings") }}
-      </h1>
+      </h2>
     </template>
 
     <template #content>

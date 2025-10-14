@@ -172,7 +172,6 @@ function closeDrawer(value) {
             :to="{ name: 'home' }"
           >
             <v-img width="240px" height="36px" :src="imgSrc" />
-            <h1 class="sr-only">CLOCK</h1>
           </RouterLink>
           <v-divider></v-divider>
         </v-list-item>

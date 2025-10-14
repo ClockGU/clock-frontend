@@ -2,9 +2,6 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1 class="text-h5 sr-only">
-          {{ $t("app.reports") }}
-        </h1>
         <v-alert
           v-if="personnelNumberMissing"
           :icon="icons.mdiBadgeAccountHorizontal"
