@@ -71,7 +71,7 @@
             >
             </ShiftWarningIcon>
           </td>
-          <td :aria-label="$t(`aria.shift.${getType(item.type)}`)" role="cell">
+          <td :aria-label="$t(`aria.shift.${item.type}`)" role="cell">
             <v-icon aria-hidden="true" :color="colors[item.type]">
               {{ typeIcons[item.type] }}
             </v-icon>
@@ -262,9 +262,6 @@ export default {
   },
 
   methods: {
-    getType(type) {
-      return this.$t(`models.shift.types.${type}`);
-    },
     formattedDateMobile(date) {
       return this.$i18n.locale === "en"
         ? localizedFormat(date, "EEE',' do")
