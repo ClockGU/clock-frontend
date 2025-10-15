@@ -37,7 +37,9 @@
       "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
     },
     "shiftsTable": {
-      "description": "Schichtentabelle. Drücken Sie die Pfeiltaste nach unten, um die Tabelle anzuzeigen. Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
+      "description": "Schichtentabelle.Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
+      "shiftSelected": "Schicht ausgewählt",
+      "shiftNotSelected": "Schicht nicht ausgewählt",
       "reviewed": "Diese Schicht wurde überprüft.",
       "notReviewed": "Diese Schicht wurde noch nicht überprüft. Bitte drücken Sie die Eingabe- oder Leertaste, um sie zu überprüfen.",
       "editShift": "Drücken um die Schicht zur Bearbeitung zu öffnen",
