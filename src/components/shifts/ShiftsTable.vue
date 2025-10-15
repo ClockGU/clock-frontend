@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div role="table"   
+  :aria-label="$t('aria.shiftsTable.description')"
+>
     <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
     <v-data-table
       v-model="selectedShifts"
@@ -13,9 +15,9 @@
       hover
       :custom-sort="sortByDate"
       must-sort
-      tabindex="0"
       :sort-desc="!pastShifts"
       :aria-label="$t('aria.shiftsTable.description')"
+      role="grid"
     >
       <template #item="{ item }">
         <tr
@@ -26,14 +28,15 @@
           @keydown.enter.stop="handleClick(item)"
           @keydown.space.stop="handleClick(item)"
         >
-          <td v-if="!mobile">
+          <td v-if="!mobile" role="gridcell">
             <v-checkbox-btn
               v-model="selectedShifts"
               class="table-checkbox-btn"
+              :aria-label="`${isShiftSelected(item) ? $t('aria.shiftsTable.shiftSelected') : $t('aria.shiftsTable.shiftNotSelected')}`"
               :value="item"
             />
           </td>
-          <td>
+          <td role="gridcell">
             <div v-if="xs" class="d-flex align-center">
               <span>{{ formattedDateMobile(item.started) }}</span>
               <v-btn
@@ -61,8 +64,8 @@
             </div>
             <span v-else> {{ formattedDate(item.started) }}</span>
           </td>
-          <td>{{ formattedTime(item.started) }}</td>
-          <td>
+          <td role="gridcell">{{ formattedTime(item.started) }}</td>
+          <td role="gridcell">
             <span>{{ formattedDuration(item.duration) }}</span>
             <ShiftWarningIcon
               v-if="xs"
@@ -71,7 +74,7 @@
             >
             </ShiftWarningIcon>
           </td>
-          <td :aria-label="$t(`aria.shift.${item.type}`)" role="cell">
+          <td role="gridcell" :aria-label="$t(`aria.shift.${item.type}`)">
             <v-icon aria-hidden="true" :color="colors[item.type]">
               {{ typeIcons[item.type] }}
             </v-icon>
@@ -86,7 +89,7 @@
               live
             </v-chip>
           </td>
-          <td class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell" role="gridcell">
             <v-btn
               v-if="!item.wasReviewed"
               :icon="icons.mdiClose"
@@ -124,14 +127,14 @@
               </template>
             </ShiftInfoDialog>
           </td>
-          <td class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell" role="gridcell">
             <ShiftInfoDialog :item="item">
               <template #activator="{ props }">
                 <span v-bind="props">{{ noteDisplay(item.note, 15) }}</span>
               </template>
             </ShiftInfoDialog>
           </td>
-          <td class="d-none d-sm-table-cell">
+          <td class="d-none d-sm-table-cell" role="gridcell">
             <ShiftFormDialog
               :create="false"
               icon
