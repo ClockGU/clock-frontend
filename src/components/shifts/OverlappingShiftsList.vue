@@ -13,7 +13,7 @@
             :key="`header-${groupIndex}`"
           >
             <v-list-item-title class="text-h6 pt-4 pb-2 red--text text-center">
-              {{ $t('dashboard.overlaps.setNumber', { n: groupIndex + 1 }) }}
+              {{ $t("dashboard.overlaps.setNumber", { n: groupIndex + 1 }) }}
             </v-list-item-title>
 
             <ShiftListItem
@@ -26,7 +26,11 @@
             >
               <template #extraSubtitle>
                 <v-list-item-subtitle class="caption">
-                  {{ $t('models.contract')+': ' + getContractName(shiftItem.contract) }}
+                  {{
+                    $t("models.contract") +
+                    ": " +
+                    getContractName(shiftItem.contract)
+                  }}
                 </v-list-item-subtitle>
               </template>
 

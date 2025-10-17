@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="NumberOfOverlaps === 0">
+  <v-card v-if="numberOfOverlaps === 0">
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
         <v-icon
@@ -25,7 +25,7 @@
         <v-icon class="text-red" size="x-large">{{ icons.mdiAlert }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
-        {{ $tc("dashboard.overlaps.description", NumberOfOverlaps) }}
+        {{ $tc("dashboard.overlaps.description", numberOfOverlaps) }}
       </v-col>
     </v-row>
 
@@ -96,7 +96,7 @@ export default {
       );
     },
 
-    NumberOfOverlaps() {
+    numberOfOverlaps() {
       if (this.disabled) return 0;
       const overlaps = getOverlappingShifts(this.overlappingShifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
