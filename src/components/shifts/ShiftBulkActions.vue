@@ -50,26 +50,15 @@
             />
           </template>
         </ShiftsDetailsDialog>
-
-        <ShiftFormDialog
+        <ShiftActionsDialogEdit
           v-if="xs"
-          :create="false"
           :shift="shifts[0]"
-          disable-activator="true"
+          :disabled="shiftsLength !== 1"
+          :showWarningIcon="shiftsLength === 1"
           @reset="resetFn()"
           @update="updateFn(shifts[0].contract)"
         >
-          <template #activator="{ props }">
-            <v-btn
-              :disabled="shiftsLength !== 1"
-              variant="flat"
-              v-bind="props"
-              :icon="icons.mdiPencil"
-              :aria-label="$t('aria.shiftBulkActions.edit')"
-            />
-          </template>
-        </ShiftFormDialog>
-
+        </ShiftActionsDialogEdit>
         <ShiftBulkActionsDialogDelete
           :count="shiftsLength"
           @destroy="destroyFn"
@@ -101,7 +90,6 @@
 import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog.vue";
 import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete.vue";
 import ShiftBulkActionsDialogReview from "@/components/shifts/ShiftBulkActionsDialogReview.vue";
-import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { minutesToHHMM } from "@/utils/time";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import {
@@ -113,6 +101,7 @@ import {
   mdiInformationVariant
 } from "@mdi/js";
 import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
+import ShiftActionsDialogEdit from "./ShiftActionsDialogEdit.vue";
 
 export default {
   name: "ShiftBulkActions",
@@ -120,7 +109,7 @@ export default {
     ShiftAssignContractDialog,
     ShiftBulkActionsDialogDelete,
     ShiftBulkActionsDialogReview,
-    ShiftFormDialog,
+    ShiftActionsDialogEdit,
     ShiftsDetailsDialog
   },
   mixins: [breakpointsMixin],
