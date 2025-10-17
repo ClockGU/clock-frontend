@@ -74,6 +74,7 @@
     }
   },
   "contracts": {
+    "unknownContract": "Unknown contract",
     "fte": "{percent}% FTE",
     "disableDateChangeInfo": "You can change your contract's start and end dates, but existing shifts must remain within the date range.",
     "expiredVerbose": "This contract has expired and can not be altered. However, you can still edit shifts and export timesheets.",
@@ -186,6 +187,7 @@
     "newShift": { "title": "New shift" },
     "overlaps": {
       "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your timesheet.",
+      "setNumber": "Overlap Set #{n}",
       "nProblems": "Problems found",
       "noProblems": "There are no problems with your saved shifts."
     },

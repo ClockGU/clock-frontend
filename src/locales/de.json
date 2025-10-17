@@ -74,6 +74,7 @@
     }
   },
   "contracts": {
+    "unknownContract": "Unbekanntes Vertrag",
     "fte": "{percent}% VZÄ",
     "disableDateChangeInfo": "Du kannst das Start oder Enddatum des Vertrags anpassen, sofern existierende Schichten innerhalb der Vertragslaufzeit bleiben.",
     "expiredVerbose": "Dieser Vertrag ist abgelaufen und kann nicht mehr geändert werden. Du kannst jedoch noch Schichten editieren und Stundenzettel exportieren.",
@@ -186,6 +187,7 @@
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
       "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
+      "setNumber": "Überschneidungsgruppe #{n}",
       "nProblems": "Probleme gefunden",
       "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."
     },
