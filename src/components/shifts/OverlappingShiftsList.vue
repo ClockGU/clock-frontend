@@ -13,7 +13,7 @@
             :key="`header-${groupIndex}`"
           >
             <v-list-item-title class="text-h6 pt-4 pb-2 red--text text-center">
-              Overlap Set #{{ groupIndex + 1 }}
+              {{ $t('dashboard.overlaps.setNumber', { n: groupIndex + 1 }) }}
             </v-list-item-title>
 
             <ShiftListItem
@@ -26,7 +26,7 @@
             >
               <template #extraSubtitle>
                 <v-list-item-subtitle class="caption">
-                  Contract: {{ getContractName(shiftItem.contract) }}
+                  {{ $t('models.contract')+': ' + getContractName(shiftItem.contract) }}
                 </v-list-item-subtitle>
               </template>
 
@@ -110,7 +110,7 @@ export default {
       const contract = this.$store.getters["contentData/contractById"](
         contractId
       );
-      return contract ? contract.name : this.$t("common.unknownContract");
+      return contract ? contract.name : this.$t("contracts.unknownContract");
     },
     async handleShiftDelete(shift) {
       try {
