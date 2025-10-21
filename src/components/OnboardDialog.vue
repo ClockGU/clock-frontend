@@ -194,7 +194,7 @@ import {
 import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import PersonnelNumberForm from "@/components/settings/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
 
 export default {
