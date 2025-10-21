@@ -95,7 +95,7 @@
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts.vue";
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import ReportCard from "@/components/ReportCard.vue";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import PersonnelNumberForm from "@/components/settings/PersonnelNumberForm.vue";
 import ShiftWarnings from "@/components/shifts/ShiftWarnings.vue";
 import ClockCardAlert from "@/components/ClockCardAlert.vue";
 

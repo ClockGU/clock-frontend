@@ -130,11 +130,11 @@ import {
   mdiAccountReactivate
 } from "@mdi/js";
 
-import DeleteAccount from "@/components/DeleteAccount.vue";
+import DeleteAccount from "@/components/settings/DeleteAccount.vue";
 import GDPR from "@/components/gdpr/GdprSettingsCard.vue";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
-import LanguageSettings from "@/components/LanguageSettings.vue";
-import AdminCheckoutUser from "@/components/AdminCheckoutUser.vue";
+import PersonnelNumberForm from "@/components/settings/PersonnelNumberForm.vue";
+import LanguageSettings from "@/components/settings/LanguageSettings.vue";
+import AdminCheckoutUser from "@/components/settings/AdminCheckoutUser.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
