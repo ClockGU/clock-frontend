@@ -17,7 +17,7 @@
           :is="snack.component"
           v-bind="snack.componentProps"
         ></component>
-        <v-btn variant="text" @click="snack.show = false">
+        <v-btn variant="text" @click="removeSnack(snack.uuid)">
           {{ $t("actions.close") }}
         </v-btn>
       </template>
@@ -30,61 +30,61 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "TheSnackbar",
-  data() {
-    return {
-      timePassed: {},
-      intervals: {},
-      snacks: []
-    };
-  },
-  watch: {
-    show: function (value) {
-      if (value) return;
+<script setup>
+import { ref, reactive, onMounted } from "vue";
+import { useStore } from "vuex";
 
-      this.$store.dispatch("snackbar/resetSnack");
-    }
-  },
+const store = useStore();
 
-  created() {
-    this.$store.watch(
-      (state, getters) => getters["snackbar/snacks"],
-      () => {
-        this.snacks = this.$store.getters["snackbar/snacks"];
-        this.snacks.forEach((snack) => {
-          if (this.intervals[snack.uuid] === undefined) {
-            this.setupInterval(snack);
-            this.setupTimeout(snack);
-          }
-        });
-      },
-      {
-        deep: true
-      }
-    );
-  },
-  methods: {
-    async setupInterval(snack) {
-      this.intervals[snack.uuid] = setInterval(() => {
-        this.timePassed[snack.uuid] =
-          (this.timePassed[snack.uuid] !== undefined
-            ? this.timePassed[snack.uuid]
-            : 0) + 500;
-      }, 500);
-    },
-    async setupTimeout(snack) {
-      setTimeout(() => {
-        this.removeSnack(snack.uuid);
-      }, snack.timeout);
-    },
-    removeSnack(uuid) {
-      delete this.timePassed[uuid];
-      clearInterval(this.intervals[uuid]);
-      delete this.intervals[uuid];
-      this.$store.dispatch("snackbar/removeSnack", uuid);
-    }
-  }
+// tracks time passed for progress bar
+const timePassed = reactive({});
+const intervals = reactive({});
+
+const snacks = ref(store.getters["snackbar/snacks"]);
+
+// Clears interval, removes local state, and dispatches Vuex action to remove snack.
+const removeSnack = (uuid) => {
+  delete timePassed[uuid];
+  clearInterval(intervals[uuid]);
+  delete intervals[uuid];
+  store.dispatch("snackbar/removeSnack", uuid);
 };
+
+// Sets an interval to increment timePassed for progress bar animation.
+const setupInterval = (snack) => {
+  if (timePassed[snack.uuid] === undefined) {
+    timePassed[snack.uuid] = 0;
+  }
+
+  intervals[snack.uuid] = setInterval(() => {
+    timePassed[snack.uuid] = timePassed[snack.uuid] + 500;
+  }, 500);
+};
+
+// Sets a setTimeout to automatically remove the snack after its duration.
+const setupTimeout = (snack) => {
+  setTimeout(() => {
+    removeSnack(snack.uuid);
+  }, snack.timeout);
+};
+
+onMounted(() => {
+  store.watch(
+    (state, getters) => getters["snackbar/snacks"],
+    (newSnacks) => {
+      snacks.value = newSnacks;
+      // Loop new snacks to initialize timers/intervals only if they don't exist.
+      newSnacks.forEach((snack) => {
+        if (intervals[snack.uuid] === undefined) {
+          setupInterval(snack);
+          setupTimeout(snack);
+        }
+      });
+    },
+    {
+      deep: true,
+      immediate: true 
+    }
+  );
+});
 </script>
