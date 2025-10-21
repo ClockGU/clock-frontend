@@ -1,7 +1,9 @@
 <template>
   <v-card flat>
-    <v-card-title >
-      <h3 class="text-h6 font-weight-bold">{{ $t("settings.snackbar.title") }}</h3>
+    <v-card-title>
+      <h3 class="text-h6 font-weight-bold">
+        {{ $t("settings.snackbar.title") }}
+      </h3>
     </v-card-title>
     <v-card-text>
       <span class="text-body">{{ $t("settings.snackbar.text") }}</span>
@@ -12,7 +14,9 @@
       ></v-switch>
 
       <v-form ref="form">
-        <label for="timeout-input" class="font-weight-bold">{{ $t("label.snackbarTimeout") }}</label>
+        <label for="timeout-input" class="font-weight-bold">{{
+          $t("label.snackbarTimeout")
+        }}</label>
         <v-text-field
           v-model="snackTime"
           id="timeout-input"
@@ -24,7 +28,7 @@
           suffix="ms"
           variant="outlined"
           density="compact"
-          :style="{maxWidth: '230px'}"
+          :style="{ maxWidth: '230px' }"
           :rules="timeRules"
         ></v-text-field>
       </v-form>
@@ -54,17 +58,21 @@ const user = computed(() => store.getters.user || {});
 const timeoutEnabled = ref(user.value.timeout_enabled ?? true);
 const snackTime = ref(user.value.snack_time || 5000);
 
-watch(user, (newUser) => {
+watch(
+  user,
+  (newUser) => {
     timeoutEnabled.value = newUser.timeout_enabled ?? true;
     snackTime.value = newUser.snack_time || 5000;
-}, { deep: true });
+  },
+  { deep: true }
+);
 
 // Validation rules
-const timeRules =  [
-  (v) => !!v || t('validation.required_field'),
-  (v) => v >= 2000 || t('validations.settings.snackbar.minValue'),
-  (v) => v <= 10000 || t('validations.settings.snackbar.maxValue'),
-  (v) => v % 500 === 0 || t('validations.settings.snackbar.multipleOf500'),
+const timeRules = [
+  (v) => !!v || t("validations.required"),
+  (v) => v >= 2000 || t("validations.settings.snackbar.minValue"),
+  (v) => v <= 10000 || t("validations.settings.snackbar.maxValue"),
+  (v) => v % 500 === 0 || t("validations.settings.snackbar.multipleOf500")
 ];
 
 async function updateSettings() {
@@ -77,22 +85,22 @@ async function updateSettings() {
 
   let time = snackTime.value;
   let enabled = timeoutEnabled.value;
-  
+
   // Ensure time is sent as a number and respects the bounds when enabled
   if (enabled) {
-      time = parseInt(time);
-      if (isNaN(time) || time < 2000 || time > 10000 || time % 500 !== 0) {
-          time = 5000; 
-      }
-  } else {
+    time = parseInt(time);
+    if (isNaN(time) || time < 2000 || time > 10000 || time % 500 !== 0) {
       time = 5000;
+    }
+  } else {
+    time = 5000;
   }
 
-  const payload = { 
-    snack_time: time, 
-    timeout_enabled: enabled 
+  const payload = {
+    snack_time: time,
+    timeout_enabled: enabled
   };
-  
+
   store.dispatch("UPDATE_SETTINGS", payload);
 }
 </script>
