@@ -165,7 +165,8 @@
     "referenceInput": "Reference ID",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "feedback": "Feedback"
+    "feedback": "Feedback",
+    "snackbarTimeout": "Snackbar Timeout in Seconds"
   },
   "sr": {
     "views": {

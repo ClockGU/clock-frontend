@@ -160,11 +160,7 @@ export default {
 };
 </script>
 <style>
-/* Global focus styles */
-:focus-visible {
-  outline: 2px solid #3f51b5 !important;
-  outline-offset: 2px !important;
-}
+
 /* Global screen-reader utility */
 .sr-only {
   position: absolute !important;

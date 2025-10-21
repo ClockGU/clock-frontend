@@ -457,6 +457,11 @@
     },
     "language": {
       "text": "Changing the language will take effect immediately."
+    },
+    "snackbar": {
+      "title": "Snackbar ",
+      "text": "you can desactivate the snackbar here or set a custom timeout",
+      "enable": "Activate snackbar"
     }
   },
   "shifts": {
@@ -574,5 +579,15 @@
     "regEmp": "Employee",
     "civilSer": "Civil servant",
     "notSelected": "No model selected"
+  },
+  "validations": {
+    "required": "This field is required.",
+    "settings": {
+      "snackbar": {
+        "minValue": "The minimum value is 2000ms.",
+        "maxValue": "The maximum value is 10000ms.",
+        "multipleOf500": "The value must be a multiple of 500ms."
+      }
+    }
   }
 }
