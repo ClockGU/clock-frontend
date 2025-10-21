@@ -24,7 +24,7 @@
       <v-progress-linear
         reverse
         color="white"
-        :model-value="(timePassed[snack.uuid] / snack.timeout) * 100"
+        :model-value="snack.timeout > 0 ? (timePassed[snack.uuid] / snack.timeout) * 100 : 0"
       ></v-progress-linear>
     </v-snackbar>
   </div>
@@ -52,20 +52,30 @@ const removeSnack = (uuid) => {
 
 // Sets an interval to increment timePassed for progress bar animation.
 const setupInterval = (snack) => {
-  if (timePassed[snack.uuid] === undefined) {
-    timePassed[snack.uuid] = 0;
-  }
+  // Only set up interval if there is a timeout (> 0)
+  if (snack.timeout > 0) {
+    if (timePassed[snack.uuid] === undefined) {
+      timePassed[snack.uuid] = 0;
+    }
 
-  intervals[snack.uuid] = setInterval(() => {
-    timePassed[snack.uuid] = timePassed[snack.uuid] + 500;
-  }, 500);
+    intervals[snack.uuid] = setInterval(() => {
+      timePassed[snack.uuid] = timePassed[snack.uuid] + 500;
+      // Safety check to clear interval if time exceeds timeout
+      if (timePassed[snack.uuid] >= snack.timeout) {
+          clearInterval(intervals[snack.uuid]);
+      }
+    }, 500);
+  }
 };
 
 // Sets a setTimeout to automatically remove the snack after its duration.
 const setupTimeout = (snack) => {
-  setTimeout(() => {
-    removeSnack(snack.uuid);
-  }, snack.timeout);
+  // Only set up timeout if there is a timeout (> 0)
+  if (snack.timeout > 0) {
+    setTimeout(() => {
+      removeSnack(snack.uuid);
+    }, snack.timeout);
+  }
 };
 
 onMounted(() => {
