@@ -98,7 +98,7 @@ export default {
 
     numberOfOverlaps() {
       if (this.disabled) return 0;
-      const overlaps = getOverlappingShifts(this.overlappingShifts).length;
+      const overlaps = getOverlappingShifts(this.allSelectedShifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
       const result = overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
       return Math.floor(result);
