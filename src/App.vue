@@ -160,7 +160,6 @@ export default {
 };
 </script>
 <style>
-
 /* Global screen-reader utility */
 .sr-only {
   position: absolute !important;

@@ -128,7 +128,7 @@ import {
   mdiFormatSection,
   mdiWeb,
   mdiAccountReactivate,
-  mdiTimerOutline 
+  mdiTimerOutline
 } from "@mdi/js";
 
 import DeleteAccount from "@/components/settings/DeleteAccount.vue";
