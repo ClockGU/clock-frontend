@@ -83,7 +83,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      allSelectedShifts: "contentData/selectedShifts"
+      shifts: "contentData/selectedShifts"
     }),
     smAndDown() {
       return this.$vuetify.display.smAndDown;
@@ -91,14 +91,12 @@ export default {
 
     // the shifts to consider for overlaps are only those that were reviewed
     overlappingShifts() {
-      return this.allSelectedShifts.filter(
-        (shift) => shift.wasReviewed === true
-      );
+      return this.shifts.filter((shift) => shift.wasReviewed === true);
     },
 
     numberOfOverlaps() {
       if (this.disabled) return 0;
-      const overlaps = getOverlappingShifts(this.allSelectedShifts).length;
+      const overlaps = getOverlappingShifts(this.shifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
       const result = overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
       return Math.floor(result);
