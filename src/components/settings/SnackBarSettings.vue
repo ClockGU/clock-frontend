@@ -9,7 +9,7 @@
       <span class="text-body">{{ $t("settings.snackbar.text") }}</span>
       <v-switch
         v-model="timeoutEnabled"
-        :label="$t('settings.snackbar.enable')"
+        :label="timeoutEnabled ? $t('settings.snackbar.enabled') : $t('settings.snackbar.disabled')"
         :color="timeoutEnabled ? 'primary' : undefined"
       ></v-switch>
 
@@ -45,7 +45,6 @@
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
-import { max } from "date-fns";
 
 const store = useStore();
 const { t } = useI18n();

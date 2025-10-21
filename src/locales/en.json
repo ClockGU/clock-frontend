@@ -461,7 +461,8 @@
     "snackbar": {
       "title": "Snackbar ",
       "text": "you can desactivate the snackbar here or set a custom timeout",
-      "enable": "Activate snackbar"
+      "enabled": "snackbar timeout is enabled",
+      "disabled": "snackbar timeout is disabled"
     }
   },
   "shifts": {

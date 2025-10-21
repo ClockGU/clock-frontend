@@ -36,13 +36,11 @@ import { useStore } from "vuex";
 
 const store = useStore();
 
-// tracks time passed for progress bar
 const timePassed = reactive({});
 const intervals = reactive({});
 
 const snacks = ref(store.getters["snackbar/snacks"]);
 
-// Clears interval, removes local state, and dispatches Vuex action to remove snack.
 const removeSnack = (uuid) => {
   delete timePassed[uuid];
   clearInterval(intervals[uuid]);
