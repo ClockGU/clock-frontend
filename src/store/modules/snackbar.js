@@ -28,15 +28,33 @@ const defaultSnackPayload = {
 };
 
 const actions = {
-  setSnack({ commit }, payload) {
+  setSnack({ commit, rootGetters }, payload) {
+    const userTime = rootGetters.userSnackTime;
+    const isEnabled = rootGetters.userTimeoutEnabled;
+    // Determine the effective timeout: use payload's timeout if set, otherwise use user setting or -1 (for persistent snacks) when disabled.
+    const effectiveTimeout = payload.timeout !== undefined 
+      ? payload.timeout 
+      : (isEnabled ? userTime : -1); 
+
     payload.uuid = uuidv4();
-    commit("setSnack", { ...defaultSnackPayload, ...payload });
+    commit("setSnack", { 
+      ...defaultSnackPayload, 
+      ...payload,
+      timeout: effectiveTimeout
+    });
   },
   setErrorSnacks(
-    { commit },
+    { commit, rootGetters },
     errorPayload,
     options = { timeout: 4000, color: "error", timePassed: 0, show: true }
   ) {
+    const userTime = rootGetters.userSnackTime;
+    const isEnabled = rootGetters.userTimeoutEnabled;
+    // Set effectiveTimeout to user time or -1 if disabled (means persistent snacks)
+    const effectiveTimeout = isEnabled ? userTime : -1; 
+    // Apply user setting to the default options only if a specific timeout wasn't provided
+    options.timeout = options.timeout !== 4000 ? options.timeout : effectiveTimeout;
+
     for (const [key, value] of Object.entries(errorPayload)) {
       let snackMsg =
         key !== "non_field_errors" ? `Field ${key}:` : `Context Errors:`;
