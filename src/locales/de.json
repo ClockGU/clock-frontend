@@ -461,7 +461,8 @@
     "snackbar": {
       "title": "Snackbar",
       "text": "Du kannst hier die Snackbar deaktivieren oder eine benutzerdefinierte Zeitüberschreitung einstellen",
-      "enable": "Snackbar aktivieren"
+      "enabled": "Snackbar-Zeitüberschreitung ist aktiviert",
+      "disabled": "Snackbar-Zeitüberschreitung ist deaktiviert"
     }
   },
   "shifts": {
