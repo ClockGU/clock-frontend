@@ -127,7 +127,8 @@ import {
   mdiAccountRemove,
   mdiFormatSection,
   mdiWeb,
-  mdiAccountReactivate
+  mdiAccountReactivate,
+  mdiTimerOutline 
 } from "@mdi/js";
 
 import DeleteAccount from "@/components/settings/DeleteAccount.vue";
@@ -135,6 +136,7 @@ import GDPR from "@/components/gdpr/GdprSettingsCard.vue";
 import PersonnelNumberForm from "@/components/settings/PersonnelNumberForm.vue";
 import LanguageSettings from "@/components/settings/LanguageSettings.vue";
 import AdminCheckoutUser from "@/components/settings/AdminCheckoutUser.vue";
+import SnackBarSettings from "@/components/settings/SnackBarSettings.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -149,7 +151,8 @@ export default {
     GDPR,
     PersonnelNumberForm,
     LanguageSettings,
-    AdminCheckoutUser
+    AdminCheckoutUser,
+    SnackBarSettings
   },
   data: () => ({
     icons: {
@@ -160,7 +163,8 @@ export default {
       mdiWeb,
       mdiAccountReactivate,
       mdiChevronLeft,
-      mdiChevronRight
+      mdiChevronRight,
+      mdiTimerOutline
     },
     tab: "first"
   }),
@@ -183,21 +187,27 @@ export default {
           component: LanguageSettings
         },
         {
+          icon: mdiTimerOutline,
+          text: "settings.snackbar.title",
+          value: "second",
+          component: SnackBarSettings
+        },
+        {
           icon: mdiFormatSection,
           text: "app.gdpr",
-          value: "second",
+          value: "third",
           component: GDPR
         },
         {
           icon: mdiBadgeAccountHorizontal,
           text: "personnelNumber.label",
-          value: "third",
+          value: "fourth",
           component: PersonnelNumberForm
         },
         {
           icon: mdiAccountRemove,
           text: "app.account",
-          value: "fourth",
+          value: "fifth",
           component: DeleteAccount
         }
       ];
@@ -205,7 +215,7 @@ export default {
         retValue.push({
           icon: mdiAccountReactivate,
           text: "app.checkoutUser",
-          value: "fifth",
+          value: "sixth",
           component: AdminCheckoutUser
         });
       }

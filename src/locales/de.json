@@ -457,6 +457,11 @@
     },
     "language": {
       "text": "Die Spracheinstellung wird sofort wirksam."
+    },
+    "snackbar": {
+      "title": "Snackbar",
+      "text": "Du kannst hier die Snackbar deaktivieren oder eine benutzerdefinierte Zeitüberschreitung einstellen",
+      "enable": "Snackbar aktivieren"
     }
   },
   "shifts": {
@@ -574,5 +579,15 @@
     "regEmp": "Regulär*er Angestellt*er",
     "civilSer": "Beamt*in",
     "notSelected": "Kein Modell ausgewählt"
+  },
+  "validations": {
+    "required": "Dieses Feld ist erforderlich.",
+    "settings": {
+      "snackbar": {
+        "minValue": "Der minimale Wert ist 2000ms.",
+        "maxValue": "Der maximale Wert ist 10000ms.",
+        "multipleOf500": "Der Wert muss ein Vielfaches von 500ms sein."
+      }
+    }
   }
 }
