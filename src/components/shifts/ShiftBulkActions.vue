@@ -175,7 +175,6 @@ export default {
     async destroyFn() {
       await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);
       this.resetFn();
-      this.$emit("destroy");
     },
     async updateFn(contractInstance) {
       await this.$store.dispatch("contentData/bulkSwitchContract", {
