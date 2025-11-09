@@ -9,22 +9,25 @@ const groupBy = (key) => (array) =>
 
 export const groupByContract = groupBy("contract");
 
-const indexOfBy =
-  (key) =>
-  ({ element, array, start = 0, end = array.length }) => {
-    if (array.length === 0) return 0;
-    start = start || 0;
-    end = end || array.length;
-    const pivot = parseInt(start + (end - start) / 2, 10);
-    if (array[pivot][key] === element[key]) return pivot;
-    if (end - start <= 1) {
-      return array[pivot][key] > element[key] ? pivot : pivot + 1;
-    }
-    if (array[pivot][key] < element[key]) {
-      return indexOfBy(key)({ element, array, start: pivot, end });
-    }
-    return indexOfBy(key)({ element, array, start, end: pivot });
-  };
+const indexOfBy = (key) => ({
+  element,
+  array,
+  start = 0,
+  end = array.length
+}) => {
+  if (array.length === 0) return 0;
+  start = start || 0;
+  end = end || array.length;
+  const pivot = parseInt(start + (end - start) / 2, 10);
+  if (array[pivot][key] === element[key]) return pivot;
+  if (end - start <= 1) {
+    return array[pivot][key] > element[key] ? pivot : pivot + 1;
+  }
+  if (array[pivot][key] < element[key]) {
+    return indexOfBy(key)({ element, array, start: pivot, end });
+  }
+  return indexOfBy(key)({ element, array, start, end: pivot });
+};
 
 export const indexOfByStarted = indexOfBy("started");
 export const indexOfByStartDate = indexOfBy("startDate");
