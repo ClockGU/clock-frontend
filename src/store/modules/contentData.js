@@ -235,13 +235,12 @@ const mutations = {
     );
   },
   removeBulkShifts(state, { shifts }) {
-    const shiftIdsToRemove = new Set(shifts.map(s => s.id));
+    const shiftIdsToRemove = new Set(shifts.map((s) => s.id));
     for (const contractID in state.contentData) {
       if (state.contentData[contractID].shifts) {
-        state.contentData[contractID].shifts = 
-          state.contentData[contractID].shifts.filter(
-            (shift) => !shiftIdsToRemove.has(shift.id)
-          );
+        state.contentData[contractID].shifts = state.contentData[
+          contractID
+        ].shifts.filter((shift) => !shiftIdsToRemove.has(shift.id));
       }
     }
   },
@@ -359,7 +358,7 @@ const actions = {
     } catch (error) {
       console.error("Optimistic bulk delete failed, reverting state...", error);
       // Revert state by re-fetching shifts for the contract
-      dispatch("updateContractsShifts", contractID); 
+      dispatch("updateContractsShifts", contractID);
     }
   },
   async bulkSwitchContract(
