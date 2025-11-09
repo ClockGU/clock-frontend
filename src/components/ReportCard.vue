@@ -219,8 +219,7 @@ import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { Buffer } from "buffer";
 import { log } from "@/utils/log";
-import { mapGetters } from 'vuex';
-
+import { mapGetters } from "vuex";
 
 export default {
   name: "ReportCard",
@@ -250,7 +249,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedContract: 'selectedContract/selectedContract'
+      selectedContract: "selectedContract/selectedContract"
     }),
     rows() {
       return [
@@ -293,10 +292,13 @@ export default {
       // Check for  contract end and set it as deadline if it is on same month as report to handle mid-month contract ends
       const contractEndDateString = this.selectedContract?.endDate;
       if (contractEndDateString) {
-          const contractEndDate = parseISO(contractEndDateString);
-          if (isSameMonth(contractEndDate, reportMonth) && contractEndDate < lockDeadline) {
-              lockDeadline = contractEndDate;
-          }
+        const contractEndDate = parseISO(contractEndDateString);
+        if (
+          isSameMonth(contractEndDate, reportMonth) &&
+          contractEndDate < lockDeadline
+        ) {
+          lockDeadline = contractEndDate;
+        }
       }
       const daysRemaining = differenceInDays(lockDeadline, today);
       return daysRemaining > bufferDays;
