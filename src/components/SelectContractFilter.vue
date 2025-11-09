@@ -81,6 +81,7 @@ export default {
     async changeContract(contract) {
       if (this.selectedContract === contract) return;
       await this.$store.dispatch("selectedContract/selectContract", contract);
+      this.$store.dispatch("selectedShifts/clearSelectedShifts");
     },
     contractStatus(contract) {
       if (this.specificContractInFuture(contract))
