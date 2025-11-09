@@ -419,16 +419,14 @@ export default {
         case "carryover":
           this.warnings = [
             {
-              warning: this.$t(
-                "dashboard.progress.warnings.carryover",
-                { n: this.carryoverValue }
-              )
+              warning: this.$t("dashboard.progress.warnings.carryover", {
+                n: this.carryoverValue
+              })
             },
             {
-              warning: this.$t(
-                "dashboard.progress.warnings.carryoverLegal",
-                { n: this.maxCarryoverValue }
-              )
+              warning: this.$t("dashboard.progress.warnings.carryoverLegal", {
+                n: this.maxCarryoverValue
+              })
             }
           ];
           break;
