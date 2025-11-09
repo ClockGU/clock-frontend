@@ -173,7 +173,22 @@
                   </template>
 
                   <template #text>
-                    {{ $t("reports.lock.message") }}
+                    <v-alert
+                      v-if="showCurrentMonthLockWarning"
+                      type="warning"
+                      prominent
+                      class="mb-4"
+                      role="alert"
+                      aria-live="assertive"
+                      aria-atomic="true"
+                      tabindex="0"
+                      :aria-label="
+                        $t('reports.lock.currentMonthWarning')
+                      "
+                    >
+                      {{ $t("reports.lock.currentMonthWarning") }}
+                    </v-alert>
+                    <p>{{ $t("reports.lock.message") }}</p>
                   </template>
                 </ConfirmationDialog>
               </v-col>
@@ -197,13 +212,15 @@
 </template>
 
 <script>
-import { parseISO } from "date-fns";
+import { parseISO, isSameMonth, endOfMonth, differenceInDays } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { ReportService } from "@/services/models";
 import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { Buffer } from "buffer";
 import { log } from "@/utils/log";
+import { mapGetters } from 'vuex';
+
 
 export default {
   name: "ReportCard",
@@ -232,6 +249,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      selectedContract: 'selectedContract/selectedContract'
+    }),
     rows() {
       return [
         {
@@ -258,6 +278,28 @@ export default {
     },
     lockDisabled() {
       return !this.pdf || !this.isLockable;
+    },
+    // show warning if current month report is being locked with more than 3 days left until month end or contract end
+    showCurrentMonthLockWarning() {
+      const today = new Date();
+      const bufferDays = 3;
+      const reportMonth = this.report.monthYear;
+
+      if (!reportMonth || !isSameMonth(reportMonth, today)) {
+        return false;
+      }
+
+      let lockDeadline = endOfMonth(reportMonth);
+      // Check for  contract end and set it as deadline if it is on same month as report to handle mid-month contract ends
+      const contractEndDateString = this.selectedContract?.endDate;
+      if (contractEndDateString) {
+          const contractEndDate = parseISO(contractEndDateString);
+          if (isSameMonth(contractEndDate, reportMonth) && contractEndDate < lockDeadline) {
+              lockDeadline = contractEndDate;
+          }
+      }
+      const daysRemaining = differenceInDays(lockDeadline, today);
+      return daysRemaining > bufferDays;
     }
   },
   methods: {
@@ -336,13 +378,5 @@ export default {
 <style lang="scss" scoped>
 .warn {
   color: #ff5252;
-}
-.sr-only {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
 }
 </style>

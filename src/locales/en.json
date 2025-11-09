@@ -435,6 +435,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
+      "currentMonthWarning": "You are about to lock the current month. This action is irreversible.",
       "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
     },
     "warnings": {
