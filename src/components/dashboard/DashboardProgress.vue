@@ -318,10 +318,9 @@ export default {
         case "daily":
           this.warnings = [
             {
-              warning: this.$tc(
-                "dashboard.progress.warnings.dailyOvertime",
-                this.dailyWorktime.join(":")
-              )
+              warning: this.$t("dashboard.progress.warnings.dailyOvertime", {
+                n: this.dailyWorktime.join(":")
+              })
             },
             {
               warning: this.$t("dashboard.progress.warnings.dailyOvertimeLegal")
