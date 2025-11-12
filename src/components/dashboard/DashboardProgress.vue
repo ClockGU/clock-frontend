@@ -406,10 +406,9 @@ export default {
         case "daily":
           this.warnings = [
             {
-              warning: this.$tc(
-                "dashboard.progress.warnings.dailyOvertime",
-                this.dailyWorktime.join(":")
-              )
+              warning: this.$t("dashboard.progress.warnings.dailyOvertime", {
+                n: this.dailyWorktime.join(":")
+              })
             },
             {
               warning: this.$t("dashboard.progress.warnings.dailyOvertimeLegal")
@@ -419,16 +418,14 @@ export default {
         case "carryover":
           this.warnings = [
             {
-              warning: this.$tc(
-                "dashboard.progress.warnings.carryover",
-                this.carryoverValue
-              )
+              warning: this.$t("dashboard.progress.warnings.carryover", {
+                n: this.carryoverValue
+              })
             },
             {
-              warning: this.$tc(
-                "dashboard.progress.warnings.carryoverLegal",
-                this.maxCarryoverValue
-              )
+              warning: this.$t("dashboard.progress.warnings.carryoverLegal", {
+                n: this.maxCarryoverValue
+              })
             }
           ];
           break;
