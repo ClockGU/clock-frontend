@@ -437,6 +437,7 @@
       "locked": "Gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
+      "currentMonthWarning": "Sie sind dabei, den aktuellen Monat zu sperren. Dieser Vorgang ist unwiderruflich.",
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
     },
     "warnings": {
