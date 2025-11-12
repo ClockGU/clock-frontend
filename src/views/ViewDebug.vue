@@ -91,8 +91,8 @@ export default {
     shortShift() {
       const now = new Date();
       const started = subMinutes(now, 5);
-      const contract = this.$store.getters["selectedContract/selectedContract"]
-        .id;
+      const contract =
+        this.$store.getters["selectedContract/selectedContract"].id;
 
       const shift = new Shift({
         started,
@@ -115,8 +115,8 @@ export default {
     overflowShift() {
       const now = new Date();
       const started = subDays(now, 1);
-      const contract = this.$store.getters["selectedContract/selectedContract"]
-        .id;
+      const contract =
+        this.$store.getters["selectedContract/selectedContract"].id;
 
       const shift = new Shift({
         started,
@@ -140,8 +140,8 @@ export default {
     veryLongShift() {
       const now = new Date();
       const started = subDays(now, 4);
-      const contract = this.$store.getters["selectedContract/selectedContract"]
-        .id;
+      const contract =
+        this.$store.getters["selectedContract/selectedContract"].id;
 
       const shift = new Shift({
         started,

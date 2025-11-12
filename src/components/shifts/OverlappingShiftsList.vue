@@ -111,9 +111,8 @@ export default {
   },
   methods: {
     getContractName(contractId) {
-      const contract = this.$store.getters["contentData/contractById"](
-        contractId
-      );
+      const contract =
+        this.$store.getters["contentData/contractById"](contractId);
       return contract ? contract.name : this.$t("contracts.unknownContract");
     },
     async handleShiftDelete(shift) {

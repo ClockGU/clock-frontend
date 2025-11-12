@@ -24,7 +24,9 @@
       <v-progress-linear
         reverse
         color="white"
-        :model-value="snack.timeout > 0 ? (timePassed[snack.uuid] / snack.timeout) * 100 : 0"
+        :model-value="
+          snack.timeout > 0 ? (timePassed[snack.uuid] / snack.timeout) * 100 : 0
+        "
       ></v-progress-linear>
     </v-snackbar>
   </div>
@@ -60,7 +62,7 @@ const setupInterval = (snack) => {
       timePassed[snack.uuid] = timePassed[snack.uuid] + 500;
       // Safety check to clear interval if time exceeds timeout
       if (timePassed[snack.uuid] >= snack.timeout) {
-          clearInterval(intervals[snack.uuid]);
+        clearInterval(intervals[snack.uuid]);
       }
     }, 500);
   }

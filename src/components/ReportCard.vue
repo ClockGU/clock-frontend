@@ -182,9 +182,7 @@
                       aria-live="assertive"
                       aria-atomic="true"
                       tabindex="0"
-                      :aria-label="
-                        $t('reports.lock.currentMonthWarning')
-                      "
+                      :aria-label="$t('reports.lock.currentMonthWarning')"
                     >
                       {{ $t("reports.lock.currentMonthWarning") }}
                     </v-alert>

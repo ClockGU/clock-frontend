@@ -32,13 +32,16 @@ const actions = {
     const userTime = rootGetters.userSnackTime;
     const isEnabled = rootGetters.userTimeoutEnabled;
     // Determine the effective timeout: use payload's timeout if set, otherwise use user setting or -1 (for persistent snacks) when disabled.
-    const effectiveTimeout = payload.timeout !== undefined 
-      ? payload.timeout 
-      : (isEnabled ? userTime : -1); 
+    const effectiveTimeout =
+      payload.timeout !== undefined
+        ? payload.timeout
+        : isEnabled
+        ? userTime
+        : -1;
 
     payload.uuid = uuidv4();
-    commit("setSnack", { 
-      ...defaultSnackPayload, 
+    commit("setSnack", {
+      ...defaultSnackPayload,
       ...payload,
       timeout: effectiveTimeout
     });
@@ -51,9 +54,10 @@ const actions = {
     const userTime = rootGetters.userSnackTime;
     const isEnabled = rootGetters.userTimeoutEnabled;
     // Set effectiveTimeout to user time or -1 if disabled (means persistent snacks)
-    const effectiveTimeout = isEnabled ? userTime : -1; 
+    const effectiveTimeout = isEnabled ? userTime : -1;
     // Apply user setting to the default options only if a specific timeout wasn't provided
-    options.timeout = options.timeout !== 4000 ? options.timeout : effectiveTimeout;
+    options.timeout =
+      options.timeout !== 4000 ? options.timeout : effectiveTimeout;
 
     for (const [key, value] of Object.entries(errorPayload)) {
       let snackMsg =

@@ -9,7 +9,11 @@
       <span class="text-body">{{ $t("settings.snackbar.text") }}</span>
       <v-switch
         v-model="timeoutEnabled"
-        :label="timeoutEnabled ? $t('settings.snackbar.enabled') : $t('settings.snackbar.disabled')"
+        :label="
+          timeoutEnabled
+            ? $t('settings.snackbar.enabled')
+            : $t('settings.snackbar.disabled')
+        "
         :color="timeoutEnabled ? 'primary' : undefined"
       ></v-switch>
 
