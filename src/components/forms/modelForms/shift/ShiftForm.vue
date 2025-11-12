@@ -129,14 +129,11 @@ async function deleteShift() {
 }
 
 async function updateShift() {
-<<<<<<< HEAD
-=======
   const changedFields = getChangedFields(originalShift.value, shift.value);
   //changedFields will always have an id as it is needed to update the shift
   if (Object.keys(changedFields).length === 1) return;
 
   const payload = mapChangedFieldsToApi(changedFields);
->>>>>>> 7aaf9d98 (format)
   await store.dispatch("contentData/updateShift", {
     payload: shift.value.toPayload(),
     initialContract: props.initialContract
@@ -144,9 +141,6 @@ async function updateShift() {
   emit("update");
   closeFn();
 }
-<<<<<<< HEAD
-
-=======
 function getChangedFields(oldShift, newShift) {
   const changes = { id: oldShift.id };
   for (const key in newShift) {
@@ -190,7 +184,6 @@ function mapChangedFieldsToApi(changedFields) {
   }
   return changedFieldsApi;
 }
->>>>>>> 7aaf9d98 (format)
 function setScheduledShifts(event) {
   scheduledShifts.value = event;
 }
