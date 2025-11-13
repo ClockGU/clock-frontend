@@ -1,7 +1,7 @@
 <template>
   <v-list-item v-bind="$attrs" :aria-labelledby="`message-title-${message.id}`">
     <v-list-item-title>
-      <span :id="`message-title-${message.id}`" class="sr-only">
+      <span :id="`message-title-${message.id}`" class="visually-hidden">
         {{ accessibleTitle }}
       </span>
       <span aria-hidden="true">
@@ -24,14 +24,14 @@
       class="text--primary"
       :aria-describedby="`message-content-${message.id}`"
     >
-      <span :id="`message-content-${message.id}`" class="sr-only">
+      <span :id="`message-content-${message.id}`" class="visually-hidden">
         {{ strippedText }}
       </span>
       <span aria-hidden="true" v-text="text"></span>
     </v-list-item-subtitle>
 
     <div v-else>
-      <div :id="`message-content-${message.id}`" class="sr-only">
+      <div :id="`message-content-${message.id}`" class="visually-hidden">
         {{ strippedText }}
       </div>
       <div aria-hidden="true" v-html="text"></div>
@@ -39,7 +39,7 @@
 
     <v-list-item-action>
       <p class="font-weight-bold py-4">
-        <span class="sr-only">{{ $t("news.validity") }}: </span>
+        <span class="visually-hidden">{{ $t("news.validity") }}: </span>
         <span aria-hidden="true">{{ $t("news.validity") }}</span>
         <span class="pl-2" :aria-label="accessibleDate">
           {{ messageDate }}

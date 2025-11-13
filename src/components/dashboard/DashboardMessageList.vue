@@ -19,7 +19,7 @@
 
       <div v-else>
         <v-card-text>
-          <p id="news-description" class="sr-only">
+          <p id="news-description" class="visually-hidden">
             {{
               $t("aria.news.accessibleDescription", { count: messages.length })
             }}

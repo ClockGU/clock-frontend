@@ -8,7 +8,7 @@
     <TheAppBar @toggle="toggleDrawer" />
     <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
     <v-main>
-      <h1 class="sr-only">CLOCK -{{ viewName }}</h1>
+      <h1 class="visually-hidden">CLOCK -{{ viewName }}</h1>
       <v-alert
         v-if="userCheckedOut !== ''"
         type="info"
@@ -161,7 +161,7 @@ export default {
 </script>
 <style>
 /* Global screen-reader utility */
-.sr-only {
+.visually-hidden {
   position: absolute !important;
   width: 1px !important;
   height: 1px !important;

@@ -35,7 +35,7 @@
         aria-labelledby="contract-form-title"
         style="overflow-y: auto"
       >
-        <h2 id="contract-form-title" class="sr-only">
+        <h2 id="contract-form-title" class="visually-hidden">
           {{ create ? $t("actions.add") : $t("actions.edit") }}
         </h2>
         <ContractForm

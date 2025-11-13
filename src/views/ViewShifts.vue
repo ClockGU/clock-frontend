@@ -24,7 +24,7 @@
             "
           >
             <v-card-title>
-              <h2 id="shifts-heading" class="sr-only">
+              <h2 id="shifts-heading" class="visually-hidden">
                 {{ $t("sr.viewShifts.overview") }}
               </h2>
               <v-row>

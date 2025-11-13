@@ -1,6 +1,6 @@
 <template>
   <v-card-text class="pb-0">
-    <div class="sr-only" aria-live="polite">
+    <div class="visually-hidden" aria-live="polite">
       <span v-if="alertMessages.length > 0">
         {{
           $tc("sr.shiftFormFields.warningLabel", {

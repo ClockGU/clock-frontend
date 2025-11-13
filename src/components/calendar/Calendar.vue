@@ -33,7 +33,7 @@
           <!-- Hidden description for screen readers -->
           <div
             id="selected-contracts-description"
-            class="sr-only"
+            class="visually-hidden"
             aria-live="polite"
           >
             {{

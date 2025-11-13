@@ -70,7 +70,7 @@
                   <span class="text-capitalize">
                     {{ user.first_name }}
                   </span>
-                  <span class="sr-only">
+                  <span class="visually-hidden">
                     {{ $t("aria.dashboard.userMenu") }}</span
                   >
                 </div>

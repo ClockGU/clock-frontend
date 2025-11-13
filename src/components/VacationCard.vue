@@ -16,7 +16,7 @@
       </v-card-title>
 
       <v-card-text>
-        <div aria-live="polite" aria-atomic="true" class="sr-only">
+        <div aria-live="polite" aria-atomic="true" class="visually-hidden">
           {{ $t("aria.report.vacationSummary") }}:
           {{ rows.map((r) => `${r.name}: ${r.value}`).join(", ") }}
         </div>
@@ -118,13 +118,5 @@ export default {
 <style lang="scss" scoped>
 .warn {
   color: #ff5252;
-}
-.sr-only {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
 }
 </style>

@@ -16,7 +16,7 @@
                 color="primary"
                 :aria-label="$t('aria.contracts.loading')"
               ></v-progress-circular>
-              <p aria-live="polite" class="sr-only">
+              <p aria-live="polite" class="visually-hidden">
                 {{ $t("aria.contracts.loading") }}
               </p>
             </div>

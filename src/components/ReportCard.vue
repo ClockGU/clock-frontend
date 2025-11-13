@@ -19,7 +19,7 @@
       </v-card-title>
 
       <v-card-text>
-        <div aria-live="polite" aria-atomic="true" class="sr-only">
+        <div aria-live="polite" aria-atomic="true" class="visually-hidden">
           {{ $t("reports.summary") }}:
           {{ rows.map((r) => `${r.name}: ${r.value}`).join(", ") }}
         </div>
@@ -47,7 +47,7 @@
             </tbody>
           </template>
         </v-table>
-        <div v-if="pdf" aria-live="polite" aria-atomic="true" class="sr-only">
+        <div v-if="pdf" aria-live="polite" aria-atomic="true" class="visually-hidden">
           {{ $t("aria.report.readyForDownload") }}
         </div>
       </v-card-text>
@@ -153,7 +153,7 @@
                           : $t('aria.report.lockedButton')
                       "
                     >
-                      <span class="sr-only">
+                      <span class="visually-hidden">
                         {{
                           isLockable
                             ? $t("aria.report.lockButton")

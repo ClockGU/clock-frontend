@@ -203,7 +203,7 @@ function closeDrawer(value) {
               <p class="text-h6">
                 {{ user.first_name }}
               </p>
-              <span id="user-menu" class="sr-only">
+              <span id="user-menu" class="visually-hidden">
                 {{ $t("aria.dashboard.userMenu") }}</span
               >
             </v-list-item>
@@ -224,7 +224,7 @@ function closeDrawer(value) {
             <p :aria-hidden="item.text === 'FAQ'" style="padding-left: 4px">
               {{ item.text }}
             </p>
-            <span v-if="item.text === 'FAQ'" class="sr-only">F A Q</span>
+            <span v-if="item.text === 'FAQ'" class="visually-hidden">F A Q</span>
           </v-list-item>
 
           <LogoutDialog>

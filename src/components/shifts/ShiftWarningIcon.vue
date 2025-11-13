@@ -1,5 +1,5 @@
 <template>
-  <span v-if="alertMessages.length > 0" class="sr-only">
+  <span v-if="alertMessages.length > 0" class="visually-hidden">
     {{ $t("aria.shiftsTable.warnings", { count: alertMessages.length }) }}
   </span>
   <v-icon v-if="alertMessages.length > 0" color="warning" aria-hidden="true">

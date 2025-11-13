@@ -4,7 +4,7 @@
     <div
       aria-live="polite"
       aria-atomic="true"
-      class="sr-only"
+      class="visually-hidden"
       :key="announcementKey"
     >
       {{ currentAnnouncement }}
@@ -79,7 +79,7 @@
                               </td>
                               <td align="right">
                                 {{ row.value }}
-                                <span v-if="index === 3" class="sr-only">
+                                <span v-if="index === 3" class="visually-hidden">
                                   {{ carryoverStatusText }}
                                 </span>
                               </td>
