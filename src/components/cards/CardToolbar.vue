@@ -1,6 +1,6 @@
 <template>
   <v-toolbar :color="color" flat>
-    <v-toolbar-title>
+    <v-toolbar-title id="card-toolbar-title">
       {{ title }}
     </v-toolbar-title>
 

@@ -4,6 +4,7 @@
     :fullscreen="xs"
     :max-width="600"
     :persistent="false"
+    :aria-labelled-by="title + 'Dialog'"
   >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>

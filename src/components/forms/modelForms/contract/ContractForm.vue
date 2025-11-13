@@ -4,6 +4,7 @@
     class="mx-auto word-break"
     min-width="400"
     :max-width="600"
+    :aria-label="title"
   >
     <CardToolbar
       v-if="showToolbar"

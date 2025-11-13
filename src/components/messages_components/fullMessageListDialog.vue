@@ -1,5 +1,10 @@
 <template>
-  <TheDialog :persistent="false" :fullscreen="smAndDown" :max-width="800">
+  <TheDialog
+    :persistent="false"
+    :fullscreen="smAndDown"
+    :max-width="800"
+    :aria-labelled-by="$t('app.news') + 'Dialog'"
+  >
     <template #activator="{ props }">
       <v-btn
         variant="text"

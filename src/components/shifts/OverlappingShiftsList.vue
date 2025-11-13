@@ -1,5 +1,5 @@
 <template>
-  <v-card :max-height="800">
+  <v-card :max-height="800" :aria-label="title">
     <CardToolbar
       :title="title"
       close-action

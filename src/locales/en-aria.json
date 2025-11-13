@@ -156,6 +156,12 @@
       "showAllNews": "Show all news",
       "hoursHeader": "Hours in HH:MM",
       "progressHeader": "Hours Summary"
+    },
+    "dialogs": {
+      "personalNumber": "personalNumber Dialog",
+      "overlappingShifts": "Overlapping Shifts Dialog",
+      "gdpr": "GDPR Dialog",
+      "shiftInfo": "Shift Information Dialog"
     }
   },
   "label": {

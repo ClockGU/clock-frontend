@@ -1,5 +1,10 @@
 <template>
-  <v-card class="mx-auto word-break" min-width="400" :max-width="600">
+  <v-card
+    class="mx-auto word-break"
+    min-width="400"
+    :max-width="600"
+    :aria-label="title"
+  >
     <CardToolbar
       :title="title"
       :logout-action="false"

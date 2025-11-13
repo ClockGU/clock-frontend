@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" width="500">
+  <v-dialog
+    v-model="dialog"
+    width="500"
+    :aria-label="$t('aria.dialogs.shiftInfo')"
+  >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
     </template>

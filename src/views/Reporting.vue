@@ -80,6 +80,7 @@
       v-if="dialog"
       v-model="dialog"
       :max-width="900"
+      :aria-label="$t('aria.dialogs.personalNumber')"
       @click:outside="closeDialog"
       ><PersonnelNumberForm dialog @close="closeDialog"
     /></v-dialog>
