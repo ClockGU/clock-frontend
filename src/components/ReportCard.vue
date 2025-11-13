@@ -47,7 +47,12 @@
             </tbody>
           </template>
         </v-table>
-        <div v-if="pdf" aria-live="polite" aria-atomic="true" class="visually-hidden">
+        <div
+          v-if="pdf"
+          aria-live="polite"
+          aria-atomic="true"
+          class="visually-hidden"
+        >
           {{ $t("aria.report.readyForDownload") }}
         </div>
       </v-card-text>

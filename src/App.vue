@@ -104,7 +104,9 @@ export default {
         contractList: this.$t("screen-reader-annoucemet.views.contracts"),
         reporting: this.$t("screen-reader-annoucemet.views.reporting"),
         settings: this.$t("screen-reader-annoucemet.views.settings"),
-        privacyagreement: this.$t("screen-reader-annoucemet.views.privacyAgreement"),
+        privacyagreement: this.$t(
+          "screen-reader-annoucemet.views.privacyAgreement"
+        ),
         404: this.$t("screen-reader-annoucemet.views.notFound")
       };
 
@@ -172,7 +174,8 @@ export default {
   white-space: nowrap !important;
   border-width: 0 !important;
 }
-
+</style>
+<style scoped>
 .menus {
   position: fixed;
   bottom: 0em;

@@ -79,7 +79,10 @@
                               </td>
                               <td align="right">
                                 {{ row.value }}
-                                <span v-if="index === 3" class="visually-hidden">
+                                <span
+                                  v-if="index === 3"
+                                  class="visually-hidden"
+                                >
                                   {{ carryoverStatusText }}
                                 </span>
                               </td>
