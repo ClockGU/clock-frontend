@@ -33,14 +33,13 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
-//import { useVuelidate } from '@vuelidate/core';
-//import { required, minLength } from '@vuelidate/validators';
 import { useI18n } from "vue-i18n";
 import { useShiftValidation } from "@/composable/useShiftValidation";
 import { Shift } from "@/models/ShiftModel";
 import FormActions from "@/components/cards/FormActions.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftFormFields from "@/components/forms/modelForms/shift/ShiftFormFields.vue";
+import { localizedFormat } from "@/utils/date";
 
 const props = defineProps({
   initialDate: {
@@ -74,14 +73,9 @@ const scheduledShifts = ref([]);
 const saving = ref(false);
 const closed = ref(false);
 const shift = defineModel({ type: Shift, default: () => new Shift() });
+// Keep a copy of the original shift to compare with the modified one
+const originalShift = ref(shift.value.clone());
 const { errorMessages, alertMessages, valid } = useShiftValidation(shift.value);
-
-watch(
-  () => props.showErrors,
-  (opened) => {
-    closed.value = !opened;
-  }
-);
 
 const selectedContract = computed(
   () => store.getters["selectedContract/selectedContract"]
@@ -117,6 +111,16 @@ const date = computed(() => {
   return props.initialDate;
 });
 
+watch(
+  () => props.showErrors,
+  (opened) => {
+    closed.value = !opened;
+  }
+);
+watch(shift, (newShift) => {
+  originalShift.value = newShift.clone();
+});
+
 async function saveShift() {
   saving.value = true;
   await store.dispatch("contentData/saveShift", shift.value.toPayload());
@@ -140,7 +144,7 @@ async function updateShift() {
 
   const payload = mapChangedFieldsToApi(changedFields);
   await store.dispatch("contentData/updateShift", {
-    payload: shift.value.toPayload(),
+    payload: payload,
     initialContract: props.initialContract
   });
   emit("update");
@@ -195,7 +199,6 @@ function setScheduledShifts(event) {
 
 function closeFn() {
   closed.value = true;
-  //v$.$reset();
   props.close();
   emit("close");
 }
