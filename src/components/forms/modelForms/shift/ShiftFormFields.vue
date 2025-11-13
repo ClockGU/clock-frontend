@@ -3,7 +3,7 @@
     <div class="visually-hidden" aria-live="polite">
       <span v-if="alertMessages.length > 0">
         {{
-          $tc("sr.shiftFormFields.warningLabel", {
+          $tc("screen-reader-annoucemet.shiftFormFields.warningLabel", {
             count: alertMessages.length
           })
         }}

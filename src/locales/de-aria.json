@@ -32,9 +32,13 @@
       "disabled": "Bitte erstellen Sie zuerst einen Vertrag. Drücken Sie die Eingabe- oder Leertaste, um zur Vertragsansicht zu navigieren."
     },
     "timeInterval": {
-      "description": "Zeitraumumschalter. Es gibt in jedem Monat gespeicherte Schichten und dies wird verwendet, um zwischen den Monaten zu wechseln. Verwenden Sie die linken und rechten Pfeiltasten, um durch die Zeiträume zu navigieren. Sie sehen derzeit {formattedInterval} Schichten.",
+      "description": "Zeitraumumschalter. Verwenden Sie die Tabulatortaste, um zu den Schaltflächen 'Zurück' und 'Weiter' zu navigieren, um den Zeitraum zu wechseln. Aktuell angezeigt: {formattedInterval}.",
       "previous": "Drücken Sie die Leertaste, um zum vorherigen Monat zu gelangen",
-      "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen"
+      "next": "Drücken Sie die Leertaste, um zum nächsten Monat zu gelangen",
+      "listDescription": "Zeitraumumschalter, zeigt derzeit {formattedInterval}.",
+      "currentInterval": "Aktuell angezeigt: {formattedInterval}. Drücken Sie Leertaste oder Eingabetaste, um einen anderen Zeitraum auszuwählen.",
+      "previousWithDate": "Gehen Sie zum vorherigen Zeitraum, aktuell {formattedInterval}.",
+      "nextWithDate": "Gehen Sie zum nächsten Zeitraum, aktuell {formattedInterval}."
     },
     "shiftsTable": {
       "description": "Schichtentabelle.Sie können mit Tabulatoren oder Pfeiltasten durch die Zeilen navigieren. Sie können eine Schicht auswählen, indem Sie die Leertaste oder Eingabetaste drücken.",
@@ -60,6 +64,15 @@
       "tagsPrefix": ". Tags: {tags}",
       "notReviewed": ". Noch nicht überprüft",
       "live": ". Aktuell laufend"
+    },
+    "shiftBulkActions": {
+      "description": "Sammelaktionen-Bereich für die ausgewählten Schichten. Sie können Aktionen für die ausgewählten Schichten durchführen, z. B. Löschen oder Überprüfen. Drücken Sie die Leertaste, um die Sammelaktionen zu aktivieren.",
+      "review": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu überprüfen.",
+      "delete": "Drücken Sie die Leertaste, um die ausgewählten Schichten zu löschen.",
+      "changeContract": "Drücken Sie die Leertaste, um den Vertrag für die ausgewählten Schichten zu ändern",
+      "viewDetails": "Drücken Sie die Leertaste, um die Details der ausgewählten Schicht anzuzeigen.",
+      "edit": "Drücken Sie die Leertaste, um die ausgewählte Schicht zu bearbeiten.",
+      "durationSum": "Dies ist die Gesamtdauer der ausgewählten Schichten. Die Gesamtdauer beträgt {durationSum}."
     },
     "shiftFormType": {
       "description": "Schichtformulartyp. Wählen Sie den Typ der Schicht, die Sie erstellen/aktualisieren möchten."
@@ -95,7 +108,8 @@
       "vacationSummary": "Vacation summary section",
       "table.label": "Urlaubsart",
       "table.value": "Urlaubsanspruch",
-      "vacationLiveSummary": "Urlaubsübersicht mit Details"
+      "vacationLiveSummary": "Urlaubsübersicht mit Details",
+      "vacationTitle": "Urlaub"
     },
     "calendar": {
       "displayedContracts": "Angezeigte Verträge . Dies wird verwendet, um die Schichten nach ausgewählten Verträgen zu filtern.",
@@ -157,7 +171,7 @@
     "feedback": "Feedback",
     "snackbarTimeout": "Snackbar Timeout in Sekunden"
   },
-  "sr": {
+  "screen-reader-annoucemet": {
     "views": {
       "home": "Startseite",
       "faq": "FAQ",

@@ -32,6 +32,9 @@
       "disabled": "Please create a contract first. Press enter or space to navigate to contracts view."
     },
     "timeInterval": {
+      "description": "Time interval switcher. Use the tab key to navigate to the 'Previous' and 'Next' buttons to change the time period. Currently viewing: {formattedInterval}.",
+      "previous": "Press space to go to the previous month",
+      "next": "Press space to go to the next month",
       "listDescription": "Time interval switcher, currently showing {formattedInterval}.",
       "currentInterval": "Currently viewing: {formattedInterval}. Press space or enter to select a different time interval.",
       "previousWithDate": "Go to the previous time interval, currently {formattedInterval}.",
@@ -168,7 +171,7 @@
     "feedback": "Feedback",
     "snackbarTimeout": "Snackbar Timeout in Seconds"
   },
-  "sr": {
+  "screen-reader-annoucemet": {
     "views": {
       "home": "Home",
       "faq": "FAQ",

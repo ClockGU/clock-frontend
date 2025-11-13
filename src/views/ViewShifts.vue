@@ -25,7 +25,7 @@
           >
             <v-card-title>
               <h2 id="shifts-heading" class="visually-hidden">
-                {{ $t("sr.viewShifts.overview") }}
+                {{ $t("screen-reader-annoucemet.viewShifts.overview") }}
               </h2>
               <v-row>
                 <v-col>

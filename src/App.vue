@@ -92,20 +92,20 @@ export default {
     }),
     viewName() {
       const routeNames = {
-        home: this.$t("sr.views.home"),
-        faq: this.$t("sr.views.faq"),
-        onboarding: this.$t("sr.views.onboarding"),
-        imprint: this.$t("sr.views.imprint"),
-        privacy: this.$t("sr.views.privacy"),
-        loggingIn: this.$t("sr.views.loggingIn"),
-        dashboard: this.$t("sr.views.dashboard"),
-        calendar: this.$t("sr.views.calendar"),
-        shiftList: this.$t("sr.views.shifts"),
-        contractList: this.$t("sr.views.contracts"),
-        reporting: this.$t("sr.views.reporting"),
-        settings: this.$t("sr.views.settings"),
-        privacyagreement: this.$t("sr.views.privacyAgreement"),
-        404: this.$t("sr.views.notFound")
+        home: this.$t("screen-reader-annoucemet.views.home"),
+        faq: this.$t("screen-reader-annoucemet.views.faq"),
+        onboarding: this.$t("screen-reader-annoucemet.views.onboarding"),
+        imprint: this.$t("screen-reader-annoucemet.views.imprint"),
+        privacy: this.$t("screen-reader-annoucemet.views.privacy"),
+        loggingIn: this.$t("screen-reader-annoucemet.views.loggingIn"),
+        dashboard: this.$t("screen-reader-annoucemet.views.dashboard"),
+        calendar: this.$t("screen-reader-annoucemet.views.calendar"),
+        shiftList: this.$t("screen-reader-annoucemet.views.shifts"),
+        contractList: this.$t("screen-reader-annoucemet.views.contracts"),
+        reporting: this.$t("screen-reader-annoucemet.views.reporting"),
+        settings: this.$t("screen-reader-annoucemet.views.settings"),
+        privacyagreement: this.$t("screen-reader-annoucemet.views.privacyAgreement"),
+        404: this.$t("screen-reader-annoucemet.views.notFound")
       };
 
       return routeNames[this.$route.name] || "";
