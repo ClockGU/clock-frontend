@@ -175,7 +175,11 @@
     "startTime": "Startzeit",
     "endTime": "Endzeit",
     "feedback": "Feedback",
-    "snackbarTimeout": "Snackbar Timeout in Sekunden"
+    "snackbarTimeout": "Snackbar Timeout in Sekunden",
+    "dateInput": {
+      "shift": "Schichtdatum auswählen",
+      "contract": "Vertragsdatum auswählen"
+    }
   },
   "screen-reader-annoucemet": {
     "views": {

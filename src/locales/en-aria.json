@@ -175,7 +175,11 @@
     "startTime": "Start Time",
     "endTime": "End Time",
     "feedback": "Feedback",
-    "snackbarTimeout": "Snackbar Timeout in Seconds"
+    "snackbarTimeout": "Snackbar Timeout in Seconds",
+    "dateInput": {
+      "shift": "Select Shift Date",
+      "contract": "Select Contract Date"
+    }
   },
   "screen-reader-annoucemet": {
     "views": {
