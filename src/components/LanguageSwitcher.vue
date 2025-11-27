@@ -1,12 +1,21 @@
 <template>
   <v-menu
+    v-model="menu"
     location="bottom left"
     offset-y
     max-height="calc(100% - 16px)"
     transition="slide-y-transition"
+    :close-on-content-click="false"
   >
     <template #activator="{ props }">
-      <v-btn class="text-capitalize" variant="text" v-bind="props">
+      <v-btn
+        class="text-capitalize"
+        variant="text"
+        v-bind="props"
+        :aria-label="$t('aria.languageSwitcher')"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         <v-icon :start="smAndUp" :icon="icons.mdiTranslate" />
         <span
           class="text-subtitle-1 text-capitalize font-weight-light hidden-xs-and-down"
@@ -16,10 +25,16 @@
       </v-btn>
     </template>
 
-    <v-list density="compact" nav>
+    <v-list density="compact" nav role="menu">
       <v-list-item
         v-for="item in locales"
         :key="item.locale"
+        :role="
+          item.locale === $i18n.locale
+            ? 'menuitemradio checked'
+            : 'menuitemradio'
+        "
+        :aria-checked="item.locale === $i18n.locale"
         @click="switchLocale(item.locale)"
       >
         <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -57,11 +72,15 @@ export default {
   },
   methods: {
     async switchLocale(locale) {
-      if (this.$i18n.locale === locale) return;
-
+      if (this.$i18n.locale === locale) {
+        return;
+      }
       this.$i18n.locale = locale;
+      this.menu = false;
       // Update Vuetify settings
       this.$vuetify.locale.current = locale;
+      // Manually update the 'lang' attribute on the <html> element
+      document.documentElement.setAttribute("lang", locale);
 
       // Update locale for API requests
       await ApiService.setHeader("Accept-Language", locale);

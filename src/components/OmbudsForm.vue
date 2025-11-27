@@ -1,10 +1,12 @@
 <template>
   <v-card>
     <v-card-title>
-      {{ $t("ombuds.title") }}
+      <h2 id="ombud-title">
+        {{ $t("ombuds.title") }}
+      </h2>
     </v-card-title>
     <v-card-text>
-      <div>
+      <div id="ombud-description">
         {{ $t("ombuds.text") }}
       </div>
       <br />
@@ -22,6 +24,9 @@
         <v-text-field
           v-model="name"
           :label="$t('ombuds.fields.name')"
+          :aria-label="$t('ombuds.fields.name')"
+          role="text"
+          type="input"
           :error-messages="nameErrors"
           @blur="v$.name.$touch()"
         ></v-text-field>
@@ -29,6 +34,9 @@
         <v-text-field
           v-model="email"
           :label="$t('ombuds.fields.email')"
+          :aria-label="$t('ombuds.fields.email')"
+          role="text"
+          type="input"
           :error-messages="emailErrors"
           @blur="v$.email.$touch()"
         ></v-text-field>
@@ -37,6 +45,10 @@
           v-model="message"
           rows="3"
           :label="$t('ombuds.fields.message')"
+          :aria-label="$t('ombuds.fields.message')"
+          role="textbox"
+          type="input"
+          aria-required="true"
           :error-messages="messageErrors"
           @blur="v$.message.$touch()"
         ></v-textarea>

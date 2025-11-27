@@ -28,6 +28,8 @@ export default new createStore({
   getters: {
     user: (state) => state.user,
     personnelNumber: (state) => state.user.personal_number,
+    userSnackTime: (state) => state.user.snack_time || 5000,
+    userTimeoutEnabled: (state) => state.user.timeout_enabled ?? true,
     userLoading: (state) => state.userLoading,
     locale: (state) => state.locale
   },

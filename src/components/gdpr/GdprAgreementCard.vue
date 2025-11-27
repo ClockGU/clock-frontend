@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :aria-label="$t('app.privacyagreement')">
     <CardToolbar
       v-if="!hideToolbar"
       color="background"

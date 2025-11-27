@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Impressum</h1>
+    <h2>Impressum</h2>
     <p>Angaben gemäß § 5 TMG</p>
     <p>
       Johann Wolfgang Goethe-Universität Frankfurt am Main<br />

@@ -1,71 +1,66 @@
-<template>
-  <div class="mode-toggle" :class="darkDark" @click="toggleTheme">
-    <div class="toggle">
-      <div id="dark-mode" class="theme" type="checkbox"></div>
-    </div>
-  </div>
-</template>
-
-<script>
+<script setup>
 import { useTheme } from "vuetify";
+import { computed, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
-export default {
-  name: "ThemeToggle",
-  setup() {
-    return { theme: useTheme() };
-  },
-  data() {
-    return {
-      userTheme: "v-theme--light"
-    };
-  },
-  computed: {
-    isDark() {
-      return this.userTheme === "v-theme--dark";
-    },
-    darkDark() {
-      return this.isDark && "darkmode-toggled";
-    }
-  },
-  created() {
-    const initialTheme = this.getUserPrefTheme();
-    this.setTheme(initialTheme);
-    if (this.isDark) return this.dark();
-    return this.light();
-  },
-  methods: {
-    getUserPrefTheme() {
-      const theme = localStorage.getItem("user-theme");
-      if (theme) return theme;
-      return "v-theme--light";
-    },
-    setTheme(theme) {
-      localStorage.setItem("user-theme", theme);
-      this.userTheme = theme;
-      document.documentElement.className = theme;
-    },
-    toggleTheme() {
-      if (!this.isDark) {
-        this.setTheme("v-theme--dark");
-        this.dark();
-      } else {
-        this.setTheme("v-theme--light");
-        this.light();
-      }
-    },
-    dark() {
-      this.theme.global.name.value = "dark";
-      document.querySelector("body").classList.add("dark-mode");
-    },
+const { t } = useI18n();
+const theme = useTheme();
 
-    light() {
-      this.theme.global.name.value = "light";
-      document.querySelector("body").classList.remove("dark-mode");
-    }
+const userTheme = ref("v-theme--light");
+const isDark = computed(() => userTheme.value === "v-theme--dark");
+const darkDark = computed(() => isDark.value && "darkmode-toggled");
+
+onMounted(() => {
+  const initialTheme = getUserPrefTheme();
+  setTheme(initialTheme);
+  if (isDark.value) return dark();
+  return light();
+});
+
+function getUserPrefTheme() {
+  const theme = localStorage.getItem("user-theme");
+  if (theme) return theme;
+  return "v-theme--light";
+}
+
+function setTheme(theme) {
+  localStorage.setItem("user-theme", theme);
+  userTheme.value = theme;
+  document.documentElement.className = theme;
+}
+
+function toggleTheme() {
+  if (!isDark.value) {
+    setTheme("v-theme--dark");
+    dark();
+  } else {
+    setTheme("v-theme--light");
+    light();
   }
-};
+}
+function dark() {
+  theme.global.name.value = "dark";
+  document.querySelector("body").classList.add("dark-mode");
+}
+function light() {
+  theme.global.name.value = "light";
+  document.querySelector("body").classList.remove("dark-mode");
+}
 </script>
 
+<template>
+  <button
+    :aria-label="t('aria.dashboard.themeToggle')"
+    :aria-pressed="isDark"
+    class="mode-toggle"
+    :class="darkDark"
+    @click="toggleTheme"
+  >
+    <span class="toggle">
+      <span id="dark-mode" class="theme" type="checkbox"></span>
+    </span>
+  </button>
+</template>
 <style scoped lang="scss">
 $dark: #171717;
 $mode-toggle-bg: #414141;

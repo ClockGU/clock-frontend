@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="overlappingShifts === 0">
+  <v-card v-if="numberOfOverlaps === 0">
     <v-row align="center">
       <v-col cols="2" xs="2" offset="1">
         <v-icon
@@ -25,7 +25,7 @@
         <v-icon class="text-red" size="x-large">{{ icons.mdiAlert }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
-        {{ $tc("dashboard.overlaps.description", overlappingShifts) }}
+        {{ $tc("dashboard.overlaps.description", numberOfOverlaps) }}
       </v-col>
     </v-row>
 
@@ -41,10 +41,11 @@
       max-width="1200"
       persistent
       no-click-animation
+      :aria-label="$t('aria.dialogs.overlappingShifts')"
       @keydown.esc="dialog = false"
     >
-      <CalendarOverlap
-        :shifts="shifts"
+      <OverlappingShiftsList
+        :shifts="overlappingShifts"
         :month="month"
         @close="dialog = false"
       />
@@ -55,13 +56,13 @@
 <script>
 import { mdiAlert, mdiCheckBold, mdiHelpCircleOutline } from "@mdi/js";
 import { getOverlappingShifts } from "@/utils/shift";
-import CalendarOverlap from "@/components/calendar/CalendarOverlap.vue";
+import OverlappingShiftsList from "@/components/shifts/OverlappingShiftsList.vue";
 import { mapGetters } from "vuex";
 import { getFirstOfCurrentMonth } from "@/utils/date";
 
 export default {
   name: "DashboardConflicts",
-  components: { CalendarOverlap },
+  components: { OverlappingShiftsList },
   props: {
     disabled: {
       type: Boolean,
@@ -82,15 +83,24 @@ export default {
     touchOverlay: false
   }),
   computed: {
-    ...mapGetters({ shifts: "contentData/selectedShifts" }),
+    ...mapGetters({
+      shifts: "contentData/selectedShifts"
+    }),
     smAndDown() {
       return this.$vuetify.display.smAndDown;
     },
+
+    // the shifts to consider for overlaps are only those that were reviewed
     overlappingShifts() {
+      return this.shifts.filter((shift) => shift.wasReviewed === true);
+    },
+
+    numberOfOverlaps() {
       if (this.disabled) return 0;
       const overlaps = getOverlappingShifts(this.shifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
-      return overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
+      const result = overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
+      return Math.floor(result);
     }
   }
 };

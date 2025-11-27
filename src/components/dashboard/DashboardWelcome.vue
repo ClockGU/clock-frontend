@@ -1,7 +1,7 @@
 <template>
-  <v-card variant="outlined">
-    <v-card-text class="text-body-1"
-      ><i18n-t keypath="dashboard.welcome.text" scope="global">
+  <v-card variant="outlined" tabindex="0" role="region">
+    <v-card-text class="text-body-1">
+      <i18n-t keypath="dashboard.welcome.text" scope="global">
         <template #link>
           <base-link
             class="text-no-wrap"

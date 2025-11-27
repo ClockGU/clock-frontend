@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" scrollable max-width="600">
+  <v-dialog
+    v-model="dialog"
+    scrollable
+    max-width="600"
+    :aria-label="$t('aria.dialogs.gdpr')"
+  >
     <template #activator="{ props }">
       <a role="button" v-bind="props" style="text-decoration: underline">{{
         $t("app.privacyagreement")

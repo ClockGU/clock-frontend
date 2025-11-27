@@ -1,0 +1,208 @@
+{
+  "aria": {
+    "news": {
+      "loading": "Loading news",
+      "listDescription": "News items list",
+      "accessibleDescription": "List of {count} news items",
+      "fullListDescription": "Full news list containing {count} items",
+      "messageTitle": "News title: {title}",
+      "messageWithTag": "News title: {title}, type: {tag}",
+      "messageContent": "Content: {content}",
+      "messageDate": "Valid from {date}"
+    },
+    "progress": {
+      "title": "Progress",
+      "monthlyDescription": "Monthly progress view. You have worked {progress} % of your target this month",
+      "monthlyProgress": "Monthly progress is {progress} % of your target",
+      "weeklyDescription": "Weekly progress view. You worked {hours} hours against {average} average, and achieved {progress} % of your target",
+      "weeklyProgress": "Weekly progress is {progress} % of your target",
+      "dailyDescription": "Daily progress view. You worked {hours} hours and {minutes} minutes today, {status}",
+      "disabledMessage": "Progress tracking is currently disabled",
+      "maxCarryoverExceeded": "Maximum carryover limit exceeded",
+      "carryoverActive": "Carryover active",
+      "overtimeStatus": "which exceeds the daily limit",
+      "normalStatus": "which is within normal limits"
+    },
+    "viewShifts": {
+      "searchPast": "Search for past shifts",
+      "searchFuture": "Search for future shifts"
+    },
+    "selectContract": {
+      "enabled": "Press enter to select a contract. Use the arrow keys to navigate through the list of contracts.",
+      "disabled": "Please create a contract first. Press enter or space to navigate to contracts view."
+    },
+    "timeInterval": {
+      "description": "Time interval switcher. Use the tab key to navigate to the 'Previous' and 'Next' buttons to change the time period. Currently viewing: {formattedInterval}.",
+      "previous": "Press space to go to the previous month",
+      "next": "Press space to go to the next month",
+      "listDescription": "Time interval switcher, currently showing {formattedInterval}.",
+      "currentInterval": "Currently viewing: {formattedInterval}. Press space or enter to select a different time interval.",
+      "previousWithDate": "Go to the previous time interval, currently {formattedInterval}.",
+      "nextWithDate": "Go to the next time interval, currently {formattedInterval}."
+    },
+    "shiftsTable": {
+      "description": "Shifts table. You can navigate through the rows with tabs or arrow keys. You can select a shift by pressing space or enter.",
+      "shiftSelected": "Shift selected",
+      "shiftNotSelected": "Shift not selected",
+      "reviewed": "This shift has been reviewed.",
+      "notReviewed": "This shift has not been reviewed. Please press enter or space to review it.",
+      "editShift": "Press to edit this shift",
+      "createShift": "Press to create a new shift",
+      "warnings": "You have {count} warnings/error with this shift. Please try to resolve them."
+    },
+    "shift": {
+      "st": "The type of this shift is a Working Shift",
+      "sk": "The type of this shift is a Sick Leave",
+      "vn": "The type of this shift is a Vacation Leave",
+      "bh": "The type of this shift is a Holiday Leave"
+    },
+    "shiftListItem": {
+      "day": " shift on {day}",
+      "startTime": ", starting at {startTime}",
+      "stopTime": ", stopping at {stopTime}",
+      "duration": ". Duration is {duration}",
+      "tagsPrefix": ". Tags: {tags}",
+      "notReviewed": ". Not yet reviewed",
+      "live": ". Currently live"
+    },
+    "shiftBulkActions": {
+      "description": "Bulk actions section for the selected shifts. You can perform actions on the selected shifts such as delete or review them. Press space to activate the bulk actions.",
+      "review": "Press space to review the selected shifts.",
+      "delete": "Press space to delete the selected shifts.",
+      "changeContract": "Press space to change the contract for selected shifts",
+      "viewDetails": "Press space to view the details of the selected shift.",
+      "edit": "Press space to edit the selected shift.",
+      "durationSum": "This is the total duration of the selected shifts. The total duration is {durationSum}."
+    },
+    "shiftFormType": {
+      "description": "Shift form type.choose the type of shift you want to create/update."
+    },
+    "languageSwitcher": "Language Switcher.Press space to change the language.",
+    "cardToolbar": {
+      "close": "Press space to close the card toolbar."
+    },
+    "shiftsDetailsDialog": {
+      "table": "Shifts Details Table. Use Down/Up arrow to naviguate through the table ."
+    },
+    "contractListCard": {
+      "edit": "Press Space or Enter to edit the contract",
+      "delete": "Press Space or Enter to delete the contract"
+    },
+    "contractFormFields": {
+      "carryoverWorkingTime": "Press Space if you want to carry over working time from previous month then fill the field below",
+      "carryoverVacationTime": "Press Space if you want to carry over vacation time from previous month then fill the field below"
+    },
+    "referenceInput": {
+      "copy": "Press Enter to copy the reference ID to the clipboard",
+      "generateReference": "Press Enter to generate a new reference ID"
+    },
+    "report": {
+      "summary": "Summary",
+      "downloadSection": "Download report section.You can request and subsequently download your timesheet for review. You cannot request a timesheet for the current month before locking the previous month of the same contract.",
+      "requestButton": "Request report",
+      "downloadButton": "Download report",
+      "requestSection": "Request section for the report. Press space to request the report.",
+      "lockSection": "Lock section. You can lock your timesheet here after reviewing it.",
+      "lockButton": "Lock timesheet. Press space to confirm locking.",
+      "lockedButton": "Timesheet is already locked.",
+      "vacationSummary": "Vacation summary section",
+      "table.label": "Vacation type",
+      "table.value": "Vacation balance",
+      "vacationLiveSummary": "Vacation overview with details",
+      "vacationTitle": "Vacation"
+    },
+    "calendar": {
+      "displayedContracts": "Displayed contracts. This is used to filter the shifts by selected contracts.",
+      "contract": "Contract",
+      "shiftType": "Shift type",
+      "shiftDate": "Shift date",
+      "shiftTime": "Shift time",
+      "shiftDuration": "Shift duration",
+      "shiftNote": "Shift note",
+      "shiftTags": "Shift tags",
+      "contractSelector": "Select one or more contracts to display in the calendar view.",
+      "noContractsSelected": "No contracts currently selected.",
+      "selectedContracts": "Currently selected contracts are: {contracts}.",
+      "shiftPlanned": "Shift planned at {date} for {duration}"
+    },
+    "table": {
+      "label": "Category",
+      "value": "Value"
+    },
+    "settings": {
+      "tabs": "Settings Tabs. Use the arrow keys to navigate through the tabs."
+    },
+    "dashboard": {
+      "themeToggle": "Dark/Bright mode toggle.",
+      "userMenu": ", User menu",
+      "toDashboard": "Navigate to dashboard",
+      "toggleNavigationdrawer": "Open navigation menu",
+      "navDrawer": "Navigation menu",
+      "switchContract": "Switch to this contract",
+      "deleteClockEntry": "Delete current clock entry",
+      "clockIn": "Clock in to start tracking work time",
+      "clockOut": "Clock out to stop tracking work time",
+      "cancelClockForm": "Cancel clock form without saving",
+      "showAllShifts": "Press to navigate to Shift view to show all shifts",
+      "reviewShift": "Review this shift",
+      "infoButton": "Show information about carryover",
+      "dailyInfoButton": "Show information about daily work time",
+      "previousView": "Go to previous view",
+      "nextView": "Go to next view",
+      "selectView": "Select this view",
+      "showMonthlyProgress": "Show monthly progress",
+      "showWeeklyProgress": "Show weekly progress",
+      "showDailyProgress": "Show daily progress",
+      "showAllNews": "Show all news",
+      "hoursHeader": "Hours in HH:MM",
+      "progressHeader": "Hours Summary"
+    },
+    "dialogs": {
+      "personalNumber": "personalNumber Dialog",
+      "overlappingShifts": "Overlapping Shifts Dialog",
+      "gdpr": "GDPR Dialog",
+      "shiftInfo": "Shift Information Dialog"
+    }
+  },
+  "label": {
+    "shiftFormDateInput": "Shift Date",
+    "shiftFormTags": "Tags",
+    "shiftFormNote": "Note",
+    "contractWorktimeModelInput": "Worktime Model",
+    "contractPercentFteInput": "FTE",
+    "contractNameInput": "Contract Name ",
+    "referenceInput": "Reference ID",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "feedback": "Feedback",
+    "snackbarTimeout": "Snackbar Timeout in Seconds",
+    "dateInput": {
+      "shift": "Select Shift Date",
+      "contract": "Select Contract Date"
+    }
+  },
+  "screen-reader-annoucemet": {
+    "views": {
+      "home": "Home",
+      "faq": "FAQ",
+      "onboarding": "Onboarding",
+      "imprint": "Imprint",
+      "privacy": "Privacy",
+      "loggingIn": "Logging In",
+      "dashboard": "Dashboard",
+      "calendar": "Calendar",
+      "shifts": "Shifts",
+      "contracts": "Contracts",
+      "reporting": "Reporting",
+      "settings": "Settings",
+      "privacyAgreement": "Privacy Agreement",
+      "notFound": "Not Found"
+    },
+    "viewShifts": {
+      "overview": "Shift Overview"
+    },
+    "shiftFormFields": {
+      "warningLabel": "You currently have {count} warnings/error with this shift.please try to resolve them."
+    }
+  }
+}

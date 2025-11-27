@@ -3,79 +3,97 @@
     <v-row>
       <v-col cols="12">
         <v-card>
-          <v-col cols="12">
+          <v-card-title class="px-3 py-4">
             <div class="pl-3">
               <ContractFormDialog btn-color="primary"></ContractFormDialog>
             </div>
-          </v-col>
+          </v-card-title>
+          <v-divider></v-divider>
           <v-col cols="12">
-            <v-expansion-panels
-              v-if="activeContracts.length > 0"
-              v-model="panel"
-              flat
-              focusable
-            >
-              <v-expansion-panel v-model="panel" elevation="0">
-                <v-expansion-panel-title class="text-h6 font-weight-regular">
-                  {{ $t("contracts.activeContracts") }} ({{
-                    activeContracts.length
-                  }})
-                </v-expansion-panel-title>
-                <v-expansion-panel-text v-if="!loading || ignoreLoading">
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        v-for="(contract, i) in activeContracts"
-                        :key="contract.uuid"
-                        cols="12"
-                        xl="4"
-                        md="6"
-                      >
-                        <ContractListCard
-                          :key="contract.id"
-                          :data-cy="'contract-' + i"
-                          :contract="contract"
-                          class="no-margin"
-                          @delete="destroy(contract.id)"
-                        />
-                      </v-col> </v-row
-                  ></v-container>
-                </v-expansion-panel-text> </v-expansion-panel
-            ></v-expansion-panels>
+            <div v-if="loading" class="text-center pa-8">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                :aria-label="$t('aria.contracts.loading')"
+              ></v-progress-circular>
+              <p aria-live="polite" class="visually-hidden">
+                {{ $t("aria.contracts.loading") }}
+              </p>
+            </div>
 
-            <v-expansion-panels
-              v-if="expiredContracts.length > 0"
-              flat
-              focusable
-            >
-              <v-expansion-panel>
-                <v-expansion-panel-title class="text-h6 font-weight-regular">
-                  {{ $t("contracts.archived") }} ({{ expiredContracts.length }})
-                </v-expansion-panel-title>
-                <v-expansion-panel-text v-if="!loading || ignoreLoading">
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        v-for="(contract, i) in expiredContracts"
-                        :key="contract.uuid"
-                        cols="12"
-                        xl="4"
-                        md="6"
-                      >
-                        <ContractListCard
-                          :key="contract.id"
-                          :data-cy="'contract-' + i"
-                          :contract="contract"
-                          expired
-                          class="no-margin"
-                          @edit="editContract"
-                          @delete="destroy(contract.id)"
-                        />
-                      </v-col> </v-row
-                  ></v-container>
-                </v-expansion-panel-text>
-              </v-expansion-panel>
-            </v-expansion-panels>
+            <ul v-if="!loading || ignoreLoading" class="pa-0">
+              <li v-if="activeContracts.length > 0">
+                <v-expansion-panels v-model="panel" flat focusable>
+                  <v-expansion-panel v-model="panel" elevation="0">
+                    <v-expansion-panel-title>
+                      <h2 class="text-h6 font-weight-regular">
+                        {{ $t("contracts.activeContracts") }} ({{
+                          activeContracts.length
+                        }})
+                      </h2>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-container>
+                        <v-row>
+                          <v-col
+                            v-for="(contract, i) in activeContracts"
+                            :key="contract.uuid"
+                            cols="12"
+                            xl="4"
+                            md="6"
+                          >
+                            <ContractListCard
+                              :key="contract.id"
+                              :data-cy="'contract-' + i"
+                              :contract="contract"
+                              class="ma-0"
+                              @delete="destroy(contract.id)"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </li>
+
+              <li v-if="expiredContracts.length > 0">
+                <v-expansion-panels flat focusable>
+                  <v-expansion-panel>
+                    <v-expansion-panel-title>
+                      <h2 class="text-h6 font-weight-regular">
+                        {{ $t("contracts.archived") }} ({{
+                          expiredContracts.length
+                        }})
+                      </h2>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-container>
+                        <v-row>
+                          <v-col
+                            v-for="(contract, i) in expiredContracts"
+                            :key="contract.uuid"
+                            cols="12"
+                            xl="4"
+                            md="6"
+                          >
+                            <ContractListCard
+                              :key="contract.id"
+                              :data-cy="'contract-' + i"
+                              :contract="contract"
+                              expired
+                              class="ma-0"
+                              @edit="editContract"
+                              @delete="destroy(contract.id)"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </li>
+            </ul>
           </v-col>
 
           <placeholder
@@ -193,9 +211,9 @@ export default {
 
 <style lang="css" scoped>
 :deep(.v-expansion-panel-content__wrap) {
-  padding-left: 12px;
+  padding-left: 0.75rem;
 }
-.no-margin {
-  margin: 0 !important;
+ul {
+  list-style-type: none;
 }
 </style>
