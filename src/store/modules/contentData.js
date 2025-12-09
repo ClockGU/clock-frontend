@@ -356,7 +356,6 @@ const actions = {
         contractID: contractID
       });
     } catch (error) {
-      console.error("Optimistic bulk delete failed, reverting state...", error);
       // Revert state by re-fetching shifts for the contract
       dispatch("updateContractsShifts", contractID);
     }

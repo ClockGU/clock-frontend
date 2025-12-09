@@ -199,7 +199,6 @@ export default {
   },
   methods: {
     toggleNavigationdrawer() {
-      console.log("Toggle triggered");
       this.$emit("toggle");
     }
   }

@@ -119,7 +119,7 @@ export default {
       try {
         await this.$store.dispatch("contentData/deleteShift", shift);
       } catch (error) {
-        console.error("Error deleting shift:", error);
+        // TODO: Show error notification
       }
     }
   }
