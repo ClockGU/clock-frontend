@@ -76,11 +76,11 @@
             </template>
             <template #event="{ event }">
               <v-chip
-                @click="editEvent(event.shift)"
                 :aria-label="`${$t('aria.calendar.shiftPlanned', {
                   date: formatTime(event.start),
                   duration: event.selectedEventDuration
                 })}`"
+                @click="editEvent(event.shift)"
               >
                 <v-badge :color="event.contractColor" dot inline></v-badge>
                 <div class="pl-1">
@@ -314,36 +314,43 @@ export default {
   display: inline-flex;
   align-items: center;
 }
-
 ::v-deep .v-calendar-month__day {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
 }
 
 ::v-deep .v-calendar__container {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
 }
 
 ::v-deep .v-calendar-day__container {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
 }
 ::v-deep .v-calendar-day__row-without-label {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
 }
 ::v-deep .v-calendar-day__row-without-label {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
 }
 ::v-deep .v-calendar-day__row-with-label {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
 }
 
 ::v-deep .v-calendar-daily__day {
-  border: 2px solid red !important;
+  border: 1px groove black !important;
   background-color: white !important;
+}
+::v-deep .v-calendar-weekly__head-weekday-with-weeknumber {
+  border: 1px groove black;
+  background-color: white;
+}
+::v-deep .v-calendar-month__weeknumber {
+  border: 1px groove black;
+  background-color: white;
 }
 </style>
