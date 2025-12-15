@@ -2,7 +2,12 @@
   <span v-if="alertMessages.length > 0" class="visually-hidden">
     {{ $t("aria.shiftsTable.warnings", { count: alertMessages.length }) }}
   </span>
-  <v-icon v-if="alertMessages.length > 0" color="warning" aria-hidden="true">
+  <v-icon
+    v-if="alertMessages.length > 0"
+    color="warning"
+    aria-hidden="true"
+    style="transform: translate(-65%, -50%)"
+  >
     {{ icons.mdiExclamation }}
   </v-icon>
 </template>

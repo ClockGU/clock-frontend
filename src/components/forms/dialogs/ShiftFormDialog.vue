@@ -37,11 +37,7 @@
           @keydown.stop
         >
         </v-btn>
-        <ShiftWarningIcon
-          :shift="newShift"
-          style="transform: translate(-65%, -50%)"
-        >
-        </ShiftWarningIcon>
+        <ShiftWarningIcon :shift="newShift"> </ShiftWarningIcon>
       </div>
     </template>
     <template #content="{ events: { close } }">
