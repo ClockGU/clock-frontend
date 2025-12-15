@@ -28,7 +28,7 @@
             <i18n-t keypath="footer.acknowledgeGU.text" tag="p" scope="global">
               <template #link>
                 <base-link
-                  class="text-no-wrap"
+                  class="text-no-wrap footer-link"
                   :href="$t('footer.acknowledgeGU.url')"
                 >
                   <template #default>{{
@@ -40,7 +40,7 @@
             <i18n-t keypath="footer.github_repo.text" tag="p" scope="global">
               <template #link>
                 <base-link
-                  class="text-no-wrap"
+                  class="text-no-wrap footer-link"
                   :href="$t('footer.github_repo.url')"
                 >
                   <template #default>{{
@@ -73,5 +73,17 @@ export default {
 <style scoped>
 p {
   margin-bottom: 16px;
+}
+.footer-link {
+  color: #fff394 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 0.3em !important;
+  text-decoration-thickness: 1.5px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 600 !important;
+}
+.footer-link:hover {
+  text-decoration-thickness: 2px !important;
+  color: #00ffbf !important;
 }
 </style>

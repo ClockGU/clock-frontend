@@ -234,6 +234,16 @@ const mutations = {
       reportInstance
     );
   },
+  removeBulkShifts(state, { shifts }) {
+    const shiftIdsToRemove = new Set(shifts.map((s) => s.id));
+    for (const contractID in state.contentData) {
+      if (state.contentData[contractID].shifts) {
+        state.contentData[contractID].shifts = state.contentData[
+          contractID
+        ].shifts.filter((shift) => !shiftIdsToRemove.has(shift.id));
+      }
+    }
+  },
   setShifts(state, { contractID, shiftData }) {
     state.contentData[contractID]["shifts"] = sortAscByStarted(shiftData);
   },
@@ -335,19 +345,20 @@ const actions = {
     const startDate = shiftArray.reduce((prev, curr) => {
       return prev.started < curr.started ? prev : curr;
     }).started;
-
+    //optimistic bulk deletion
+    commit("removeBulkShifts", { shifts: shiftArray });
     const payloadArray = shiftArray.map((shift) => shift.toPayload());
-    await ShiftService.bulkDelete(payloadArray);
-    shiftArray.forEach((shift) => {
-      commit("removeShift", {
-        contractID: shift.contract,
-        shiftInstance: shift
+    const contractID = payloadArray[0].contract;
+    try {
+      await ShiftService.bulkDelete(payloadArray);
+      dispatch("refreshReports", {
+        startDate: startDate,
+        contractID: contractID
       });
-    });
-    dispatch("refreshReports", {
-      startDate: startDate,
-      contractID: payloadArray[0].contract
-    });
+    } catch (error) {
+      // Revert state by re-fetching shifts for the contract
+      dispatch("updateContractsShifts", contractID);
+    }
   },
   async bulkSwitchContract(
     { commit, dispatch },

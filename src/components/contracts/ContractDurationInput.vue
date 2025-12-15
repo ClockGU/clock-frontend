@@ -2,17 +2,25 @@
   <v-container>
     <v-row>
       <v-col cols="5" md="5">
+        <label for="contract-form-date-input-start-date" class="ml-10">
+          {{ $t("label.startTime") }}
+        </label>
         <ContractFormDateInput
+          id="contract-form-date-input-start-date"
           v-model="start"
           type="start"
           :disabled="disabled || disableStart"
         />
       </v-col>
-      <v-col v-if="mdAndUp" cols="2" class="text-center">
+      <v-col v-if="mdAndUp" cols="2" class="text-center mt-8 text-h6">
         {{ $t("contracts.to") }}
       </v-col>
-      <v-col class="text-center" cols="5" md="5">
+      <v-col cols="5" md="5">
+        <label for="contract-form-date-input-end-date" class="ml-10">
+          {{ $t("label.endTime") }}
+        </label>
         <ContractFormDateInput
+          id="contract-form-date-input-end-date"
           v-model="end"
           :min="minEndDate"
           type="end"

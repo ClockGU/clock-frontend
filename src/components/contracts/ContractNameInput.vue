@@ -1,5 +1,9 @@
 <template>
+  <label for="contract-name-input" class="ml-10">{{
+    $t("label.contractNameInput")
+  }}</label>
   <v-text-field
+    id="contract-name-input"
     v-model="name"
     data-cy="input-contract"
     :label="$t('contracts.name')"

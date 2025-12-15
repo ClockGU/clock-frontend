@@ -1,11 +1,18 @@
 <template>
-  <v-dialog v-model="dialog" width="500" transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="dialog"
+    width="500"
+    transition="dialog-bottom-transition"
+    aria-labelledby="shifts-assign-contract"
+  >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
     </template>
 
     <v-card>
-      <v-card-title>{{ $t("shifts.assignContract") }}</v-card-title>
+      <v-card-title id="shifts-assign-contract">{{
+        $t("shifts.assignContract")
+      }}</v-card-title>
       <v-card-text>
         <span>{{ $tc("shifts.assignContractDialog", shifts.length) }}</span>
       </v-card-text>

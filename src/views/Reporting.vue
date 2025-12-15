@@ -80,6 +80,7 @@
       v-if="dialog"
       v-model="dialog"
       :max-width="900"
+      :aria-label="$t('aria.dialogs.personalNumber')"
       @click:outside="closeDialog"
       ><PersonnelNumberForm dialog @close="closeDialog"
     /></v-dialog>
@@ -95,7 +96,7 @@
 import DashboardConflicts from "@/components/dashboard/DashboardConflicts.vue";
 import SelectContractFilter from "@/components/SelectContractFilter.vue";
 import ReportCard from "@/components/ReportCard.vue";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import PersonnelNumberForm from "@/components/settings/PersonnelNumberForm.vue";
 import ShiftWarnings from "@/components/shifts/ShiftWarnings.vue";
 import ClockCardAlert from "@/components/ClockCardAlert.vue";
 
@@ -243,8 +244,7 @@ export default {
     getAlertMessages(report) {
       if (this.disabled) return [];
       let messages = [];
-      const worktimeInMinutes =
-        report.worktimeInMinutes + report.carryoverPreviousMonthInMinutes;
+      const worktimeInMinutes = report.worktimeInMinutes;
       const debitInMinutes = report.debitWorktimeInMinutes;
 
       if ((worktimeInMinutes / debitInMinutes) * 100 > 150) {

@@ -1,41 +1,52 @@
 <template>
-  <div>
-    <TheDialog
-      :value="show"
-      :fullscreen="smAndDown"
-      :max-width="600"
-      :persistent="false"
-      @close="$emit('close')"
-    >
-      <template #activator="{ props }">
-        <v-btn
-          v-if="!icon && !disableActivator"
-          :disabled="disabled"
-          :color="btnColor"
-          v-bind="props"
-          @click="opened = true"
-        >
-          {{ buttonText }}
-        </v-btn>
-        <v-btn
-          v-if="icon && !disableActivator"
-          :disabled="disabled"
-          :color="btnColor"
-          :icon="create ? icons.mdiPlus : icons.mdiPencil"
-          v-bind="props"
-        >
-        </v-btn>
-      </template>
-      <template #content="{ events: { close } }">
+  <TheDialog
+    :value="show"
+    :fullscreen="smAndDown"
+    :max-width="600"
+    :persistent="false"
+    @close="$emit('close')"
+    aria-labelledby="contract-form-title"
+  >
+    <template #activator="{ props }">
+      <v-btn
+        v-if="!icon && !disableActivator"
+        :disabled="disabled"
+        :color="btnColor"
+        v-bind="props"
+        @click="opened = true"
+        :aria-label="create ? $t('actions.add') : $t('actions.edit')"
+      >
+        {{ buttonText }}
+      </v-btn>
+      <v-btn
+        v-if="icon && !disableActivator"
+        :disabled="disabled"
+        :color="btnColor"
+        :icon="create ? icons.mdiPlus : icons.mdiPencil"
+        v-bind="props"
+        :aria-label="create ? $t('actions.add') : $t('actions.edit')"
+      >
+      </v-btn>
+    </template>
+    <template #content="{ events: { close } }">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contract-form-title"
+        style="overflow-y: auto"
+      >
+        <h2 id="contract-form-title" class="visually-hidden">
+          {{ create ? $t("actions.add") : $t("actions.edit") }}
+        </h2>
         <ContractForm
           :existing-contract="contract"
           :close="close"
           :show-errors="opened"
           @close="opened = false"
         ></ContractForm>
-      </template>
-    </TheDialog>
-  </div>
+      </div>
+    </template>
+  </TheDialog>
 </template>
 
 <script>
@@ -123,5 +134,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

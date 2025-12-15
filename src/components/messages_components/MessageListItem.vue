@@ -1,28 +1,50 @@
 <template>
-  <v-list-item v-bind="$attrs">
+  <v-list-item v-bind="$attrs" :aria-labelledby="`message-title-${message.id}`">
     <v-list-item-title>
-      {{ title_value(message) }}
-      <v-chip
-        v-if="typeTag(message) !== ''"
-        variant="outlined"
-        small
-        class="ma-2"
-        :color="typeColor(message)"
-      >
-        {{ typeTag(message) }}
-      </v-chip>
+      <span :id="`message-title-${message.id}`" class="visually-hidden">
+        {{ accessibleTitle }}
+      </span>
+      <span aria-hidden="true">
+        {{ title_value(message) }}
+        <v-chip
+          v-if="typeTag(message) !== ''"
+          variant="outlined"
+          small
+          class="ma-2"
+          :color="typeColor(message)"
+          :aria-label="typeTag(message)"
+        >
+          {{ typeTag(message) }}
+        </v-chip>
+      </span>
     </v-list-item-title>
+
     <v-list-item-subtitle
       v-if="lineRestriction"
       class="text--primary"
-      v-text="text"
-    ></v-list-item-subtitle>
-    <p v-else v-html="text"></p>
+      :aria-describedby="`message-content-${message.id}`"
+    >
+      <span :id="`message-content-${message.id}`" class="visually-hidden">
+        {{ strippedText }}
+      </span>
+      <span aria-hidden="true" v-text="text"></span>
+    </v-list-item-subtitle>
+
+    <div v-else>
+      <div :id="`message-content-${message.id}`" class="visually-hidden">
+        {{ strippedText }}
+      </div>
+      <div aria-hidden="true" v-html="text"></div>
+    </div>
+
     <v-list-item-action>
       <p class="font-weight-bold py-4">
-        {{ $t("news.validity") }}<span class="pl-2">{{ messageDate }}</span>
+        <span class="visually-hidden">{{ $t("news.validity") }}: </span>
+        <span aria-hidden="true">{{ $t("news.validity") }}</span>
+        <span class="pl-2" :aria-label="accessibleDate">
+          {{ messageDate }}
+        </span>
       </p>
-      <!-- Displaying the formatted date -->
     </v-list-item-action>
   </v-list-item>
 </template>
@@ -66,6 +88,22 @@ export default {
     },
     messageDate() {
       return localizedFormat(parseISO(this.message.valid_from), "dd.MM.yyyy");
+    },
+    accessibleDate() {
+      // Use a more descriptive format for screen readers
+      const date = parseISO(this.message.valid_from);
+      if (this.locale === "de") {
+        return localizedFormat(date, "EEEE, d. MMMM yyyy");
+      } else {
+        return localizedFormat(date, "EEEE, MMMM d, yyyy");
+      }
+    },
+    accessibleTitle() {
+      const title = this.title_value(this.message);
+      const tag = this.typeTag(this.message);
+      return tag
+        ? this.$t("aria.news.messageWithTag", { title, tag })
+        : this.$t("aria.news.messageTitle", { title });
     }
   },
   methods: {

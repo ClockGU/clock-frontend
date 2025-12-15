@@ -4,6 +4,7 @@
     :fullscreen="xs"
     :max-width="600"
     :persistent="false"
+    :aria-labelled-by="title + 'Dialog'"
   >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
@@ -18,7 +19,13 @@
         ></CardToolbar>
         <br />
 
-        <v-table comfortable rounded class="mt-8 mx-4">
+        <v-table
+          comfortable
+          rounded
+          class="mt-8 mx-4"
+          tabindex="0"
+          :aria-label="$t('aria.shiftsDetailsDialog.table')"
+        >
           <tbody>
             <tr>
               <td class="font-weight-bold w-33">{{ headers[0].title }}</td>
@@ -34,7 +41,7 @@
             </tr>
             <tr>
               <td class="font-weight-bold w-33">{{ headers[3].title }}</td>
-              <td>
+              <td :aria-label="$t(`aria.shift.${item.type}`)">
                 <v-icon :color="colors[item.type]">
                   {{ typeIcons[item.type] }}
                 </v-icon>
@@ -61,6 +68,7 @@
                   color="red"
                   variant="text"
                   elevation="0"
+                  :aria-label="$t('aria.shiftsTable.notReviewed')"
                   @click="reviewSingleShift(item)"
                 ></v-btn>
                 <v-btn
@@ -69,7 +77,9 @@
                   :icon="icons.mdiCheck"
                   class="w-0 ml-2"
                   color="green"
+                  tabindex="-1"
                   elevation="0"
+                  :aria-label="$t('aria.shiftsTable.reviewed')"
                 ></v-btn>
               </td>
             </tr>
@@ -216,4 +226,3 @@ export default {
   }
 };
 </script>
-``

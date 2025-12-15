@@ -2,6 +2,7 @@
   <div>
     <v-dialog
       v-model="dialog"
+      :aria-label="$t('aria.dialogs.gdpr')"
       :fullscreen="smAndDown"
       max-width="600"
       persistent

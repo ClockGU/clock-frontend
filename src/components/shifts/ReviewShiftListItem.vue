@@ -10,12 +10,17 @@
         <ShiftFormDialog icon :shift="shift"></ShiftFormDialog>
       </v-list-item-action>
       <v-list-item-action start>
-        <v-btn flat icon :disabled="!valid" @click="review">
+        <v-btn
+          flat
+          icon
+          :disabled="!valid"
+          :aria-label="$t('aria.dashboard.reviewShift')"
+          @click="review"
+        >
           <v-icon
             :icon="icons.mdiCheck"
             color="success"
             :disabled="!valid"
-            @click="review"
           ></v-icon>
         </v-btn>
       </v-list-item-action>
