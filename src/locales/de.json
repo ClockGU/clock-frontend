@@ -187,7 +187,7 @@
     "noReviewableShifts": "Es sind keine Schichten zu überprüfen",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
-      "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
+      "description": "Es wurde eine Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst diese Probleme vor dem Export des Stundenzettels beheben.",
       "setNumber": "Überschneidungsgruppe #{n}",
       "nProblems": "Probleme gefunden",
       "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."

@@ -25,7 +25,11 @@
         <v-icon class="text-red" size="x-large">{{ icons.mdiAlert }}</v-icon>
       </v-col>
       <v-col cols="8" xs="10">
-        {{ $tc("dashboard.overlaps.description", numberOfOverlaps) }}
+        {{
+          $tc("dashboard.overlaps.description", numberOfOverlaps, {
+            n: numberOfOverlaps
+          })
+        }}
       </v-col>
     </v-row>
 
@@ -99,8 +103,7 @@ export default {
       if (this.disabled) return 0;
       const overlaps = getOverlappingShifts(this.shifts).length;
       // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
-      const result = overlaps === 0 ? 0 : 0.5 + Math.sqrt(0.25 + 2 * overlaps);
-      return Math.floor(result);
+      return getOverlappingShifts(this.overlappingShifts).length;
     }
   }
 };

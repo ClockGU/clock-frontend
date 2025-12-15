@@ -187,7 +187,7 @@
     "noReviewableShifts": "No shifts to review",
     "newShift": { "title": "New shift" },
     "overlaps": {
-      "description": "We found {n} overlapping shifts. You need to fix this problem before you can export your timesheet.",
+      "description": "We found one overlap of shifts. You need to fix this problem before you can export your timesheet. | We found {n} overlaps of shifts. You need to fix these problems before you can export your timesheet.",
       "setNumber": "Overlap Set #{n}",
       "nProblems": "Problems found",
       "noProblems": "There are no problems with your saved shifts."
