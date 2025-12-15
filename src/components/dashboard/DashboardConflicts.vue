@@ -93,17 +93,18 @@ export default {
     smAndDown() {
       return this.$vuetify.display.smAndDown;
     },
-
-    // the shifts to consider for overlaps are only those that were reviewed
     overlappingShifts() {
-      return this.shifts.filter((shift) => shift.wasReviewed === true);
+      // the shifts to consider for overlaps are only those that were reviewed
+      return getOverlappingShifts(
+        this.shifts.filter((shift) => shift.wasReviewed === true)
+      ).sort((a, b) => {
+        return a[0].started - b[0].started;
+      });
     },
 
     numberOfOverlaps() {
       if (this.disabled) return 0;
-      const overlaps = getOverlappingShifts(this.shifts).length;
-      // use 0 case for clarity - the formula will evaluate to 1 on 0 overlaps
-      return getOverlappingShifts(this.overlappingShifts).length;
+      return this.overlappingShifts.length;
     }
   }
 };
