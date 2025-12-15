@@ -1,21 +1,25 @@
 <template>
   <div>
+    <label for="shift-form-select-contract" class="ml-10">{{
+      $t("shifts.changeContract")
+    }}</label>
     <v-select
+      id="shift-form-select-contract"
       v-model="v$.contract.$model"
       :items="choices"
       :prepend-icon="icons.mdiFileDocumentEditOutline"
-      :label="$t('shifts.changeContract')"
       item-title="name"
       item-value="id"
       return-object
       filled
       :error-messages="mappedErrors"
+      aria-label="Select a contract"
     >
       <template #selection="{ item }">
         {{ item.title + contractStatus(item.raw) }}
       </template>
       <template #item="{ item, props }">
-        <v-list-item v-bind="modifyProps(props)">
+        <v-list-item v-bind="modifyProps(props)" :aria-label="item.title">
           {{ item.title + contractStatus(item.raw) }}
         </v-list-item>
       </template>
@@ -127,5 +131,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

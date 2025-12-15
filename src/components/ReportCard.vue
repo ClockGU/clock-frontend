@@ -4,11 +4,14 @@
       :ripple="false"
       v-bind="hoverProps"
       v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
+      tabindex="0"
+      role="region"
+      :aria-labelledby="`report-card-title`"
     >
       <v-card-title>
-        <span>
-          {{ $t("reports.summary") }}
-        </span>
+        <h2 id="report-card-title" class="text-h6">
+          {{ $t("aria.report.summary") }}
+        </h2>
         <v-spacer></v-spacer>
         <v-chip v-if="exported" variant="outlined" color="primary">
           {{ $t("reports.exported") }}
@@ -16,104 +19,187 @@
       </v-card-title>
 
       <v-card-text>
+        <div aria-live="polite" aria-atomic="true" class="visually-hidden">
+          {{ $t("reports.summary") }}:
+          {{ rows.map((r) => `${r.name}: ${r.value}`).join(", ") }}
+        </div>
         <v-table>
           <template #default>
+            <thead>
+              <tr>
+                <th scope="col">{{ $t("aria.table.label") }}</th>
+                <th scope="col" class="text-right">
+                  {{ $t("aria.table.value") }}
+                </th>
+              </tr>
+            </thead>
             <tbody>
-              <tr v-for="row in rows" :key="row.name">
-                <td>{{ row.name }}</td>
-                <td class="text-right">{{ row.value }}</td>
+              <tr
+                v-for="row in rows"
+                :key="row.name"
+                tabindex="0"
+                role="row"
+                :aria-label="`${row.name}, ${row.value}`"
+              >
+                <td role="cell">{{ row.name }}</td>
+                <td role="cell" class="text-right">{{ row.value }}</td>
               </tr>
             </tbody>
           </template>
         </v-table>
+        <div
+          v-if="pdf"
+          aria-live="polite"
+          aria-atomic="true"
+          class="visually-hidden"
+        >
+          {{ $t("aria.report.readyForDownload") }}
+        </div>
       </v-card-text>
+
       <v-card-actions class="px-1">
         <v-container>
-          <v-row align="center">
-            <v-col cols="8">
-              <span class="text-subtitle-2">
-                1. {{ $t("reports.generate") }}
-              </span>
-
-              <p class="text-caption">
-                {{ $t("reports.hints.request") }}
-
-                <span v-if="!isExportable" class="text-caption warn">
-                  {{ $t("reports.hints.personnelnumber") }}
+          <!-- Request/Download Section -->
+          <div
+            role="group"
+            :aria-label="
+              $t(
+                pdf
+                  ? 'aria.report.downloadSection'
+                  : 'aria.report.requestSection'
+              )
+            "
+            tabindex="0"
+          >
+            <v-row align="center">
+              <v-col cols="8">
+                <span class="text-subtitle-2" aria-hidden="true">
+                  1. {{ $t("reports.generate") }}
                 </span>
-              </p>
-            </v-col>
-            <v-col cols="4">
-              <!-- if personnel number should be mandatory, add this line -->
-              <!-- :disabled="(!isFirstUnlockedMonth && !exported) || !isExportable" -->
-              <v-btn
-                v-if="!pdf"
-                :loading="loading"
-                :variant="loading ? 'outlined' : 'elevated'"
-                :disabled="!isFirstUnlockedMonth && !exported"
-                color="primary"
-                @click="request"
-              >
-                {{ $t("actions.request") }}
-              </v-btn>
 
-              <v-btn
-                v-else
-                :loading="loading"
-                :variant="loading ? 'outlined' : 'elevated'"
-                color="primary"
-                @click="download"
-              >
-                {{ $t("actions.download") }}
-              </v-btn>
-            </v-col>
-          </v-row>
+                <p class="text-caption" aria-hidden="true">
+                  {{ $t("reports.hints.request") }}
 
-          <v-row align="center">
-            <v-col cols="8">
-              <span class="text-subtitle-2">
-                2. {{ $t("reports.lock.label") }}
-              </span>
-
-              <p class="text-caption">{{ $t("reports.hints.lock") }}</p>
-            </v-col>
-
-            <v-col cols="4">
-              <ConfirmationDialog
-                :confirmation-button="{
-                  text: $t('actions.confirm'),
-                  color: 'error'
-                }"
-                @confirm="lock"
-              >
-                <template #activator="{ props: confirmationProps }">
-                  <v-btn
-                    :disabled="lockDisabled"
-                    :loading="lockLoading"
-                    :variant="!lockDisabled ? 'text' : 'elevated'"
-                    :color="!lockDisabled ? 'warning' : ''"
-                    v-bind="confirmationProps"
+                  <span
+                    v-if="!isExportable"
+                    id="personnel-warning"
+                    class="text-caption warn"
+                    aria-hidden="false"
                   >
-                    {{
-                      isLockable
-                        ? $t("reports.lock.lock")
-                        : $t("reports.lock.locked")
-                    }}
-                  </v-btn>
-                </template>
+                    {{ $t("reports.hints.personnelnumber") }}
+                  </span>
+                </p>
+              </v-col>
 
-                <template #title>
-                  {{ $t("reports.lock.confirm") }}
-                </template>
+              <v-col cols="4">
+                <v-btn
+                  v-if="!pdf"
+                  :loading="loading"
+                  :variant="loading ? 'outlined' : 'elevated'"
+                  :disabled="!isFirstUnlockedMonth && !exported"
+                  color="primary"
+                  @click="request"
+                  :aria-label="$t('aria.report.requestButton')"
+                  :aria-describedby="!isExportable ? 'personnel-warning' : null"
+                >
+                  {{ $t("actions.request") }}
+                </v-btn>
 
-                <template #text>
-                  {{ $t("reports.lock.message") }}
-                </template>
-              </ConfirmationDialog>
-            </v-col>
-          </v-row>
+                <v-btn
+                  v-else
+                  :loading="loading"
+                  :variant="loading ? 'outlined' : 'elevated'"
+                  color="primary"
+                  @click="download"
+                  :aria-label="$t('aria.report.downloadButton')"
+                >
+                  {{ $t("actions.download") }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+
+          <!-- Lock Section -->
+          <div
+            role="group"
+            :aria-label="$t('aria.report.lockSection')"
+            tabindex="0"
+          >
+            <v-row align="center">
+              <v-col cols="8">
+                <span class="text-subtitle-2" aria-hidden="true">
+                  2. {{ $t("reports.lock.label") }}
+                </span>
+
+                <p class="text-caption" aria-hidden="true">
+                  {{ $t("reports.hints.lock") }}
+                </p>
+              </v-col>
+
+              <v-col cols="4">
+                <ConfirmationDialog
+                  :confirmation-button="{
+                    text: $t('actions.confirm'),
+                    color: 'error'
+                  }"
+                  @confirm="lock"
+                >
+                  <template #activator="{ props: confirmationProps }">
+                    <v-btn
+                      :disabled="lockDisabled"
+                      :loading="lockLoading"
+                      :variant="!lockDisabled ? 'text' : 'elevated'"
+                      :color="!lockDisabled ? 'warning' : ''"
+                      v-bind="confirmationProps"
+                      role="button"
+                      :aria-label="
+                        isLockable
+                          ? $t('aria.report.lockButton')
+                          : $t('aria.report.lockedButton')
+                      "
+                    >
+                      <span class="visually-hidden">
+                        {{
+                          isLockable
+                            ? $t("aria.report.lockButton")
+                            : $t("aria.report.lockedButton")
+                        }}
+                      </span>
+                      {{
+                        isLockable
+                          ? $t("reports.lock.lock")
+                          : $t("reports.lock.locked")
+                      }}
+                    </v-btn>
+                  </template>
+
+                  <template #title>
+                    {{ $t("reports.lock.confirm") }}
+                  </template>
+
+                  <template #text>
+                    <v-alert
+                      v-if="showCurrentMonthLockWarning"
+                      type="warning"
+                      prominent
+                      class="mb-4"
+                      role="alert"
+                      aria-live="assertive"
+                      aria-atomic="true"
+                      tabindex="0"
+                      :aria-label="$t('reports.lock.currentMonthWarning')"
+                    >
+                      {{ $t("reports.lock.currentMonthWarning") }}
+                    </v-alert>
+                    <p>{{ $t("reports.lock.message") }}</p>
+                  </template>
+                </ConfirmationDialog>
+              </v-col>
+            </v-row>
+          </div>
         </v-container>
       </v-card-actions>
+
       <v-overlay
         :model-value="disabled && (isHovering || touchOverlay)"
         contained
@@ -129,44 +215,27 @@
 </template>
 
 <script>
-import { parseISO } from "date-fns";
+import { parseISO, isSameMonth, endOfMonth, differenceInDays } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { ReportService } from "@/services/models";
 import { ContractService } from "@/services/models";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import { Buffer } from "buffer";
 import { log } from "@/utils/log";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ReportCard",
-  filters: {
-    formatDate(date) {
-      return localizedFormat(parseISO(date), "MMMM yyyy");
-    }
-  },
   components: { ConfirmationDialog },
   props: {
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    exported: {
-      type: Boolean,
-      default: false
-    },
+    disabled: Boolean,
+    exported: Boolean,
     report: {
       type: Object,
-      required: false,
-      default: undefined
+      default: () => ({})
     },
-    isExportable: {
-      type: Boolean,
-      default: false
-    },
-    isLockable: {
-      type: Boolean,
-      default: false
-    },
+    isExportable: Boolean,
+    isLockable: Boolean,
     isFirstUnlockedMonth: {
       type: Boolean,
       required: true
@@ -182,6 +251,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      selectedContract: "selectedContract/selectedContract"
+    }),
     rows() {
       return [
         {
@@ -208,6 +280,31 @@ export default {
     },
     lockDisabled() {
       return !this.pdf || !this.isLockable;
+    },
+    // show warning if current month report is being locked with more than 3 days left until month end or contract end
+    showCurrentMonthLockWarning() {
+      const today = new Date();
+      const bufferDays = 3;
+      const reportMonth = this.report.monthYear;
+
+      if (!reportMonth || !isSameMonth(reportMonth, today)) {
+        return false;
+      }
+
+      let lockDeadline = endOfMonth(reportMonth);
+      // Check for  contract end and set it as deadline if it is on same month as report to handle mid-month contract ends
+      const contractEndDateString = this.selectedContract?.endDate;
+      if (contractEndDateString) {
+        const contractEndDate = parseISO(contractEndDateString);
+        if (
+          isSameMonth(contractEndDate, reportMonth) &&
+          contractEndDate < lockDeadline
+        ) {
+          lockDeadline = contractEndDate;
+        }
+      }
+      const daysRemaining = differenceInDays(lockDeadline, today);
+      return daysRemaining > bufferDays;
     }
   },
   methods: {
@@ -250,7 +347,6 @@ export default {
         this.pdf = Buffer.from(response.data, "binary").toString("base64");
       } catch (error) {
         if (error.response.status === 401) return;
-        // TODO: Set error state in component
         const uint8array = new Uint8Array(error.response.data);
         const decoded = JSON.parse(new TextDecoder().decode(uint8array));
         await this.$store.dispatch("snackbar/setSnack", {

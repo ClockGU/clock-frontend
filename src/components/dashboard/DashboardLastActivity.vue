@@ -1,7 +1,7 @@
 <template>
-  <v-card>
+  <v-card role="region" aria-labelledby="last-activity-header" tabindex="0">
     <v-card-title>
-      {{ $t("dashboard.lastActivity") }}
+      <h2 id="last-activity-header">{{ $t("dashboard.lastActivity") }}</h2>
     </v-card-title>
     <v-card-text>
       <div v-if="lastShifts.length > 0">
@@ -17,7 +17,12 @@
             </template>
           </ShiftFormDialog>
         </v-list>
-        <v-btn color="success" variant="text" :to="allShiftRouter">
+        <v-btn
+          color="success"
+          variant="text"
+          :aria-label="$t('aria.dashboard.showAllShifts')"
+          :to="allShiftRouter"
+        >
           {{ $t("dashboard.showAll") }}
         </v-btn>
       </div>

@@ -5,6 +5,9 @@
     :fullscreen="fullscreen"
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
+    role="dialog"
+    aria-modal="true"
+    :aria-labelledby="ariaLabelledBy"
     @click:outside="close"
     @update:model-value="$emit('update:modelValue', $event)"
   >
@@ -34,6 +37,10 @@ export default {
     modelValue: {
       type: Boolean,
       default: false
+    },
+    ariaLabelledBy: {
+      type: String,
+      default: null
     }
   },
   emits: ["close", "update:modelValue"],

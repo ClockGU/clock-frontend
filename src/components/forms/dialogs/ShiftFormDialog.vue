@@ -14,6 +14,13 @@
         :color="btnColor"
         :flat="flatButton"
         v-bind="props['props']"
+        :aria-label="
+          create
+            ? $t('aria.shiftsTable.createShift')
+            : $t('aria.shiftsTable.editShift')
+        "
+        @click.stop
+        @keydown.stop
       >
         {{ buttonText }}
       </v-btn>
@@ -24,14 +31,13 @@
           :color="btnColor"
           :flat="flatButton"
           :icon="create ? icons.mdiPlus : icons.mdiPencil"
+          :aria-label="$t('aria.shiftsTable.editShift')"
           v-bind="props['props']"
-        />
-        <v-icon
-          v-if="alertMessages.length > 0"
-          color="warning"
-          style="transform: translate(-65%, -50%)"
-          >{{ icons.mdiExclamation }}
-        </v-icon>
+          @click.stop
+          @keydown.stop
+        >
+        </v-btn>
+        <ShiftWarningIcon :shift="newShift"> </ShiftWarningIcon>
       </div>
     </template>
     <template #content="{ events: { close } }">
@@ -55,12 +61,12 @@ import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { isBefore } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
-import TheDialog from "@/components/TheDialog.vue";
-import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { useShiftValidation } from "@/composable/useShiftValidation";
+import TheDialog from "@/components/TheDialog.vue";
+import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
+import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
 // Props
 const props = defineProps({
   shift: {
@@ -111,8 +117,6 @@ const initialContract = ref("");
 const store = useStore();
 const { t } = useI18n();
 const { xs } = useDisplay();
-
-const { alertMessages } = useShiftValidation(newShift.value);
 
 // Computed
 const create = computed(() => props.shift === undefined);

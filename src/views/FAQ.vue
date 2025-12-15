@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1 class="mb-6 ml-2">{{ $t("app.faq") }}</h1>
+        <h2 class="mb-6 ml-2">{{ $t("app.faq") }}</h2>
         <v-row v-if="loading" justify="center">
           <Placeholder name="UndrawNoData"></Placeholder>
           <v-progress-circular

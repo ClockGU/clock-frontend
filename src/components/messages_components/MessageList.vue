@@ -4,10 +4,24 @@
     subheader
     :max-height="maxHeight"
     style="overflow-y: scroll"
+    role="list"
+    :aria-label="ariaLabel"
+    :aria-describedby="dashboard ? 'news-description' : undefined"
   >
     <template v-for="(message, index) in messages" :key="message.id">
-      <MessageListItem :message="message" :dashboard="dashboard" />
-      <v-divider v-if="index < messages.length - 1" :key="'divider' + index" />
+      <MessageListItem
+        :message="message"
+        :dashboard="dashboard"
+        role="listitem"
+        :aria-posinset="index + 1"
+        :aria-setsize="messages.length"
+      />
+      <v-divider
+        v-if="index < messages.length - 1"
+        :key="'divider' + index"
+        role="separator"
+        aria-orientation="horizontal"
+      />
     </template>
   </v-list>
 </template>
@@ -32,8 +46,12 @@ export default {
     },
     maxHeight: {
       type: Number,
-      requried: false,
+      required: false,
       default: 200
+    },
+    ariaLabel: {
+      type: String,
+      default: ""
     }
   },
   data: () => ({

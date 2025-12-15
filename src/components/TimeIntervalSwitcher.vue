@@ -1,6 +1,19 @@
 <template>
-  <div>
-    <v-btn :disabled="!hasPrev" variant="text" @click="gotoPrev">
+  <div
+    class="d-inline-flex align-center ga-1"
+    role="group"
+    :aria-label="$t('aria.timeInterval.listDescription')"
+  >
+    <v-btn
+      :disabled="!hasPrev"
+      variant="text"
+      :aria-label="
+        $t('aria.timeInterval.previousWithDate', {
+          formattedInterval: formattedInterval
+        })
+      "
+      @click="gotoPrev"
+    >
       <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
     </v-btn>
 
@@ -13,7 +26,15 @@
       min-width="290px"
     >
       <template #activator="{ props }">
-        <span v-bind="props">
+        <span
+          v-bind="props"
+          role="button"
+          :aria-label="
+            $t('aria.timeInterval.currentInterval', {
+              formattedInterval: formattedInterval
+            })
+          "
+        >
           {{ formattedInterval }}
         </span>
       </template>
@@ -26,7 +47,16 @@
       ></v-date-picker>
     </v-menu>
 
-    <v-btn :disabled="!hasNext" variant="text" @click="gotoNext">
+    <v-btn
+      :disabled="!hasNext"
+      variant="text"
+      :aria-label="
+        $t('aria.timeInterval.nextWithDate', {
+          formattedInterval: formattedInterval
+        })
+      "
+      @click="gotoNext"
+    >
       <v-icon>{{ icons.mdiChevronRight }}</v-icon>
     </v-btn>
   </div>
@@ -248,5 +278,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

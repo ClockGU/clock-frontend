@@ -41,13 +41,18 @@ function finish(saved) {
 </script>
 
 <template>
-  <v-card>
+  <v-card aria-describedby="clock-in-out-title">
     <v-toolbar :elevation="0">
       <v-toolbar-title>
-        {{ t("dashboard.clock.problems.title") }}
+        <h2 id="clock-in-out-title">
+          {{ t("dashboard.clock.problems.title") }}
+        </h2>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn @click="finish(false)">
+      <v-btn
+        :aria-label="$t('aria.dashboard.cancelClockForm')"
+        @click="finish(false)"
+      >
         <v-icon>{{ mdiDelete }}</v-icon>
       </v-btn>
     </v-toolbar>
@@ -58,9 +63,9 @@ function finish(saved) {
           <div class="font-weight-bold">
             {{ t("dashboard.clock.problems.text") }}
           </div>
-          <div class="font-weight-light">
+          <h3 class="font-weight-light">
             {{ t("models.contract") }}: {{ contractName }}
-          </div>
+          </h3>
           <div v-if="overflow" class="font-weight-light">
             {{ t("dashboard.clock.problems.overflowedShift") }}
           </div>

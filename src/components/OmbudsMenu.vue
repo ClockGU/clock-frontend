@@ -1,32 +1,30 @@
 <template>
-  <div :class="bottomPosition ? 'ombuds-menu' : ''">
-    <v-menu
-      v-model="menu"
-      :close-on-content-click="false"
-      :min-width="400"
-      :max-width="600"
-      :offset-y="offsetY"
-      :bottom="bottom"
-      transition="slide-y-transition"
-    >
-      <template #activator="props">
-        <slot name="activator" v-bind="props"></slot>
-        <v-sheet
-          v-if="!disableActivator"
-          class="py-2 bg-red darken-5 rounded-t"
-          dark
-          v-bind="props['props']"
-        >
-          <v-icon v-if="smAndDown" class="mx-2">
-            {{ icons.mdiExclamation }}
-          </v-icon>
-          <span v-else class="px-4">Ombudsperson</span>
-        </v-sheet>
-      </template>
+  <v-dialog
+    ref="dialog"
+    v-model="dialog"
+    width="600"
+    aria-labelledby="ombud-title"
+    aria-describedby="ombud-description"
+  >
+    <template #activator="props">
+      <slot name="activator" v-bind="props"> </slot>
+      <v-btn
+        v-if="!disableActivator"
+        variant="flat"
+        class="ml2py-2 rounded-b-0"
+        style="background: rgb(var(--v-theme-error-lighten-1))"
+        v-bind="props['props']"
+        :size="smAndDown ? 40 : 'default'"
+      >
+        <v-icon v-if="smAndDown" size="24" color="white">
+          {{ icons.mdiExclamation }}
+        </v-icon>
+        <span v-else class="px-4">Ombudsperson</span>
+      </v-btn>
+    </template>
 
-      <OmbudsForm @close="menu = false" />
-    </v-menu>
-  </div>
+    <OmbudsForm @close="dialog = false" />
+  </v-dialog>
 </template>
 
 <script>
@@ -44,33 +42,36 @@ export default {
     bottomPosition: {
       type: Boolean,
       default: true
-    },
-    offsetY: {
-      type: Boolean,
-      default: false
-    },
-    bottom: {
-      type: Boolean,
-      default: false
     }
   },
   data: () => ({
-    menu: false,
+    dialog: false,
     icons: { mdiExclamation }
   }),
   computed: {
     smAndDown() {
       return this.$vuetify.display.smAndDown;
     }
+  },
+  watch: {
+    show: {
+      immediate: true,
+      handler: function (newValue) {
+        if (newValue) {
+          this.$nextTick(() => {
+            const dialog = this.$refs?.dialog;
+            const content = dialog?.$refs?.content;
+            if (content) {
+              // Copy aria-labelledby from v-dialog to new rendered element.
+              content.setAttribute(
+                "aria-labelledby",
+                dialog.$attrs["aria-labelledby"]
+              );
+            }
+          });
+        }
+      }
+    }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.ombuds-menu {
-  position: fixed;
-  bottom: 0em;
-  left: 9em;
-  z-index: 1;
-}
-</style>

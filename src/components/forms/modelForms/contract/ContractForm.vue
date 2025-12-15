@@ -4,6 +4,7 @@
     class="mx-auto word-break"
     min-width="400"
     :max-width="600"
+    :aria-label="title"
   >
     <CardToolbar
       v-if="showToolbar"
@@ -39,6 +40,7 @@ import ContractFormFields from "@/components/forms/modelForms/contract/ContractF
 import { ContractService, ReportService } from "@/services/models";
 import { useVuelidate } from "@vuelidate/core";
 import ContractValidationMixin from "@/mixins/ContractValidationMixin";
+import { format } from "date-fns";
 
 export default {
   name: "ContractForm",
@@ -129,8 +131,16 @@ export default {
       this.closeFn();
     },
     async updateContract() {
+      const changedFields = this.getChangedFields(
+        this.existingContract,
+        this.newContract
+      );
+      if (Object.keys(changedFields).length === 0) {
+        return;
+      }
+      // Send only the changed fields to the server
       const updatedContract = await ContractService.update(
-        this.newContract.toPayload(),
+        this.mapChangedFieldsToApi(changedFields),
         this.newContract.id
       );
       if (updatedContract === undefined) {
@@ -142,6 +152,67 @@ export default {
       });
       await this.updateContractReports(updatedContract);
       this.close();
+    },
+    getChangedFields(oldContract, newContract) {
+      const changes = {};
+      for (const key in newContract) {
+        if (
+          newContract.hasOwnProperty(key) &&
+          oldContract.hasOwnProperty(key)
+        ) {
+          if (key === "createdAt" || key === "modifiedAt") {
+            continue;
+          }
+          if (
+            newContract[key] instanceof Date &&
+            oldContract[key] instanceof Date
+          ) {
+            if (newContract[key].getTime() !== oldContract[key].getTime()) {
+              changes[key] = newContract[key];
+            }
+          } else if (newContract[key] !== oldContract[key]) {
+            changes[key] = newContract[key];
+          }
+        }
+      }
+      return changes;
+    },
+    dateString(date) {
+      return format(date, "yyyy-MM-dd");
+    },
+    mapChangedFieldsToApi(changedFields) {
+      const changedFieldsApi = {};
+      for (const key in changedFields) {
+        if (
+          changedFields.hasOwnProperty(key) &&
+          changedFields[key] !== undefined
+        ) {
+          switch (key) {
+            case "startDate":
+              changedFieldsApi.start_date = this.dateString(changedFields[key]);
+              break;
+            case "endDate":
+              changedFieldsApi.end_date = this.dateString(changedFields[key]);
+              break;
+            case "initialCarryoverMinutes":
+              changedFieldsApi.initial_carryover_minutes = changedFields[key];
+              break;
+            case "initialVacationCarryoverMinutes":
+              changedFieldsApi.initial_vacation_carryover_minutes =
+                changedFields[key];
+              break;
+            case "worktimeModelName":
+              changedFieldsApi.worktime_model_name = changedFields[key];
+              break;
+            case "percentFte":
+              changedFieldsApi.percent_fte = changedFields[key];
+              break;
+            default:
+              changedFieldsApi[key] = changedFields[key];
+          }
+        }
+      }
+      return changedFieldsApi;
     },
     initializeNewContract() {
       this.newContract =

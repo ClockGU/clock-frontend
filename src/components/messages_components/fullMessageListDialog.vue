@@ -1,13 +1,24 @@
 <template>
-  <TheDialog :persistent="false" :fullscreen="smAndDown" :max-width="800">
+  <TheDialog
+    :persistent="false"
+    :fullscreen="smAndDown"
+    :max-width="800"
+    :aria-labelled-by="$t('app.news') + 'Dialog'"
+  >
     <template #activator="{ props }">
-      <v-btn variant="text" color="primary" block v-bind="props">
+      <v-btn
+        variant="text"
+        color="primary"
+        block
+        :aria-label="$t('news.showAll')"
+        v-bind="props"
+      >
         {{ $t("news.showAll") }}
       </v-btn>
     </template>
 
     <template #content="{ events: { close } }">
-      <v-card>
+      <v-card role="dialog" aria-modal="true" :aria-label="$t('app.news')">
         <CardToolbar
           :title="$t('app.news')"
           :logout-action="false"
@@ -15,7 +26,13 @@
           @close="close"
         ></CardToolbar>
         <v-card-text>
-          <MessageList :messages="messages" :max-height="600" />
+          <MessageList
+            :messages="messages"
+            :max-height="600"
+            :aria-label="
+              $t('aria.news.fullListDescription', { count: messages.length })
+            "
+          />
         </v-card-text>
       </v-card>
     </template>
