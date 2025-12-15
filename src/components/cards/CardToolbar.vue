@@ -1,6 +1,6 @@
 <template>
   <v-toolbar :color="color" flat>
-    <v-toolbar-title>
+    <v-toolbar-title id="card-toolbar-title">
       {{ title }}
     </v-toolbar-title>
 
@@ -10,7 +10,13 @@
     <v-btn v-if="logoutAction" variant="text" @click="logout">
       {{ $t("actions.logout") }}
     </v-btn>
-    <v-btn v-if="closeAction" :icon="icons.mdiClose" @click="close"> </v-btn>
+    <v-btn
+      v-if="closeAction"
+      :icon="icons.mdiClose"
+      :aria-label="$t('aria.cardToolbar.close')"
+      @click="close"
+    >
+    </v-btn>
   </v-toolbar>
 </template>
 

@@ -5,10 +5,10 @@
       :drawer="drawer"
       @close-drawer="drawer = false"
     />
-
     <TheAppBar @toggle="toggleDrawer" />
     <TheNavigationToolbar v-if="isLoggedIn" class="hidden-sm-and-down" />
     <v-main>
+      <h1 class="visually-hidden">CLOCK -{{ viewName }}</h1>
       <v-alert
         v-if="userCheckedOut !== ''"
         type="info"
@@ -35,9 +35,11 @@
     </v-main>
     <portal-target name="dialog"></portal-target>
 
-    <FeedbackMenu v-if="isLoggedIn" />
+    <div class="menus">
+      <FeedbackMenu v-if="isLoggedIn" />
 
-    <OmbudsMenu v-if="isLoggedIn" />
+      <OmbudsMenu v-if="isLoggedIn" />
+    </div>
 
     <TheSnackbar />
     <TheFooter />
@@ -88,6 +90,28 @@ export default {
       isLoggedIn: "auth/loggedIn",
       userCheckedOut: "auth/checkoutUser"
     }),
+    viewName() {
+      const routeNames = {
+        home: this.$t("screen-reader-annoucemet.views.home"),
+        faq: this.$t("screen-reader-annoucemet.views.faq"),
+        onboarding: this.$t("screen-reader-annoucemet.views.onboarding"),
+        imprint: this.$t("screen-reader-annoucemet.views.imprint"),
+        privacy: this.$t("screen-reader-annoucemet.views.privacy"),
+        loggingIn: this.$t("screen-reader-annoucemet.views.loggingIn"),
+        dashboard: this.$t("screen-reader-annoucemet.views.dashboard"),
+        calendar: this.$t("screen-reader-annoucemet.views.calendar"),
+        shiftList: this.$t("screen-reader-annoucemet.views.shifts"),
+        contractList: this.$t("screen-reader-annoucemet.views.contracts"),
+        reporting: this.$t("screen-reader-annoucemet.views.reporting"),
+        settings: this.$t("screen-reader-annoucemet.views.settings"),
+        privacyagreement: this.$t(
+          "screen-reader-annoucemet.views.privacyAgreement"
+        ),
+        404: this.$t("screen-reader-annoucemet.views.notFound")
+      };
+
+      return routeNames[this.$route.name] || "";
+    },
     showingCalendar() {
       return this.$route.name === "calendar" || this.$route.name === "c";
     },
@@ -114,6 +138,7 @@ export default {
     }
   },
   async created() {
+    document.documentElement.setAttribute("lang", this.locale);
     await this.$store.dispatch("changeLocale", this.locale);
     if (!this.isLoggedIn) return;
     try {
@@ -136,3 +161,28 @@ export default {
   }
 };
 </script>
+<style>
+/* Global screen-reader utility */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+</style>
+<style scoped>
+.menus {
+  position: fixed;
+  bottom: 0em;
+  left: 1em;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+</style>

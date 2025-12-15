@@ -41,6 +41,7 @@
       max-width="1200"
       persistent
       no-click-animation
+      :aria-label="$t('aria.dialogs.overlappingShifts')"
       @keydown.esc="dialog = false"
     >
       <OverlappingShiftsList

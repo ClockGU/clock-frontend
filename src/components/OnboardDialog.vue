@@ -5,6 +5,7 @@
     max-width="600"
     persistent
     no-click-animation
+    :aria-labelledby="titles[step]"
     @keydown.esc="closeDialog"
   >
     <v-card>
@@ -146,10 +147,11 @@
       <v-dialog
         v-model="showAreYouSureDialog"
         :fullscreen="smAndDown"
+        aria-labelledby="are-you-sure-title"
         max-width="600"
       >
         <v-card>
-          <v-card-title class="bg-warning text-white">
+          <v-card-title id="are-you-sure-title" class="bg-warning text-white">
             {{ $t("news.label.warning") }} !
           </v-card-title>
           <v-card-text style="padding: 20px">
@@ -175,6 +177,7 @@
       <v-dialog
         v-model="personnelNumberDialog"
         :max-width="900"
+        :aria-label="$t('aria.dialogs.personalNumber')"
         @click:outside="personnelNumberDialog = false"
         ><PersonnelNumberForm dialog @close="personnelNumberDialog = false"
       /></v-dialog>
@@ -194,7 +197,7 @@ import {
 import GdprAgreementCard from "@/components/gdpr/GdprAgreementCard.vue";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ContractFormDialog from "@/components/forms/dialogs/ContractFormDialog.vue";
-import PersonnelNumberForm from "@/components/PersonnelNumberForm.vue";
+import PersonnelNumberForm from "@/components/settings/PersonnelNumberForm.vue";
 import { mapGetters } from "vuex";
 
 export default {

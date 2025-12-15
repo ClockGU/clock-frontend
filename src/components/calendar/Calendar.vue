@@ -12,6 +12,8 @@
           <v-combobox
             v-model="displayedContracts"
             :label="$t('contracts.displayedContracts') + ':'"
+            :aria-label="$t('aria.calendar.contractSelector')"
+            :aria-describedby="'selected-contracts-description'"
             :items="allContracts"
             item-title="name"
             multiple
@@ -27,6 +29,21 @@
               </v-list-item>
             </template>
           </v-combobox>
+
+          <!-- Hidden description for screen readers -->
+          <div
+            id="selected-contracts-description"
+            class="visually-hidden"
+            aria-live="polite"
+          >
+            {{
+              displayedContracts.length > 0
+                ? $t("aria.calendar.selectedContracts", {
+                    contracts: displayedContracts.map((c) => c.name).join(", ")
+                  })
+                : $t("aria.calendar.noContractsSelected")
+            }}
+          </div>
         </v-col>
       </v-row>
       <v-row>
@@ -58,7 +75,13 @@
               </div>
             </template>
             <template #event="{ event }">
-              <v-chip @click="editEvent(event.shift)">
+              <v-chip
+                :aria-label="`${$t('aria.calendar.shiftPlanned', {
+                  date: formatTime(event.start),
+                  duration: event.selectedEventDuration
+                })}`"
+                @click="editEvent(event.shift)"
+              >
                 <v-badge :color="event.contractColor" dot inline></v-badge>
                 <div class="pl-1">
                   <div class="icon-center">
@@ -73,8 +96,7 @@
                       class="ml-2"
                       :icon="event.icon"
                       style="scale: 0.9"
-                    >
-                    </v-icon>
+                    />
                   </div>
                 </div>
               </v-chip>
@@ -291,5 +313,44 @@ export default {
 .icon-center {
   display: inline-flex;
   align-items: center;
+}
+::v-deep .v-calendar-month__day {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+
+::v-deep .v-calendar__container {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+
+::v-deep .v-calendar-day__container {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-day__row-without-label {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-day__row-without-label {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-day__row-with-label {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+
+::v-deep .v-calendar-daily__day {
+  border: 1px groove black !important;
+  background-color: white !important;
+}
+::v-deep .v-calendar-weekly__head-weekday-with-weeknumber {
+  border: 1px groove black;
+  background-color: white;
+}
+::v-deep .v-calendar-month__weeknumber {
+  border: 1px groove black;
+  background-color: white;
 }
 </style>

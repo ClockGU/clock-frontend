@@ -1,31 +1,46 @@
 <template>
-  <v-card>
+  <v-card tabindex="0" role="region" aria-labelledby="news-header">
     <v-skeleton-loader
       v-if="loading"
       class="mx-auto pt-4"
       max-width="300"
       type="card"
+      :aria-label="$t('aria.news.loading')"
     />
 
     <template v-else>
-      <v-card-title>{{ $t("app.news") }}</v-card-title>
+      <v-card-title>
+        <h2 id="news-header">{{ $t("app.news") }}</h2>
+      </v-card-title>
 
-      <v-card-text v-if="noMessages">{{ $t("news.noNews") }}</v-card-text>
-      <v-card-text v-else>
-        <MessageList :messages="messages" dashboard />
+      <v-card-text v-if="noMessages">
+        <p id="news-description">{{ $t("news.noNews") }}</p>
       </v-card-text>
-      <v-card-actions v-if="!noMessages">
-        <FullMessageListDialog :messages="messages" />
-      </v-card-actions>
+
+      <div v-else>
+        <v-card-text>
+          <p id="news-description" class="visually-hidden">
+            {{
+              $t("aria.news.accessibleDescription", { count: messages.length })
+            }}
+          </p>
+          <MessageList
+            :messages="messages"
+            dashboard
+            :aria-label="$t('aria.news.listDescription')"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <FullMessageListDialog :messages="messages" />
+        </v-card-actions>
+      </div>
     </template>
   </v-card>
 </template>
 
 <script>
 import { log } from "@/utils/log";
-
 import MessageList from "@/components/messages_components/MessageList.vue";
-
 import { mdiClose } from "@mdi/js";
 import FullMessageListDialog from "@/components/messages_components/fullMessageListDialog.vue";
 import { mapGetters } from "vuex";

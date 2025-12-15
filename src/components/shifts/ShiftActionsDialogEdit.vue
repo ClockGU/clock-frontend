@@ -12,6 +12,7 @@
         v-bind="props"
         :disabled="disabled"
         :icon="icons.mdiPencil"
+        :aria-label="$t('aria.shiftBulkActions.edit')"
       >
         <v-icon>{{ icons.mdiPencil }}</v-icon>
         <ShiftWarningIcon

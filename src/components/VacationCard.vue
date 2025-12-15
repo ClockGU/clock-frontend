@@ -4,26 +4,49 @@
       :ripple="false"
       v-bind="props"
       v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
+      tabindex="0"
+      role="region"
+      :aria-labelledby="`vacation-card-title`"
     >
       <v-card-title>
-        <span>
-          {{ $t("reports.vacation") }}
-        </span>
+        <h2 id="vacation-card-title" class="text-h6">
+          {{ $t("aria.report.vacationTitle") }}
+        </h2>
         <v-spacer></v-spacer>
       </v-card-title>
 
       <v-card-text>
+        <div aria-live="polite" aria-atomic="true" class="visually-hidden">
+          {{ $t("aria.report.vacationSummary") }}:
+          {{ rows.map((r) => `${r.name}: ${r.value}`).join(", ") }}
+        </div>
+
         <v-table>
           <template #default>
+            <thead>
+              <tr>
+                <th scope="col">{{ $t("aria.table.label") }}</th>
+                <th scope="col" class="text-right">
+                  {{ $t("aria.table.value") }}
+                </th>
+              </tr>
+            </thead>
             <tbody>
-              <tr v-for="row in rows" :key="row.name">
-                <td>{{ row.name }}</td>
-                <td class="text-right">{{ row.value }}</td>
+              <tr
+                v-for="row in rows"
+                :key="row.name"
+                tabindex="0"
+                role="row"
+                :aria-label="`${row.name}, ${row.value}`"
+              >
+                <td role="cell">{{ row.name }}</td>
+                <td role="cell" class="text-right">{{ row.value }}</td>
               </tr>
             </tbody>
           </template>
         </v-table>
       </v-card-text>
+
       <v-overlay
         :model-value="disabled && (isHovering || touchOverlay)"
         contained
@@ -46,11 +69,6 @@ import { parseISO } from "date-fns";
 
 export default {
   name: "VacationCard",
-  filters: {
-    formatDate(date) {
-      return localizedFormat(parseISO(date), "MMMM yyyy");
-    }
-  },
   props: {
     disabled: {
       type: Boolean,
@@ -64,9 +82,6 @@ export default {
   },
   data() {
     return {
-      pdf: null,
-      loading: false,
-      lockLoading: false,
       touchOverlay: false
     };
   },

@@ -119,7 +119,8 @@
     "errors": {
       "shiftOutOfScope": "Given shifts need to stay in scope after changing the contract duration.",
       "carryoverForFutureContracts": "The carry over for a contract starting in the future may only be 00:00."
-    }
+    },
+    "displayColor": "Display Color"
   },
   "dashboard": {
     "disabled": {
@@ -317,7 +318,7 @@
     "title": "Are you sure you want to logout?"
   },
   "news": {
-    "showAll": "Show all",
+    "showAll": "Show all news",
     "noNews": "No news to display.",
     "label": {
       "notice": "",
@@ -436,6 +437,7 @@
       "locked": "Locked",
       "label": "Lock this month",
       "confirm": "Lock this month?",
+      "currentMonthWarning": "You are about to lock the current month. This action is irreversible.",
       "message": "After locking this month, you will not be able to edit its shifts. The locking of a month cannot be undone."
     },
     "warnings": {
@@ -458,6 +460,12 @@
     },
     "language": {
       "text": "Changing the language will take effect immediately."
+    },
+    "snackbar": {
+      "title": "Snackbar ",
+      "text": "you can desactivate the snackbar here or set a custom timeout",
+      "enabled": "snackbar timeout is enabled",
+      "disabled": "snackbar timeout is disabled"
     }
   },
   "shifts": {
@@ -575,5 +583,15 @@
     "regEmp": "Employee",
     "civilSer": "Civil servant",
     "notSelected": "No model selected"
+  },
+  "validations": {
+    "required": "This field is required.",
+    "settings": {
+      "snackbar": {
+        "minValue": "The minimum value is 2000ms.",
+        "maxValue": "The maximum value is 10000ms.",
+        "multipleOf500": "The value must be a multiple of 500ms."
+      }
+    }
   }
 }

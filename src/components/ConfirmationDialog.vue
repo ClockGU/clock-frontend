@@ -1,5 +1,5 @@
 <template>
-  <TheDialog :persistent="false" :max-width="maxWidth">
+  <TheDialog v-model="dialog" :persistent="false" :max-width="maxWidth">
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
     </template>
@@ -51,6 +51,10 @@ export default {
   name: "ConfirmationDialog",
   components: { TheDialog },
   props: {
+    modelValue: {
+      type: Boolean,
+      default: false
+    },
     confirmationButton: {
       type: Object,
       default: () => {
@@ -79,6 +83,11 @@ export default {
   data: () => ({
     dialog: false
   }),
+  watch: {
+    modelValue(val) {
+      this.dialog = val;
+    }
+  },
   methods: {
     confirm(closeFn) {
       if (

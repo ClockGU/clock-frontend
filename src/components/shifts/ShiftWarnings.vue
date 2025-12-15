@@ -1,7 +1,12 @@
 <template>
-  <v-dialog v-model="dialog" :max-width="500" @click:outside="closeDialog">
+  <v-dialog
+    v-model="dialog"
+    :max-width="500"
+    aria-labelledby="shift-warnings-title"
+    @click:outside="closeDialog"
+  >
     <v-card>
-      <v-card-title>
+      <v-card-title id="shift-warnings-title">
         {{ $t("dashboard.progress.warnings.title") }}
       </v-card-title>
       <v-card-text v-for="warning in warnings" :key="warning.index">

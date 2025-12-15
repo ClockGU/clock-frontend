@@ -1,5 +1,5 @@
 <template>
-  <v-card :max-height="800">
+  <v-card :max-height="800" :aria-label="title">
     <CardToolbar
       :title="title"
       close-action
@@ -111,16 +111,15 @@ export default {
   },
   methods: {
     getContractName(contractId) {
-      const contract = this.$store.getters["contentData/contractById"](
-        contractId
-      );
+      const contract =
+        this.$store.getters["contentData/contractById"](contractId);
       return contract ? contract.name : this.$t("contracts.unknownContract");
     },
     async handleShiftDelete(shift) {
       try {
         await this.$store.dispatch("contentData/deleteShift", shift);
       } catch (error) {
-        console.error("Error deleting shift:", error);
+        // TODO: Show error notification
       }
     }
   }

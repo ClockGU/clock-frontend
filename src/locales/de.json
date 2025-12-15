@@ -119,7 +119,8 @@
     "errors": {
       "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen.",
       "carryoverForFutureContracts": "Der Übertrag für einen zukünftigen Vertrag muss 00:00 sein."
-    }
+    },
+    "displayColor": "Anzeigefarbe"
   },
   "dashboard": {
     "disabled": {
@@ -317,7 +318,7 @@
     "title": "Möchtest du dich abmelden?"
   },
   "news": {
-    "showAll": "Alle anzeigen",
+    "showAll": "Alle Neuigkeiten anzeigen",
     "noNews": "Es gibt keine Neuigkeiten.",
     "label": {
       "notice": "",
@@ -436,6 +437,7 @@
       "locked": "Gesperrt",
       "label": "Diesen Monat sperren",
       "confirm": "Diesen Monat sperren?",
+      "currentMonthWarning": "Sie sind dabei, den aktuellen Monat zu sperren. Dieser Vorgang ist unwiderruflich.",
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
     },
     "warnings": {
@@ -458,6 +460,12 @@
     },
     "language": {
       "text": "Die Spracheinstellung wird sofort wirksam."
+    },
+    "snackbar": {
+      "title": "Snackbar",
+      "text": "Du kannst hier die Snackbar deaktivieren oder eine benutzerdefinierte Zeitüberschreitung einstellen",
+      "enabled": "Snackbar-Zeitüberschreitung ist aktiviert",
+      "disabled": "Snackbar-Zeitüberschreitung ist deaktiviert"
     }
   },
   "shifts": {
@@ -575,5 +583,15 @@
     "regEmp": "Regulär*er Angestellt*er",
     "civilSer": "Beamt*in",
     "notSelected": "Kein Modell ausgewählt"
+  },
+  "validations": {
+    "required": "Dieses Feld ist erforderlich.",
+    "settings": {
+      "snackbar": {
+        "minValue": "Der minimale Wert ist 2000ms.",
+        "maxValue": "Der maximale Wert ist 10000ms.",
+        "multipleOf500": "Der Wert muss ein Vielfaches von 500ms sein."
+      }
+    }
   }
 }

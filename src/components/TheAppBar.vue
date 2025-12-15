@@ -6,23 +6,26 @@
     <v-app-bar app flat fixed elevation="0" :color="bgColor">
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
+        role="button"
+        type="button"
+        aria-haspopup="dialog"
+        :aria-label="$t('aria.dashboard.toggleNavigationdrawer')"
         class="hidden-md-and-up"
         @click="toggleNavigationdrawer"
-      >
-        <v-icon>{{ icons.mdiMenu }}</v-icon>
-      </v-app-bar-nav-icon>
+      />
 
-      <v-toolbar-title>
-        <router-link v-slot="{ navigate }" :to="{ name: 'home' }" custom>
-          <span
-            role="link"
-            style="cursor: pointer"
-            @click="navigate"
-            @keypress.enter="navigate"
-          >
-            <v-img width="96px" height="32px" :src="imgSrc" />
-          </span>
-        </router-link>
+      <v-toolbar-title
+        style="width: fit-content; flex: none; display: inline-block"
+      >
+        <RouterLink
+          class="nav-link"
+          role="link"
+          type="link"
+          :aria-label="$t('aria.dashboard.toDashboard')"
+          :to="{ name: 'home' }"
+        >
+          <v-img width="96px" height="32px" :src="imgSrc" alt="CLOCK Logo" />
+        </RouterLink>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -42,11 +45,18 @@
         :loading="userLoading"
         type="avatar"
       >
-        <v-menu class="py-3">
+        <v-menu aria-activedescendant="true" class="py-3">
           <template #activator="{ props }">
-            <v-btn :color="bgColor" variant="flat">
-              <div class="d-flex align-center" v-bind="props">
+            <v-btn
+              aria-labelledby="settings-menu-content"
+              type="button"
+              :color="bgColor"
+              variant="flat"
+              v-bind="props"
+            >
+              <div class="d-flex align-center">
                 <v-avatar
+                  aria-hidden="true"
                   size="30px"
                   color="blue-lighten-2"
                   style="cursor: pointer"
@@ -56,7 +66,14 @@
                     {{ firstLetter }}
                   </span>
                 </v-avatar>
-                <span class="text-capitalize">{{ user.first_name }}</span>
+                <div id="settings-menu-content">
+                  <span class="text-capitalize">
+                    {{ user.first_name }}
+                  </span>
+                  <span class="visually-hidden">
+                    {{ $t("aria.dashboard.userMenu") }}</span
+                  >
+                </div>
               </div>
               <v-icon :icon="icons.mdiChevronDown"></v-icon>
             </v-btn>
@@ -69,24 +86,28 @@
               :to="item.to"
               router
             >
-              {{ item.text }}
+              <v-list-item-title> {{ item.text }} </v-list-item-title>
             </v-list-item>
-
-            <LogoutDialog>
-              <template #activator="{ props }">
-                <v-list-item
-                  :prepend-icon="icons.mdiLogout"
-                  data-cy="menu-logout"
-                  v-bind="props"
-                >
-                  {{ $t("actions.logout") }}
-                </v-list-item>
-              </template>
-            </LogoutDialog>
+            <v-list-item
+              :key="$t('actions.logout')"
+              :aria-label="$t('actions.logout')"
+              :prepend-icon="icons.mdiLogout"
+              aria-haspopup="dialog"
+              role="button"
+              type="button"
+              @click="dialog = !dialog"
+              @keydown.enter="dialog = !dialog"
+              @keydown.space="dialog = !dialog"
+            >
+              <v-list-item-title>
+                {{ $t("actions.logout") }}
+              </v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
       </v-skeleton-loader>
     </v-app-bar>
+    <LogoutDialog v-model="dialog" />
   </portal-target>
 </template>
 
@@ -122,7 +143,8 @@ export default {
       mdiMenu,
       mdiChevronDown,
       mdiLogout
-    }
+    },
+    dialog: false
   }),
   computed: {
     ...mapGetters({
@@ -182,3 +204,13 @@ export default {
   }
 };
 </script>
+<style>
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.nav-link > span:focus {
+  outline: red;
+}
+</style>

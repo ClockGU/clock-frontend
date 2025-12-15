@@ -1,6 +1,10 @@
 <template>
   <!-- TODO: we shold probably also use 'TheDialog' here -->
-  <v-dialog v-model="dialog" :max-width="500">
+  <v-dialog
+    v-model="dialog"
+    :max-width="500"
+    aria-labelledby="shift-repeat-dialog-title"
+  >
     <template #activator="{ props }">
       <v-btn
         :disabled="shifts.length < 1"
@@ -16,7 +20,7 @@
         <v-btn icon @click="dialog = false">
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
-        <v-toolbar-title
+        <v-toolbar-title id="shift-repeat-dialog-title"
           >{{ $t("shifts.repeating.dialog.title") }}
         </v-toolbar-title>
       </v-toolbar>

@@ -1,6 +1,10 @@
 <template>
   <v-expand-transition appear>
-    <v-card elevation="0">
+    <v-card
+      elevation="0"
+      role="toolbar"
+      :aria-label="$t('aria.shiftBulkActions.description')"
+    >
       <v-card-actions>
         <ShiftBulkActionsDialogReview
           v-if="canReview"
@@ -13,6 +17,7 @@
               variant="flat"
               :icon="shiftsLength > 1 ? icons.mdiCheckAll : icons.mdiCheck"
               v-bind="props"
+              :aria-label="$t('aria.shiftBulkActions.review')"
             />
           </template>
         </ShiftBulkActionsDialogReview>
@@ -24,9 +29,11 @@
               variant="flat"
               v-bind="props"
               :icon="icons.mdiSwapHorizontal"
+              :aria-label="$t('aria.shiftBulkActions.changeContract')"
             />
           </template>
         </ShiftAssignContractDialog>
+
         <ShiftsDetailsDialog
           v-if="xs"
           :disabled="shiftsLength !== 1"
@@ -39,6 +46,7 @@
               variant="flat"
               :icon="icons.mdiInformationVariant"
               v-bind="props"
+              :aria-label="$t('aria.shiftBulkActions.viewDetails')"
             />
           </template>
         </ShiftsDetailsDialog>
@@ -61,10 +69,18 @@
               variant="flat"
               :icon="icons.mdiDelete"
               v-bind="props"
+              :aria-label="$t('aria.shiftBulkActions.delete')"
             />
           </template>
         </ShiftBulkActionsDialogDelete>
-        {{ durationSum }}
+
+        <span
+          role="status"
+          :aria-live="polite"
+          :aria-label="$t('aria.shiftBulkActions.durationSum', { durationSum })"
+        >
+          {{ durationSum }}
+        </span>
       </v-card-actions>
     </v-card>
   </v-expand-transition>
@@ -148,7 +164,6 @@ export default {
     async destroyFn() {
       await this.$store.dispatch("contentData/bulkDeleteShifts", this.shifts);
       this.resetFn();
-      this.$emit("destroy");
     },
     async updateFn(contractInstance) {
       await this.$store.dispatch("contentData/bulkSwitchContract", {

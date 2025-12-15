@@ -13,9 +13,9 @@
           max-width="700"
           width="100%"
         >
-          <h1 class="text-1 font-weight-black mb-4">
+          <h2 class="text-1 font-weight-black mb-4">
             {{ $t("hero.slogan") }}
-          </h1>
+          </h2>
 
           <p>
             {{ $t("hero.text") }}
