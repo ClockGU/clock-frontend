@@ -12,7 +12,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
   const shift = computed(() => toValue(shiftSource));
 
   const t = (key) => VueI18n.global.t(key);
-  
+
   const isShiftValid = () => Boolean(shift.value);
 
   const validateStartedBeforeStopped = () => {
@@ -41,7 +41,8 @@ export function useShiftValidation(shiftSource, isLive = false) {
   };
 
   const checkAutomaticWorktimeCutting = () => {
-    const newShiftWorktime = (shift.value.stopped - shift.value.started) / 60000;
+    const newShiftWorktime =
+      (shift.value.stopped - shift.value.started) / 60000;
     const totalWorktime = newShiftWorktime + alreadyClockedWorktime();
 
     if (
@@ -117,7 +118,8 @@ export function useShiftValidation(shiftSource, isLive = false) {
     if (!isStudEmp()) {
       return null;
     }
-    return shift.value.started.getHours() < 8 || shift.value.stopped.getHours() > 20
+    return shift.value.started.getHours() < 8 ||
+      shift.value.stopped.getHours() > 20
       ? t("shifts.errors.eightTwentyRule")
       : null;
   };
@@ -169,7 +171,8 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
     if (shift.value.started >= shifts[shifts.length - 1].stopped) {
       return (
-        (shift.value.started - shifts[shifts.length - 1].stopped + totalBreak) / 60000
+        (shift.value.started - shifts[shifts.length - 1].stopped + totalBreak) /
+        60000
       );
     }
     if (shift.value.stopped <= shifts[0].started) {
@@ -199,7 +202,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
     if (!isShiftValid()) return;
     clearMessages();
     checkShiftErrors();
-    checkShiftWarnings();                                   
+    checkShiftWarnings();
   };
 
   const clearMessages = () => {
@@ -249,7 +252,6 @@ export function useShiftValidation(shiftSource, isLive = false) {
   return {
     alertMessages,
     errorMessages,
-    valid,
-    validateShift
+    valid
   };
 }

@@ -27,5 +27,4 @@ const icons = {
   mdiExclamation
 };
 const { alertMessages } = useShiftValidation(() => props.shift);
-
 </script>
