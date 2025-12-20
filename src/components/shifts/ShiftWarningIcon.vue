@@ -26,5 +26,6 @@ const props = defineProps({
 const icons = {
   mdiExclamation
 };
-const { alertMessages } = useShiftValidation(props.shift);
+const { alertMessages } = useShiftValidation(() => props.shift);
+
 </script>
