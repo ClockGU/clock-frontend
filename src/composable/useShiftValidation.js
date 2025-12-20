@@ -63,7 +63,6 @@ export function useShiftValidation(shiftSource, isLive = false) {
     const totalWorktime = duration + alreadyWorked;
     const breaks = totalBreaktime();
 
-
     if (totalWorktime > 9 * 60 && breaks < 45) {
       return t("shifts.errors.autoWorktimeCutting");
     }
