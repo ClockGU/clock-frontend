@@ -115,10 +115,7 @@ async function clockIn() {
     started,
     contract: store.getters["selectedContract/selectedContract"].id
   });
-  const { alertMessages, errorMessages } = useShiftValidation(
-    () => shift,
-    true
-  );
+  const { alertMessages, errorMessages } = useShiftValidation(shift, true);
 
   if (errorMessages.value.length > 0) {
     await store.dispatch("snackbar/setSnack", {
