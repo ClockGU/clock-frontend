@@ -37,7 +37,7 @@
           @keydown.stop
         >
         </v-btn>
-        <ShiftWarningIcon :shift="newShift"> </ShiftWarningIcon>
+        <ShiftWarningIcon v-if="showWarningIcon" :shift="newShift"> </ShiftWarningIcon>
       </div>
     </template>
     <template #content="{ events: { close } }">
@@ -82,6 +82,10 @@ const props = defineProps({
   icon: {
     type: Boolean,
     default: false
+  },
+  showWarningIcon: {
+    type: Boolean,
+    default: true
   },
   btnColor: {
     type: String,
