@@ -21,6 +21,15 @@ const actions = {
 };
 
 const mutations = {
+  updateSelectedShifts(state, { freshShifts, isPastShift }) {
+    const listName = isPastShift
+      ? "selectedPastShifts"
+      : "selectedFutureShifts";
+    state[listName] = state[listName].map((selected) => {
+      const match = freshShifts.find((s) => s.id === selected.id);
+      return match ? match : selected;
+    });
+  },
   setSelectedShifts(state, { shifts, isPastShift }) {
     if (isPastShift) {
       state.selectedPastShifts = shifts;
