@@ -50,15 +50,14 @@
             />
           </template>
         </ShiftsDetailsDialog>
-        <ShiftActionsDialogEdit
+        <ShiftFormDialog
           v-if="xs"
+          icon
           :shift="shifts[0]"
           :disabled="shiftsLength !== 1"
           :showWarningIcon="shiftsLength === 1"
-          @reset="resetFn()"
-          @update="updateFn(shifts[0].contract)"
         >
-        </ShiftActionsDialogEdit>
+        </ShiftFormDialog>
         <ShiftBulkActionsDialogDelete
           :count="shiftsLength"
           @destroy="destroyFn"
@@ -101,7 +100,7 @@ import {
   mdiInformationVariant
 } from "@mdi/js";
 import ShiftsDetailsDialog from "./ShiftsDetailsDialog.vue";
-import ShiftActionsDialogEdit from "./ShiftActionsDialogEdit.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 export default {
   name: "ShiftBulkActions",
@@ -109,8 +108,8 @@ export default {
     ShiftAssignContractDialog,
     ShiftBulkActionsDialogDelete,
     ShiftBulkActionsDialogReview,
-    ShiftActionsDialogEdit,
-    ShiftsDetailsDialog
+    ShiftsDetailsDialog,
+    ShiftFormDialog
   },
   mixins: [breakpointsMixin],
   props: {

@@ -139,7 +139,7 @@
           </ShiftInfoDialog>
         </td>
         <td class="d-none d-sm-table-cell" role="gridcell">
-          <ShiftFormDialog :create="false" icon :shift="item"></ShiftFormDialog>
+          <ShiftFormDialog icon :shift="item"></ShiftFormDialog>
         </td>
       </tr>
     </template>

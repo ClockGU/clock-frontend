@@ -37,7 +37,8 @@
           @keydown.stop
         >
         </v-btn>
-        <ShiftWarningIcon :shift="newShift"> </ShiftWarningIcon>
+        <ShiftWarningIcon v-if="showWarningIcon" :shift="newShift">
+        </ShiftWarningIcon>
       </div>
     </template>
     <template #content="{ events: { close } }">
@@ -83,6 +84,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showWarningIcon: {
+    type: Boolean,
+    default: true
+  },
   btnColor: {
     type: String,
     default: ""
@@ -108,16 +113,16 @@ const props = defineProps({
 // Emits
 const emit = defineEmits(["close", "save", "update", "delete", "reset"]);
 
-// State
 const icons = { mdiPencil, mdiPlus, mdiExclamation };
-const show = defineModel({ type: Boolean });
-const newShift = ref(props.shift);
-const initialContract = ref("");
 
+const show = defineModel({ type: Boolean });
+// Store and Composables
 const store = useStore();
 const { t } = useI18n();
 const { xs } = useDisplay();
-
+// Refs
+const newShift = ref(props.shift);
+const initialContract = ref("");
 // Computed
 const create = computed(() => props.shift === undefined);
 

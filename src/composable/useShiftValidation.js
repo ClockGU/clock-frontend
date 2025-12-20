@@ -1,70 +1,94 @@
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, toValue } from "vue";
 import { dateIsHoliday } from "@/utils/date";
 import { isSameMonth, isSameDay } from "date-fns";
 import store from "@/store";
 import VueI18n from "@/plugins/i18n";
 
-export function useShiftValidation(shift, isLive = false) {
+export function useShiftValidation(shiftSource, isLive = false) {
   const errorMessages = ref([]);
   const alertMessages = ref([]);
 
+  // a computed property to ensure we always have the latest object reference
+  const shift = computed(() => toValue(shiftSource));
+
   const t = (key) => VueI18n.global.t(key);
-  const isShiftValid = () => Boolean(shift);
+
+  const isShiftValid = () => Boolean(shift.value && shift.value.started);
+
+  const getNewShiftDuration = () => {
+    if (!shift.value?.started) return 0;
+
+    const start = shift.value.started;
+    // Use current time if live or if stopped time is missing/invalid
+    const end =
+      isLive || !shift.value.stopped || isNaN(shift.value.stopped.getTime())
+        ? new Date()
+        : shift.value.stopped;
+
+    return Math.max(0, (end - start) / 60000);
+  };
 
   const validateStartedBeforeStopped = () => {
-    return shift.started > shift.stopped
+    if (isLive) return null;
+    return shift.value.started > shift.value.stopped
       ? t("shifts.errors.startedBeforeStopped")
       : null;
   };
 
   const validateMaxWorktimePerDay = () => {
-    let newShiftWorktime = (shift.stopped - shift.started) / 60000;
-    const totalWorktime = newShiftWorktime + alreadyClockedWorktime();
+    let duration = getNewShiftDuration();
+    const alreadyWorked = alreadyClockedWorktime();
+    const totalWorktime = duration + alreadyWorked;
 
     if (
       totalWorktime > 6 * 60 &&
       totalWorktime <= 9 * 60 &&
       totalBreaktime() < 30
     ) {
-      newShiftWorktime -= 30 - totalBreaktime();
+      duration -= 30 - totalBreaktime();
     } else if (totalWorktime > 9 * 60 && totalBreaktime() < 45) {
-      newShiftWorktime -= 45 - totalBreaktime();
+      duration -= 45 - totalBreaktime();
     }
 
-    return newShiftWorktime + alreadyClockedWorktime() > 10 * 60
+    return duration + alreadyWorked > 10 * 60
       ? t("shifts.errors.maximumWorktimePerDay")
       : null;
   };
 
   const checkAutomaticWorktimeCutting = () => {
-    const newShiftWorktime = (shift.stopped - shift.started) / 60000;
-    const totalWorktime = newShiftWorktime + alreadyClockedWorktime();
+    if (!shift.value?.started) return null;
 
-    if (
-      (totalWorktime > 9 * 60 && totalBreaktime() < 45) ||
-      (totalWorktime <= 9 * 60 &&
-        totalWorktime > 6 * 60 &&
-        totalBreaktime() < 30)
-    ) {
+    const duration = getNewShiftDuration();
+    const alreadyWorked = alreadyClockedWorktime();
+    const totalWorktime = duration + alreadyWorked;
+    const breaks = totalBreaktime();
+
+
+    if (totalWorktime > 9 * 60 && breaks < 45) {
       return t("shifts.errors.autoWorktimeCutting");
     }
+
+    if (totalWorktime > 6 * 60 && breaks < 30) {
+      return t("shifts.errors.autoWorktimeCutting");
+    }
+
     return null;
   };
 
   const validateOnlyHolidayOnHolidays = () => {
-    return dateIsHoliday(shift.started) && shift.type !== "bh"
+    return dateIsHoliday(shift.value.started) && shift.value.type !== "bh"
       ? t("shifts.errors.workingOnHolidays")
       : null;
   };
 
   const validateHolidayOnWorkdays = () => {
-    return shift.type === "bh" && !dateIsHoliday(shift.started)
+    return shift.value.type === "bh" && !dateIsHoliday(shift.value.started)
       ? t("shifts.errors.holidayOnWorkday")
       : null;
   };
 
   const validateNoSunday = () => {
-    return shift.started.getDay() === 0
+    return shift.value.started.getDay() === 0
       ? t("shifts.errors.workingOnSundays")
       : null;
   };
@@ -72,8 +96,8 @@ export function useShiftValidation(shift, isLive = false) {
   const validateExclusivityVacation = () => {
     const shifts = shiftsThisDay();
     if (
-      (shift.type === "vn" && shifts.some((s) => s.type !== "vn")) ||
-      (shift.type === "st" && shifts.some((s) => s.type === "vn"))
+      (shift.value.type === "vn" && shifts.some((s) => s.type !== "vn")) ||
+      (shift.value.type === "st" && shifts.some((s) => s.type === "vn"))
     ) {
       return t("shifts.errors.exclusiveVacation");
     }
@@ -83,8 +107,8 @@ export function useShiftValidation(shift, isLive = false) {
   const validateExclusivitySick = () => {
     const shifts = shiftsThisDay();
     if (
-      (shift.type === "sk" && shifts.some((s) => s.type !== "sk")) ||
-      (shift.type === "st" && shifts.some((s) => s.type === "sk"))
+      (shift.value.type === "sk" && shifts.some((s) => s.type !== "sk")) ||
+      (shift.value.type === "st" && shifts.some((s) => s.type === "sk"))
     ) {
       return t("shifts.errors.exclusiveSick");
     }
@@ -93,10 +117,10 @@ export function useShiftValidation(shift, isLive = false) {
 
   const validateOverlapping = () => {
     for (let s of shiftsThisDay()) {
-      if (s.started <= shift.started && shift.started < s.stopped) {
+      if (s.started <= shift.value.started && shift.value.started < s.stopped) {
         return t("shifts.errors.overlappingStarted");
       }
-      if (s.started < shift.stopped && shift.stopped <= s.stopped) {
+      if (s.started < shift.value.stopped && shift.value.stopped <= s.stopped) {
         return t("shifts.errors.overlappingStopped");
       }
     }
@@ -110,10 +134,20 @@ export function useShiftValidation(shift, isLive = false) {
   };
 
   const checkEightTwentyRule = () => {
-    if (!isStudEmp()) {
-      return null;
+    if (!isStudEmp()) return null;
+
+    const startHour = shift.value.started.getHours();
+
+    // For live clock-in, check current start boundary
+    if (isLive) {
+      return startHour < 8 || startHour >= 20
+        ? t("shifts.errors.eightTwentyRule")
+        : null;
     }
-    return shift.started.getHours() < 8 || shift.stopped.getHours() > 20
+
+    // For regular shifts, check both bounds
+    const stopHour = shift.value.stopped?.getHours() || 0;
+    return startHour < 8 || stopHour > 20
       ? t("shifts.errors.eightTwentyRule")
       : null;
   };
@@ -121,25 +155,25 @@ export function useShiftValidation(shift, isLive = false) {
   const shiftsThisDay = () => {
     return store.getters["contentData/allShifts"].filter(
       (s) =>
-        isSameDay(s.started, shift.started) &&
+        isSameDay(s.started, shift.value.started) &&
         s.wasReviewed &&
-        s.id !== shift.id
+        s.id !== shift.value.id
     );
   };
 
   const shiftsThisMonth = () => {
     return store.getters["contentData/selectedShifts"].filter(
       (s) =>
-        isSameMonth(s.started, shift.started) &&
+        isSameMonth(s.started, shift.value.started) &&
         s.wasReviewed &&
-        s.id !== shift.id
+        s.id !== shift.value.id
     );
   };
 
   const isStudEmp = () => {
     try {
       return (
-        store.getters["contentData/contractById"](shift.contract)
+        store.getters["contentData/contractById"](shift.value.contract)
           .worktimeModelName === "studEmp"
       );
     } catch {
@@ -163,45 +197,46 @@ export function useShiftValidation(shift, isLive = false) {
       totalBreak += shifts[i + 1].started - shifts[i].stopped;
     }
 
-    if (shift.started >= shifts[shifts.length - 1].stopped) {
+    if (shift.value.started >= shifts[shifts.length - 1].stopped) {
       return (
-        (shift.started - shifts[shifts.length - 1].stopped + totalBreak) / 60000
+        (shift.value.started - shifts[shifts.length - 1].stopped + totalBreak) /
+        60000
       );
     }
-    if (shift.stopped <= shifts[0].started) {
-      return (shifts[0].started - shift.stopped + totalBreak) / 60000;
+    if (shift.value.stopped <= shifts[0].started) {
+      return (shifts[0].started - shift.value.stopped + totalBreak) / 60000;
     }
 
-    return (totalBreak - (shift.stopped - shift.started)) / 60000;
+    return (totalBreak - (shift.value.stopped - shift.value.started)) / 60000;
   };
-
   const checkShiftErrors = () => {
-    const type = isLive ? "isLive" : "regular";
-    const messages = rules[type].validations
+    const mode = isLive ? "live" : "regular";
+    errorMessages.value = rules[mode].validations
       .map((rule) => rule())
-      .filter((message) => message !== null);
-    if (messages.length > 0) errorMessages.value = messages;
+      .filter((m) => m !== null);
   };
 
   const checkShiftWarnings = () => {
-    const type = isLive ? "isLive" : "regular";
-    const messages = rules[type].warnings
+    const mode = isLive ? "live" : "regular";
+    alertMessages.value = rules[mode].warnings
       .map((rule) => rule())
-      .filter((message) => message !== null);
-    if (messages.length > 0) alertMessages.value = messages;
+      .filter((m) => m !== null);
   };
+
   const validateShift = () => {
     if (!isShiftValid()) return;
     clearMessages();
     checkShiftErrors();
     checkShiftWarnings();
   };
+
   const clearMessages = () => {
     errorMessages.value = [];
     alertMessages.value = [];
   };
+
   const rules = {
-    isLive: {
+    live: {
       validations: [
         validateOnlyHolidayOnHolidays,
         validateHolidayOnWorkdays,
@@ -234,9 +269,11 @@ export function useShiftValidation(shift, isLive = false) {
       ]
     }
   };
+
   const valid = computed(() => errorMessages.value.length === 0);
 
-  watch(shift, validateShift, { immediate: true });
+  // Deep watch the shift to trigger validation on any property change
+  watch(shift, validateShift, { immediate: true, deep: true });
 
   return {
     alertMessages,

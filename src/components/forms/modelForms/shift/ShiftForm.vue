@@ -75,7 +75,7 @@ const closed = ref(false);
 const shift = defineModel({ type: Shift, default: () => new Shift() });
 // Keep a copy of the original shift to compare with the modified one
 const originalShift = ref(shift.value.clone());
-const { errorMessages, alertMessages, valid } = useShiftValidation(shift.value);
+const { errorMessages, alertMessages, valid } = useShiftValidation(shift);
 
 const selectedContract = computed(
   () => store.getters["selectedContract/selectedContract"]
