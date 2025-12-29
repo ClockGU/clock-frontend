@@ -21,6 +21,32 @@ const actions = {
 };
 
 const mutations = {
+  updateSelectedShifts(state, { freshShifts, isPastShift }) {
+    const currentList = isPastShift
+      ? "selectedPastShifts"
+      : "selectedFutureShifts";
+    const oppositeList = isPastShift
+      ? "selectedFutureShifts"
+      : "selectedPastShifts";
+
+    state[currentList] = state[currentList].map((selected) => {
+      const match = freshShifts.find((s) => s.id === selected.id);
+      return match ? match : selected;
+    });
+
+    // Handle cross-table migration: if a selected shift moved from past to future (or vice versa)
+    freshShifts.forEach((fresh) => {
+      const indexInOpposite = state[oppositeList].findIndex(
+        (s) => s.id === fresh.id
+      );
+      if (indexInOpposite !== -1) {
+        state[oppositeList].splice(indexInOpposite, 1);
+        if (!state[currentList].some((s) => s.id === fresh.id)) {
+          state[currentList].push(fresh);
+        }
+      }
+    });
+  },
   setSelectedShifts(state, { shifts, isPastShift }) {
     if (isPastShift) {
       state.selectedPastShifts = shifts;
