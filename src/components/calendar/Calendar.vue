@@ -314,5 +314,4 @@ export default {
   display: inline-flex;
   align-items: center;
 }
-
 </style>
