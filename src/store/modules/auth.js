@@ -37,7 +37,7 @@ const actions = {
     return Promise.resolve(resp);
   },
   async LOGOUT({ commit }) {
-    window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
+    window.location = "https://idp.ub.uni-frankfurt.de/idp/profile/oidc/end-session";
     AuthService.logout();
 
     commit("LOGOUT");
