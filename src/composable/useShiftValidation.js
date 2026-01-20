@@ -13,46 +13,65 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
   const t = (key) => VueI18n.global.t(key);
 
-  const isShiftValid = () => Boolean(shift.value);
+  const isShiftValid = () => Boolean(shift.value && shift.value.started);
+
+  const getNewShiftDuration = () => {
+    if (!shift.value?.started) return 0;
+
+    const start = shift.value.started;
+    // Use current time if live or if stopped time is missing/invalid
+    const end =
+      isLive || !shift.value.stopped || isNaN(shift.value.stopped.getTime())
+        ? new Date()
+        : shift.value.stopped;
+
+    return Math.max(0, (end - start) / 60000);
+  };
 
   const validateStartedBeforeStopped = () => {
+    if (isLive) return null;
     return shift.value.started > shift.value.stopped
       ? t("shifts.errors.startedBeforeStopped")
       : null;
   };
 
   const validateMaxWorktimePerDay = () => {
-    let newShiftWorktime = (shift.value.stopped - shift.value.started) / 60000;
-    const totalWorktime = newShiftWorktime + alreadyClockedWorktime();
+    let duration = getNewShiftDuration();
+    const alreadyWorked = alreadyClockedWorktime();
+    const totalWorktime = duration + alreadyWorked;
 
     if (
       totalWorktime > 6 * 60 &&
       totalWorktime <= 9 * 60 &&
       totalBreaktime() < 30
     ) {
-      newShiftWorktime -= 30 - totalBreaktime();
+      duration -= 30 - totalBreaktime();
     } else if (totalWorktime > 9 * 60 && totalBreaktime() < 45) {
-      newShiftWorktime -= 45 - totalBreaktime();
+      duration -= 45 - totalBreaktime();
     }
 
-    return newShiftWorktime + alreadyClockedWorktime() > 10 * 60
+    return duration + alreadyWorked > 10 * 60
       ? t("shifts.errors.maximumWorktimePerDay")
       : null;
   };
 
   const checkAutomaticWorktimeCutting = () => {
-    const newShiftWorktime =
-      (shift.value.stopped - shift.value.started) / 60000;
-    const totalWorktime = newShiftWorktime + alreadyClockedWorktime();
+    if (!shift.value?.started) return null;
 
-    if (
-      (totalWorktime > 9 * 60 && totalBreaktime() < 45) ||
-      (totalWorktime <= 9 * 60 &&
-        totalWorktime > 6 * 60 &&
-        totalBreaktime() < 30)
-    ) {
+    const duration = getNewShiftDuration();
+    const alreadyWorked = alreadyClockedWorktime();
+    const totalWorktime = duration + alreadyWorked;
+    const breaks = totalBreaktime();
+
+
+    if (totalWorktime > 9 * 60 && breaks < 45) {
       return t("shifts.errors.autoWorktimeCutting");
     }
+
+    if (totalWorktime > 6 * 60 && breaks < 30) {
+      return t("shifts.errors.autoWorktimeCutting");
+    }
+
     return null;
   };
 
@@ -115,11 +134,20 @@ export function useShiftValidation(shiftSource, isLive = false) {
   };
 
   const checkEightTwentyRule = () => {
-    if (!isStudEmp()) {
-      return null;
+    if (!isStudEmp()) return null;
+
+    const startHour = shift.value.started.getHours();
+
+    // For live clock-in, check current start boundary
+    if (isLive) {
+      return startHour < 8 || startHour >= 20
+        ? t("shifts.errors.eightTwentyRule")
+        : null;
     }
-    return shift.value.started.getHours() < 8 ||
-      shift.value.stopped.getHours() > 20
+
+    // For regular shifts, check both bounds
+    const stopHour = shift.value.stopped?.getHours() || 0;
+    return startHour < 8 || stopHour > 20
       ? t("shifts.errors.eightTwentyRule")
       : null;
   };
@@ -181,21 +209,18 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
     return (totalBreak - (shift.value.stopped - shift.value.started)) / 60000;
   };
-
   const checkShiftErrors = () => {
-    const type = isLive ? "isLive" : "regular";
-    const messages = rules[type].validations
+    const mode = isLive ? "live" : "regular";
+    errorMessages.value = rules[mode].validations
       .map((rule) => rule())
-      .filter((message) => message !== null);
-    if (messages.length > 0) errorMessages.value = messages;
+      .filter((m) => m !== null);
   };
 
   const checkShiftWarnings = () => {
-    const type = isLive ? "isLive" : "regular";
-    const messages = rules[type].warnings
+    const mode = isLive ? "live" : "regular";
+    alertMessages.value = rules[mode].warnings
       .map((rule) => rule())
-      .filter((message) => message !== null);
-    if (messages.length > 0) alertMessages.value = messages;
+      .filter((m) => m !== null);
   };
 
   const validateShift = () => {
@@ -211,7 +236,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
   };
 
   const rules = {
-    isLive: {
+    live: {
       validations: [
         validateOnlyHolidayOnHolidays,
         validateHolidayOnWorkdays,
@@ -247,6 +272,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
   const valid = computed(() => errorMessages.value.length === 0);
 
+  // Deep watch the shift to trigger validation on any property change
   watch(shift, validateShift, { immediate: true, deep: true });
 
   return {
