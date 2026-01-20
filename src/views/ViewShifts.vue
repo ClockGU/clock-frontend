@@ -194,7 +194,7 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { mapGetters } from "vuex";
 
 import { mdiMagnify, mdiCheck, mdiClose } from "@mdi/js";
-import { isFuture, isPast, isSameMonth } from "date-fns";
+import { isFuture, isSameMonth } from "date-fns";
 
 import { firstOfCurrentMonth, localizedFormat } from "@/utils/date";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
@@ -232,7 +232,7 @@ export default {
       );
     },
     pastShifts() {
-      return this.shifts.filter((shift) => isPast(shift.stopped));
+      return this.shifts.filter((shift) => !isFuture(shift.started));
     },
     futureShifts() {
       return this.shifts.filter((shift) => isFuture(shift.started));
