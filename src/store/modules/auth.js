@@ -37,7 +37,8 @@ const actions = {
     return Promise.resolve(resp);
   },
   async LOGOUT({ commit }) {
-    window.location = "https://idp.ub.uni-frankfurt.de/idp/profile/oidc/end-session";
+    window.location =
+      "https://idp.ub.uni-frankfurt.de/idp/profile/oidc/end-session";
     AuthService.logout();
 
     commit("LOGOUT");
