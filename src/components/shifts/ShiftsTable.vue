@@ -2,19 +2,18 @@
   <slot name="head" :selected="selectedShifts" :reset="reset"></slot>
   <v-data-table
     v-model="selectedShifts"
-    :show-select="!mobile"
+    v-model:sort-by="sortBy"
     :headers="flexHeaders"
     :items="shifts"
-    :search="search"
-    :loading="loading"
+    role="grid"
     item-key="id"
     return-object
     hover
-    :custom-sort="sortByDate"
     must-sort
-    :sort-desc="!pastShifts"
+    :show-select="!mobile"
+    :search="search"
+    :loading="loading"
     :aria-label="$t('aria.shiftsTable.description')"
-    role="grid"
   >
     <template #item="{ item }">
       <tr
@@ -194,6 +193,8 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { localizedFormat } from "@/utils/date";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
+import { sortBy } from "ramda";
+import { concatenatedShiftsTooLong } from "@/utils/shift";
 
 export default {
   name: "ShiftsTable",
@@ -221,6 +222,11 @@ export default {
     pastShifts: { type: Boolean, default: false }
   },
   emits: ["refresh"],
+  data() {
+    return {
+      sortBy: [{ key: "date", order: this.pastShifts ? "desc" : "asc" }]
+    };
+  },
   computed: {
     selectedShifts: {
       get() {
@@ -260,6 +266,39 @@ export default {
         );
       }
       return filteredHeaders;
+    }
+  },
+  watch: {
+    shifts: {
+      immediate: true,
+      handler(shifts) {
+        for (const shift of shifts || []) {
+          const started = new Date(shift.started);
+          const isValidStarted = Number.isFinite(started.getTime());
+
+          if (!isValidStarted) {
+            // Fallback values if started is missing/invalid
+            shift.date = 0;
+            shift.start = 0;
+            shift.reviewed = shift.wasReviewed ? 1 : 0;
+            continue;
+          }
+          //transform date to midnight timestamp for proper sorting
+          const day = new Date(started);
+          day.setHours(0, 0, 0, 0);
+          shift.date = day.getTime();
+          //transform start time to seconds since midnight for proper sorting
+          shift.start =
+            started.getHours() * 3600 +
+            started.getMinutes() * 60 +
+            started.getSeconds();
+          //transform reviewed status to numeric for proper sorting
+          shift.reviewed = shift.wasReviewed ? 1 : 0;
+        }
+      }
+    },
+    pastShifts(val) {
+      this.sortBy = [{ key: "date", order: val ? "desc" : "asc" }];
     }
   },
 
