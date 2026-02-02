@@ -47,83 +47,100 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-col
+          :class="{ 'text-left': mdAndUp.value, 'text-center': !mdAndUp.value }"
+          cols="12"
+          sm="4"
+        >
+          <TodayButton v-model="selectedDate" />
+        </v-col>
+        <v-col class="text-center" cols="12" sm="4">
+          <TimeIntervalSwitcher
+            v-model="selectedDate"
+            :disabled="disabled"
+            :type="type"
+            is-calendar
+          />
+        </v-col>
+        <v-col
+          :class="{
+            'text-right': mdAndUp.value,
+            'text-center': !mdAndUp.value
+          }"
+          cols="12"
+          sm="4"
+        >
+          <CalendarTypeSelect v-model="type" />
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12">
-          <VCalendar
-            v-model="focus"
-            :events="events"
-            :now="today"
-            :view-mode="type"
-            :first-day-of-week="1"
-            @click:event="editEvent"
-          >
-            <template #header>
-              <div class="v-calendar-header">
-                <v-col cols="4">
-                  <TodayButton v-model="selectedDate" />
-                </v-col>
-                <v-col class="text-center" cols="4">
-                  <TimeIntervalSwitcher
-                    v-model="selectedDate"
-                    :disabled="disabled"
-                    :type="type"
-                    is-calendar
-                  />
-                </v-col>
-                <v-col class="text-end" cols="4" order-sm="3">
-                  <CalendarTypeSelect v-model="type" />
-                </v-col>
-              </div>
-            </template>
-            <template #event="{ event }">
-              <v-chip
-                :aria-label="`${$t('aria.calendar.shiftPlanned', {
-                  date: formatTime(event.start),
-                  duration: event.selectedEventDuration
-                })}`"
-                @click="editEvent(event.shift)"
-              >
-                <v-badge :color="event.contractColor" dot inline></v-badge>
-                <div class="pl-1">
-                  <div class="icon-center">
-                    <span class="pr-1" style="border-right: 2px solid black">
-                      <strong>{{ formatTime(event.start) }} </strong>
-                    </span>
-                    <span class="ml-1">
-                      {{ event.selectedEventDuration }}
-                    </span>
-                    <v-icon
-                      :color="event.iconColor"
-                      class="ml-2"
-                      :icon="event.icon"
-                      style="scale: 0.9"
-                    />
-                  </div>
-                </div>
-              </v-chip>
-            </template>
-            <!--              :interval-format="intervalFormat"-->
-            <!--              @click:event="editEvent"-->
-            <!--              @click:more="viewDay"-->
-            <!--              @click:date="viewDay"-->
-            <!--              @prev="updateRange"-->
-            <!--              @next="updateRange"-->
-            <!--            >-->
-            <!--              <template #day-label="{ day, date }">-->
-            <!--                <button-->
-            <!--                  type="button"-->
-            <!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
-            <!--                  @click="viewDay({ date: date })"-->
-            <!--                >-->
-            <!--                  <span class="v-btn__content">{{ day }}</span>-->
-            <!--                </button>-->
-            <!--                <v-icon-->
-            <!--                  v-if="isBankHoliday(date)"-->
-            <!--                  :color="bhIconColor"-->
-            <!--                  style="align-self: center"-->
-            <!--                  >{{ icons.bhIcon }}</v-icon-->
-            <!--                >-->
-            <!--              </template>-->
-          </VCalendar>
+          <v-sheet height="600">
+            <v-calendar
+              v-model="focus"
+              :events="events"
+              :now="today"
+              :type="type"
+              :first-day-of-week="1"
+            >
+              <!--                  <template #event="{ event }">-->
+              <!--                    <v-chip-->
+              <!--                      :aria-label="`${$t('aria.calendar.shiftPlanned', {-->
+              <!--                        date: formatTime(event.start),-->
+              <!--                        duration: event.selectedEventDuration-->
+              <!--                      })}`"-->
+              <!--                      @click="editEvent(event.shift)"-->
+              <!--                    >-->
+              <!--                      <v-badge-->
+              <!--                        :color="event.contractColor"-->
+              <!--                        dot-->
+              <!--                        inline-->
+              <!--                      ></v-badge>-->
+              <!--                      <div class="pl-1">-->
+              <!--                        <div class="icon-center">-->
+              <!--                          <span-->
+              <!--                            class="pr-1"-->
+              <!--                            style="border-right: 2px solid black"-->
+              <!--                          >-->
+              <!--                            <strong>{{ formatTime(event.start) }} </strong>-->
+              <!--                          </span>-->
+              <!--                          <span class="ml-1">-->
+              <!--                            {{ event.selectedEventDuration }}-->
+              <!--                          </span>-->
+              <!--                          <v-icon-->
+              <!--                            :color="event.iconColor"-->
+              <!--                            class="ml-2"-->
+              <!--                            :icon="event.icon"-->
+              <!--                            style="scale: 0.9"-->
+              <!--                          />-->
+              <!--                        </div>-->
+              <!--                      </div>-->
+              <!--                    </v-chip>-->
+              <!--                  </template>-->
+              <!--              :interval-format="intervalFormat"-->
+              <!--              @click:event="editEvent"-->
+              <!--              @click:more="viewDay"-->
+              <!--              @click:date="viewDay"-->
+              <!--              @prev="updateRange"-->
+              <!--              @next="updateRange"-->
+              <!--            >-->
+              <!--              <template #day-label="{ day, date }">-->
+              <!--                <button-->
+              <!--                  type="button"-->
+              <!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
+              <!--                  @click="viewDay({ date: date })"-->
+              <!--                >-->
+              <!--                  <span class="v-btn__content">{{ day }}</span>-->
+              <!--                </button>-->
+              <!--                <v-icon-->
+              <!--                  v-if="isBankHoliday(date)"-->
+              <!--                  :color="bhIconColor"-->
+              <!--                  style="align-self: center"-->
+              <!--                  >{{ icons.bhIcon }}</v-icon-->
+              <!--                >-->
+              <!--              </template>-->
+            </v-calendar>
+          </v-sheet>
         </v-col>
       </v-row>
     </v-container>
@@ -148,9 +165,8 @@ import TodayButton from "@/components/calendar/TodayButton.vue";
 import TimeIntervalSwitcher from "@/components/TimeIntervalSwitcher.vue";
 import { SHIFT_TYPE_ICONS } from "@/utils/misc";
 import { HEX_SHIFT_TYPE_COLORS, SHIFT_TYPE_COLORS } from "@/utils/colors";
-import { VCalendar } from "vuetify/labs/VCalendar";
 import { formatTime } from "@/utils/time";
-
+import { useDisplay } from "vuetify";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Calendar",
@@ -158,8 +174,7 @@ export default {
     TimeIntervalSwitcher,
     TodayButton,
     ShiftFormDialog,
-    CalendarTypeSelect,
-    VCalendar
+    CalendarTypeSelect
   },
   props: {
     disabled: {
@@ -212,6 +227,10 @@ export default {
     //   if (this.disabled) return [];
     //   return this.selectedShifts;
     // },
+    mdAndUp() {
+      const { mdAndUp } = useDisplay();
+      return mdAndUp;
+    },
     shiftInitialDate() {
       if (
         (this.type === "month" && isSameMonth(this.focus[0], new Date())) ||
@@ -314,6 +333,7 @@ export default {
   display: inline-flex;
   align-items: center;
 }
+/*
 ::v-deep .v-calendar-month__day {
   border: 1px groove black !important;
   background-color: white !important;
@@ -352,5 +372,9 @@ export default {
 ::v-deep .v-calendar-month__weeknumber {
   border: 1px groove black;
   background-color: white;
+}*/
+::v-deep .v-theme--dark .v-calendar-day__container {
+  border: 1px groove black;
+  background-color: blue;
 }
 </style>
