@@ -1,7 +1,6 @@
 <template>
   <v-btn
     outlined
-    class="mr-4"
     data-cy="calendar-today"
     @click="$emit('update:modelValue', new Date())"
   >
