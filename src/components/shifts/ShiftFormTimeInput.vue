@@ -37,25 +37,23 @@
       <!--        <span>{{ errorMessages[0] }} </span>-->
       <!--      </v-tooltip>-->
     </template>
-    <VTimePicker
+    <v-time-picker
       v-if="menu && smAndDown"
       v-model="time"
       format="24hr"
       @update:minute="menu = false"
-    ></VTimePicker>
+    ></v-time-picker>
   </v-menu>
 </template>
 
 <script>
 import { localizedFormat } from "@/utils/date";
 import { validateTimeInput } from "@/utils/time";
-import { VTimePicker } from "vuetify/labs/VTimePicker";
 import { mdiClockOutline } from "@mdi/js";
 import { isSameMinute } from "date-fns";
 
 export default {
   name: "ShiftFormTimeInput",
-  components: { VTimePicker },
   props: {
     modelValue: {
       type: Date,
