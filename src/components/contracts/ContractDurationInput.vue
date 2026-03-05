@@ -69,7 +69,8 @@ export default {
       return false;
     },
     minEndDate() {
-      return format(lastOfCurrentMonth, "yyyy-MM-dd");
+      const midOfCurrentMonth = new Date().setDate(15);
+      return format(midOfCurrentMonth, "yyyy-MM-dd");
     }
   },
   watch: {

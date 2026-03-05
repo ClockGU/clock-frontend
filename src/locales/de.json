@@ -187,7 +187,7 @@
     "noReviewableShifts": "Es sind keine Schichten zu überprüfen",
     "newShift": { "title": "Schicht eintragen" },
     "overlaps": {
-      "description": "Es wurden Überschneidungen von {n} Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben.",
+      "description": "Es wurde eine Überschneidungen von Schichten gefunden. Du musst dieses Problem vor dem Export des Stundenzettels beheben. | Es wurden {n} Überschneidungen von Schichten gefunden. Du musst diese Probleme vor dem Export des Stundenzettels beheben.",
       "setNumber": "Überschneidungsgruppe #{n}",
       "nProblems": "Probleme gefunden",
       "noProblems": "Es gibt keine Probleme mit deinen gespeicherten Schichten."
@@ -441,7 +441,7 @@
       "message": "Nach dem Sperren können die Schichten dieses Monats nicht mehr bearbeitet werden. Die Sperrung kann nicht rückgängig gemacht werden!"
     },
     "warnings": {
-      "maxOvertimeExceeded": "Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden in den nächsten Monat übertragen.",
+      "maxOvertimeExceeded": "Du hast mehr als 50% deiner Sollarbeitszeit an Überstunden angesammelt. Es werden nur 50% deiner Sollarbeitszeit als Überstunden zu deinem Über/Unterstundenkonto addiert.",
       "insufficientWorktime": "Es fehlen dir mehr als 20% deiner Sollarbeitszeit.",
       "worktimeOverEightyHours": "Deine Monatsarbeitszeit überschreitet 80h. Beachte, dass du während der Vorlesungszeit nicht mehr als 80h pro Monat arbeiten darfst, um deinen studentischen Versicherungsstatus zu behalten."
     },

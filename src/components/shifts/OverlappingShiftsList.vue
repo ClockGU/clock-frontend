@@ -9,7 +9,7 @@
       <div style="max-height: 700px; overflow-y: scroll">
         <v-list dense>
           <template
-            v-for="(overlapGroup, groupIndex) in allOverlappingShifts"
+            v-for="(overlapGroup, groupIndex) in shifts"
             :key="`header-${groupIndex}`"
           >
             <v-list-item-title class="text-h6 pt-4 pb-2 red--text text-center">
@@ -97,11 +97,6 @@ export default {
     ...mapState({
       locale: "locale"
     }),
-    allOverlappingShifts() {
-      return getOverlappingShifts(this.shifts).sort((a, b) => {
-        return a[0].started - b[0].started;
-      });
-    },
     title() {
       return (
         this.$t("calendar.overlap.resolving") +
