@@ -50,7 +50,7 @@ const icons = {
 const shift = defineModel({ type: Shift, required: true });
 
 const store = useStore();
-const { valid } = useShiftValidation(shift.value);
+const { valid } = useShiftValidation(shift);
 
 const review = async () => {
   shift.value.wasReviewed = true;
