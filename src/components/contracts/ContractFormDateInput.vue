@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { isLastDayOfMonth, getDate } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { mdiCalendarArrowLeft, mdiCalendarArrowRight } from "@mdi/js";
@@ -128,7 +128,7 @@ const allowedStartDates = (val) => {
 
 const allowedEndDates = (val) => {
   const day = getDate(val);
-  return day === 15 || isLastDayOfMonth(val);
+  return (day === 15 && new Date() <= val) || isLastDayOfMonth(val);
 };
 
 // Watchers
