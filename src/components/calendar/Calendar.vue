@@ -372,9 +372,23 @@ export default {
 ::v-deep .v-calendar-month__weeknumber {
   border: 1px groove black;
   background-color: white;
-}*/
-::v-deep .v-theme--dark .v-calendar-day__container {
+}
+
+*/
+::v-deep .v-theme--light .v-calendar-weekly__week {
   border: 1px groove black;
-  background-color: blue;
+}
+::v-deep .v-theme--light .v-calendar-weekly__day {
+  border: 1px groove black;
+  border-left: 2px groove black;
+  border-right: 2px groove black;
+}
+::v-deep .v-theme--dark .v-calendar-weekly__week {
+  border: 1px groove white;
+}
+::v-deep .v-theme--dark .v-calendar-weekly__day {
+  border: 1px groove white;
+  border-left: 2px groove white;
+  border-right: 2px groove white;
 }
 </style>
