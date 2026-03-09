@@ -24,7 +24,7 @@
       >
         {{ buttonText }}
       </v-btn>
-      <div v-if="icon && !disableActivator">
+      <div v-if="icon && !disableActivator" style="position: relative">
         <v-btn
           :disabled="disabled"
           variant="flat"
@@ -37,8 +37,7 @@
           @keydown.stop
         >
         </v-btn>
-        <ShiftWarningIcon v-if="showWarningIcon" :shift="newShift">
-        </ShiftWarningIcon>
+        <ShiftWarningIcon v-if="showWarningIcon" :shift="newShift" />
       </div>
     </template>
     <template #content="{ events: { close } }">

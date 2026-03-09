@@ -6,7 +6,7 @@
     v-if="alertMessages.length > 0"
     color="warning"
     aria-hidden="true"
-    style="transform: translate(-65%, -50%)"
+    style="transform: translate(-75%); position: absolute"
   >
     {{ icons.mdiExclamation }}
   </v-icon>
