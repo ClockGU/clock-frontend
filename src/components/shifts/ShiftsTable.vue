@@ -193,8 +193,6 @@ import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { localizedFormat } from "@/utils/date";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
-import { sortBy } from "ramda";
-import { concatenatedShiftsTooLong } from "@/utils/shift";
 
 export default {
   name: "ShiftsTable",
@@ -287,7 +285,11 @@ export default {
           const day = new Date(started);
           day.setHours(0, 0, 0, 0);
           shift.date = day.getTime();
-          //transform start time to seconds since midnight for proper sorting
+          /*
+          transform start time to int(seconds) since midnight for proper sorting
+          shift.start represent the value in which we sort by shift.started 
+          while shift.started is what is shown 
+          */
           shift.start =
             started.getHours() * 3600 +
             started.getMinutes() * 60 +
