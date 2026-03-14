@@ -37,7 +37,7 @@
           @keydown.stop
         >
         </v-btn>
-        <ShiftWarningIcon v-if="showWarningIcon && shift" :shift="shift"/>
+        <ShiftWarningIcon v-if="showWarningIcon && shift" :shift="shift" />
       </div>
     </template>
     <template #content="{ events: { close } }">
