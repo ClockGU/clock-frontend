@@ -18,7 +18,7 @@
   >
     <template #item="{ item }">
       <tr
-        :class="{ 'selected-row': selectedShifts.includes(item) }"
+        :class="{ 'selected-row': isShiftSelected(item) }"
         :aria-label="getRowAriaLabel(item)"
         :aria-selected="isShiftSelected(item)"
         tabindex="0"
@@ -29,15 +29,15 @@
       >
         <td v-if="!mobile" role="gridcell">
           <v-checkbox-btn
-            v-model="selectedShifts"
+            :model-value="isShiftSelected(item)"
             class="table-checkbox-btn"
             :aria-label="`${
               isShiftSelected(item)
                 ? $t('aria.shiftsTable.shiftSelected')
                 : $t('aria.shiftsTable.shiftNotSelected')
             }`"
-            :value="item"
             tabindex="-1"
+            @update:model-value="handleRowSelection(item)"
           />
         </td>
         <td role="gridcell">
@@ -147,46 +147,7 @@
   <slot name="bottom" :selected="selectedShifts" :reset="reset"></slot>
 </template>
 
-<!-- Commented out, pending due to missing Userfeedback.       -->
-<!--ShiftAssignContractDialog :shifts="[item]" @reset="$emit('refresh')">
-          <template #activator="{ on }">
-            <v-btn icon v-on="on">
-              <v-icon>{{ icons.mdiSwapHorizontal }}</v-icon>
-            </v-btn>
-          </template>s
-        </ShiftAssignContractDialog-->
-
-<!--ConfirmationDialog @confirm="destroySingleShift(item)">
-          <template #activator="{ on }">
-            <v-scale-transition>
-              <v-btn elevation="1" icon v-on="on">
-                <v-icon>
-                  {{ icons.mdiDelete }}
-                </v-icon>
-              </v-btn>
-            </v-scale-transition>
-          </template>
-
-          <template #title>
-            {{
-              $t("buttons.deleteEntity", {
-                entity: $tc("models.shift")
-              })
-            }}
-          </template>
-
-          <template #text>
-            {{
-              $t(`dialogs.textConfirmDelete`, {
-                selectedEntity: $tc(`models.selectedShift`)
-              })
-            }}
-          </template>
-        </ConfirmationDialog-->
-
 <script>
-//import ConfirmationDialog from "@/components/ConfirmationDialog";
-//import ShiftAssignContractDialog from "@/components/shifts/ShiftAssignContractDialog";
 import ShiftInfoDialog from "@/components/shifts/ShiftInfoDialog.vue";
 import { ShiftService } from "@/services/models";
 import ShiftUtilityMixin from "@/mixins/ShiftUtilityMixin";
@@ -199,8 +160,6 @@ export default {
   name: "ShiftsTable",
   components: {
     ShiftFormDialog,
-    //ConfirmationDialog,
-    //  ShiftAssignContractDialog,
     ShiftInfoDialog,
     ShiftWarningIcon
   },
@@ -262,6 +221,19 @@ export default {
       return filteredHeaders;
     }
   },
+  watch: {
+    // When shifts prop changes, update the selected shifts in the store
+    shifts: {
+      handler(newShifts) {
+        if (!newShifts || newShifts.length === 0) return;
+        this.$store.commit("selectedShifts/updateSelectedShifts", {
+          freshShifts: newShifts,
+          isPastShift: this.pastShifts
+        });
+      },
+      deep: true
+    }
+  },
 
   methods: {
     getRowAriaLabel(item) {
@@ -294,7 +266,8 @@ export default {
         : localizedFormat(date, "EEE ' ' do");
     },
     isShiftSelected(shift) {
-      return this.selectedShifts.findIndex((s) => s.id === shift.id) !== -1;
+      if (!shift || !this.selectedShifts) return false;
+      return this.selectedShifts.some((s) => s.id === shift.id);
     },
     handleRowSelection(shift) {
       const isPastShift = this.pastShifts;
@@ -338,6 +311,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .selected-row {
   background-color: rgba(0, 0, 0, 0.1);
