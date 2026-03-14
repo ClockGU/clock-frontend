@@ -37,7 +37,7 @@
           @keydown.stop
         >
         </v-btn>
-        <ShiftWarningIcon v-if="showWarningIcon" :shift="newShift" />
+        <ShiftWarningIcon v-if="showWarningIcon && shift" :shift="shift"/>
       </div>
     </template>
     <template #content="{ events: { close } }">
@@ -108,6 +108,8 @@ const props = defineProps({
     default: false
   }
 });
+
+const shift = computed(() => props.shift);
 
 // Emits
 const emit = defineEmits(["close", "save", "update", "delete", "reset"]);
