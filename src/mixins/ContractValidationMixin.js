@@ -28,7 +28,8 @@ export default {
       const today = new Date();
       if (
         this.newContract.startDate > today &&
-        this.newContract.initialCarryoverMinutes !== 0
+        (this.newContract.initialCarryoverMinutes !== 0 ||
+          this.newContract.initialVacationCarryoverMinutes !== 0)
       ) {
         return this.$t("contracts.errors.carryoverForFutureContracts");
       }
