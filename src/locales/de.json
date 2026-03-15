@@ -118,6 +118,7 @@
     "createContract": "Vertrag erstellen",
     "errors": {
       "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen.",
+      "worktimeMustBePositive": "Die Arbeitszeit des Vertrags muss größer als 0 sein.",
       "carryoverForFutureContracts": "Der Übertrag für einen zukünftigen Vertrag muss 00:00 sein."
     },
     "displayColor": "Anzeigefarbe"

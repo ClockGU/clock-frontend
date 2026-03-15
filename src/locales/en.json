@@ -118,6 +118,7 @@
     "createContract": "Create Contract",
     "errors": {
       "shiftOutOfScope": "Given shifts need to stay in scope after changing the contract duration.",
+      "worktimeMustBePositive": "The contract's working time must be greater than 0.",
       "carryoverForFutureContracts": "The carry over for a contract starting in the future may only be 00:00."
     },
     "displayColor": "Display Color"

@@ -5,6 +5,7 @@ export default {
     errorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateDurationAndExistingShifts);
+      errorMessages.push(this.validatePositiveWorktime);
       errorMessages.push(this.validateNoCarryoverForFutureContracts);
       return errorMessages.filter((message) => message !== undefined);
     },
@@ -21,6 +22,17 @@ export default {
           endOfDay(this.newContract.endDate) < shift.stopped
         ) {
           return this.$t("contracts.errors.shiftOutOfScope");
+        }
+      }
+    },
+    validatePositiveWorktime() {
+      if (this.newContract.worktimeModelName === "studEmp") {
+        if (this.newContract.minutes <= 0) {
+          return this.$t("contracts.errors.worktimeMustBePositive");
+        }
+      } else if (this.newContract.worktimeModelName !== null) {
+        if (this.newContract.percentFte <= 0) {
+          return this.$t("contracts.errors.worktimeMustBePositive");
         }
       }
     },
