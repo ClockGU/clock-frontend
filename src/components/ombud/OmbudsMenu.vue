@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import OmbudsForm from "@/components/OmbudsForm.vue";
+import OmbudsForm from "@/components/ombud/OmbudsForm.vue";
 import { mdiExclamation } from "@mdi/js";
 
 export default {
