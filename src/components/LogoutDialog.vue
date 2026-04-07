@@ -3,6 +3,7 @@
     :confirmation-button="{ text: $t('actions.logout'), color: 'primary' }"
     :max-width="600"
     @confirm="logout"
+    @close="$emit('close')"
   >
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
@@ -25,7 +26,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("auth/LOGOUT").then(() => {
-        this.$store.dispatch("unsetContract");
+        this.$store.dispatch("contentData/clearContentData");
       });
     }
   }

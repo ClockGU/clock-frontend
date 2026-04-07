@@ -48,7 +48,7 @@ const store = useStore();
 const theme = useTheme();
 const { t } = useI18n();
 const target = useTemplateRef("target");
-const { activate, deactivate } = useFocusTrap(target, {
+const { activate, deactivate, pause, unpause } = useFocusTrap(target, {
   immediate: false
 });
 const user = computed(() => store.getters["user"]);
@@ -144,6 +144,13 @@ function closeDrawer(value) {
     emit("closeDrawer");
   }
 }
+
+function pauseFocusTrap() {
+  pause();
+}
+function unpauseFocusTrap() {
+  unpause();
+}
 </script>
 
 <template>
@@ -229,7 +236,7 @@ function closeDrawer(value) {
             >
           </v-list-item>
 
-          <LogoutDialog>
+          <LogoutDialog @close="unpauseFocusTrap()">
             <template #activator="{ props }">
               <v-list-item
                 data-cy="menu-logout"
@@ -238,6 +245,7 @@ function closeDrawer(value) {
                 :prepend-icon="icons.mdiLogout"
                 v-bind="props"
                 style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+                @click="pauseFocusTrap()"
               >
                 <template #prepend="prependProps">
                   <v-icon
