@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import FeedbackForm from "@/components/FeedbackForm.vue";
+import FeedbackForm from "@/components/feedback/FeedbackForm.vue";
 import { mdiHelp } from "@mdi/js";
 
 export default {

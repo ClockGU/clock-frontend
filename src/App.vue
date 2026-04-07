@@ -52,7 +52,7 @@ import TheNavigationToolbar from "@/components/TheNavigationToolbar.vue";
 import TheNavigationDrawer from "@/components/TheNavigationDrawer.vue";
 import TheSnackbar from "@/components/TheSnackbar.vue";
 import TheFooter from "@/components/TheFooter.vue";
-import FeedbackMenu from "@/components/FeedbackMenu.vue";
+import FeedbackMenu from "@/components/feedback/FeedbackMenu.vue";
 import OmbudsMenu from "@/components/OmbudsMenu.vue";
 
 import { log } from "@/utils/log";
