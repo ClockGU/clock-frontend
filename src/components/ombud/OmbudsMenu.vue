@@ -3,38 +3,50 @@
     ref="dialog"
     v-model="dialog"
     width="600"
-    aria-labelledby="feedback-title"
-    aria-describedby="feedback-description"
+    aria-labelledby="ombud-title"
+    aria-describedby="ombud-description"
   >
-    <template #activator="{ props }">
+    <template #activator="props">
+      <slot name="activator" v-bind="props"> </slot>
       <v-btn
+        v-if="!disableActivator"
         variant="flat"
-        class="mr-2 py-2 rounded-b-0"
-        style="background: rgb(var(--v-theme-warning-lighten-1))"
-        v-bind="props"
-        :aria-label="$t('label.feedback')"
+        class="ml2py-2 rounded-b-0"
+        style="background: rgb(var(--v-theme-error-lighten-1))"
+        v-bind="props['props']"
         :size="smAndDown ? 40 : 'default'"
       >
         <v-icon v-if="smAndDown" size="24" color="white">
-          {{ icons.mdiHelp }}
+          {{ icons.mdiExclamation }}
         </v-icon>
-        <span v-else class="px-4">Feedback</span>
+        <span v-else class="px-4">Ombudsperson</span>
       </v-btn>
     </template>
-    <FeedbackForm @close="dialog = false" />
+
+    <OmbudsForm @close="dialog = false" />
   </v-dialog>
 </template>
 
 <script>
-import FeedbackForm from "@/components/FeedbackForm.vue";
-import { mdiHelp } from "@mdi/js";
+import OmbudsForm from "@/components/ombud/OmbudsForm.vue";
+import { mdiExclamation } from "@mdi/js";
 
 export default {
-  name: "FeedbackMenu",
-  components: { FeedbackForm },
+  name: "OmbudsMenu",
+  components: { OmbudsForm },
+  props: {
+    disableActivator: {
+      type: Boolean,
+      default: false
+    },
+    bottomPosition: {
+      type: Boolean,
+      default: true
+    }
+  },
   data: () => ({
     dialog: false,
-    icons: { mdiHelp }
+    icons: { mdiExclamation }
   }),
   computed: {
     smAndDown() {

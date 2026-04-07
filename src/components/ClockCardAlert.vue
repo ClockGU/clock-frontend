@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import OmbudsMenu from "@/components/OmbudsMenu.vue";
+import OmbudsMenu from "@/components/ombud/OmbudsMenu.vue";
 
 export default {
   name: "ClockCardAlert",
