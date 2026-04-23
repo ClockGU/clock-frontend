@@ -75,7 +75,7 @@
               :label="$t('contracts.carryover.timeLabel')"
               :hint="$t('contracts.carryover.timeSubtitle')"
               allow-negative-values
-              :disabled="areLockedShiftsInThisContract"
+              :disabled="areLockedShiftsInThisContract || contractInFuture"
               :required="showCarryover"
             />
           </div>
@@ -84,9 +84,13 @@
           v-model="showVacationCarryover"
           :label="$t('contracts.vacationCarryover.checkboxLabel')"
           :aria-label="$t('aria.contractFormFields.carryoverVacationTime')"
-          :disabled="areLockedShiftsInThisContract"
+          :disabled="areLockedShiftsInThisContract || contractInFuture"
+          :hint="vacationCarryoverInFutureHint"
+          persistent-hint
           :error-messages="
-            false ? $t('contracts.vacationCarryover.locked') : ''
+            areLockedShiftsInThisContract
+              ? $t('contracts.vacationCarryover.locked')
+              : ''
           "
           @update:model-value="
             contract.initialVacationCarryoverMinutes *= !$event
@@ -103,7 +107,7 @@
               :label="$t('contracts.vacationCarryover.timeLabel')"
               :hint="$t('contracts.vacationCarryover.timeSubtitle')"
               allow-negative-values
-              :disabled="areLockedShiftsInThisContract"
+              :disabled="areLockedShiftsInThisContract || contractInFuture"
               :required="showVacationCarryover"
             />
           </div>
@@ -193,6 +197,11 @@ export default {
       if (this.contractInFuture)
         return this.$t("contracts.carryover.contractInFuture");
       return "";
+    },
+    vacationCarryoverInFutureHint() {
+      if (this.contractInFuture)
+        return this.$t("contracts.vacationCarryover.contractInFuture");
+      return "";
     }
   },
   watch: {
@@ -204,6 +213,15 @@ export default {
       if (value.initialVacationCarryoverMinutes === 0) {
         this.showVacationCarryover = false;
       }
+    },
+    contractInFuture(value) {
+      if (!value) {
+        return;
+      }
+      this.contract.initialCarryoverMinutes = 0;
+      this.contract.initialVacationCarryoverMinutes = 0;
+      this.showCarryover = false;
+      this.showVacationCarryover = false;
     },
     contract(value) {
       this.$emit("update:modelValue", value);
