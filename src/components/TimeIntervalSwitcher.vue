@@ -1,21 +1,21 @@
 <template>
   <div
-    class="d-inline-flex align-center ga-1"
+    class="d-inline-flex align-center"
     role="group"
     :aria-label="$t('aria.timeInterval.listDescription')"
   >
     <v-btn
       :disabled="!hasPrev"
-      variant="text"
+      :icon="icons.mdiChevronLeft"
+      density="compact"
+      variant="flat"
       :aria-label="
         $t('aria.timeInterval.previousWithDate', {
           formattedInterval: formattedInterval
         })
       "
       @click="gotoPrev"
-    >
-      <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
-    </v-btn>
+    ></v-btn>
 
     <v-menu
       v-model="menu"
@@ -48,17 +48,17 @@
     </v-menu>
 
     <v-btn
+      :icon="icons.mdiChevronRight"
       :disabled="!hasNext"
-      variant="text"
+      density="compact"
+      variant="flat"
       :aria-label="
         $t('aria.timeInterval.nextWithDate', {
           formattedInterval: formattedInterval
         })
       "
       @click="gotoNext"
-    >
-      <v-icon>{{ icons.mdiChevronRight }}</v-icon>
-    </v-btn>
+    ></v-btn>
   </div>
 </template>
 
