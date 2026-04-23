@@ -45,23 +45,55 @@ export const sortAscByMonthYear = sortAscBy("monthYear");
 export const sortAscByPrioritization = sortAscBy("prioritization");
 
 export function getContractWithLastActivity({ shifts, contracts }) {
-  if (shifts.length === 0) {
-    if (contracts.length === 0) return undefined;
-    return contracts.reduce(
-      (max, contract) =>
-        max.modifiedAt > contract.modifiedAt ? max : contract,
-      {}
+  if (!contracts || contracts.length === 0) return undefined;
+
+  const now = new Date();
+
+  // Split contracts by validity
+  const validContracts = contracts.filter(
+    (c) =>
+      new Date(c.startDate) <= now && (!c.endDate || new Date(c.endDate) >= now)
+  );
+
+  const expiredContracts = contracts.filter((c) => !validContracts.includes(c));
+
+  // get contract by most recent shift activity (latest modified)
+  const contractFromLatestShift = (candidateContracts) => {
+    const candidateIds = new Set(candidateContracts.map((c) => c.id));
+
+    const relevantShifts = shifts.filter((s) => candidateIds.has(s.contract));
+
+    if (relevantShifts.length === 0) return undefined;
+
+    const latestShift = relevantShifts.reduce(
+      (max, s) => (max.modifiedAt > s.modifiedAt ? max : s),
+      relevantShifts[0]
     );
-  } else if (shifts.length === 1) {
-    return store.getters["contentData/contractById"](shifts[0].contract);
-  } else {
-    return store.getters["contentData/contractById"](
-      shifts.reduce(
-        (max, shift) => (max.modifiedAt > shift.modifiedAt ? max : shift),
-        {}
-      ).contract
-    );
+
+    return store.getters["contentData/contractById"](latestShift.contract);
+  };
+
+  // get most recently modified contract
+  const mostRecentlyModifiedContract = (list) =>
+    list.reduce((max, c) => (max.modifiedAt > c.modifiedAt ? max : c), list[0]);
+
+  // priority to valid contracts
+  if (validContracts.length > 0) {
+    const validContractFromLatestShift =
+      contractFromLatestShift(validContracts);
+    if (validContractFromLatestShift) return validContractFromLatestShift;
+    // fallback to most recently modified valid contract
+    return mostRecentlyModifiedContract(validContracts);
   }
+
+  // in case of no valid contracts, try expired ones
+  if (shifts.length > 0) {
+    const expiredContractFromLatestShift =
+      contractFromLatestShift(expiredContracts);
+    if (expiredContractFromLatestShift) return expiredContractFromLatestShift;
+  }
+  // fallback to most recently modified expired contract
+  return mostRecentlyModifiedContract(expiredContracts);
 }
 
 export function getNextContractParams(to, uuid) {
