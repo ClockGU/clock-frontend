@@ -47,7 +47,6 @@
           :label="$t('feedback.fields.message')"
           :aria-label="$t('feedback.fields.message')"
           :error-messages="messageErrors"
-          @keydown.enter.prevent="addNewline"
         ></v-textarea>
         <v-checkbox v-model="v$.consentAccepted.$model">
           <template #label>
@@ -167,9 +166,6 @@ export default {
     // });
   },
   methods: {
-    addNewline() {
-      this.message += "\n";
-    },
     initialize() {
       this.name = this.user.first_name;
       this.email = this.user.email;
