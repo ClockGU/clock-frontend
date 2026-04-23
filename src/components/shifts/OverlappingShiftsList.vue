@@ -35,7 +35,7 @@
               </template>
 
               <template #actions>
-                <ShiftActionsDialogEdit :shift="shiftItem" />
+                <ShiftFormDialog :shift="shiftItem" icon />
 
                 <ShiftBulkActionsDialogDelete
                   :count="1"
@@ -59,14 +59,13 @@
 
 <script>
 import { localizedFormat } from "@/utils/date";
-import { getOverlappingShifts } from "@/utils/shift";
 import { mdiClose, mdiDelete } from "@mdi/js";
 
 import { mapState } from "vuex";
 import CardToolbar from "@/components/cards/CardToolbar.vue";
 import ShiftListItem from "@/components/shifts/ShiftListItem.vue";
 import ShiftBulkActionsDialogDelete from "@/components/shifts/ShiftBulkActionsDialogDelete.vue";
-import ShiftActionsDialogEdit from "@/components/shifts/ShiftActionsDialogEdit.vue";
+import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 
 export default {
   name: "OverlappingShiftsList",
@@ -74,7 +73,7 @@ export default {
     CardToolbar,
     ShiftListItem,
     ShiftBulkActionsDialogDelete,
-    ShiftActionsDialogEdit
+    ShiftFormDialog
   },
   props: {
     month: {
