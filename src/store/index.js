@@ -14,7 +14,7 @@ import message from "@/store/modules/message";
 import i18n, { selectedLocale, switchDateFnsLocale } from "@/plugins/i18n";
 import { createStore } from "vuex";
 
-export default new createStore({
+const store = new createStore({
   state: {
     loadingData: true,
     locale: selectedLocale,
@@ -119,3 +119,17 @@ export default new createStore({
     })
   ]
 });
+// Auto-select contract when contracts are modified
+store.subscribe((mutation) => {
+  const CONTRACT_MUTATIONS = [
+    "contentData/setContract",
+    "contentData/addContract",
+    "contentData/updateContract",
+    "contentData/removeContract"
+  ];
+
+  if (CONTRACT_MUTATIONS.includes(mutation.type)) {
+    store.dispatch("selectedContract/autoSelectContract");
+  }
+});
+export default store;

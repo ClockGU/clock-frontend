@@ -5,6 +5,7 @@ export default {
     errorMessages() {
       let errorMessages = [];
       errorMessages.push(this.validateDurationAndExistingShifts);
+      errorMessages.push(this.validatePositiveWorktime);
       errorMessages.push(this.validateNoCarryoverForFutureContracts);
       return errorMessages.filter((message) => message !== undefined);
     },
@@ -24,11 +25,23 @@ export default {
         }
       }
     },
+    validatePositiveWorktime() {
+      if (this.newContract.worktimeModelName === "studEmp") {
+        if (this.newContract.minutes <= 0) {
+          return this.$t("contracts.errors.worktimeMustBePositive");
+        }
+      } else if (this.newContract.worktimeModelName !== null) {
+        if (this.newContract.percentFte <= 0) {
+          return this.$t("contracts.errors.worktimeMustBePositive");
+        }
+      }
+    },
     validateNoCarryoverForFutureContracts() {
       const today = new Date();
       if (
         this.newContract.startDate > today &&
-        this.newContract.initialCarryoverMinutes !== 0
+        (this.newContract.initialCarryoverMinutes !== 0 ||
+          this.newContract.initialVacationCarryoverMinutes !== 0)
       ) {
         return this.$t("contracts.errors.carryoverForFutureContracts");
       }

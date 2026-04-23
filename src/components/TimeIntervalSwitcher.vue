@@ -1,21 +1,21 @@
 <template>
   <div
-    class="d-inline-flex align-center ga-1"
+    class="d-inline-flex align-center"
     role="group"
     :aria-label="$t('aria.timeInterval.listDescription')"
   >
     <v-btn
       :disabled="!hasPrev"
-      variant="text"
+      :icon="icons.mdiChevronLeft"
+      density="compact"
+      variant="flat"
       :aria-label="
         $t('aria.timeInterval.previousWithDate', {
           formattedInterval: formattedInterval
         })
       "
       @click="gotoPrev"
-    >
-      <v-icon>{{ icons.mdiChevronLeft }}</v-icon>
-    </v-btn>
+    ></v-btn>
 
     <v-menu
       v-model="menu"
@@ -48,17 +48,17 @@
     </v-menu>
 
     <v-btn
+      :icon="icons.mdiChevronRight"
       :disabled="!hasNext"
-      variant="text"
+      density="compact"
+      variant="flat"
       :aria-label="
         $t('aria.timeInterval.nextWithDate', {
           formattedInterval: formattedInterval
         })
       "
       @click="gotoNext"
-    >
-      <v-icon>{{ icons.mdiChevronRight }}</v-icon>
-    </v-btn>
+    ></v-btn>
   </div>
 </template>
 
@@ -84,6 +84,7 @@ import {
   subMonths,
   subWeeks
 } from "date-fns";
+import contractValid from "@/mixins/contractValid";
 
 export default {
   name: "TimeIntervalSwitcher",
@@ -113,6 +114,7 @@ export default {
     }
   },
   emits: ["update:modelValue"],
+  mixins: [contractValid],
   data() {
     return {
       menu: false,
@@ -228,11 +230,34 @@ export default {
     },
     date(val) {
       this.$emit("update:modelValue", val);
+    },
+    selectedContract: {
+      handler(newSelectedContract) {
+        // go to last month of an expired contract
+        if (this.specificContractExpired(newSelectedContract)) {
+          const lastMonthOfContract = getFirstOfMonth(
+            newSelectedContract.endDate
+          );
+          this.setDate(lastMonthOfContract);
+          // go to current month for ongoing contract
+        } else if (this.specificContractValid(newSelectedContract)) {
+          const now = new Date();
+          const currentMonth = getFirstOfMonth(now);
+          this.setDate(currentMonth);
+          // go to first month of a future contract
+        } else if (this.specificContractInFuture(newSelectedContract)) {
+          const firstMonthOfContract = getFirstOfMonth(
+            newSelectedContract.startDate
+          );
+          this.setDate(firstMonthOfContract);
+        }
+      },
+      immediate: true
     }
   },
   methods: {
     setDate(date) {
-      this.$emit("update:modelValue", date);
+      this.date = date;
     },
     gotoPrev() {
       if (!this.hasPrev) return;

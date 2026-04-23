@@ -110,22 +110,6 @@ export default {
         return note.substr(0, maxlength) + "...";
       } else return note;
     },
-    sortByDate(items, sortBy, sortDesc) {
-      const desc = sortDesc[0] ? -1 : 1;
-      items.sort((a, b) => {
-        switch (sortBy[0]) {
-          case "date":
-            return isBefore(b.started, a.started) ? -desc : desc;
-          case "start":
-            return isBefore(getHours(b.started), getHours(a.started))
-              ? -desc
-              : desc;
-          default:
-            return a[sortBy[0]] > b[sortBy[0]] ? -desc : desc;
-        }
-      });
-      return items;
-    },
     // async destroy() {
     //   const promises = [];
     //   try {

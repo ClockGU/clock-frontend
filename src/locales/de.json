@@ -112,12 +112,14 @@
       "timeLabel": "Übertrag",
       "timeSubtitle": "Zu übertragende Urlaubszeit (+/-HH:mm).",
       "locked": "Der Übertrag kann nicht geändert werden, da bereits Monate gesperrt sind.",
-      "info": "Trage bitte den Urlaubszeitübertrag ein, der zum Vertragsbeginn anfällt."
+      "info": "Trage bitte den Urlaubszeitübertrag ein, der zum Vertragsbeginn anfällt.",
+      "contractInFuture": "Diese Option steht erst nach Beginn der Vertragslaufzeit zur Verfügung."
     },
     "displayedContracts": "Angezeigte Verträge",
     "createContract": "Vertrag erstellen",
     "errors": {
       "shiftOutOfScope": "Bestehende Schichten müssen auch nach einer Änderung weiterhin im Vertragszeitraum liegen.",
+      "worktimeMustBePositive": "Die Arbeitszeit des Vertrags muss größer als 0 sein.",
       "carryoverForFutureContracts": "Der Übertrag für einen zukünftigen Vertrag muss 00:00 sein."
     },
     "displayColor": "Anzeigefarbe"
