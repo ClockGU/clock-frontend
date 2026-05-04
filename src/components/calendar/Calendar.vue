@@ -156,7 +156,6 @@
 <script>
 import CalendarTypeSelect from "@/components/calendar/CalendarTypeSelect.vue";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
-
 import { dateIsHoliday, localizedFormat } from "@/utils/date";
 import { mdiCircleSlice8, mdiClose, mdiPlus } from "@mdi/js";
 import { mapGetters } from "vuex";
@@ -197,7 +196,7 @@ export default {
       mdiPlus,
       bhIcon: SHIFT_TYPE_ICONS.bh
     },
-    today: new Date(),
+    today: new Date().toISOString(),
     focus: null,
     type: "month",
     start: null,
@@ -272,12 +271,17 @@ export default {
   },
   watch: {
     selectedDate(val) {
-      this.focus = [val];
+      this.focus = val;
+      if (isSameMonth(new Date(val), new Date())) {
+        this.today = new Date().toISOString();
+      } else {
+        this.today = null;
+      }
     }
   },
   created() {
-    this.focus = [this.initialFocus];
-    this.selectedDate = this.focus[0];
+    this.focus = this.initialFocus;
+    this.selectedDate = this.focus;
     this.type = this.initialType;
   },
   async mounted() {
