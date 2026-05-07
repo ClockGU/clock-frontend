@@ -82,7 +82,8 @@
               :now="today"
               :type="type"
               :first-day-of-week="1"
-              @click="editEvent($event.shift)"
+              @click:event="editEvent($event.shift)"
+              @click:more="viewDay"
             >
               <template #event="{ event }">
                 <v-chip
@@ -115,16 +116,16 @@
                 <button
                   type="button"
                   class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
-                  @click="viewDay({ date: date })"
+                  @click="viewDay(undefined, { date: date })"
                 >
                   <span class="v-btn__content">{{ day }}</span>
+                  <v-icon
+                    v-if="isBankHoliday(date)"
+                    :color="bhIconColor"
+                    style="align-self: center"
+                    >{{ icons.bhIcon }}</v-icon
+                  >
                 </button>
-                <v-icon
-                  v-if="isBankHoliday(date)"
-                  :color="bhIconColor"
-                  style="align-self: center"
-                  >{{ icons.bhIcon }}</v-icon
-                >
               </template>
             </v-calendar>
           </v-sheet>
@@ -219,12 +220,13 @@ export default {
     },
     shiftInitialDate() {
       if (
-        (this.type === "month" && isSameMonth(this.focus[0], new Date())) ||
-        (this.type === "week" && isSameWeek(this.focus[0], new Date()))
+        (this.type === "month" &&
+          isSameMonth(new Date(this.focus), new Date())) ||
+        (this.type === "week" && isSameWeek(new Date(this.focus), new Date()))
       ) {
         return new Date();
       }
-      return this.focus[0];
+      return new Date(this.focus);
     },
     events() {
       let events = [];
@@ -248,7 +250,8 @@ export default {
               id: shift.id,
               shift: shift,
               icon: SHIFT_TYPE_ICONS[shift.type],
-              iconColor: HEX_SHIFT_TYPE_COLORS[shift.type]
+              iconColor: HEX_SHIFT_TYPE_COLORS[shift.type],
+              timed: true
             };
           })
         );
@@ -296,9 +299,10 @@ export default {
       return interval.time;
     },
 
-    viewDay({ date }) {
+    viewDay(event, { date }) {
       this.focus = date;
       this.type = "day";
+      this.selectedDate = new Date(date);
     },
     updateRange(obj) {
       const focus = this.focus[0];
@@ -349,5 +353,16 @@ export default {
 }
 .initial-color {
   color: initial !important;
+}
+:deep(.v-event-timed) {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+.v-event-timed > .v-chip {
+  height: inherit;
+  width: inherit;
+  padding-left: 32px;
+  border-radius: 32px;
+  border-width: 0;
 }
 </style>
