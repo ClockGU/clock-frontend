@@ -82,63 +82,50 @@
               :now="today"
               :type="type"
               :first-day-of-week="1"
+              @click="editEvent($event.shift)"
             >
-              <!--                  <template #event="{ event }">-->
-              <!--                    <v-chip-->
-              <!--                      :aria-label="`${$t('aria.calendar.shiftPlanned', {-->
-              <!--                        date: formatTime(event.start),-->
-              <!--                        duration: event.selectedEventDuration-->
-              <!--                      })}`"-->
-              <!--                      @click="editEvent(event.shift)"-->
-              <!--                    >-->
-              <!--                      <v-badge-->
-              <!--                        :color="event.contractColor"-->
-              <!--                        dot-->
-              <!--                        inline-->
-              <!--                      ></v-badge>-->
-              <!--                      <div class="pl-1">-->
-              <!--                        <div class="icon-center">-->
-              <!--                          <span-->
-              <!--                            class="pr-1"-->
-              <!--                            style="border-right: 2px solid black"-->
-              <!--                          >-->
-              <!--                            <strong>{{ formatTime(event.start) }} </strong>-->
-              <!--                          </span>-->
-              <!--                          <span class="ml-1">-->
-              <!--                            {{ event.selectedEventDuration }}-->
-              <!--                          </span>-->
-              <!--                          <v-icon-->
-              <!--                            :color="event.iconColor"-->
-              <!--                            class="ml-2"-->
-              <!--                            :icon="event.icon"-->
-              <!--                            style="scale: 0.9"-->
-              <!--                          />-->
-              <!--                        </div>-->
-              <!--                      </div>-->
-              <!--                    </v-chip>-->
-              <!--                  </template>-->
-              <!--              :interval-format="intervalFormat"-->
-              <!--              @click:event="editEvent"-->
-              <!--              @click:more="viewDay"-->
-              <!--              @click:date="viewDay"-->
-              <!--              @prev="updateRange"-->
-              <!--              @next="updateRange"-->
-              <!--            >-->
-              <!--              <template #day-label="{ day, date }">-->
-              <!--                <button-->
-              <!--                  type="button"-->
-              <!--                  class="v-btn v-btn&#45;&#45;fab v-btn&#45;&#45;has-bg v-btn&#45;&#45;round theme&#45;&#45;light v-size&#45;&#45;small transparent"-->
-              <!--                  @click="viewDay({ date: date })"-->
-              <!--                >-->
-              <!--                  <span class="v-btn__content">{{ day }}</span>-->
-              <!--                </button>-->
-              <!--                <v-icon-->
-              <!--                  v-if="isBankHoliday(date)"-->
-              <!--                  :color="bhIconColor"-->
-              <!--                  style="align-self: center"-->
-              <!--                  >{{ icons.bhIcon }}</v-icon-->
-              <!--                >-->
-              <!--              </template>-->
+              <template #event="{ event }">
+                <v-chip
+                  class="initial-color"
+                  :aria-label="`${$t('aria.calendar.shiftPlanned', {
+                    date: formatTime(event.start),
+                    duration: event.selectedEventDuration
+                  })}`"
+                >
+                  <v-badge :color="event.contractColor" dot inline></v-badge>
+                  <div class="pl-1">
+                    <div class="icon-center">
+                      <span class="pr-1" style="border-right: 2px solid black">
+                        <strong>{{ formatTime(event.start) }} </strong>
+                      </span>
+                      <span class="ml-1">
+                        {{ event.selectedEventDuration }}
+                      </span>
+                      <v-icon
+                        :color="event.iconColor"
+                        class="ml-2"
+                        :icon="event.icon"
+                        style="scale: 0.9"
+                      />
+                    </div>
+                  </div>
+                </v-chip>
+              </template>
+              <template #day-label="{ day, date }">
+                <button
+                  type="button"
+                  class="v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light v-size--small transparent"
+                  @click="viewDay({ date: date })"
+                >
+                  <span class="v-btn__content">{{ day }}</span>
+                </button>
+                <v-icon
+                  v-if="isBankHoliday(date)"
+                  :color="bhIconColor"
+                  style="align-self: center"
+                  >{{ icons.bhIcon }}</v-icon
+                >
+              </template>
             </v-calendar>
           </v-sheet>
         </v-col>
@@ -337,62 +324,30 @@ export default {
   display: inline-flex;
   align-items: center;
 }
-/*
-::v-deep .v-calendar-month__day {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-
-::v-deep .v-calendar__container {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-
-::v-deep .v-calendar-day__container {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-::v-deep .v-calendar-day__row-without-label {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-::v-deep .v-calendar-day__row-without-label {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-::v-deep .v-calendar-day__row-with-label {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-
-::v-deep .v-calendar-daily__day {
-  border: 1px groove black !important;
-  background-color: white !important;
-}
-::v-deep .v-calendar-weekly__head-weekday-with-weeknumber {
-  border: 1px groove black;
-  background-color: white;
-}
-::v-deep .v-calendar-month__weeknumber {
-  border: 1px groove black;
-  background-color: white;
-}
-
-*/
-::v-deep .v-theme--light .v-calendar-weekly__week {
+:deep(.v-theme--light .v-calendar-weekly__week) {
   border: 1px groove black;
 }
-::v-deep .v-theme--light .v-calendar-weekly__day {
+:deep(.v-theme--light .v-calendar-weekly__day) {
   border: 1px groove black;
   border-left: 2px groove black;
   border-right: 2px groove black;
 }
-::v-deep .v-theme--dark .v-calendar-weekly__week {
+:deep(.v-theme--dark .v-calendar-weekly__week) {
   border: 1px groove white;
 }
-::v-deep .v-theme--dark .v-calendar-weekly__day {
+:deep(.v-theme--dark .v-calendar-weekly__day) {
   border: 1px groove white;
   border-left: 2px groove white;
   border-right: 2px groove white;
+}
+:deep(.v-event) {
+  background-color: transparent !important;
+  height: fit-content !important;
+  overflow: visible !important;
+  width: fit-content !important;
+  padding: 0 !important;
+}
+.initial-color {
+  color: initial !important;
 }
 </style>
