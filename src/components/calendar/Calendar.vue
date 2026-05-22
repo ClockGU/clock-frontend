@@ -82,7 +82,7 @@
               :now="today"
               :type="type"
               :first-day-of-week="1"
-              @click:event="editEvent($event.shift)"
+              @click:event="editEvent"
               @click:more="viewDay"
             >
               <template #event="{ event }">
@@ -133,10 +133,9 @@
       </v-row>
     </v-container>
     <ShiftFormDialog
+      v-model="editShift"
       :shift="shift"
-      :model-value="editShift"
       disable-activator
-      @close="editShift = false"
     ></ShiftFormDialog>
   </v-card>
 </template>
@@ -287,8 +286,9 @@ export default {
     mdiCircleSlice8() {
       return mdiCircleSlice8;
     },
-    editEvent(shift) {
-      this.shift = shift;
+    editEvent(nativeEvent, { event }) {
+      console.log(event);
+      this.shift = event.shift;
       this.editShift = true;
     },
     modifyProps(props) {
