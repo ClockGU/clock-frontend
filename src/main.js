@@ -28,7 +28,7 @@ import * as directives from "vuetify/directives";
 import { de, en } from "vuetify/locale";
 
 import { log } from "@/utils/log";
-const isProduction = import.meta.env.NODE_ENV === "production";
+const isProduction = import.meta.env.VITE_DEPLOY === "production";
 export const debugLogger = !isProduction;
 // Initialize ApiService
 ApiService.init(import.meta.env.VITE_API_URL);
@@ -115,26 +115,25 @@ if (isProduction) {
     debug: !isProduction,
     domains: import.meta.env.VITE_MATOMO_DOMAINS
   });
-
-  // Setup sentry error tracking in production
-  // Here goes the DSN
-  Sentry.init({
-    app,
-    dsn: import.meta.env.VITE_GLITCHTIP_URL,
-    // Adds request headers and IP for users, for more info visit:
-    // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/#sendDefaultPii
-    sendDefaultPii: true,
-    integrations: [Sentry.browserTracingIntegration({ router })],
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for tracing.
-    // We recommend adjusting this value in production
-    // Learn more at
-    // https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
-    tracesSampleRate: 1.0,
-    // Set `tracePropagationTargets` to control for which URLs trace propagation should be enabled
-    tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/]
-  });
 }
+
+// Sentry/Glitchtip
+Sentry.init({
+  app,
+  dsn: import.meta.env.VITE_GLITCHTIP_URL,
+  // Adds request headers and IP for users, for more info visit:
+  // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/#sendDefaultPii
+  sendDefaultPii: true,
+  integrations: [Sentry.browserTracingIntegration({ router })],
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for tracing.
+  // We recommend adjusting this value in production
+  // Learn more at
+  // https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
+  tracesSampleRate: 1.0,
+  // Set `tracePropagationTargets` to control for which URLs trace propagation should be enabled
+  tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/]
+});
 
 app.component("BaseLayout", BaseLayout);
 app.component("BaseLink", StyledLink);

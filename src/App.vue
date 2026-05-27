@@ -129,10 +129,13 @@ export default {
       return styles;
     },
     staging() {
-      return import.meta.env.VITE_ENV === "staging";
+      return (
+        import.meta.env.VITE_DEPLOY === "staging" ||
+        import.meta.env.VITE_DEPLOY === "local"
+      );
     },
     infostring() {
-      return import.meta.env.VITE_LOCAL === "true"
+      return import.meta.env.VITE_DEPLOY === "local"
         ? "Staging (local)"
         : "Staging (server)";
     }
