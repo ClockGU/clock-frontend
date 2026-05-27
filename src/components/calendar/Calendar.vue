@@ -287,7 +287,6 @@ export default {
       return mdiCircleSlice8;
     },
     editEvent(nativeEvent, { event }) {
-      console.log(event);
       this.shift = event.shift;
       this.editShift = true;
     },
