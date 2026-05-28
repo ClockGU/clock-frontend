@@ -1,5 +1,5 @@
 # Setup stage
-FROM node:18.19-alpine3.19 as build-stage
+FROM node:22-alpine as build-stage
 ARG REPOSITORY_URL
 ARG VITE_GLITCHTIP_URL
 ARG VITE_DEPLOY
