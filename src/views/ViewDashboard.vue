@@ -13,7 +13,7 @@
               <v-col cols="12" order="-10">
                 <DashboardWelcome />
               </v-col>
-
+              <v-btn @click="myError">CAUSE ERROR</v-btn>
               <v-col cols="12" md="6" order="0" order-md="0">
                 <ClockInOutCard :disabled="disabled" />
               </v-col>
@@ -212,6 +212,9 @@ export default {
     }
   },
   methods: {
+    myError() {
+      throw new Error("Test ERROR");
+    },
     async refresh() {
       try {
         await Promise.all([
