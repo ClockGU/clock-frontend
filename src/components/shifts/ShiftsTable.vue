@@ -155,6 +155,8 @@ import breakpointsMixin from "@/mixins/breakpointsMixin";
 import { localizedFormat } from "@/utils/date";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";
 
+import * as Sentry from "@sentry/vue";
+import getUserData from "@/middlewares/user";
 export default {
   name: "ShiftsTable",
   components: {
@@ -246,8 +248,8 @@ export default {
           shift.date = day.getTime();
           /*
           transform start time to int(seconds) since midnight for proper sorting
-          shift.start represent the value in which we sort by shift.started 
-          while shift.started is what is shown 
+          shift.start represent the value in which we sort by shift.started
+          while shift.started is what is shown
           */
           shift.start =
             started.getHours() * 3600 +
@@ -313,6 +315,15 @@ export default {
       }
     },
     handleShiftReview(shift) {
+      Sentry.captureMessage("Shift review action triggered.", {
+        level: "warning",
+        extra: {
+          user: this.$store.getters["user"],
+          shiftId: shift.id,
+          shiftLocked: shift.locked,
+          shiftPayload: shift.toPayload()
+        }
+      });
       this.reviewSingleShift(shift);
       if (this.isShiftSelected(shift))
         this.$store.dispatch("selectedShifts/deselectShift", {
