@@ -329,6 +329,7 @@ const actions = {
         contractID: initialContract
       });
     }
+    return updatedShift;
   },
   async deleteShift({ commit, dispatch }, shiftInstance) {
     await ShiftService.delete(shiftInstance.id);

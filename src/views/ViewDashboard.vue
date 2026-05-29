@@ -13,7 +13,6 @@
               <v-col cols="12" order="-10">
                 <DashboardWelcome />
               </v-col>
-
               <v-col cols="12" md="6" order="0" order-md="0">
                 <ClockInOutCard :disabled="disabled" />
               </v-col>
