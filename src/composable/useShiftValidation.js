@@ -2,18 +2,16 @@ import { ref, computed, watch, toValue } from "vue";
 import { dateIsHoliday } from "@/utils/date";
 import { isSameMonth, isSameDay } from "date-fns";
 import store from "@/store";
-import VueI18n from "@/plugins/i18n";
 import { formatDate } from "@/utils/time";
 import { useI18n } from "vue-i18n";
 
 export function useShiftValidation(shiftSource, isLive = false) {
   const errorMessages = ref([]);
   const alertMessages = ref([]);
-
   // a computed property to ensure we always have the latest object reference
   const shift = computed(() => toValue(shiftSource));
 
-  const { t } = useI18n();
+  const { t, locale } = useI18n({ useScope: "global" });
 
   const isShiftValid = () => Boolean(shift.value && shift.value.started);
 
@@ -280,7 +278,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
   // Deep watch the shift to trigger validation on any property change
   watch(shift, validateShift, { immediate: true, deep: true });
-
+  watch(locale, validateShift);
   return {
     alertMessages,
     errorMessages,
