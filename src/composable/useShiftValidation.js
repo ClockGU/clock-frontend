@@ -162,10 +162,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
   const shiftsThisMonth = () => {
     return store.getters["contentData/selectedShifts"].filter(
-      (s) =>
-        isSameMonth(s.started, shift.value.started) &&
-        s.wasReviewed &&
-        s.id !== shift.value.id
+      (s) => isSameMonth(s.started, shift.value.started) && s.wasReviewed
     );
   };
 
