@@ -3,6 +3,8 @@ import { dateIsHoliday } from "@/utils/date";
 import { isSameMonth, isSameDay } from "date-fns";
 import store from "@/store";
 import VueI18n from "@/plugins/i18n";
+import { formatDate } from "@/utils/time";
+import { useI18n } from "vue-i18n";
 
 export function useShiftValidation(shiftSource, isLive = false) {
   const errorMessages = ref([]);
@@ -11,7 +13,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
   // a computed property to ensure we always have the latest object reference
   const shift = computed(() => toValue(shiftSource));
 
-  const t = (key) => VueI18n.global.t(key);
+  const { t } = useI18n();
 
   const isShiftValid = () => Boolean(shift.value && shift.value.started);
 
@@ -132,6 +134,14 @@ export function useShiftValidation(shiftSource, isLive = false) {
       : null;
   };
 
+  const shiftIsAlreadyLocked = () => {
+    return !validateInLockedMonth() && shift.value.locked
+      ? t("shifts.errors.shift_is_already_locked", {
+          date: formatDate(shift.value.started, "MMMM yyyy")
+        })
+      : null;
+  };
+
   const checkEightTwentyRule = () => {
     if (!isStudEmp()) return null;
 
@@ -159,7 +169,6 @@ export function useShiftValidation(shiftSource, isLive = false) {
         s.id !== shift.value.id
     );
   };
-
   const shiftsThisMonth = () => {
     return store.getters["contentData/selectedShifts"].filter(
       (s) => isSameMonth(s.started, shift.value.started) && s.wasReviewed
@@ -255,7 +264,8 @@ export function useShiftValidation(shiftSource, isLive = false) {
         validateExclusivityVacation,
         validateExclusivitySick,
         validateOverlapping,
-        validateInLockedMonth
+        validateInLockedMonth,
+        shiftIsAlreadyLocked
       ],
       warnings: [
         checkEightTwentyRule,
