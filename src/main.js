@@ -120,7 +120,7 @@ if (isProduction) {
 // Sentry/Glitchtip
 Sentry.init({
   app,
-  dsn: import.meta.env.VITE_GLITCHTIP_URL,
+  dsn: import.meta.env.VITE_SENTRY_URL,
   // Adds request headers and IP for users, for more info visit:
   // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/#sendDefaultPii
   sendDefaultPii: true,
