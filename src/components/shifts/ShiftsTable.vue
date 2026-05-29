@@ -315,20 +315,22 @@ export default {
       }
     },
     handleShiftReview(shift) {
-      Sentry.captureMessage("Shift review action triggered.", {
-        level: "warning",
-        extra: {
-          user: this.$store.getters["user"],
-          shiftId: shift.id,
-          shiftLocked: shift.locked,
-          shiftPayload: shift.toPayload()
-        }
-      });
-      this.reviewSingleShift(shift);
+      const updatedShift = this.reviewSingleShift(shift);
       if (this.isShiftSelected(shift))
         this.$store.dispatch("selectedShifts/deselectShift", {
           shift,
           isPastShift: this.pastShifts
+        });
+      // Inserted for debugging mysterious occurrence of single locked shifts in month.
+      if (shift.locked !== updatedShift.locked)
+        Sentry.captureMessage("Shift review altered locked status.", {
+          level: "warning",
+          extra: {
+            user: this.$store.getters["user"],
+            shiftId: shift.id,
+            shiftLocked: shift.locked,
+            shiftPayload: shift.toPayload()
+          }
         });
     },
 

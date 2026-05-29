@@ -133,7 +133,7 @@ export default {
       try {
         const payload = shift.toPayload();
         payload.was_reviewed = true;
-        await this.$store.dispatch("contentData/updateShift", {
+        return await this.$store.dispatch("contentData/updateShift", {
           payload,
           initialContract: payload.contract
         });
