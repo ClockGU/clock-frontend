@@ -90,7 +90,6 @@
 <script>
 import { localizedFormat } from "@/utils/date";
 import { datetime, RRule } from "rrule";
-import { clone } from "rrule/dist/esm/dateutil";
 
 import ShiftFormRepeatDialog from "@/components/shifts/ShiftFormRepeatDialog.vue";
 import { endOfMonth, formatISO } from "date-fns";
@@ -141,7 +140,7 @@ export default {
       return this.generatedSchedule
         .map((startDateString) => {
           let startDate = startDateString;
-          const endDate = clone(startDate);
+          const endDate = new Date(startDate.getTime());
           endDate.setHours(this.shift.stopped.getHours());
           endDate.setMinutes(this.shift.stopped.getMinutes());
           let shift = this.shift.clone();
