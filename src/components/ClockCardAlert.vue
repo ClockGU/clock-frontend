@@ -12,7 +12,7 @@
         <div class="ma-0">
           <div class="font-weight-bold">{{ $t("news.label.warning") }}</div>
           <ul class="pl-5">
-            <li v-for="(message, i) in messages" :key="i">
+            <li v-for="(message, i) in displayMessages" :key="i">
               {{ message }}
             </li>
           </ul>
@@ -43,29 +43,21 @@
   </v-row>
 </template>
 
-<script>
+<script setup>
 import OmbudsMenu from "@/components/ombud/OmbudsMenu.vue";
+import { computed } from "vue";
 
-export default {
-  name: "ClockCardAlert",
-  components: { OmbudsMenu },
-  props: {
-    type: {
-      type: String,
-      default: "warning",
-      validator(value) {
-        return ["warning", "error"].includes(value);
-      }
-    },
-    messages: {
-      type: Array,
-      required: true
+const props = defineProps({
+  type: {
+    type: String,
+    default: "warning",
+    validator(value) {
+      return ["warning", "error"].includes(value);
     }
   },
-  data() {
-    return {};
-  }
-};
+  messages: { type: Array, default: () => [] }
+});
+const displayMessages = computed(() => props.messages);
 </script>
 
 <style scoped>
