@@ -1,4 +1,4 @@
-import is from "ramda/src/is";
+import { is } from "ramda";
 import { timestringToMinutes } from "@/utils/time";
 import { parseDate } from "@/utils/date";
 

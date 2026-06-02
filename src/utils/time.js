@@ -1,7 +1,6 @@
 import { addSeconds, differenceInMinutes, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { sum } from "ramda";
-import is from "ramda/src/is";
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {

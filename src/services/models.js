@@ -2,7 +2,7 @@ import ApiService from "@/services/api";
 import { mapShiftApiResponse, Shift } from "@/models/ShiftModel";
 import { mapContractApiResponse, Contract } from "@/models/ContractModel";
 import { mapReportApiResponse, Report } from "@/models/ReportModel";
-import is from "ramda/src/is";
+import { is } from "ramda";
 import store from "@/store";
 import { log } from "@/utils/log";
 
