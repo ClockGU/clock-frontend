@@ -2,16 +2,16 @@ import { ref, computed, watch, toValue } from "vue";
 import { dateIsHoliday } from "@/utils/date";
 import { isSameMonth, isSameDay } from "date-fns";
 import store from "@/store";
-import VueI18n from "@/plugins/i18n";
+import { formatDate } from "@/utils/time";
+import { useI18n } from "vue-i18n";
 
 export function useShiftValidation(shiftSource, isLive = false) {
   const errorMessages = ref([]);
   const alertMessages = ref([]);
-
   // a computed property to ensure we always have the latest object reference
   const shift = computed(() => toValue(shiftSource));
 
-  const t = (key) => VueI18n.global.t(key);
+  const { t, locale } = useI18n({ useScope: "global" });
 
   const isShiftValid = () => Boolean(shift.value && shift.value.started);
 
@@ -132,6 +132,14 @@ export function useShiftValidation(shiftSource, isLive = false) {
       : null;
   };
 
+  const shiftIsAlreadyLocked = () => {
+    return !validateInLockedMonth() && shift.value.locked
+      ? t("shifts.errors.shift_is_already_locked", {
+          date: formatDate(shift.value.started, "MMMM yyyy")
+        })
+      : null;
+  };
+
   const checkEightTwentyRule = () => {
     if (!isStudEmp()) return null;
 
@@ -159,13 +167,9 @@ export function useShiftValidation(shiftSource, isLive = false) {
         s.id !== shift.value.id
     );
   };
-
   const shiftsThisMonth = () => {
     return store.getters["contentData/selectedShifts"].filter(
-      (s) =>
-        isSameMonth(s.started, shift.value.started) &&
-        s.wasReviewed &&
-        s.id !== shift.value.id
+      (s) => isSameMonth(s.started, shift.value.started) && s.wasReviewed
     );
   };
 
@@ -258,7 +262,8 @@ export function useShiftValidation(shiftSource, isLive = false) {
         validateExclusivityVacation,
         validateExclusivitySick,
         validateOverlapping,
-        validateInLockedMonth
+        validateInLockedMonth,
+        shiftIsAlreadyLocked
       ],
       warnings: [
         checkEightTwentyRule,
@@ -273,7 +278,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
 
   // Deep watch the shift to trigger validation on any property change
   watch(shift, validateShift, { immediate: true, deep: true });
-
+  watch(locale, validateShift);
   return {
     alertMessages,
     errorMessages,
