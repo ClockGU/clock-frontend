@@ -554,7 +554,8 @@
       "overlappingStopped": "The end time is within the period of an already existing and reviewed shift.",
       "eightTwentyRule": "As a rule, student workers should not be obliged to work before 08:00 and after 20:00.",
       "autoWorktimeCutting": "Mandatory breaktimes are missing on this workday. Clock will subtract the legally required breaktimes automatically from your working time.",
-      "month_already_locked": "This month has already been locked. You cannot save new shifts within this month."
+      "month_already_locked": "This month has already been locked. You cannot save or edit shifts within this month.",
+      "shift_is_already_locked": "This shift was already locekd in {date}."
     },
     "hints": {
       "faqText": "Do you have questions regarding the warning/error messages?",
