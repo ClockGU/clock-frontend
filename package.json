@@ -64,7 +64,6 @@
     "@vitest/runner": "^3.2.3",
     "autoprefixer": "^10.5.0",
     "browserslist": "^4.28.0",
-    "date-fns-tz": "1.0.12",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^9.22.0",
