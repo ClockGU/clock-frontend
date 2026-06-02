@@ -43,55 +43,60 @@
   </v-menu>
 </template>
 
-<script>
+<script setup>
 import { mdiChevronDown, mdiTranslate } from "@mdi/js";
 import ApiService from "@/services/api";
 import AuthService from "@/services/auth";
 import { log } from "@/utils/log";
+import { computed, ref } from "vue";
+import { useDisplay, useLocale } from "vuetify";
+import { useI18n } from "vue-i18n";
+import { useStore } from "vuex";
+import { switchDateFnsLocale } from "@/plugins/i18n";
 
-export default {
-  name: "LanguageSwitcher",
-  data: () => ({
-    menu: false,
-    icons: { mdiChevronDown, mdiTranslate },
-    locales: [
-      { name: "Deutsch", locale: "de" },
-      { name: "English", locale: "en" }
-    ]
-  }),
-  computed: {
-    smAndUp() {
-      return this.$vuetify.display.smAndUp;
-    },
-    selectedLocale() {
-      const match = this.locales.find(
-        (locale) => locale.locale === this.$i18n.locale
-      );
-      return match.name || this.locales[0].name;
-    }
-  },
-  methods: {
-    async switchLocale(locale) {
-      if (this.$i18n.locale === locale) {
-        return;
-      }
-      this.$i18n.locale = locale;
-      this.menu = false;
-      // Update Vuetify settings
-      this.$vuetify.locale.current = locale;
-      // Manually update the 'lang' attribute on the <html> element
-      document.documentElement.setAttribute("lang", locale);
+const { locale } = useI18n();
+const { current } = useLocale();
+const store = useStore();
 
-      // Update locale for API requests
-      await ApiService.setHeader("Accept-Language", locale);
-      try {
-        await AuthService.updateSettings({ language: locale });
-      } catch (error) {
-        log(error);
-      } finally {
-        await this.$store.dispatch("changeLocale", locale);
-      }
-    }
+const menu = ref(false);
+
+const icons = { mdiChevronDown, mdiTranslate };
+
+const locales = [
+  { name: "Deutsch", locale: "de" },
+  { name: "English", locale: "en" }
+];
+
+const selectedLocale = computed(() => {
+  const match = locales.find((loc) => loc.locale === locale.value);
+  return match.name || this.locales[0].name;
+});
+
+const { smAndUp } = useDisplay();
+
+async function switchLocale(loc) {
+  if (locale === locale.value) {
+    return;
   }
-};
+  this.menu = false;
+
+  //Update i18n locale
+  locale.value = loc;
+  // Update Vuetify settings
+  current.value = loc;
+  // Update Dat-fns loclae
+  switchDateFnsLocale(locale);
+  // Manually update the 'lang' attribute on the <html> element
+  document.documentElement.setAttribute("lang", loc);
+
+  // Update locale for API requests
+  await ApiService.setHeader("Accept-Language", loc);
+  try {
+    await AuthService.updateSettings({ language: loc });
+  } catch (error) {
+    log(error);
+  } finally {
+    await store.dispatch("changeLocale", loc);
+  }
+}
 </script>

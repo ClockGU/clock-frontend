@@ -38,8 +38,6 @@ const store = new createStore({
       commit("setOnboardingSkipped", true);
     },
     changeLocale({ commit }, locale) {
-      i18n.locale = locale;
-      switchDateFnsLocale(locale);
       commit("updateLocale", locale);
     },
     toggleBackend({ commit }) {
