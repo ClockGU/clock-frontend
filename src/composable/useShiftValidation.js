@@ -11,7 +11,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
   // a computed property to ensure we always have the latest object reference
   const shift = computed(() => toValue(shiftSource));
 
-  const { t, locale } = useI18n({ useScope: "global" });
+  const { t, locale } = useI18n();
 
   const isShiftValid = () => Boolean(shift.value && shift.value.started);
 
@@ -282,6 +282,7 @@ export function useShiftValidation(shiftSource, isLive = false) {
   return {
     alertMessages,
     errorMessages,
-    valid
+    valid,
+    validateShift
   };
 }
