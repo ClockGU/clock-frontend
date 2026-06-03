@@ -1,4 +1,4 @@
-import is from "ramda/src/is";
+import { is } from "ramda";
 import { format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import {
   getFirstOfCurrentMonth,

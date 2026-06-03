@@ -3,10 +3,10 @@
     <v-card
       :ripple="false"
       v-bind="props"
-      v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
       tabindex="0"
       role="region"
       :aria-labelledby="`vacation-card-title`"
+      v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
     >
       <v-card-title>
         <h2 id="vacation-card-title" class="text-h6">

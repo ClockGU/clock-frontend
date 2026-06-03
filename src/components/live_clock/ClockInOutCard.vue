@@ -5,18 +5,18 @@
     role="region"
     aria-labelledby="clock-state"
   >
-    <v-window-item :key="0">
+    <v-window-item :value="0">
       <LiveClock
         v-model:window="window"
         v-model:shift-to-modify="shiftToModify"
       ></LiveClock>
     </v-window-item>
-    <v-window-item :key="1">
+    <v-window-item :value="1">
       <ClockInOutCardForm
         v-model="shiftToModify"
         :overflow="overflow"
         :contract-name="contractName"
-        @update-window="window += $event"
+        @update-window="window -= 1"
       ></ClockInOutCardForm>
     </v-window-item>
     <v-overlay
@@ -113,6 +113,7 @@ export default {
         : this.clockedContract.name;
     },
     overflow() {
+      if (!this.shiftToModify) return false;
       return (
         this.shiftToModify.stopped.getHours() === 23 &&
         this.shiftToModify.stopped.getMinutes() === 59

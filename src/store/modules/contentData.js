@@ -1,5 +1,4 @@
 import {
-  // eslint-disable-next-line no-unused-vars
   groupByContract,
   indexOfByMonthYear,
   indexOfByStarted,
@@ -96,7 +95,6 @@ const getters = {
 };
 
 const mutations = {
-  // eslint-disable-next-line no-unused-vars
   setupContentData(state, { contractData, shiftData, reportData }) {
     const groupedShifts = groupByContract(shiftData);
     const groupedReports = groupByContract(reportData);

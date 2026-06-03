@@ -63,7 +63,7 @@ import { isBefore } from "date-fns";
 import { Shift } from "@/models/ShiftModel";
 import { mdiExclamation, mdiPencil, mdiPlus } from "@mdi/js";
 import { useI18n } from "vue-i18n";
-import { useDisplay } from "vuetify/lib/framework.mjs";
+import { useDisplay } from "vuetify";
 import TheDialog from "@/components/TheDialog.vue";
 import ShiftForm from "@/components/forms/modelForms/shift/ShiftForm.vue";
 import ShiftWarningIcon from "@/components/shifts/ShiftWarningIcon.vue";

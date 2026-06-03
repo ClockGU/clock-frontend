@@ -1,4 +1,3 @@
-import is from "ramda/src/is";
 import {
   differenceInMinutes,
   getDate,
@@ -10,7 +9,7 @@ import {
 } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { minutesToHHMM } from "@/utils/time";
-import { any } from "ramda";
+import { any, is } from "ramda";
 
 function defaultValueTime(type) {
   const today = new Date();

@@ -3,10 +3,10 @@
     <v-card
       :ripple="false"
       v-bind="hoverProps"
-      v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
       tabindex="0"
       role="region"
       :aria-labelledby="`report-card-title`"
+      v-on="disabled ? { click: () => toggleTouchOverlay(isHovering) } : {}"
     >
       <v-card-title>
         <h2 id="report-card-title" class="text-h6">
@@ -98,9 +98,9 @@
                   :variant="loading ? 'outlined' : 'elevated'"
                   :disabled="!isFirstUnlockedMonth && !exported"
                   color="primary"
-                  @click="request"
                   :aria-label="$t('aria.report.requestButton')"
                   :aria-describedby="!isExportable ? 'personnel-warning' : null"
+                  @click="request"
                 >
                   {{ $t("actions.request") }}
                 </v-btn>
@@ -110,8 +110,8 @@
                   :loading="loading"
                   :variant="loading ? 'outlined' : 'elevated'"
                   color="primary"
-                  @click="download"
                   :aria-label="$t('aria.report.downloadButton')"
+                  @click="download"
                 >
                   {{ $t("actions.download") }}
                 </v-btn>

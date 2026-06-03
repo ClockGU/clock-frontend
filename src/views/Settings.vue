@@ -12,8 +12,8 @@
       <v-app-bar-nav-icon
         v-if="isXs"
         variant="flat"
-        @click="action"
         :aria-label="$t('aria.openNavigation')"
+        @click="action"
       ></v-app-bar-nav-icon>
     </template>
 
@@ -47,8 +47,8 @@
               role="tab"
               :aria-selected="tab === item.value"
               :aria-controls="'panel-' + item.value"
-              @click="tab = item.value"
               :tabindex="tab === item.value ? 0 : -1"
+              @click="tab = item.value"
             >
               <v-icon class="mr-2 pr-1" :icon="item.icon" />
               {{ $t(item.text) }}
@@ -66,10 +66,10 @@
           <v-window v-model="tab">
             <v-window-item
               v-for="(item, index) in tabs"
+              :id="'panel-' + item.value"
               :key="index"
               :value="item.value"
               role="tabpanel"
-              :id="'panel-' + item.value"
               :aria-labelledby="'tab-' + item.value"
             >
               <component :is="item.component" />
@@ -102,10 +102,10 @@
             <v-window v-model="tab">
               <v-window-item
                 v-for="(item, index) in tabs"
+                :id="'panel-' + item.value"
                 :key="index"
                 :value="item.value"
                 role="tabpanel"
-                :id="'panel-' + item.value"
                 :aria-labelledby="'tab-' + item.value"
               >
                 <component :is="item.component" />
