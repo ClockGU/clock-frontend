@@ -4,8 +4,8 @@
     :fullscreen="smAndDown"
     :max-width="600"
     :persistent="false"
-    @close="$emit('close')"
     aria-labelledby="contract-form-title"
+    @close="$emit('close')"
   >
     <template #activator="{ props }">
       <v-btn
@@ -13,8 +13,8 @@
         :disabled="disabled"
         :color="btnColor"
         v-bind="props"
-        @click="opened = true"
         :aria-label="create ? $t('actions.add') : $t('actions.edit')"
+        @click="opened = true"
       >
         {{ buttonText }}
       </v-btn>

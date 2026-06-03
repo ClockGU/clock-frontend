@@ -1,4 +1,4 @@
-import is from "ramda/src/is";
+import { is } from "ramda";
 
 export default class Faq {
   constructor({

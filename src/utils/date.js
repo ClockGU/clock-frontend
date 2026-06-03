@@ -14,7 +14,6 @@ import {
 } from "date-fns";
 
 import Holidays from "date-holidays";
-import { parseInput } from "rrule/dist/esm/rrulestr";
 
 export function dateIsHoliday(date) {
   // Christmas Eve and New Year's Eve are considered half Bank holidays

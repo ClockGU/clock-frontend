@@ -32,8 +32,8 @@ const consequencesText = computed(() => {
 <template>
   <ConfirmationDialog
     :confirmation-button="{ text: t('actions.delete'), color: 'error' }"
-    @confirm="destroy"
     aria-labelledby="delete-confirmation-title"
+    @confirm="destroy"
   >
     <template #activator="{ props }">
       <v-btn

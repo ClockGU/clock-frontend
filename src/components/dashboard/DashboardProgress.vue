@@ -2,10 +2,10 @@
   <v-card tabindex="0" role="region" :aria-label="$t('aria.progress.title')">
     <!-- Screen reader announcements -->
     <div
+      :key="announcementKey"
       aria-live="polite"
       aria-atomic="true"
       class="visually-hidden"
-      :key="announcementKey"
     >
       {{ currentAnnouncement }}
     </div>

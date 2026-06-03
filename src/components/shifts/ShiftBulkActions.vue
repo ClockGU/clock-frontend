@@ -55,7 +55,7 @@
           icon
           :shift="shifts[0]"
           :disabled="shiftsLength !== 1"
-          :showWarningIcon="shiftsLength === 1"
+          :show-warning-icon="shiftsLength === 1"
         >
         </ShiftFormDialog>
         <ShiftBulkActionsDialogDelete

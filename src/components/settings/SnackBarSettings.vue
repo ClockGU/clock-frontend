@@ -22,8 +22,8 @@
           $t("label.snackbarTimeout")
         }}</label>
         <v-text-field
-          v-model="snackTime"
           id="timeout-input"
+          v-model="snackTime"
           :disabled="!timeoutEnabled"
           type="number"
           min="2000"

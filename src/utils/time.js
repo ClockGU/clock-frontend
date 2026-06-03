@@ -1,7 +1,6 @@
 import { addSeconds, differenceInMinutes, parseISO } from "date-fns";
 import { localizedFormat } from "@/utils/date";
 import { sum } from "ramda";
-import is from "ramda/src/is";
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -202,7 +201,7 @@ export function timedeltaToMinutes(timedelta) {
   if (splitTimedelta.length === 2) {
     [days, timeString] = splitTimedelta;
   }
-  // eslint-disable-next-line no-unused-vars
+
   const [hours, minutes, seconds] = timeString
     .split(":")
     .map((item) => parseInt(item));
