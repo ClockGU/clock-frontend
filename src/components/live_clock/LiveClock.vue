@@ -24,7 +24,10 @@ const shiftToModify = defineModel("shiftToModify", {
 
 const clock = ref(undefined);
 const liveShift = ref(null);
-const { alertMessages, errorMessages, validateShift } = useShiftValidation(liveShift, true);
+const { alertMessages, errorMessages, validateShift } = useShiftValidation(
+  liveShift,
+  true
+);
 
 const duration = computed(() => secondsToHHMM(clock.value.duration));
 const clockedInShift = computed(() => store.getters["clock/clockedShift"]);
