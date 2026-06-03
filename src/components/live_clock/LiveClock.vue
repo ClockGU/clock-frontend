@@ -16,13 +16,15 @@ import { useShiftValidation } from "@/composable/useShiftValidation";
 import { mdiDelete } from "@mdi/js";
 import { ShiftService } from "@/services/models";
 
-const { t } = useI18n(); // use as global scope
+const { t } = useI18n();
 const window = defineModel("window", { type: Number });
 const shiftToModify = defineModel("shiftToModify", {
   type: [Shift, typeof undefined]
 });
 
 const clock = ref(undefined);
+const liveShift = ref(null);
+const { alertMessages, errorMessages, validateShift } = useShiftValidation(liveShift, true);
 
 const duration = computed(() => secondsToHHMM(clock.value.duration));
 const clockedInShift = computed(() => store.getters["clock/clockedShift"]);
@@ -111,11 +113,11 @@ async function clockIn() {
     return;
   }
   const started = new Date();
-  const shift = new Shift({
+  liveShift.value = new Shift({
     started,
     contract: store.getters["selectedContract/selectedContract"].id
   });
-  const { alertMessages, errorMessages } = useShiftValidation(shift, true);
+  validateShift();
 
   if (errorMessages.value.length > 0) {
     await store.dispatch("snackbar/setSnack", {
@@ -134,7 +136,7 @@ async function clockIn() {
   }
 
   try {
-    await store.dispatch("clock/clockShift", shift.toPayload());
+    await store.dispatch("clock/clockShift", liveShift.value.toPayload());
   } catch (error) {
     if (error.response && error.response.status === 401) return;
     await store.dispatch("snackbar/setSnack", {
