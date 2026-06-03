@@ -230,7 +230,6 @@ export default {
     events() {
       let events = [];
       for (const contract of this.displayedContracts) {
-         
         let contractShifts = this.$store.getters[
           "contentData/shiftsByContractId"
         ](contract.id);

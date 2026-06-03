@@ -1,4 +1,3 @@
- 
 import { debugLogger } from "@/main";
 
 export const log = (message, args) => {

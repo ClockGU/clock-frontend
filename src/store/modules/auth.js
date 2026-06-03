@@ -80,7 +80,6 @@ const mutations = {
   LOGIN(state, { access: accessToken, refresh: refreshToken }) {
     state.accessToken = accessToken;
 
-     
     if (!!refreshToken) {
       // Set the refreshToken if it is provided in the response;
       state.refreshToken = refreshToken;

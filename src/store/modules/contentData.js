@@ -1,5 +1,4 @@
 import {
-   
   groupByContract,
   indexOfByMonthYear,
   indexOfByStarted,
@@ -96,7 +95,6 @@ const getters = {
 };
 
 const mutations = {
-   
   setupContentData(state, { contractData, shiftData, reportData }) {
     const groupedShifts = groupByContract(shiftData);
     const groupedReports = groupByContract(reportData);
