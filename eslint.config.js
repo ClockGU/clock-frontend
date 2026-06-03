@@ -17,6 +17,9 @@ export default defineConfig([
     },
     languageOptions: {
       parser: vueParser
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: "off"
     }
   },
   eslintConfigPrettier
