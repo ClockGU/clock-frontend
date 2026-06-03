@@ -2,7 +2,7 @@
 import { mdiDelete } from "@mdi/js";
 import ShiftFormDialog from "@/components/forms/dialogs/ShiftFormDialog.vue";
 import { Shift } from "@/models/ShiftModel";
-import { ref } from "vue";
+import { ref, defineEmits, defineModel, defineProps } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 
@@ -25,18 +25,18 @@ const store = useStore();
 
 const model = defineModel({ type: [Shift, typeof undefined] });
 function finish(saved) {
-  emit("updateWindow", -1);
-  model.value.value = undefined;
-  let message = this.t("dashboard.clock.problems.messages.success") + " ";
+  let message = t("dashboard.clock.problems.messages.success") + " ";
   if (saved) {
-    message += this.t("dashboard.clock.problems.messages.saved");
+    message += t("dashboard.clock.problems.messages.saved");
   } else {
-    message += this.t("dashboard.clock.problems.messages.noSaved");
+    message += t("dashboard.clock.problems.messages.noSaved");
   }
   store.dispatch("snackbar/setSnack", {
     message: message,
     color: "success"
   });
+  emit("updateWindow");
+  model.value = new Shift();
 }
 </script>
 
