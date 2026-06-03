@@ -201,7 +201,7 @@ export function timedeltaToMinutes(timedelta) {
   if (splitTimedelta.length === 2) {
     [days, timeString] = splitTimedelta;
   }
-  // eslint-disable-next-line no-unused-vars
+   
   const [hours, minutes, seconds] = timeString
     .split(":")
     .map((item) => parseInt(item));

@@ -230,7 +230,7 @@ export default {
     events() {
       let events = [];
       for (const contract of this.displayedContracts) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+         
         let contractShifts = this.$store.getters[
           "contentData/shiftsByContractId"
         ](contract.id);

@@ -80,7 +80,7 @@ const mutations = {
   LOGIN(state, { access: accessToken, refresh: refreshToken }) {
     state.accessToken = accessToken;
 
-    // eslint-disable-next-line no-extra-boolean-cast
+     
     if (!!refreshToken) {
       // Set the refreshToken if it is provided in the response;
       state.refreshToken = refreshToken;

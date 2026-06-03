@@ -16,8 +16,8 @@
         : $t('aria.selectContract.enabled')
     "
     class="accessible-select"
-    @keydown.enter="if (disabled) this.$router.push('/contracts');"
-    @keydown.space="if (disabled) this.$router.push('/contracts');"
+    @keydown.enter="if (disabled) $router.push('/contracts');"
+    @keydown.space="if (disabled) $router.push('/contracts');"
     @update:model-value="changeContract"
   >
     <template #selection="{ item }">

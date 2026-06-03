@@ -88,6 +88,7 @@ import contractValid from "@/mixins/contractValid";
 
 export default {
   name: "TimeIntervalSwitcher",
+  mixins: [contractValid],
   props: {
     modelValue: {
       type: Date,
@@ -114,7 +115,6 @@ export default {
     }
   },
   emits: ["update:modelValue"],
-  mixins: [contractValid],
   data() {
     return {
       menu: false,

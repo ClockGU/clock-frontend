@@ -17,7 +17,7 @@ export class ClockedInShiftService {
   }
   static async get() {
     try {
-      // eslint-disable-next-line no-unused-vars
+       
       const response = await ApiService.get(this.BASE_URL);
       return new this.MODEL_CLASS(this.mapFunction(response.data));
     } catch (err) {
@@ -25,7 +25,7 @@ export class ClockedInShiftService {
         return undefined;
       }
     }
-    // eslint-disable-next-line no-undef
+     
   }
   static async delete(id) {
     const response = await ApiService.delete(this.BASE_URL + `${id}`);
