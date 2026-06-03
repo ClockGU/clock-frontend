@@ -19,18 +19,6 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       eslint(),
-      babel({
-        babelConfig: {
-          babelrc: false,
-          configFile: false,
-          plugins: [
-            [
-              "@babel/plugin-proposal-decorators",
-              { loose: true, version: "2022-03" }
-            ]
-          ]
-        }
-      }),
       sentryVitePlugin({
         org: "clockgu",
         project: "clock-frontend-staging",

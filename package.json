@@ -17,10 +17,6 @@
     "test:browser": "vitest --config=vitest.browser.config.js"
   },
   "dependencies": {
-    "@babel/core": "^7.22.20",
-    "@babel/plugin-proposal-decorators": "^7.22.7",
-    "@babel/plugin-syntax-import-attributes": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
     "@sentry/vite-plugin": "^5.3.0",
     "@sentry/vue": "^9.28.0",
     "@vitejs/plugin-vue": "^5.0.4",
@@ -28,7 +24,6 @@
     "@vuelidate/validators": "^2.0.0",
     "@vueuse/integrations": "^13.9.0",
     "axios": "0.21.2",
-    "babel-plugin-transform-require-context": "^0.1.1",
     "buffer": "^6.0.3",
     "date-fns": "2.16.1",
     "date-holidays": "3.24.3",
