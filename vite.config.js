@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
       }),
       sentryVitePlugin({
         org: "clockgu",
-        project: "clock-frontend-staging",
+        project: `clock-frontend-${env.VITE_DEPLOY}`,
         authToken: env.VITE_SENTRY_AUTH_TOKEN,
         sourcemaps: {
           // As you're enabling client source maps, you probably want to delete them after they're uploaded to Sentry.
