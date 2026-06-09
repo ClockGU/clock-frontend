@@ -50,7 +50,8 @@ router.onError((error, to) => {
   const isChunkLoadError =
     /loading chunk \d* failed/i.test(error.message) ||
     /failed to fetch dynamically imported module/i.test(error.message) ||
-    /importing a module script failed/i.test(error.message);
+    /importing a module script failed/i.test(error.message) ||
+    /unable to preload css/i.test(error.message);
 
   if (isChunkLoadError) {
     window.location.assign(to.fullPath);
