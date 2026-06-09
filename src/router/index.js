@@ -46,9 +46,14 @@ function nextFactory(context, middleware, index) {
 // Force reload the page when we try to reload a non-existent chunk. This should
 // only happen after an update, if the previous chunk was cached by the users
 // browser.
-router.onError((error) => {
-  if (/loading chunk \d* failed./i.test(error.message)) {
-    window.location.reload();
+router.onError((error, to) => {
+  const isChunkLoadError =
+    /loading chunk \d* failed/i.test(error.message) ||
+    /failed to fetch dynamically imported module/i.test(error.message) ||
+    /importing a module script failed/i.test(error.message);
+
+  if (isChunkLoadError) {
+    window.location.assign(to.fullPath);
   }
 });
 
