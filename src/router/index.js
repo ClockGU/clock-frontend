@@ -54,7 +54,11 @@ router.onError((error, to) => {
     /unable to preload css/i.test(error.message);
 
   if (isChunkLoadError) {
-    window.location.assign(to.fullPath);
+    const reloadKey = `chunk_reload_${to.fullPath}`;
+    if (!sessionStorage.getItem(reloadKey)) {
+      sessionStorage.setItem(reloadKey, "1");
+      window.location.assign(to.fullPath);
+    }
   }
 });
 
