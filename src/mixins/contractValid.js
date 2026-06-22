@@ -9,34 +9,42 @@ import {
 export default {
   computed: {
     contractExpired() {
-      if (this.selectedContract === undefined) return false;
       return this.specificContractExpired(this.selectedContract);
     },
     contractValid() {
-      if (this.selectedContract === undefined) return false;
       return this.specificContractValid(this.selectedContract);
     },
     contractInFuture() {
-      if (this.selectedContract === undefined) return false;
       return this.specificContractInFuture(this.selectedContract);
     }
   },
   methods: {
+    specificContractUndefined(contract) {
+      return contract === undefined;
+    },
     specificContractExpired(contract) {
-      const date = endOfDay(contract.endDate);
-      return isPast(date) && contract.id !== null;
+      return (
+        !this.specificContractUndefined(contract) &&
+        isPast(endOfDay(contract.endDate)) &&
+        contract.id !== null
+      );
     },
     specificContractValid(contract) {
-      const startdate = startOfDay(contract.startDate);
-      const enddate = endOfDay(contract.endDate);
       return (
-        isWithinInterval(new Date(), { start: startdate, end: enddate }) &&
+        !this.specificContractUndefined(contract) &&
+        isWithinInterval(new Date(), {
+          start: startOfDay(contract.startDate),
+          end: endOfDay(contract.endDate)
+        }) &&
         contract.id !== null
       );
     },
     specificContractInFuture(contract) {
-      const date = startOfDay(contract.startDate);
-      return isFuture(date) && contract.id !== null;
+      return (
+        !this.specificContractUndefined(contract) &&
+        isFuture(startOfDay(contract.startDate)) &&
+        contract.id !== null
+      );
     }
   }
 };
