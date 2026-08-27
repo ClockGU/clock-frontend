@@ -69,7 +69,7 @@ const locales = [
 
 const selectedLocale = computed(() => {
   const match = locales.find((loc) => loc.locale === locale.value);
-  return match.name || this.locales[0].name;
+  return match.name || locales[0].name;
 });
 
 const { smAndUp } = useDisplay();
@@ -78,7 +78,7 @@ async function switchLocale(loc) {
   if (locale === locale.value) {
     return;
   }
-  this.menu = false;
+  menu.value = false;
 
   //Update i18n locale
   locale.value = loc;
