@@ -68,18 +68,18 @@ const ApiService = {
       async (error) => {
         log("_interceptor: rejected");
 
-        const { data } = error.response;
+        const data = error.response?.data;
 
-        const tokenNotValid = data.code === "token_not_valid";
+        const tokenNotValid = data?.code === "token_not_valid";
         const accessTokenExpired =
-          data.detail === "Given token not valid for any token type";
+          data?.detail === "Given token not valid for any token type";
         const refreshTokenExpired =
-          data.detail === "Token is invalid or expired";
+          data?.detail === "Token is invalid or expired";
         const isArrayBuffer = data instanceof ArrayBuffer;
 
         if (
           (tokenNotValid && accessTokenExpired) ||
-          (error.response.status === 401 && isArrayBuffer)
+          (error.response?.status === 401 && isArrayBuffer)
         ) {
           return store
             .dispatch("auth/REFRESH_TOKEN")
@@ -116,7 +116,7 @@ const ApiService = {
               // handle it. Here, the retried request from above succeeded, but
               // returned a non 2xx/401 response. This does not mean, that we
               // need to logout the user!
-              if (error.response.status === 401) {
+              if (error.response?.status === 401) {
                 await store.dispatch("auth/LOGOUT").catch((error) => {
                   log(
                     "Experienced error while logging out in refreshToken-refresh catch: ",
